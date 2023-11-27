@@ -145,15 +145,8 @@ message CloseAccessRequestResponse {
 
 message Warnings {
   // Grants that were unable to be acted upon because of a permissions error.
-  repeated string grants_permission_denied = 1;
+  repeated Grant grants_permission_denied = 1;
 
   // Grants that were unable to be acted upon because they were in an invalid state.
-  repeated WarningGrantInvalidStatus grants_invalid_status = 2;
-}
-
-message WarningGrantInvalidStatus {
-  // the ID of the Grant.
-  string grant_id = 1;
-  // the current state of the Grant.
-  string actual_status = 2;
+  repeated Grant grants_invalid_status = 2;
 }
