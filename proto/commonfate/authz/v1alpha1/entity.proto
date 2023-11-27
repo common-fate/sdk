@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+package commonfate.authz.v1alpha1;
+
+message Attribute {
+    string key = 1;
+    Value value = 2;
+}
+
+message Value {
+    oneof value {
+        string str = 1;
+        bool bool = 2;
+        int64 long = 3;
+        UID entity = 4;
+        Record record = 5;
+        Set set = 6;
+    }
+}
+
+message Record {
+    repeated Attribute attributes = 1;
+}
+
+message Set {
+    repeated Value values = 1;
+}
+
+message UID {
+    string type = 1;
+    string id = 2;
+}
+
+message Entity {
+    UID uid = 1;
+    repeated Attribute attributes = 2;
+    repeated UID parents = 3;
+}

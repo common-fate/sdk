@@ -1,0 +1,62 @@
+syntax = "proto3";
+package commonfate.control.oauth.v1alpha1;
+
+service OAuthService {
+    // rpc CreatePagerDutyIntegration(CreatePagerDutyIntegrationRequest) returns (CreatePagerDutyIntegrationResponse) {}
+    rpc GetPagerDutyIntegration(GetPagerDutyIntegrationRequest) returns (GetPagerDutyIntegrationResponse) {}
+    rpc RemovePagerDutyIntegration(RemovePagerDutyIntegrationRequest) returns (RemovePagerDutyIntegrationResponse) {}
+
+    // rpc CreateSlackIntegration(CreateSlackIntegrationRequest) returns (CreateSlackIntegrationResponse) {}
+    rpc GetSlackIntegration(GetSlackIntegrationRequest) returns (GetSlackIntegrationResponse) {}
+    rpc RemoveSlackIntegration(RemoveSlackIntegrationRequest) returns (RemoveSlackIntegrationResponse) {}
+    
+}
+
+
+message CreatePagerDutyIntegrationRequest {
+   
+}
+
+message CreatePagerDutyIntegrationResponse {
+    string uri = 1;
+}
+
+message GetPagerDutyIntegrationRequest {
+   
+}
+
+message GetPagerDutyIntegrationResponse {
+    bool active = 1;
+}
+
+message RemovePagerDutyIntegrationRequest {
+   
+}
+
+message RemovePagerDutyIntegrationResponse {
+    bool success = 1;
+}
+
+message CreateSlackIntegrationRequest {
+   
+}
+
+message CreateSlackIntegrationResponse {
+    string uri = 1;
+}
+
+message GetSlackIntegrationRequest {
+   
+}
+
+message GetSlackIntegrationResponse {
+    bool active = 1;
+}
+
+message RemoveSlackIntegrationRequest {
+   
+}
+
+message RemoveSlackIntegrationResponse {
+    bool success = 1;
+}

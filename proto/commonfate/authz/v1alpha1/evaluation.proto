@@ -1,0 +1,73 @@
+syntax = "proto3";
+
+package commonfate.authz.v1alpha1;
+
+import "google/protobuf/timestamp.proto";
+
+import "commonfate/authz/v1alpha1/request.proto";
+import "commonfate/authz/v1alpha1/policy.proto";
+import "commonfate/authz/v1alpha1/entity.proto";
+
+
+// EvalService is the API for auditing authorization evaluations made by authz.
+service EvaluationService {
+    rpc QueryEvaluations(QueryEvaluationsRequest) returns (QueryEvaluationsResponse) {}
+
+    // Fetches debug information about the evaluation of a particular decision
+    rpc DebugEvaluation(DebugEvaluationRequest) returns (DebugEvaluationResponse) {}
+}
+
+message DebugEvaluationRequest {
+    string id = 1;
+}
+
+message DebugEvaluationResponse {
+    Evaluation evaluation = 1;
+    DebugInformation debug_information = 2;
+}
+
+
+message QueryEvaluationsRequest {
+    string universe = 1;
+    string environment = 2;
+    string next_page_token = 10;
+}
+
+message QueryEvaluationsResponse {
+    repeated Evaluation evaluations = 1;
+    string next_page_token = 2;
+}
+
+enum Decision {
+    DECISION_UNSPECIFIED = 0;
+  
+    // Access is allowed.
+    DECISION_ALLOW = 2;
+  
+    // Access is denied.
+    DECISION_DENY = 4;
+}
+
+
+message Evaluation {
+    string id = 1;
+    Request request = 2;
+    Decision decision = 3;
+    Diagnostics diagnostics = 4;
+    // The client-side identifier for the request specified in AuthorizationRequest.
+    string client_key = 5;
+    google.protobuf.Timestamp evaluated_at = 6;
+}
+
+message Diagnostics {
+    repeated string reason = 1;
+    repeated string errors = 2;
+}
+
+message DebugInformation {
+    // Policies which contributed to the authorization decision.
+    repeated Policy policies = 1;
+
+    // Entities which contributed to the authorization decision.
+    repeated Entity entities = 2;
+}

@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package commonfate.authz.v1alpha1;
+
+import "commonfate/authz/v1alpha1/entity.proto";
+
+
+message Request {
+    UID principal = 1;
+    UID action = 2;
+    UID resource = 3;
+    // A client side identifier for the authorization request.
+    // The client_key will be included in the corresponding evaluation for the
+    // particular request made.
+    // 
+    // Useful when calling BatchAuthorize to match the evaluations with the requests.
+    string client_key = 4;
+}

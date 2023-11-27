@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package commonfate.cloud.access.v1alpha1;
+
+message Resource {
+  oneof resource {
+    AWSAccount aws_account = 1;
+    GCPProject gcp_project = 2;
+  }
+}
+
+message GCPProject {
+  string project = 1;
+  string role = 2;
+}
+
+message AWSAccount {
+  string account_id = 1;
+  string role = 2;
+}

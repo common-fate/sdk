@@ -1,0 +1,97 @@
+syntax = "proto3";
+package commonfate.control.config.v1alpha1;
+
+import "google/protobuf/duration.proto";
+
+
+service JITWorkflowService {
+    rpc CreateJITWorkflow(CreateJITWorkflowRequest) returns (CreateJITWorkflowResponse) {}
+    rpc GetJITWorkflow(GetJITWorkflowRequest) returns (GetJITWorkflowResponse) {}
+    rpc UpdateJITWorkflow(UpdateJITWorkflowRequest) returns (UpdateJITWorkflowResponse) {}
+    rpc DeleteJITWorkflow(DeleteJITWorkflowRequest) returns (DeleteJITWorkflowResponse) {}
+}
+
+// A filter which matches GCP projects.
+message GCPProjectFilter {
+    repeated string match_project_ids = 1;
+    repeated string match_projects_in_folders = 2;
+    string role = 3;
+}
+
+// A filter which matches AWS accounts.
+message AWSAccountFilter {
+    repeated string match_account_ids = 1;
+    repeated string match_accounts_in_org_units = 2;
+    string role = 3;
+}
+
+
+// Filter for particular resources and roles to grant access to
+// with the JIT Workflow.
+//
+// Filters specify both the target resource as well as the entitlement,
+// such as an AWS Account as well as the role.
+message Filter {
+    oneof filter {
+        AWSAccountFilter aws_account = 1;
+        GCPProjectFilter gcp_project = 2;
+    }
+}
+
+message SlackChannelAlert {
+    string channel_id = 1;
+}
+
+// Alert configuration to send notifications when access
+// is requested and approved.
+message Alert {
+    oneof alert {
+        SlackChannelAlert slack_channel = 1;
+    }
+}
+
+message CreateJITWorkflowRequest {
+    string name = 1;
+    int64 priority = 2;
+    repeated Filter filters = 3;
+    repeated Alert alerts = 4;
+    google.protobuf.Duration access_duration = 5;
+}
+
+// A JIT Workflow governs JIT access to particular cloud resources.
+message JITWorkflow {
+    string id = 1;
+    string name = 2;
+    int64 priority = 3;
+    repeated Filter filters = 4;
+    repeated Alert alerts = 5;
+    google.protobuf.Duration access_duration = 6;
+}
+
+message CreateJITWorkflowResponse {
+    JITWorkflow workflow = 1;
+}
+
+message GetJITWorkflowRequest {
+    string id = 1;
+}
+
+message GetJITWorkflowResponse {
+    JITWorkflow workflow = 1;
+}
+
+message UpdateJITWorkflowRequest {
+    JITWorkflow workflow = 1;
+}
+
+message UpdateJITWorkflowResponse {
+    JITWorkflow workflow = 1;
+}
+
+message DeleteJITWorkflowRequest {
+    string id = 1;
+}
+
+message DeleteJITWorkflowResponse {
+    JITWorkflow workflow = 1;
+}

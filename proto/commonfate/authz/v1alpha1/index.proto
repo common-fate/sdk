@@ -1,0 +1,80 @@
+syntax = "proto3";
+
+package commonfate.authz.v1alpha1;
+
+import "google/protobuf/struct.proto";
+import "commonfate/authz/v1alpha1/entity.proto";
+import "commonfate/authz/v1alpha1/policy.proto";
+
+
+
+// The API for the authz indexer.
+// The indexer allows access to be listed for a particular principal or resource.
+service IndexService {
+    // Manually trigger an indexing job.
+    // The job will complete asynchronously and an ID of the job is returned.
+    rpc StartIndexJob(StartIndexJobRequest) returns (StartIndexJobResponse) {}
+
+    // look up which resources a particular principal can access
+    rpc LookupResources(LookupResourcesRequest) returns (LookupResourcesResponse) {}
+
+    // // look up which principals could access a particular resource
+    // rpc LookupPrincipal(LookupPrincipalRequest) returns (LookupPrincipalResponse) {}
+
+    // Simulate policy changes prior to applying them.
+    rpc Simulate(SimulateRequest) returns (SimulateResponse) {}
+}
+
+message Diff {
+    repeated Relation added = 1;
+    repeated Relation removed = 2;
+}
+
+message Relation {
+    UID principal = 1;
+    UID action = 2;
+    UID resource = 3;
+}
+
+message SimulateRequest {
+    repeated Policy policies = 1;
+}
+
+message SimulateResponse {
+    Diff diff = 1;
+}
+
+message StartIndexJobRequest {}
+
+message StartIndexJobResponse {
+    string job_id = 1;
+}
+
+message LookupResourcesRequest {
+    string universe = 1;
+    string environment = 2;
+
+    // The principal to look up accessible resources for.
+    UID principal = 3;
+
+    // Filter entities for a particular type
+    string resource_type = 4;
+
+    // The token for the next page.
+    string page_token = 5;
+}
+
+message ResourcePermission {
+    Entity resource = 1;
+    // the actions that are allowed on the entity.
+    repeated AllowedAction actions = 2;
+}
+
+message AllowedAction {
+    UID action = 1;
+}
+
+message LookupResourcesResponse {
+    repeated ResourcePermission resources = 1;
+    string next_page_token = 2;
+}

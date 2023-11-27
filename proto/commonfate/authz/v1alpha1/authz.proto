@@ -1,0 +1,159 @@
+syntax = "proto3";
+
+package commonfate.authz.v1alpha1;
+
+import "google/protobuf/struct.proto";
+import "google/protobuf/timestamp.proto";
+import "commonfate/authz/v1alpha1/entity.proto";
+import "commonfate/authz/v1alpha1/request.proto";
+import "commonfate/authz/v1alpha1/policy.proto";
+import "commonfate/authz/v1alpha1/evaluation.proto";
+
+// The API for the authz service.
+//
+// authz is a globally-distributed, highly available entity store and authorization API.
+// Entity data and policies are written to authz, and the service indexes permissions to determine
+// what resources each principal can access.
+//
+// Reads and writes to authz are eventually consistent.
+//
+// This API is intended to be used internally by other Common Fate applications and is not intended to be
+// called directly by users.
+//
+// Throughout API endpoints you'll see references to 'universe' and 'environment'.
+//
+// A Universe is a global namespace for entities which provides isolation between resources. All entities belong to a single universe only.
+// Universes are used in development by Common Fate to run a single instance of the authz services which can serve multiple isolated entity graphs.
+// Usually we'd refer to these as 'namespaces', but to avoid confusion with Cedar namespaces they are called Universes.
+//
+// There are no API endpoints to create universes - they will be created automatically by the service if they do not exist.
+//
+// An environment is a set of authorization policies which grant access to the resources in a particular universe. Universes may have multiple Environments.
+// Each environment is indexed separately.
+// The typical use case for Environments is to allow policy changes to be previewed without impacting production policy evaluation.
+//
+// Currently the service only supports a single Universe, called 'default', and a single Environment, called 'production'.
+service AuthzService {
+    // creates or updates entities for a particular policy store in the authorization service.
+    rpc BatchPutEntity(BatchPutEntityRequest) returns (BatchPutEntityResponse) {}
+
+    // removes entities from the authorization service.
+    rpc BatchDeleteEntity(BatchDeleteEntityRequest) returns (BatchDeleteEntityResponse) {}
+
+    // // updates the schema for a particular policy store
+    // rpc PutSchema(PutSchemaRequest) returns (PutSchemaResponse) {}
+
+    // rpc GetSchema(GetSchemaRequest) returns (GetSchemaResponse) {}
+
+    // adds Cedar policies for a particular policy store
+    rpc BatchPutPolicy(BatchPutPolicyRequest) returns (BatchPutPolicyResponse) {}
+
+    // run the policy and returns allow or deny + diagnostics and a decision ID.
+    // rpc Authorize(AuthorizeRequest) returns (AuthorizeResponse) {}
+
+    // run multiple authorization evaluations and returns allow + deny for each.
+    rpc BatchAuthorize(BatchAuthorizeRequest) returns (BatchAuthorizeResponse) {}
+
+    // // look up which principals could access a particular resource
+    // rpc LookupPrincipal(LookupPrincipalRequest) returns (LookupPrincipalResponse) {}
+
+    rpc ListPolicies(ListPoliciesRequest) returns (ListPoliciesResponse) {}
+
+    // Query for entities matching filter conditions.
+    rpc FilterEntities(FilterEntitiesRequest) returns (FilterEntitiesResponse) {}
+
+    // Query for entity by UID.
+    rpc GetEntity(GetEntityRequest) returns (GetEntityResponse) {}
+}
+
+message BatchDeleteEntityRequest {
+    string universe = 1;
+    repeated UID entities = 2;
+}
+
+
+message BatchDeleteEntityResponse {}
+
+message FilterEntitiesRequest {
+    string universe = 1;
+
+    // Filter entities for a particular type
+    string type = 2;
+
+    // Filter entities by their direct parents.
+    // Specifying multiple parents will be treated as an AND operation,
+    // and return entities matching all of the provided parent IDs.
+    repeated UID direct_parents = 3;
+
+    // Filter entities by their attributes.
+    repeated Attribute attribute_equals = 4;
+
+    // The token for the next page.
+    string page_token = 5;
+}
+
+
+message FilterEntitiesResponse {
+    repeated Entity entities = 1;
+    string next_page_token = 2;
+}
+message GetEntityRequest {
+    string universe = 1;
+    UID entity = 2;
+}
+message GetEntityResponse {
+    Entity entity = 1;
+}
+
+message BatchAuthorizeRequest {
+    string universe = 1;
+    string environment = 2;
+    repeated Request requests = 3;
+}
+
+message BatchAuthorizeResponse {
+    repeated Evaluation evaluations = 1;
+}
+
+message ListPoliciesRequest {
+    string universe = 1;
+    string environment = 2;
+
+     // The token for the next page.
+     string page_token = 4;
+}
+
+message ListPoliciesResponse {
+    repeated Policy policies = 1;
+    string next_page_token = 2;
+}
+
+message BatchPutEntityRequest {
+    string universe = 1;
+    repeated Entity entities = 2;
+}
+
+message BatchPutEntityResponse {}
+
+message BatchPutPolicyRequest {
+    string universe = 1;
+    string environment = 2;
+    repeated Policy policies = 3;
+}
+
+message BatchPutPolicyResponse {}
+
+message ListEntitiesRequest {
+    string universe = 1;
+
+    // Filter entities for a particular type
+    string type = 2;
+
+    string page = 3;
+}
+
+message ListEntitiesResponse {
+    repeated Entity entities = 1;
+
+    string next_page = 3;
+}

@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package commonfate.authz.v1alpha1;
+
+import "commonfate/authz/v1alpha1/entity.proto";
+
+message Policy {
+    // ID of the policy.
+    string id = 1;
+    // Cedar code for the policy.
+    string cedar = 2;
+}

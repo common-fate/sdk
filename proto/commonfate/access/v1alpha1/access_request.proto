@@ -1,0 +1,126 @@
+syntax = "proto3";
+
+package commonfate.access.v1alpha1;
+
+import "commonfate/control/attest/v1alpha1/attestation.proto";
+import "commonfate/access/v1alpha1/user.proto";
+import "commonfate/authz/v1alpha1/entity.proto";
+import "google/protobuf/duration.proto";
+import "google/protobuf/timestamp.proto";
+
+service AccessRequestService {
+    rpc QueryAccessRequests(QueryAccessRequestsRequest) returns (QueryAccessRequestsResponse) {}
+    rpc GetAccessRequest(GetAccessRequestRequest) returns (GetAccessRequestResponse) {}
+    rpc RevokeAccessRequest(RevokeAccessRequestRequest) returns (RevokeAccessRequestResponse) {}
+    rpc CancelAccessRequest(CancelAccessRequestRequest) returns (CancelAccessRequestResponse) {}
+    rpc ReviewAccessRequest(ReviewAccessRequestRequest) returns (ReviewAccessRequestResponse) {}
+}
+
+message QueryAccessRequestsRequest {
+    // The token for the next page.
+    string page_token = 10;
+}
+
+message QueryAccessRequestsResponse {
+  repeated AccessRequest access_requests = 1;
+  string next_page_token = 2;
+}
+
+message GetAccessRequestRequest {
+  // The ID of the Access Request.
+  string id = 1;
+}
+
+message GetAccessRequestResponse {
+  AccessRequest access_request = 1;
+}
+
+
+// A request to be given entitlements allowing <Action> to be performed on <Resource>.
+//
+// For example, if the action is 'Admin', and the resource is AWS::Account::123456789012,
+// This request is for entitlements allowing Admin access to the account 123456789012.
+message AccessRequest {
+    // The ID of the Access Request.
+    string id = 1;
+
+    // Batch ID of the Access Request. Access Requests created in the same 
+    // API call have the same Batch ID.
+    string batch_id = 2;
+
+    // The grants under consideration for access.
+    repeated Grant grants = 3;
+
+    // An access request is reviewable if one or more Grants in the request
+    // requires a manual review.
+    bool reviewable = 4;
+}
+
+message Grant {
+    // The ID of the Grant.
+    string id = 1;
+
+    // The resource being requested.
+    commonfate.authz.v1alpha1.UID target = 3;
+
+    // The role being requested, such as "View" or "Admin".
+    commonfate.authz.v1alpha1.UID role = 4;
+
+    // The user or service account that requested the access.
+    commonfate.authz.v1alpha1.UID principal = 5;
+
+    // The status of the Grant.
+    GrantStatus status = 6;
+
+    // Users designated as reviewers for the Grant.
+    repeated User reviewers = 7;
+}
+
+enum GrantStatus {
+    GRANT_STATUS_UNSPECIFIED = 0;
+
+    // Awaiting a manual review.
+    GRANT_STATUS_PENDING_APPROVAL = 1;
+
+    // Approved and awaiting activation by the principal.
+    GRANT_STATUS_APPROVED = 2;
+    // The grant to the entitlement is currently active. 
+    GRANT_STATUS_ACTIVE = 3;
+
+    // No longer active. Grants may be inactive due to several reasons, such as:
+    // - the grant was cancelled by the user
+    // - the grant was revoked by an administrator
+    // - the grant has expired
+    GRANT_STATUS_INACTIVE = 4;
+
+    // The Grant encountered a fatal error.
+    GRANT_STATUS_ERROR = 5;
+}
+
+message RevokeAccessRequestRequest {
+  // The ID of the Access Request.
+  string id = 1;
+}
+
+message RevokeAccessRequestResponse {}
+
+message CancelAccessRequestRequest {
+  // The ID of the Access Request.
+  string id = 1;
+}
+
+message CancelAccessRequestResponse {}
+
+enum Review {
+  REVIEW_UNSPECIFIED = 0;
+  REVIEW_APPROVE = 1;
+  REVIEW_CLOSE = 2;
+}
+
+message ReviewAccessRequestRequest {
+  // The ID of the Access Request.
+  string id = 1;
+  Review review = 2;
+}
+
+message ReviewAccessRequestResponse {}

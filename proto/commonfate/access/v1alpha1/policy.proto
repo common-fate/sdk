@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package commonfate.cloud.access.v1alpha1;
+
+
+
+service PolicyService {
+  rpc SetPolicy(SetPolicyRequest) returns (SetPolicyResponse) {}
+}
+
+
+message SetPolicyRequest {
+  string policy = 1;
+}
+
+message SetPolicyResponse {
+  string policy = 1;
+}

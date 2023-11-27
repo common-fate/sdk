@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package commonfate.control.attest.v1alpha1;
+
+import "commonfate/control/attest/v1alpha1/attestation.proto";
+
+service AttestService {
+  rpc RegisterDevice(RegisterDeviceRequest) returns (RegisterDeviceResponse) {}
+}
+
+message RegisterDeviceRequest {
+  commonfate.control.attest.v1alpha1.Attestation attestation = 1;
+  commonfate.control.attest.v1alpha1.Device device = 3;
+}
+
+message RegisterDeviceResponse {
+  string device_id = 1;
+  // true if the device already exists
+  bool already_exists = 2;
+}
