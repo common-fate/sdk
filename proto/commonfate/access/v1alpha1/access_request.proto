@@ -148,12 +148,12 @@ message Warnings {
   repeated string grants_permission_denied = 1;
 
   // Grants that were unable to be acted upon because they were in an invalid state.
-  repeated WarningGrantInvalidState grants_invalid_state = 2;
+  repeated WarningGrantInvalidStatus grants_invalid_status = 2;
 }
 
-message WarningGrantInvalidState {
+message WarningGrantInvalidStatus {
   // the ID of the Grant.
   string grant_id = 1;
   // the current state of the Grant.
-  string actual_state = 2;
+  string actual_status = 2;
 }
