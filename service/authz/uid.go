@@ -43,3 +43,7 @@ func UIDFromAPI(uid *authzv1alpha1.UID) UID {
 		ID:   uid.Id,
 	}
 }
+
+func (u UID) Equals(other UID) bool {
+	return u.Type == other.Type && u.ID == other.ID
+}
