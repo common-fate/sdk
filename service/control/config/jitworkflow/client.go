@@ -1,7 +1,7 @@
 package jitworkflow
 
 import (
-	"github.com/common-fate/ciem/config"
+	"github.com/common-fate/sdk/config"
 	"github.com/common-fate/sdk/gen/commonfate/control/config/v1alpha1/configv1alpha1connect"
 )
 

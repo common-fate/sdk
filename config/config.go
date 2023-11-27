@@ -6,8 +6,8 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/common-fate/ciem/tokenstore"
 	"github.com/common-fate/clio/clierr"
+	"github.com/common-fate/sdk/tokenstore"
 	"github.com/zitadel/oidc/v2/pkg/client/rp"
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/clientcredentials"

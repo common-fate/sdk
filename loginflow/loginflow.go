@@ -6,9 +6,9 @@ import (
 	"time"
 
 	"github.com/99designs/keyring"
-	"github.com/common-fate/ciem/config"
-	"github.com/common-fate/ciem/tokenstore"
 	"github.com/common-fate/clio"
+	"github.com/common-fate/sdk/config"
+	"github.com/common-fate/sdk/tokenstore"
 	"github.com/go-chi/chi/v5"
 	"github.com/google/uuid"
 	"github.com/pkg/browser"

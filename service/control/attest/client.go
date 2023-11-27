@@ -1,7 +1,7 @@
 package attest
 
 import (
-	"github.com/common-fate/ciem/config"
+	"github.com/common-fate/sdk/config"
 	"github.com/common-fate/sdk/gen/commonfate/control/attest/v1alpha1/attestv1alpha1connect"
 )
 

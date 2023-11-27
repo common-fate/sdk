@@ -1,7 +1,7 @@
 package access
 
 import (
-	"github.com/common-fate/ciem/config"
+	"github.com/common-fate/sdk/config"
 	"github.com/common-fate/sdk/gen/commonfate/access/v1alpha1/accessv1alpha1connect"
 )
 
