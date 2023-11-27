@@ -61,10 +61,10 @@ message Grant {
     string id = 1;
 
     // The resource being requested.
-    commonfate.authz.v1alpha1.UID target = 3;
+    NamedUID target = 3;
 
     // The role being requested, such as "View" or "Admin".
-    commonfate.authz.v1alpha1.UID role = 4;
+    NamedUID role = 4;
 
     // The user or service account that requested the access.
     //
@@ -76,12 +76,6 @@ message Grant {
 
     // Users designated as reviewers for the Grant.
     repeated User reviewers = 7;
-
-    // A human-friendly name for the target.
-    string target_name = 8;
-    
-    // A human-friendly name for the role.
-    string role_name = 9;
 }
 
 enum GrantStatus {

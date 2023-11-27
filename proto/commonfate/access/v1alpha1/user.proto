@@ -9,3 +9,8 @@ message User {
     string name = 2;
     string email = 3;
 }
+
+message NamedUID {
+    commonfate.authz.v1alpha1.UID uid = 1;
+    string name = 2;
+}

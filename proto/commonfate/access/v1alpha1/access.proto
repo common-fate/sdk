@@ -60,20 +60,11 @@ message Entitlement {
   // users refer to entitlements by the target and role, rather than the internal ID.
   string id = 1;
 
-  // The principal this entitlement grants access to
-  commonfate.authz.v1alpha1.UID principal = 2;
-
   // The particular resource which this entitlement gives access to
-  commonfate.authz.v1alpha1.UID target = 3;
-
-  // A human-friendly name for the target, such as the AWS account name.
-  string target_name = 4;
+  NamedUID target = 2;
 
   // The particular role this entitlement gives access to
-  commonfate.authz.v1alpha1.UID role = 5;
-
-  // A human-friendly name for the role.
-  string role_name = 6;
+  NamedUID role = 3;
 
   // For providers which support it (like AWS IAM Identity Center), an ID of a resource representing
   // the entitlement assignment to the user. For example, in IAM Identity Center this is an AccountAssignment resource.
