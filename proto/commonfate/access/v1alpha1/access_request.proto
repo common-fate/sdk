@@ -9,12 +9,27 @@ import "commonfate/access/v1alpha1/named_uid.proto";
 import "google/protobuf/duration.proto";
 import "google/protobuf/timestamp.proto";
 
+// TheAccess Request API.
+//
+// When operating on Access Requests, Common Fate will automatically attempt to apply the action (Approve/Close/Revoke etc)
+// to each Grant associated with the Access Request. Warnings will be returned if the operation fails for any grants.
 service AccessRequestService {
     rpc QueryAccessRequests(QueryAccessRequestsRequest) returns (QueryAccessRequestsResponse) {}
     rpc GetAccessRequest(GetAccessRequestRequest) returns (GetAccessRequestResponse) {}
+
+    // Revoking an Access Request will make it no longer reviewable and will revoke any pending Grants.
     rpc RevokeAccessRequest(RevokeAccessRequestRequest) returns (RevokeAccessRequestResponse) {}
-    rpc CancelAccessRequest(CancelAccessRequestRequest) returns (CancelAccessRequestResponse) {}
-    rpc ReviewAccessRequest(ReviewAccessRequestRequest) returns (ReviewAccessRequestResponse) {}
+
+    // Approving an Access Request will attempt to approve all of the Grants associated with the request.
+    //
+    // If the caller is not permitted to approve particular grants, warnings will be returned.
+    rpc ApproveAccessRequest(ApproveAccessRequestRequest) returns (ApproveAccessRequestResponse) {}
+
+    // Closing an Access Request will make it no longer reviewable and will cancel any pending Grants.
+    //
+    // Closing an Access Request will not revoke any approved Grants.
+    // If any Grants have been approved, calling Revoke() will revoke the grants.
+    rpc CloseAccessRequest(CloseAccessRequestRequest) returns (CloseAccessRequestResponse) {}
 }
 
 message QueryAccessRequestsRequest {
@@ -105,25 +120,26 @@ message RevokeAccessRequestRequest {
   string id = 1;
 }
 
-message RevokeAccessRequestResponse {}
+message RevokeAccessRequestResponse {
+  repeated string warnings = 1;
+}
 
-message CancelAccessRequestRequest {
+
+message ApproveAccessRequestRequest {
   // The ID of the Access Request.
   string id = 1;
 }
 
-message CancelAccessRequestResponse {}
-
-enum Review {
-  REVIEW_UNSPECIFIED = 0;
-  REVIEW_APPROVE = 1;
-  REVIEW_CLOSE = 2;
+message ApproveAccessRequestResponse {
+  repeated string warnings = 1;
 }
 
-message ReviewAccessRequestRequest {
+message CloseAccessRequestRequest {
   // The ID of the Access Request.
   string id = 1;
-  Review review = 2;
 }
 
-message ReviewAccessRequestResponse {}
+message CloseAccessRequestResponse {
+  repeated string warnings = 1;
+}
+
