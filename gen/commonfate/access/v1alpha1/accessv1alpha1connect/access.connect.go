@@ -35,6 +35,9 @@ const (
 const (
 	// AccessServiceGrantProcedure is the fully-qualified name of the AccessService's Grant RPC.
 	AccessServiceGrantProcedure = "/commonfate.access.v1alpha1.AccessService/Grant"
+	// AccessServiceBatchGrantProcedure is the fully-qualified name of the AccessService's BatchGrant
+	// RPC.
+	AccessServiceBatchGrantProcedure = "/commonfate.access.v1alpha1.AccessService/BatchGrant"
 	// AccessServiceQueryEntitlementsProcedure is the fully-qualified name of the AccessService's
 	// QueryEntitlements RPC.
 	AccessServiceQueryEntitlementsProcedure = "/commonfate.access.v1alpha1.AccessService/QueryEntitlements"
@@ -53,6 +56,14 @@ type AccessServiceClient interface {
 	// This method is used by the Common Fate CLI in commands like 'cf exec gcp -- <command>' to ensure access
 	// is provisioned prior to running a command.
 	Grant(context.Context, *connect_go.Request[v1alpha1.GrantRequest]) (*connect_go.Response[v1alpha1.GrantResponse], error)
+	// BatchGrant is a high-level declarative API which can be called to ensure access has been provisioned to multiple entitlements.
+	//
+	// The method checks whether the entitlement has been provisioned to the user.
+	// If the entitlement has not been provisioned, an Access Request will be created for the entitlement.
+	// If a pending Access Request exists for the entitlement, this request is returned.
+	//
+	// In future, this method may trigger an extension to any Access Requests which are due to expire.
+	BatchGrant(context.Context, *connect_go.Request[v1alpha1.BatchGrantRequest]) (*connect_go.Response[v1alpha1.BatchGrantResponse], error)
 	// Query for JIT entitlements available to the user.
 	QueryEntitlements(context.Context, *connect_go.Request[v1alpha1.QueryEntitlementsRequest]) (*connect_go.Response[v1alpha1.QueryEntitlementsResponse], error)
 }
@@ -72,6 +83,11 @@ func NewAccessServiceClient(httpClient connect_go.HTTPClient, baseURL string, op
 			baseURL+AccessServiceGrantProcedure,
 			opts...,
 		),
+		batchGrant: connect_go.NewClient[v1alpha1.BatchGrantRequest, v1alpha1.BatchGrantResponse](
+			httpClient,
+			baseURL+AccessServiceBatchGrantProcedure,
+			opts...,
+		),
 		queryEntitlements: connect_go.NewClient[v1alpha1.QueryEntitlementsRequest, v1alpha1.QueryEntitlementsResponse](
 			httpClient,
 			baseURL+AccessServiceQueryEntitlementsProcedure,
@@ -83,12 +99,18 @@ func NewAccessServiceClient(httpClient connect_go.HTTPClient, baseURL string, op
 // accessServiceClient implements AccessServiceClient.
 type accessServiceClient struct {
 	grant             *connect_go.Client[v1alpha1.GrantRequest, v1alpha1.GrantResponse]
+	batchGrant        *connect_go.Client[v1alpha1.BatchGrantRequest, v1alpha1.BatchGrantResponse]
 	queryEntitlements *connect_go.Client[v1alpha1.QueryEntitlementsRequest, v1alpha1.QueryEntitlementsResponse]
 }
 
 // Grant calls commonfate.access.v1alpha1.AccessService.Grant.
 func (c *accessServiceClient) Grant(ctx context.Context, req *connect_go.Request[v1alpha1.GrantRequest]) (*connect_go.Response[v1alpha1.GrantResponse], error) {
 	return c.grant.CallUnary(ctx, req)
+}
+
+// BatchGrant calls commonfate.access.v1alpha1.AccessService.BatchGrant.
+func (c *accessServiceClient) BatchGrant(ctx context.Context, req *connect_go.Request[v1alpha1.BatchGrantRequest]) (*connect_go.Response[v1alpha1.BatchGrantResponse], error) {
+	return c.batchGrant.CallUnary(ctx, req)
 }
 
 // QueryEntitlements calls commonfate.access.v1alpha1.AccessService.QueryEntitlements.
@@ -110,6 +132,14 @@ type AccessServiceHandler interface {
 	// This method is used by the Common Fate CLI in commands like 'cf exec gcp -- <command>' to ensure access
 	// is provisioned prior to running a command.
 	Grant(context.Context, *connect_go.Request[v1alpha1.GrantRequest]) (*connect_go.Response[v1alpha1.GrantResponse], error)
+	// BatchGrant is a high-level declarative API which can be called to ensure access has been provisioned to multiple entitlements.
+	//
+	// The method checks whether the entitlement has been provisioned to the user.
+	// If the entitlement has not been provisioned, an Access Request will be created for the entitlement.
+	// If a pending Access Request exists for the entitlement, this request is returned.
+	//
+	// In future, this method may trigger an extension to any Access Requests which are due to expire.
+	BatchGrant(context.Context, *connect_go.Request[v1alpha1.BatchGrantRequest]) (*connect_go.Response[v1alpha1.BatchGrantResponse], error)
 	// Query for JIT entitlements available to the user.
 	QueryEntitlements(context.Context, *connect_go.Request[v1alpha1.QueryEntitlementsRequest]) (*connect_go.Response[v1alpha1.QueryEntitlementsResponse], error)
 }
@@ -125,6 +155,11 @@ func NewAccessServiceHandler(svc AccessServiceHandler, opts ...connect_go.Handle
 		svc.Grant,
 		opts...,
 	)
+	accessServiceBatchGrantHandler := connect_go.NewUnaryHandler(
+		AccessServiceBatchGrantProcedure,
+		svc.BatchGrant,
+		opts...,
+	)
 	accessServiceQueryEntitlementsHandler := connect_go.NewUnaryHandler(
 		AccessServiceQueryEntitlementsProcedure,
 		svc.QueryEntitlements,
@@ -134,6 +169,8 @@ func NewAccessServiceHandler(svc AccessServiceHandler, opts ...connect_go.Handle
 		switch r.URL.Path {
 		case AccessServiceGrantProcedure:
 			accessServiceGrantHandler.ServeHTTP(w, r)
+		case AccessServiceBatchGrantProcedure:
+			accessServiceBatchGrantHandler.ServeHTTP(w, r)
 		case AccessServiceQueryEntitlementsProcedure:
 			accessServiceQueryEntitlementsHandler.ServeHTTP(w, r)
 		default:
@@ -147,6 +184,10 @@ type UnimplementedAccessServiceHandler struct{}
 
 func (UnimplementedAccessServiceHandler) Grant(context.Context, *connect_go.Request[v1alpha1.GrantRequest]) (*connect_go.Response[v1alpha1.GrantResponse], error) {
 	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("commonfate.access.v1alpha1.AccessService.Grant is not implemented"))
+}
+
+func (UnimplementedAccessServiceHandler) BatchGrant(context.Context, *connect_go.Request[v1alpha1.BatchGrantRequest]) (*connect_go.Response[v1alpha1.BatchGrantResponse], error) {
+	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("commonfate.access.v1alpha1.AccessService.BatchGrant is not implemented"))
 }
 
 func (UnimplementedAccessServiceHandler) QueryEntitlements(context.Context, *connect_go.Request[v1alpha1.QueryEntitlementsRequest]) (*connect_go.Response[v1alpha1.QueryEntitlementsResponse], error) {

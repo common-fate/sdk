@@ -25,6 +25,15 @@ service AccessService {
   // is provisioned prior to running a command.
   rpc Grant(GrantRequest) returns (GrantResponse) {}
 
+  // BatchGrant is a high-level declarative API which can be called to ensure access has been provisioned to multiple entitlements.
+  //
+  // The method checks whether the entitlement has been provisioned to the user.
+  // If the entitlement has not been provisioned, an Access Request will be created for the entitlement.
+  // If a pending Access Request exists for the entitlement, this request is returned.
+  //
+  // In future, this method may trigger an extension to any Access Requests which are due to expire.
+  rpc BatchGrant(BatchGrantRequest) returns (BatchGrantResponse) {}
+
   // Query for JIT entitlements available to the user.
   rpc QueryEntitlements(QueryEntitlementsRequest) returns (QueryEntitlementsResponse) {}
 }
@@ -103,18 +112,31 @@ message JITEntitlementDetails {
 }
 
 message GrantRequest {
-  // to be added in future when 'on-behalf-of' requests are implemented.
-  reserved 1;
-  reserved "principal";
-
-  // The resource to grant the principal access to.
-  commonfate.authz.v1alpha1.UID target = 3;
-
-  // The role to grant the principal access to the resource with.
-  commonfate.authz.v1alpha1.UID role = 2;
+  // The entitlements to request access to.
+  EntitlementInput entitlement = 1;
 
   // Optional justification as to why access is required.
   Justification justification = 4;
+}
+
+message EntitlementInput {
+   // to be added in future when 'on-behalf-of' requests are implemented.
+   reserved 1;
+   reserved "principal";
+
+   // The resource to grant the principal access to.
+   commonfate.authz.v1alpha1.UID target = 3;
+
+   // The role to grant the principal access to the resource with.
+   commonfate.authz.v1alpha1.UID role = 2;
+}
+
+message BatchGrantRequest {
+  // The entitlements to request access to.
+  repeated EntitlementInput entitlements = 1;
+
+  // Optional justification as to why access is required.
+  Justification justification = 2;
 }
 
 enum Decision {
@@ -133,22 +155,26 @@ enum Decision {
 message GrantResponse {
   // An ID which can be used to debug the evaluation of the access policies
   // associated with the request.
-  string decision_id = 1;
-
-  // The decision made by the Common Fate authorization engine.
-  Decision decision = 2;
-
-  // Indicates if the Access Request returned already existed.
-  // Will be false if a new Access Request was created.
-  bool request_already_exists = 3;
+  string trace_id = 1;
 
   // An Access Request. Will be nil if access is already active because the user was assigned
   // persistent access to the entitlement.
-  optional AccessRequest access_request = 4;
+  AccessRequest access_request = 4;
 
-  // If the access is active, the timestamp that the access expires at.
-  // If access is persistent, the expires_at field will be nil.
-  optional google.protobuf.Timestamp expires_at = 5;
+  // The Grant associated with the Access Request.
+  // Unlike the BatchGrant endpoint, the Grant endpoint will always return Access Requests
+  // that have a single associated grant. For convenience, the Grant is also returned here.
+  Grant grant = 5;
+}
+
+message BatchGrantResponse {
+  // An ID which can be used to debug the evaluation of the access policies
+  // associated with the request.
+  string trace_id = 1;
+
+  // An Access Request. Will be nil if access is already active because the user was assigned
+  // persistent access to the entitlement.
+  repeated AccessRequest access_requests = 4;
 }
 
 message Justification {

@@ -70,6 +70,9 @@ message AccessRequest {
     // An access request is reviewable if one or more Grants in the request
     // requires a manual review.
     bool reviewable = 4;
+
+    // True if the Access Request already existed and wasn't created by the API call.
+    bool existing = 5;
 }
 
 message Grant {
