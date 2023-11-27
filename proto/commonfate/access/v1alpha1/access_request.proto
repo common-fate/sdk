@@ -74,6 +74,15 @@ message Grant {
 
     // Users designated as reviewers for the Grant.
     repeated User reviewers = 7;
+
+    // A human-friendly name for the target.
+    string target_name = 8;
+    
+    // A human-friendly name for the role.
+    string role_name = 9;
+
+    // A human-friendly name for the principal.
+    string principal_name = 10;
 }
 
 enum GrantStatus {
