@@ -4,8 +4,7 @@ package commonfate.access.v1alpha1;
 
 import "commonfate/authz/v1alpha1/entity.proto";
 
-message User {
+message NamedUID {
     commonfate.authz.v1alpha1.UID uid = 1;
     string name = 2;
-    string email = 3;
 }

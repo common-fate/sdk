@@ -5,6 +5,7 @@ package commonfate.access.v1alpha1;
 import "commonfate/control/attest/v1alpha1/attestation.proto";
 import "commonfate/access/v1alpha1/user.proto";
 import "commonfate/authz/v1alpha1/entity.proto";
+import "commonfate/access/v1alpha1/named_uid.proto";
 import "google/protobuf/duration.proto";
 import "google/protobuf/timestamp.proto";
 
