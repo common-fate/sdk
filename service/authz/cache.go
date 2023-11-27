@@ -23,10 +23,10 @@ func (c *Client) AttrCache() *AttrCache {
 }
 
 // String obtains a cached string attribute for an entity. Attributes like names do not change that often, so they are cached in memory.
-// If the attribute does not exist for an entity or there is an error, the 'fallback' value is returned.
+// If the attribute does not exist for an entity or there is an error, an empty string is returned
 //
 // An error is logged if there was an issue reaching the Authz service.
-func (c *AttrCache) String(ctx context.Context, uid UID, attr string, fallback string) string {
+func (c *AttrCache) String(ctx context.Context, uid UID, attr string) string {
 	log := logger.Get(ctx).Named("namecache").With("uid", uid, "attr", attr)
 
 	cached, ok := c.client.cache.Get(uid.String())
@@ -35,7 +35,7 @@ func (c *AttrCache) String(ctx context.Context, uid UID, attr string, fallback s
 		res, err := extractStringAttr(cached, attr)
 		if err != nil {
 			log.Errorw("error extracting attribute from cached entity", zap.Error(err))
-			return fallback
+			return ""
 		}
 
 		// renew the cached duration
@@ -51,11 +51,11 @@ func (c *AttrCache) String(ctx context.Context, uid UID, attr string, fallback s
 	})
 	if err != nil {
 		log.Errorw("error loading entity from authz", zap.Error(err))
-		return fallback
+		return ""
 	}
 	if res == nil {
 		log.Errorw("entity did not exist", zap.Error(err))
-		return fallback
+		return ""
 	}
 
 	for _, a := range res.Entity.Attributes {
@@ -68,7 +68,7 @@ func (c *AttrCache) String(ctx context.Context, uid UID, attr string, fallback s
 
 	log.Errorw("error extracting attribute from loaded entity", zap.Error(err))
 
-	return fallback
+	return ""
 }
 
 func extractStringAttr(cached any, attr string) (string, error) {
