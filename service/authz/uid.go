@@ -34,6 +34,10 @@ func (u UID) String() string {
 }
 
 func UIDFromAPI(uid *authzv1alpha1.UID) UID {
+	if uid == nil {
+		return UID{}
+	}
+
 	return UID{
 		Type: uid.Type,
 		ID:   uid.Id,
