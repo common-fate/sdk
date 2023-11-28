@@ -1,4 +1,4 @@
-package jitworkflow
+package config
 
 import (
 	"github.com/common-fate/sdk/config"
