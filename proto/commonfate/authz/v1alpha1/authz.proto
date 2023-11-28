@@ -116,7 +116,7 @@ message BatchGetEntitiesRequest {
 }
 
 message BatchGetEntitiesResponse {
-    repeated Entity entity = 1;
+    repeated Entity entities = 1;
 }
 
 message BatchAuthorizeRequest {
