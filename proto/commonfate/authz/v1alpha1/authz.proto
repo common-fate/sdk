@@ -66,7 +66,7 @@ service AuthzService {
     rpc GetEntity(GetEntityRequest) returns (GetEntityResponse) {}
 
     // Query for multiple entities by UID.
-    rpc BatchGetEntity(BatchGetEntityRequest) returns (BatchGetEntityResponse) {}
+    rpc BatchGetEntities(BatchGetEntitiesRequest) returns (BatchGetEntitiesResponse) {}
 }
 
 message BatchDeleteEntityRequest {
@@ -110,12 +110,12 @@ message GetEntityResponse {
     Entity entity = 1;
 }
 
-message BatchGetEntityRequest {
+message BatchGetEntitiesRequest {
     string universe = 1;
     repeated UID entities = 2;
 }
 
-message BatchGetEntityResponse {
+message BatchGetEntitiesResponse {
     repeated Entity entity = 1;
 }
 
