@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"strings"
 
+	accessv1alpha1 "github.com/common-fate/sdk/gen/commonfate/access/v1alpha1"
 	authzv1alpha1 "github.com/common-fate/sdk/gen/commonfate/authz/v1alpha1"
 	"github.com/pkg/errors"
 )
@@ -97,4 +98,13 @@ func ParseUID(input string) (UID, error) {
 		Type: uidType,
 		ID:   uidID,
 	}, nil
+}
+
+// ToSpecifier returns a Specifier which will match the UID.
+func (u UID) ToSpecifier() *accessv1alpha1.Specifier {
+	return &accessv1alpha1.Specifier{
+		Specify: &accessv1alpha1.Specifier_Uid{
+			Uid: u.ToAPI(),
+		},
+	}
 }
