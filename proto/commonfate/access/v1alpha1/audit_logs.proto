@@ -1,0 +1,76 @@
+syntax = "proto3";
+
+package commonfate.access.v1alpha1;
+
+import "commonfate/control/attest/v1alpha1/attestation.proto";
+import "commonfate/access/v1alpha1/user.proto";
+import "commonfate/authz/v1alpha1/entity.proto";
+import "commonfate/access/v1alpha1/named_uid.proto";
+import "google/protobuf/duration.proto";
+import "google/protobuf/struct.proto";
+import "google/protobuf/timestamp.proto";
+
+service AuditLogService {
+    rpc QueryAuditLogs(QueryAuditLogsRequest) returns (QueryAuditLogsResponse) {}
+}
+
+message QueryAuditLogsRequest {
+    // Query for audit logs relating to a particular target
+    commonfate.authz.v1alpha1.UID target = 1;
+
+    // Query for audit logs performed by a particular actor
+    // commonfate.authz.v1alpha1.UID actor = 2;
+
+    // The token for the next page.
+    string page_token = 10;
+}
+
+message QueryAuditLogsResponse {
+  repeated AuditLog audit_logs = 1;
+  string next_page_token = 2;
+}
+
+enum AuditAction {
+    GRANT_ACTION_UNSPECIFIED = 0;
+
+    // Access was requested.
+    AUDIT_ACTION_ACCESS_REQUESTED = 1;
+
+    // Access was approved.
+    AUDIT_ACTION_ACCESS_APPROVED = 2;
+
+    // Access was provisioned.
+    GRANT_ACTION_ACCESS_PROVISIONED = 3;
+
+    // The grant was cancelled before it was activated
+    GRANT_ACTION_ACCESS_CANCELLED = 4;
+
+    // The grant was revoked while it was active.
+    GRANT_ACTION_ACCESS_REVOKED = 5;
+
+    // An error occurred.
+    GRANT_ACTION_ERROR = 6;
+
+    // Access was deprovisioned.
+    GRANT_ACTION_DEPROVISIONED = 7;
+}
+  
+message AuditLog {
+    // the action which occurred
+    AuditAction action = 1;
+
+    // the actor which performed the action.
+    User actor = 2;
+
+    // the timestamp the action occurred at.
+    google.protobuf.Timestamp occurred_at = 3;
+
+    // resources affected by the action.
+    repeated commonfate.authz.v1alpha1.UID targets = 4;
+
+    // a human-friendly message describing the action.
+    string message = 5;
+
+    // additional context
+    google.protobuf.Struct context = 6;
+}
