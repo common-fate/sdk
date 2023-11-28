@@ -8,8 +8,6 @@ github.com/bufbuild/connect-go v1.10.0 h1:QAJ3G9A1OYQW2Jbk3DeoJbkCxuKArrvZgDt47m
 github.com/bufbuild/connect-go v1.10.0/go.mod h1:CAIePUgkDR5pAFaylSMtNK45ANQjp9JvpluG20rhpV8=
 github.com/common-fate/apikit v0.3.0 h1:7dkL0jnmJhNAR7bjMM6+8h9psRBY5D+EMY2BzCBcLG8=
 github.com/common-fate/apikit v0.3.0/go.mod h1:5WXBU3NBnQ6ZuqQyazwL5Ou6yT7UpC8c3yK8F9mGh9k=
-github.com/common-fate/ciem v0.0.0-20231126232331-3d6a1c101caa h1:wInnF/LH8aBZU6iKAo6db064PFXeaMs2Yz2YqWLY44E=
-github.com/common-fate/ciem v0.0.0-20231126232331-3d6a1c101caa/go.mod h1:kNeP9HM79as/SnR+8yQOgEIO7QbC8/lE+iOU3cyFySQ=
 github.com/common-fate/clio v1.2.3 h1:hHwUYZjn66qGYDpgANl0EB/92hyi/Jsnd07qB09rvn4=
 github.com/common-fate/clio v1.2.3/go.mod h1:NkozaS15SA+6Y9zb+82eIj1i41aWShorTqA01GKQ7A8=
 github.com/danieljoos/wincred v1.1.2 h1:QLdCxFs1/Yl4zduvBdcHB8goaYk9RARS2SgLLRuAyr0=

@@ -96,8 +96,8 @@ message Grant {
     // Users designated as reviewers for the Grant.
     repeated User reviewers = 7;
 
-    // For active grants, the duration from now that the access is due to expire.
-    google.protobuf.Duration expires_in = 8;
+    // For active grants, the time that the access is due to expire.
+    google.protobuf.Timestamp expires_at = 8;
 }
 
 enum GrantStatus {

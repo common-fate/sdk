@@ -12,7 +12,7 @@ import "google/protobuf/timestamp.proto";
 // AccessService is the Access Handler's user-facing API.
 // Users call this API to ensure that they have access to entitlements.
 service AccessService {
-  // Grant is a high-level declarative API which can be called to ensure access has been provisioned to an entitlement.
+  // Ensure is a high-level declarative API which can be called to ensure access has been provisioned to an entitlement.
   //
   // The method checks whether the entitlement has been provisioned to the user.
   // If the entitlement has not been provisioned, an Access Request will be created for the entitlement.
@@ -23,49 +23,33 @@ service AccessService {
   //
   // This method is used by the Common Fate CLI in commands like 'cf exec gcp -- <command>' to ensure access
   // is provisioned prior to running a command.
-  rpc Grant(GrantRequest) returns (GrantResponse) {}
+  rpc Ensure(EnsureRequest) returns (EnsureResponse) {}
 
-  // BatchGrant is a high-level declarative API which can be called to ensure access has been provisioned to multiple entitlements.
+  // BatchEnsure is a high-level declarative API which can be called to ensure access has been provisioned to multiple entitlements.
   //
   // The method checks whether the entitlement has been provisioned to the user.
   // If the entitlement has not been provisioned, an Access Request will be created for the entitlement.
   // If a pending Access Request exists for the entitlement, this request is returned.
   //
   // In future, this method may trigger an extension to any Access Requests which are due to expire.
-  rpc BatchGrant(BatchGrantRequest) returns (BatchGrantResponse) {}
+  rpc BatchEnsure(BatchEnsureRequest) returns (BatchEnsureResponse) {}
 
-  // Query for JIT entitlements available to the user.
-  rpc QueryEntitlements(QueryEntitlementsRequest) returns (QueryEntitlementsResponse) {}
+  // Query for JIT availabilities.
+  rpc QueryAvailabilities(QueryAvailabilitiesRequest) returns (QueryAvailabilitiesResponse) {}
 }
 
-enum JITStatus {
-  JIT_STATUS_UNSPECIFIED = 0;
-
-  // The entitlement is currently granted to the principal.
-  JIT_STATUS_ACTIVE = 1;
-
-  // The entitlement is not granted to the principal.
-  JIT_STATUS_INACTIVE = 2;
-}
-
-message QueryEntitlementsRequest {
-  // If provided, filters entitlements for a particular principal
-  commonfate.authz.v1alpha1.UID principal = 1;
-
-  // If provided, filters entitlements for a particular JIT status
-  JITStatus jit_status = 2;
-
+message QueryAvailabilitiesRequest {
    // The token for the next page.
    string page_token = 10;
 }
 
-message QueryEntitlementsResponse {
-  repeated Entitlement entitlements = 1;
+message QueryAvailabilitiesResponse {
+  repeated Availability availabilities = 1;
   string next_page_token = 2;
 }
 
 
-message Entitlement {
+message Availability {
   // ID is just used internally and isn't really shown to users except for debugging purposes.
   // users refer to entitlements by the target and role, rather than the internal ID.
   string id = 1;
@@ -76,42 +60,14 @@ message Entitlement {
   // The particular role this entitlement gives access to
   NamedUID role = 3;
 
-  // For providers which support it (like AWS IAM Identity Center), an ID of a resource representing
-  // the entitlement assignment to the user. For example, in IAM Identity Center this is an AccountAssignment resource.
-  commonfate.authz.v1alpha1.UID assignment = 7;
-
-  // Details about JIT access. Only present on JIT Entitlements.
-  // If nil, the entitlement is a persistent entitlement.
-  // Currently all Entitlements are JIT Entitlements.
-  // In future we may show users persistent entitlements which were assigned outside
-  // of Common Fate JIT.
-  JITEntitlementDetails jit = 8;
-}
-
-message JITEntitlementDetails {
   // the JIT workflow associated with the entitlement.
-  string workflow_id = 1;
-
-  // Whether the entitlement is currently assigned to the principal.
-  // For JIT Entitlements, an entitlement may be inactive.
-  // This means that it is available for request, but is not actually assigned
-  // to the user at the particular moment.
-  JITStatus status = 2;
+  string workflow_id = 4;
 
   // The permitted access duration.
-  google.protobuf.Duration duration = 3;
-
-  // Whether access will be automatically approved.
-  bool auto_approved = 4;
-
-  // Whether extending access is permitted.
-  bool extension_allowed = 5;
-
-  // For active JIT entitlements, the duration from now that the access is due to expire.
-  google.protobuf.Duration expires_in = 6;
+  google.protobuf.Duration duration = 5;
 }
 
-message GrantRequest {
+message EnsureRequest {
   // The entitlements to request access to.
   EntitlementInput entitlement = 1;
 
@@ -131,7 +87,7 @@ message EntitlementInput {
    commonfate.authz.v1alpha1.UID role = 2;
 }
 
-message BatchGrantRequest {
+message BatchEnsureRequest {
   // The entitlements to request access to.
   repeated EntitlementInput entitlements = 1;
 
@@ -139,20 +95,7 @@ message BatchGrantRequest {
   Justification justification = 2;
 }
 
-enum Decision {
-  DECISION_UNSPECIFIED = 0;
-
-  // Access to the resource is allowed.
-  DECISION_ALLOWED = 2;
-
-  // Access to the resource requires a manual review.
-  DECISION_REVIEW_REQUIRED = 3;
-
-  // Access to the resource is denied.
-  DECISION_DENIED = 4;
-}
-
-message GrantResponse {
+message EnsureResponse {
   // An ID which can be used to debug the evaluation of the access policies
   // associated with the request.
   string trace_id = 1;
@@ -167,7 +110,7 @@ message GrantResponse {
   Grant grant = 5;
 }
 
-message BatchGrantResponse {
+message BatchEnsureResponse {
   // An ID which can be used to debug the evaluation of the access policies
   // associated with the request.
   string trace_id = 1;

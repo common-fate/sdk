@@ -33,19 +33,19 @@ const (
 // reflection-formatted method names, remove the leading slash and convert the remaining slash to a
 // period.
 const (
-	// AccessServiceGrantProcedure is the fully-qualified name of the AccessService's Grant RPC.
-	AccessServiceGrantProcedure = "/commonfate.access.v1alpha1.AccessService/Grant"
-	// AccessServiceBatchGrantProcedure is the fully-qualified name of the AccessService's BatchGrant
+	// AccessServiceEnsureProcedure is the fully-qualified name of the AccessService's Ensure RPC.
+	AccessServiceEnsureProcedure = "/commonfate.access.v1alpha1.AccessService/Ensure"
+	// AccessServiceBatchEnsureProcedure is the fully-qualified name of the AccessService's BatchEnsure
 	// RPC.
-	AccessServiceBatchGrantProcedure = "/commonfate.access.v1alpha1.AccessService/BatchGrant"
-	// AccessServiceQueryEntitlementsProcedure is the fully-qualified name of the AccessService's
-	// QueryEntitlements RPC.
-	AccessServiceQueryEntitlementsProcedure = "/commonfate.access.v1alpha1.AccessService/QueryEntitlements"
+	AccessServiceBatchEnsureProcedure = "/commonfate.access.v1alpha1.AccessService/BatchEnsure"
+	// AccessServiceQueryAvailabilitiesProcedure is the fully-qualified name of the AccessService's
+	// QueryAvailabilities RPC.
+	AccessServiceQueryAvailabilitiesProcedure = "/commonfate.access.v1alpha1.AccessService/QueryAvailabilities"
 )
 
 // AccessServiceClient is a client for the commonfate.access.v1alpha1.AccessService service.
 type AccessServiceClient interface {
-	// Grant is a high-level declarative API which can be called to ensure access has been provisioned to an entitlement.
+	// Ensure is a high-level declarative API which can be called to ensure access has been provisioned to an entitlement.
 	//
 	// The method checks whether the entitlement has been provisioned to the user.
 	// If the entitlement has not been provisioned, an Access Request will be created for the entitlement.
@@ -55,17 +55,17 @@ type AccessServiceClient interface {
 	//
 	// This method is used by the Common Fate CLI in commands like 'cf exec gcp -- <command>' to ensure access
 	// is provisioned prior to running a command.
-	Grant(context.Context, *connect_go.Request[v1alpha1.GrantRequest]) (*connect_go.Response[v1alpha1.GrantResponse], error)
-	// BatchGrant is a high-level declarative API which can be called to ensure access has been provisioned to multiple entitlements.
+	Ensure(context.Context, *connect_go.Request[v1alpha1.EnsureRequest]) (*connect_go.Response[v1alpha1.EnsureResponse], error)
+	// BatchEnsure is a high-level declarative API which can be called to ensure access has been provisioned to multiple entitlements.
 	//
 	// The method checks whether the entitlement has been provisioned to the user.
 	// If the entitlement has not been provisioned, an Access Request will be created for the entitlement.
 	// If a pending Access Request exists for the entitlement, this request is returned.
 	//
 	// In future, this method may trigger an extension to any Access Requests which are due to expire.
-	BatchGrant(context.Context, *connect_go.Request[v1alpha1.BatchGrantRequest]) (*connect_go.Response[v1alpha1.BatchGrantResponse], error)
-	// Query for JIT entitlements available to the user.
-	QueryEntitlements(context.Context, *connect_go.Request[v1alpha1.QueryEntitlementsRequest]) (*connect_go.Response[v1alpha1.QueryEntitlementsResponse], error)
+	BatchEnsure(context.Context, *connect_go.Request[v1alpha1.BatchEnsureRequest]) (*connect_go.Response[v1alpha1.BatchEnsureResponse], error)
+	// Query for JIT availabilities.
+	QueryAvailabilities(context.Context, *connect_go.Request[v1alpha1.QueryAvailabilitiesRequest]) (*connect_go.Response[v1alpha1.QueryAvailabilitiesResponse], error)
 }
 
 // NewAccessServiceClient constructs a client for the commonfate.access.v1alpha1.AccessService
@@ -78,19 +78,19 @@ type AccessServiceClient interface {
 func NewAccessServiceClient(httpClient connect_go.HTTPClient, baseURL string, opts ...connect_go.ClientOption) AccessServiceClient {
 	baseURL = strings.TrimRight(baseURL, "/")
 	return &accessServiceClient{
-		grant: connect_go.NewClient[v1alpha1.GrantRequest, v1alpha1.GrantResponse](
+		ensure: connect_go.NewClient[v1alpha1.EnsureRequest, v1alpha1.EnsureResponse](
 			httpClient,
-			baseURL+AccessServiceGrantProcedure,
+			baseURL+AccessServiceEnsureProcedure,
 			opts...,
 		),
-		batchGrant: connect_go.NewClient[v1alpha1.BatchGrantRequest, v1alpha1.BatchGrantResponse](
+		batchEnsure: connect_go.NewClient[v1alpha1.BatchEnsureRequest, v1alpha1.BatchEnsureResponse](
 			httpClient,
-			baseURL+AccessServiceBatchGrantProcedure,
+			baseURL+AccessServiceBatchEnsureProcedure,
 			opts...,
 		),
-		queryEntitlements: connect_go.NewClient[v1alpha1.QueryEntitlementsRequest, v1alpha1.QueryEntitlementsResponse](
+		queryAvailabilities: connect_go.NewClient[v1alpha1.QueryAvailabilitiesRequest, v1alpha1.QueryAvailabilitiesResponse](
 			httpClient,
-			baseURL+AccessServiceQueryEntitlementsProcedure,
+			baseURL+AccessServiceQueryAvailabilitiesProcedure,
 			opts...,
 		),
 	}
@@ -98,30 +98,30 @@ func NewAccessServiceClient(httpClient connect_go.HTTPClient, baseURL string, op
 
 // accessServiceClient implements AccessServiceClient.
 type accessServiceClient struct {
-	grant             *connect_go.Client[v1alpha1.GrantRequest, v1alpha1.GrantResponse]
-	batchGrant        *connect_go.Client[v1alpha1.BatchGrantRequest, v1alpha1.BatchGrantResponse]
-	queryEntitlements *connect_go.Client[v1alpha1.QueryEntitlementsRequest, v1alpha1.QueryEntitlementsResponse]
+	ensure              *connect_go.Client[v1alpha1.EnsureRequest, v1alpha1.EnsureResponse]
+	batchEnsure         *connect_go.Client[v1alpha1.BatchEnsureRequest, v1alpha1.BatchEnsureResponse]
+	queryAvailabilities *connect_go.Client[v1alpha1.QueryAvailabilitiesRequest, v1alpha1.QueryAvailabilitiesResponse]
 }
 
-// Grant calls commonfate.access.v1alpha1.AccessService.Grant.
-func (c *accessServiceClient) Grant(ctx context.Context, req *connect_go.Request[v1alpha1.GrantRequest]) (*connect_go.Response[v1alpha1.GrantResponse], error) {
-	return c.grant.CallUnary(ctx, req)
+// Ensure calls commonfate.access.v1alpha1.AccessService.Ensure.
+func (c *accessServiceClient) Ensure(ctx context.Context, req *connect_go.Request[v1alpha1.EnsureRequest]) (*connect_go.Response[v1alpha1.EnsureResponse], error) {
+	return c.ensure.CallUnary(ctx, req)
 }
 
-// BatchGrant calls commonfate.access.v1alpha1.AccessService.BatchGrant.
-func (c *accessServiceClient) BatchGrant(ctx context.Context, req *connect_go.Request[v1alpha1.BatchGrantRequest]) (*connect_go.Response[v1alpha1.BatchGrantResponse], error) {
-	return c.batchGrant.CallUnary(ctx, req)
+// BatchEnsure calls commonfate.access.v1alpha1.AccessService.BatchEnsure.
+func (c *accessServiceClient) BatchEnsure(ctx context.Context, req *connect_go.Request[v1alpha1.BatchEnsureRequest]) (*connect_go.Response[v1alpha1.BatchEnsureResponse], error) {
+	return c.batchEnsure.CallUnary(ctx, req)
 }
 
-// QueryEntitlements calls commonfate.access.v1alpha1.AccessService.QueryEntitlements.
-func (c *accessServiceClient) QueryEntitlements(ctx context.Context, req *connect_go.Request[v1alpha1.QueryEntitlementsRequest]) (*connect_go.Response[v1alpha1.QueryEntitlementsResponse], error) {
-	return c.queryEntitlements.CallUnary(ctx, req)
+// QueryAvailabilities calls commonfate.access.v1alpha1.AccessService.QueryAvailabilities.
+func (c *accessServiceClient) QueryAvailabilities(ctx context.Context, req *connect_go.Request[v1alpha1.QueryAvailabilitiesRequest]) (*connect_go.Response[v1alpha1.QueryAvailabilitiesResponse], error) {
+	return c.queryAvailabilities.CallUnary(ctx, req)
 }
 
 // AccessServiceHandler is an implementation of the commonfate.access.v1alpha1.AccessService
 // service.
 type AccessServiceHandler interface {
-	// Grant is a high-level declarative API which can be called to ensure access has been provisioned to an entitlement.
+	// Ensure is a high-level declarative API which can be called to ensure access has been provisioned to an entitlement.
 	//
 	// The method checks whether the entitlement has been provisioned to the user.
 	// If the entitlement has not been provisioned, an Access Request will be created for the entitlement.
@@ -131,17 +131,17 @@ type AccessServiceHandler interface {
 	//
 	// This method is used by the Common Fate CLI in commands like 'cf exec gcp -- <command>' to ensure access
 	// is provisioned prior to running a command.
-	Grant(context.Context, *connect_go.Request[v1alpha1.GrantRequest]) (*connect_go.Response[v1alpha1.GrantResponse], error)
-	// BatchGrant is a high-level declarative API which can be called to ensure access has been provisioned to multiple entitlements.
+	Ensure(context.Context, *connect_go.Request[v1alpha1.EnsureRequest]) (*connect_go.Response[v1alpha1.EnsureResponse], error)
+	// BatchEnsure is a high-level declarative API which can be called to ensure access has been provisioned to multiple entitlements.
 	//
 	// The method checks whether the entitlement has been provisioned to the user.
 	// If the entitlement has not been provisioned, an Access Request will be created for the entitlement.
 	// If a pending Access Request exists for the entitlement, this request is returned.
 	//
 	// In future, this method may trigger an extension to any Access Requests which are due to expire.
-	BatchGrant(context.Context, *connect_go.Request[v1alpha1.BatchGrantRequest]) (*connect_go.Response[v1alpha1.BatchGrantResponse], error)
-	// Query for JIT entitlements available to the user.
-	QueryEntitlements(context.Context, *connect_go.Request[v1alpha1.QueryEntitlementsRequest]) (*connect_go.Response[v1alpha1.QueryEntitlementsResponse], error)
+	BatchEnsure(context.Context, *connect_go.Request[v1alpha1.BatchEnsureRequest]) (*connect_go.Response[v1alpha1.BatchEnsureResponse], error)
+	// Query for JIT availabilities.
+	QueryAvailabilities(context.Context, *connect_go.Request[v1alpha1.QueryAvailabilitiesRequest]) (*connect_go.Response[v1alpha1.QueryAvailabilitiesResponse], error)
 }
 
 // NewAccessServiceHandler builds an HTTP handler from the service implementation. It returns the
@@ -150,29 +150,29 @@ type AccessServiceHandler interface {
 // By default, handlers support the Connect, gRPC, and gRPC-Web protocols with the binary Protobuf
 // and JSON codecs. They also support gzip compression.
 func NewAccessServiceHandler(svc AccessServiceHandler, opts ...connect_go.HandlerOption) (string, http.Handler) {
-	accessServiceGrantHandler := connect_go.NewUnaryHandler(
-		AccessServiceGrantProcedure,
-		svc.Grant,
+	accessServiceEnsureHandler := connect_go.NewUnaryHandler(
+		AccessServiceEnsureProcedure,
+		svc.Ensure,
 		opts...,
 	)
-	accessServiceBatchGrantHandler := connect_go.NewUnaryHandler(
-		AccessServiceBatchGrantProcedure,
-		svc.BatchGrant,
+	accessServiceBatchEnsureHandler := connect_go.NewUnaryHandler(
+		AccessServiceBatchEnsureProcedure,
+		svc.BatchEnsure,
 		opts...,
 	)
-	accessServiceQueryEntitlementsHandler := connect_go.NewUnaryHandler(
-		AccessServiceQueryEntitlementsProcedure,
-		svc.QueryEntitlements,
+	accessServiceQueryAvailabilitiesHandler := connect_go.NewUnaryHandler(
+		AccessServiceQueryAvailabilitiesProcedure,
+		svc.QueryAvailabilities,
 		opts...,
 	)
 	return "/commonfate.access.v1alpha1.AccessService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
-		case AccessServiceGrantProcedure:
-			accessServiceGrantHandler.ServeHTTP(w, r)
-		case AccessServiceBatchGrantProcedure:
-			accessServiceBatchGrantHandler.ServeHTTP(w, r)
-		case AccessServiceQueryEntitlementsProcedure:
-			accessServiceQueryEntitlementsHandler.ServeHTTP(w, r)
+		case AccessServiceEnsureProcedure:
+			accessServiceEnsureHandler.ServeHTTP(w, r)
+		case AccessServiceBatchEnsureProcedure:
+			accessServiceBatchEnsureHandler.ServeHTTP(w, r)
+		case AccessServiceQueryAvailabilitiesProcedure:
+			accessServiceQueryAvailabilitiesHandler.ServeHTTP(w, r)
 		default:
 			http.NotFound(w, r)
 		}
@@ -182,14 +182,14 @@ func NewAccessServiceHandler(svc AccessServiceHandler, opts ...connect_go.Handle
 // UnimplementedAccessServiceHandler returns CodeUnimplemented from all methods.
 type UnimplementedAccessServiceHandler struct{}
 
-func (UnimplementedAccessServiceHandler) Grant(context.Context, *connect_go.Request[v1alpha1.GrantRequest]) (*connect_go.Response[v1alpha1.GrantResponse], error) {
-	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("commonfate.access.v1alpha1.AccessService.Grant is not implemented"))
+func (UnimplementedAccessServiceHandler) Ensure(context.Context, *connect_go.Request[v1alpha1.EnsureRequest]) (*connect_go.Response[v1alpha1.EnsureResponse], error) {
+	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("commonfate.access.v1alpha1.AccessService.Ensure is not implemented"))
 }
 
-func (UnimplementedAccessServiceHandler) BatchGrant(context.Context, *connect_go.Request[v1alpha1.BatchGrantRequest]) (*connect_go.Response[v1alpha1.BatchGrantResponse], error) {
-	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("commonfate.access.v1alpha1.AccessService.BatchGrant is not implemented"))
+func (UnimplementedAccessServiceHandler) BatchEnsure(context.Context, *connect_go.Request[v1alpha1.BatchEnsureRequest]) (*connect_go.Response[v1alpha1.BatchEnsureResponse], error) {
+	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("commonfate.access.v1alpha1.AccessService.BatchEnsure is not implemented"))
 }
 
-func (UnimplementedAccessServiceHandler) QueryEntitlements(context.Context, *connect_go.Request[v1alpha1.QueryEntitlementsRequest]) (*connect_go.Response[v1alpha1.QueryEntitlementsResponse], error) {
-	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("commonfate.access.v1alpha1.AccessService.QueryEntitlements is not implemented"))
+func (UnimplementedAccessServiceHandler) QueryAvailabilities(context.Context, *connect_go.Request[v1alpha1.QueryAvailabilitiesRequest]) (*connect_go.Response[v1alpha1.QueryAvailabilitiesResponse], error) {
+	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("commonfate.access.v1alpha1.AccessService.QueryAvailabilities is not implemented"))
 }

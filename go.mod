@@ -7,7 +7,6 @@ require (
 	github.com/BurntSushi/toml v1.3.2
 	github.com/bufbuild/connect-go v1.10.0
 	github.com/common-fate/apikit v0.3.0
-	github.com/common-fate/ciem v0.0.0-20231126232331-3d6a1c101caa
 	github.com/common-fate/clio v1.2.3
 	github.com/fatih/structtag v1.2.0
 	github.com/go-chi/chi/v5 v5.0.10
