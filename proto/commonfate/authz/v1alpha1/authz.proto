@@ -64,6 +64,9 @@ service AuthzService {
 
     // Query for entity by UID.
     rpc GetEntity(GetEntityRequest) returns (GetEntityResponse) {}
+
+    // Query for multiple entities by UID.
+    rpc BatchGetEntity(BatchGetEntityRequest) returns (BatchGetEntityResponse) {}
 }
 
 message BatchDeleteEntityRequest {
@@ -97,12 +100,23 @@ message FilterEntitiesResponse {
     repeated Entity entities = 1;
     string next_page_token = 2;
 }
+
 message GetEntityRequest {
     string universe = 1;
     UID entity = 2;
 }
+
 message GetEntityResponse {
     Entity entity = 1;
+}
+
+message BatchGetEntityRequest {
+    string universe = 1;
+    repeated UID entities = 2;
+}
+
+message BatchGetEntityResponse {
+    repeated Entity entity = 1;
 }
 
 message BatchAuthorizeRequest {
