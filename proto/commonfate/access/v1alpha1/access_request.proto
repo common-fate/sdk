@@ -98,6 +98,24 @@ message Grant {
 
     // For active grants, the time that the access is due to expire.
     google.protobuf.Timestamp expires_at = 8;
+
+    // Diagnostic messages about the Grant.
+    repeated Diagnostic diagnostics = 9;
+}
+
+enum DiagnosticLevel {
+  DIAGNOSTIC_LEVEL_UNSPECIFIED = 0;
+  DIAGNOSTIC_LEVEL_INFO = 1;
+  DIAGNOSTIC_LEVEL_WARNING = 2;
+  DIAGNOSTIC_LEVEL_ERROR = 3;
+}
+
+message Diagnostic {
+  DiagnosticLevel level = 1;
+  string message = 2;
+  // Optional timestamp indicating the time at which the diagnostic event occurred.
+  // Not all diagnostics will have this attribute.
+  google.protobuf.Timestamp timestamp = 8;
 }
 
 enum GrantStatus {
