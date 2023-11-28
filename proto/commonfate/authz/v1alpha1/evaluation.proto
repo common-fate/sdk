@@ -62,6 +62,18 @@ message Evaluation {
 message Diagnostics {
     repeated string reason = 1;
     repeated string errors = 2;
+    repeated Annotation annotations = 3;
+}
+
+message Annotation {
+    // the ID of the policy with the annotation
+    string policy_id = 1;
+    // the key of the annotation. e.g. in @advice("something")
+    // it is 'advice'.
+    string key = 2;
+    // the value of the annotation. e.g. in @advice("something")
+    // it is 'something'
+    string value = 3;
 }
 
 message DebugInformation {
