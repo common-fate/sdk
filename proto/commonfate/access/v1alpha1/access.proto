@@ -80,16 +80,37 @@ message EnsureRequest {
   Justification justification = 4;
 }
 
+message Specifier {
+  oneof specify {
+    // Specify a resource using a UID. If you're using Common Fate programatically
+    // and you know the resource you want to specify, you should use this field.
+    commonfate.authz.v1alpha1.UID uid = 1;
+
+    // Specify a resource using a string lookup. This is used in our CLI
+    // to allow end users to look up resources by name, ID and/or UID.
+    //
+    // The order of matching is:
+    // 1. the 'lookup' field will be parsed as a UID - if it's valid it will be a UID lookup
+    // 2. the 'lookup' field will be matched against all resource IDs
+    // 3. the 'lookup' field will be matched against all resource names.
+    //
+    // If the lookup is a valid UID but it is not found, the API will return a Not Found error.
+    // The API will return an Invalid Arguments error if the lookup is ambiguous and could match
+    // multiple resources.
+    string lookup = 2;
+  }
+}
+
 message EntitlementInput {
    // to be added in future when 'on-behalf-of' requests are implemented.
    reserved 1;
    reserved "principal";
 
    // The resource to grant the principal access to.
-   commonfate.authz.v1alpha1.UID target = 3;
+   Specifier target = 2;
 
    // The role to grant the principal access to the resource with.
-   commonfate.authz.v1alpha1.UID role = 2;
+   Specifier role = 3;
 }
 
 message BatchEnsureRequest {
