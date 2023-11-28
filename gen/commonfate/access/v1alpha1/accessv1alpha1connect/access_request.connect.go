@@ -39,9 +39,6 @@ const (
 	// AccessRequestServiceGetAccessRequestProcedure is the fully-qualified name of the
 	// AccessRequestService's GetAccessRequest RPC.
 	AccessRequestServiceGetAccessRequestProcedure = "/commonfate.access.v1alpha1.AccessRequestService/GetAccessRequest"
-	// AccessRequestServiceRevokeAccessRequestProcedure is the fully-qualified name of the
-	// AccessRequestService's RevokeAccessRequest RPC.
-	AccessRequestServiceRevokeAccessRequestProcedure = "/commonfate.access.v1alpha1.AccessRequestService/RevokeAccessRequest"
 	// AccessRequestServiceApproveAccessRequestProcedure is the fully-qualified name of the
 	// AccessRequestService's ApproveAccessRequest RPC.
 	AccessRequestServiceApproveAccessRequestProcedure = "/commonfate.access.v1alpha1.AccessRequestService/ApproveAccessRequest"
@@ -55,16 +52,11 @@ const (
 type AccessRequestServiceClient interface {
 	QueryAccessRequests(context.Context, *connect_go.Request[v1alpha1.QueryAccessRequestsRequest]) (*connect_go.Response[v1alpha1.QueryAccessRequestsResponse], error)
 	GetAccessRequest(context.Context, *connect_go.Request[v1alpha1.GetAccessRequestRequest]) (*connect_go.Response[v1alpha1.GetAccessRequestResponse], error)
-	// Revoking an Access Request will make it no longer reviewable and will revoke any pending Grants.
-	RevokeAccessRequest(context.Context, *connect_go.Request[v1alpha1.RevokeAccessRequestRequest]) (*connect_go.Response[v1alpha1.RevokeAccessRequestResponse], error)
 	// Approving an Access Request will attempt to approve all of the Grants associated with the request.
 	//
 	// If the caller is not permitted to approve particular grants, warnings will be returned.
 	ApproveAccessRequest(context.Context, *connect_go.Request[v1alpha1.ApproveAccessRequestRequest]) (*connect_go.Response[v1alpha1.ApproveAccessRequestResponse], error)
-	// Closing an Access Request will make it no longer reviewable and will cancel any pending Grants.
-	//
-	// Closing an Access Request will not revoke any approved Grants.
-	// If any Grants have been approved, calling Revoke() will revoke the grants.
+	// Closing an Access Request will make it no longer reviewable and will deactivate any Grants associated with the request.
 	CloseAccessRequest(context.Context, *connect_go.Request[v1alpha1.CloseAccessRequestRequest]) (*connect_go.Response[v1alpha1.CloseAccessRequestResponse], error)
 }
 
@@ -89,11 +81,6 @@ func NewAccessRequestServiceClient(httpClient connect_go.HTTPClient, baseURL str
 			baseURL+AccessRequestServiceGetAccessRequestProcedure,
 			opts...,
 		),
-		revokeAccessRequest: connect_go.NewClient[v1alpha1.RevokeAccessRequestRequest, v1alpha1.RevokeAccessRequestResponse](
-			httpClient,
-			baseURL+AccessRequestServiceRevokeAccessRequestProcedure,
-			opts...,
-		),
 		approveAccessRequest: connect_go.NewClient[v1alpha1.ApproveAccessRequestRequest, v1alpha1.ApproveAccessRequestResponse](
 			httpClient,
 			baseURL+AccessRequestServiceApproveAccessRequestProcedure,
@@ -111,7 +98,6 @@ func NewAccessRequestServiceClient(httpClient connect_go.HTTPClient, baseURL str
 type accessRequestServiceClient struct {
 	queryAccessRequests  *connect_go.Client[v1alpha1.QueryAccessRequestsRequest, v1alpha1.QueryAccessRequestsResponse]
 	getAccessRequest     *connect_go.Client[v1alpha1.GetAccessRequestRequest, v1alpha1.GetAccessRequestResponse]
-	revokeAccessRequest  *connect_go.Client[v1alpha1.RevokeAccessRequestRequest, v1alpha1.RevokeAccessRequestResponse]
 	approveAccessRequest *connect_go.Client[v1alpha1.ApproveAccessRequestRequest, v1alpha1.ApproveAccessRequestResponse]
 	closeAccessRequest   *connect_go.Client[v1alpha1.CloseAccessRequestRequest, v1alpha1.CloseAccessRequestResponse]
 }
@@ -124,11 +110,6 @@ func (c *accessRequestServiceClient) QueryAccessRequests(ctx context.Context, re
 // GetAccessRequest calls commonfate.access.v1alpha1.AccessRequestService.GetAccessRequest.
 func (c *accessRequestServiceClient) GetAccessRequest(ctx context.Context, req *connect_go.Request[v1alpha1.GetAccessRequestRequest]) (*connect_go.Response[v1alpha1.GetAccessRequestResponse], error) {
 	return c.getAccessRequest.CallUnary(ctx, req)
-}
-
-// RevokeAccessRequest calls commonfate.access.v1alpha1.AccessRequestService.RevokeAccessRequest.
-func (c *accessRequestServiceClient) RevokeAccessRequest(ctx context.Context, req *connect_go.Request[v1alpha1.RevokeAccessRequestRequest]) (*connect_go.Response[v1alpha1.RevokeAccessRequestResponse], error) {
-	return c.revokeAccessRequest.CallUnary(ctx, req)
 }
 
 // ApproveAccessRequest calls commonfate.access.v1alpha1.AccessRequestService.ApproveAccessRequest.
@@ -146,16 +127,11 @@ func (c *accessRequestServiceClient) CloseAccessRequest(ctx context.Context, req
 type AccessRequestServiceHandler interface {
 	QueryAccessRequests(context.Context, *connect_go.Request[v1alpha1.QueryAccessRequestsRequest]) (*connect_go.Response[v1alpha1.QueryAccessRequestsResponse], error)
 	GetAccessRequest(context.Context, *connect_go.Request[v1alpha1.GetAccessRequestRequest]) (*connect_go.Response[v1alpha1.GetAccessRequestResponse], error)
-	// Revoking an Access Request will make it no longer reviewable and will revoke any pending Grants.
-	RevokeAccessRequest(context.Context, *connect_go.Request[v1alpha1.RevokeAccessRequestRequest]) (*connect_go.Response[v1alpha1.RevokeAccessRequestResponse], error)
 	// Approving an Access Request will attempt to approve all of the Grants associated with the request.
 	//
 	// If the caller is not permitted to approve particular grants, warnings will be returned.
 	ApproveAccessRequest(context.Context, *connect_go.Request[v1alpha1.ApproveAccessRequestRequest]) (*connect_go.Response[v1alpha1.ApproveAccessRequestResponse], error)
-	// Closing an Access Request will make it no longer reviewable and will cancel any pending Grants.
-	//
-	// Closing an Access Request will not revoke any approved Grants.
-	// If any Grants have been approved, calling Revoke() will revoke the grants.
+	// Closing an Access Request will make it no longer reviewable and will deactivate any Grants associated with the request.
 	CloseAccessRequest(context.Context, *connect_go.Request[v1alpha1.CloseAccessRequestRequest]) (*connect_go.Response[v1alpha1.CloseAccessRequestResponse], error)
 }
 
@@ -175,11 +151,6 @@ func NewAccessRequestServiceHandler(svc AccessRequestServiceHandler, opts ...con
 		svc.GetAccessRequest,
 		opts...,
 	)
-	accessRequestServiceRevokeAccessRequestHandler := connect_go.NewUnaryHandler(
-		AccessRequestServiceRevokeAccessRequestProcedure,
-		svc.RevokeAccessRequest,
-		opts...,
-	)
 	accessRequestServiceApproveAccessRequestHandler := connect_go.NewUnaryHandler(
 		AccessRequestServiceApproveAccessRequestProcedure,
 		svc.ApproveAccessRequest,
@@ -196,8 +167,6 @@ func NewAccessRequestServiceHandler(svc AccessRequestServiceHandler, opts ...con
 			accessRequestServiceQueryAccessRequestsHandler.ServeHTTP(w, r)
 		case AccessRequestServiceGetAccessRequestProcedure:
 			accessRequestServiceGetAccessRequestHandler.ServeHTTP(w, r)
-		case AccessRequestServiceRevokeAccessRequestProcedure:
-			accessRequestServiceRevokeAccessRequestHandler.ServeHTTP(w, r)
 		case AccessRequestServiceApproveAccessRequestProcedure:
 			accessRequestServiceApproveAccessRequestHandler.ServeHTTP(w, r)
 		case AccessRequestServiceCloseAccessRequestProcedure:
@@ -217,10 +186,6 @@ func (UnimplementedAccessRequestServiceHandler) QueryAccessRequests(context.Cont
 
 func (UnimplementedAccessRequestServiceHandler) GetAccessRequest(context.Context, *connect_go.Request[v1alpha1.GetAccessRequestRequest]) (*connect_go.Response[v1alpha1.GetAccessRequestResponse], error) {
 	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("commonfate.access.v1alpha1.AccessRequestService.GetAccessRequest is not implemented"))
-}
-
-func (UnimplementedAccessRequestServiceHandler) RevokeAccessRequest(context.Context, *connect_go.Request[v1alpha1.RevokeAccessRequestRequest]) (*connect_go.Response[v1alpha1.RevokeAccessRequestResponse], error) {
-	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("commonfate.access.v1alpha1.AccessRequestService.RevokeAccessRequest is not implemented"))
 }
 
 func (UnimplementedAccessRequestServiceHandler) ApproveAccessRequest(context.Context, *connect_go.Request[v1alpha1.ApproveAccessRequestRequest]) (*connect_go.Response[v1alpha1.ApproveAccessRequestResponse], error) {

@@ -17,18 +17,12 @@ service AccessRequestService {
     rpc QueryAccessRequests(QueryAccessRequestsRequest) returns (QueryAccessRequestsResponse) {}
     rpc GetAccessRequest(GetAccessRequestRequest) returns (GetAccessRequestResponse) {}
 
-    // Revoking an Access Request will make it no longer reviewable and will revoke any pending Grants.
-    rpc RevokeAccessRequest(RevokeAccessRequestRequest) returns (RevokeAccessRequestResponse) {}
-
     // Approving an Access Request will attempt to approve all of the Grants associated with the request.
     //
     // If the caller is not permitted to approve particular grants, warnings will be returned.
     rpc ApproveAccessRequest(ApproveAccessRequestRequest) returns (ApproveAccessRequestResponse) {}
 
-    // Closing an Access Request will make it no longer reviewable and will cancel any pending Grants.
-    //
-    // Closing an Access Request will not revoke any approved Grants.
-    // If any Grants have been approved, calling Revoke() will revoke the grants.
+    // Closing an Access Request will make it no longer reviewable and will deactivate any Grants associated with the request.
     rpc CloseAccessRequest(CloseAccessRequestRequest) returns (CloseAccessRequestResponse) {}
 }
 
@@ -126,14 +120,11 @@ enum GrantAction {
   // The grant was closed.
   GRANT_ACTION_CLOSED = 4;
 
-  // The grant was revoked.
-  GRANT_ACTION_REVOKED = 5;
-
   // An error occurred.
-  GRANT_ACTION_ERROR = 6;
+  GRANT_ACTION_ERROR = 5;
 
   // Access was deprovisioned.
-  GRANT_ACTION_DEPROVISIONED = 7;
+  GRANT_ACTION_DEPROVISIONED = 6;
 }
 
 // User facing events relating to the Grant lifecycle, such as the Grant being approved and
