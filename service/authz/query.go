@@ -42,7 +42,7 @@ func (c *Client) Query(ctx context.Context, input QueryInput) (*authzv1alpha1.Qu
 	}
 
 	// update the attribute cache
-	for _, e := range res.Msg.Loaded {
+	for _, e := range res.Msg.Entities {
 		uid := UID{
 			Type: e.Entity.Uid.Type,
 			ID:   e.Entity.Uid.Id,

@@ -103,7 +103,7 @@ message LoadedEntity {
 
 
 message QueryResponse {
-    repeated LoadedEntity loaded = 1;
+    repeated LoadedEntity entities = 1;
     string next_page_token = 2;
 }
 
