@@ -60,13 +60,13 @@ service AuthzService {
     rpc ListPolicies(ListPoliciesRequest) returns (ListPoliciesResponse) {}
 
     // Query for entities matching filter conditions.
-    rpc FilterEntities(FilterEntitiesRequest) returns (FilterEntitiesResponse) {}
+    rpc Query(QueryRequest) returns (QueryResponse) {}
 
-    // Query for entity by UID.
+    // Get an entity by UID.
     rpc GetEntity(GetEntityRequest) returns (GetEntityResponse) {}
 
-    // Query for multiple entities by UID.
-    rpc BatchGetEntities(BatchGetEntitiesRequest) returns (BatchGetEntitiesResponse) {}
+    // Get multiple entities by UID.
+    rpc BatchGetEntity(BatchGetEntityRequest) returns (BatchGetEntityResponse) {}
 }
 
 message BatchDeleteEntityRequest {
@@ -77,7 +77,7 @@ message BatchDeleteEntityRequest {
 
 message BatchDeleteEntityResponse {}
 
-message FilterEntitiesRequest {
+message QueryRequest {
     string universe = 1;
 
     // Filter entities for a particular type
@@ -95,9 +95,15 @@ message FilterEntitiesRequest {
     string page_token = 5;
 }
 
+message LoadedEntity {
+    Entity entity = 1;
 
-message FilterEntitiesResponse {
-    repeated Entity entities = 1;
+    // eager-loaded related entities may appear as other fields in this message.
+}
+
+
+message QueryResponse {
+    repeated LoadedEntity loaded = 1;
     string next_page_token = 2;
 }
 
@@ -110,12 +116,12 @@ message GetEntityResponse {
     Entity entity = 1;
 }
 
-message BatchGetEntitiesRequest {
+message BatchGetEntityRequest {
     string universe = 1;
     repeated UID entities = 2;
 }
 
-message BatchGetEntitiesResponse {
+message BatchGetEntityResponse {
     repeated Entity entities = 1;
 }
 

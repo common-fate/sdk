@@ -8,7 +8,7 @@ import (
 	"github.com/patrickmn/go-cache"
 )
 
-type BatchGetEntitiesInput struct {
+type BatchGetEntityInput struct {
 	UIDs []UID
 	// UseCache will try and retrieve entities from
 	// the client cache if it's present.
@@ -17,8 +17,8 @@ type BatchGetEntitiesInput struct {
 	UseCache bool
 }
 
-func (c *Client) BatchGetEntities(ctx context.Context, input BatchGetEntitiesInput) (*authzv1alpha1.BatchGetEntitiesResponse, error) {
-	req := &authzv1alpha1.BatchGetEntitiesRequest{
+func (c *Client) BatchGetEntity(ctx context.Context, input BatchGetEntityInput) (*authzv1alpha1.BatchGetEntityResponse, error) {
+	req := &authzv1alpha1.BatchGetEntityRequest{
 		Universe: "default",
 	}
 
@@ -37,10 +37,10 @@ func (c *Client) BatchGetEntities(ctx context.Context, input BatchGetEntitiesInp
 		req.Entities = append(req.Entities, u.ToAPI())
 	}
 
-	output := &authzv1alpha1.BatchGetEntitiesResponse{}
+	output := &authzv1alpha1.BatchGetEntityResponse{}
 
 	if len(req.Entities) > 0 {
-		res, err := c.raw.BatchGetEntities(ctx, connect.NewRequest(req))
+		res, err := c.raw.BatchGetEntity(ctx, connect.NewRequest(req))
 		if err != nil {
 			return nil, err
 		}

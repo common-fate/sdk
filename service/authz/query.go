@@ -8,7 +8,7 @@ import (
 	"github.com/patrickmn/go-cache"
 )
 
-type FilterEntitiesInput struct {
+type QueryInput struct {
 	Type            string
 	DirectParents   []UID
 	AttributeEquals []Attribute
@@ -19,8 +19,8 @@ type Attribute interface {
 	ToAPI() *authzv1alpha1.Attribute
 }
 
-func (c *Client) FilterEntities(ctx context.Context, input FilterEntitiesInput) (*authzv1alpha1.FilterEntitiesResponse, error) {
-	req := &authzv1alpha1.FilterEntitiesRequest{
+func (c *Client) Query(ctx context.Context, input QueryInput) (*authzv1alpha1.QueryResponse, error) {
+	req := &authzv1alpha1.QueryRequest{
 		Universe:        "default",
 		Type:            input.Type,
 		DirectParents:   make([]*authzv1alpha1.UID, len(input.DirectParents)),
@@ -36,16 +36,16 @@ func (c *Client) FilterEntities(ctx context.Context, input FilterEntitiesInput) 
 		req.DirectParents[i] = p.ToAPI()
 	}
 
-	res, err := c.raw.FilterEntities(ctx, connect.NewRequest(req))
+	res, err := c.raw.Query(ctx, connect.NewRequest(req))
 	if err != nil {
 		return nil, err
 	}
 
 	// update the attribute cache
-	for _, e := range res.Msg.Entities {
+	for _, e := range res.Msg.Loaded {
 		uid := UID{
-			Type: e.Uid.Type,
-			ID:   e.Uid.Id,
+			Type: e.Entity.Uid.Type,
+			ID:   e.Entity.Uid.Id,
 		}
 
 		c.cache.Set(uid.String(), e, cache.DefaultExpiration)
@@ -54,8 +54,8 @@ func (c *Client) FilterEntities(ctx context.Context, input FilterEntitiesInput) 
 	return res.Msg, nil
 }
 
-type filterEntitiesRequestCall struct {
-	input  FilterEntitiesInput
+type queryRequestCall struct {
+	input  QueryInput
 	client *Client
 }
 
@@ -64,8 +64,8 @@ type filterEntitiesRequestCall struct {
 // I think a good API here will have the option to do a single API call or a Pages call
 // in the google API it would be filterEntitiesRequestCall.Do() to make a single request
 // they also use a chained builder pattern
-func (c *Client) FilterEntitiesRequest(input FilterEntitiesInput) *filterEntitiesRequestCall {
-	return &filterEntitiesRequestCall{
+func (c *Client) QueryRequest(input QueryInput) *queryRequestCall {
+	return &queryRequestCall{
 		input:  input,
 		client: c,
 	}
@@ -74,12 +74,12 @@ func (c *Client) FilterEntitiesRequest(input FilterEntitiesInput) *filterEntitie
 // Pages invokes f for each page of results.
 // A non-nil error returned from f will halt the iteration.
 // The provided context supersedes any context provided to the Context method.
-func (c *filterEntitiesRequestCall) Pages(ctx context.Context, f func(*authzv1alpha1.FilterEntitiesResponse) error) error {
+func (c *queryRequestCall) Pages(ctx context.Context, f func(*authzv1alpha1.QueryResponse) error) error {
 	// resets the input back to its original state
 	originalPageToken := c.input.PageToken
 	defer func() { c.input.PageToken = originalPageToken }()
 	for {
-		x, err := c.client.FilterEntities(ctx, c.input)
+		x, err := c.client.Query(ctx, c.input)
 		if err != nil {
 			return err
 		}
