@@ -113,8 +113,9 @@ message Grant {
 enum GrantAction {
   GRANT_ACTION_UNSPECIFIED = 0;
 
-  // Access was automatically approved.
-  GRANT_ACTION_AUTOMATICALLY_APPROVED = 1;
+  // Access was requested.
+  GRANT_ACTION_REQUESTED = 1;
+
 
   // Access was approved.
   GRANT_ACTION_APPROVED = 2;
