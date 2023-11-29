@@ -46,6 +46,10 @@ func (a *Batch) AddRequest(req authz.Request) Authorizer {
 }
 
 func (a *Batch) Authorize(ctx context.Context) error {
+	if a.executed {
+		return errors.New("Authorize() has already been called: create a new batchauthz.Batch rather than reusing the same one multiple times")
+	}
+
 	res, err := a.executor.BatchAuthorize(ctx, connect.NewRequest(a.request))
 	if err != nil {
 		return err
