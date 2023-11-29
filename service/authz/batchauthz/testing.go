@@ -34,11 +34,7 @@ func (a *MockBatch) Strict() *MockBatch {
 	return a
 }
 
-func (a *MockBatch) Allow(req authz.Request) *MockBatch {
-	a.Mock(req, Evaluation{Allowed: true})
-	return a
-}
-func (a *MockBatch) AllowActions(principal uid.UID, resource uid.UID, actions ...uid.UID) *MockBatch {
+func (a *MockBatch) Allow(principal uid.UID, resource uid.UID, actions ...uid.UID) *MockBatch {
 	for _, action := range actions {
 		req := authz.Request{
 			Principal: principal,
