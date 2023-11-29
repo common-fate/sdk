@@ -16,6 +16,7 @@ type MockBatch struct {
 	t           *testing.T
 	evaluations map[uid.UID]map[uid.UID]map[uid.UID]Evaluation
 	executed    bool
+	strict      bool
 }
 
 var _ Authorizer = &MockBatch{}
@@ -24,6 +25,14 @@ func NewMock(t *testing.T) *MockBatch {
 	return &MockBatch{
 		evaluations: map[uid.UID]map[uid.UID]map[uid.UID]Evaluation{},
 	}
+}
+
+// Strict enables strict evaluation for the mock authorizer.
+// In strict evaluation mode, any requests that have not been mocked
+// will cause the test to fail
+func (a *MockBatch) Strict() *MockBatch {
+	a.strict = true
+	return a
 }
 
 // Mock a particular request to return the specified evaluation
@@ -71,18 +80,30 @@ func (a *MockBatch) IsPermitted(req authz.Request) (Evaluation, error) {
 	// Check if the principal exists in the evaluations map
 	principalMap, principalExists := a.evaluations[req.Principal]
 	if !principalExists {
+		if !a.strict {
+			return Evaluation{Allowed: false}, nil
+		}
+
 		return Evaluation{}, fmt.Errorf("principal %s not found in evaluations", req.Principal)
 	}
 
 	// Check if the resource map exists for the principal
 	resourceMap, resourceExists := principalMap[req.Resource]
 	if !resourceExists {
+		if !a.strict {
+			return Evaluation{Allowed: false}, nil
+		}
+
 		return Evaluation{}, fmt.Errorf("resource %s not found for the principal %s", req.Resource, req.Principal)
 	}
 
 	// Get the evaluation for the specified action
 	eval, evalExists := resourceMap[req.Action]
 	if !evalExists {
+		if !a.strict {
+			return Evaluation{Allowed: false}, nil
+		}
+
 		return Evaluation{}, fmt.Errorf("evaluation not found for the specified action %s on resource %s for principal %s", req.Action, req.Resource, req.Principal)
 	}
 
