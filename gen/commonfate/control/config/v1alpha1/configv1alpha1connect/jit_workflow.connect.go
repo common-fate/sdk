@@ -36,9 +36,9 @@ const (
 	// JITWorkflowServiceCreateJITWorkflowProcedure is the fully-qualified name of the
 	// JITWorkflowService's CreateJITWorkflow RPC.
 	JITWorkflowServiceCreateJITWorkflowProcedure = "/commonfate.control.config.v1alpha1.JITWorkflowService/CreateJITWorkflow"
-	// JITWorkflowServiceGetJITWorkflowProcedure is the fully-qualified name of the JITWorkflowService's
-	// GetJITWorkflow RPC.
-	JITWorkflowServiceGetJITWorkflowProcedure = "/commonfate.control.config.v1alpha1.JITWorkflowService/GetJITWorkflow"
+	// JITWorkflowServiceReadJITWorkflowProcedure is the fully-qualified name of the
+	// JITWorkflowService's ReadJITWorkflow RPC.
+	JITWorkflowServiceReadJITWorkflowProcedure = "/commonfate.control.config.v1alpha1.JITWorkflowService/ReadJITWorkflow"
 	// JITWorkflowServiceUpdateJITWorkflowProcedure is the fully-qualified name of the
 	// JITWorkflowService's UpdateJITWorkflow RPC.
 	JITWorkflowServiceUpdateJITWorkflowProcedure = "/commonfate.control.config.v1alpha1.JITWorkflowService/UpdateJITWorkflow"
@@ -51,7 +51,7 @@ const (
 // commonfate.control.config.v1alpha1.JITWorkflowService service.
 type JITWorkflowServiceClient interface {
 	CreateJITWorkflow(context.Context, *connect_go.Request[v1alpha1.CreateJITWorkflowRequest]) (*connect_go.Response[v1alpha1.CreateJITWorkflowResponse], error)
-	GetJITWorkflow(context.Context, *connect_go.Request[v1alpha1.GetJITWorkflowRequest]) (*connect_go.Response[v1alpha1.GetJITWorkflowResponse], error)
+	ReadJITWorkflow(context.Context, *connect_go.Request[v1alpha1.GetJITWorkflowRequest]) (*connect_go.Response[v1alpha1.GetJITWorkflowResponse], error)
 	UpdateJITWorkflow(context.Context, *connect_go.Request[v1alpha1.UpdateJITWorkflowRequest]) (*connect_go.Response[v1alpha1.UpdateJITWorkflowResponse], error)
 	DeleteJITWorkflow(context.Context, *connect_go.Request[v1alpha1.DeleteJITWorkflowRequest]) (*connect_go.Response[v1alpha1.DeleteJITWorkflowResponse], error)
 }
@@ -72,9 +72,9 @@ func NewJITWorkflowServiceClient(httpClient connect_go.HTTPClient, baseURL strin
 			baseURL+JITWorkflowServiceCreateJITWorkflowProcedure,
 			opts...,
 		),
-		getJITWorkflow: connect_go.NewClient[v1alpha1.GetJITWorkflowRequest, v1alpha1.GetJITWorkflowResponse](
+		readJITWorkflow: connect_go.NewClient[v1alpha1.GetJITWorkflowRequest, v1alpha1.GetJITWorkflowResponse](
 			httpClient,
-			baseURL+JITWorkflowServiceGetJITWorkflowProcedure,
+			baseURL+JITWorkflowServiceReadJITWorkflowProcedure,
 			opts...,
 		),
 		updateJITWorkflow: connect_go.NewClient[v1alpha1.UpdateJITWorkflowRequest, v1alpha1.UpdateJITWorkflowResponse](
@@ -93,7 +93,7 @@ func NewJITWorkflowServiceClient(httpClient connect_go.HTTPClient, baseURL strin
 // jITWorkflowServiceClient implements JITWorkflowServiceClient.
 type jITWorkflowServiceClient struct {
 	createJITWorkflow *connect_go.Client[v1alpha1.CreateJITWorkflowRequest, v1alpha1.CreateJITWorkflowResponse]
-	getJITWorkflow    *connect_go.Client[v1alpha1.GetJITWorkflowRequest, v1alpha1.GetJITWorkflowResponse]
+	readJITWorkflow   *connect_go.Client[v1alpha1.GetJITWorkflowRequest, v1alpha1.GetJITWorkflowResponse]
 	updateJITWorkflow *connect_go.Client[v1alpha1.UpdateJITWorkflowRequest, v1alpha1.UpdateJITWorkflowResponse]
 	deleteJITWorkflow *connect_go.Client[v1alpha1.DeleteJITWorkflowRequest, v1alpha1.DeleteJITWorkflowResponse]
 }
@@ -103,9 +103,9 @@ func (c *jITWorkflowServiceClient) CreateJITWorkflow(ctx context.Context, req *c
 	return c.createJITWorkflow.CallUnary(ctx, req)
 }
 
-// GetJITWorkflow calls commonfate.control.config.v1alpha1.JITWorkflowService.GetJITWorkflow.
-func (c *jITWorkflowServiceClient) GetJITWorkflow(ctx context.Context, req *connect_go.Request[v1alpha1.GetJITWorkflowRequest]) (*connect_go.Response[v1alpha1.GetJITWorkflowResponse], error) {
-	return c.getJITWorkflow.CallUnary(ctx, req)
+// ReadJITWorkflow calls commonfate.control.config.v1alpha1.JITWorkflowService.ReadJITWorkflow.
+func (c *jITWorkflowServiceClient) ReadJITWorkflow(ctx context.Context, req *connect_go.Request[v1alpha1.GetJITWorkflowRequest]) (*connect_go.Response[v1alpha1.GetJITWorkflowResponse], error) {
+	return c.readJITWorkflow.CallUnary(ctx, req)
 }
 
 // UpdateJITWorkflow calls commonfate.control.config.v1alpha1.JITWorkflowService.UpdateJITWorkflow.
@@ -122,7 +122,7 @@ func (c *jITWorkflowServiceClient) DeleteJITWorkflow(ctx context.Context, req *c
 // commonfate.control.config.v1alpha1.JITWorkflowService service.
 type JITWorkflowServiceHandler interface {
 	CreateJITWorkflow(context.Context, *connect_go.Request[v1alpha1.CreateJITWorkflowRequest]) (*connect_go.Response[v1alpha1.CreateJITWorkflowResponse], error)
-	GetJITWorkflow(context.Context, *connect_go.Request[v1alpha1.GetJITWorkflowRequest]) (*connect_go.Response[v1alpha1.GetJITWorkflowResponse], error)
+	ReadJITWorkflow(context.Context, *connect_go.Request[v1alpha1.GetJITWorkflowRequest]) (*connect_go.Response[v1alpha1.GetJITWorkflowResponse], error)
 	UpdateJITWorkflow(context.Context, *connect_go.Request[v1alpha1.UpdateJITWorkflowRequest]) (*connect_go.Response[v1alpha1.UpdateJITWorkflowResponse], error)
 	DeleteJITWorkflow(context.Context, *connect_go.Request[v1alpha1.DeleteJITWorkflowRequest]) (*connect_go.Response[v1alpha1.DeleteJITWorkflowResponse], error)
 }
@@ -138,9 +138,9 @@ func NewJITWorkflowServiceHandler(svc JITWorkflowServiceHandler, opts ...connect
 		svc.CreateJITWorkflow,
 		opts...,
 	)
-	jITWorkflowServiceGetJITWorkflowHandler := connect_go.NewUnaryHandler(
-		JITWorkflowServiceGetJITWorkflowProcedure,
-		svc.GetJITWorkflow,
+	jITWorkflowServiceReadJITWorkflowHandler := connect_go.NewUnaryHandler(
+		JITWorkflowServiceReadJITWorkflowProcedure,
+		svc.ReadJITWorkflow,
 		opts...,
 	)
 	jITWorkflowServiceUpdateJITWorkflowHandler := connect_go.NewUnaryHandler(
@@ -157,8 +157,8 @@ func NewJITWorkflowServiceHandler(svc JITWorkflowServiceHandler, opts ...connect
 		switch r.URL.Path {
 		case JITWorkflowServiceCreateJITWorkflowProcedure:
 			jITWorkflowServiceCreateJITWorkflowHandler.ServeHTTP(w, r)
-		case JITWorkflowServiceGetJITWorkflowProcedure:
-			jITWorkflowServiceGetJITWorkflowHandler.ServeHTTP(w, r)
+		case JITWorkflowServiceReadJITWorkflowProcedure:
+			jITWorkflowServiceReadJITWorkflowHandler.ServeHTTP(w, r)
 		case JITWorkflowServiceUpdateJITWorkflowProcedure:
 			jITWorkflowServiceUpdateJITWorkflowHandler.ServeHTTP(w, r)
 		case JITWorkflowServiceDeleteJITWorkflowProcedure:
@@ -176,8 +176,8 @@ func (UnimplementedJITWorkflowServiceHandler) CreateJITWorkflow(context.Context,
 	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("commonfate.control.config.v1alpha1.JITWorkflowService.CreateJITWorkflow is not implemented"))
 }
 
-func (UnimplementedJITWorkflowServiceHandler) GetJITWorkflow(context.Context, *connect_go.Request[v1alpha1.GetJITWorkflowRequest]) (*connect_go.Response[v1alpha1.GetJITWorkflowResponse], error) {
-	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("commonfate.control.config.v1alpha1.JITWorkflowService.GetJITWorkflow is not implemented"))
+func (UnimplementedJITWorkflowServiceHandler) ReadJITWorkflow(context.Context, *connect_go.Request[v1alpha1.GetJITWorkflowRequest]) (*connect_go.Response[v1alpha1.GetJITWorkflowResponse], error) {
+	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("commonfate.control.config.v1alpha1.JITWorkflowService.ReadJITWorkflow is not implemented"))
 }
 
 func (UnimplementedJITWorkflowServiceHandler) UpdateJITWorkflow(context.Context, *connect_go.Request[v1alpha1.UpdateJITWorkflowRequest]) (*connect_go.Response[v1alpha1.UpdateJITWorkflowResponse], error) {

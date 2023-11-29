@@ -1,0 +1,59 @@
+syntax = "proto3";
+package commonfate.control.config.v1alpha1;
+
+
+
+service PolicyService {
+    rpc CreatePolicy(CreatePolicyRequest) returns (CreatePolicyResponse) {}
+    rpc ReadPolicy(ReadPolicyRequest) returns (ReadPolicyResponse) {}
+    rpc UpdatePolicy(UpdatePolicyRequest) returns (UpdatePolicyResponse) {}
+    rpc DeletePolicy(DeletePolicyRequest) returns (DeletePolicyResponse) {}
+}
+
+
+message CreatePolicyRequest {
+    string id = 1;
+    string cedar_policy = 2;
+    string name = 3;
+}
+
+message CreatePolicyResponse {
+    string id = 1;
+    string cedar_policy = 2;
+    string name = 3;
+}
+
+
+message ReadPolicyRequest {
+    string id = 1;
+}
+
+message ReadPolicyResponse {
+    string id = 1;
+    string cedar_policy = 2;
+    string name = 3;
+
+}
+
+message UpdatePolicyRequest {
+    string id = 1;
+    string cedar_policy = 2;
+    string name = 3;
+
+}
+
+message UpdatePolicyResponse {
+    string id = 1;
+    string cedar_policy = 2;
+    string name = 3;
+
+}
+
+
+message DeletePolicyRequest {
+    string id = 1;
+}
+
+message DeletePolicyResponse {
+    string id = 1;
+}

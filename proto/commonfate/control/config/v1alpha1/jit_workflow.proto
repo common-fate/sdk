@@ -6,7 +6,7 @@ import "google/protobuf/duration.proto";
 
 service JITWorkflowService {
     rpc CreateJITWorkflow(CreateJITWorkflowRequest) returns (CreateJITWorkflowResponse) {}
-    rpc GetJITWorkflow(GetJITWorkflowRequest) returns (GetJITWorkflowResponse) {}
+    rpc ReadJITWorkflow(GetJITWorkflowRequest) returns (GetJITWorkflowResponse) {}
     rpc UpdateJITWorkflow(UpdateJITWorkflowRequest) returns (UpdateJITWorkflowResponse) {}
     rpc DeleteJITWorkflow(DeleteJITWorkflowRequest) returns (DeleteJITWorkflowResponse) {}
 }
