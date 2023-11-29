@@ -30,34 +30,9 @@ message QueryAuditLogsResponse {
   string next_page_token = 2;
 }
 
-enum AuditAction {
-    GRANT_ACTION_UNSPECIFIED = 0;
-
-    // Access was requested.
-    AUDIT_ACTION_ACCESS_REQUESTED = 1;
-
-    // Access was approved.
-    AUDIT_ACTION_ACCESS_APPROVED = 2;
-
-    // Access was provisioned.
-    GRANT_ACTION_ACCESS_PROVISIONED = 3;
-
-    // The grant was cancelled before it was activated
-    GRANT_ACTION_ACCESS_CANCELLED = 4;
-
-    // The grant was revoked while it was active.
-    GRANT_ACTION_ACCESS_REVOKED = 5;
-
-    // An error occurred.
-    GRANT_ACTION_ERROR = 6;
-
-    // Access was deprovisioned.
-    GRANT_ACTION_DEPROVISIONED = 7;
-}
-  
 message AuditLog {
     // the action which occurred
-    AuditAction action = 1;
+    string action = 1;
 
     // the actor which performed the action.
     User actor = 2;
