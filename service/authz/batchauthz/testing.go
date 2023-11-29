@@ -2,7 +2,6 @@ package batchauthz
 
 import (
 	"context"
-	"errors"
 	"fmt"
 	"testing"
 
@@ -89,11 +88,11 @@ func (a *MockBatch) Execute(ctx context.Context, executor Executor) error {
 	return nil
 }
 
-func (a *MockBatch) IsPermitted(req authz.Request) (Evaluation, error) {
-	if !a.executed {
-		return Evaluation{}, errors.New("you must call Execute() to call the authz service before calling IsPermitted()")
-	}
+func (a *MockBatch) WasExecuted() bool {
+	return a.executed
+}
 
+func (a *MockBatch) IsPermitted(req authz.Request) (Evaluation, error) {
 	// Check if the principal exists in the evaluations map
 	principalMap, principalExists := a.evaluations[req.Principal]
 	if !principalExists {
