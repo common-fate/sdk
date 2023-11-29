@@ -31,21 +31,24 @@ message QueryAuditLogsResponse {
 }
 
 message AuditLog {
+    // an ID of the audit log event
+    string id = 1;
+
     // the action which occurred
-    string action = 1;
+    string action = 2;
 
     // the actor which performed the action.
-    User actor = 2;
+    User actor = 3;
 
     // the timestamp the action occurred at.
-    google.protobuf.Timestamp occurred_at = 3;
+    google.protobuf.Timestamp occurred_at = 4;
 
     // resources affected by the action.
-    repeated commonfate.authz.v1alpha1.UID targets = 4;
+    repeated commonfate.authz.v1alpha1.UID targets = 5;
 
     // a human-friendly message describing the action.
-    string message = 5;
+    string message = 6;
 
     // additional context
-    google.protobuf.Struct context = 6;
+    google.protobuf.Struct context = 7;
 }
