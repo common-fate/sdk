@@ -7,6 +7,7 @@ import (
 	"github.com/bufbuild/connect-go"
 	authzv1alpha1 "github.com/common-fate/sdk/gen/commonfate/authz/v1alpha1"
 	"github.com/common-fate/sdk/service/authz"
+	"github.com/common-fate/sdk/service/authz/uid"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -25,7 +26,7 @@ func TestBatch_Execute(t *testing.T) {
 		name            string
 		executor        mockExecutor
 		wantExecuted    bool
-		wantEvaluations map[authz.UID]map[authz.UID]map[authz.UID]*authzv1alpha1.Evaluation
+		wantEvaluations map[uid.UID]map[uid.UID]map[uid.UID]*authzv1alpha1.Evaluation
 		wantErr         bool
 	}{
 		{
@@ -54,7 +55,7 @@ func TestBatch_Execute(t *testing.T) {
 				},
 			},
 			wantExecuted: true,
-			wantEvaluations: map[authz.UID]map[authz.UID]map[authz.UID]*authzv1alpha1.Evaluation{
+			wantEvaluations: map[uid.UID]map[uid.UID]map[uid.UID]*authzv1alpha1.Evaluation{
 				{Type: "User", ID: "test"}: {
 					{Type: "Resource", ID: "bar"}: {
 						{Type: "Action", ID: "foo"}: {
@@ -101,7 +102,7 @@ func TestBatch_IsPermitted(t *testing.T) {
 	tests := []struct {
 		name     string
 		executor mockExecutor
-		give     Request
+		give     authz.Request
 		wantEval Evaluation
 	}{
 		{
@@ -148,16 +149,16 @@ func TestBatch_IsPermitted(t *testing.T) {
 				Annotations: testAnno,
 				Errors:      []string{"error1"},
 			},
-			give: Request{
-				Principal: authz.UID{
+			give: authz.Request{
+				Principal: uid.UID{
 					Type: "User",
 					ID:   "test",
 				},
-				Action: authz.UID{
+				Action: uid.UID{
 					Type: "Action",
 					ID:   "foo",
 				},
-				Resource: authz.UID{
+				Resource: uid.UID{
 					Type: "Resource",
 					ID:   "bar",
 				},

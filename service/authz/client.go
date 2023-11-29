@@ -10,6 +10,7 @@ import (
 	"github.com/bufbuild/connect-go"
 	authzv1alpha1 "github.com/common-fate/sdk/gen/commonfate/authz/v1alpha1"
 	"github.com/common-fate/sdk/gen/commonfate/authz/v1alpha1/authzv1alpha1connect"
+	"github.com/common-fate/sdk/service/authz/uid"
 	"github.com/fatih/structtag"
 	"github.com/patrickmn/go-cache"
 )
@@ -61,7 +62,7 @@ type Entity interface {
 
 // Implementing the parent interface allows an entity to provide parents based on its attributes.
 type Parenter interface {
-	Parents() []UID
+	Parents() []uid.UID
 }
 
 func transformToEntity(e Entity) (*authzv1alpha1.Entity, error) {
@@ -179,7 +180,7 @@ func extractAttr(val reflect.Value) (*authzv1alpha1.Value, error) {
 	switch val.Kind() {
 	case reflect.Struct:
 		// try and parse as an entity reference
-		uid, ok := val.Interface().(UID)
+		uid, ok := val.Interface().(uid.UID)
 		if ok {
 			return &authzv1alpha1.Value{
 				Value: &authzv1alpha1.Value_Entity{
@@ -439,18 +440,18 @@ func unmarshalSetValue(setValue *authzv1alpha1.Value, field reflect.Value) error
 
 	switch val := setValue.Value.(type) {
 	case *authzv1alpha1.Value_Entity:
-		_, ok := field.Interface().(UID)
+		_, ok := field.Interface().(uid.UID)
 		if ok {
-			field.Set(reflect.ValueOf(UID{
+			field.Set(reflect.ValueOf(uid.UID{
 				Type: val.Entity.Type,
 				ID:   val.Entity.Id,
 			}))
 			return nil
 		}
 
-		_, ok = field.Interface().(*UID)
+		_, ok = field.Interface().(*uid.UID)
 		if ok {
-			field.Set(reflect.ValueOf(&UID{
+			field.Set(reflect.ValueOf(&uid.UID{
 				Type: val.Entity.Type,
 				ID:   val.Entity.Id,
 			}))

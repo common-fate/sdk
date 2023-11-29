@@ -6,15 +6,16 @@ import (
 
 	"github.com/bufbuild/connect-go"
 	authzv1alpha1 "github.com/common-fate/sdk/gen/commonfate/authz/v1alpha1"
+	"github.com/common-fate/sdk/service/authz/uid"
 	"github.com/pkg/errors"
 )
 
 // EntityJSON is a JSON representation of entities.
 // It matches the Cedar Rust SDK JSON format.
 type EntityJSON struct {
-	UID     UID            `json:"uid"`
+	UID     uid.UID        `json:"uid"`
 	Attrs   map[string]any `json:"attrs"`
-	Parents []UID          `json:"parents"`
+	Parents []uid.UID      `json:"parents"`
 }
 
 type BatchPutEntityJSONInput struct {

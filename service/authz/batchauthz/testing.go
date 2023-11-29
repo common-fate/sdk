@@ -7,13 +7,14 @@ import (
 	"testing"
 
 	"github.com/common-fate/sdk/service/authz"
+	"github.com/common-fate/sdk/service/authz/uid"
 )
 
 // MockBatch is a mock batch authorizer which implements the
 // same methods, used for testing
 type MockBatch struct {
 	t           *testing.T
-	evaluations map[authz.UID]map[authz.UID]map[authz.UID]Evaluation
+	evaluations map[uid.UID]map[uid.UID]map[uid.UID]Evaluation
 	executed    bool
 }
 
@@ -21,22 +22,22 @@ var _ Authorizer = &MockBatch{}
 
 func NewMock(t *testing.T) *MockBatch {
 	return &MockBatch{
-		evaluations: map[authz.UID]map[authz.UID]map[authz.UID]Evaluation{},
+		evaluations: map[uid.UID]map[uid.UID]map[uid.UID]Evaluation{},
 	}
 }
 
 // Mock a particular request to return the specified evaluation
-func (a *MockBatch) Mock(req Request, eval Evaluation) *MockBatch {
+func (a *MockBatch) Mock(req authz.Request, eval Evaluation) *MockBatch {
 	principalMap, ok := a.evaluations[req.Principal]
 	if !ok {
-		principalMap = make(map[authz.UID]map[authz.UID]Evaluation)
+		principalMap = make(map[uid.UID]map[uid.UID]Evaluation)
 		a.evaluations[req.Principal] = principalMap
 	}
 
 	// Check if the resource map exists for the principal
 	resourceMap, ok := principalMap[req.Resource]
 	if !ok {
-		resourceMap = make(map[authz.UID]Evaluation)
+		resourceMap = make(map[uid.UID]Evaluation)
 		principalMap[req.Resource] = resourceMap
 	}
 
@@ -53,7 +54,7 @@ func (a *MockBatch) Mock(req Request, eval Evaluation) *MockBatch {
 	return a
 }
 
-func (a *MockBatch) AddRequest(req Request) Authorizer {
+func (a *MockBatch) AddRequest(req authz.Request) Authorizer {
 	return a
 }
 
@@ -62,7 +63,7 @@ func (a *MockBatch) Execute(ctx context.Context, executor Executor) error {
 	return nil
 }
 
-func (a *MockBatch) IsPermitted(req Request) (Evaluation, error) {
+func (a *MockBatch) IsPermitted(req authz.Request) (Evaluation, error) {
 	if !a.executed {
 		return Evaluation{}, errors.New("you must call Execute() to call the authz service before calling IsPermitted()")
 	}

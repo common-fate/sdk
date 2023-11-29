@@ -1,4 +1,4 @@
-package authz
+package uid
 
 import (
 	"fmt"
@@ -25,6 +25,11 @@ type UID struct {
 	ID string `json:"id"`
 }
 
+// New creates a UID from a provided entity type and ID.
+func New(entityType string, id string) UID {
+	return UID{Type: entityType, ID: id}
+}
+
 func (u UID) ToAPI() *authzv1alpha1.UID {
 	return &authzv1alpha1.UID{
 		Type: u.Type,
@@ -36,7 +41,7 @@ func (u UID) String() string {
 	return fmt.Sprintf(`%s::"%s"`, u.Type, u.ID)
 }
 
-func UIDFromAPI(uid *authzv1alpha1.UID) UID {
+func FromAPI(uid *authzv1alpha1.UID) UID {
 	if uid == nil {
 		return UID{}
 	}
@@ -51,7 +56,7 @@ func (u UID) Equals(other UID) bool {
 	return u.Type == other.Type && u.ID == other.ID
 }
 
-// ParseUID extracts a UID from the input string.
+// Parse extracts a UID from the input string.
 // Unlike Cedar policies, we accept UIDs without mandatory double quotes
 // around the ID component.
 //
@@ -64,7 +69,7 @@ func (u UID) Equals(other UID) bool {
 //
 // If the ID component of the UID contains any whitespace it must be
 // enclosed in double quotes.
-func ParseUID(input string) (UID, error) {
+func Parse(input string) (UID, error) {
 	parts := strings.Split(input, "::")
 
 	// Check if there are at least two parts (type and ID)

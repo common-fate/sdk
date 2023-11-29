@@ -8,6 +8,7 @@ import (
 	"github.com/bufbuild/connect-go"
 	authzv1alpha1 "github.com/common-fate/sdk/gen/commonfate/authz/v1alpha1"
 	"github.com/common-fate/sdk/service/authz"
+	"github.com/common-fate/sdk/service/authz/uid"
 )
 
 // Batch is a batch authorization request.
@@ -17,7 +18,7 @@ import (
 type Batch struct {
 	request *authzv1alpha1.BatchAuthorizeRequest
 	// evaluations is a map of principal -> resource -> action -> Evaluation
-	evaluations map[authz.UID]map[authz.UID]map[authz.UID]*authzv1alpha1.Evaluation
+	evaluations map[uid.UID]map[uid.UID]map[uid.UID]*authzv1alpha1.Evaluation
 	executed    bool
 }
 
@@ -29,17 +30,11 @@ func New() *Batch {
 			Universe:    "default",
 			Environment: "production",
 		},
-		evaluations: map[authz.UID]map[authz.UID]map[authz.UID]*authzv1alpha1.Evaluation{},
+		evaluations: map[uid.UID]map[uid.UID]map[uid.UID]*authzv1alpha1.Evaluation{},
 	}
 }
 
-type Request struct {
-	Principal authz.UID
-	Resource  authz.UID
-	Action    authz.UID
-}
-
-func (a *Batch) AddRequest(req Request) Authorizer {
+func (a *Batch) AddRequest(req authz.Request) Authorizer {
 	a.request.Requests = append(a.request.Requests, &authzv1alpha1.Request{
 		Principal: req.Principal.ToAPI(),
 		Action:    req.Action.ToAPI(),
@@ -55,21 +50,21 @@ func (a *Batch) Execute(ctx context.Context, executor Executor) error {
 	}
 
 	for _, eval := range res.Msg.Evaluations {
-		principal := authz.UIDFromAPI(eval.Request.Principal)
-		action := authz.UIDFromAPI(eval.Request.Action)
-		resource := authz.UIDFromAPI(eval.Request.Resource)
+		principal := uid.FromAPI(eval.Request.Principal)
+		action := uid.FromAPI(eval.Request.Action)
+		resource := uid.FromAPI(eval.Request.Resource)
 
 		// Check if the principal exists in the evaluations map
 		principalMap, ok := a.evaluations[principal]
 		if !ok {
-			principalMap = make(map[authz.UID]map[authz.UID]*authzv1alpha1.Evaluation)
+			principalMap = make(map[uid.UID]map[uid.UID]*authzv1alpha1.Evaluation)
 			a.evaluations[principal] = principalMap
 		}
 
 		// Check if the resource map exists for the principal
 		resourceMap, ok := principalMap[resource]
 		if !ok {
-			resourceMap = make(map[authz.UID]*authzv1alpha1.Evaluation)
+			resourceMap = make(map[uid.UID]*authzv1alpha1.Evaluation)
 			principalMap[resource] = resourceMap
 		}
 
@@ -145,7 +140,7 @@ func (a Annotations) GetValues(key string) []string {
 	return res
 }
 
-func (a *Batch) IsPermitted(req Request) (Evaluation, error) {
+func (a *Batch) IsPermitted(req authz.Request) (Evaluation, error) {
 	if !a.executed {
 		return Evaluation{}, errors.New("you must call Execute() to call the authz service before calling IsPermitted()")
 	}

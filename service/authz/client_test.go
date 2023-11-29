@@ -6,6 +6,7 @@ import (
 	"time"
 
 	authzv1alpha1 "github.com/common-fate/sdk/gen/commonfate/authz/v1alpha1"
+	"github.com/common-fate/sdk/service/authz/uid"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -49,8 +50,8 @@ type testAccessRequest struct {
 func (testAccessRequest) EntityType() string { return "AccessRequest" }
 
 type testEntitlement struct {
-	ID     string `authz:"id"`
-	Target UID    `authz:"target"`
+	ID     string  `authz:"id"`
+	Target uid.UID `authz:"target"`
 }
 
 func (testEntitlement) EntityType() string { return "Entitlement" }
@@ -64,8 +65,8 @@ type testEntityWithSet struct {
 func (testEntityWithSet) EntityType() string { return "WithSet" }
 
 type testEntityWithSetOfReferences struct {
-	ID   string `authz:"id"`
-	Refs []UID  `authz:"refs"`
+	ID   string    `authz:"id"`
+	Refs []uid.UID `authz:"refs"`
 }
 
 func (testEntityWithSetOfReferences) EntityType() string { return "WithSetOfReferences" }
@@ -83,8 +84,8 @@ type testEntityWithRecord struct {
 func (testEntityWithRecord) EntityType() string { return "WithRecord" }
 
 type entityRefs struct {
-	Foo UID `authz:"foo"`
-	Bar UID `authz:"bar"`
+	Foo uid.UID `authz:"foo"`
+	Bar uid.UID `authz:"bar"`
 }
 
 type testEntityWithRecordOfRefs struct {
@@ -108,18 +109,18 @@ type testEntityWithRecordOfSets struct {
 func (testEntityWithRecordOfSets) EntityType() string { return "WithRecordOfSets" }
 
 type testEntityWithParentsMethod struct {
-	ID     string `authz:"id"`
-	Target UID    `authz:"target"`
-	Other  UID    `authz:"other"`
+	ID     string  `authz:"id"`
+	Target uid.UID `authz:"target"`
+	Other  uid.UID `authz:"other"`
 }
 
-func (testEntityWithParentsMethod) EntityType() string { return "WithParentsMethod" }
-func (e testEntityWithParentsMethod) Parents() []UID   { return []UID{e.Other, e.Target} }
+func (testEntityWithParentsMethod) EntityType() string   { return "WithParentsMethod" }
+func (e testEntityWithParentsMethod) Parents() []uid.UID { return []uid.UID{e.Other, e.Target} }
 
 type testEntityWithOptionalField struct {
 	ID       string         `authz:"id"`
 	Foo      *string        `authz:"foo"`
-	Bar      *UID           `authz:"bar"`
+	Bar      *uid.UID       `authz:"bar"`
 	Long     *int           `authz:"long"`
 	Time     *time.Time     `authz:"time"`
 	Duration *time.Duration `authz:"duration"`
@@ -318,7 +319,7 @@ func Test_transformToEntity(t *testing.T) {
 			args: args{
 				e: testEntitlement{
 					ID: "123",
-					Target: UID{
+					Target: uid.UID{
 						Type: "Vault",
 						ID:   "test",
 					},
@@ -350,11 +351,11 @@ func Test_transformToEntity(t *testing.T) {
 			args: args{
 				e: testEntityWithParentsMethod{
 					ID: "test",
-					Target: UID{
+					Target: uid.UID{
 						Type: "Foo",
 						ID:   "1",
 					},
-					Other: UID{
+					Other: uid.UID{
 						Type: "Bar",
 						ID:   "2",
 					},
@@ -541,7 +542,7 @@ func TestUnmarshalEntity_roundtrip(t *testing.T) {
 			name: "entity reference as a field",
 			in: &testEntitlement{
 				ID: "123",
-				Target: UID{
+				Target: uid.UID{
 					Type: "Vault",
 					ID:   "test",
 				},
@@ -561,7 +562,7 @@ func TestUnmarshalEntity_roundtrip(t *testing.T) {
 			name: "entity with set of entity references",
 			in: &testEntityWithSetOfReferences{
 				ID: "123",
-				Refs: []UID{
+				Refs: []uid.UID{
 					{
 						Type: "Something",
 						ID:   "1",
@@ -590,11 +591,11 @@ func TestUnmarshalEntity_roundtrip(t *testing.T) {
 			in: &testEntityWithRecordOfRefs{
 				ID: "123",
 				Refs: entityRefs{
-					Foo: UID{
+					Foo: uid.UID{
 						Type: "Something",
 						ID:   "1",
 					},
-					Bar: UID{
+					Bar: uid.UID{
 						Type: "Other",
 						ID:   "2",
 					},
@@ -622,7 +623,7 @@ func TestUnmarshalEntity_roundtrip(t *testing.T) {
 			in: &testEntityWithOptionalField{
 				ID:  "123",
 				Foo: &exampleString,
-				Bar: &UID{
+				Bar: &uid.UID{
 					Type: "Something",
 					ID:   "1",
 				},

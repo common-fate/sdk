@@ -7,6 +7,7 @@ import (
 
 	"github.com/common-fate/apikit/logger"
 	authzv1alpha1 "github.com/common-fate/sdk/gen/commonfate/authz/v1alpha1"
+	"github.com/common-fate/sdk/service/authz/uid"
 	"github.com/patrickmn/go-cache"
 	"go.uber.org/zap"
 )
@@ -26,7 +27,7 @@ func (c *Client) AttrCache() *AttrCache {
 // If the attribute does not exist for an entity or there is an error, an empty string is returned
 //
 // An error is logged if there was an issue reaching the Authz service.
-func (c *AttrCache) String(ctx context.Context, uid UID, attr string) string {
+func (c *AttrCache) String(ctx context.Context, uid uid.UID, attr string) string {
 	log := logger.Get(ctx).Named("namecache").With("uid", uid, "attr", attr)
 
 	cached, ok := c.client.cache.Get(uid.String())

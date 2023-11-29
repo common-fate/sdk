@@ -4,6 +4,7 @@ import (
 	"testing"
 
 	authzv1alpha1 "github.com/common-fate/sdk/gen/commonfate/authz/v1alpha1"
+	"github.com/common-fate/sdk/service/authz/uid"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -17,7 +18,7 @@ func Test_transformJSONToEntity(t *testing.T) {
 		{
 			name: "ok",
 			give: EntityJSON{
-				UID: UID{
+				UID: uid.UID{
 					Type: "User",
 					ID:   "test",
 				},
@@ -55,7 +56,7 @@ func Test_transformJSONToEntity(t *testing.T) {
 		{
 			name: "with set of entity refs",
 			give: EntityJSON{
-				UID: UID{
+				UID: uid.UID{
 					Type: "User",
 					ID:   "test",
 				},

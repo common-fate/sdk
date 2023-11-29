@@ -5,22 +5,23 @@ import (
 	"testing"
 
 	"github.com/common-fate/sdk/service/authz"
+	"github.com/common-fate/sdk/service/authz/uid"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestMockBatchWorks(t *testing.T) {
 	a := NewMock(t)
 
-	req := Request{
-		Principal: authz.UID{
+	req := authz.Request{
+		Principal: uid.UID{
 			Type: "User",
 			ID:   "test",
 		},
-		Resource: authz.UID{
+		Resource: uid.UID{
 			Type: "Resource",
 			ID:   "foo",
 		},
-		Action: authz.UID{
+		Action: uid.UID{
 			Type: "Action",
 			ID:   "bar",
 		},

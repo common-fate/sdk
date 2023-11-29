@@ -5,10 +5,11 @@ import (
 
 	"github.com/bufbuild/connect-go"
 	authzv1alpha1 "github.com/common-fate/sdk/gen/commonfate/authz/v1alpha1"
+	"github.com/common-fate/sdk/service/authz/uid"
 )
 
 // removes entities from the authorization service.
-func (c *Client) BatchDeleteEntity(ctx context.Context, uids ...UID) (*authzv1alpha1.BatchDeleteEntityResponse, error) {
+func (c *Client) BatchDeleteEntity(ctx context.Context, uids ...uid.UID) (*authzv1alpha1.BatchDeleteEntityResponse, error) {
 	apiUIDs := make([]*authzv1alpha1.UID, len(uids))
 
 	for i, uid := range uids {

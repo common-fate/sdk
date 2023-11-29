@@ -5,12 +5,13 @@ import (
 
 	"github.com/bufbuild/connect-go"
 	authzv1alpha1 "github.com/common-fate/sdk/gen/commonfate/authz/v1alpha1"
+	"github.com/common-fate/sdk/service/authz/uid"
 	"github.com/patrickmn/go-cache"
 )
 
 type QueryInput struct {
 	Type            string
-	DirectParents   []UID
+	DirectParents   []uid.UID
 	AttributeEquals []Attribute
 	PageToken       string
 }
@@ -43,12 +44,12 @@ func (c *Client) Query(ctx context.Context, input QueryInput) (*authzv1alpha1.Qu
 
 	// update the attribute cache
 	for _, e := range res.Msg.Entities {
-		uid := UID{
+		id := uid.UID{
 			Type: e.Entity.Uid.Type,
 			ID:   e.Entity.Uid.Id,
 		}
 
-		c.cache.Set(uid.String(), e, cache.DefaultExpiration)
+		c.cache.Set(id.String(), e, cache.DefaultExpiration)
 	}
 
 	return res.Msg, nil

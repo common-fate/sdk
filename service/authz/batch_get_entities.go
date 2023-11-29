@@ -5,11 +5,12 @@ import (
 
 	"github.com/bufbuild/connect-go"
 	authzv1alpha1 "github.com/common-fate/sdk/gen/commonfate/authz/v1alpha1"
+	"github.com/common-fate/sdk/service/authz/uid"
 	"github.com/patrickmn/go-cache"
 )
 
 type BatchGetEntityInput struct {
-	UIDs []UID
+	UIDs []uid.UID
 	// UseCache will try and retrieve entities from
 	// the client cache if it's present.
 	//
@@ -48,7 +49,7 @@ func (c *Client) BatchGetEntity(ctx context.Context, input BatchGetEntityInput) 
 
 		// update the attribute cache
 		for _, e := range res.Msg.Entities {
-			uid := UID{
+			uid := uid.UID{
 				Type: e.Uid.Type,
 				ID:   e.Uid.Id,
 			}

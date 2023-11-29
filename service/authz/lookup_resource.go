@@ -1,7 +1,9 @@
 package authz
 
+import "github.com/common-fate/sdk/service/authz/uid"
+
 type LookupResourcesInput struct {
-	Principal    UID
+	Principal    uid.UID
 	ResourceType string
 	PageToken    string
 }

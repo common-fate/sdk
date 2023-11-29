@@ -1,4 +1,4 @@
-package authz
+package uid
 
 import (
 	"reflect"
@@ -34,17 +34,17 @@ func TestParseUID(t *testing.T) {
 
 	for _, test := range tests {
 		t.Run(test.input, func(t *testing.T) {
-			result, err := ParseUID(test.input)
+			result, err := Parse(test.input)
 
 			// Check for error
 			if (err != nil) != test.wantErr {
-				t.Errorf("ParseUID() error = %v, wantErr %v", err, test.wantErr)
+				t.Errorf("Parse() error = %v, wantErr %v", err, test.wantErr)
 				return
 			}
 
 			// Compare the results
 			if !reflect.DeepEqual(result, test.expected) {
-				t.Errorf("ParseUID() got = %v, want %v", result, test.expected)
+				t.Errorf("Parse() got = %v, want %v", result, test.expected)
 			}
 		})
 	}
