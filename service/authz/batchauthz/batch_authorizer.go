@@ -21,6 +21,8 @@ type Batch struct {
 	executed    bool
 }
 
+var _ Authorizer = &Batch{}
+
 func New() *Batch {
 	return &Batch{
 		request: &authzv1alpha1.BatchAuthorizeRequest{
@@ -37,17 +39,13 @@ type Request struct {
 	Action    authz.UID
 }
 
-func (a *Batch) AddRequest(req Request) *Batch {
+func (a *Batch) AddRequest(req Request) Authorizer {
 	a.request.Requests = append(a.request.Requests, &authzv1alpha1.Request{
 		Principal: req.Principal.ToAPI(),
 		Action:    req.Action.ToAPI(),
 		Resource:  req.Resource.ToAPI(),
 	})
 	return a
-}
-
-type Executor interface {
-	BatchAuthorize(context.Context, *connect.Request[authzv1alpha1.BatchAuthorizeRequest]) (*connect.Response[authzv1alpha1.BatchAuthorizeResponse], error)
 }
 
 func (a *Batch) Execute(ctx context.Context, executor Executor) error {

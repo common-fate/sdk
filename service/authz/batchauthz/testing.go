@@ -17,6 +17,8 @@ type MockBatch struct {
 	executed    bool
 }
 
+var _ Authorizer = &MockBatch{}
+
 func NewMock(t *testing.T) *MockBatch {
 	return &MockBatch{
 		evaluations: map[authz.UID]map[authz.UID]map[authz.UID]Evaluation{},
@@ -48,6 +50,10 @@ func (a *MockBatch) Mock(req Request, eval Evaluation) *MockBatch {
 	// Populate the evaluations map
 	resourceMap[req.Action] = eval
 
+	return a
+}
+
+func (a *MockBatch) AddRequest(req Request) Authorizer {
 	return a
 }
 
