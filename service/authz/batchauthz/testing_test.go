@@ -34,7 +34,7 @@ func TestMockBatchWorks(t *testing.T) {
 
 	a.Mock(req, eval)
 
-	a.Execute(context.Background(), nil)
+	a.Execute(context.Background())
 
 	got, err := a.IsPermitted(req)
 	if err != nil {

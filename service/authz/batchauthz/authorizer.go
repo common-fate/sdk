@@ -10,7 +10,7 @@ import (
 
 type Authorizer interface {
 	AddRequest(req authz.Request) Authorizer
-	Execute(ctx context.Context, executor Executor) error
+	Execute(ctx context.Context) error
 	IsPermitted(req authz.Request) (Evaluation, error)
 }
 

@@ -82,8 +82,8 @@ func TestBatch_Execute(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			a := New()
-			if err := a.Execute(context.Background(), &tt.executor); (err != nil) != tt.wantErr {
+			a := New(&tt.executor)
+			if err := a.Execute(context.Background()); (err != nil) != tt.wantErr {
 				t.Errorf("Batch.Execute() error = %v, wantErr %v", err, tt.wantErr)
 			}
 			assert.Equal(t, tt.wantEvaluations, a.evaluations)
@@ -167,8 +167,8 @@ func TestBatch_IsPermitted(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			a := New()
-			err := a.Execute(context.Background(), &tt.executor)
+			a := New(&tt.executor)
+			err := a.Execute(context.Background())
 			if err != nil {
 				t.Fatal(err)
 			}

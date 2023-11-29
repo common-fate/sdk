@@ -83,7 +83,7 @@ func (a *MockBatch) AddRequest(req authz.Request) Authorizer {
 	return a
 }
 
-func (a *MockBatch) Execute(ctx context.Context, executor Executor) error {
+func (a *MockBatch) Execute(ctx context.Context) error {
 	a.executed = true
 	return nil
 }

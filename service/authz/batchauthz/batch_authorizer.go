@@ -19,17 +19,19 @@ type Batch struct {
 	request *authzv1alpha1.BatchAuthorizeRequest
 	// evaluations is a map of principal -> resource -> action -> Evaluation
 	evaluations map[uid.UID]map[uid.UID]map[uid.UID]*authzv1alpha1.Evaluation
+	executor    Executor
 	executed    bool
 }
 
 var _ Authorizer = &Batch{}
 
-func New() *Batch {
+func New(executor Executor) *Batch {
 	return &Batch{
 		request: &authzv1alpha1.BatchAuthorizeRequest{
 			Universe:    "default",
 			Environment: "production",
 		},
+		executor:    executor,
 		evaluations: map[uid.UID]map[uid.UID]map[uid.UID]*authzv1alpha1.Evaluation{},
 	}
 }
@@ -43,8 +45,8 @@ func (a *Batch) AddRequest(req authz.Request) Authorizer {
 	return a
 }
 
-func (a *Batch) Execute(ctx context.Context, executor Executor) error {
-	res, err := executor.BatchAuthorize(ctx, connect.NewRequest(a.request))
+func (a *Batch) Execute(ctx context.Context) error {
+	res, err := a.executor.BatchAuthorize(ctx, connect.NewRequest(a.request))
 	if err != nil {
 		return err
 	}
