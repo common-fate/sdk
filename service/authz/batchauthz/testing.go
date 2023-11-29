@@ -39,6 +39,18 @@ func (a *MockBatch) Allow(req authz.Request) *MockBatch {
 	a.Mock(req, Evaluation{Allowed: true})
 	return a
 }
+func (a *MockBatch) AllowActions(principal uid.UID, resource uid.UID, actions ...uid.UID) *MockBatch {
+	for _, action := range actions {
+		req := authz.Request{
+			Principal: principal,
+			Action:    action,
+			Resource:  resource,
+		}
+		a.Mock(req, Evaluation{Allowed: true})
+	}
+
+	return a
+}
 
 // Mock a particular request to return the specified evaluation
 func (a *MockBatch) Mock(req authz.Request, eval Evaluation) *MockBatch {
