@@ -117,6 +117,10 @@ func NewAnnotations() Annotations {
 }
 
 func (a *Annotations) Set(key string, annotation Annotation) {
+	if a.annotations == nil {
+		a.annotations = map[string][]Annotation{}
+	}
+
 	// Get the current list of annotations for the key
 	annotationList, exists := a.annotations[key]
 

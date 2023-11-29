@@ -13,6 +13,7 @@ import (
 // same methods, used for testing
 type MockBatch struct {
 	t           *testing.T
+	lastRequest *authz.Request
 	evaluations map[uid.UID]map[uid.UID]map[uid.UID]Evaluation
 	executed    bool
 	strict      bool
@@ -41,10 +42,29 @@ func (a *MockBatch) Allow(principal uid.UID, resource uid.UID, actions ...uid.UI
 			Action:    action,
 			Resource:  resource,
 		}
+		a.lastRequest = &req
 		a.Mock(req, Evaluation{Allowed: true})
 	}
 
 	return a
+}
+
+// Annotations adds annotations to the last Allow() call. Fails the test if called without first calling Allow().
+func (a *MockBatch) Annotations(key string, values ...string) *MockBatch {
+	if a.lastRequest == nil {
+		a.t.Fatal("annotations must be called after Allow(), for example: batchauthz.NewMock().Allow(principal, resource, action).Annotations()")
+	}
+
+	eval, err := a.getMockEvaluation(*a.lastRequest)
+	if err != nil {
+		a.t.Fatalf("mockbatch: error adding annotations: %s", err)
+	}
+
+	for _, v := range values {
+		eval.Annotations.Set(key, Annotation{Value: v})
+	}
+
+	return a.Mock(*a.lastRequest, eval)
 }
 
 // Mock a particular request to return the specified evaluation
@@ -60,13 +80,6 @@ func (a *MockBatch) Mock(req authz.Request, eval Evaluation) *MockBatch {
 	if !ok {
 		resourceMap = make(map[uid.UID]Evaluation)
 		principalMap[req.Resource] = resourceMap
-	}
-
-	_, ok = resourceMap[req.Action]
-	if ok {
-		// there were multiple evaluations for a particular principal/action/resource combination.
-		// this is a logic error and so we return an error
-		a.t.Fatalf("multiple authorization evaluations found for principal %s, action %s and resource %s: ensure that Mock is only called once for each combination of principal/action/resource", req.Principal, req.Action, req.Resource)
 	}
 
 	// Populate the evaluations map
@@ -90,6 +103,10 @@ func (a *MockBatch) AuthorizeWasCalled() bool {
 }
 
 func (a *MockBatch) IsPermitted(req authz.Request) (Evaluation, error) {
+	return a.getMockEvaluation(req)
+}
+
+func (a *MockBatch) getMockEvaluation(req authz.Request) (Evaluation, error) {
 	// Check if the principal exists in the evaluations map
 	principalMap, principalExists := a.evaluations[req.Principal]
 	if !principalExists {
