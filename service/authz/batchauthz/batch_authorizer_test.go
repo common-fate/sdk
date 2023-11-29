@@ -21,7 +21,7 @@ func (m *mockExecutor) BatchAuthorize(ctx context.Context, req *connect.Request[
 	return connect.NewResponse(m.Response), nil
 }
 
-func TestBatch_Execute(t *testing.T) {
+func TestBatch_Authorize(t *testing.T) {
 	tests := []struct {
 		name            string
 		executor        mockExecutor
@@ -83,8 +83,8 @@ func TestBatch_Execute(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			a := New(&tt.executor)
-			if err := a.Execute(context.Background()); (err != nil) != tt.wantErr {
-				t.Errorf("Batch.Execute() error = %v, wantErr %v", err, tt.wantErr)
+			if err := a.Authorize(context.Background()); (err != nil) != tt.wantErr {
+				t.Errorf("Batch.Authorize() error = %v, wantErr %v", err, tt.wantErr)
 			}
 			assert.Equal(t, tt.wantEvaluations, a.evaluations)
 			assert.Equal(t, tt.wantExecuted, a.executed)
@@ -168,7 +168,7 @@ func TestBatch_IsPermitted(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			a := New(&tt.executor)
-			err := a.Execute(context.Background())
+			err := a.Authorize(context.Background())
 			if err != nil {
 				t.Fatal(err)
 			}

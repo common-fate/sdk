@@ -45,7 +45,7 @@ func (a *Batch) AddRequest(req authz.Request) Authorizer {
 	return a
 }
 
-func (a *Batch) Execute(ctx context.Context) error {
+func (a *Batch) Authorize(ctx context.Context) error {
 	res, err := a.executor.BatchAuthorize(ctx, connect.NewRequest(a.request))
 	if err != nil {
 		return err

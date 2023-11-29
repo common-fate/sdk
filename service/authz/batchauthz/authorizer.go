@@ -9,8 +9,12 @@ import (
 )
 
 type Authorizer interface {
+	// AddRequest adds a new authorization request to be evaluated.
 	AddRequest(req authz.Request) Authorizer
-	Execute(ctx context.Context) error
+	// Authorization calls the authz service to evaluate all of the authorization requests added.
+	Authorize(ctx context.Context) error
+	// IsPermitted returns the evaluation associated with the given request.
+	// Ensure that you call AddRequest() and Authorize() before calling IsPermitted().
 	IsPermitted(req authz.Request) (Evaluation, error)
 }
 

@@ -83,12 +83,13 @@ func (a *MockBatch) AddRequest(req authz.Request) Authorizer {
 	return a
 }
 
-func (a *MockBatch) Execute(ctx context.Context) error {
+func (a *MockBatch) Authorize(ctx context.Context) error {
 	a.executed = true
 	return nil
 }
 
-func (a *MockBatch) WasExecuted() bool {
+// AuthorizeWasCalled returns true if Authorize() was called
+func (a *MockBatch) AuthorizeWasCalled() bool {
 	return a.executed
 }
 
