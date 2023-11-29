@@ -37,6 +37,20 @@ func (u UID) ToAPI() *authzv1alpha1.UID {
 	}
 }
 
+// Valid returns true if the UID has both a type and an ID.
+func (u UID) Valid() error {
+	if u.Type == "" && u.ID == "" {
+		return errors.New("UID was empty")
+	}
+	if u.Type == "" {
+		return fmt.Errorf("UID with ID %s had no type", u.ID)
+	}
+	if u.ID == "" {
+		return fmt.Errorf("UID with type %s had no ID", u.Type)
+	}
+	return nil
+}
+
 func (u UID) String() string {
 	return fmt.Sprintf(`%s::"%s"`, u.Type, u.ID)
 }
