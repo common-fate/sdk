@@ -6,6 +6,7 @@ import "commonfate/control/attest/v1alpha1/attestation.proto";
 import "commonfate/access/v1alpha1/user.proto";
 import "commonfate/authz/v1alpha1/entity.proto";
 import "commonfate/access/v1alpha1/named_uid.proto";
+import "commonfate/access/v1alpha1/diagnostic.proto";
 import "google/protobuf/duration.proto";
 import "google/protobuf/timestamp.proto";
 
@@ -99,21 +100,6 @@ message Grant {
     // User-facing diagnostic warnings about the Grant: for example if there are no reviewers assigned
     // or if the grant is due to expiry shortly.
     repeated Diagnostic diagnostics = 9;
-}
-
-enum DiagnosticLevel {
-  DIAGNOSTIC_LEVEL_UNSPECIFIED = 0;
-  DIAGNOSTIC_LEVEL_INFO = 1;
-  DIAGNOSTIC_LEVEL_WARNING = 2;
-  DIAGNOSTIC_LEVEL_ERROR = 3;
-}
-
-message Diagnostic {
-  DiagnosticLevel level = 1;
-  string message = 2;
-  // Optional timestamp indicating the time at which the diagnostic event occurred.
-  // Not all diagnostics will have this attribute.
-  google.protobuf.Timestamp timestamp = 8;
 }
 
 enum GrantStatus {

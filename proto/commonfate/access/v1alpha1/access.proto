@@ -6,6 +6,7 @@ import "commonfate/control/attest/v1alpha1/attestation.proto";
 import "commonfate/access/v1alpha1/access_request.proto";
 import "commonfate/authz/v1alpha1/entity.proto";
 import "commonfate/access/v1alpha1/named_uid.proto";
+import "commonfate/access/v1alpha1/diagnostic.proto";
 import "commonfate/access/v1alpha1/user.proto";
 import "google/protobuf/duration.proto";
 import "google/protobuf/timestamp.proto";
@@ -134,6 +135,9 @@ message EnsureResponse {
   // Unlike the BatchGrant endpoint, the Grant endpoint will always return Access Requests
   // that have a single associated grant. For convenience, the Grant is also returned here.
   Grant grant = 5;
+
+  // User-facing diagnostic warnings
+  repeated Diagnostic diagnostics = 6;
 }
 
 message BatchEnsureResponse {
@@ -144,6 +148,12 @@ message BatchEnsureResponse {
   // An Access Request. Will be nil if access is already active because the user was assigned
   // persistent access to the entitlement.
   repeated AccessRequest access_requests = 4;
+
+  // User-facing diagnostic warnings, for messages such as the user not having permissions
+  // to request some of the entitlements they asked for.
+  //
+  // Rather than failing the entire operation the Access Handler returns warnings.
+  repeated Diagnostic diagnostics = 5;
 }
 
 message Justification {
