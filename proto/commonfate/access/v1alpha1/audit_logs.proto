@@ -43,12 +43,15 @@ message AuditLog {
     // the timestamp the action occurred at.
     google.protobuf.Timestamp occurred_at = 4;
 
-    // resources affected by the action.
-    repeated commonfate.authz.v1alpha1.UID targets = 5;
-
+    // the primary resource affected by the action.
+    repeated commonfate.authz.v1alpha1.UID target = 5;
+    
     // a human-friendly message describing the action.
     string message = 6;
-
+    
     // additional context
     google.protobuf.Struct context = 7;
+
+    // additional related targets
+    repeated commonfate.authz.v1alpha1.UID additional_targets = 5;
 }
