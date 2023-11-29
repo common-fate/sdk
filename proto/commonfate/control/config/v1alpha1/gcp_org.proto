@@ -1,0 +1,65 @@
+syntax = "proto3";
+package commonfate.control.config.v1alpha1;
+
+
+
+service GCPOrganizationService {
+    rpc CreateGCPOrganization(CreateGCPOrganizationRequest) returns (CreateGCPOrganizationResponse) {}
+    rpc ReadGCPOrganization(ReadGCPOrganizationRequest) returns (ReadGCPOrganizationResponse) {}
+    rpc UpdateGCPOrganization(UpdateGCPOrganizationRequest) returns (UpdateGCPOrganizationResponse) {}
+    rpc DeleteGCPOrganization(DeleteGCPOrganizationRequest) returns (DeleteGCPOrganizationResponse) {}
+}
+
+
+message CreateGCPOrganizationRequest {
+    string id = 1;
+    string org = 2;
+    string slug = 3;
+    string workload_identity_role = 4;
+}
+
+message CreateGCPOrganizationResponse {
+    string id = 1;
+    string org = 2;
+    string slug = 3;
+    string workload_identity_role = 4;
+}
+
+
+message ReadGCPOrganizationRequest {
+    string id = 1;
+    string org = 2;
+    string slug = 3;
+}
+
+message ReadGCPOrganizationResponse {
+    string id = 1;
+    string org = 2;
+    string slug = 3;
+    string workload_identity_role = 4;
+}
+
+
+message UpdateGCPOrganizationRequest {
+    string id = 1;
+    string org = 2;
+    string slug = 3;
+    string workload_identity_role = 4;
+}
+
+message UpdateGCPOrganizationResponse {
+    string id = 1;
+    string org = 2;
+    string slug = 3;
+    string workload_identity_role = 4;
+}
+
+
+message DeleteGCPOrganizationRequest {
+    string id = 1;
+}
+
+message DeleteGCPOrganizationResponse {
+    string id = 1;
+   
+}

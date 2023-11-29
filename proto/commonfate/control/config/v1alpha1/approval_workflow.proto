@@ -1,0 +1,64 @@
+syntax = "proto3";
+package commonfate.control.config.v1alpha1;
+
+
+
+service ApprovalWorkflowService {
+    rpc CreateApprovalWorkflow(CreateApprovalWorkflowRequest) returns (CreateApprovalWorkflowResponse) {}
+    rpc ReadApprovalWorkflow(ReadApprovalWorkflowRequest) returns (ReadApprovalWorkflowResponse) {}
+    rpc UpdateApprovalWorkflow(UpdateApprovalWorkflowRequest) returns (UpdateApprovalWorkflowResponse) {}
+    rpc DeleteApprovalWorkflow(DeleteApprovalWorkflowRequest) returns (DeleteApprovalWorkflowResponse) {}
+}
+
+
+message CreateApprovalWorkflowRequest {
+    string id = 1;
+    bool default = 2; 
+    string notify_slack_channel = 3;
+    string name = 4;
+
+}
+
+message CreateApprovalWorkflowResponse {
+    string id = 1;
+    bool default = 2; 
+    string notify_slack_channel = 3;
+    string name = 4;
+
+}
+
+message ReadApprovalWorkflowRequest {
+    string id = 1;
+}
+
+message ReadApprovalWorkflowResponse {
+    string id = 1;
+    bool default = 2; 
+    string notify_slack_channel = 3;
+    string name = 4;
+
+}
+
+message UpdateApprovalWorkflowRequest {
+    string id = 1;
+    bool default = 2; 
+    string notify_slack_channel = 3;
+    string name = 4;
+
+}
+
+message UpdateApprovalWorkflowResponse {
+    string id = 1;
+    bool default = 2; 
+    string notify_slack_channel = 3;
+    string name = 4;
+
+}
+
+message DeleteApprovalWorkflowRequest {
+    string id = 1;
+}
+
+message DeleteApprovalWorkflowResponse {
+    string id = 1;
+}
