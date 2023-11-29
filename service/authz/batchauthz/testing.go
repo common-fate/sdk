@@ -35,6 +35,11 @@ func (a *MockBatch) Strict() *MockBatch {
 	return a
 }
 
+func (a *MockBatch) Allow(req authz.Request) *MockBatch {
+	a.Mock(req, Evaluation{Allowed: true})
+	return a
+}
+
 // Mock a particular request to return the specified evaluation
 func (a *MockBatch) Mock(req authz.Request, eval Evaluation) *MockBatch {
 	principalMap, ok := a.evaluations[req.Principal]
