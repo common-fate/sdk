@@ -81,9 +81,12 @@ enum Action {
     // Access was deprovisioned
     ACTION_GRANT_DEPROVISIONED = 7;
 
-    // An error occurred
-    ACTION_GRANT_REVOKED = 8;
+    // A grant was cancelled before being activated.
+    ACTION_GRANT_CANCELLED = 8;
+
+    // An active grant was revoked.
+    ACTION_GRANT_REVOKED = 9;
 
     // An error occurred
-    ACTION_GRANT_ERROR = 9;
+    ACTION_GRANT_ERROR = 10;
 }
