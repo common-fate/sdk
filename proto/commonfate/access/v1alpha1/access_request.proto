@@ -98,18 +98,15 @@ message Grant {
     // this will not be the full list of reviewers.
     repeated User reviewers_preview = 7;
 
-    // An approximate count of reviewers for the Grant.
-    uint32 reviewer_count = 8;
-
     // For active grants, the time that the access is due to expire.
-    google.protobuf.Timestamp expires_at = 9;
+    google.protobuf.Timestamp expires_at = 8;
 
     // For active grants, the time that the user may attempt to extend the grant.
     // If empty, extension is not permitted.
-    google.protobuf.Timestamp extension_permitted_at = 10;
+    google.protobuf.Timestamp extension_permitted_at = 9;
 
     // Recent activity associated with the Grant.
-    AuditLogPreview recent_activity = 11;
+    AuditLogPreview recent_activity = 10;
 }
 
 enum GrantStatus {
