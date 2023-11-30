@@ -41,7 +41,7 @@ message AuditLog {
     string id = 1;
 
     // the action which occurred
-    Action action = 2;
+    string action = 2;
 
     // the actor which performed the action.
     User actor = 3;
@@ -61,38 +61,4 @@ message AuditLog {
 
     // all related resources affected by the action.
     repeated commonfate.authz.v1alpha1.UID all_targets = 8;
-}
-
-enum Action {
-    ACTION_UNSPECIFIED = 0;
-
-    // Access was activated
-    ACTION_GRANT_REQUESTED = 1;
-
-    // Access was automatically approved
-    ACTION_GRANT_SELF_APPROVED = 2;
-
-    // Access was approved
-    ACTION_GRANT_APPROVED = 3;
-
-    // Access was closed
-    ACTION_GRANT_ACTIVATED = 4;
-
-    // Access was provisioned
-    ACTION_GRANT_PROVISIONED = 5;
-
-    // Access was closed
-    ACTION_GRANT_EXTENDED = 6;
-
-    // Access was deprovisioned
-    ACTION_GRANT_DEPROVISIONED = 7;
-
-    // A grant was cancelled before being activated.
-    ACTION_GRANT_CANCELLED = 8;
-
-    // An active grant was revoked.
-    ACTION_GRANT_REVOKED = 9;
-
-    // An error occurred
-    ACTION_GRANT_ERROR = 10;
 }
