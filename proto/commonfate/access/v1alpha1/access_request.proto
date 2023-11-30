@@ -11,7 +11,7 @@ import "commonfate/access/v1alpha1/audit_logs.proto";
 import "google/protobuf/duration.proto";
 import "google/protobuf/timestamp.proto";
 
-// TheAccess Request API.
+// The Access Request API.
 //
 // When operating on Access Requests, Common Fate will automatically attempt to apply the action (Approve/Close/Revoke etc)
 // to each Grant associated with the Access Request. Warnings will be returned if the operation fails for any grants.
