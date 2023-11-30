@@ -6,7 +6,7 @@ import "commonfate/control/attest/v1alpha1/attestation.proto";
 import "commonfate/access/v1alpha1/user.proto";
 import "commonfate/authz/v1alpha1/entity.proto";
 import "commonfate/access/v1alpha1/named_uid.proto";
-import "commonfate/access/v1alpha1/diagnostic.proto";
+import "commonfate/access/v1alpha1/activity.proto";
 import "google/protobuf/duration.proto";
 import "google/protobuf/timestamp.proto";
 
@@ -77,6 +77,9 @@ message Grant {
     // The ID of the Grant.
     string id = 1;
 
+    // A user-friendly name describing the access, such as "AdministratorAccess to tax-api-prod"
+    string name = 2;
+
     // The resource being requested.
     NamedUID target = 3;
 
@@ -91,15 +94,25 @@ message Grant {
     // The status of the Grant.
     GrantStatus status = 6;
 
-    // Users designated as reviewers for the Grant.
-    repeated User reviewers = 7;
+    // A preview of users designated as reviewers. For Grants with many reviewers,
+    // this will not be the full list of reviewers.
+    repeated User reviewers_preview = 7;
+
+    // An approximate count of reviewers for the Grant.
+    uint32 reviewer_count = 8;
 
     // For active grants, the time that the access is due to expire.
-    google.protobuf.Timestamp expires_at = 8;
+    google.protobuf.Timestamp expires_at = 9;
 
-    // User-facing diagnostic warnings about the Grant: for example if there are no reviewers assigned
-    // or if the grant is due to expiry shortly.
-    repeated Diagnostic diagnostics = 9;
+    // For active grants, the time that the user may attempt to extend the grant.
+    // If empty, extension is not permitted.
+    google.protobuf.Timestamp extension_permitted_at = 10;
+
+    // Recent activity associated with the Grant.
+    repeated Activity recent_activity = 11;
+
+    // A count of activity events associated with the Grant.
+    uint32 activity_count = 12;
 }
 
 enum GrantStatus {
@@ -157,4 +170,7 @@ message Warnings {
 
   // Grants that were unable to be acted upon because they were in an invalid state.
   repeated Grant grants_invalid_status = 2;
+
+  // Grants that have expired.
+  repeated Grant grants_expired = 3;
 }

@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+package commonfate.access.v1alpha1;
+
+import "commonfate/access/v1alpha1/activity.proto";
+import "commonfate/access/v1alpha1/user.proto";
+
+service GrantService {
+    rpc ListActivityForGrant(ListActivityForGrantRequest) returns (ListActivityForGrantResponse) {}
+    rpc ListReviewersForGrant(ListReviewersForGrantRequest) returns (ListReviewersForGrantResponse) {}
+}
+
+message ListActivityForGrantRequest {
+    // The ID of the Grant to list activity for
+    string id = 1;   
+    // The token for the next page.
+    string page_token = 2;
+}
+
+message ListActivityForGrantResponse {
+    // Activity associated with the Grant.
+    repeated Activity activity = 1;
+    // The token for the next page.
+    string next_page_token = 2;
+}
+
+message ListReviewersForGrantRequest {
+    // The ID of the Grant to list reviewers for
+    string id = 1;
+    // The token for the next page.
+    string page_token = 2;
+}
+
+message ListReviewersForGrantResponse {
+    // Reviewers associated with the Grant.
+    repeated User reviewers = 1;
+    // The token for the next page.
+    string next_page_token = 2;
+}
+
