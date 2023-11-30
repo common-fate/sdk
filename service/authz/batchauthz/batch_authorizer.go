@@ -112,6 +112,10 @@ type Annotations struct {
 	annotations map[string][]Annotation
 }
 
+func (a *Annotations) All() map[string][]Annotation {
+	return a.annotations
+}
+
 func NewAnnotations() Annotations {
 	return Annotations{annotations: map[string][]Annotation{}}
 }
