@@ -4,7 +4,7 @@ package commonfate.access.v1alpha1;
 
 import "commonfate/control/attest/v1alpha1/attestation.proto";
 import "commonfate/access/v1alpha1/user.proto";
-import "commonfate/authz/v1alpha1/entity.proto";
+import "commonfate/authz/v1alpha1/uid.proto";
 import "commonfate/access/v1alpha1/named_uid.proto";
 import "google/protobuf/duration.proto";
 import "google/protobuf/struct.proto";
@@ -28,6 +28,12 @@ message QueryAuditLogsRequest {
 message QueryAuditLogsResponse {
   repeated AuditLog audit_logs = 1;
   string next_page_token = 2;
+}
+
+message AuditLogPreview {
+    repeated AuditLog logs = 1;
+    // An approximate count of activity events
+    uint32 log_count = 12;
 }
 
 message AuditLog {

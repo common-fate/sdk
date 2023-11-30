@@ -1,0 +1,8 @@
+syntax = "proto3";
+
+package commonfate.authz.v1alpha1;
+
+message UID {
+    string type = 1;
+    string id = 2;
+}

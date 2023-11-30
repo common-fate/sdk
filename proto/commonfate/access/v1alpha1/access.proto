@@ -5,8 +5,10 @@ package commonfate.access.v1alpha1;
 import "commonfate/control/attest/v1alpha1/attestation.proto";
 import "commonfate/access/v1alpha1/access_request.proto";
 import "commonfate/authz/v1alpha1/entity.proto";
+import "commonfate/authz/v1alpha1/uid.proto";
 import "commonfate/access/v1alpha1/named_uid.proto";
 import "commonfate/access/v1alpha1/user.proto";
+import "commonfate/access/v1alpha1/reviewer_preview.proto";
 import "google/protobuf/duration.proto";
 import "google/protobuf/timestamp.proto";
 
@@ -67,10 +69,11 @@ message Availability {
   // The permitted access duration.
   google.protobuf.Duration duration = 5;
 
-  repeated User reviewers = 6;
+  uint32 priority = 6;
 
-  uint32 priority = 7;
+  ReviewerPreview reviewers = 7;
 }
+
 
 message EnsureRequest {
   // The entitlements to request access to.

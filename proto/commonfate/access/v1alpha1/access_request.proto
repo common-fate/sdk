@@ -6,7 +6,7 @@ import "commonfate/control/attest/v1alpha1/attestation.proto";
 import "commonfate/access/v1alpha1/user.proto";
 import "commonfate/authz/v1alpha1/entity.proto";
 import "commonfate/access/v1alpha1/named_uid.proto";
-import "commonfate/access/v1alpha1/activity.proto";
+import "commonfate/access/v1alpha1/audit_logs.proto";
 import "google/protobuf/duration.proto";
 import "google/protobuf/timestamp.proto";
 
@@ -109,10 +109,7 @@ message Grant {
     google.protobuf.Timestamp extension_permitted_at = 10;
 
     // Recent activity associated with the Grant.
-    repeated Activity recent_activity = 11;
-
-    // A count of activity events associated with the Grant.
-    uint32 activity_count = 12;
+    AuditLogPreview recent_activity = 11;
 }
 
 enum GrantStatus {
