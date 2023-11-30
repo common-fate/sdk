@@ -173,4 +173,7 @@ message Warnings {
 
   // Grants that have expired.
   repeated Grant grants_expired = 3;
+
+  // Other errors
+  repeated string errors = 4;
 }
