@@ -126,9 +126,6 @@ enum GrantStatus {
     // - the grant was revoked by an administrator
     // - the grant has expired
     GRANT_STATUS_INACTIVE = 4;
-
-    // The Grant encountered a fatal error.
-    GRANT_STATUS_ERROR = 5;
 }
 
 message RevokeAccessRequestRequest {
