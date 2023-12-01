@@ -67,10 +67,10 @@ func NewServiceAccount(ctx context.Context, ServiceAccount ServiceAccount) (*Con
 }
 
 func load() (*Config, error) {
-	// if COMMON_FATE_CIEM_CONFIG_FILE is set, use a custom file path
+	// if COMMON_FATE_CONFIG_FILE is set, use a custom file path
 	// for the config file location.
 	// the file specified must exist.
-	customPath := os.Getenv("COMMON_FATE_CIEM_CONFIG_FILE")
+	customPath := os.Getenv("COMMON_FATE_CONFIG_FILE")
 	if customPath != "" {
 		return openConfigFile(customPath)
 	}
@@ -80,7 +80,7 @@ func load() (*Config, error) {
 		return nil, err
 	}
 
-	fp := filepath.Join(home, ".commonfate", "ciem")
+	fp := filepath.Join(home, ".commonfate", "config")
 	cfg, err := openConfigFile(fp)
 	if os.IsNotExist(err) {
 		// return an empty config if the file doesn't exist
