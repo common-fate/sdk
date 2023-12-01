@@ -18,8 +18,8 @@ message Request {
     string client_key = 4;
 
     // Entities to 'overlay' temporarily on the entities stored in the authz service.
-    repeated Entity overlaid_entities = 5;
+    repeated Entity overlay_entities = 5;
 
     // Parent/child relationships to 'overlay' temporarily on the entities stored in the authz service.
-    repeated ChildRelation overlaid_children = 6;
+    repeated ChildRelation overlay_children = 6;
 }

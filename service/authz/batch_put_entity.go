@@ -9,6 +9,7 @@ import (
 
 type BatchPutEntityInput struct {
 	Entities []Entity
+	Children []ChildRelation
 }
 
 func (c *Client) BatchPutEntity(ctx context.Context, input BatchPutEntityInput) (*authzv1alpha1.BatchPutEntityResponse, error) {
@@ -25,6 +26,10 @@ func (c *Client) BatchPutEntity(ctx context.Context, input BatchPutEntityInput) 
 
 		req.Entities = append(req.Entities, parsed)
 		req.Children = append(req.Children, children...)
+	}
+
+	for _, c := range input.Children {
+		req.Children = append(req.Children, c.ToAPI())
 	}
 
 	res, err := c.raw.BatchPutEntity(ctx, connect.NewRequest(req))

@@ -8,17 +8,29 @@ import (
 	"github.com/common-fate/sdk/service/authz/uid"
 )
 
-// removes entities from the authorization service.
-func (c *Client) BatchDeleteEntity(ctx context.Context, uids ...uid.UID) (*authzv1alpha1.BatchDeleteEntityResponse, error) {
-	apiUIDs := make([]*authzv1alpha1.UID, len(uids))
+type BatchDeleteEntityInput struct {
+	Entities []uid.UID
+	Children []ChildRelation
+}
 
-	for i, uid := range uids {
+// removes entities from the authorization service.
+func (c *Client) BatchDeleteEntity(ctx context.Context, input BatchDeleteEntityInput) (*authzv1alpha1.BatchDeleteEntityResponse, error) {
+	apiUIDs := make([]*authzv1alpha1.UID, len(input.Entities))
+
+	for i, uid := range input.Entities {
 		apiUIDs[i] = uid.ToAPI()
+	}
+
+	apiChildren := make([]*authzv1alpha1.ChildRelation, len(input.Children))
+
+	for i, c := range input.Children {
+		apiChildren[i] = c.ToAPI()
 	}
 
 	res, err := c.raw.BatchDeleteEntity(ctx, connect.NewRequest(&authzv1alpha1.BatchDeleteEntityRequest{
 		Universe: "default",
 		Entities: apiUIDs,
+		Children: apiChildren,
 	}))
 	if err != nil {
 		return nil, err

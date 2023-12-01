@@ -46,7 +46,11 @@ func (c *Client) BatchAuthorize(ctx context.Context, input BatchAuthorizeInput) 
 	r := make([]*authzv1alpha1.Request, 0)
 
 	for k, item := range input.Requests {
-		r = append(r, item.ToAPI(k))
+		req, err := item.ToAPI(k)
+		if err != nil {
+			return BatchAuthorizeResponse{}, err
+		}
+		r = append(r, req)
 	}
 
 	res, err := c.raw.BatchAuthorize(ctx, connect.NewRequest(&authzv1alpha1.BatchAuthorizeRequest{
