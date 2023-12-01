@@ -11,8 +11,8 @@ type ErrorMap struct {
 	Errors map[uid.UID]*multierror.Error
 }
 
-func Map() *ErrorMap {
-	return &ErrorMap{Errors: map[uid.UID]*multierror.Error{}}
+func Map() ErrorMap {
+	return ErrorMap{Errors: map[uid.UID]*multierror.Error{}}
 }
 
 func (m *ErrorMap) Add(id uid.UID, err error) {
