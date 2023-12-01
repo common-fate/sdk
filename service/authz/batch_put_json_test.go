@@ -10,10 +10,11 @@ import (
 
 func Test_transformJSONToEntity(t *testing.T) {
 	tests := []struct {
-		name    string
-		give    EntityJSON
-		want    *authzv1alpha1.Entity
-		wantErr bool
+		name         string
+		give         EntityJSON
+		want         *authzv1alpha1.Entity
+		wantChildren []*authzv1alpha1.ChildRelation
+		wantErr      bool
 	}{
 		{
 			name: "ok",
@@ -50,7 +51,6 @@ func Test_transformJSONToEntity(t *testing.T) {
 						},
 					},
 				},
-				Parents: []*authzv1alpha1.UID{},
 			},
 		},
 		{
@@ -97,18 +97,18 @@ func Test_transformJSONToEntity(t *testing.T) {
 						},
 					},
 				},
-				Parents: []*authzv1alpha1.UID{},
 			},
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := transformJSONToEntity(tt.give)
+			got, children, err := transformJSONToEntity(tt.give)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("transformJSONToEntity() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
 			assert.Equal(t, tt.want, got)
+			assert.Equal(t, tt.wantChildren, children)
 		})
 	}
 }

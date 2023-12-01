@@ -3,7 +3,6 @@ package authz
 import (
 	"fmt"
 	"reflect"
-	"strings"
 	"time"
 
 	"github.com/bufbuild/connect-go"
@@ -57,7 +56,7 @@ func NewClient(opts Opts) Client {
 
 // Entities are objects that can be stored in the authz database.
 type Entity interface {
-	EntityType() string
+	UID() uid.UID
 }
 
 // Implementing the parent interface allows an entity to provide parents based on its attributes.
@@ -65,120 +64,65 @@ type Parenter interface {
 	Parents() []uid.UID
 }
 
-func transformToEntity(e Entity) (*authzv1alpha1.Entity, error) {
+func transformToEntity(e Entity) (*authzv1alpha1.Entity, []*authzv1alpha1.ChildRelation, error) {
 	v := reflect.ValueOf(e)
 	if v.Kind() == reflect.Pointer {
 		v = reflect.Indirect(v)
 	}
 
 	if v.Kind() != reflect.Struct {
-		return nil, fmt.Errorf("%s is not a struct", v.Type())
+		return nil, nil, fmt.Errorf("%s is not a struct", v.Type())
 	}
 
 	entity := authzv1alpha1.Entity{
+		Uid:        e.UID().ToAPI(),
 		Attributes: []*authzv1alpha1.Attribute{},
-		Parents:    []*authzv1alpha1.UID{},
 	}
+
+	var children []*authzv1alpha1.ChildRelation
 
 	p, ok := e.(Parenter)
 	if ok {
 		for _, parent := range p.Parents() {
 			err := parent.Valid()
 			if err != nil {
-				return nil, errors.Wrapf(err, "parsing parents for entity type %s", e.EntityType())
+				return nil, nil, errors.Wrapf(err, "parsing parents for entity %s", e.UID())
 			}
 
-			entity.Parents = append(entity.Parents, parent.ToAPI())
+			children = append(children, &authzv1alpha1.ChildRelation{
+				Parent: parent.ToAPI(),
+				Child:  entity.Uid,
+			})
 		}
 	}
 
 	for i := 0; i < v.NumField(); i++ {
 		f := v.Type().Field(i)
 
-		t, err := parseTag(string(f.Tag))
-		if err != nil {
-			return nil, err
-		}
-
-		if t.Name == "id" {
-			switch val := v.Field(i); val.Kind() {
-			case reflect.String:
-				entity.Uid = &authzv1alpha1.UID{
-					Type: e.EntityType(),
-					Id:   val.String(),
-				}
-
-			default:
-				return nil, errors.New("unsupported ID field type, only string IDs are currently supported")
-			}
+		key := parseTag(string(f.Tag))
+		if key == "" {
+			// can't parse the tag so continue on
 			continue
 		}
 
-		// try and parse as a parent
-		if t.ParentType != "" {
-			switch val := v.Field(i); val.Kind() {
-			case reflect.String:
-				entity.Parents = append(entity.Parents, &authzv1alpha1.UID{
-					Type: t.ParentType,
-					Id:   val.String(),
-				})
-
-			case reflect.Slice:
-				slice, ok := val.Interface().([]string)
-				if !ok {
-					return nil, errors.New("invalid slice: unsupported parent field type, only strings and string slice IDs are currently supported")
-				}
-
-				for _, s := range slice {
-					entity.Parents = append(entity.Parents, &authzv1alpha1.UID{
-						Type: t.ParentType,
-						Id:   s,
-					})
-				}
-
-			default:
-				return nil, errors.New("unsupported parent field type, only strings and string slice IDs are currently supported")
-			}
-			continue
-		}
-
-		// try and pass as a generic parent
-		if t.HasParent {
-			val := v.Field(i)
-			slice, ok := val.Interface().(*authzv1alpha1.UID)
-			if ok {
-				entity.Parents = append(entity.Parents, slice)
-				continue
-			}
-
-			switch val.Kind() {
-			case reflect.Slice:
-				slice, ok := val.Interface().([]*authzv1alpha1.UID)
-				if !ok {
-					return nil, errors.New("invalid slice: unsupported parent field type, []*authzv1alpha1.UID slices are currently supported")
-				}
-
-				entity.Parents = append(entity.Parents, slice...)
-
-			default:
-				return nil, errors.New("unsupported parent field type, only []*authzv1alpha1.UID slices are currently supported. Otherwise, specify a particular parent entity type with parent=<type>")
-			}
+		if key == "id" {
+			// don't put the ID in the attributes
 			continue
 		}
 
 		// try and parse as an attribute
 		attr, err := extractAttr(v.Field(i))
 		if err != nil {
-			return nil, errors.Wrapf(err, "extracting attributes for entity type %s field %s", e.EntityType(), t.Name)
+			return nil, nil, errors.Wrapf(err, "extracting attributes for entity %s: field %s", e.UID(), key)
 		}
 
 		entity.Attributes = append(entity.Attributes, &authzv1alpha1.Attribute{
-			Key:   t.Name,
+			Key:   key,
 			Value: attr,
 		})
 	}
 
-	return &entity, nil
+	return &entity, children, nil
 }
 
 func extractAttr(val reflect.Value) (*authzv1alpha1.Value, error) {
@@ -217,9 +161,9 @@ func extractAttr(val reflect.Value) (*authzv1alpha1.Value, error) {
 
 		for i := 0; i < val.NumField(); i++ {
 			field := val.Type().Field(i)
-			attrTag, err := parseTag(string(field.Tag))
-			if err != nil {
-				return nil, err
+			key := parseTag(string(field.Tag))
+			if key == "" {
+				continue
 			}
 
 			attr, err := extractAttr(val.Field(i))
@@ -228,7 +172,7 @@ func extractAttr(val reflect.Value) (*authzv1alpha1.Value, error) {
 			}
 
 			record.Attributes = append(record.Attributes, &authzv1alpha1.Attribute{
-				Key:   attrTag.Name,
+				Key:   key,
 				Value: attr,
 			})
 		}
@@ -308,51 +252,19 @@ func extractAttr(val reflect.Value) (*authzv1alpha1.Value, error) {
 	return nil, fmt.Errorf("extractAttr: unsupported attribute field type: %s", val.Kind())
 }
 
-type Tag struct {
-	// Name of the tag, e.g. in `authz:"id"` it is "id"
-	Name string
+// parseTag parses the 'authz' struct tag. It returns an empty string if the tag cannot be parsed
 
-	// the "parent" key e.g. in  `authz:"groups,parent=Group"` it is "Group"
-	ParentType string
-
-	// Parent is true if the struct tag is like `authz:"resources,parent"`
-	HasParent bool
-}
-
-func parseTag(input string) (Tag, error) {
+func parseTag(input string) string {
 	tags, err := structtag.Parse(input)
 	if err != nil {
-		return Tag{}, err
+		return ""
 	}
 	authzTag, err := tags.Get("authz")
 	if err != nil {
-		return Tag{}, err
+		return ""
 	}
 
-	t := Tag{
-		Name:       authzTag.Name,
-		ParentType: extractParentType(authzTag),
-		HasParent:  strings.Contains(input, "parent"),
-	}
-
-	return t, nil
-}
-
-// extractParentType extracts the parent option from the struct tag.
-// e.g. if the tag is `authz:"groups,parent=Group"` the field will be "Group".
-func extractParentType(t *structtag.Tag) string {
-	for _, opt := range t.Options {
-		// split "type=User" into ["type", "User"]
-		splits := strings.Split(opt, "=")
-		if len(splits) < 2 {
-			continue
-		}
-		if splits[0] == "parent" {
-			return splits[1]
-		}
-	}
-
-	return ""
+	return authzTag.Name
 }
 
 func UnmarshalEntity(e *authzv1alpha1.Entity, out Entity) error {
@@ -362,8 +274,8 @@ func UnmarshalEntity(e *authzv1alpha1.Entity, out Entity) error {
 	}
 
 	// Check EntityType matches the UID Type
-	if e.Uid == nil || e.Uid.Type != out.EntityType() {
-		return fmt.Errorf("entity type mismatch: expected %s, got %s", out.EntityType(), e.Uid.Type)
+	if e.Uid == nil || e.Uid.Type != out.UID().Type {
+		return fmt.Errorf("entity type mismatch: expected %s, got %s", out.UID().Type, e.Uid.Type)
 	}
 
 	v = v.Elem()
@@ -372,9 +284,9 @@ func UnmarshalEntity(e *authzv1alpha1.Entity, out Entity) error {
 	if e.Uid != nil && e.Uid.Id != "" {
 		for i := 0; i < v.NumField(); i++ {
 			field := v.Type().Field(i)
-			tag, _ := parseTag(string(field.Tag))
+			tag := parseTag(string(field.Tag))
 
-			if tag.Name == "id" {
+			if tag == "id" {
 				v.Field(i).SetString(e.Uid.Id)
 				break
 			}
@@ -387,8 +299,8 @@ func UnmarshalEntity(e *authzv1alpha1.Entity, out Entity) error {
 	for i := 0; i < v.NumField(); i++ {
 		field := v.Type().Field(i)
 		fieldValue := v.Field(i)
-		tag, _ := parseTag(string(field.Tag))
-		keys[tag.Name] = fieldValue
+		tag := parseTag(string(field.Tag))
+		keys[tag] = fieldValue
 	}
 
 	// Handle Attributes
@@ -402,31 +314,6 @@ func UnmarshalEntity(e *authzv1alpha1.Entity, out Entity) error {
 
 		if err := unmarshalSetValue(attr.Value, field); err != nil {
 			return err
-		}
-	}
-
-	// Handle Parents
-	// Assuming Parents are mapped to fields marked with `parent` tag
-	for _, parent := range e.Parents {
-		for i := 0; i < v.NumField(); i++ {
-			field := v.Type().Field(i)
-			tag, _ := parseTag(string(field.Tag))
-
-			if tag.ParentType != "" && parent.Type == tag.ParentType {
-				fieldValue := v.Field(i)
-				switch fieldValue.Kind() {
-				case reflect.String:
-					fieldValue.SetString(parent.Id)
-				case reflect.Slice:
-					// Check if the slice is of type string
-					if fieldValue.Type().Elem().Kind() == reflect.String {
-						// Append the new string to the slice
-						updatedSlice := reflect.Append(fieldValue, reflect.ValueOf(parent.Id))
-						fieldValue.Set(updatedSlice)
-					}
-				}
-				break
-			}
 		}
 	}
 
@@ -555,7 +442,7 @@ func unmarshalSetValue(setValue *authzv1alpha1.Value, field reflect.Value) error
 func getFieldByName(v reflect.Value, name string) (reflect.Value, bool) {
 	for i := 0; i < v.NumField(); i++ {
 		field := v.Type().Field(i)
-		if tag, _ := parseTag(string(field.Tag)); tag.Name == name {
+		if tag := parseTag(string(field.Tag)); tag == name {
 			return v.Field(i), true
 		}
 	}

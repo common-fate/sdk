@@ -18,12 +18,13 @@ func (c *Client) BatchPutEntity(ctx context.Context, input BatchPutEntityInput) 
 	}
 
 	for _, e := range input.Entities {
-		parsed, err := transformToEntity(e)
+		parsed, children, err := transformToEntity(e)
 		if err != nil {
 			return nil, err
 		}
 
 		req.Entities = append(req.Entities, parsed)
+		req.Children = append(req.Children, children...)
 	}
 
 	res, err := c.raw.BatchPutEntity(ctx, connect.NewRequest(req))

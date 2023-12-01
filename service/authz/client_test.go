@@ -11,20 +11,20 @@ import (
 )
 
 type testUser struct {
-	ID     string   `authz:"id"`
-	Name   string   `authz:"name"`
-	Groups []string `authz:"groups,parent=Group"`
+	ID   string `authz:"id"`
+	Name string `authz:"name"`
 }
 
-func (testUser) EntityType() string { return "User" }
+func (t testUser) UID() uid.UID { return uid.New("User", t.ID) }
 
 type testAccount struct {
 	ID      string `authz:"id"`
 	Name    string `authz:"name"`
-	OrgUnit string `authz:"org_unit,parent=OrgUnit"`
+	OrgUnit string
 }
 
-func (testAccount) EntityType() string { return "Account" }
+func (t testAccount) Parents() []uid.UID { return []uid.UID{uid.New("OrgUnit", t.OrgUnit)} }
+func (t testAccount) UID() uid.UID       { return uid.New("Account", t.ID) }
 
 type testVault struct {
 	ID        string `authz:"id"`
@@ -33,27 +33,30 @@ type testVault struct {
 	StringVal string `authz:"string_val"`
 }
 
-func (testVault) EntityType() string { return "Vault" }
+func (t testVault) UID() uid.UID { return uid.New("Vault", t.ID) }
 
 type testAnyParents struct {
-	ID        string               `authz:"id"`
-	Resources []*authzv1alpha1.UID `authz:"resources,parent"`
+	ID        string    `authz:"id"`
+	Resources []uid.UID // no tag here as we just want the parent relations, we don't want this as an attr
 }
 
-func (testAnyParents) EntityType() string { return "AnyParent" }
+func (t testAnyParents) Parents() []uid.UID { return t.Resources }
+func (t testAnyParents) UID() uid.UID       { return uid.New("AnyParent", t.ID) }
 
 type testAccessRequest struct {
-	ID       string             `authz:"id"`
-	Resource *authzv1alpha1.UID `authz:"resource,parent"`
+	ID       string  `authz:"id"`
+	Resource uid.UID `authz:"resource"`
 }
 
-func (testAccessRequest) EntityType() string { return "AccessRequest" }
+func (t testAccessRequest) Parents() []uid.UID { return []uid.UID{t.Resource} }
+func (t testAccessRequest) UID() uid.UID       { return uid.New("AccessRequest", t.ID) }
 
 type testEntitlement struct {
 	ID     string  `authz:"id"`
 	Target uid.UID `authz:"target"`
 }
 
+func (t testEntitlement) UID() uid.UID     { return uid.New("Entitlement", t.ID) }
 func (testEntitlement) EntityType() string { return "Entitlement" }
 
 type testEntityWithSet struct {
@@ -62,6 +65,7 @@ type testEntityWithSet struct {
 	Other  []int    `authz:"other"`
 }
 
+func (t testEntityWithSet) UID() uid.UID     { return uid.New("WithSet", t.ID) }
 func (testEntityWithSet) EntityType() string { return "WithSet" }
 
 type testEntityWithSetOfReferences struct {
@@ -69,6 +73,7 @@ type testEntityWithSetOfReferences struct {
 	Refs []uid.UID `authz:"refs"`
 }
 
+func (t testEntityWithSetOfReferences) UID() uid.UID     { return uid.New("WithSetOfReferences", t.ID) }
 func (testEntityWithSetOfReferences) EntityType() string { return "WithSetOfReferences" }
 
 type exampleRecord struct {
@@ -81,6 +86,7 @@ type testEntityWithRecord struct {
 	Example exampleRecord `authz:"example_record"`
 }
 
+func (t testEntityWithRecord) UID() uid.UID     { return uid.New("WithRecord", t.ID) }
 func (testEntityWithRecord) EntityType() string { return "WithRecord" }
 
 type entityRefs struct {
@@ -93,7 +99,7 @@ type testEntityWithRecordOfRefs struct {
 	Refs entityRefs `authz:"refs"`
 }
 
-func (testEntityWithRecordOfRefs) EntityType() string { return "WithRecordOfRefs" }
+func (t testEntityWithRecordOfRefs) UID() uid.UID { return uid.New("WithRecordOfRefs", t.ID) }
 
 type recordOfSets struct {
 	Foo    []string      `authz:"foo"`
@@ -106,7 +112,7 @@ type testEntityWithRecordOfSets struct {
 	Record recordOfSets `authz:"record"`
 }
 
-func (testEntityWithRecordOfSets) EntityType() string { return "WithRecordOfSets" }
+func (t testEntityWithRecordOfSets) UID() uid.UID { return uid.New("WithRecordOfSets", t.ID) }
 
 type testEntityWithParentsMethod struct {
 	ID     string  `authz:"id"`
@@ -114,7 +120,7 @@ type testEntityWithParentsMethod struct {
 	Other  uid.UID `authz:"other"`
 }
 
-func (testEntityWithParentsMethod) EntityType() string   { return "WithParentsMethod" }
+func (t testEntityWithParentsMethod) UID() uid.UID       { return uid.New("WithParentsMethod", t.ID) }
 func (e testEntityWithParentsMethod) Parents() []uid.UID { return []uid.UID{e.Other, e.Target} }
 
 type testEntityWithOptionalField struct {
@@ -126,7 +132,7 @@ type testEntityWithOptionalField struct {
 	Duration *time.Duration `authz:"duration"`
 }
 
-func (testEntityWithOptionalField) EntityType() string { return "WithOptionalField" }
+func (t testEntityWithOptionalField) UID() uid.UID { return uid.New("WithOptionalField", t.ID) }
 
 type testEntityWithTimeField struct {
 	ID        string        `authz:"id"`
@@ -134,25 +140,25 @@ type testEntityWithTimeField struct {
 	Other     time.Duration `authz:"other"`
 }
 
-func (testEntityWithTimeField) EntityType() string { return "WithTimeField" }
+func (t testEntityWithTimeField) UID() uid.UID { return uid.New("WithTimeField", t.ID) }
 
 func Test_transformToEntity(t *testing.T) {
 	type args struct {
 		e Entity
 	}
 	tests := []struct {
-		name    string
-		args    args
-		want    *authzv1alpha1.Entity
-		wantErr bool
+		name         string
+		args         args
+		want         *authzv1alpha1.Entity
+		wantChildren []*authzv1alpha1.ChildRelation
+		wantErr      bool
 	}{
 		{
 			name: "ok",
 			args: args{
 				e: testUser{
-					ID:     "test",
-					Name:   "testing",
-					Groups: []string{"devs"},
+					ID:   "test",
+					Name: "testing",
 				},
 			},
 			want: &authzv1alpha1.Entity{
@@ -168,12 +174,6 @@ func Test_transformToEntity(t *testing.T) {
 								Str: "testing",
 							},
 						},
-					},
-				},
-				Parents: []*authzv1alpha1.UID{
-					{
-						Type: "Group",
-						Id:   "devs",
 					},
 				},
 			},
@@ -202,10 +202,16 @@ func Test_transformToEntity(t *testing.T) {
 						},
 					},
 				},
-				Parents: []*authzv1alpha1.UID{
-					{
+			},
+			wantChildren: []*authzv1alpha1.ChildRelation{
+				{
+					Parent: &authzv1alpha1.UID{
 						Type: "OrgUnit",
 						Id:   "prod",
+					},
+					Child: &authzv1alpha1.UID{
+						Type: "Account",
+						Id:   "test",
 					},
 				},
 			},
@@ -251,7 +257,6 @@ func Test_transformToEntity(t *testing.T) {
 						},
 					},
 				},
-				Parents: []*authzv1alpha1.UID{},
 			},
 		},
 		{
@@ -259,14 +264,14 @@ func Test_transformToEntity(t *testing.T) {
 			args: args{
 				e: testAnyParents{
 					ID: "test",
-					Resources: []*authzv1alpha1.UID{
+					Resources: []uid.UID{
 						{
 							Type: "Something",
-							Id:   "test",
+							ID:   "test",
 						},
 						{
 							Type: "Other",
-							Id:   "else",
+							ID:   "else",
 						},
 					},
 				},
@@ -277,14 +282,26 @@ func Test_transformToEntity(t *testing.T) {
 					Id:   "test",
 				},
 				Attributes: []*authzv1alpha1.Attribute{},
-				Parents: []*authzv1alpha1.UID{
-					{
+			},
+			wantChildren: []*authzv1alpha1.ChildRelation{
+				{
+					Parent: &authzv1alpha1.UID{
 						Type: "Something",
 						Id:   "test",
 					},
-					{
+					Child: &authzv1alpha1.UID{
+						Type: "AnyParent",
+						Id:   "test",
+					},
+				},
+				{
+					Parent: &authzv1alpha1.UID{
 						Type: "Other",
 						Id:   "else",
+					},
+					Child: &authzv1alpha1.UID{
+						Type: "AnyParent",
+						Id:   "test",
 					},
 				},
 			},
@@ -293,11 +310,8 @@ func Test_transformToEntity(t *testing.T) {
 			name: "access request",
 			args: args{
 				e: testAccessRequest{
-					ID: "test",
-					Resource: &authzv1alpha1.UID{
-						Type: "Something",
-						Id:   "test",
-					},
+					ID:       "test",
+					Resource: uid.New("Something", "test"),
 				},
 			},
 			want: &authzv1alpha1.Entity{
@@ -305,10 +319,26 @@ func Test_transformToEntity(t *testing.T) {
 					Type: "AccessRequest",
 					Id:   "test",
 				},
-				Attributes: []*authzv1alpha1.Attribute{},
-				Parents: []*authzv1alpha1.UID{
+				Attributes: []*authzv1alpha1.Attribute{
 					{
+						Key: "resource",
+
+						Value: &authzv1alpha1.Value{
+							Value: &authzv1alpha1.Value_Entity{
+								Entity: uid.New("Something", "test").ToAPI(),
+							},
+						},
+					},
+				},
+			},
+			wantChildren: []*authzv1alpha1.ChildRelation{
+				{
+					Parent: &authzv1alpha1.UID{
 						Type: "Something",
+						Id:   "test",
+					},
+					Child: &authzv1alpha1.UID{
+						Type: "AccessRequest",
 						Id:   "test",
 					},
 				},
@@ -343,7 +373,6 @@ func Test_transformToEntity(t *testing.T) {
 						},
 					},
 				},
-				Parents: []*authzv1alpha1.UID{},
 			},
 		},
 		{
@@ -390,14 +419,26 @@ func Test_transformToEntity(t *testing.T) {
 						},
 					},
 				},
-				Parents: []*authzv1alpha1.UID{
-					{
+			},
+			wantChildren: []*authzv1alpha1.ChildRelation{
+				{
+					Parent: &authzv1alpha1.UID{
 						Type: "Bar",
 						Id:   "2",
 					},
-					{
+					Child: &authzv1alpha1.UID{
+						Type: "WithParentsMethod",
+						Id:   "test",
+					},
+				},
+				{
+					Parent: &authzv1alpha1.UID{
 						Type: "Foo",
 						Id:   "1",
+					},
+					Child: &authzv1alpha1.UID{
+						Type: "WithParentsMethod",
+						Id:   "test",
 					},
 				},
 			},
@@ -434,18 +475,18 @@ func Test_transformToEntity(t *testing.T) {
 						},
 					},
 				},
-				Parents: []*authzv1alpha1.UID{},
 			},
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := transformToEntity(tt.args.e)
+			got, children, err := transformToEntity(tt.args.e)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("transformToEntity() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
 			assert.Equal(t, tt.want, got)
+			assert.Equal(t, tt.wantChildren, children)
 		})
 	}
 }
@@ -462,7 +503,7 @@ func Test_parseTag(t *testing.T) {
 	tests := []struct {
 		name    string
 		args    args
-		want    Tag
+		want    string
 		wantErr bool
 	}{
 		{
@@ -470,50 +511,26 @@ func Test_parseTag(t *testing.T) {
 			args: args{
 				input: `authz:"id"`,
 			},
-			want: Tag{
-				Name: "id",
-			},
+			want: "id",
 		},
 		{
 			name: "parent",
 			args: args{
 				input: `authz:"group,parent=Group"`,
 			},
-			want: Tag{
-				Name:       "group",
-				ParentType: "Group",
-				HasParent:  true,
-			},
+			want: "group",
 		},
 		{
 			name: "with other tags",
 			args: args{
-				input: `authz:"group,parent=Group" json:"something"`,
+				input: `authz:"group,parent=Group,something=something" json:"something"`,
 			},
-			want: Tag{
-				Name:       "group",
-				ParentType: "Group",
-				HasParent:  true,
-			},
-		},
-		{
-			name: "with generic parent",
-			args: args{
-				input: `authz:"group,parent"`,
-			},
-			want: Tag{
-				Name:      "group",
-				HasParent: true,
-			},
+			want: "group",
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := parseTag(tt.args.input)
-			if (err != nil) != tt.wantErr {
-				t.Errorf("parseTag() error = %v, wantErr %v", err, tt.wantErr)
-				return
-			}
+			got := parseTag(tt.args.input)
 			if !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("parseTag() = %v, want %v", got, tt.want)
 			}
@@ -653,7 +670,7 @@ func TestUnmarshalEntity_roundtrip(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			res, err := transformToEntity(tt.in)
+			res, _, err := transformToEntity(tt.in)
 			if err != nil {
 				t.Fatal(err)
 			}

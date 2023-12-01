@@ -18,12 +18,13 @@ func (c *Client) PutEntity(ctx context.Context, input PutEntityInput) (*authzv1a
 		Entities: []*authzv1alpha1.Entity{},
 	}
 
-	parsed, err := transformToEntity(input.Entity)
+	parsed, children, err := transformToEntity(input.Entity)
 	if err != nil {
 		return nil, err
 	}
 
 	req.Entities = append(req.Entities, parsed)
+	req.Children = append(req.Children, children...)
 
 	res, err := c.raw.BatchPutEntity(ctx, connect.NewRequest(req))
 	if err != nil {

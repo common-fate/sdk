@@ -29,12 +29,13 @@ func (c *Client) BatchPutEntityJSON(ctx context.Context, input BatchPutEntityJSO
 	}
 
 	for _, e := range input.Entities {
-		parsed, err := transformJSONToEntity(e)
+		parsed, children, err := transformJSONToEntity(e)
 		if err != nil {
 			return nil, err
 		}
 
 		req.Entities = append(req.Entities, parsed)
+		req.Children = append(req.Children, children...)
 	}
 
 	res, err := c.raw.BatchPutEntity(ctx, connect.NewRequest(req))
@@ -45,23 +46,27 @@ func (c *Client) BatchPutEntityJSON(ctx context.Context, input BatchPutEntityJSO
 	return res.Msg, nil
 }
 
-func transformJSONToEntity(e EntityJSON) (*authzv1alpha1.Entity, error) {
+func transformJSONToEntity(e EntityJSON) (*authzv1alpha1.Entity, []*authzv1alpha1.ChildRelation, error) {
 	attrs, err := transformAttrs(e.Attrs)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 
 	res := authzv1alpha1.Entity{
 		Uid:        e.UID.ToAPI(),
 		Attributes: attrs,
-		Parents:    []*authzv1alpha1.UID{},
 	}
+
+	var children []*authzv1alpha1.ChildRelation
 
 	for _, v := range e.Parents {
-		res.Parents = append(res.Parents, v.ToAPI())
+		children = append(children, &authzv1alpha1.ChildRelation{
+			Parent: v.ToAPI(),
+			Child:  e.UID.ToAPI(),
+		})
 	}
 
-	return &res, nil
+	return &res, children, nil
 }
 
 func transformAttrs(attrs map[string]any) ([]*authzv1alpha1.Attribute, error) {
