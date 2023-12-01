@@ -11,7 +11,7 @@ func Save(cfg *Config) error {
 	// if COMMONFATE_CONFIG_FILE is set, use a custom file path
 	// for the config file location.
 	// the file specified must exist.
-	customPath := os.Getenv("COMMONFATE_CONFIG_FILE")
+	customPath := os.Getenv("COMMON_FATE_CIEM_CONFIG_FILE")
 	if customPath != "" {
 		return saveConfigFile(cfg, customPath)
 	}
@@ -29,7 +29,7 @@ func Save(cfg *Config) error {
 			return err
 		}
 	}
-	fp := filepath.Join(configFolder, "config")
+	fp := filepath.Join(configFolder, "ciem")
 	return saveConfigFile(cfg, fp)
 }
 
