@@ -1,7 +1,6 @@
 package authz
 
 import (
-	"errors"
 	"fmt"
 	"reflect"
 	"strings"
@@ -13,6 +12,7 @@ import (
 	"github.com/common-fate/sdk/service/authz/uid"
 	"github.com/fatih/structtag"
 	"github.com/patrickmn/go-cache"
+	"github.com/pkg/errors"
 )
 
 type Client struct {
@@ -83,6 +83,11 @@ func transformToEntity(e Entity) (*authzv1alpha1.Entity, error) {
 	p, ok := e.(Parenter)
 	if ok {
 		for _, parent := range p.Parents() {
+			err := parent.Valid()
+			if err != nil {
+				return nil, errors.Wrapf(err, "parsing parents for entity type %s", e.EntityType())
+			}
+
 			entity.Parents = append(entity.Parents, parent.ToAPI())
 		}
 	}
@@ -164,7 +169,7 @@ func transformToEntity(e Entity) (*authzv1alpha1.Entity, error) {
 		// try and parse as an attribute
 		attr, err := extractAttr(v.Field(i))
 		if err != nil {
-			return nil, err
+			return nil, errors.Wrapf(err, "extracting attributes for entity type %s", e.EntityType())
 		}
 
 		entity.Attributes = append(entity.Attributes, &authzv1alpha1.Attribute{
@@ -182,6 +187,10 @@ func extractAttr(val reflect.Value) (*authzv1alpha1.Value, error) {
 		// try and parse as an entity reference
 		uid, ok := val.Interface().(uid.UID)
 		if ok {
+			err := uid.Valid()
+			if err != nil {
+				return nil, err
+			}
 			return &authzv1alpha1.Value{
 				Value: &authzv1alpha1.Value_Entity{
 					Entity: uid.ToAPI(),
