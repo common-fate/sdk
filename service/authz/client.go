@@ -169,7 +169,7 @@ func transformToEntity(e Entity) (*authzv1alpha1.Entity, error) {
 		// try and parse as an attribute
 		attr, err := extractAttr(v.Field(i))
 		if err != nil {
-			return nil, errors.Wrapf(err, "extracting attributes for entity type %s", e.EntityType())
+			return nil, errors.Wrapf(err, "extracting attributes for entity type %s field %s", e.EntityType(), t.Name)
 		}
 
 		entity.Attributes = append(entity.Attributes, &authzv1alpha1.Attribute{
