@@ -96,19 +96,12 @@ message Grant {
     // The status of the Grant.
     GrantStatus status = 6;
 
-    // A preview of users designated as reviewers. For Grants with many reviewers,
-    // this will not be the full list of reviewers.
-    ReviewerPreview reviewers_preview = 7;
-
     // For active grants, the time that the access is due to expire.
     google.protobuf.Timestamp expires_at = 8;
 
     // For active grants, the time that the user may attempt to extend the grant.
     // If empty, extension is not permitted.
     google.protobuf.Timestamp extension_permitted_at = 9;
-
-    // Recent activity associated with the Grant.
-    AuditLogPreview recent_activity = 10;
 }
 
 enum GrantStatus {
@@ -129,23 +122,13 @@ enum GrantStatus {
     GRANT_STATUS_INACTIVE = 4;
 }
 
-message RevokeAccessRequestRequest {
-  // The ID of the Access Request.
-  string id = 1;
-}
-
-message RevokeAccessRequestResponse {
-  repeated Warning warnings = 1;
-}
-
-
 message ApproveAccessRequestRequest {
   // The ID of the Access Request.
   string id = 1;
 }
 
 message ApproveAccessRequestResponse {
-  repeated Warning warnings = 1;
+  repeated Diagnostic diagnostics = 1;
 }
 
 message CloseAccessRequestRequest {
@@ -154,14 +137,23 @@ message CloseAccessRequestRequest {
 }
 
 message CloseAccessRequestResponse {
-  repeated Warning warnings = 1;
+  repeated Diagnostic diagnostics = 1;
 }
 
-message Warning {
-  // The resource the warning relates to.
-  // Can be empty if the warning doesn't relate to a particular resource.
-  commonfate.authz.v1alpha1.UID resource = 1;
+enum DiagnosticLevel {
+  DIAGNOSTIC_LEVEL_UNSPECIFIED = 0;
+  DIAGNOSTIC_LEVEL_INFO = 1;
+  DIAGNOSTIC_LEVEL_WARNING = 2;
+  DIAGNOSTIC_LEVEL_ERROR = 3;
+}
 
-  // The warning message.
-  string message = 2;
+message Diagnostic {
+  DiagnosticLevel level = 1;
+
+  // The resource the diagnostic message relates to.
+  // Can be empty if the message doesn't relate to a particular resource.
+  commonfate.authz.v1alpha1.UID resource = 2;
+
+  // The message.
+  string message = 3;
 }
