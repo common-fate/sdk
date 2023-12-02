@@ -30,6 +30,12 @@ func New(entityType string, id string) UID {
 	return UID{Type: entityType, ID: id}
 }
 
+// Ptr creates a UID from a provided entity type and ID
+// and returns it as a pointer.
+func Ptr(entityType string, id string) *UID {
+	return &UID{Type: entityType, ID: id}
+}
+
 func (u UID) ToAPI() *authzv1alpha1.UID {
 	return &authzv1alpha1.UID{
 		Type: u.Type,
