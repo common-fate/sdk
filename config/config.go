@@ -23,13 +23,13 @@ type Config struct {
 
 type Context struct {
 	// the name of the context is the key of the toml entry
-	name                       string
-	APIURL                     string  `toml:"api_url,omitempty" json:"api_url,omitempty"`
-	AccessURL                  string  `toml:"access_url,omitempty" json:"access_url,omitempty"`
-	OIDCIssuer                 string  `toml:"oidc_issuer,omitempty" json:"oidc_issuer,omitempty"`
-	OIDCClientID               string  `toml:"oidc_client_id,omitempty" json:"oidc_client_id,omitempty"`
-	ServiceAccountClientID     *string `toml:"service_account_client_id,omitempty" json:"service_account_client_id,omitempty"`
-	ServiceAccountClientSecret *string `toml:"service_account_client_secret,omitempty" json:"service_account_client_secret,omitempty"`
+	name         string
+	APIURL       string `toml:"api_url,omitempty" json:"api_url,omitempty"`
+	AccessURL    string `toml:"access_url,omitempty" json:"access_url,omitempty"`
+	OIDCIssuer   string `toml:"oidc_issuer,omitempty" json:"oidc_issuer,omitempty"`
+	OIDCClientID string `toml:"oidc_client_id,omitempty" json:"oidc_client_id,omitempty"`
+	// OIDCClientSecret, if specified, will cause the client to use machine-to-machine OIDC authentication.
+	OIDCClientSecret *string `toml:"oidc_client_secret,omitempty" json:"oidc_client_secret,omitempty"`
 
 	// HTTPClient is filled in by calling Initialize()
 	HTTPClient *http.Client
@@ -60,12 +60,12 @@ func (c *Context) Initialize(ctx context.Context) error {
 
 	oauthconf := p.OAuthConfig()
 
-	if c.ServiceAccountClientID != nil {
+	if c.OIDCClientSecret != nil {
 		cfg := clientcredentials.Config{
-			ClientID:     *c.ServiceAccountClientID,
-			ClientSecret: *c.ServiceAccountClientSecret,
+			ClientID:     c.OIDCClientID,
+			ClientSecret: *c.OIDCClientSecret,
 			Scopes:       []string{"cf.client/read", "cf.client/write"},
-			TokenURL:     c.AccessURL + "/oauth2/token",
+			TokenURL:     p.OAuthConfig().Endpoint.TokenURL,
 		}
 
 		_, err := cfg.Token(ctx)

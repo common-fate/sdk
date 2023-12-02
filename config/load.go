@@ -33,15 +33,14 @@ func LoadDefault(ctx context.Context) (*Context, error) {
 	return current, nil
 }
 
-type ServiceAccount struct {
-	APIURL    string
-	IssuerURL string
-
-	ClientId     string
+type Opts struct {
+	APIURL       string
+	IssuerURL    string
+	ClientID     string
 	ClientSecret string
 }
 
-func NewServiceAccount(ctx context.Context, ServiceAccount ServiceAccount) (*Context, error) {
+func New(ctx context.Context, opts Opts) (*Context, error) {
 	cfg, err := load()
 	if err != nil {
 		return nil, err
@@ -52,10 +51,10 @@ func NewServiceAccount(ctx context.Context, ServiceAccount ServiceAccount) (*Con
 		return nil, err
 	}
 
-	current.APIURL = ServiceAccount.APIURL
-	current.AccessURL = ServiceAccount.IssuerURL
-	current.ServiceAccountClientID = &ServiceAccount.ClientId
-	current.ServiceAccountClientSecret = &ServiceAccount.ClientSecret
+	current.APIURL = opts.APIURL
+	current.AccessURL = opts.IssuerURL
+	current.OIDCClientID = opts.ClientID
+	current.OIDCClientSecret = &opts.ClientSecret
 
 	err = current.Initialize(ctx)
 	if err != nil {
