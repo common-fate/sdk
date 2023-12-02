@@ -5,6 +5,7 @@ package commonfate.access.v1alpha1;
 import "commonfate/control/attest/v1alpha1/attestation.proto";
 import "commonfate/access/v1alpha1/user.proto";
 import "commonfate/authz/v1alpha1/entity.proto";
+import "commonfate/authz/v1alpha1/uid.proto";
 import "commonfate/access/v1alpha1/named_uid.proto";
 import "commonfate/access/v1alpha1/reviewer_preview.proto";
 import "commonfate/access/v1alpha1/audit_logs.proto";
@@ -134,7 +135,7 @@ message RevokeAccessRequestRequest {
 }
 
 message RevokeAccessRequestResponse {
-  Warnings warnings = 1;
+  repeated Warning warnings = 1;
 }
 
 
@@ -144,7 +145,7 @@ message ApproveAccessRequestRequest {
 }
 
 message ApproveAccessRequestResponse {
-  Warnings warnings = 1;
+  repeated Warning warnings = 1;
 }
 
 message CloseAccessRequestRequest {
@@ -153,19 +154,14 @@ message CloseAccessRequestRequest {
 }
 
 message CloseAccessRequestResponse {
-  Warnings warnings = 1;
+  repeated Warning warnings = 1;
 }
 
-message Warnings {
-  // Grants that were unable to be acted upon because of a permissions error.
-  repeated Grant grants_permission_denied = 1;
+message Warning {
+  // The resource the warning relates to.
+  // Can be empty if the warning doesn't relate to a particular resource.
+  commonfate.authz.v1alpha1.UID resource = 1;
 
-  // Grants that were unable to be acted upon because they were in an invalid state.
-  repeated Grant grants_invalid_status = 2;
-
-  // Grants that have expired.
-  repeated Grant grants_expired = 3;
-
-  // Other errors
-  repeated string errors = 4;
+  // The warning message.
+  string message = 2;
 }

@@ -139,7 +139,7 @@ message EnsureResponse {
   Grant grant = 5;
 
   // User-facing diagnostic warnings
-  Warnings warnings = 6;
+  repeated Warning warnings = 6;
 }
 
 message BatchEnsureResponse {
@@ -155,7 +155,7 @@ message BatchEnsureResponse {
   // to request some of the entitlements they asked for.
   //
   // Rather than failing the entire operation the Access Handler returns warnings.
-  Warnings warnings = 5;
+  repeated Warning warnings = 5;
 }
 
 message Justification {
