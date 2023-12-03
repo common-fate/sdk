@@ -38,6 +38,9 @@ service AuthzService {
     // creates or updates entities for a particular policy store in the authorization service.
     rpc BatchPutEntity(BatchPutEntityRequest) returns (BatchPutEntityResponse) {}
 
+    // soft-deletes entities so they are no longer visible in list queries unless specifically asked for archive
+    rpc BatchArchiveEntity(BatchArchiveEntityRequest) returns (BatchArchiveEntityResponse) {}
+
     // removes entities from the authorization service.
     rpc BatchDeleteEntity(BatchDeleteEntityRequest) returns (BatchDeleteEntityResponse) {}
 
@@ -70,13 +73,20 @@ service AuthzService {
     rpc BatchGetEntity(BatchGetEntityRequest) returns (BatchGetEntityResponse) {}
 }
 
+
+message BatchArchiveEntityRequest {
+    string universe = 1;
+    repeated UID entities = 2;
+}
+
+message BatchArchiveEntityResponse {}
+
 message BatchDeleteEntityRequest {
     string universe = 1;
     repeated UID entities = 2;
     // parent/child relationships to remove.
     repeated ChildRelation children = 3;
 }
-
 
 message BatchDeleteEntityResponse {}
 
@@ -96,6 +106,9 @@ message QueryRequest {
 
     // The token for the next page.
     string page_token = 5;
+
+    // If true, will look through archived entities
+    bool archived = 6;
 }
 
 message LoadedEntity {

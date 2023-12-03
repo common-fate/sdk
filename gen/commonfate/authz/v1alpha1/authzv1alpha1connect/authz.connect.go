@@ -36,6 +36,9 @@ const (
 	// AuthzServiceBatchPutEntityProcedure is the fully-qualified name of the AuthzService's
 	// BatchPutEntity RPC.
 	AuthzServiceBatchPutEntityProcedure = "/commonfate.authz.v1alpha1.AuthzService/BatchPutEntity"
+	// AuthzServiceBatchArchiveEntityProcedure is the fully-qualified name of the AuthzService's
+	// BatchArchiveEntity RPC.
+	AuthzServiceBatchArchiveEntityProcedure = "/commonfate.authz.v1alpha1.AuthzService/BatchArchiveEntity"
 	// AuthzServiceBatchDeleteEntityProcedure is the fully-qualified name of the AuthzService's
 	// BatchDeleteEntity RPC.
 	AuthzServiceBatchDeleteEntityProcedure = "/commonfate.authz.v1alpha1.AuthzService/BatchDeleteEntity"
@@ -61,6 +64,8 @@ const (
 type AuthzServiceClient interface {
 	// creates or updates entities for a particular policy store in the authorization service.
 	BatchPutEntity(context.Context, *connect_go.Request[v1alpha1.BatchPutEntityRequest]) (*connect_go.Response[v1alpha1.BatchPutEntityResponse], error)
+	// soft-deletes entities so they are no longer visible in list queries unless specifically asked for archive
+	BatchArchiveEntity(context.Context, *connect_go.Request[v1alpha1.BatchArchiveEntityRequest]) (*connect_go.Response[v1alpha1.BatchArchiveEntityResponse], error)
 	// removes entities from the authorization service.
 	BatchDeleteEntity(context.Context, *connect_go.Request[v1alpha1.BatchDeleteEntityRequest]) (*connect_go.Response[v1alpha1.BatchDeleteEntityResponse], error)
 	// adds Cedar policies for a particular policy store
@@ -89,6 +94,11 @@ func NewAuthzServiceClient(httpClient connect_go.HTTPClient, baseURL string, opt
 		batchPutEntity: connect_go.NewClient[v1alpha1.BatchPutEntityRequest, v1alpha1.BatchPutEntityResponse](
 			httpClient,
 			baseURL+AuthzServiceBatchPutEntityProcedure,
+			opts...,
+		),
+		batchArchiveEntity: connect_go.NewClient[v1alpha1.BatchArchiveEntityRequest, v1alpha1.BatchArchiveEntityResponse](
+			httpClient,
+			baseURL+AuthzServiceBatchArchiveEntityProcedure,
 			opts...,
 		),
 		batchDeleteEntity: connect_go.NewClient[v1alpha1.BatchDeleteEntityRequest, v1alpha1.BatchDeleteEntityResponse](
@@ -131,19 +141,25 @@ func NewAuthzServiceClient(httpClient connect_go.HTTPClient, baseURL string, opt
 
 // authzServiceClient implements AuthzServiceClient.
 type authzServiceClient struct {
-	batchPutEntity    *connect_go.Client[v1alpha1.BatchPutEntityRequest, v1alpha1.BatchPutEntityResponse]
-	batchDeleteEntity *connect_go.Client[v1alpha1.BatchDeleteEntityRequest, v1alpha1.BatchDeleteEntityResponse]
-	batchPutPolicy    *connect_go.Client[v1alpha1.BatchPutPolicyRequest, v1alpha1.BatchPutPolicyResponse]
-	batchAuthorize    *connect_go.Client[v1alpha1.BatchAuthorizeRequest, v1alpha1.BatchAuthorizeResponse]
-	listPolicies      *connect_go.Client[v1alpha1.ListPoliciesRequest, v1alpha1.ListPoliciesResponse]
-	query             *connect_go.Client[v1alpha1.QueryRequest, v1alpha1.QueryResponse]
-	getEntity         *connect_go.Client[v1alpha1.GetEntityRequest, v1alpha1.GetEntityResponse]
-	batchGetEntity    *connect_go.Client[v1alpha1.BatchGetEntityRequest, v1alpha1.BatchGetEntityResponse]
+	batchPutEntity     *connect_go.Client[v1alpha1.BatchPutEntityRequest, v1alpha1.BatchPutEntityResponse]
+	batchArchiveEntity *connect_go.Client[v1alpha1.BatchArchiveEntityRequest, v1alpha1.BatchArchiveEntityResponse]
+	batchDeleteEntity  *connect_go.Client[v1alpha1.BatchDeleteEntityRequest, v1alpha1.BatchDeleteEntityResponse]
+	batchPutPolicy     *connect_go.Client[v1alpha1.BatchPutPolicyRequest, v1alpha1.BatchPutPolicyResponse]
+	batchAuthorize     *connect_go.Client[v1alpha1.BatchAuthorizeRequest, v1alpha1.BatchAuthorizeResponse]
+	listPolicies       *connect_go.Client[v1alpha1.ListPoliciesRequest, v1alpha1.ListPoliciesResponse]
+	query              *connect_go.Client[v1alpha1.QueryRequest, v1alpha1.QueryResponse]
+	getEntity          *connect_go.Client[v1alpha1.GetEntityRequest, v1alpha1.GetEntityResponse]
+	batchGetEntity     *connect_go.Client[v1alpha1.BatchGetEntityRequest, v1alpha1.BatchGetEntityResponse]
 }
 
 // BatchPutEntity calls commonfate.authz.v1alpha1.AuthzService.BatchPutEntity.
 func (c *authzServiceClient) BatchPutEntity(ctx context.Context, req *connect_go.Request[v1alpha1.BatchPutEntityRequest]) (*connect_go.Response[v1alpha1.BatchPutEntityResponse], error) {
 	return c.batchPutEntity.CallUnary(ctx, req)
+}
+
+// BatchArchiveEntity calls commonfate.authz.v1alpha1.AuthzService.BatchArchiveEntity.
+func (c *authzServiceClient) BatchArchiveEntity(ctx context.Context, req *connect_go.Request[v1alpha1.BatchArchiveEntityRequest]) (*connect_go.Response[v1alpha1.BatchArchiveEntityResponse], error) {
+	return c.batchArchiveEntity.CallUnary(ctx, req)
 }
 
 // BatchDeleteEntity calls commonfate.authz.v1alpha1.AuthzService.BatchDeleteEntity.
@@ -185,6 +201,8 @@ func (c *authzServiceClient) BatchGetEntity(ctx context.Context, req *connect_go
 type AuthzServiceHandler interface {
 	// creates or updates entities for a particular policy store in the authorization service.
 	BatchPutEntity(context.Context, *connect_go.Request[v1alpha1.BatchPutEntityRequest]) (*connect_go.Response[v1alpha1.BatchPutEntityResponse], error)
+	// soft-deletes entities so they are no longer visible in list queries unless specifically asked for archive
+	BatchArchiveEntity(context.Context, *connect_go.Request[v1alpha1.BatchArchiveEntityRequest]) (*connect_go.Response[v1alpha1.BatchArchiveEntityResponse], error)
 	// removes entities from the authorization service.
 	BatchDeleteEntity(context.Context, *connect_go.Request[v1alpha1.BatchDeleteEntityRequest]) (*connect_go.Response[v1alpha1.BatchDeleteEntityResponse], error)
 	// adds Cedar policies for a particular policy store
@@ -209,6 +227,11 @@ func NewAuthzServiceHandler(svc AuthzServiceHandler, opts ...connect_go.HandlerO
 	authzServiceBatchPutEntityHandler := connect_go.NewUnaryHandler(
 		AuthzServiceBatchPutEntityProcedure,
 		svc.BatchPutEntity,
+		opts...,
+	)
+	authzServiceBatchArchiveEntityHandler := connect_go.NewUnaryHandler(
+		AuthzServiceBatchArchiveEntityProcedure,
+		svc.BatchArchiveEntity,
 		opts...,
 	)
 	authzServiceBatchDeleteEntityHandler := connect_go.NewUnaryHandler(
@@ -250,6 +273,8 @@ func NewAuthzServiceHandler(svc AuthzServiceHandler, opts ...connect_go.HandlerO
 		switch r.URL.Path {
 		case AuthzServiceBatchPutEntityProcedure:
 			authzServiceBatchPutEntityHandler.ServeHTTP(w, r)
+		case AuthzServiceBatchArchiveEntityProcedure:
+			authzServiceBatchArchiveEntityHandler.ServeHTTP(w, r)
 		case AuthzServiceBatchDeleteEntityProcedure:
 			authzServiceBatchDeleteEntityHandler.ServeHTTP(w, r)
 		case AuthzServiceBatchPutPolicyProcedure:
@@ -275,6 +300,10 @@ type UnimplementedAuthzServiceHandler struct{}
 
 func (UnimplementedAuthzServiceHandler) BatchPutEntity(context.Context, *connect_go.Request[v1alpha1.BatchPutEntityRequest]) (*connect_go.Response[v1alpha1.BatchPutEntityResponse], error) {
 	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("commonfate.authz.v1alpha1.AuthzService.BatchPutEntity is not implemented"))
+}
+
+func (UnimplementedAuthzServiceHandler) BatchArchiveEntity(context.Context, *connect_go.Request[v1alpha1.BatchArchiveEntityRequest]) (*connect_go.Response[v1alpha1.BatchArchiveEntityResponse], error) {
+	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("commonfate.authz.v1alpha1.AuthzService.BatchArchiveEntity is not implemented"))
 }
 
 func (UnimplementedAuthzServiceHandler) BatchDeleteEntity(context.Context, *connect_go.Request[v1alpha1.BatchDeleteEntityRequest]) (*connect_go.Response[v1alpha1.BatchDeleteEntityResponse], error) {
