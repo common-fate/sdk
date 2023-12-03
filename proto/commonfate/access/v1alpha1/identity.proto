@@ -3,7 +3,7 @@ syntax = "proto3";
 package commonfate.access.v1alpha1;
 
 import "commonfate/authz/v1alpha1/uid.proto";
-import "commonfate/access/v1alpha1/named_uid.proto";
+import "commonfate/access/v1alpha1/user.proto";
 
 
 service IdentityService {
@@ -24,7 +24,7 @@ message GetCallerIdentityResponse {
   repeated IdentityLink chain = 1;
 
   // The principal that the user is currently acting as.
-  NamedUID principal = 2; 
+  User principal = 2; 
 }
 
 message IdentityLink {
