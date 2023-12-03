@@ -6,6 +6,7 @@ import "commonfate/control/attest/v1alpha1/attestation.proto";
 import "commonfate/access/v1alpha1/user.proto";
 import "commonfate/authz/v1alpha1/uid.proto";
 import "commonfate/access/v1alpha1/named_uid.proto";
+import "commonfate/access/v1alpha1/identity.proto";
 import "google/protobuf/duration.proto";
 import "google/protobuf/struct.proto";
 import "google/protobuf/timestamp.proto";
@@ -61,4 +62,9 @@ message AuditLog {
 
     // all related resources affected by the action.
     repeated commonfate.authz.v1alpha1.UID all_targets = 8;
+
+    // the caller identity details, including information 
+    // such as the particular authentication token ID used
+    // to perform the action.
+    repeated IdentityLink caller_identity_chain = 9;
 }
