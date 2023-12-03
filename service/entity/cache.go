@@ -47,7 +47,7 @@ func (c *AttrCache) String(ctx context.Context, uid uid.UID, attr string) string
 
 	log.Debugw("cache miss")
 
-	res, err := c.client.GetEntity(ctx, GetEntityInput{
+	res, err := c.client.GetEntity(ctx, GetInput{
 		UID: uid,
 	})
 	if err != nil {

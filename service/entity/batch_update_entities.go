@@ -7,12 +7,12 @@ import (
 	entityv1alpha1 "github.com/common-fate/sdk/gen/commonfate/entity/v1alpha1"
 )
 
-type BatchPutEntityInput struct {
+type BatchUpdateInput struct {
 	Entities []Entity
 	Children []ChildRelation
 }
 
-func (c *Client) BatchUpdateEntities(ctx context.Context, input BatchPutEntityInput) (*entityv1alpha1.BatchUpdateResponse, error) {
+func (c *Client) BatchUpdateEntities(ctx context.Context, input BatchUpdateInput) (*entityv1alpha1.BatchUpdateResponse, error) {
 	var req = &entityv1alpha1.BatchUpdateRequest{
 		Universe:    "default",
 		PutEntities: []*entityv1alpha1.Entity{},

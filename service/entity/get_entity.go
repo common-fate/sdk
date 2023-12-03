@@ -9,7 +9,7 @@ import (
 	"github.com/patrickmn/go-cache"
 )
 
-type GetEntityInput struct {
+type GetInput struct {
 	UID uid.UID
 	// UseCache will try and retrieve entities from
 	// the client cache if it's present.
@@ -18,7 +18,7 @@ type GetEntityInput struct {
 	UseCache bool
 }
 
-func (c *Client) GetEntity(ctx context.Context, input GetEntityInput) (*entityv1alpha1.GetResponse, error) {
+func (c *Client) GetEntity(ctx context.Context, input GetInput) (*entityv1alpha1.GetResponse, error) {
 	req := &entityv1alpha1.GetRequest{
 		Universe: "default",
 		Uid:      input.UID.ToAPI(),

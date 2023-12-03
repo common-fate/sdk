@@ -18,11 +18,11 @@ type EntityJSON struct {
 	Parents []uid.UID      `json:"parents"`
 }
 
-type BatchPutEntityJSONInput struct {
+type BatchPutJSONInput struct {
 	Entities []EntityJSON
 }
 
-func (c *Client) BatchPutEntityJSON(ctx context.Context, input BatchPutEntityJSONInput) (*entityv1alpha1.BatchUpdateResponse, error) {
+func (c *Client) BatchPutEntityJSON(ctx context.Context, input BatchPutJSONInput) (*entityv1alpha1.BatchUpdateResponse, error) {
 	var req = &entityv1alpha1.BatchUpdateRequest{
 		Universe:    "default",
 		PutEntities: []*entityv1alpha1.Entity{},
