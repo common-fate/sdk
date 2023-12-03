@@ -77,10 +77,10 @@ service AuthzService {
 message BatchArchiveEntityRequest {
     string universe = 1;
     // entities to archive
-    repeated UID archive_entities = 2;
+    repeated UID archive = 2;
 
     // entities to mark as active
-    repeated UID unarchive_entities = 3;
+    repeated UID unarchive = 3;
 }
 
 message BatchArchiveEntityResponse {}
