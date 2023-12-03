@@ -2,14 +2,15 @@ syntax = "proto3";
 
 package commonfate.authz.v1alpha1;
 
-import "commonfate/authz/v1alpha1/uid.proto";
-import "commonfate/authz/v1alpha1/entity.proto";
+import "commonfate/entity/v1alpha1/uid.proto";
+import "commonfate/entity/v1alpha1/entity.proto";
+import "commonfate/entity/v1alpha1/child_relation.proto";
 
 
 message Request {
-    UID principal = 1;
-    UID action = 2;
-    UID resource = 3;
+    commonfate.entity.v1alpha1.UID principal = 1;
+    commonfate.entity.v1alpha1.UID action = 2;
+    commonfate.entity.v1alpha1.UID resource = 3;
     // A client side identifier for the authorization request.
     // The client_key will be included in the corresponding evaluation for the
     // particular request made.
@@ -18,8 +19,8 @@ message Request {
     string client_key = 4;
 
     // Entities to 'overlay' temporarily on the entities stored in the authz service.
-    repeated Entity overlay_entities = 5;
+    repeated commonfate.entity.v1alpha1.Entity overlay_entities = 5;
 
     // Parent/child relationships to 'overlay' temporarily on the entities stored in the authz service.
-    repeated ChildRelation overlay_children = 6;
+    repeated commonfate.entity.v1alpha1.ChildRelation overlay_children = 6;
 }

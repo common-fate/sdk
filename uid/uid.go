@@ -5,7 +5,7 @@ import (
 	"strings"
 
 	accessv1alpha1 "github.com/common-fate/sdk/gen/commonfate/access/v1alpha1"
-	authzv1alpha1 "github.com/common-fate/sdk/gen/commonfate/authz/v1alpha1"
+	entityv1alpha1 "github.com/common-fate/sdk/gen/commonfate/entity/v1alpha1"
 	"github.com/pkg/errors"
 )
 
@@ -36,8 +36,8 @@ func Ptr(entityType string, id string) *UID {
 	return &UID{Type: entityType, ID: id}
 }
 
-func (u UID) ToAPI() *authzv1alpha1.UID {
-	return &authzv1alpha1.UID{
+func (u UID) ToAPI() *entityv1alpha1.UID {
+	return &entityv1alpha1.UID{
 		Type: u.Type,
 		Id:   u.ID,
 	}
@@ -61,7 +61,7 @@ func (u UID) String() string {
 	return fmt.Sprintf(`%s::"%s"`, u.Type, u.ID)
 }
 
-func FromAPI(uid *authzv1alpha1.UID) UID {
+func FromAPI(uid *entityv1alpha1.UID) UID {
 	if uid == nil {
 		return UID{}
 	}

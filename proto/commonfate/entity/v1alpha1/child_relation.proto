@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package commonfate.entity.v1alpha1;
+
+import "commonfate/entity/v1alpha1/uid.proto";
+
+message ChildRelation {
+    UID parent = 1;
+    UID child = 2;
+}

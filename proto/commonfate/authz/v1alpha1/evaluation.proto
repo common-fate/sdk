@@ -6,7 +6,7 @@ import "google/protobuf/timestamp.proto";
 
 import "commonfate/authz/v1alpha1/request.proto";
 import "commonfate/authz/v1alpha1/policy.proto";
-import "commonfate/authz/v1alpha1/entity.proto";
+import "commonfate/entity/v1alpha1/entity.proto";
 
 
 // EvalService is the API for auditing authorization evaluations made by authz.
@@ -81,5 +81,5 @@ message DebugInformation {
     repeated Policy policies = 1;
 
     // Entities which contributed to the authorization decision.
-    repeated Entity entities = 2;
+    repeated commonfate.entity.v1alpha1.Entity entities = 2;
 }

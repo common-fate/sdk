@@ -4,8 +4,8 @@ package commonfate.authz.v1alpha1;
 
 import "google/protobuf/struct.proto";
 import "google/protobuf/timestamp.proto";
-import "commonfate/authz/v1alpha1/entity.proto";
-import "commonfate/authz/v1alpha1/uid.proto";
+import "commonfate/entity/v1alpha1/entity.proto";
+import "commonfate/entity/v1alpha1/uid.proto";
 import "commonfate/authz/v1alpha1/request.proto";
 import "commonfate/authz/v1alpha1/policy.proto";
 import "commonfate/authz/v1alpha1/evaluation.proto";
@@ -35,15 +35,6 @@ import "commonfate/authz/v1alpha1/evaluation.proto";
 //
 // Currently the service only supports a single Universe, called 'default', and a single Environment, called 'production'.
 service AuthzService {
-    // creates or updates entities for a particular policy store in the authorization service.
-    rpc BatchPutEntity(BatchPutEntityRequest) returns (BatchPutEntityResponse) {}
-
-    // soft-deletes entities so they are no longer visible in list queries unless specifically asked for archive
-    rpc BatchArchiveEntity(BatchArchiveEntityRequest) returns (BatchArchiveEntityResponse) {}
-
-    // removes entities from the authorization service.
-    rpc BatchDeleteEntity(BatchDeleteEntityRequest) returns (BatchDeleteEntityResponse) {}
-
     // // updates the schema for a particular policy store
     // rpc PutSchema(PutSchemaRequest) returns (PutSchemaResponse) {}
 
@@ -62,72 +53,6 @@ service AuthzService {
     // rpc LookupPrincipal(LookupPrincipalRequest) returns (LookupPrincipalResponse) {}
 
     rpc ListPolicies(ListPoliciesRequest) returns (ListPoliciesResponse) {}
-
-    // List entities matching filter conditions.
-    rpc ListEntities(ListEntitiesRequest) returns (ListEntitiesResponse) {}
-
-    // Get an entity by UID.
-    rpc GetEntity(GetEntityRequest) returns (GetEntityResponse) {}
-
-    // Get multiple entities by UID.
-    rpc BatchGetEntity(BatchGetEntityRequest) returns (BatchGetEntityResponse) {}
-}
-
-
-message BatchArchiveEntityRequest {
-    string universe = 1;
-    // entities to archive
-    repeated UID archive = 2;
-
-    // entities to mark as active
-    repeated UID unarchive = 3;
-}
-
-message BatchArchiveEntityResponse {}
-
-message BatchDeleteEntityRequest {
-    string universe = 1;
-    repeated UID entities = 2;
-    // parent/child relationships to remove.
-    repeated ChildRelation children = 3;
-}
-
-message BatchDeleteEntityResponse {}
-
-message ListEntitiesRequest {
-    string universe = 1;
-
-    // The token for the next page.
-    string page_token = 2;
-
-    // Filter entities for a particular type
-    string type = 3;
-
-    // If true, will look through archived entities
-    bool archived = 6;
-}
-
-message ListEntitiesResponse {
-    repeated Entity entities = 1;
-    string next_page_token = 2;
-}
-
-message GetEntityRequest {
-    string universe = 1;
-    UID entity = 2;
-}
-
-message GetEntityResponse {
-    Entity entity = 1;
-}
-
-message BatchGetEntityRequest {
-    string universe = 1;
-    repeated UID entities = 2;
-}
-
-message BatchGetEntityResponse {
-    repeated Entity entities = 1;
 }
 
 message BatchAuthorizeRequest {
@@ -152,15 +77,6 @@ message ListPoliciesResponse {
     repeated Policy policies = 1;
     string next_page_token = 2;
 }
-
-message BatchPutEntityRequest {
-    string universe = 1;
-    repeated Entity entities = 2;
-    // parent/child relationships to add.
-    repeated ChildRelation children = 3;
-}
-
-message BatchPutEntityResponse {}
 
 message BatchPutPolicyRequest {
     string universe = 1;

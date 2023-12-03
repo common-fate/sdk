@@ -8,7 +8,7 @@ import (
 	"github.com/bufbuild/connect-go"
 	authzv1alpha1 "github.com/common-fate/sdk/gen/commonfate/authz/v1alpha1"
 	"github.com/common-fate/sdk/service/authz"
-	"github.com/common-fate/sdk/service/authz/uid"
+	"github.com/common-fate/sdk/uid"
 )
 
 // Batch is a batch authorization request.

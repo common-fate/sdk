@@ -1,0 +1,81 @@
+syntax = "proto3";
+
+package commonfate.entity.v1alpha1;
+
+import "commonfate/entity/v1alpha1/uid.proto";
+import "commonfate/entity/v1alpha1/entity.proto";
+import "commonfate/entity/v1alpha1/child_relation.proto";
+
+service EntityService {
+    // creates or updates entities for a particular policy store in the authorization service.
+    rpc BatchUpdate(BatchUpdateRequest) returns (BatchUpdateResponse) {}
+
+    // List entities matching filter conditions.
+    rpc List(ListRequest) returns (ListResponse) {}
+
+    // Get an entity by UID.
+    rpc Get(GetRequest) returns (GetResponse) {}
+
+    // Get multiple entities by UID.
+    rpc BatchGet(BatchGetRequest) returns (BatchGetResponse) {}
+}
+
+message ListRequest {
+    string universe = 1;
+
+    // The token for the next page.
+    string page_token = 2;
+
+    // Filter entities for a particular type
+    string type = 3;
+
+    // If true, will look through archived entities
+    bool archived = 6;
+}
+
+message ListResponse {
+    repeated Entity entities = 1;
+    string next_page_token = 2;
+}
+
+message GetRequest {
+    string universe = 1;
+    UID uid = 2;
+}
+
+message GetResponse {
+    Entity entity = 1;
+}
+
+message BatchGetRequest {
+    string universe = 1;
+    repeated UID uids = 2;
+}
+
+message BatchGetResponse {
+    repeated Entity entities = 1;
+}
+
+
+message BatchUpdateRequest {
+    string universe = 1;
+
+    repeated Entity put_entities = 2;
+    
+    // parent/child relationships to add.
+    repeated ChildRelation put_children = 3;
+
+    // entities to archive
+    repeated UID archive_entities = 4;
+
+    // entities to mark as active
+    repeated UID unarchive_entities = 5;
+
+    // entities to delete
+    repeated UID delete_entities = 6;
+
+    // parent/child relations to delete.
+    repeated ChildRelation delete_children = 7;
+}
+
+message BatchUpdateResponse {}

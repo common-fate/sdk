@@ -1,7 +1,7 @@
 package uiderr
 
 import (
-	"github.com/common-fate/sdk/service/authz/uid"
+	"github.com/common-fate/sdk/uid"
 	"github.com/hashicorp/go-multierror"
 )
 

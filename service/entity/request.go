@@ -1,17 +1,16 @@
-package authz
+package entity
 
 import (
 	authzv1alpha1 "github.com/common-fate/sdk/gen/commonfate/authz/v1alpha1"
-	"github.com/common-fate/sdk/service/entity"
 	"github.com/common-fate/sdk/uid"
 )
 
 type Request struct {
-	Principal       uid.UID                `json:"principal"`
-	Action          uid.UID                `json:"action"`
-	Resource        uid.UID                `json:"resource"`
-	OverlayEntities []entity.Entity        `json:"overlay_entities,omitempty"`
-	OverlayChildren []entity.ChildRelation `json:"overlay_children,omitempty"`
+	Principal       uid.UID         `json:"principal"`
+	Action          uid.UID         `json:"action"`
+	Resource        uid.UID         `json:"resource"`
+	OverlayEntities []Entity        `json:"overlay_entities,omitempty"`
+	OverlayChildren []ChildRelation `json:"overlay_children,omitempty"`
 }
 
 func (r Request) ToAPI(key string) (*authzv1alpha1.Request, error) {
@@ -23,7 +22,7 @@ func (r Request) ToAPI(key string) (*authzv1alpha1.Request, error) {
 	}
 
 	for _, e := range r.OverlayEntities {
-		entity, children, err := entity.EntityToAPI(e)
+		entity, children, err := EntityToAPI(e)
 		if err != nil {
 			return nil, err
 		}

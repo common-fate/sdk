@@ -1,27 +1,27 @@
-package authz
+package entity
 
 import (
 	"context"
 
 	"github.com/bufbuild/connect-go"
-	authzv1alpha1 "github.com/common-fate/sdk/gen/commonfate/authz/v1alpha1"
-	"github.com/common-fate/sdk/service/authz/uid"
+	entityv1alpha1 "github.com/common-fate/sdk/gen/commonfate/entity/v1alpha1"
+	"github.com/common-fate/sdk/uid"
 	"github.com/patrickmn/go-cache"
 )
 
-type ListEntitiesInput struct {
+type ListInput struct {
 	Type      string
 	PageToken string
 }
 
-func (c *Client) ListEntities(ctx context.Context, input ListEntitiesInput) (*authzv1alpha1.ListEntitiesResponse, error) {
-	req := &authzv1alpha1.ListEntitiesRequest{
+func (c *Client) List(ctx context.Context, input ListInput) (*entityv1alpha1.ListResponse, error) {
+	req := &entityv1alpha1.ListRequest{
 		Universe:  "default",
 		Type:      input.Type,
 		PageToken: input.PageToken,
 	}
 
-	res, err := c.raw.ListEntities(ctx, connect.NewRequest(req))
+	res, err := c.raw.List(ctx, connect.NewRequest(req))
 	if err != nil {
 		return nil, err
 	}
@@ -40,7 +40,7 @@ func (c *Client) ListEntities(ctx context.Context, input ListEntitiesInput) (*au
 }
 
 type listEntitiesRequestCall struct {
-	input  ListEntitiesInput
+	input  ListInput
 	client *Client
 }
 
@@ -49,7 +49,7 @@ type listEntitiesRequestCall struct {
 // I think a good API here will have the option to do a single API call or a Pages call
 // in the google API it would be filterEntitiesRequestCall.Do() to make a single request
 // they also use a chained builder pattern
-func (c *Client) ListEntitiesRequest(input ListEntitiesInput) *listEntitiesRequestCall {
+func (c *Client) ListRequest(input ListInput) *listEntitiesRequestCall {
 	return &listEntitiesRequestCall{
 		input:  input,
 		client: c,
@@ -59,12 +59,12 @@ func (c *Client) ListEntitiesRequest(input ListEntitiesInput) *listEntitiesReque
 // Pages invokes f for each page of results.
 // A non-nil error returned from f will halt the iteration.
 // The provided context supersedes any context provided to the Context method.
-func (c *listEntitiesRequestCall) Pages(ctx context.Context, f func(*authzv1alpha1.ListEntitiesResponse) error) error {
+func (c *listEntitiesRequestCall) Pages(ctx context.Context, f func(*entityv1alpha1.ListResponse) error) error {
 	// resets the input back to its original state
 	originalPageToken := c.input.PageToken
 	defer func() { c.input.PageToken = originalPageToken }()
 	for {
-		x, err := c.client.ListEntities(ctx, c.input)
+		x, err := c.client.List(ctx, c.input)
 		if err != nil {
 			return err
 		}

@@ -1,8 +1,8 @@
 package provisioner
 
 import (
-	"github.com/common-fate/sdk/service/authz"
-	"github.com/common-fate/sdk/service/authz/uid"
+	"github.com/common-fate/sdk/service/entity"
+	"github.com/common-fate/sdk/uid"
 )
 
 type Grant struct {
@@ -14,5 +14,5 @@ type Grant struct {
 }
 
 type GrantResponse struct {
-	Entities authz.EntityJSON `json:"entities"`
+	Entities entity.EntityJSON `json:"entities"`
 }

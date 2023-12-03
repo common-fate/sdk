@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package commonfate.authz.v1alpha1;
 
-import "commonfate/authz/v1alpha1/entity.proto";
+import "commonfate/entity/v1alpha1/entity.proto";
 
 message Policy {
     // ID of the policy.

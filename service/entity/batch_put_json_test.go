@@ -1,10 +1,10 @@
-package authz
+package entity
 
 import (
 	"testing"
 
-	authzv1alpha1 "github.com/common-fate/sdk/gen/commonfate/authz/v1alpha1"
-	"github.com/common-fate/sdk/service/authz/uid"
+	entityv1alpha1 "github.com/common-fate/sdk/gen/commonfate/entity/v1alpha1"
+	"github.com/common-fate/sdk/uid"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -12,8 +12,8 @@ func Test_transformJSONToEntity(t *testing.T) {
 	tests := []struct {
 		name         string
 		give         EntityJSON
-		want         *authzv1alpha1.Entity
-		wantChildren []*authzv1alpha1.ChildRelation
+		want         *entityv1alpha1.Entity
+		wantChildren []*entityv1alpha1.ChildRelation
 		wantErr      bool
 	}{
 		{
@@ -28,24 +28,24 @@ func Test_transformJSONToEntity(t *testing.T) {
 					"other":     1,
 				},
 			},
-			want: &authzv1alpha1.Entity{
-				Uid: &authzv1alpha1.UID{
+			want: &entityv1alpha1.Entity{
+				Uid: &entityv1alpha1.UID{
 					Type: "User",
 					Id:   "test",
 				},
-				Attributes: []*authzv1alpha1.Attribute{
+				Attributes: []*entityv1alpha1.Attribute{
 					{
 						Key: "something",
-						Value: &authzv1alpha1.Value{
-							Value: &authzv1alpha1.Value_Str{
+						Value: &entityv1alpha1.Value{
+							Value: &entityv1alpha1.Value_Str{
 								Str: "string",
 							},
 						},
 					},
 					{
 						Key: "other",
-						Value: &authzv1alpha1.Value{
-							Value: &authzv1alpha1.Value_Long{
+						Value: &entityv1alpha1.Value{
+							Value: &entityv1alpha1.Value_Long{
 								Long: 1,
 							},
 						},
@@ -71,21 +71,21 @@ func Test_transformJSONToEntity(t *testing.T) {
 					},
 				},
 			},
-			want: &authzv1alpha1.Entity{
-				Uid: &authzv1alpha1.UID{
+			want: &entityv1alpha1.Entity{
+				Uid: &entityv1alpha1.UID{
 					Type: "User",
 					Id:   "test",
 				},
-				Attributes: []*authzv1alpha1.Attribute{
+				Attributes: []*entityv1alpha1.Attribute{
 					{
 						Key: "example",
-						Value: &authzv1alpha1.Value{
-							Value: &authzv1alpha1.Value_Set{
-								Set: &authzv1alpha1.Set{
-									Values: []*authzv1alpha1.Value{
+						Value: &entityv1alpha1.Value{
+							Value: &entityv1alpha1.Value_Set{
+								Set: &entityv1alpha1.Set{
+									Values: []*entityv1alpha1.Value{
 										{
-											Value: &authzv1alpha1.Value_Entity{
-												Entity: &authzv1alpha1.UID{
+											Value: &entityv1alpha1.Value_Entity{
+												Entity: &entityv1alpha1.UID{
 													Type: "Foo",
 													Id:   "foo",
 												},

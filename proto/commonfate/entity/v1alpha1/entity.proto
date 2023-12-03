@@ -1,8 +1,8 @@
 syntax = "proto3";
 
-package commonfate.authz.v1alpha1;
+package commonfate.entity.v1alpha1;
 
-import "commonfate/authz/v1alpha1/uid.proto";
+import "commonfate/entity/v1alpha1/uid.proto";
 
 message Attribute {
     string key = 1;
@@ -32,9 +32,4 @@ message Set {
 message Entity {
     UID uid = 1;
     repeated Attribute attributes = 2;
-}
-
-message ChildRelation {
-    UID parent = 1;
-    UID child = 2;
 }

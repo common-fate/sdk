@@ -2,10 +2,10 @@ syntax = "proto3";
 
 package commonfate.access.v1alpha1;
 
-import "commonfate/authz/v1alpha1/uid.proto";
+import "commonfate/entity/v1alpha1/uid.proto";
 
 message User {
-    commonfate.authz.v1alpha1.UID uid = 1;
+    commonfate.entity.v1alpha1.UID uid = 1;
     string name = 2;
     string email = 3;
 }

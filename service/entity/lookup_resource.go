@@ -1,6 +1,6 @@
-package authz
+package entity
 
-import "github.com/common-fate/sdk/service/authz/uid"
+import "github.com/common-fate/sdk/uid"
 
 type LookupResourcesInput struct {
 	Principal    uid.UID

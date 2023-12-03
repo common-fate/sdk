@@ -1,4 +1,4 @@
-package authz
+package entity
 
 import (
 	"context"
@@ -6,8 +6,8 @@ import (
 	"fmt"
 
 	"github.com/common-fate/apikit/logger"
-	authzv1alpha1 "github.com/common-fate/sdk/gen/commonfate/authz/v1alpha1"
-	"github.com/common-fate/sdk/service/authz/uid"
+	entityv1alpha1 "github.com/common-fate/sdk/gen/commonfate/entity/v1alpha1"
+	"github.com/common-fate/sdk/uid"
 	"github.com/patrickmn/go-cache"
 	"go.uber.org/zap"
 )
@@ -73,7 +73,7 @@ func (c *AttrCache) String(ctx context.Context, uid uid.UID, attr string) string
 }
 
 func extractStringAttr(cached any, attr string) (string, error) {
-	entity, ok := cached.(*authzv1alpha1.Entity)
+	entity, ok := cached.(*entityv1alpha1.Entity)
 	if !ok {
 		return "", errors.New("could not cast to *authzv1alpha1.Entity")
 	}

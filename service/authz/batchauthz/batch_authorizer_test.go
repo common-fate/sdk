@@ -6,8 +6,9 @@ import (
 
 	"github.com/bufbuild/connect-go"
 	authzv1alpha1 "github.com/common-fate/sdk/gen/commonfate/authz/v1alpha1"
+	entityv1alpha1 "github.com/common-fate/sdk/gen/commonfate/entity/v1alpha1"
 	"github.com/common-fate/sdk/service/authz"
-	"github.com/common-fate/sdk/service/authz/uid"
+	"github.com/common-fate/sdk/uid"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -37,15 +38,15 @@ func TestBatch_Authorize(t *testing.T) {
 						{
 							Id: "eval_1",
 							Request: &authzv1alpha1.Request{
-								Principal: &authzv1alpha1.UID{
+								Principal: &entityv1alpha1.UID{
 									Type: "User",
 									Id:   "test",
 								},
-								Action: &authzv1alpha1.UID{
+								Action: &entityv1alpha1.UID{
 									Type: "Action",
 									Id:   "foo",
 								},
-								Resource: &authzv1alpha1.UID{
+								Resource: &entityv1alpha1.UID{
 									Type: "Resource",
 									Id:   "bar",
 								},
@@ -61,15 +62,15 @@ func TestBatch_Authorize(t *testing.T) {
 						{Type: "Action", ID: "foo"}: {
 							Id: "eval_1",
 							Request: &authzv1alpha1.Request{
-								Principal: &authzv1alpha1.UID{
+								Principal: &entityv1alpha1.UID{
 									Type: "User",
 									Id:   "test",
 								},
-								Action: &authzv1alpha1.UID{
+								Action: &entityv1alpha1.UID{
 									Type: "Action",
 									Id:   "foo",
 								},
-								Resource: &authzv1alpha1.UID{
+								Resource: &entityv1alpha1.UID{
 									Type: "Resource",
 									Id:   "bar",
 								},
@@ -125,15 +126,15 @@ func TestBatch_IsPermitted(t *testing.T) {
 								},
 							},
 							Request: &authzv1alpha1.Request{
-								Principal: &authzv1alpha1.UID{
+								Principal: &entityv1alpha1.UID{
 									Type: "User",
 									Id:   "test",
 								},
-								Action: &authzv1alpha1.UID{
+								Action: &entityv1alpha1.UID{
 									Type: "Action",
 									Id:   "foo",
 								},
-								Resource: &authzv1alpha1.UID{
+								Resource: &entityv1alpha1.UID{
 									Type: "Resource",
 									Id:   "bar",
 								},

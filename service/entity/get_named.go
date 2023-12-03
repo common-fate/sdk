@@ -1,10 +1,10 @@
-package authz
+package entity
 
 import (
 	"context"
 
 	accessv1alpha1 "github.com/common-fate/sdk/gen/commonfate/access/v1alpha1"
-	"github.com/common-fate/sdk/service/authz/uid"
+	"github.com/common-fate/sdk/uid"
 )
 
 // GetNamed hydrates a resource with the 'name' attribute from the cache.

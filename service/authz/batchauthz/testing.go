@@ -6,7 +6,7 @@ import (
 	"testing"
 
 	"github.com/common-fate/sdk/service/authz"
-	"github.com/common-fate/sdk/service/authz/uid"
+	"github.com/common-fate/sdk/uid"
 )
 
 // MockBatch is a mock batch authorizer which implements the

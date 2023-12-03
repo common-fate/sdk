@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package commonfate.authz.v1alpha1;
+package commonfate.entity.v1alpha1;
 
 message UID {
     string type = 1;

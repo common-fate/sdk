@@ -1,12 +1,12 @@
-package authz
+package entity
 
 import (
 	"reflect"
 	"testing"
 	"time"
 
-	authzv1alpha1 "github.com/common-fate/sdk/gen/commonfate/authz/v1alpha1"
-	"github.com/common-fate/sdk/service/authz/uid"
+	entityv1alpha1 "github.com/common-fate/sdk/gen/commonfate/entity/v1alpha1"
+	"github.com/common-fate/sdk/uid"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -149,8 +149,8 @@ func Test_transformToEntity(t *testing.T) {
 	tests := []struct {
 		name         string
 		args         args
-		want         *authzv1alpha1.Entity
-		wantChildren []*authzv1alpha1.ChildRelation
+		want         *entityv1alpha1.Entity
+		wantChildren []*entityv1alpha1.ChildRelation
 		wantErr      bool
 	}{
 		{
@@ -161,16 +161,16 @@ func Test_transformToEntity(t *testing.T) {
 					Name: "testing",
 				},
 			},
-			want: &authzv1alpha1.Entity{
-				Uid: &authzv1alpha1.UID{
+			want: &entityv1alpha1.Entity{
+				Uid: &entityv1alpha1.UID{
 					Type: "User",
 					Id:   "test",
 				},
-				Attributes: []*authzv1alpha1.Attribute{
+				Attributes: []*entityv1alpha1.Attribute{
 					{
 						Key: "name",
-						Value: &authzv1alpha1.Value{
-							Value: &authzv1alpha1.Value_Str{
+						Value: &entityv1alpha1.Value{
+							Value: &entityv1alpha1.Value_Str{
 								Str: "testing",
 							},
 						},
@@ -187,29 +187,29 @@ func Test_transformToEntity(t *testing.T) {
 					OrgUnit: "prod",
 				},
 			},
-			want: &authzv1alpha1.Entity{
-				Uid: &authzv1alpha1.UID{
+			want: &entityv1alpha1.Entity{
+				Uid: &entityv1alpha1.UID{
 					Type: "Account",
 					Id:   "test",
 				},
-				Attributes: []*authzv1alpha1.Attribute{
+				Attributes: []*entityv1alpha1.Attribute{
 					{
 						Key: "name",
-						Value: &authzv1alpha1.Value{
-							Value: &authzv1alpha1.Value_Str{
+						Value: &entityv1alpha1.Value{
+							Value: &entityv1alpha1.Value_Str{
 								Str: "testing",
 							},
 						},
 					},
 				},
 			},
-			wantChildren: []*authzv1alpha1.ChildRelation{
+			wantChildren: []*entityv1alpha1.ChildRelation{
 				{
-					Parent: &authzv1alpha1.UID{
+					Parent: &entityv1alpha1.UID{
 						Type: "OrgUnit",
 						Id:   "prod",
 					},
-					Child: &authzv1alpha1.UID{
+					Child: &entityv1alpha1.UID{
 						Type: "Account",
 						Id:   "test",
 					},
@@ -226,32 +226,32 @@ func Test_transformToEntity(t *testing.T) {
 					StringVal: "hi",
 				},
 			},
-			want: &authzv1alpha1.Entity{
-				Uid: &authzv1alpha1.UID{
+			want: &entityv1alpha1.Entity{
+				Uid: &entityv1alpha1.UID{
 					Type: "Vault",
 					Id:   "test",
 				},
-				Attributes: []*authzv1alpha1.Attribute{
+				Attributes: []*entityv1alpha1.Attribute{
 					{
 						Key: "long_val",
-						Value: &authzv1alpha1.Value{
-							Value: &authzv1alpha1.Value_Long{
+						Value: &entityv1alpha1.Value{
+							Value: &entityv1alpha1.Value_Long{
 								Long: 1,
 							},
 						},
 					},
 					{
 						Key: "bool_val",
-						Value: &authzv1alpha1.Value{
-							Value: &authzv1alpha1.Value_Bool{
+						Value: &entityv1alpha1.Value{
+							Value: &entityv1alpha1.Value_Bool{
 								Bool: true,
 							},
 						},
 					},
 					{
 						Key: "string_val",
-						Value: &authzv1alpha1.Value{
-							Value: &authzv1alpha1.Value_Str{
+						Value: &entityv1alpha1.Value{
+							Value: &entityv1alpha1.Value_Str{
 								Str: "hi",
 							},
 						},
@@ -276,30 +276,30 @@ func Test_transformToEntity(t *testing.T) {
 					},
 				},
 			},
-			want: &authzv1alpha1.Entity{
-				Uid: &authzv1alpha1.UID{
+			want: &entityv1alpha1.Entity{
+				Uid: &entityv1alpha1.UID{
 					Type: "AnyParent",
 					Id:   "test",
 				},
-				Attributes: []*authzv1alpha1.Attribute{},
+				Attributes: []*entityv1alpha1.Attribute{},
 			},
-			wantChildren: []*authzv1alpha1.ChildRelation{
+			wantChildren: []*entityv1alpha1.ChildRelation{
 				{
-					Parent: &authzv1alpha1.UID{
+					Parent: &entityv1alpha1.UID{
 						Type: "Something",
 						Id:   "test",
 					},
-					Child: &authzv1alpha1.UID{
+					Child: &entityv1alpha1.UID{
 						Type: "AnyParent",
 						Id:   "test",
 					},
 				},
 				{
-					Parent: &authzv1alpha1.UID{
+					Parent: &entityv1alpha1.UID{
 						Type: "Other",
 						Id:   "else",
 					},
-					Child: &authzv1alpha1.UID{
+					Child: &entityv1alpha1.UID{
 						Type: "AnyParent",
 						Id:   "test",
 					},
@@ -314,30 +314,30 @@ func Test_transformToEntity(t *testing.T) {
 					Resource: uid.New("Something", "test"),
 				},
 			},
-			want: &authzv1alpha1.Entity{
-				Uid: &authzv1alpha1.UID{
+			want: &entityv1alpha1.Entity{
+				Uid: &entityv1alpha1.UID{
 					Type: "AccessRequest",
 					Id:   "test",
 				},
-				Attributes: []*authzv1alpha1.Attribute{
+				Attributes: []*entityv1alpha1.Attribute{
 					{
 						Key: "resource",
 
-						Value: &authzv1alpha1.Value{
-							Value: &authzv1alpha1.Value_Entity{
+						Value: &entityv1alpha1.Value{
+							Value: &entityv1alpha1.Value_Entity{
 								Entity: uid.New("Something", "test").ToAPI(),
 							},
 						},
 					},
 				},
 			},
-			wantChildren: []*authzv1alpha1.ChildRelation{
+			wantChildren: []*entityv1alpha1.ChildRelation{
 				{
-					Parent: &authzv1alpha1.UID{
+					Parent: &entityv1alpha1.UID{
 						Type: "Something",
 						Id:   "test",
 					},
-					Child: &authzv1alpha1.UID{
+					Child: &entityv1alpha1.UID{
 						Type: "AccessRequest",
 						Id:   "test",
 					},
@@ -355,17 +355,17 @@ func Test_transformToEntity(t *testing.T) {
 					},
 				},
 			},
-			want: &authzv1alpha1.Entity{
-				Uid: &authzv1alpha1.UID{
+			want: &entityv1alpha1.Entity{
+				Uid: &entityv1alpha1.UID{
 					Type: "Entitlement",
 					Id:   "123",
 				},
-				Attributes: []*authzv1alpha1.Attribute{
+				Attributes: []*entityv1alpha1.Attribute{
 					{
 						Key: "target",
-						Value: &authzv1alpha1.Value{
-							Value: &authzv1alpha1.Value_Entity{
-								Entity: &authzv1alpha1.UID{
+						Value: &entityv1alpha1.Value{
+							Value: &entityv1alpha1.Value_Entity{
+								Entity: &entityv1alpha1.UID{
 									Type: "Vault",
 									Id:   "test",
 								},
@@ -390,17 +390,17 @@ func Test_transformToEntity(t *testing.T) {
 					},
 				},
 			},
-			want: &authzv1alpha1.Entity{
-				Uid: &authzv1alpha1.UID{
+			want: &entityv1alpha1.Entity{
+				Uid: &entityv1alpha1.UID{
 					Type: "WithParentsMethod",
 					Id:   "test",
 				},
-				Attributes: []*authzv1alpha1.Attribute{
+				Attributes: []*entityv1alpha1.Attribute{
 					{
 						Key: "target",
-						Value: &authzv1alpha1.Value{
-							Value: &authzv1alpha1.Value_Entity{
-								Entity: &authzv1alpha1.UID{
+						Value: &entityv1alpha1.Value{
+							Value: &entityv1alpha1.Value_Entity{
+								Entity: &entityv1alpha1.UID{
 									Type: "Foo",
 									Id:   "1",
 								},
@@ -409,9 +409,9 @@ func Test_transformToEntity(t *testing.T) {
 					},
 					{
 						Key: "other",
-						Value: &authzv1alpha1.Value{
-							Value: &authzv1alpha1.Value_Entity{
-								Entity: &authzv1alpha1.UID{
+						Value: &entityv1alpha1.Value{
+							Value: &entityv1alpha1.Value_Entity{
+								Entity: &entityv1alpha1.UID{
 									Type: "Bar",
 									Id:   "2",
 								},
@@ -420,23 +420,23 @@ func Test_transformToEntity(t *testing.T) {
 					},
 				},
 			},
-			wantChildren: []*authzv1alpha1.ChildRelation{
+			wantChildren: []*entityv1alpha1.ChildRelation{
 				{
-					Parent: &authzv1alpha1.UID{
+					Parent: &entityv1alpha1.UID{
 						Type: "Bar",
 						Id:   "2",
 					},
-					Child: &authzv1alpha1.UID{
+					Child: &entityv1alpha1.UID{
 						Type: "WithParentsMethod",
 						Id:   "test",
 					},
 				},
 				{
-					Parent: &authzv1alpha1.UID{
+					Parent: &entityv1alpha1.UID{
 						Type: "Foo",
 						Id:   "1",
 					},
-					Child: &authzv1alpha1.UID{
+					Child: &entityv1alpha1.UID{
 						Type: "WithParentsMethod",
 						Id:   "test",
 					},
@@ -452,24 +452,24 @@ func Test_transformToEntity(t *testing.T) {
 					Other:     time.Second,
 				},
 			},
-			want: &authzv1alpha1.Entity{
-				Uid: &authzv1alpha1.UID{
+			want: &entityv1alpha1.Entity{
+				Uid: &entityv1alpha1.UID{
 					Type: "WithTimeField",
 					Id:   "test",
 				},
-				Attributes: []*authzv1alpha1.Attribute{
+				Attributes: []*entityv1alpha1.Attribute{
 					{
 						Key: "created_at",
-						Value: &authzv1alpha1.Value{
-							Value: &authzv1alpha1.Value_Long{
+						Value: &entityv1alpha1.Value{
+							Value: &entityv1alpha1.Value_Long{
 								Long: exampleTime.UnixMilli(),
 							},
 						},
 					},
 					{
 						Key: "other",
-						Value: &authzv1alpha1.Value{
-							Value: &authzv1alpha1.Value_Long{
+						Value: &entityv1alpha1.Value{
+							Value: &entityv1alpha1.Value_Long{
 								Long: 1000,
 							},
 						},
@@ -480,7 +480,7 @@ func Test_transformToEntity(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, children, err := transformToEntity(tt.args.e)
+			got, children, err := EntityToAPI(tt.args.e)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("transformToEntity() error = %v, wantErr %v", err, tt.wantErr)
 				return
@@ -670,7 +670,7 @@ func TestUnmarshalEntity_roundtrip(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			res, _, err := transformToEntity(tt.in)
+			res, _, err := EntityToAPI(tt.in)
 			if err != nil {
 				t.Fatal(err)
 			}

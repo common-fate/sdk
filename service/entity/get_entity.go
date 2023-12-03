@@ -1,11 +1,11 @@
-package authz
+package entity
 
 import (
 	"context"
 
 	"github.com/bufbuild/connect-go"
-	authzv1alpha1 "github.com/common-fate/sdk/gen/commonfate/authz/v1alpha1"
-	"github.com/common-fate/sdk/service/authz/uid"
+	entityv1alpha1 "github.com/common-fate/sdk/gen/commonfate/entity/v1alpha1"
+	"github.com/common-fate/sdk/uid"
 	"github.com/patrickmn/go-cache"
 )
 
@@ -18,23 +18,23 @@ type GetEntityInput struct {
 	UseCache bool
 }
 
-func (c *Client) GetEntity(ctx context.Context, input GetEntityInput) (*authzv1alpha1.GetEntityResponse, error) {
-	req := &authzv1alpha1.GetEntityRequest{
+func (c *Client) GetEntity(ctx context.Context, input GetEntityInput) (*entityv1alpha1.GetResponse, error) {
+	req := &entityv1alpha1.GetRequest{
 		Universe: "default",
-		Entity:   input.UID.ToAPI(),
+		Uid:      input.UID.ToAPI(),
 	}
 
 	if input.UseCache {
 		if got, ok := c.cache.Get(input.UID.String()); ok {
-			if entity, ok := got.(*authzv1alpha1.Entity); ok {
-				return &authzv1alpha1.GetEntityResponse{
+			if entity, ok := got.(*entityv1alpha1.Entity); ok {
+				return &entityv1alpha1.GetResponse{
 					Entity: entity,
 				}, nil
 			}
 		}
 	}
 
-	res, err := c.raw.GetEntity(ctx, connect.NewRequest(req))
+	res, err := c.raw.Get(ctx, connect.NewRequest(req))
 	if err != nil {
 		return nil, err
 	}

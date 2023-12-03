@@ -1,12 +1,12 @@
-package authz
+package entity
 
 import (
 	"context"
 	"fmt"
 
 	"github.com/bufbuild/connect-go"
-	authzv1alpha1 "github.com/common-fate/sdk/gen/commonfate/authz/v1alpha1"
-	"github.com/common-fate/sdk/service/authz/uid"
+	entityv1alpha1 "github.com/common-fate/sdk/gen/commonfate/entity/v1alpha1"
+	"github.com/common-fate/sdk/uid"
 	"github.com/pkg/errors"
 )
 
@@ -22,10 +22,10 @@ type BatchPutEntityJSONInput struct {
 	Entities []EntityJSON
 }
 
-func (c *Client) BatchPutEntityJSON(ctx context.Context, input BatchPutEntityJSONInput) (*authzv1alpha1.BatchPutEntityResponse, error) {
-	var req = &authzv1alpha1.BatchPutEntityRequest{
-		Universe: "default",
-		Entities: []*authzv1alpha1.Entity{},
+func (c *Client) BatchPutEntityJSON(ctx context.Context, input BatchPutEntityJSONInput) (*entityv1alpha1.BatchUpdateResponse, error) {
+	var req = &entityv1alpha1.BatchUpdateRequest{
+		Universe:    "default",
+		PutEntities: []*entityv1alpha1.Entity{},
 	}
 
 	for _, e := range input.Entities {
@@ -34,11 +34,11 @@ func (c *Client) BatchPutEntityJSON(ctx context.Context, input BatchPutEntityJSO
 			return nil, err
 		}
 
-		req.Entities = append(req.Entities, parsed)
-		req.Children = append(req.Children, children...)
+		req.PutEntities = append(req.PutEntities, parsed)
+		req.PutChildren = append(req.PutChildren, children...)
 	}
 
-	res, err := c.raw.BatchPutEntity(ctx, connect.NewRequest(req))
+	res, err := c.raw.BatchUpdate(ctx, connect.NewRequest(req))
 	if err != nil {
 		return nil, err
 	}
@@ -46,21 +46,21 @@ func (c *Client) BatchPutEntityJSON(ctx context.Context, input BatchPutEntityJSO
 	return res.Msg, nil
 }
 
-func transformJSONToEntity(e EntityJSON) (*authzv1alpha1.Entity, []*authzv1alpha1.ChildRelation, error) {
+func transformJSONToEntity(e EntityJSON) (*entityv1alpha1.Entity, []*entityv1alpha1.ChildRelation, error) {
 	attrs, err := transformAttrs(e.Attrs)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	res := authzv1alpha1.Entity{
+	res := entityv1alpha1.Entity{
 		Uid:        e.UID.ToAPI(),
 		Attributes: attrs,
 	}
 
-	var children []*authzv1alpha1.ChildRelation
+	var children []*entityv1alpha1.ChildRelation
 
 	for _, v := range e.Parents {
-		children = append(children, &authzv1alpha1.ChildRelation{
+		children = append(children, &entityv1alpha1.ChildRelation{
 			Parent: v.ToAPI(),
 			Child:  e.UID.ToAPI(),
 		})
@@ -69,8 +69,8 @@ func transformJSONToEntity(e EntityJSON) (*authzv1alpha1.Entity, []*authzv1alpha
 	return &res, children, nil
 }
 
-func transformAttrs(attrs map[string]any) ([]*authzv1alpha1.Attribute, error) {
-	res := []*authzv1alpha1.Attribute{}
+func transformAttrs(attrs map[string]any) ([]*entityv1alpha1.Attribute, error) {
+	res := []*entityv1alpha1.Attribute{}
 
 	for k, v := range attrs {
 		attr, err := transformAttr(v)
@@ -78,7 +78,7 @@ func transformAttrs(attrs map[string]any) ([]*authzv1alpha1.Attribute, error) {
 			return nil, errors.Wrapf(err, "parsing %s", k)
 		}
 
-		res = append(res, &authzv1alpha1.Attribute{
+		res = append(res, &entityv1alpha1.Attribute{
 			Key:   k,
 			Value: attr,
 		})
@@ -87,33 +87,33 @@ func transformAttrs(attrs map[string]any) ([]*authzv1alpha1.Attribute, error) {
 	return res, nil
 }
 
-func transformAttr(v any) (*authzv1alpha1.Value, error) {
+func transformAttr(v any) (*entityv1alpha1.Value, error) {
 	switch val := v.(type) {
 	case string:
-		return &authzv1alpha1.Value{
-			Value: &authzv1alpha1.Value_Str{
+		return &entityv1alpha1.Value{
+			Value: &entityv1alpha1.Value_Str{
 				Str: val,
 			},
 		}, nil
 
 	case int:
-		return &authzv1alpha1.Value{
-			Value: &authzv1alpha1.Value_Long{
+		return &entityv1alpha1.Value{
+			Value: &entityv1alpha1.Value_Long{
 				Long: int64(val),
 			},
 		}, nil
 
 	case float64:
-		return &authzv1alpha1.Value{
-			Value: &authzv1alpha1.Value_Long{
+		return &entityv1alpha1.Value{
+			Value: &entityv1alpha1.Value_Long{
 				Long: int64(val),
 			},
 		}, nil
 
 	case []any:
-		setValue := authzv1alpha1.Value_Set{
-			Set: &authzv1alpha1.Set{
-				Values: []*authzv1alpha1.Value{},
+		setValue := entityv1alpha1.Value_Set{
+			Set: &entityv1alpha1.Set{
+				Values: []*entityv1alpha1.Value{},
 			},
 		}
 
@@ -125,7 +125,7 @@ func transformAttr(v any) (*authzv1alpha1.Value, error) {
 			setValue.Set.Values = append(setValue.Set.Values, attr)
 		}
 
-		return &authzv1alpha1.Value{Value: &setValue}, nil
+		return &entityv1alpha1.Value{Value: &setValue}, nil
 
 	case map[string]any:
 		entityMap, ok := val["__entity"]
@@ -142,9 +142,9 @@ func transformAttr(v any) (*authzv1alpha1.Value, error) {
 					return nil, errors.New("could not parse __entity reference: id was empty")
 				}
 
-				return &authzv1alpha1.Value{
-					Value: &authzv1alpha1.Value_Entity{
-						Entity: &authzv1alpha1.UID{
+				return &entityv1alpha1.Value{
+					Value: &entityv1alpha1.Value_Entity{
+						Entity: &entityv1alpha1.UID{
 							Type: typ,
 							Id:   id,
 						},
@@ -174,9 +174,9 @@ func transformAttr(v any) (*authzv1alpha1.Value, error) {
 				return nil, errors.New("could not parse __entity reference: id was not string")
 			}
 
-			return &authzv1alpha1.Value{
-				Value: &authzv1alpha1.Value_Entity{
-					Entity: &authzv1alpha1.UID{
+			return &entityv1alpha1.Value{
+				Value: &entityv1alpha1.Value_Entity{
+					Entity: &entityv1alpha1.UID{
 						Type: typStr,
 						Id:   idStr,
 					},
@@ -188,9 +188,9 @@ func transformAttr(v any) (*authzv1alpha1.Value, error) {
 				return nil, err
 			}
 
-			return &authzv1alpha1.Value{
-				Value: &authzv1alpha1.Value_Record{
-					Record: &authzv1alpha1.Record{
+			return &entityv1alpha1.Value{
+				Value: &entityv1alpha1.Value_Record{
+					Record: &entityv1alpha1.Record{
 						Attributes: record,
 					},
 				},

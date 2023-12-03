@@ -1,15 +1,15 @@
-package authz
+package entity
 
 import (
 	"context"
 
 	"github.com/bufbuild/connect-go"
-	authzv1alpha1 "github.com/common-fate/sdk/gen/commonfate/authz/v1alpha1"
-	"github.com/common-fate/sdk/service/authz/uid"
+	entityv1alpha1 "github.com/common-fate/sdk/gen/commonfate/entity/v1alpha1"
+	"github.com/common-fate/sdk/uid"
 	"github.com/patrickmn/go-cache"
 )
 
-type BatchGetEntityInput struct {
+type BatchGetInput struct {
 	UIDs []uid.UID
 	// UseCache will try and retrieve entities from
 	// the client cache if it's present.
@@ -18,30 +18,30 @@ type BatchGetEntityInput struct {
 	UseCache bool
 }
 
-func (c *Client) BatchGetEntity(ctx context.Context, input BatchGetEntityInput) (*authzv1alpha1.BatchGetEntityResponse, error) {
-	req := &authzv1alpha1.BatchGetEntityRequest{
+func (c *Client) BatchGet(ctx context.Context, input BatchGetInput) (*entityv1alpha1.BatchGetResponse, error) {
+	req := &entityv1alpha1.BatchGetRequest{
 		Universe: "default",
 	}
 
-	var cached []*authzv1alpha1.Entity
+	var cached []*entityv1alpha1.Entity
 
 	for _, u := range input.UIDs {
 		if input.UseCache {
 			if got, ok := c.cache.Get(u.String()); ok {
-				if entity, ok := got.(*authzv1alpha1.Entity); ok {
+				if entity, ok := got.(*entityv1alpha1.Entity); ok {
 					cached = append(cached, entity)
 					continue
 				}
 			}
 		}
 
-		req.Entities = append(req.Entities, u.ToAPI())
+		req.Uids = append(req.Uids, u.ToAPI())
 	}
 
-	output := &authzv1alpha1.BatchGetEntityResponse{}
+	output := &entityv1alpha1.BatchGetResponse{}
 
-	if len(req.Entities) > 0 {
-		res, err := c.raw.BatchGetEntity(ctx, connect.NewRequest(req))
+	if len(req.Uids) > 0 {
+		res, err := c.raw.BatchGet(ctx, connect.NewRequest(req))
 		if err != nil {
 			return nil, err
 		}

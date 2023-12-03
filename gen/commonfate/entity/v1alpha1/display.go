@@ -1,4 +1,4 @@
-package authzv1alpha1
+package entityv1alpha1
 
 import (
 	"fmt"

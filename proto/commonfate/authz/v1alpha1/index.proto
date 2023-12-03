@@ -3,9 +3,9 @@ syntax = "proto3";
 package commonfate.authz.v1alpha1;
 
 import "google/protobuf/struct.proto";
-import "commonfate/authz/v1alpha1/entity.proto";
+import "commonfate/entity/v1alpha1/entity.proto";
 import "commonfate/authz/v1alpha1/policy.proto";
-import "commonfate/authz/v1alpha1/uid.proto";
+import "commonfate/entity/v1alpha1/uid.proto";
 
 
 
@@ -32,9 +32,9 @@ message Diff {
 }
 
 message Relation {
-    UID principal = 1;
-    UID action = 2;
-    UID resource = 3;
+    commonfate.entity.v1alpha1.UID principal = 1;
+    commonfate.entity.v1alpha1.UID action = 2;
+    commonfate.entity.v1alpha1.UID resource = 3;
 }
 
 message SimulateRequest {
@@ -56,7 +56,7 @@ message LookupResourcesRequest {
     string environment = 2;
 
     // The principal to look up accessible resources for.
-    UID principal = 3;
+    commonfate.entity.v1alpha1.UID principal = 3;
 
     // Filter entities for a particular type
     string resource_type = 4;
@@ -66,13 +66,13 @@ message LookupResourcesRequest {
 }
 
 message ResourcePermission {
-    Entity resource = 1;
+    commonfate.entity.v1alpha1.Entity resource = 1;
     // the actions that are allowed on the entity.
     repeated AllowedAction actions = 2;
 }
 
 message AllowedAction {
-    UID action = 1;
+    commonfate.entity.v1alpha1.UID action = 1;
 }
 
 message LookupResourcesResponse {

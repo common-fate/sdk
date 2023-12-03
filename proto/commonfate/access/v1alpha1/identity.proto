@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package commonfate.access.v1alpha1;
 
-import "commonfate/authz/v1alpha1/uid.proto";
+import "commonfate/entity/v1alpha1/uid.proto";
 import "commonfate/access/v1alpha1/user.proto";
 
 
@@ -28,6 +28,6 @@ message GetCallerIdentityResponse {
 }
 
 message IdentityLink {
-  commonfate.authz.v1alpha1.UID id = 1;
+  commonfate.entity.v1alpha1.UID id = 1;
   string label = 2;
 }

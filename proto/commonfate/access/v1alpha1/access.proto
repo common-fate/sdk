@@ -5,8 +5,8 @@ package commonfate.access.v1alpha1;
 import "commonfate/control/attest/v1alpha1/attestation.proto";
 import "commonfate/access/v1alpha1/access_request.proto";
 import "commonfate/access/v1alpha1/grant.proto";
-import "commonfate/authz/v1alpha1/entity.proto";
-import "commonfate/authz/v1alpha1/uid.proto";
+import "commonfate/entity/v1alpha1/entity.proto";
+import "commonfate/entity/v1alpha1/uid.proto";
 import "commonfate/access/v1alpha1/named_uid.proto";
 import "commonfate/access/v1alpha1/user.proto";
 import "commonfate/access/v1alpha1/reviewer_preview.proto";
@@ -88,7 +88,7 @@ message Specifier {
   oneof specify {
     // Specify a resource using a UID. If you're using Common Fate programatically
     // and you know the resource you want to specify, you should use this field.
-    commonfate.authz.v1alpha1.UID uid = 1;
+    commonfate.entity.v1alpha1.UID uid = 1;
 
     // Specify a resource using a string lookup. This is used in our CLI
     // to allow end users to look up resources by name, ID and/or UID.
