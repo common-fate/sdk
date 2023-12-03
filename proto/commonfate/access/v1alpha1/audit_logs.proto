@@ -50,8 +50,8 @@ message AuditLog {
     // the timestamp the action occurred at.
     google.protobuf.Timestamp occurred_at = 4;
 
-    // the primary resource affected by the action.
-    commonfate.authz.v1alpha1.UID primary_target = 5;
+    // all related resources affected by the action.
+    repeated commonfate.authz.v1alpha1.UID targets = 5;
     
     // a human-friendly message describing the action.
     string message = 6;
@@ -60,11 +60,8 @@ message AuditLog {
     // as it contains sensitive information like IP addresses)
     google.protobuf.Struct context = 7;
 
-    // all related resources affected by the action.
-    repeated commonfate.authz.v1alpha1.UID all_targets = 8;
-
     // the caller identity details, including information 
     // such as the particular authentication token ID used
     // to perform the action.
-    repeated IdentityLink caller_identity_chain = 9;
+    repeated IdentityLink caller_identity_chain = 8;
 }
