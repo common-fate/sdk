@@ -64,7 +64,7 @@ func (c *listEntitiesRequestCall) Pages(ctx context.Context, f func(*authzv1alph
 	originalPageToken := c.input.PageToken
 	defer func() { c.input.PageToken = originalPageToken }()
 	for {
-		x, err := c.client.Query(ctx, c.input)
+		x, err := c.client.ListEntities(ctx, c.input)
 		if err != nil {
 			return err
 		}
