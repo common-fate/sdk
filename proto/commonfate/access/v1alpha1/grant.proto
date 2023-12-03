@@ -13,22 +13,6 @@ import "google/protobuf/duration.proto";
 import "google/protobuf/timestamp.proto";
 
 
-service GrantService {
-    // rpc ListGrants(ListGrantsRequest) returns (ListGrantsResponse) {}
-}
-
-// message ListGrantsRequest {
-//     // The token for the next page.
-//     string page_token = 1;
-
-//     GrantStatus status = 2;
-// }
-
-// message ListGrantsResponse {
-//     repeated Grant grants = 1;
-//     string next_page_token = 2;
-// }
-
 message Grant {
     // The ID of the Grant.
     string id = 1;

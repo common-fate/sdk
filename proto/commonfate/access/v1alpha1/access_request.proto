@@ -89,6 +89,9 @@ message ApproveAccessRequestResponse {
 message CloseAccessRequestRequest {
   // The ID of the Access Request.
   string id = 1;
+
+  // If provided, will only close the grants with the specified IDs
+  repeated string close_grants = 2;
 }
 
 message CloseAccessRequestResponse {
