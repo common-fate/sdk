@@ -28,8 +28,8 @@ type BatchUpdateOutput = entityv1alpha1.BatchUpdateResponse
 
 func (c *Client) BatchUpdate(ctx context.Context, input BatchUpdateInput) (*BatchUpdateOutput, error) {
 	var req = &entityv1alpha1.BatchUpdateRequest{
-		Universe:    "default",
-		PutEntities: []*entityv1alpha1.Entity{},
+		Universe: "default",
+		Put:      []*entityv1alpha1.Entity{},
 	}
 
 	for _, e := range input.Put {
@@ -38,7 +38,7 @@ func (c *Client) BatchUpdate(ctx context.Context, input BatchUpdateInput) (*Batc
 			return nil, err
 		}
 
-		req.PutEntities = append(req.PutEntities, parsed)
+		req.Put = append(req.Put, parsed)
 		req.PutChildren = append(req.PutChildren, children...)
 	}
 
@@ -47,15 +47,15 @@ func (c *Client) BatchUpdate(ctx context.Context, input BatchUpdateInput) (*Batc
 	}
 
 	for _, c := range input.Archive {
-		req.ArchiveEntities = append(req.ArchiveEntities, c.ToAPI())
+		req.Archive = append(req.Archive, c.ToAPI())
 	}
 
 	for _, c := range input.Unarchive {
-		req.UnarchiveEntities = append(req.UnarchiveEntities, c.ToAPI())
+		req.Unarchive = append(req.Unarchive, c.ToAPI())
 	}
 
 	for _, c := range input.Delete {
-		req.DeleteEntities = append(req.DeleteEntities, c.ToAPI())
+		req.Delete = append(req.Delete, c.ToAPI())
 	}
 
 	for _, c := range input.DeleteChildren {

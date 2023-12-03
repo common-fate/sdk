@@ -24,8 +24,8 @@ type BatchPutJSONInput struct {
 
 func (c *Client) BatchPutEntityJSON(ctx context.Context, input BatchPutJSONInput) (*BatchUpdateOutput, error) {
 	var req = &entityv1alpha1.BatchUpdateRequest{
-		Universe:    "default",
-		PutEntities: []*entityv1alpha1.Entity{},
+		Universe: "default",
+		Put:      []*entityv1alpha1.Entity{},
 	}
 
 	for _, e := range input.Entities {
@@ -34,7 +34,7 @@ func (c *Client) BatchPutEntityJSON(ctx context.Context, input BatchPutJSONInput
 			return nil, err
 		}
 
-		req.PutEntities = append(req.PutEntities, parsed)
+		req.Put = append(req.Put, parsed)
 		req.PutChildren = append(req.PutChildren, children...)
 	}
 

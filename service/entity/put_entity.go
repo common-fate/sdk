@@ -22,7 +22,7 @@ func (c *Client) Put(ctx context.Context, input PutInput) (*BatchUpdateOutput, e
 		return nil, err
 	}
 
-	req.PutEntities = append(req.PutEntities, parsed)
+	req.Put = append(req.Put, parsed)
 	req.PutChildren = append(req.PutChildren, children...)
 
 	res, err := c.raw.BatchUpdate(ctx, connect.NewRequest(req))
