@@ -11,12 +11,27 @@ import (
 
 type GetEntityInput struct {
 	UID uid.UID
+	// UseCache will try and retrieve entities from
+	// the client cache if it's present.
+	//
+	// If all entities are cached, no API call will be made.
+	UseCache bool
 }
 
 func (c *Client) GetEntity(ctx context.Context, input GetEntityInput) (*authzv1alpha1.GetEntityResponse, error) {
 	req := &authzv1alpha1.GetEntityRequest{
 		Universe: "default",
 		Entity:   input.UID.ToAPI(),
+	}
+
+	if input.UseCache {
+		if got, ok := c.cache.Get(input.UID.String()); ok {
+			if entity, ok := got.(*authzv1alpha1.Entity); ok {
+				return &authzv1alpha1.GetEntityResponse{
+					Entity: entity,
+				}, nil
+			}
+		}
 	}
 
 	res, err := c.raw.GetEntity(ctx, connect.NewRequest(req))
