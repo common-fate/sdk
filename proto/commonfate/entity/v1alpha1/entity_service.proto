@@ -60,19 +60,19 @@ message BatchGetResponse {
 message BatchUpdateRequest {
     string universe = 1;
 
-    repeated Entity put_entities = 2;
+    repeated Entity put = 2;
     
     // parent/child relationships to add.
     repeated ChildRelation put_children = 3;
 
     // entities to archive
-    repeated UID archive_entities = 4;
+    repeated UID archive = 4;
 
     // entities to mark as active
-    repeated UID unarchive_entities = 5;
+    repeated UID unarchive = 5;
 
     // entities to delete
-    repeated UID delete_entities = 6;
+    repeated UID delete = 6;
 
     // parent/child relations to delete.
     repeated ChildRelation delete_children = 7;
