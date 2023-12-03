@@ -22,7 +22,7 @@ type BatchPutJSONInput struct {
 	Entities []EntityJSON
 }
 
-func (c *Client) BatchPutEntityJSON(ctx context.Context, input BatchPutJSONInput) (*BatchUpdateOutput, error) {
+func (c *Client) BatchPutJSON(ctx context.Context, input BatchPutJSONInput) (*BatchUpdateOutput, error) {
 	var req = &entityv1alpha1.BatchUpdateRequest{
 		Universe: "default",
 		Put:      []*entityv1alpha1.Entity{},
