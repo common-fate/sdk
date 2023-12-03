@@ -18,7 +18,9 @@ type BatchGetInput struct {
 	UseCache bool
 }
 
-func (c *Client) BatchGet(ctx context.Context, input BatchGetInput) (*entityv1alpha1.BatchGetResponse, error) {
+type BatchGetOutput = entityv1alpha1.BatchGetResponse
+
+func (c *Client) BatchGet(ctx context.Context, input BatchGetInput) (*BatchGetOutput, error) {
 	req := &entityv1alpha1.BatchGetRequest{
 		Universe: "default",
 	}

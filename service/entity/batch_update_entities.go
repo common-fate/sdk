@@ -24,7 +24,9 @@ type BatchUpdateInput struct {
 	DeleteChildren []ChildRelation
 }
 
-func (c *Client) BatchUpdateEntities(ctx context.Context, input BatchUpdateInput) (*entityv1alpha1.BatchUpdateResponse, error) {
+type BatchUpdateOutput = entityv1alpha1.BatchUpdateResponse
+
+func (c *Client) BatchUpdate(ctx context.Context, input BatchUpdateInput) (*BatchUpdateOutput, error) {
 	var req = &entityv1alpha1.BatchUpdateRequest{
 		Universe:    "default",
 		PutEntities: []*entityv1alpha1.Entity{},

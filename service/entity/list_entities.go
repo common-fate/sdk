@@ -14,7 +14,7 @@ type ListInput struct {
 	PageToken string
 }
 
-func (c *Client) List(ctx context.Context, input ListInput) (*entityv1alpha1.ListResponse, error) {
+func (c *Client) List(ctx context.Context, input ListInput) (*ListOutput, error) {
 	req := &entityv1alpha1.ListRequest{
 		Universe:  "default",
 		Type:      input.Type,
@@ -56,10 +56,12 @@ func (c *Client) ListRequest(input ListInput) *listEntitiesRequestCall {
 	}
 }
 
+type ListOutput = entityv1alpha1.ListResponse
+
 // Pages invokes f for each page of results.
 // A non-nil error returned from f will halt the iteration.
 // The provided context supersedes any context provided to the Context method.
-func (c *listEntitiesRequestCall) Pages(ctx context.Context, f func(*entityv1alpha1.ListResponse) error) error {
+func (c *listEntitiesRequestCall) Pages(ctx context.Context, f func(*ListOutput) error) error {
 	// resets the input back to its original state
 	originalPageToken := c.input.PageToken
 	defer func() { c.input.PageToken = originalPageToken }()
