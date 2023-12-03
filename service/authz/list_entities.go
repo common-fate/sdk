@@ -9,35 +9,19 @@ import (
 	"github.com/patrickmn/go-cache"
 )
 
-type QueryInput struct {
-	Type            string
-	DirectParents   []uid.UID
-	AttributeEquals []Attribute
-	PageToken       string
+type ListEntitiesInput struct {
+	Type      string
+	PageToken string
 }
 
-type Attribute interface {
-	ToAPI() *authzv1alpha1.Attribute
-}
-
-func (c *Client) Query(ctx context.Context, input QueryInput) (*authzv1alpha1.QueryResponse, error) {
-	req := &authzv1alpha1.QueryRequest{
-		Universe:        "default",
-		Type:            input.Type,
-		DirectParents:   make([]*authzv1alpha1.UID, len(input.DirectParents)),
-		AttributeEquals: make([]*authzv1alpha1.Attribute, len(input.AttributeEquals)),
-		PageToken:       input.PageToken,
+func (c *Client) Query(ctx context.Context, input ListEntitiesInput) (*authzv1alpha1.ListEntitiesResponse, error) {
+	req := &authzv1alpha1.ListEntitiesRequest{
+		Universe:  "default",
+		Type:      input.Type,
+		PageToken: input.PageToken,
 	}
 
-	for i, a := range input.AttributeEquals {
-		req.AttributeEquals[i] = a.ToAPI()
-	}
-
-	for i, p := range input.DirectParents {
-		req.DirectParents[i] = p.ToAPI()
-	}
-
-	res, err := c.raw.Query(ctx, connect.NewRequest(req))
+	res, err := c.raw.ListEntities(ctx, connect.NewRequest(req))
 	if err != nil {
 		return nil, err
 	}
@@ -45,8 +29,8 @@ func (c *Client) Query(ctx context.Context, input QueryInput) (*authzv1alpha1.Qu
 	// update the attribute cache
 	for _, e := range res.Msg.Entities {
 		id := uid.UID{
-			Type: e.Entity.Uid.Type,
-			ID:   e.Entity.Uid.Id,
+			Type: e.Uid.Type,
+			ID:   e.Uid.Id,
 		}
 
 		c.cache.Set(id.String(), e, cache.DefaultExpiration)
@@ -55,8 +39,8 @@ func (c *Client) Query(ctx context.Context, input QueryInput) (*authzv1alpha1.Qu
 	return res.Msg, nil
 }
 
-type queryRequestCall struct {
-	input  QueryInput
+type listEntitiesRequestCall struct {
+	input  ListEntitiesInput
 	client *Client
 }
 
@@ -65,8 +49,8 @@ type queryRequestCall struct {
 // I think a good API here will have the option to do a single API call or a Pages call
 // in the google API it would be filterEntitiesRequestCall.Do() to make a single request
 // they also use a chained builder pattern
-func (c *Client) QueryRequest(input QueryInput) *queryRequestCall {
-	return &queryRequestCall{
+func (c *Client) ListEntitiesRequest(input ListEntitiesInput) *listEntitiesRequestCall {
+	return &listEntitiesRequestCall{
 		input:  input,
 		client: c,
 	}
@@ -75,7 +59,7 @@ func (c *Client) QueryRequest(input QueryInput) *queryRequestCall {
 // Pages invokes f for each page of results.
 // A non-nil error returned from f will halt the iteration.
 // The provided context supersedes any context provided to the Context method.
-func (c *queryRequestCall) Pages(ctx context.Context, f func(*authzv1alpha1.QueryResponse) error) error {
+func (c *listEntitiesRequestCall) Pages(ctx context.Context, f func(*authzv1alpha1.ListEntitiesResponse) error) error {
 	// resets the input back to its original state
 	originalPageToken := c.input.PageToken
 	defer func() { c.input.PageToken = originalPageToken }()
