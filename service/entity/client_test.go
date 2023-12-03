@@ -675,7 +675,7 @@ func TestUnmarshalEntity_roundtrip(t *testing.T) {
 				t.Fatal(err)
 			}
 
-			err = UnmarshalEntity(res, tt.out)
+			err = Unmarshal(res, tt.out)
 			if err != nil {
 				t.Fatal(err)
 			}
