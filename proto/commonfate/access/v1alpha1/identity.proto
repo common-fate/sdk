@@ -15,4 +15,8 @@ message GetCallerIdentityRequest{}
 message GetCallerIdentityResponse {
   // The principal that the user is currently acting as
   commonfate.authz.v1alpha1.UID principal = 1;
+
+  // The entity the user authenticated through.
+  // For OIDC identities, this is the OIDC subject.
+  commonfate.authz.v1alpha1.UID authenticated_via = 2;
 }
