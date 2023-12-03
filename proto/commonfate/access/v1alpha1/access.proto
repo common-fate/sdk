@@ -106,15 +106,15 @@ message Specifier {
 }
 
 message EntitlementInput {
-   // to be added in future when 'on-behalf-of' requests are implemented.
-   reserved 1;
-   reserved "principal";
+  // The principal to grant access to.
+  // If empty, the current caller will be used as the principal.
+  Specifier principal = 1;
 
    // The resource to grant the principal access to.
-   Specifier target = 2;
+  Specifier target = 2;
 
    // The role to grant the principal access to the resource with.
-   Specifier role = 3;
+  Specifier role = 3;
 }
 
 message BatchEnsureRequest {

@@ -5,10 +5,8 @@
 package accessv1alpha1connect
 
 import (
-	context "context"
-	errors "errors"
 	connect_go "github.com/bufbuild/connect-go"
-	v1alpha1 "github.com/common-fate/sdk/gen/commonfate/access/v1alpha1"
+	_ "github.com/common-fate/sdk/gen/commonfate/access/v1alpha1"
 	http "net/http"
 	strings "strings"
 )
@@ -25,21 +23,8 @@ const (
 	GrantServiceName = "commonfate.access.v1alpha1.GrantService"
 )
 
-// These constants are the fully-qualified names of the RPCs defined in this package. They're
-// exposed at runtime as Spec.Procedure and as the final two segments of the HTTP route.
-//
-// Note that these are different from the fully-qualified method names used by
-// google.golang.org/protobuf/reflect/protoreflect. To convert from these constants to
-// reflection-formatted method names, remove the leading slash and convert the remaining slash to a
-// period.
-const (
-	// GrantServiceListGrantsProcedure is the fully-qualified name of the GrantService's ListGrants RPC.
-	GrantServiceListGrantsProcedure = "/commonfate.access.v1alpha1.GrantService/ListGrants"
-)
-
 // GrantServiceClient is a client for the commonfate.access.v1alpha1.GrantService service.
 type GrantServiceClient interface {
-	ListGrants(context.Context, *connect_go.Request[v1alpha1.ListGrantsRequest]) (*connect_go.Response[v1alpha1.ListGrantsResponse], error)
 }
 
 // NewGrantServiceClient constructs a client for the commonfate.access.v1alpha1.GrantService
@@ -51,28 +36,15 @@ type GrantServiceClient interface {
 // http://api.acme.com or https://acme.com/grpc).
 func NewGrantServiceClient(httpClient connect_go.HTTPClient, baseURL string, opts ...connect_go.ClientOption) GrantServiceClient {
 	baseURL = strings.TrimRight(baseURL, "/")
-	return &grantServiceClient{
-		listGrants: connect_go.NewClient[v1alpha1.ListGrantsRequest, v1alpha1.ListGrantsResponse](
-			httpClient,
-			baseURL+GrantServiceListGrantsProcedure,
-			opts...,
-		),
-	}
+	return &grantServiceClient{}
 }
 
 // grantServiceClient implements GrantServiceClient.
 type grantServiceClient struct {
-	listGrants *connect_go.Client[v1alpha1.ListGrantsRequest, v1alpha1.ListGrantsResponse]
-}
-
-// ListGrants calls commonfate.access.v1alpha1.GrantService.ListGrants.
-func (c *grantServiceClient) ListGrants(ctx context.Context, req *connect_go.Request[v1alpha1.ListGrantsRequest]) (*connect_go.Response[v1alpha1.ListGrantsResponse], error) {
-	return c.listGrants.CallUnary(ctx, req)
 }
 
 // GrantServiceHandler is an implementation of the commonfate.access.v1alpha1.GrantService service.
 type GrantServiceHandler interface {
-	ListGrants(context.Context, *connect_go.Request[v1alpha1.ListGrantsRequest]) (*connect_go.Response[v1alpha1.ListGrantsResponse], error)
 }
 
 // NewGrantServiceHandler builds an HTTP handler from the service implementation. It returns the
@@ -81,15 +53,8 @@ type GrantServiceHandler interface {
 // By default, handlers support the Connect, gRPC, and gRPC-Web protocols with the binary Protobuf
 // and JSON codecs. They also support gzip compression.
 func NewGrantServiceHandler(svc GrantServiceHandler, opts ...connect_go.HandlerOption) (string, http.Handler) {
-	grantServiceListGrantsHandler := connect_go.NewUnaryHandler(
-		GrantServiceListGrantsProcedure,
-		svc.ListGrants,
-		opts...,
-	)
 	return "/commonfate.access.v1alpha1.GrantService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
-		case GrantServiceListGrantsProcedure:
-			grantServiceListGrantsHandler.ServeHTTP(w, r)
 		default:
 			http.NotFound(w, r)
 		}
@@ -98,7 +63,3 @@ func NewGrantServiceHandler(svc GrantServiceHandler, opts ...connect_go.HandlerO
 
 // UnimplementedGrantServiceHandler returns CodeUnimplemented from all methods.
 type UnimplementedGrantServiceHandler struct{}
-
-func (UnimplementedGrantServiceHandler) ListGrants(context.Context, *connect_go.Request[v1alpha1.ListGrantsRequest]) (*connect_go.Response[v1alpha1.ListGrantsResponse], error) {
-	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("commonfate.access.v1alpha1.GrantService.ListGrants is not implemented"))
-}
