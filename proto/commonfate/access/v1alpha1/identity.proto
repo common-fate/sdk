@@ -13,10 +13,12 @@ service IdentityService {
 message GetCallerIdentityRequest{}
 
 message GetCallerIdentityResponse {
-  // The principal that the user is currently acting as
-  commonfate.authz.v1alpha1.UID principal = 1;
-
-  // The entity the user authenticated through.
-  // For OIDC identities, this is the OIDC subject.
-  commonfate.authz.v1alpha1.UID authenticated_via = 2;
+  // The chain of the identities for the user.
+  // The final item in the chain is the current identity the user is acting as,
+  // and is the 'principal' for authorization policy evaluations.
+  //
+  // For users authenticating with OIDC, the chain will usually look like:
+  // 1. OIDC::Subject::"https://oidc-issuer.example.com/93fcac4b-ab67-405c-926b-184f8ba697a4"
+  // 2. CF::User::"usr_2Z0WQkw9Ogpsn2Us6RuIBiDRYzJ"
+  repeated commonfate.authz.v1alpha1.UID chain = 1;
 }

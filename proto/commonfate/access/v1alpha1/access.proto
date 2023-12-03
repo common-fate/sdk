@@ -4,6 +4,7 @@ package commonfate.access.v1alpha1;
 
 import "commonfate/control/attest/v1alpha1/attestation.proto";
 import "commonfate/access/v1alpha1/access_request.proto";
+import "commonfate/access/v1alpha1/grant.proto";
 import "commonfate/authz/v1alpha1/entity.proto";
 import "commonfate/authz/v1alpha1/uid.proto";
 import "commonfate/access/v1alpha1/named_uid.proto";

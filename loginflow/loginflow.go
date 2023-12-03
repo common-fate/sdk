@@ -39,11 +39,6 @@ type response struct {
 }
 
 func (lf LoginFlow) Login(ctx context.Context) error {
-	// oldCfg, err := cliconfig.Load()
-	// if err != nil {
-	// 	return err
-	// }
-	// oldDefaultContext := oldCfg.CurrentOrEmpty()
 
 	authResponse := make(chan response)
 

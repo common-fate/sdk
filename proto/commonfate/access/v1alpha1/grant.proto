@@ -1,0 +1,75 @@
+syntax = "proto3";
+
+package commonfate.access.v1alpha1;
+
+import "commonfate/control/attest/v1alpha1/attestation.proto";
+import "commonfate/access/v1alpha1/user.proto";
+import "commonfate/authz/v1alpha1/entity.proto";
+import "commonfate/authz/v1alpha1/uid.proto";
+import "commonfate/access/v1alpha1/named_uid.proto";
+import "commonfate/access/v1alpha1/reviewer_preview.proto";
+import "commonfate/access/v1alpha1/audit_logs.proto";
+import "google/protobuf/duration.proto";
+import "google/protobuf/timestamp.proto";
+
+
+service GrantService {
+    rpc ListGrants(ListGrantsRequest) returns (ListGrantsResponse) {}
+}
+
+message ListGrantsRequest {
+    // The token for the next page.
+    string page_token = 1;
+
+    GrantStatus status = 2;
+}
+
+message ListGrantsResponse {
+    repeated Grant grants = 1;
+    string next_page_token = 2;
+}
+
+message Grant {
+    // The ID of the Grant.
+    string id = 1;
+
+    // A user-friendly name describing the access, such as "AdministratorAccess to tax-api-prod"
+    string name = 2;
+
+    // The resource being requested.
+    NamedUID target = 3;
+
+    // The role being requested, such as "View" or "Admin".
+    NamedUID role = 4;
+
+    // The user or service account that requested the access.
+    //
+    // If a service account requested access, the 'name' and 'email' may be empty.
+    User principal = 5;
+
+    // The status of the Grant.
+    GrantStatus status = 6;
+
+    // For active grants, the time that the access is due to expire.
+    google.protobuf.Timestamp expires_at = 8;
+
+    // For active grants, the time that the user may attempt to extend the grant.
+    // If empty, extension is not permitted.
+    google.protobuf.Timestamp extension_permitted_at = 9;
+}
+
+enum GrantStatus {
+    GRANT_STATUS_UNSPECIFIED = 0;
+
+    // Awaiting a manual review.
+    GRANT_STATUS_PENDING = 1;
+
+    // The grant to the entitlement is currently active. 
+    GRANT_STATUS_ACTIVE = 3;
+
+    // No longer active. Grants may be inactive due to several reasons, such as:
+    // - the grant was cancelled by the user
+    // - the grant was revoked by an administrator
+    // - the grant has expired
+    GRANT_STATUS_INACTIVE = 4;
+}
