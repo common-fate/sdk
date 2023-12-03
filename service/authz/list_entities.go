@@ -14,7 +14,7 @@ type ListEntitiesInput struct {
 	PageToken string
 }
 
-func (c *Client) Query(ctx context.Context, input ListEntitiesInput) (*authzv1alpha1.ListEntitiesResponse, error) {
+func (c *Client) ListEntities(ctx context.Context, input ListEntitiesInput) (*authzv1alpha1.ListEntitiesResponse, error) {
 	req := &authzv1alpha1.ListEntitiesRequest{
 		Universe:  "default",
 		Type:      input.Type,
