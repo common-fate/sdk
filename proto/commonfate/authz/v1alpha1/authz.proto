@@ -63,8 +63,8 @@ service AuthzService {
 
     rpc ListPolicies(ListPoliciesRequest) returns (ListPoliciesResponse) {}
 
-    // Query for entities matching filter conditions.
-    rpc Query(QueryRequest) returns (QueryResponse) {}
+    // List entities matching filter conditions.
+    rpc ListEntities(ListEntitiesRequest) returns (ListEntitiesResponse) {}
 
     // Get an entity by UID.
     rpc GetEntity(GetEntityRequest) returns (GetEntityResponse) {}
@@ -94,36 +94,21 @@ message BatchDeleteEntityRequest {
 
 message BatchDeleteEntityResponse {}
 
-message QueryRequest {
+message ListEntitiesRequest {
     string universe = 1;
 
-    // Filter entities for a particular type
-    string type = 2;
-
-    // Filter entities by their direct parents.
-    // Specifying multiple parents will be treated as an AND operation,
-    // and return entities matching all of the provided parent IDs.
-    repeated UID direct_parents = 3;
-
-    // Filter entities by their attributes.
-    repeated Attribute attribute_equals = 4;
-
     // The token for the next page.
-    string page_token = 5;
+    string page_token = 2;
+
+    // Filter entities for a particular type
+    string type = 3;
 
     // If true, will look through archived entities
     bool archived = 6;
 }
 
-message LoadedEntity {
-    Entity entity = 1;
-
-    // eager-loaded related entities may appear as other fields in this message.
-}
-
-
-message QueryResponse {
-    repeated LoadedEntity entities = 1;
+message ListEntitiesResponse {
+    repeated Entity entities = 1;
     string next_page_token = 2;
 }
 
@@ -184,18 +169,3 @@ message BatchPutPolicyRequest {
 }
 
 message BatchPutPolicyResponse {}
-
-message ListEntitiesRequest {
-    string universe = 1;
-
-    // Filter entities for a particular type
-    string type = 2;
-
-    string page = 3;
-}
-
-message ListEntitiesResponse {
-    repeated Entity entities = 1;
-
-    string next_page = 3;
-}

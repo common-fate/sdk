@@ -51,8 +51,9 @@ const (
 	// AuthzServiceListPoliciesProcedure is the fully-qualified name of the AuthzService's ListPolicies
 	// RPC.
 	AuthzServiceListPoliciesProcedure = "/commonfate.authz.v1alpha1.AuthzService/ListPolicies"
-	// AuthzServiceQueryProcedure is the fully-qualified name of the AuthzService's Query RPC.
-	AuthzServiceQueryProcedure = "/commonfate.authz.v1alpha1.AuthzService/Query"
+	// AuthzServiceListEntitiesProcedure is the fully-qualified name of the AuthzService's ListEntities
+	// RPC.
+	AuthzServiceListEntitiesProcedure = "/commonfate.authz.v1alpha1.AuthzService/ListEntities"
 	// AuthzServiceGetEntityProcedure is the fully-qualified name of the AuthzService's GetEntity RPC.
 	AuthzServiceGetEntityProcedure = "/commonfate.authz.v1alpha1.AuthzService/GetEntity"
 	// AuthzServiceBatchGetEntityProcedure is the fully-qualified name of the AuthzService's
@@ -73,8 +74,8 @@ type AuthzServiceClient interface {
 	// run multiple authorization evaluations and returns allow + deny for each.
 	BatchAuthorize(context.Context, *connect_go.Request[v1alpha1.BatchAuthorizeRequest]) (*connect_go.Response[v1alpha1.BatchAuthorizeResponse], error)
 	ListPolicies(context.Context, *connect_go.Request[v1alpha1.ListPoliciesRequest]) (*connect_go.Response[v1alpha1.ListPoliciesResponse], error)
-	// Query for entities matching filter conditions.
-	Query(context.Context, *connect_go.Request[v1alpha1.QueryRequest]) (*connect_go.Response[v1alpha1.QueryResponse], error)
+	// List entities matching filter conditions.
+	ListEntities(context.Context, *connect_go.Request[v1alpha1.ListEntitiesRequest]) (*connect_go.Response[v1alpha1.ListEntitiesResponse], error)
 	// Get an entity by UID.
 	GetEntity(context.Context, *connect_go.Request[v1alpha1.GetEntityRequest]) (*connect_go.Response[v1alpha1.GetEntityResponse], error)
 	// Get multiple entities by UID.
@@ -121,9 +122,9 @@ func NewAuthzServiceClient(httpClient connect_go.HTTPClient, baseURL string, opt
 			baseURL+AuthzServiceListPoliciesProcedure,
 			opts...,
 		),
-		query: connect_go.NewClient[v1alpha1.QueryRequest, v1alpha1.QueryResponse](
+		listEntities: connect_go.NewClient[v1alpha1.ListEntitiesRequest, v1alpha1.ListEntitiesResponse](
 			httpClient,
-			baseURL+AuthzServiceQueryProcedure,
+			baseURL+AuthzServiceListEntitiesProcedure,
 			opts...,
 		),
 		getEntity: connect_go.NewClient[v1alpha1.GetEntityRequest, v1alpha1.GetEntityResponse](
@@ -147,7 +148,7 @@ type authzServiceClient struct {
 	batchPutPolicy     *connect_go.Client[v1alpha1.BatchPutPolicyRequest, v1alpha1.BatchPutPolicyResponse]
 	batchAuthorize     *connect_go.Client[v1alpha1.BatchAuthorizeRequest, v1alpha1.BatchAuthorizeResponse]
 	listPolicies       *connect_go.Client[v1alpha1.ListPoliciesRequest, v1alpha1.ListPoliciesResponse]
-	query              *connect_go.Client[v1alpha1.QueryRequest, v1alpha1.QueryResponse]
+	listEntities       *connect_go.Client[v1alpha1.ListEntitiesRequest, v1alpha1.ListEntitiesResponse]
 	getEntity          *connect_go.Client[v1alpha1.GetEntityRequest, v1alpha1.GetEntityResponse]
 	batchGetEntity     *connect_go.Client[v1alpha1.BatchGetEntityRequest, v1alpha1.BatchGetEntityResponse]
 }
@@ -182,9 +183,9 @@ func (c *authzServiceClient) ListPolicies(ctx context.Context, req *connect_go.R
 	return c.listPolicies.CallUnary(ctx, req)
 }
 
-// Query calls commonfate.authz.v1alpha1.AuthzService.Query.
-func (c *authzServiceClient) Query(ctx context.Context, req *connect_go.Request[v1alpha1.QueryRequest]) (*connect_go.Response[v1alpha1.QueryResponse], error) {
-	return c.query.CallUnary(ctx, req)
+// ListEntities calls commonfate.authz.v1alpha1.AuthzService.ListEntities.
+func (c *authzServiceClient) ListEntities(ctx context.Context, req *connect_go.Request[v1alpha1.ListEntitiesRequest]) (*connect_go.Response[v1alpha1.ListEntitiesResponse], error) {
+	return c.listEntities.CallUnary(ctx, req)
 }
 
 // GetEntity calls commonfate.authz.v1alpha1.AuthzService.GetEntity.
@@ -210,8 +211,8 @@ type AuthzServiceHandler interface {
 	// run multiple authorization evaluations and returns allow + deny for each.
 	BatchAuthorize(context.Context, *connect_go.Request[v1alpha1.BatchAuthorizeRequest]) (*connect_go.Response[v1alpha1.BatchAuthorizeResponse], error)
 	ListPolicies(context.Context, *connect_go.Request[v1alpha1.ListPoliciesRequest]) (*connect_go.Response[v1alpha1.ListPoliciesResponse], error)
-	// Query for entities matching filter conditions.
-	Query(context.Context, *connect_go.Request[v1alpha1.QueryRequest]) (*connect_go.Response[v1alpha1.QueryResponse], error)
+	// List entities matching filter conditions.
+	ListEntities(context.Context, *connect_go.Request[v1alpha1.ListEntitiesRequest]) (*connect_go.Response[v1alpha1.ListEntitiesResponse], error)
 	// Get an entity by UID.
 	GetEntity(context.Context, *connect_go.Request[v1alpha1.GetEntityRequest]) (*connect_go.Response[v1alpha1.GetEntityResponse], error)
 	// Get multiple entities by UID.
@@ -254,9 +255,9 @@ func NewAuthzServiceHandler(svc AuthzServiceHandler, opts ...connect_go.HandlerO
 		svc.ListPolicies,
 		opts...,
 	)
-	authzServiceQueryHandler := connect_go.NewUnaryHandler(
-		AuthzServiceQueryProcedure,
-		svc.Query,
+	authzServiceListEntitiesHandler := connect_go.NewUnaryHandler(
+		AuthzServiceListEntitiesProcedure,
+		svc.ListEntities,
 		opts...,
 	)
 	authzServiceGetEntityHandler := connect_go.NewUnaryHandler(
@@ -283,8 +284,8 @@ func NewAuthzServiceHandler(svc AuthzServiceHandler, opts ...connect_go.HandlerO
 			authzServiceBatchAuthorizeHandler.ServeHTTP(w, r)
 		case AuthzServiceListPoliciesProcedure:
 			authzServiceListPoliciesHandler.ServeHTTP(w, r)
-		case AuthzServiceQueryProcedure:
-			authzServiceQueryHandler.ServeHTTP(w, r)
+		case AuthzServiceListEntitiesProcedure:
+			authzServiceListEntitiesHandler.ServeHTTP(w, r)
 		case AuthzServiceGetEntityProcedure:
 			authzServiceGetEntityHandler.ServeHTTP(w, r)
 		case AuthzServiceBatchGetEntityProcedure:
@@ -322,8 +323,8 @@ func (UnimplementedAuthzServiceHandler) ListPolicies(context.Context, *connect_g
 	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("commonfate.authz.v1alpha1.AuthzService.ListPolicies is not implemented"))
 }
 
-func (UnimplementedAuthzServiceHandler) Query(context.Context, *connect_go.Request[v1alpha1.QueryRequest]) (*connect_go.Response[v1alpha1.QueryResponse], error) {
-	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("commonfate.authz.v1alpha1.AuthzService.Query is not implemented"))
+func (UnimplementedAuthzServiceHandler) ListEntities(context.Context, *connect_go.Request[v1alpha1.ListEntitiesRequest]) (*connect_go.Response[v1alpha1.ListEntitiesResponse], error) {
+	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("commonfate.authz.v1alpha1.AuthzService.ListEntities is not implemented"))
 }
 
 func (UnimplementedAuthzServiceHandler) GetEntity(context.Context, *connect_go.Request[v1alpha1.GetEntityRequest]) (*connect_go.Response[v1alpha1.GetEntityResponse], error) {
