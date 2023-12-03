@@ -35,7 +35,7 @@ func LoadDefault(ctx context.Context) (*Context, error) {
 
 type Opts struct {
 	APIURL       string
-	IssuerURL    string
+	AccessURL    string
 	ClientID     string
 	ClientSecret string
 }
@@ -52,7 +52,7 @@ func New(ctx context.Context, opts Opts) (*Context, error) {
 	}
 
 	current.APIURL = opts.APIURL
-	current.AccessURL = opts.IssuerURL
+	current.AccessURL = opts.AccessURL
 	current.OIDCClientID = opts.ClientID
 	current.OIDCClientSecret = &opts.ClientSecret
 
