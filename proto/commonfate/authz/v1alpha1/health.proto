@@ -1,0 +1,13 @@
+
+syntax = "proto3";
+
+package commonfate.authz.v1alpha1;
+
+
+service HealthService {
+    rpc HealthCheck(HealthCheckRequest) returns (HealthCheckResponse) {}
+}
+
+message HealthCheckRequest {}
+
+message HealthCheckResponse {}
