@@ -8,6 +8,7 @@ import (
 	"github.com/bufbuild/connect-go"
 	authzv1alpha1 "github.com/common-fate/sdk/gen/commonfate/authz/v1alpha1"
 	"github.com/common-fate/sdk/service/authz"
+	"github.com/common-fate/sdk/service/entity"
 	"github.com/common-fate/sdk/uid"
 )
 
@@ -36,13 +37,30 @@ func New(executor Executor) *Batch {
 	}
 }
 
-func (a *Batch) AddRequest(req authz.Request) Authorizer {
-	a.request.Requests = append(a.request.Requests, &authzv1alpha1.Request{
+func (a *Batch) AddRequest(req authz.Request) error {
+	apiReq := &authzv1alpha1.Request{
 		Principal: req.Principal.ToAPI(),
 		Action:    req.Action.ToAPI(),
 		Resource:  req.Resource.ToAPI(),
-	})
-	return a
+	}
+
+	for _, e := range req.OverlayEntities {
+		apiEntity, childRels, err := entity.EntityToAPI(e)
+		if err != nil {
+			return err
+		}
+
+		apiReq.OverlayEntities = append(apiReq.OverlayEntities, apiEntity)
+		apiReq.OverlayChildren = append(apiReq.OverlayChildren, childRels...)
+	}
+
+	for _, c := range req.OverlayChildren {
+		apiReq.OverlayChildren = append(apiReq.OverlayChildren, c.ToAPI())
+	}
+
+	a.request.Requests = append(a.request.Requests, apiReq)
+
+	return nil
 }
 
 func (a *Batch) Authorize(ctx context.Context) error {

@@ -88,8 +88,8 @@ func (a *MockBatch) Mock(req authz.Request, eval Evaluation) *MockBatch {
 	return a
 }
 
-func (a *MockBatch) AddRequest(req authz.Request) Authorizer {
-	return a
+func (a *MockBatch) AddRequest(req authz.Request) error {
+	return nil
 }
 
 func (a *MockBatch) Authorize(ctx context.Context) error {
