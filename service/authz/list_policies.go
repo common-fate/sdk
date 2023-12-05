@@ -12,8 +12,8 @@ type ListPolicySetsInput struct {
 }
 
 type ListPolicySetsOutput struct {
-	PolicySets    []PolicySet
-	NextPageToken string
+	PolicySets    []PolicySet `json:"policySets"`
+	NextPageToken string      `json:"nextPageToken,omitempty"`
 }
 
 func (c *Client) ListPolicySets(ctx context.Context, input ListPolicySetsInput) (ListPolicySetsOutput, error) {
