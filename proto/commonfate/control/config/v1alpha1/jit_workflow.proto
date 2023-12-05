@@ -66,6 +66,7 @@ message JITWorkflow {
     repeated Filter filters = 4;
     repeated Alert alerts = 5;
     google.protobuf.Duration access_duration = 6;
+    string role = 7;
 }
 
 message CreateJITWorkflowResponse {
