@@ -12,8 +12,8 @@ type ListPolicySetsInput struct {
 }
 
 type ListPolicySetsOutput struct {
-	PolicySets []PolicySet
-	NextPage   string
+	PolicySets    []PolicySet
+	NextPageToken string
 }
 
 func (c *Client) ListPolicySets(ctx context.Context, input ListPolicySetsInput) (ListPolicySetsOutput, error) {
@@ -27,8 +27,8 @@ func (c *Client) ListPolicySets(ctx context.Context, input ListPolicySetsInput) 
 	}
 
 	res := ListPolicySetsOutput{
-		NextPage:   apires.Msg.NextPageToken,
-		PolicySets: make([]PolicySet, len(apires.Msg.PolicySets)),
+		NextPageToken: apires.Msg.NextPageToken,
+		PolicySets:    make([]PolicySet, len(apires.Msg.PolicySets)),
 	}
 
 	for i, p := range apires.Msg.PolicySets {
@@ -36,4 +36,38 @@ func (c *Client) ListPolicySets(ctx context.Context, input ListPolicySetsInput) 
 	}
 
 	return res, nil
+}
+
+type listPolicySetsRequestCall struct {
+	input  ListPolicySetsInput
+	client *Client
+}
+
+func (c *Client) ListPolicySetsRequest(input ListPolicySetsInput) *listPolicySetsRequestCall {
+	return &listPolicySetsRequestCall{
+		input:  input,
+		client: c,
+	}
+}
+
+// Pages invokes f for each page of results.
+// A non-nil error returned from f will halt the iteration.
+// The provided context supersedes any context provided to the Context method.
+func (c *listPolicySetsRequestCall) Pages(ctx context.Context, f func(ListPolicySetsOutput) error) error {
+	// resets the input back to its original state
+	originalPageToken := c.input.PageToken
+	defer func() { c.input.PageToken = originalPageToken }()
+	for {
+		x, err := c.client.ListPolicySets(ctx, c.input)
+		if err != nil {
+			return err
+		}
+		if err := f(x); err != nil {
+			return err
+		}
+		if x.NextPageToken == "" {
+			return nil
+		}
+		c.input.PageToken = x.NextPageToken
+	}
 }
