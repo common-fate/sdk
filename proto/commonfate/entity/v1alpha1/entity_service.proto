@@ -48,9 +48,6 @@ message ListChildrenRequest {
     string page_token = 2;
 
     UID parent = 3;
-
-    // Filter entities for a particular type
-    string type = 4;
 }
 
 message ListChildrenResponse {

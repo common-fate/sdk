@@ -10,7 +10,6 @@ import (
 
 type ListChildrenInput struct {
 	Parent    uid.UID
-	Type      string
 	PageToken string
 }
 
@@ -21,7 +20,6 @@ func (c *Client) ListChildren(ctx context.Context, input ListChildrenInput) (*Li
 		Universe:  "default",
 		PageToken: input.PageToken,
 		Parent:    input.Parent.ToAPI(),
-		Type:      input.Type,
 	}
 
 	res, err := c.raw.ListChildren(ctx, connect.NewRequest(req))
