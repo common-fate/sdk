@@ -126,6 +126,15 @@ func unmarshalSetValue(setValue *entityv1alpha1.Value, field reflect.Value) erro
 			return nil
 		}
 
+		if kind == reflect.Uint ||
+			kind == reflect.Uint16 ||
+			kind == reflect.Uint32 ||
+			kind == reflect.Uint8 ||
+			kind == reflect.Uint64 {
+			field.SetUint(uint64(val.Long))
+			return nil
+		}
+
 		// handle time.Time
 		if field.Type() == reflect.TypeOf(time.Time{}) {
 			timeVal := time.Unix(0, val.Long*int64(time.Millisecond))
