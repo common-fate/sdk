@@ -39,9 +39,9 @@ const (
 	// AuthzServiceBatchAuthorizeProcedure is the fully-qualified name of the AuthzService's
 	// BatchAuthorize RPC.
 	AuthzServiceBatchAuthorizeProcedure = "/commonfate.authz.v1alpha1.AuthzService/BatchAuthorize"
-	// AuthzServiceListPoliciesProcedure is the fully-qualified name of the AuthzService's ListPolicies
-	// RPC.
-	AuthzServiceListPoliciesProcedure = "/commonfate.authz.v1alpha1.AuthzService/ListPolicies"
+	// AuthzServiceListPolicySetsProcedure is the fully-qualified name of the AuthzService's
+	// ListPolicySets RPC.
+	AuthzServiceListPolicySetsProcedure = "/commonfate.authz.v1alpha1.AuthzService/ListPolicySets"
 )
 
 // AuthzServiceClient is a client for the commonfate.authz.v1alpha1.AuthzService service.
@@ -50,7 +50,7 @@ type AuthzServiceClient interface {
 	BatchPutPolicySet(context.Context, *connect_go.Request[v1alpha1.BatchPutPolicySetRequest]) (*connect_go.Response[v1alpha1.BatchPutPolicySetResponse], error)
 	// run multiple authorization evaluations and returns allow + deny for each.
 	BatchAuthorize(context.Context, *connect_go.Request[v1alpha1.BatchAuthorizeRequest]) (*connect_go.Response[v1alpha1.BatchAuthorizeResponse], error)
-	ListPolicies(context.Context, *connect_go.Request[v1alpha1.ListPoliciesRequest]) (*connect_go.Response[v1alpha1.ListPoliciesResponse], error)
+	ListPolicySets(context.Context, *connect_go.Request[v1alpha1.ListPolicySetsRequest]) (*connect_go.Response[v1alpha1.ListPolicySetsResponse], error)
 }
 
 // NewAuthzServiceClient constructs a client for the commonfate.authz.v1alpha1.AuthzService service.
@@ -73,9 +73,9 @@ func NewAuthzServiceClient(httpClient connect_go.HTTPClient, baseURL string, opt
 			baseURL+AuthzServiceBatchAuthorizeProcedure,
 			opts...,
 		),
-		listPolicies: connect_go.NewClient[v1alpha1.ListPoliciesRequest, v1alpha1.ListPoliciesResponse](
+		listPolicySets: connect_go.NewClient[v1alpha1.ListPolicySetsRequest, v1alpha1.ListPolicySetsResponse](
 			httpClient,
-			baseURL+AuthzServiceListPoliciesProcedure,
+			baseURL+AuthzServiceListPolicySetsProcedure,
 			opts...,
 		),
 	}
@@ -85,7 +85,7 @@ func NewAuthzServiceClient(httpClient connect_go.HTTPClient, baseURL string, opt
 type authzServiceClient struct {
 	batchPutPolicySet *connect_go.Client[v1alpha1.BatchPutPolicySetRequest, v1alpha1.BatchPutPolicySetResponse]
 	batchAuthorize    *connect_go.Client[v1alpha1.BatchAuthorizeRequest, v1alpha1.BatchAuthorizeResponse]
-	listPolicies      *connect_go.Client[v1alpha1.ListPoliciesRequest, v1alpha1.ListPoliciesResponse]
+	listPolicySets    *connect_go.Client[v1alpha1.ListPolicySetsRequest, v1alpha1.ListPolicySetsResponse]
 }
 
 // BatchPutPolicySet calls commonfate.authz.v1alpha1.AuthzService.BatchPutPolicySet.
@@ -98,9 +98,9 @@ func (c *authzServiceClient) BatchAuthorize(ctx context.Context, req *connect_go
 	return c.batchAuthorize.CallUnary(ctx, req)
 }
 
-// ListPolicies calls commonfate.authz.v1alpha1.AuthzService.ListPolicies.
-func (c *authzServiceClient) ListPolicies(ctx context.Context, req *connect_go.Request[v1alpha1.ListPoliciesRequest]) (*connect_go.Response[v1alpha1.ListPoliciesResponse], error) {
-	return c.listPolicies.CallUnary(ctx, req)
+// ListPolicySets calls commonfate.authz.v1alpha1.AuthzService.ListPolicySets.
+func (c *authzServiceClient) ListPolicySets(ctx context.Context, req *connect_go.Request[v1alpha1.ListPolicySetsRequest]) (*connect_go.Response[v1alpha1.ListPolicySetsResponse], error) {
+	return c.listPolicySets.CallUnary(ctx, req)
 }
 
 // AuthzServiceHandler is an implementation of the commonfate.authz.v1alpha1.AuthzService service.
@@ -109,7 +109,7 @@ type AuthzServiceHandler interface {
 	BatchPutPolicySet(context.Context, *connect_go.Request[v1alpha1.BatchPutPolicySetRequest]) (*connect_go.Response[v1alpha1.BatchPutPolicySetResponse], error)
 	// run multiple authorization evaluations and returns allow + deny for each.
 	BatchAuthorize(context.Context, *connect_go.Request[v1alpha1.BatchAuthorizeRequest]) (*connect_go.Response[v1alpha1.BatchAuthorizeResponse], error)
-	ListPolicies(context.Context, *connect_go.Request[v1alpha1.ListPoliciesRequest]) (*connect_go.Response[v1alpha1.ListPoliciesResponse], error)
+	ListPolicySets(context.Context, *connect_go.Request[v1alpha1.ListPolicySetsRequest]) (*connect_go.Response[v1alpha1.ListPolicySetsResponse], error)
 }
 
 // NewAuthzServiceHandler builds an HTTP handler from the service implementation. It returns the
@@ -128,9 +128,9 @@ func NewAuthzServiceHandler(svc AuthzServiceHandler, opts ...connect_go.HandlerO
 		svc.BatchAuthorize,
 		opts...,
 	)
-	authzServiceListPoliciesHandler := connect_go.NewUnaryHandler(
-		AuthzServiceListPoliciesProcedure,
-		svc.ListPolicies,
+	authzServiceListPolicySetsHandler := connect_go.NewUnaryHandler(
+		AuthzServiceListPolicySetsProcedure,
+		svc.ListPolicySets,
 		opts...,
 	)
 	return "/commonfate.authz.v1alpha1.AuthzService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -139,8 +139,8 @@ func NewAuthzServiceHandler(svc AuthzServiceHandler, opts ...connect_go.HandlerO
 			authzServiceBatchPutPolicySetHandler.ServeHTTP(w, r)
 		case AuthzServiceBatchAuthorizeProcedure:
 			authzServiceBatchAuthorizeHandler.ServeHTTP(w, r)
-		case AuthzServiceListPoliciesProcedure:
-			authzServiceListPoliciesHandler.ServeHTTP(w, r)
+		case AuthzServiceListPolicySetsProcedure:
+			authzServiceListPolicySetsHandler.ServeHTTP(w, r)
 		default:
 			http.NotFound(w, r)
 		}
@@ -158,6 +158,6 @@ func (UnimplementedAuthzServiceHandler) BatchAuthorize(context.Context, *connect
 	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("commonfate.authz.v1alpha1.AuthzService.BatchAuthorize is not implemented"))
 }
 
-func (UnimplementedAuthzServiceHandler) ListPolicies(context.Context, *connect_go.Request[v1alpha1.ListPoliciesRequest]) (*connect_go.Response[v1alpha1.ListPoliciesResponse], error) {
-	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("commonfate.authz.v1alpha1.AuthzService.ListPolicies is not implemented"))
+func (UnimplementedAuthzServiceHandler) ListPolicySets(context.Context, *connect_go.Request[v1alpha1.ListPolicySetsRequest]) (*connect_go.Response[v1alpha1.ListPolicySetsResponse], error) {
+	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("commonfate.authz.v1alpha1.AuthzService.ListPolicySets is not implemented"))
 }

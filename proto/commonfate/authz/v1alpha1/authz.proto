@@ -52,7 +52,7 @@ service AuthzService {
     // // look up which principals could access a particular resource
     // rpc LookupPrincipal(LookupPrincipalRequest) returns (LookupPrincipalResponse) {}
 
-    rpc ListPolicies(ListPoliciesRequest) returns (ListPoliciesResponse) {}
+    rpc ListPolicySets(ListPolicySetsRequest) returns (ListPolicySetsResponse) {}
 }
 
 message BatchAuthorizeRequest {
@@ -65,7 +65,7 @@ message BatchAuthorizeResponse {
     repeated Evaluation evaluations = 1;
 }
 
-message ListPoliciesRequest {
+message ListPolicySetsRequest {
     string universe = 1;
     string environment = 2;
 
@@ -73,7 +73,7 @@ message ListPoliciesRequest {
      string page_token = 4;
 }
 
-message ListPoliciesResponse {
+message ListPolicySetsResponse {
     repeated PolicySet policy_sets = 1;
     string next_page_token = 2;
 }
@@ -81,7 +81,7 @@ message ListPoliciesResponse {
 message BatchPutPolicySetRequest {
     string universe = 1;
     string environment = 2;
-    repeated PolicySet policy_sets = 3;
+    repeated PolicySetInput policy_sets = 3;
 }
 
 message BatchPutPolicySetResponse {}
