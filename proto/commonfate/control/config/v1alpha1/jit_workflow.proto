@@ -56,6 +56,7 @@ message CreateJITWorkflowRequest {
     repeated Filter filters = 3;
     repeated Alert alerts = 4;
     google.protobuf.Duration access_duration = 5;
+    string role = 6;
 }
 
 // A JIT Workflow governs JIT access to particular cloud resources.
