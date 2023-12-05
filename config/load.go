@@ -84,7 +84,7 @@ func NewServerContext(ctx context.Context, targetServiceURL string, opts Opts) (
 	}
 
 	// Initialise with an in memory token store to avoid keychain use
-	err := context.Initialize(ctx, InitializeOpts{TokenStore: tokenstore.NewInMemoryTokenStore(), ServiceURL: targetServiceURL})
+	err := context.Initialize(ctx, InitializeOpts{TokenStore: tokenstore.NewInMemoryTokenStore()})
 	if err != nil {
 		return nil, err
 	}

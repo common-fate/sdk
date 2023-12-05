@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	"net/http"
-	"strings"
 	"time"
 
 	"github.com/common-fate/clio/clierr"
@@ -49,7 +48,6 @@ type TokenStore interface {
 }
 type InitializeOpts struct {
 	TokenStore TokenStore
-	ServiceURL string
 }
 
 func (c *Context) Initialize(ctx context.Context, opts InitializeOpts) error {
@@ -73,24 +71,14 @@ func (c *Context) Initialize(ctx context.Context, opts InitializeOpts) error {
 		}))
 	}
 
-	normalizedAPIURL := strings.TrimSuffix(c.APIURL, "/")
-	normalizedAccessURL := strings.TrimSuffix(c.AccessURL, "/")
 	oauthconf := p.OAuthConfig()
 
 	if c.OIDCClientSecret != nil {
 		cfg := clientcredentials.Config{
 			ClientID:     c.OIDCClientID,
 			ClientSecret: *c.OIDCClientSecret,
-			// the scopes are identified by the service URL in the production deployment
-			// so do the same in dev
-			Scopes:   []string{normalizedAPIURL + "/read", normalizedAPIURL + "/write", normalizedAccessURL + "/read", normalizedAccessURL + "/write"},
-			TokenURL: p.OAuthConfig().Endpoint.TokenURL,
-		}
-
-		// in server usage we need to set the scopes for only a specific API url because the client are configured to only have the access they need
-		if opts.ServiceURL != "" {
-			normalizedURL := strings.TrimSuffix(opts.ServiceURL, "/")
-			cfg.Scopes = []string{normalizedURL + "/read", normalizedURL + "/write"}
+			Scopes:       []string{"cf.client/machine"},
+			TokenURL:     p.OAuthConfig().Endpoint.TokenURL,
 		}
 
 		_, err := cfg.Token(ctx)
