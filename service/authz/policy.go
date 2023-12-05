@@ -6,13 +6,41 @@ import authzv1alpha1 "github.com/common-fate/sdk/gen/commonfate/authz/v1alpha1"
 type Policy struct {
 	// ID of the policy.
 	ID string `json:"id"`
-	// Cedar code for the policy.
-	Cedar string `json:"cedar"`
+	// Text is the Cedar source code for the policy.
+	Text string `json:"text"`
 }
 
-func (p Policy) ToAPI() *authzv1alpha1.Policy {
-	return &authzv1alpha1.Policy{
-		Id:    p.ID,
-		Cedar: p.Cedar,
+func PolicyFromAPI(input *authzv1alpha1.Policy) Policy {
+	if input == nil {
+		return Policy{}
 	}
+
+	return Policy{
+		ID:   input.Id,
+		Text: input.Text,
+	}
+}
+
+// PolicySet is a set of Policies
+type PolicySet struct {
+	// ID of the policy.
+	ID string `json:"id"`
+
+	Policies []Policy `json:"policies"`
+}
+
+func PolicySetFromAPI(input *authzv1alpha1.PolicySet) PolicySet {
+	if input == nil {
+		return PolicySet{}
+	}
+
+	ps := PolicySet{
+		ID: input.Id,
+	}
+
+	for _, p := range input.Policies {
+		ps.Policies = append(ps.Policies, PolicyFromAPI(p))
+	}
+
+	return ps
 }

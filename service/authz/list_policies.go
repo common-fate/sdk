@@ -7,35 +7,32 @@ import (
 	authzv1alpha1 "github.com/common-fate/sdk/gen/commonfate/authz/v1alpha1"
 )
 
-type ListPoliciesInput struct {
+type ListPolicySetsInput struct {
 	PageToken string
 }
 
-type ListPolicyResult struct {
-	Policies []Policy
-	NextPage string
+type ListPolicySetsOutput struct {
+	PolicySets []PolicySet
+	NextPage   string
 }
 
-func (c *Client) ListPolicies(ctx context.Context, input ListPoliciesInput) (ListPolicyResult, error) {
-	apires, err := c.raw.ListPolicies(ctx, connect.NewRequest(&authzv1alpha1.ListPoliciesRequest{
+func (c *Client) ListPolicySets(ctx context.Context, input ListPolicySetsInput) (ListPolicySetsOutput, error) {
+	apires, err := c.raw.ListPolicySets(ctx, connect.NewRequest(&authzv1alpha1.ListPolicySetsRequest{
 		Universe:    "default",
 		Environment: "production",
 		PageToken:   input.PageToken,
 	}))
 	if err != nil {
-		return ListPolicyResult{}, err
+		return ListPolicySetsOutput{}, err
 	}
 
-	res := ListPolicyResult{
-		NextPage: apires.Msg.NextPageToken,
-		Policies: make([]Policy, len(apires.Msg.Policies)),
+	res := ListPolicySetsOutput{
+		NextPage:   apires.Msg.NextPageToken,
+		PolicySets: make([]PolicySet, len(apires.Msg.PolicySets)),
 	}
 
-	for i, p := range apires.Msg.Policies {
-		res.Policies[i] = Policy{
-			ID:    p.Id,
-			Cedar: p.Cedar,
-		}
+	for i, p := range apires.Msg.PolicySets {
+		res.PolicySets[i] = PolicySetFromAPI(p)
 	}
 
 	return res, nil

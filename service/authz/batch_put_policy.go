@@ -7,21 +7,23 @@ import (
 	authzv1alpha1 "github.com/common-fate/sdk/gen/commonfate/authz/v1alpha1"
 )
 
-type BatchPutPolicyInput struct {
-	Policies []Policy
+type BatchPutPolicySetInput struct {
+	PolicySets []PolicySetInput
 }
 
-func (c *Client) BatchPutPolicy(ctx context.Context, input BatchPutPolicyInput) (*authzv1alpha1.BatchPutPolicyResponse, error) {
-	p := make([]*authzv1alpha1.Policy, len(input.Policies))
+type BatchPutPolicySetOutput = authzv1alpha1.BatchPutPolicySetResponse
 
-	for i, uid := range input.Policies {
-		p[i] = uid.ToAPI()
+func (c *Client) BatchPutPolicySet(ctx context.Context, input BatchPutPolicySetInput) (*BatchPutPolicySetOutput, error) {
+	p := make([]*authzv1alpha1.PolicySetInput, len(input.PolicySets))
+
+	for i, ps := range input.PolicySets {
+		p[i] = ps.ToAPI()
 	}
 
-	res, err := c.raw.BatchPutPolicy(ctx, connect.NewRequest(&authzv1alpha1.BatchPutPolicyRequest{
+	res, err := c.raw.BatchPutPolicySet(ctx, connect.NewRequest(&authzv1alpha1.BatchPutPolicySetRequest{
 		Universe:    "default",
 		Environment: "production",
-		Policies:    p,
+		PolicySets:  p,
 	}))
 	if err != nil {
 		return nil, err
