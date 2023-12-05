@@ -9,7 +9,6 @@ import "commonfate/entity/v1alpha1/entity.proto";
 import "commonfate/entity/v1alpha1/uid.proto";
 import "commonfate/access/v1alpha1/named_uid.proto";
 import "commonfate/access/v1alpha1/user.proto";
-import "commonfate/access/v1alpha1/reviewer_preview.proto";
 import "google/protobuf/duration.proto";
 import "google/protobuf/timestamp.proto";
 
@@ -72,7 +71,7 @@ message Availability {
 
   uint32 priority = 6;
 
-  ReviewerPreview reviewers = 7;
+  commonfate.entity.v1alpha1.UID reviewers = 7;
 }
 
 

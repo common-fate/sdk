@@ -8,7 +8,6 @@ import "commonfate/entity/v1alpha1/entity.proto";
 import "commonfate/entity/v1alpha1/uid.proto";
 import "commonfate/access/v1alpha1/grant.proto";
 import "commonfate/access/v1alpha1/named_uid.proto";
-import "commonfate/access/v1alpha1/reviewer_preview.proto";
 import "commonfate/access/v1alpha1/audit_logs.proto";
 import "google/protobuf/duration.proto";
 import "google/protobuf/timestamp.proto";
