@@ -128,6 +128,7 @@ type testEntityWithOptionalField struct {
 	Foo      *string        `authz:"foo"`
 	Bar      *uid.UID       `authz:"bar"`
 	Long     *int           `authz:"long"`
+	Uint     uint           `authz:"uint"`
 	Time     *time.Time     `authz:"time"`
 	Duration *time.Duration `authz:"duration"`
 }
@@ -646,6 +647,7 @@ func TestUnmarshalEntity_roundtrip(t *testing.T) {
 				},
 				Time:     &exampleTime,
 				Long:     &exampleInt,
+				Uint:     10,
 				Duration: &exampleDuration,
 			},
 			out: &testEntityWithOptionalField{},

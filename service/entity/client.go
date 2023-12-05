@@ -216,6 +216,13 @@ func extractAttr(val reflect.Value) (*entityv1alpha1.Value, error) {
 			},
 		}, nil
 
+	case reflect.Uint, reflect.Uint16, reflect.Uint32, reflect.Uint64, reflect.Uint8:
+		return &entityv1alpha1.Value{
+			Value: &entityv1alpha1.Value_Long{
+				Long: int64(val.Uint()),
+			},
+		}, nil
+
 	case reflect.Slice:
 		// try and parse as set
 		set := &entityv1alpha1.Set{
