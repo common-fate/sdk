@@ -70,7 +70,10 @@ func New(ctx context.Context, opts Opts) (*Context, error) {
 // NewServerContext requires all option to be passed and does not attempt to read from the local config file
 // it also uses an in memory token store to avoid keychain access
 // usefull for service to service client credentials auth
-func NewServerContext(ctx context.Context, opts Opts) (*Context, error) {
+// targetServiceURL shoudl be the service you will be calling with these credentials
+// if you need to call multiple then make multiple clients
+// @TODO improve this
+func NewServerContext(ctx context.Context, targetServiceURL string, opts Opts) (*Context, error) {
 
 	context := &Context{
 		APIURL:           opts.APIURL,
@@ -81,7 +84,7 @@ func NewServerContext(ctx context.Context, opts Opts) (*Context, error) {
 	}
 
 	// Initialise with an in memory token store to avoid keychain use
-	err := context.Initialize(ctx, InitializeOpts{TokenStore: tokenstore.NewInMemoryTokenStore()})
+	err := context.Initialize(ctx, InitializeOpts{TokenStore: tokenstore.NewInMemoryTokenStore(), ServiceURL: targetServiceURL})
 	if err != nil {
 		return nil, err
 	}
