@@ -39,6 +39,7 @@ type Opts struct {
 	AccessURL    string
 	ClientID     string
 	ClientSecret string
+	OIDCIssuer   string
 }
 
 func New(ctx context.Context, opts Opts) (*Context, error) {
@@ -56,6 +57,7 @@ func New(ctx context.Context, opts Opts) (*Context, error) {
 	current.AccessURL = opts.AccessURL
 	current.OIDCClientID = opts.ClientID
 	current.OIDCClientSecret = &opts.ClientSecret
+	current.OIDCIssuer = opts.OIDCIssuer
 
 	err = current.Initialize(ctx, InitializeOpts{})
 	if err != nil {
@@ -75,6 +77,7 @@ func NewServerContext(ctx context.Context, opts Opts) (*Context, error) {
 		AccessURL:        opts.AccessURL,
 		OIDCClientID:     opts.ClientID,
 		OIDCClientSecret: &opts.ClientSecret,
+		OIDCIssuer:       opts.OIDCIssuer,
 	}
 
 	// Initialise with an in memory token store to avoid keychain use
