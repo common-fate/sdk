@@ -73,7 +73,7 @@ func New(ctx context.Context, opts Opts) (*Context, error) {
 // targetServiceURL shoudl be the service you will be calling with these credentials
 // if you need to call multiple then make multiple clients
 // @TODO improve this
-func NewServerContext(ctx context.Context, targetServiceURL string, opts Opts) (*Context, error) {
+func NewServerContext(ctx context.Context, opts Opts) (*Context, error) {
 
 	context := &Context{
 		APIURL:           opts.APIURL,
