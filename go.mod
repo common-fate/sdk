@@ -8,6 +8,7 @@ require (
 	github.com/bufbuild/connect-go v1.10.0
 	github.com/common-fate/apikit v0.3.0
 	github.com/common-fate/clio v1.2.3
+	github.com/common-fate/grab v1.0.0
 	github.com/fatih/structtag v1.2.0
 	github.com/go-chi/chi/v5 v5.0.10
 	github.com/google/uuid v1.4.0
@@ -25,7 +26,6 @@ require (
 
 require (
 	github.com/99designs/go-keychain v0.0.0-20191008050251-8e49817e8af4 // indirect
-	github.com/common-fate/grab v1.0.0 // indirect
 	github.com/danieljoos/wincred v1.1.2 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/dvsekhvalnov/jose2go v1.5.0 // indirect
