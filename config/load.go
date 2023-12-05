@@ -7,6 +7,7 @@ import (
 
 	"github.com/BurntSushi/toml"
 	"github.com/common-fate/clio"
+	"github.com/common-fate/sdk/tokenstore"
 )
 
 // LoadDefault is a shorthand function which
@@ -25,7 +26,7 @@ func LoadDefault(ctx context.Context) (*Context, error) {
 		return nil, err
 	}
 
-	err = current.Initialize(ctx)
+	err = current.Initialize(ctx, InitializeOpts{})
 	if err != nil {
 		return nil, err
 	}
@@ -56,13 +57,33 @@ func New(ctx context.Context, opts Opts) (*Context, error) {
 	current.OIDCClientID = opts.ClientID
 	current.OIDCClientSecret = &opts.ClientSecret
 
-	err = current.Initialize(ctx)
+	err = current.Initialize(ctx, InitializeOpts{})
 	if err != nil {
 		return nil, err
 	}
 
 	return current, nil
+}
 
+// NewServerContext requires all option to be passed and does not attempt to read from the local config file
+// it also uses an in memory token store to avoid keychain access
+// usefull for service to service client credentials auth
+func NewServerContext(ctx context.Context, opts Opts) (*Context, error) {
+
+	context := &Context{
+		APIURL:           opts.APIURL,
+		AccessURL:        opts.AccessURL,
+		OIDCClientID:     opts.ClientID,
+		OIDCClientSecret: &opts.ClientSecret,
+	}
+
+	// Initialise with an in memory token store to avoid keychain use
+	err := context.Initialize(ctx, InitializeOpts{TokenStore: tokenstore.NewInMemoryTokenStore()})
+	if err != nil {
+		return nil, err
+	}
+
+	return context, nil
 }
 
 func load() (*Config, error) {

@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/common-fate/clio/clierr"
+	"github.com/common-fate/grab"
 	"github.com/common-fate/sdk/tokenstore"
 	"github.com/zitadel/oidc/v2/pkg/client/rp"
 	"golang.org/x/oauth2"
@@ -37,10 +38,19 @@ type Context struct {
 	// OIDCProvider is filled in by calling Initialize()
 	OIDCProvider rp.RelyingParty
 
-	TokenStore tokenstore.Storage
+	TokenStore TokenStore
 }
 
-func (c *Context) Initialize(ctx context.Context) error {
+type TokenStore interface {
+	Clear() error
+	Save(token *oauth2.Token) error
+	Token() (*oauth2.Token, error)
+}
+type InitializeOpts struct {
+	TokenStore TokenStore
+}
+
+func (c *Context) Initialize(ctx context.Context, opts InitializeOpts) error {
 	emptyClientSecret := ""
 	scopes := []string{"openid", "email"}
 	redirectURI := "http://localhost:18900/auth/callback"
@@ -54,9 +64,12 @@ func (c *Context) Initialize(ctx context.Context) error {
 	}
 
 	c.OIDCProvider = p
-	c.TokenStore = tokenstore.New(tokenstore.Opts{
-		Name: c.name,
-	})
+	c.TokenStore = opts.TokenStore
+	if c.TokenStore == nil {
+		c.TokenStore = grab.Ptr(tokenstore.New(tokenstore.Opts{
+			Name: c.name,
+		}))
+	}
 
 	oauthconf := p.OAuthConfig()
 
