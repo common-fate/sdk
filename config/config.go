@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"net/http"
+	"strings"
 	"time"
 
 	"github.com/common-fate/clio/clierr"
@@ -71,14 +72,18 @@ func (c *Context) Initialize(ctx context.Context, opts InitializeOpts) error {
 		}))
 	}
 
+	normAPIURL := strings.TrimSuffix(c.APIURL, "/")
+	normAccessURL := strings.TrimSuffix(c.AccessURL, "/")
 	oauthconf := p.OAuthConfig()
 
 	if c.OIDCClientSecret != nil {
 		cfg := clientcredentials.Config{
 			ClientID:     c.OIDCClientID,
 			ClientSecret: *c.OIDCClientSecret,
-			Scopes:       []string{"cf.client/read", "cf.client/write"},
-			TokenURL:     p.OAuthConfig().Endpoint.TokenURL,
+			// the scopes are identified by the service URL in the production deployment
+			// so do the same in dev
+			Scopes:   []string{normAPIURL + "/read", normAPIURL + "/write", normAccessURL + "/read", normAccessURL + "/write"},
+			TokenURL: p.OAuthConfig().Endpoint.TokenURL,
 		}
 
 		_, err := cfg.Token(ctx)
