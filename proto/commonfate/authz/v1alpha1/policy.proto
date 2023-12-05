@@ -4,9 +4,26 @@ package commonfate.authz.v1alpha1;
 
 import "commonfate/entity/v1alpha1/entity.proto";
 
+
 message Policy {
     // ID of the policy.
     string id = 1;
-    // Cedar code for the policy.
-    string cedar = 2;
+
+    // Cedar code for the policy set.
+    string text = 2;
+}
+
+message PolicySet {
+    // ID of the policy set.
+    string id = 1;
+    
+    // The policies contained in the policy set.
+    repeated Policy policies = 2;
+}
+
+message PolicySetInput {
+    // ID of the policy.
+    string id = 1;
+    // Cedar code for the policy set.
+    string text = 2;
 }

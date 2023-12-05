@@ -41,7 +41,7 @@ service AuthzService {
     // rpc GetSchema(GetSchemaRequest) returns (GetSchemaResponse) {}
 
     // adds Cedar policies for a particular policy store
-    rpc BatchPutPolicy(BatchPutPolicyRequest) returns (BatchPutPolicyResponse) {}
+    rpc BatchPutPolicySet(BatchPutPolicySetRequest) returns (BatchPutPolicySetResponse) {}
 
     // run the policy and returns allow or deny + diagnostics and a decision ID.
     // rpc Authorize(AuthorizeRequest) returns (AuthorizeResponse) {}
@@ -74,14 +74,14 @@ message ListPoliciesRequest {
 }
 
 message ListPoliciesResponse {
-    repeated Policy policies = 1;
+    repeated PolicySet policy_sets = 1;
     string next_page_token = 2;
 }
 
-message BatchPutPolicyRequest {
+message BatchPutPolicySetRequest {
     string universe = 1;
     string environment = 2;
-    repeated Policy policies = 3;
+    repeated PolicySet policy_sets = 3;
 }
 
-message BatchPutPolicyResponse {}
+message BatchPutPolicySetResponse {}

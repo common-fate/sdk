@@ -33,9 +33,9 @@ const (
 // reflection-formatted method names, remove the leading slash and convert the remaining slash to a
 // period.
 const (
-	// AuthzServiceBatchPutPolicyProcedure is the fully-qualified name of the AuthzService's
-	// BatchPutPolicy RPC.
-	AuthzServiceBatchPutPolicyProcedure = "/commonfate.authz.v1alpha1.AuthzService/BatchPutPolicy"
+	// AuthzServiceBatchPutPolicySetProcedure is the fully-qualified name of the AuthzService's
+	// BatchPutPolicySet RPC.
+	AuthzServiceBatchPutPolicySetProcedure = "/commonfate.authz.v1alpha1.AuthzService/BatchPutPolicySet"
 	// AuthzServiceBatchAuthorizeProcedure is the fully-qualified name of the AuthzService's
 	// BatchAuthorize RPC.
 	AuthzServiceBatchAuthorizeProcedure = "/commonfate.authz.v1alpha1.AuthzService/BatchAuthorize"
@@ -47,7 +47,7 @@ const (
 // AuthzServiceClient is a client for the commonfate.authz.v1alpha1.AuthzService service.
 type AuthzServiceClient interface {
 	// adds Cedar policies for a particular policy store
-	BatchPutPolicy(context.Context, *connect_go.Request[v1alpha1.BatchPutPolicyRequest]) (*connect_go.Response[v1alpha1.BatchPutPolicyResponse], error)
+	BatchPutPolicySet(context.Context, *connect_go.Request[v1alpha1.BatchPutPolicySetRequest]) (*connect_go.Response[v1alpha1.BatchPutPolicySetResponse], error)
 	// run multiple authorization evaluations and returns allow + deny for each.
 	BatchAuthorize(context.Context, *connect_go.Request[v1alpha1.BatchAuthorizeRequest]) (*connect_go.Response[v1alpha1.BatchAuthorizeResponse], error)
 	ListPolicies(context.Context, *connect_go.Request[v1alpha1.ListPoliciesRequest]) (*connect_go.Response[v1alpha1.ListPoliciesResponse], error)
@@ -63,9 +63,9 @@ type AuthzServiceClient interface {
 func NewAuthzServiceClient(httpClient connect_go.HTTPClient, baseURL string, opts ...connect_go.ClientOption) AuthzServiceClient {
 	baseURL = strings.TrimRight(baseURL, "/")
 	return &authzServiceClient{
-		batchPutPolicy: connect_go.NewClient[v1alpha1.BatchPutPolicyRequest, v1alpha1.BatchPutPolicyResponse](
+		batchPutPolicySet: connect_go.NewClient[v1alpha1.BatchPutPolicySetRequest, v1alpha1.BatchPutPolicySetResponse](
 			httpClient,
-			baseURL+AuthzServiceBatchPutPolicyProcedure,
+			baseURL+AuthzServiceBatchPutPolicySetProcedure,
 			opts...,
 		),
 		batchAuthorize: connect_go.NewClient[v1alpha1.BatchAuthorizeRequest, v1alpha1.BatchAuthorizeResponse](
@@ -83,14 +83,14 @@ func NewAuthzServiceClient(httpClient connect_go.HTTPClient, baseURL string, opt
 
 // authzServiceClient implements AuthzServiceClient.
 type authzServiceClient struct {
-	batchPutPolicy *connect_go.Client[v1alpha1.BatchPutPolicyRequest, v1alpha1.BatchPutPolicyResponse]
-	batchAuthorize *connect_go.Client[v1alpha1.BatchAuthorizeRequest, v1alpha1.BatchAuthorizeResponse]
-	listPolicies   *connect_go.Client[v1alpha1.ListPoliciesRequest, v1alpha1.ListPoliciesResponse]
+	batchPutPolicySet *connect_go.Client[v1alpha1.BatchPutPolicySetRequest, v1alpha1.BatchPutPolicySetResponse]
+	batchAuthorize    *connect_go.Client[v1alpha1.BatchAuthorizeRequest, v1alpha1.BatchAuthorizeResponse]
+	listPolicies      *connect_go.Client[v1alpha1.ListPoliciesRequest, v1alpha1.ListPoliciesResponse]
 }
 
-// BatchPutPolicy calls commonfate.authz.v1alpha1.AuthzService.BatchPutPolicy.
-func (c *authzServiceClient) BatchPutPolicy(ctx context.Context, req *connect_go.Request[v1alpha1.BatchPutPolicyRequest]) (*connect_go.Response[v1alpha1.BatchPutPolicyResponse], error) {
-	return c.batchPutPolicy.CallUnary(ctx, req)
+// BatchPutPolicySet calls commonfate.authz.v1alpha1.AuthzService.BatchPutPolicySet.
+func (c *authzServiceClient) BatchPutPolicySet(ctx context.Context, req *connect_go.Request[v1alpha1.BatchPutPolicySetRequest]) (*connect_go.Response[v1alpha1.BatchPutPolicySetResponse], error) {
+	return c.batchPutPolicySet.CallUnary(ctx, req)
 }
 
 // BatchAuthorize calls commonfate.authz.v1alpha1.AuthzService.BatchAuthorize.
@@ -106,7 +106,7 @@ func (c *authzServiceClient) ListPolicies(ctx context.Context, req *connect_go.R
 // AuthzServiceHandler is an implementation of the commonfate.authz.v1alpha1.AuthzService service.
 type AuthzServiceHandler interface {
 	// adds Cedar policies for a particular policy store
-	BatchPutPolicy(context.Context, *connect_go.Request[v1alpha1.BatchPutPolicyRequest]) (*connect_go.Response[v1alpha1.BatchPutPolicyResponse], error)
+	BatchPutPolicySet(context.Context, *connect_go.Request[v1alpha1.BatchPutPolicySetRequest]) (*connect_go.Response[v1alpha1.BatchPutPolicySetResponse], error)
 	// run multiple authorization evaluations and returns allow + deny for each.
 	BatchAuthorize(context.Context, *connect_go.Request[v1alpha1.BatchAuthorizeRequest]) (*connect_go.Response[v1alpha1.BatchAuthorizeResponse], error)
 	ListPolicies(context.Context, *connect_go.Request[v1alpha1.ListPoliciesRequest]) (*connect_go.Response[v1alpha1.ListPoliciesResponse], error)
@@ -118,9 +118,9 @@ type AuthzServiceHandler interface {
 // By default, handlers support the Connect, gRPC, and gRPC-Web protocols with the binary Protobuf
 // and JSON codecs. They also support gzip compression.
 func NewAuthzServiceHandler(svc AuthzServiceHandler, opts ...connect_go.HandlerOption) (string, http.Handler) {
-	authzServiceBatchPutPolicyHandler := connect_go.NewUnaryHandler(
-		AuthzServiceBatchPutPolicyProcedure,
-		svc.BatchPutPolicy,
+	authzServiceBatchPutPolicySetHandler := connect_go.NewUnaryHandler(
+		AuthzServiceBatchPutPolicySetProcedure,
+		svc.BatchPutPolicySet,
 		opts...,
 	)
 	authzServiceBatchAuthorizeHandler := connect_go.NewUnaryHandler(
@@ -135,8 +135,8 @@ func NewAuthzServiceHandler(svc AuthzServiceHandler, opts ...connect_go.HandlerO
 	)
 	return "/commonfate.authz.v1alpha1.AuthzService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
-		case AuthzServiceBatchPutPolicyProcedure:
-			authzServiceBatchPutPolicyHandler.ServeHTTP(w, r)
+		case AuthzServiceBatchPutPolicySetProcedure:
+			authzServiceBatchPutPolicySetHandler.ServeHTTP(w, r)
 		case AuthzServiceBatchAuthorizeProcedure:
 			authzServiceBatchAuthorizeHandler.ServeHTTP(w, r)
 		case AuthzServiceListPoliciesProcedure:
@@ -150,8 +150,8 @@ func NewAuthzServiceHandler(svc AuthzServiceHandler, opts ...connect_go.HandlerO
 // UnimplementedAuthzServiceHandler returns CodeUnimplemented from all methods.
 type UnimplementedAuthzServiceHandler struct{}
 
-func (UnimplementedAuthzServiceHandler) BatchPutPolicy(context.Context, *connect_go.Request[v1alpha1.BatchPutPolicyRequest]) (*connect_go.Response[v1alpha1.BatchPutPolicyResponse], error) {
-	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("commonfate.authz.v1alpha1.AuthzService.BatchPutPolicy is not implemented"))
+func (UnimplementedAuthzServiceHandler) BatchPutPolicySet(context.Context, *connect_go.Request[v1alpha1.BatchPutPolicySetRequest]) (*connect_go.Response[v1alpha1.BatchPutPolicySetResponse], error) {
+	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("commonfate.authz.v1alpha1.AuthzService.BatchPutPolicySet is not implemented"))
 }
 
 func (UnimplementedAuthzServiceHandler) BatchAuthorize(context.Context, *connect_go.Request[v1alpha1.BatchAuthorizeRequest]) (*connect_go.Response[v1alpha1.BatchAuthorizeResponse], error) {
