@@ -19,6 +19,9 @@ service EntityService {
     // List the children for a particular entity.
     rpc ListChildren(ListChildrenRequest) returns (ListChildrenResponse) {}
 
+    // List the parents for a particular entity.
+    rpc ListParents(ListParentsRequest) returns (ListParentsResponse) {}
+
     // Get multiple entities by UID.
     rpc BatchGet(BatchGetRequest) returns (BatchGetResponse) {}
 }
@@ -52,6 +55,21 @@ message ListChildrenRequest {
 
 message ListChildrenResponse {
     repeated UID children = 1;
+    string next_page_token = 2;
+}
+
+
+message ListParentsRequest {
+    string universe = 1;
+
+    // The token for the next page.
+    string page_token = 2;
+
+    UID child = 3;
+}
+
+message ListParentsResponse {
+    repeated UID parents = 1;
     string next_page_token = 2;
 }
 

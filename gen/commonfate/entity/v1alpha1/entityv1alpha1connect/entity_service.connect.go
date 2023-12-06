@@ -43,6 +43,9 @@ const (
 	// EntityServiceListChildrenProcedure is the fully-qualified name of the EntityService's
 	// ListChildren RPC.
 	EntityServiceListChildrenProcedure = "/commonfate.entity.v1alpha1.EntityService/ListChildren"
+	// EntityServiceListParentsProcedure is the fully-qualified name of the EntityService's ListParents
+	// RPC.
+	EntityServiceListParentsProcedure = "/commonfate.entity.v1alpha1.EntityService/ListParents"
 	// EntityServiceBatchGetProcedure is the fully-qualified name of the EntityService's BatchGet RPC.
 	EntityServiceBatchGetProcedure = "/commonfate.entity.v1alpha1.EntityService/BatchGet"
 )
@@ -57,6 +60,8 @@ type EntityServiceClient interface {
 	Get(context.Context, *connect_go.Request[v1alpha1.GetRequest]) (*connect_go.Response[v1alpha1.GetResponse], error)
 	// List the children for a particular entity.
 	ListChildren(context.Context, *connect_go.Request[v1alpha1.ListChildrenRequest]) (*connect_go.Response[v1alpha1.ListChildrenResponse], error)
+	// List the parents for a particular entity.
+	ListParents(context.Context, *connect_go.Request[v1alpha1.ListParentsRequest]) (*connect_go.Response[v1alpha1.ListParentsResponse], error)
 	// Get multiple entities by UID.
 	BatchGet(context.Context, *connect_go.Request[v1alpha1.BatchGetRequest]) (*connect_go.Response[v1alpha1.BatchGetResponse], error)
 }
@@ -91,6 +96,11 @@ func NewEntityServiceClient(httpClient connect_go.HTTPClient, baseURL string, op
 			baseURL+EntityServiceListChildrenProcedure,
 			opts...,
 		),
+		listParents: connect_go.NewClient[v1alpha1.ListParentsRequest, v1alpha1.ListParentsResponse](
+			httpClient,
+			baseURL+EntityServiceListParentsProcedure,
+			opts...,
+		),
 		batchGet: connect_go.NewClient[v1alpha1.BatchGetRequest, v1alpha1.BatchGetResponse](
 			httpClient,
 			baseURL+EntityServiceBatchGetProcedure,
@@ -105,6 +115,7 @@ type entityServiceClient struct {
 	list         *connect_go.Client[v1alpha1.ListRequest, v1alpha1.ListResponse]
 	get          *connect_go.Client[v1alpha1.GetRequest, v1alpha1.GetResponse]
 	listChildren *connect_go.Client[v1alpha1.ListChildrenRequest, v1alpha1.ListChildrenResponse]
+	listParents  *connect_go.Client[v1alpha1.ListParentsRequest, v1alpha1.ListParentsResponse]
 	batchGet     *connect_go.Client[v1alpha1.BatchGetRequest, v1alpha1.BatchGetResponse]
 }
 
@@ -128,6 +139,11 @@ func (c *entityServiceClient) ListChildren(ctx context.Context, req *connect_go.
 	return c.listChildren.CallUnary(ctx, req)
 }
 
+// ListParents calls commonfate.entity.v1alpha1.EntityService.ListParents.
+func (c *entityServiceClient) ListParents(ctx context.Context, req *connect_go.Request[v1alpha1.ListParentsRequest]) (*connect_go.Response[v1alpha1.ListParentsResponse], error) {
+	return c.listParents.CallUnary(ctx, req)
+}
+
 // BatchGet calls commonfate.entity.v1alpha1.EntityService.BatchGet.
 func (c *entityServiceClient) BatchGet(ctx context.Context, req *connect_go.Request[v1alpha1.BatchGetRequest]) (*connect_go.Response[v1alpha1.BatchGetResponse], error) {
 	return c.batchGet.CallUnary(ctx, req)
@@ -144,6 +160,8 @@ type EntityServiceHandler interface {
 	Get(context.Context, *connect_go.Request[v1alpha1.GetRequest]) (*connect_go.Response[v1alpha1.GetResponse], error)
 	// List the children for a particular entity.
 	ListChildren(context.Context, *connect_go.Request[v1alpha1.ListChildrenRequest]) (*connect_go.Response[v1alpha1.ListChildrenResponse], error)
+	// List the parents for a particular entity.
+	ListParents(context.Context, *connect_go.Request[v1alpha1.ListParentsRequest]) (*connect_go.Response[v1alpha1.ListParentsResponse], error)
 	// Get multiple entities by UID.
 	BatchGet(context.Context, *connect_go.Request[v1alpha1.BatchGetRequest]) (*connect_go.Response[v1alpha1.BatchGetResponse], error)
 }
@@ -174,6 +192,11 @@ func NewEntityServiceHandler(svc EntityServiceHandler, opts ...connect_go.Handle
 		svc.ListChildren,
 		opts...,
 	)
+	entityServiceListParentsHandler := connect_go.NewUnaryHandler(
+		EntityServiceListParentsProcedure,
+		svc.ListParents,
+		opts...,
+	)
 	entityServiceBatchGetHandler := connect_go.NewUnaryHandler(
 		EntityServiceBatchGetProcedure,
 		svc.BatchGet,
@@ -189,6 +212,8 @@ func NewEntityServiceHandler(svc EntityServiceHandler, opts ...connect_go.Handle
 			entityServiceGetHandler.ServeHTTP(w, r)
 		case EntityServiceListChildrenProcedure:
 			entityServiceListChildrenHandler.ServeHTTP(w, r)
+		case EntityServiceListParentsProcedure:
+			entityServiceListParentsHandler.ServeHTTP(w, r)
 		case EntityServiceBatchGetProcedure:
 			entityServiceBatchGetHandler.ServeHTTP(w, r)
 		default:
@@ -214,6 +239,10 @@ func (UnimplementedEntityServiceHandler) Get(context.Context, *connect_go.Reques
 
 func (UnimplementedEntityServiceHandler) ListChildren(context.Context, *connect_go.Request[v1alpha1.ListChildrenRequest]) (*connect_go.Response[v1alpha1.ListChildrenResponse], error) {
 	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("commonfate.entity.v1alpha1.EntityService.ListChildren is not implemented"))
+}
+
+func (UnimplementedEntityServiceHandler) ListParents(context.Context, *connect_go.Request[v1alpha1.ListParentsRequest]) (*connect_go.Response[v1alpha1.ListParentsResponse], error) {
+	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("commonfate.entity.v1alpha1.EntityService.ListParents is not implemented"))
 }
 
 func (UnimplementedEntityServiceHandler) BatchGet(context.Context, *connect_go.Request[v1alpha1.BatchGetRequest]) (*connect_go.Response[v1alpha1.BatchGetResponse], error) {
