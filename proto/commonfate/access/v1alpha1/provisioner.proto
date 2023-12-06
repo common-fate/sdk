@@ -29,9 +29,7 @@ message ProvisionRequest {
 	// the core principal entity instead to provision access.
     commonfate.entity.v1alpha1.Entity domain_principal = 3;
 
-    commonfate.entity.v1alpha1.Entity identity_domain = 4;
-
-    commonfate.entity.v1alpha1.Entity target = 5;
+    commonfate.entity.v1alpha1.Entity target = 4;
     
-    commonfate.entity.v1alpha1.Entity role = 6;
+    commonfate.entity.v1alpha1.Entity role = 5;
 }
