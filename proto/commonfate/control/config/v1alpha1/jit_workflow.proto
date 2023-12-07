@@ -57,6 +57,8 @@ message CreateJITWorkflowRequest {
     repeated Alert alerts = 4;
     google.protobuf.Duration access_duration = 5;
     string role = 6;
+    string notify_slack_channel = 7;
+
 }
 
 // A JIT Workflow governs JIT access to particular cloud resources.
@@ -68,6 +70,8 @@ message JITWorkflow {
     repeated Alert alerts = 5;
     google.protobuf.Duration access_duration = 6;
     string role = 7;
+    string notify_slack_channel = 8;
+
 }
 
 message CreateJITWorkflowResponse {
