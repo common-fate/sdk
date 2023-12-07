@@ -21,13 +21,20 @@ type BatchGetInput struct {
 type BatchGetOutput = entityv1alpha1.BatchGetResponse
 
 func (c *Client) BatchGet(ctx context.Context, input BatchGetInput) (*BatchGetOutput, error) {
+	// de-duplicate UIDs
+	uids := map[uid.UID]bool{}
+
+	for _, i := range input.UIDs {
+		uids[i] = true
+	}
+
 	req := &entityv1alpha1.BatchGetRequest{
 		Universe: "default",
 	}
 
 	var cached []*entityv1alpha1.Entity
 
-	for _, u := range input.UIDs {
+	for u := range uids {
 		if input.UseCache {
 			if got, ok := c.cache.Get(u.String()); ok {
 				if entity, ok := got.(*entityv1alpha1.Entity); ok {
