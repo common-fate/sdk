@@ -13,45 +13,33 @@ service GCPOrganizationService {
 
 message CreateGCPOrganizationRequest {
     string id = 1;
-    string org = 2;
-    string slug = 3;
-    string workload_identity_role = 4;
+    string workload_identity_role = 2;
 }
 
 message CreateGCPOrganizationResponse {
     string id = 1;
-    string org = 2;
-    string slug = 3;
-    string workload_identity_role = 4;
+    string workload_identity_role = 2;
 }
 
 
 message ReadGCPOrganizationRequest {
     string id = 1;
-    string org = 2;
-    string slug = 3;
 }
 
 message ReadGCPOrganizationResponse {
     string id = 1;
-    string org = 2;
-    string slug = 3;
-    string workload_identity_role = 4;
+    string workload_identity_role = 2;
 }
 
 
 message UpdateGCPOrganizationRequest {
     string id = 1;
-    string org = 2;
-    string slug = 3;
-    string workload_identity_role = 4;
+    string workload_identity_role = 2;
 }
 
 message UpdateGCPOrganizationResponse {
     string id = 1;
-    string org = 2;
-    string slug = 3;
-    string workload_identity_role = 4;
+    string workload_identity_role = 2;
 }
 
 
