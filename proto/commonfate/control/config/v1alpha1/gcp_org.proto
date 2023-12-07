@@ -13,12 +13,12 @@ service GCPOrganizationService {
 
 message CreateGCPOrganizationRequest {
     string id = 1;
-    string slug = 3;
+    string workload_identity_role = 2;
 }
 
 message CreateGCPOrganizationResponse {
     string id = 1;
-    string slug = 3;
+    string workload_identity_role = 2;
 }
 
 
@@ -28,18 +28,18 @@ message ReadGCPOrganizationRequest {
 
 message ReadGCPOrganizationResponse {
     string id = 1;
-    string slug = 3;
+    string workload_identity_role = 2;
 }
 
 
 message UpdateGCPOrganizationRequest {
     string id = 1;
-    string slug = 3;
+    string workload_identity_role = 2;
 }
 
 message UpdateGCPOrganizationResponse {
     string id = 1;
-    string slug = 3;
+    string workload_identity_role = 2;
 }
 
 
