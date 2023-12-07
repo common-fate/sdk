@@ -23,7 +23,7 @@ func (r Request) ToAPI(key string) (*authzv1alpha1.Request, error) {
 	}
 
 	for _, e := range r.OverlayEntities {
-		entity, children, err := entity.EntityToAPI(e)
+		entity, children, err := entity.Marshal(e)
 		if err != nil {
 			return nil, err
 		}

@@ -17,7 +17,7 @@ func (c *Client) Put(ctx context.Context, input PutInput) (*BatchUpdateOutput, e
 		Universe: "default",
 	}
 
-	parsed, children, err := EntityToAPI(input.Entity)
+	parsed, children, err := Marshal(input.Entity)
 	if err != nil {
 		return nil, err
 	}

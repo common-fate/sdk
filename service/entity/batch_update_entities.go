@@ -33,7 +33,7 @@ func (c *Client) BatchUpdate(ctx context.Context, input BatchUpdateInput) (*Batc
 	}
 
 	for _, e := range input.Put {
-		parsed, children, err := EntityToAPI(e)
+		parsed, children, err := Marshal(e)
 		if err != nil {
 			return nil, err
 		}

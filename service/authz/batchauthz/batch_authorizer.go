@@ -45,7 +45,7 @@ func (a *Batch) AddRequest(req authz.Request) error {
 	}
 
 	for _, e := range req.OverlayEntities {
-		apiEntity, childRels, err := entity.EntityToAPI(e)
+		apiEntity, childRels, err := entity.Marshal(e)
 		if err != nil {
 			return err
 		}

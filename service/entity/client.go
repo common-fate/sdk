@@ -64,7 +64,7 @@ type Parenter interface {
 	Parents() []uid.UID
 }
 
-func EntityToAPI(e Entity) (*entityv1alpha1.Entity, []*entityv1alpha1.ChildRelation, error) {
+func Marshal(e Entity) (*entityv1alpha1.Entity, []*entityv1alpha1.ChildRelation, error) {
 	v := reflect.ValueOf(e)
 	if v.Kind() == reflect.Pointer {
 		v = reflect.Indirect(v)
