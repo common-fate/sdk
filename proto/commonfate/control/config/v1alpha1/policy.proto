@@ -14,13 +14,11 @@ service PolicyService {
 message CreatePolicyRequest {
     string id = 1;
     string cedar_policy = 2;
-    string name = 3;
 }
 
 message CreatePolicyResponse {
     string id = 1;
     string cedar_policy = 2;
-    string name = 3;
 }
 
 
@@ -31,21 +29,18 @@ message ReadPolicyRequest {
 message ReadPolicyResponse {
     string id = 1;
     string cedar_policy = 2;
-    string name = 3;
 
 }
 
 message UpdatePolicyRequest {
     string id = 1;
     string cedar_policy = 2;
-    string name = 3;
 
 }
 
 message UpdatePolicyResponse {
     string id = 1;
     string cedar_policy = 2;
-    string name = 3;
 
 }
 
