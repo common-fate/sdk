@@ -10,15 +10,19 @@ import (
 )
 
 type ListInput struct {
-	Type      string
-	PageToken string
+	Type            string
+	PageToken       string
+	When            []string
+	IncludeArchived bool
 }
 
 func (c *Client) List(ctx context.Context, input ListInput) (*ListOutput, error) {
 	req := &entityv1alpha1.ListRequest{
-		Universe:  "default",
-		Type:      input.Type,
-		PageToken: input.PageToken,
+		Universe:        "default",
+		Type:            input.Type,
+		PageToken:       input.PageToken,
+		When:            input.When,
+		IncludeArchived: input.IncludeArchived,
 	}
 
 	res, err := c.raw.List(ctx, connect.NewRequest(req))
