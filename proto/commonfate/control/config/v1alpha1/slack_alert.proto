@@ -1,0 +1,58 @@
+syntax = "proto3";
+package commonfate.control.config.v1alpha1;
+
+
+
+service SlackAlertService {
+    rpc CreateSlackAlert(CreateSlackAlertRequest) returns (CreateSlackAlertResponse) {}
+    rpc ReadSlackAlert(ReadSlackAlertRequest) returns (ReadSlackAlertResponse) {}
+    rpc UpdateSlackAlert(UpdateSlackAlertRequest) returns (UpdateSlackAlertResponse) {}
+    rpc DeleteSlackAlert(DeleteSlackAlertRequest) returns (DeleteSlackAlertResponse) {}
+}
+
+
+message CreateSlackAlertRequest {
+    string id = 1;
+    string workflow_id = 2;
+    string slack_channel = 3; 
+ 
+}
+
+message CreateSlackAlertResponse {
+    string id = 1;
+    string workflow_id = 2;
+    string slack_channel = 3; 
+
+}
+
+message ReadSlackAlertRequest {
+    string id = 1;
+}
+
+message ReadSlackAlertResponse {
+    string id = 1;
+    string workflow_id = 2;
+    string slack_channel = 3; 
+
+}
+
+message UpdateSlackAlertRequest {
+    string id = 1;
+    string workflow_id = 2;
+    string slack_channel = 3; 
+}
+
+message UpdateSlackAlertResponse {
+    string id = 1;
+    string workflow_id = 2;
+    string slack_channel = 3; 
+
+}
+
+message DeleteSlackAlertRequest {
+    string id = 1;
+}
+
+message DeleteSlackAlertResponse {
+    string id = 1;
+}

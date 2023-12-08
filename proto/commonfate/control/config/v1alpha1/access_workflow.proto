@@ -1,0 +1,65 @@
+syntax = "proto3";
+package commonfate.control.config.v1alpha1;
+
+import "google/protobuf/duration.proto";
+
+
+service AccessWorkflowService {
+    rpc CreateAccessWorkflow(CreateAccessWorkflowRequest) returns (CreateAccessWorkflowResponse) {}
+    rpc ReadAccessWorkflow(ReadAccessWorkflowRequest) returns (ReadAccessWorkflowResponse) {}
+    rpc UpdateAccessWorkflow(UpdateAccessWorkflowRequest) returns (UpdateAccessWorkflowResponse) {}
+    rpc DeleteAccessWorkflow(DeleteAccessWorkflowRequest) returns (DeleteAccessWorkflowResponse) {}
+}
+
+
+message CreateAccessWorkflowRequest {
+    string id = 1;
+    string name = 2; 
+    google.protobuf.Duration access_duration = 3;
+    int32 priority = 4;
+
+}
+
+message CreateAccessWorkflowResponse {
+    string id = 1;
+    string name = 2; 
+    google.protobuf.Duration access_duration = 3;
+    int32 priority = 4;
+
+}
+
+message ReadAccessWorkflowRequest {
+    string id = 1;
+}
+
+message ReadAccessWorkflowResponse {
+    string id = 1;
+    string name = 2; 
+    google.protobuf.Duration access_duration = 3;
+    int32 priority = 4;
+
+}
+
+message UpdateAccessWorkflowRequest {
+    string id = 1;
+    string name = 2; 
+    google.protobuf.Duration access_duration = 3;
+    int32 priority = 4;
+
+}
+
+message UpdateAccessWorkflowResponse {
+    string id = 1;
+    string name = 2; 
+    google.protobuf.Duration access_duration = 3;
+    int32 priority = 4;
+
+}
+
+message DeleteAccessWorkflowRequest {
+    string id = 1;
+}
+
+message DeleteAccessWorkflowResponse {
+    string id = 1;
+}

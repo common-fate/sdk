@@ -1,0 +1,80 @@
+syntax = "proto3";
+package commonfate.control.config.v1alpha1;
+
+
+
+service AccessSelectorService {
+    rpc CreateAccessSelector(CreateAccessSelectorRequest) returns (CreateAccessSelectorResponse) {}
+    rpc ReadAccessSelector(GetAccessSelectorRequest) returns (GetAccessSelectorResponse) {}
+    rpc UpdateAccessSelector(UpdateAccessSelectorRequest) returns (UpdateAccessSelectorResponse) {}
+    rpc DeleteAccessSelector(DeleteAccessSelectorRequest) returns (DeleteAccessSelectorResponse) {}
+}
+
+enum SelectorType {
+    GCP = 0;
+    AWS = 1;
+}
+
+
+enum TargetType {
+    GCPProject = 0;
+    GCPFolder = 1;
+}
+  
+
+message Targets {
+    string type = 1; //eg GCP:Project
+    string name = 2; //eg demo-project-1
+}
+
+
+message CreateAccessSelectorRequest {
+    string name = 1;
+    string workflow_id = 2;
+    SelectorType selector_type = 3; //GPC or AWS
+    string role = 4; //Validation on this in the API based on the selector type 
+    TargetType target_type = 5;
+    repeated Targets targets = 6;
+  
+
+}
+
+// A JIT Workflow governs JIT access to particular cloud resources.
+message AccessSelector {
+    string id = 1;
+    string name = 2;
+    string workflow_id = 3;
+    SelectorType selector_type = 4; //GPC or AWS
+    string role = 5; //Validation on this in the API based on the selector type 
+    TargetType target_type = 6;
+    repeated Targets targets = 7;
+
+}
+
+message CreateAccessSelectorResponse {
+    AccessSelector selector = 1;
+}
+
+message GetAccessSelectorRequest {
+    string id = 1;
+}
+
+message GetAccessSelectorResponse {
+    AccessSelector selector = 1;
+}
+
+message UpdateAccessSelectorRequest {
+    AccessSelector selector = 1;
+}
+
+message UpdateAccessSelectorResponse {
+    AccessSelector workflow = 1;
+}
+
+message DeleteAccessSelectorRequest {
+    string id = 1;
+}
+
+message DeleteAccessSelectorResponse {
+    AccessSelector selector = 1;
+}
