@@ -16,7 +16,6 @@ message CreateAccessWorkflowRequest {
     string name = 2; 
     google.protobuf.Duration access_duration = 3;
     int32 priority = 4;
-
 }
 
 message CreateAccessWorkflowResponse {
@@ -24,7 +23,6 @@ message CreateAccessWorkflowResponse {
     string name = 2; 
     google.protobuf.Duration access_duration = 3;
     int32 priority = 4;
-
 }
 
 message ReadAccessWorkflowRequest {
@@ -36,7 +34,6 @@ message ReadAccessWorkflowResponse {
     string name = 2; 
     google.protobuf.Duration access_duration = 3;
     int32 priority = 4;
-
 }
 
 message UpdateAccessWorkflowRequest {
@@ -44,7 +41,6 @@ message UpdateAccessWorkflowRequest {
     string name = 2; 
     google.protobuf.Duration access_duration = 3;
     int32 priority = 4;
-
 }
 
 message UpdateAccessWorkflowResponse {
@@ -52,7 +48,6 @@ message UpdateAccessWorkflowResponse {
     string name = 2; 
     google.protobuf.Duration access_duration = 3;
     int32 priority = 4;
-
 }
 
 message DeleteAccessWorkflowRequest {

@@ -29,19 +29,16 @@ message ReadPolicyRequest {
 message ReadPolicyResponse {
     string id = 1;
     string cedar_policy = 2;
-
 }
 
 message UpdatePolicyRequest {
     string id = 1;
     string cedar_policy = 2;
-
 }
 
 message UpdatePolicyResponse {
     string id = 1;
     string cedar_policy = 2;
-
 }
 
 
