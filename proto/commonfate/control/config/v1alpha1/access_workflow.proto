@@ -13,7 +13,6 @@ service AccessWorkflowService {
 
 
 message CreateAccessWorkflowRequest {
-    string id = 1;
     string name = 2; 
     google.protobuf.Duration access_duration = 3;
     int32 priority = 4;
