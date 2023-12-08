@@ -13,14 +13,10 @@ service AccessSelectorService {
 
 
 
-enum TargetType {
-    GCPProject = 0;
-    GCPFolder = 1;
-}
-  
+
 
 message Targets {
-    TargetType type = 1; //eg GCP:Project
+    string type = 1; //eg GCP:Project
     string name = 2; //eg demo-project-1
 }
 
