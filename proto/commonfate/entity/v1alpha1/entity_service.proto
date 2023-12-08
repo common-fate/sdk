@@ -24,6 +24,23 @@ service EntityService {
 
     // Get multiple entities by UID.
     rpc BatchGet(BatchGetRequest) returns (BatchGetResponse) {}
+
+    
+    rpc Select(SelectRequest) returns (SelectResponse) {}
+}
+
+message SelectRequest {
+    string universe = 1;
+    UID parent = 2;
+
+    string resource_type = 3;
+
+    // A Cedar expression to match entities for.
+    repeated string when = 4;
+}
+
+message SelectResponse {
+    repeated Entity entities = 1;
 }
 
 message ListRequest {

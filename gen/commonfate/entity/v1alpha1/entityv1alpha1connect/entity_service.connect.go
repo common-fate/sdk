@@ -48,6 +48,8 @@ const (
 	EntityServiceListParentsProcedure = "/commonfate.entity.v1alpha1.EntityService/ListParents"
 	// EntityServiceBatchGetProcedure is the fully-qualified name of the EntityService's BatchGet RPC.
 	EntityServiceBatchGetProcedure = "/commonfate.entity.v1alpha1.EntityService/BatchGet"
+	// EntityServiceSelectProcedure is the fully-qualified name of the EntityService's Select RPC.
+	EntityServiceSelectProcedure = "/commonfate.entity.v1alpha1.EntityService/Select"
 )
 
 // EntityServiceClient is a client for the commonfate.entity.v1alpha1.EntityService service.
@@ -64,6 +66,7 @@ type EntityServiceClient interface {
 	ListParents(context.Context, *connect_go.Request[v1alpha1.ListParentsRequest]) (*connect_go.Response[v1alpha1.ListParentsResponse], error)
 	// Get multiple entities by UID.
 	BatchGet(context.Context, *connect_go.Request[v1alpha1.BatchGetRequest]) (*connect_go.Response[v1alpha1.BatchGetResponse], error)
+	Select(context.Context, *connect_go.Request[v1alpha1.SelectRequest]) (*connect_go.Response[v1alpha1.SelectResponse], error)
 }
 
 // NewEntityServiceClient constructs a client for the commonfate.entity.v1alpha1.EntityService
@@ -106,6 +109,11 @@ func NewEntityServiceClient(httpClient connect_go.HTTPClient, baseURL string, op
 			baseURL+EntityServiceBatchGetProcedure,
 			opts...,
 		),
+		_select: connect_go.NewClient[v1alpha1.SelectRequest, v1alpha1.SelectResponse](
+			httpClient,
+			baseURL+EntityServiceSelectProcedure,
+			opts...,
+		),
 	}
 }
 
@@ -117,6 +125,7 @@ type entityServiceClient struct {
 	listChildren *connect_go.Client[v1alpha1.ListChildrenRequest, v1alpha1.ListChildrenResponse]
 	listParents  *connect_go.Client[v1alpha1.ListParentsRequest, v1alpha1.ListParentsResponse]
 	batchGet     *connect_go.Client[v1alpha1.BatchGetRequest, v1alpha1.BatchGetResponse]
+	_select      *connect_go.Client[v1alpha1.SelectRequest, v1alpha1.SelectResponse]
 }
 
 // BatchUpdate calls commonfate.entity.v1alpha1.EntityService.BatchUpdate.
@@ -149,6 +158,11 @@ func (c *entityServiceClient) BatchGet(ctx context.Context, req *connect_go.Requ
 	return c.batchGet.CallUnary(ctx, req)
 }
 
+// Select calls commonfate.entity.v1alpha1.EntityService.Select.
+func (c *entityServiceClient) Select(ctx context.Context, req *connect_go.Request[v1alpha1.SelectRequest]) (*connect_go.Response[v1alpha1.SelectResponse], error) {
+	return c._select.CallUnary(ctx, req)
+}
+
 // EntityServiceHandler is an implementation of the commonfate.entity.v1alpha1.EntityService
 // service.
 type EntityServiceHandler interface {
@@ -164,6 +178,7 @@ type EntityServiceHandler interface {
 	ListParents(context.Context, *connect_go.Request[v1alpha1.ListParentsRequest]) (*connect_go.Response[v1alpha1.ListParentsResponse], error)
 	// Get multiple entities by UID.
 	BatchGet(context.Context, *connect_go.Request[v1alpha1.BatchGetRequest]) (*connect_go.Response[v1alpha1.BatchGetResponse], error)
+	Select(context.Context, *connect_go.Request[v1alpha1.SelectRequest]) (*connect_go.Response[v1alpha1.SelectResponse], error)
 }
 
 // NewEntityServiceHandler builds an HTTP handler from the service implementation. It returns the
@@ -202,6 +217,11 @@ func NewEntityServiceHandler(svc EntityServiceHandler, opts ...connect_go.Handle
 		svc.BatchGet,
 		opts...,
 	)
+	entityServiceSelectHandler := connect_go.NewUnaryHandler(
+		EntityServiceSelectProcedure,
+		svc.Select,
+		opts...,
+	)
 	return "/commonfate.entity.v1alpha1.EntityService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
 		case EntityServiceBatchUpdateProcedure:
@@ -216,6 +236,8 @@ func NewEntityServiceHandler(svc EntityServiceHandler, opts ...connect_go.Handle
 			entityServiceListParentsHandler.ServeHTTP(w, r)
 		case EntityServiceBatchGetProcedure:
 			entityServiceBatchGetHandler.ServeHTTP(w, r)
+		case EntityServiceSelectProcedure:
+			entityServiceSelectHandler.ServeHTTP(w, r)
 		default:
 			http.NotFound(w, r)
 		}
@@ -247,4 +269,8 @@ func (UnimplementedEntityServiceHandler) ListParents(context.Context, *connect_g
 
 func (UnimplementedEntityServiceHandler) BatchGet(context.Context, *connect_go.Request[v1alpha1.BatchGetRequest]) (*connect_go.Response[v1alpha1.BatchGetResponse], error) {
 	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("commonfate.entity.v1alpha1.EntityService.BatchGet is not implemented"))
+}
+
+func (UnimplementedEntityServiceHandler) Select(context.Context, *connect_go.Request[v1alpha1.SelectRequest]) (*connect_go.Response[v1alpha1.SelectResponse], error) {
+	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("commonfate.entity.v1alpha1.EntityService.Select is not implemented"))
 }
