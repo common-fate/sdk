@@ -13,9 +13,12 @@ type ListChildrenInput struct {
 	PageToken string
 }
 
-type ListChildrenOutput = entityv1alpha1.ListChildrenResponse
+type ListChildrenOutput struct {
+	Children      []uid.UID
+	NextPageToken string
+}
 
-func (c *Client) ListChildren(ctx context.Context, input ListChildrenInput) (*ListChildrenOutput, error) {
+func (c *Client) ListChildren(ctx context.Context, input ListChildrenInput) (ListChildrenOutput, error) {
 	req := &entityv1alpha1.ListChildrenRequest{
 		Universe:  "default",
 		PageToken: input.PageToken,
@@ -24,8 +27,50 @@ func (c *Client) ListChildren(ctx context.Context, input ListChildrenInput) (*Li
 
 	res, err := c.raw.ListChildren(ctx, connect.NewRequest(req))
 	if err != nil {
-		return nil, err
+		return ListChildrenOutput{}, err
 	}
 
-	return res.Msg, nil
+	out := ListChildrenOutput{
+		NextPageToken: res.Msg.NextPageToken,
+	}
+
+	for _, p := range res.Msg.Children {
+		out.Children = append(out.Children, uid.FromAPI(p))
+	}
+
+	return out, nil
+}
+
+type listChildrenRequestCall struct {
+	input  ListChildrenInput
+	client *Client
+}
+
+func (c *Client) ListChildrenRequest(input ListChildrenInput) *listChildrenRequestCall {
+	return &listChildrenRequestCall{
+		input:  input,
+		client: c,
+	}
+}
+
+// Pages invokes f for each page of results.
+// A non-nil error returned from f will halt the iteration.
+// The provided context supersedes any context provided to the Context method.
+func (c *listChildrenRequestCall) Pages(ctx context.Context, f func(ListChildrenOutput) error) error {
+	// resets the input back to its original state
+	originalPageToken := c.input.PageToken
+	defer func() { c.input.PageToken = originalPageToken }()
+	for {
+		x, err := c.client.ListChildren(ctx, c.input)
+		if err != nil {
+			return err
+		}
+		if err := f(x); err != nil {
+			return err
+		}
+		if x.NextPageToken == "" {
+			return nil
+		}
+		c.input.PageToken = x.NextPageToken
+	}
 }
