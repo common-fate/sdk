@@ -59,7 +59,7 @@ message UpdateAccessSelectorRequest {
 }
 
 message UpdateAccessSelectorResponse {
-    AccessSelector workflow = 1;
+    AccessSelector selector = 1;
 }
 
 message DeleteAccessSelectorRequest {
