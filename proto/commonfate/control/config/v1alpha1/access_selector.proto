@@ -10,10 +10,7 @@ service AccessSelectorService {
     rpc DeleteAccessSelector(DeleteAccessSelectorRequest) returns (DeleteAccessSelectorResponse) {}
 }
 
-enum SelectorType {
-    GCP = 0;
-    AWS = 1;
-}
+
 
 
 enum TargetType {
@@ -31,7 +28,7 @@ message Targets {
 message CreateAccessSelectorRequest {
     string name = 1;
     string workflow_id = 2;
-    SelectorType selector_type = 3; //GPC or AWS
+    string selector_type = 3; //GPC or AWS
     string role = 4; //Validation on this in the API based on the selector type 
     repeated Targets targets = 5;
   
@@ -43,7 +40,7 @@ message AccessSelector {
     string id = 1;
     string name = 2;
     string workflow_id = 3;
-    SelectorType selector_type = 4; //GPC or AWS
+    string selector_type = 4; //GPC or AWS
     string role = 5; //Validation on this in the API based on the selector type 
     repeated Targets targets = 6;
 
