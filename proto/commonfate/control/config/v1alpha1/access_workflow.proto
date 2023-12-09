@@ -16,14 +16,14 @@ message AccessWorkflow {
     string id = 1;
     string name = 2; 
     google.protobuf.Duration access_duration = 3;
-    google.protobuf.Duration extension_window = 4;
+    google.protobuf.Duration extend_after = 4;
     int32 priority = 5;
 }
 
 message CreateAccessWorkflowRequest {
     string name = 2; 
     google.protobuf.Duration access_duration = 3;
-    google.protobuf.Duration extension_window = 4;
+    google.protobuf.Duration extend_after = 4;
     int32 priority = 5;
 }
 
