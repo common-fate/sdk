@@ -123,6 +123,9 @@ message BatchEnsureRequest {
 
   // Optional justification as to why access is required.
   Justification justification = 2;
+
+  // If true, will return a preview of changes rather than actually provisioning access.
+  bool dry_run = 3;
 }
 
 message EnsureResponse {
@@ -157,6 +160,10 @@ message BatchEnsureResponse {
   //
   // Rather than failing the entire operation the Access Handler returns warnings.
   repeated Diagnostic diagnostics = 5;
+
+  repeated Grant requested = 6;
+  repeated Grant activated = 7;
+  repeated Grant extended = 8;
 }
 
 message Justification {
