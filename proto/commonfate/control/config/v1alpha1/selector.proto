@@ -13,10 +13,7 @@ service SelectorService {
 }
 
 message CreateSelectorRequest {
-    string name = 1;
-    string resource_type = 2;
-    commonfate.entity.v1alpha1.UID belonging_to = 3;
-    string when = 4;
+    Selector selector = 1;
 }
 
 message Selector {
