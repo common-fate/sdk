@@ -56,9 +56,6 @@ message ListRequest {
     // Filter entities for a particular type
     string type = 3;
 
-    // A Cedar expression to match entities for.
-    repeated string when = 4;
-
     // If true, will include archived entities in the query
     bool include_archived = 6;
 }
