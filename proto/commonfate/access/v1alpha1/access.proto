@@ -111,19 +111,36 @@ message BatchEnsureResponse {
   // associated with the request.
   string trace_id = 1;
 
-  repeated Grant requested = 2;
-  // pending Grants that already existed.
-  repeated Grant pending = 3;
-  repeated Grant activated = 4;
-  repeated Grant extended = 5;
-
+  repeated GrantState grants = 2;
+ 
   // User-facing diagnostic warnings, for messages such as the user not having permissions
   // to request some of the entitlements they asked for.
   //
   // Rather than failing the entire operation the Access Handler returns warnings.
   repeated Diagnostic diagnostics = 6;
-
 }
+
+message GrantState {
+  Grant grant = 1;
+  // The change to the grant.
+  // Will be unspecified if the grant has not been changed.
+  GrantChange change = 2;
+}
+
+
+enum GrantChange {
+  GRANT_CHANGE_UNSPECIFIED = 0;
+
+  // The Grant has been newly requested
+  GRANT_CHANGE_REQUESTED = 1;
+
+  // The Grant has been activated
+  GRANT_CHANGE_ACTIVATED = 2;
+
+  // The Grant has been extended
+  GRANT_CHANGE_EXTENDED = 3;
+}
+
 
 message Justification {
   optional string reason = 1;
