@@ -7,7 +7,7 @@ import "commonfate/access/v1alpha1/diagnostic.proto";
 
 service AccessSelectorService {
     rpc CreateAccessSelector(CreateAccessSelectorRequest) returns (CreateAccessSelectorResponse) {}
-    rpc ReadAccessSelector(GetAccessSelectorRequest) returns (GetAccessSelectorResponse) {}
+    rpc GetAccessSelector(GetAccessSelectorRequest) returns (GetAccessSelectorResponse) {}
     rpc UpdateAccessSelector(UpdateAccessSelectorRequest) returns (UpdateAccessSelectorResponse) {}
     rpc DeleteAccessSelector(DeleteAccessSelectorRequest) returns (DeleteAccessSelectorResponse) {}
 }

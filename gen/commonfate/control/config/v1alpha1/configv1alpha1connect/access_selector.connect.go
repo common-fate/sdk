@@ -36,9 +36,9 @@ const (
 	// AccessSelectorServiceCreateAccessSelectorProcedure is the fully-qualified name of the
 	// AccessSelectorService's CreateAccessSelector RPC.
 	AccessSelectorServiceCreateAccessSelectorProcedure = "/commonfate.control.config.v1alpha1.AccessSelectorService/CreateAccessSelector"
-	// AccessSelectorServiceReadAccessSelectorProcedure is the fully-qualified name of the
-	// AccessSelectorService's ReadAccessSelector RPC.
-	AccessSelectorServiceReadAccessSelectorProcedure = "/commonfate.control.config.v1alpha1.AccessSelectorService/ReadAccessSelector"
+	// AccessSelectorServiceGetAccessSelectorProcedure is the fully-qualified name of the
+	// AccessSelectorService's GetAccessSelector RPC.
+	AccessSelectorServiceGetAccessSelectorProcedure = "/commonfate.control.config.v1alpha1.AccessSelectorService/GetAccessSelector"
 	// AccessSelectorServiceUpdateAccessSelectorProcedure is the fully-qualified name of the
 	// AccessSelectorService's UpdateAccessSelector RPC.
 	AccessSelectorServiceUpdateAccessSelectorProcedure = "/commonfate.control.config.v1alpha1.AccessSelectorService/UpdateAccessSelector"
@@ -51,7 +51,7 @@ const (
 // commonfate.control.config.v1alpha1.AccessSelectorService service.
 type AccessSelectorServiceClient interface {
 	CreateAccessSelector(context.Context, *connect_go.Request[v1alpha1.CreateAccessSelectorRequest]) (*connect_go.Response[v1alpha1.CreateAccessSelectorResponse], error)
-	ReadAccessSelector(context.Context, *connect_go.Request[v1alpha1.GetAccessSelectorRequest]) (*connect_go.Response[v1alpha1.GetAccessSelectorResponse], error)
+	GetAccessSelector(context.Context, *connect_go.Request[v1alpha1.GetAccessSelectorRequest]) (*connect_go.Response[v1alpha1.GetAccessSelectorResponse], error)
 	UpdateAccessSelector(context.Context, *connect_go.Request[v1alpha1.UpdateAccessSelectorRequest]) (*connect_go.Response[v1alpha1.UpdateAccessSelectorResponse], error)
 	DeleteAccessSelector(context.Context, *connect_go.Request[v1alpha1.DeleteAccessSelectorRequest]) (*connect_go.Response[v1alpha1.DeleteAccessSelectorResponse], error)
 }
@@ -72,9 +72,9 @@ func NewAccessSelectorServiceClient(httpClient connect_go.HTTPClient, baseURL st
 			baseURL+AccessSelectorServiceCreateAccessSelectorProcedure,
 			opts...,
 		),
-		readAccessSelector: connect_go.NewClient[v1alpha1.GetAccessSelectorRequest, v1alpha1.GetAccessSelectorResponse](
+		getAccessSelector: connect_go.NewClient[v1alpha1.GetAccessSelectorRequest, v1alpha1.GetAccessSelectorResponse](
 			httpClient,
-			baseURL+AccessSelectorServiceReadAccessSelectorProcedure,
+			baseURL+AccessSelectorServiceGetAccessSelectorProcedure,
 			opts...,
 		),
 		updateAccessSelector: connect_go.NewClient[v1alpha1.UpdateAccessSelectorRequest, v1alpha1.UpdateAccessSelectorResponse](
@@ -93,7 +93,7 @@ func NewAccessSelectorServiceClient(httpClient connect_go.HTTPClient, baseURL st
 // accessSelectorServiceClient implements AccessSelectorServiceClient.
 type accessSelectorServiceClient struct {
 	createAccessSelector *connect_go.Client[v1alpha1.CreateAccessSelectorRequest, v1alpha1.CreateAccessSelectorResponse]
-	readAccessSelector   *connect_go.Client[v1alpha1.GetAccessSelectorRequest, v1alpha1.GetAccessSelectorResponse]
+	getAccessSelector    *connect_go.Client[v1alpha1.GetAccessSelectorRequest, v1alpha1.GetAccessSelectorResponse]
 	updateAccessSelector *connect_go.Client[v1alpha1.UpdateAccessSelectorRequest, v1alpha1.UpdateAccessSelectorResponse]
 	deleteAccessSelector *connect_go.Client[v1alpha1.DeleteAccessSelectorRequest, v1alpha1.DeleteAccessSelectorResponse]
 }
@@ -104,10 +104,10 @@ func (c *accessSelectorServiceClient) CreateAccessSelector(ctx context.Context, 
 	return c.createAccessSelector.CallUnary(ctx, req)
 }
 
-// ReadAccessSelector calls
-// commonfate.control.config.v1alpha1.AccessSelectorService.ReadAccessSelector.
-func (c *accessSelectorServiceClient) ReadAccessSelector(ctx context.Context, req *connect_go.Request[v1alpha1.GetAccessSelectorRequest]) (*connect_go.Response[v1alpha1.GetAccessSelectorResponse], error) {
-	return c.readAccessSelector.CallUnary(ctx, req)
+// GetAccessSelector calls
+// commonfate.control.config.v1alpha1.AccessSelectorService.GetAccessSelector.
+func (c *accessSelectorServiceClient) GetAccessSelector(ctx context.Context, req *connect_go.Request[v1alpha1.GetAccessSelectorRequest]) (*connect_go.Response[v1alpha1.GetAccessSelectorResponse], error) {
+	return c.getAccessSelector.CallUnary(ctx, req)
 }
 
 // UpdateAccessSelector calls
@@ -126,7 +126,7 @@ func (c *accessSelectorServiceClient) DeleteAccessSelector(ctx context.Context, 
 // commonfate.control.config.v1alpha1.AccessSelectorService service.
 type AccessSelectorServiceHandler interface {
 	CreateAccessSelector(context.Context, *connect_go.Request[v1alpha1.CreateAccessSelectorRequest]) (*connect_go.Response[v1alpha1.CreateAccessSelectorResponse], error)
-	ReadAccessSelector(context.Context, *connect_go.Request[v1alpha1.GetAccessSelectorRequest]) (*connect_go.Response[v1alpha1.GetAccessSelectorResponse], error)
+	GetAccessSelector(context.Context, *connect_go.Request[v1alpha1.GetAccessSelectorRequest]) (*connect_go.Response[v1alpha1.GetAccessSelectorResponse], error)
 	UpdateAccessSelector(context.Context, *connect_go.Request[v1alpha1.UpdateAccessSelectorRequest]) (*connect_go.Response[v1alpha1.UpdateAccessSelectorResponse], error)
 	DeleteAccessSelector(context.Context, *connect_go.Request[v1alpha1.DeleteAccessSelectorRequest]) (*connect_go.Response[v1alpha1.DeleteAccessSelectorResponse], error)
 }
@@ -142,9 +142,9 @@ func NewAccessSelectorServiceHandler(svc AccessSelectorServiceHandler, opts ...c
 		svc.CreateAccessSelector,
 		opts...,
 	)
-	accessSelectorServiceReadAccessSelectorHandler := connect_go.NewUnaryHandler(
-		AccessSelectorServiceReadAccessSelectorProcedure,
-		svc.ReadAccessSelector,
+	accessSelectorServiceGetAccessSelectorHandler := connect_go.NewUnaryHandler(
+		AccessSelectorServiceGetAccessSelectorProcedure,
+		svc.GetAccessSelector,
 		opts...,
 	)
 	accessSelectorServiceUpdateAccessSelectorHandler := connect_go.NewUnaryHandler(
@@ -161,8 +161,8 @@ func NewAccessSelectorServiceHandler(svc AccessSelectorServiceHandler, opts ...c
 		switch r.URL.Path {
 		case AccessSelectorServiceCreateAccessSelectorProcedure:
 			accessSelectorServiceCreateAccessSelectorHandler.ServeHTTP(w, r)
-		case AccessSelectorServiceReadAccessSelectorProcedure:
-			accessSelectorServiceReadAccessSelectorHandler.ServeHTTP(w, r)
+		case AccessSelectorServiceGetAccessSelectorProcedure:
+			accessSelectorServiceGetAccessSelectorHandler.ServeHTTP(w, r)
 		case AccessSelectorServiceUpdateAccessSelectorProcedure:
 			accessSelectorServiceUpdateAccessSelectorHandler.ServeHTTP(w, r)
 		case AccessSelectorServiceDeleteAccessSelectorProcedure:
@@ -180,8 +180,8 @@ func (UnimplementedAccessSelectorServiceHandler) CreateAccessSelector(context.Co
 	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("commonfate.control.config.v1alpha1.AccessSelectorService.CreateAccessSelector is not implemented"))
 }
 
-func (UnimplementedAccessSelectorServiceHandler) ReadAccessSelector(context.Context, *connect_go.Request[v1alpha1.GetAccessSelectorRequest]) (*connect_go.Response[v1alpha1.GetAccessSelectorResponse], error) {
-	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("commonfate.control.config.v1alpha1.AccessSelectorService.ReadAccessSelector is not implemented"))
+func (UnimplementedAccessSelectorServiceHandler) GetAccessSelector(context.Context, *connect_go.Request[v1alpha1.GetAccessSelectorRequest]) (*connect_go.Response[v1alpha1.GetAccessSelectorResponse], error) {
+	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("commonfate.control.config.v1alpha1.AccessSelectorService.GetAccessSelector is not implemented"))
 }
 
 func (UnimplementedAccessSelectorServiceHandler) UpdateAccessSelector(context.Context, *connect_go.Request[v1alpha1.UpdateAccessSelectorRequest]) (*connect_go.Response[v1alpha1.UpdateAccessSelectorResponse], error) {

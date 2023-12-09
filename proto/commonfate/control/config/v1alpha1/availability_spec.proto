@@ -7,7 +7,7 @@ import "commonfate/entity/v1alpha1/uid.proto";
 
 service AvailabilitySpecService {
     rpc CreateAvailabilitySpec(CreateAvailabilitySpecRequest) returns (CreateAvailabilitySpecResponse) {}
-    rpc ReadAvailabilitySpec(ReadAvailabilitySpecRequest) returns (ReadAvailabilitySpecResponse) {}
+    rpc GetAvailabilitySpec(GetAvailabilitySpecRequest) returns (GetAvailabilitySpecResponse) {}
     rpc UpdateAvailabilitySpec(UpdateAvailabilitySpecRequest) returns (UpdateAvailabilitySpecResponse) {}
     rpc DeleteAvailabilitySpec(DeleteAvailabilitySpecRequest) returns (DeleteAvailabilitySpecResponse) {}
 }
@@ -34,11 +34,11 @@ message CreateAvailabilitySpecResponse {
     AvailabilitySpec availability_spec = 1;
 }
 
-message ReadAvailabilitySpecRequest {
+message GetAvailabilitySpecRequest {
     string id = 1;
 }
 
-message ReadAvailabilitySpecResponse {
+message GetAvailabilitySpecResponse {
     AvailabilitySpec availability_spec = 1;
 }
 

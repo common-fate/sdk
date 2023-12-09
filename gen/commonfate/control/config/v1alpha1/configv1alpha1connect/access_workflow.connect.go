@@ -36,9 +36,9 @@ const (
 	// AccessWorkflowServiceCreateAccessWorkflowProcedure is the fully-qualified name of the
 	// AccessWorkflowService's CreateAccessWorkflow RPC.
 	AccessWorkflowServiceCreateAccessWorkflowProcedure = "/commonfate.control.config.v1alpha1.AccessWorkflowService/CreateAccessWorkflow"
-	// AccessWorkflowServiceReadAccessWorkflowProcedure is the fully-qualified name of the
-	// AccessWorkflowService's ReadAccessWorkflow RPC.
-	AccessWorkflowServiceReadAccessWorkflowProcedure = "/commonfate.control.config.v1alpha1.AccessWorkflowService/ReadAccessWorkflow"
+	// AccessWorkflowServiceGetAccessWorkflowProcedure is the fully-qualified name of the
+	// AccessWorkflowService's GetAccessWorkflow RPC.
+	AccessWorkflowServiceGetAccessWorkflowProcedure = "/commonfate.control.config.v1alpha1.AccessWorkflowService/GetAccessWorkflow"
 	// AccessWorkflowServiceUpdateAccessWorkflowProcedure is the fully-qualified name of the
 	// AccessWorkflowService's UpdateAccessWorkflow RPC.
 	AccessWorkflowServiceUpdateAccessWorkflowProcedure = "/commonfate.control.config.v1alpha1.AccessWorkflowService/UpdateAccessWorkflow"
@@ -51,7 +51,7 @@ const (
 // commonfate.control.config.v1alpha1.AccessWorkflowService service.
 type AccessWorkflowServiceClient interface {
 	CreateAccessWorkflow(context.Context, *connect_go.Request[v1alpha1.CreateAccessWorkflowRequest]) (*connect_go.Response[v1alpha1.CreateAccessWorkflowResponse], error)
-	ReadAccessWorkflow(context.Context, *connect_go.Request[v1alpha1.ReadAccessWorkflowRequest]) (*connect_go.Response[v1alpha1.ReadAccessWorkflowResponse], error)
+	GetAccessWorkflow(context.Context, *connect_go.Request[v1alpha1.GetAccessWorkflowRequest]) (*connect_go.Response[v1alpha1.GetAccessWorkflowResponse], error)
 	UpdateAccessWorkflow(context.Context, *connect_go.Request[v1alpha1.UpdateAccessWorkflowRequest]) (*connect_go.Response[v1alpha1.UpdateAccessWorkflowResponse], error)
 	DeleteAccessWorkflow(context.Context, *connect_go.Request[v1alpha1.DeleteAccessWorkflowRequest]) (*connect_go.Response[v1alpha1.DeleteAccessWorkflowResponse], error)
 }
@@ -72,9 +72,9 @@ func NewAccessWorkflowServiceClient(httpClient connect_go.HTTPClient, baseURL st
 			baseURL+AccessWorkflowServiceCreateAccessWorkflowProcedure,
 			opts...,
 		),
-		readAccessWorkflow: connect_go.NewClient[v1alpha1.ReadAccessWorkflowRequest, v1alpha1.ReadAccessWorkflowResponse](
+		getAccessWorkflow: connect_go.NewClient[v1alpha1.GetAccessWorkflowRequest, v1alpha1.GetAccessWorkflowResponse](
 			httpClient,
-			baseURL+AccessWorkflowServiceReadAccessWorkflowProcedure,
+			baseURL+AccessWorkflowServiceGetAccessWorkflowProcedure,
 			opts...,
 		),
 		updateAccessWorkflow: connect_go.NewClient[v1alpha1.UpdateAccessWorkflowRequest, v1alpha1.UpdateAccessWorkflowResponse](
@@ -93,7 +93,7 @@ func NewAccessWorkflowServiceClient(httpClient connect_go.HTTPClient, baseURL st
 // accessWorkflowServiceClient implements AccessWorkflowServiceClient.
 type accessWorkflowServiceClient struct {
 	createAccessWorkflow *connect_go.Client[v1alpha1.CreateAccessWorkflowRequest, v1alpha1.CreateAccessWorkflowResponse]
-	readAccessWorkflow   *connect_go.Client[v1alpha1.ReadAccessWorkflowRequest, v1alpha1.ReadAccessWorkflowResponse]
+	getAccessWorkflow    *connect_go.Client[v1alpha1.GetAccessWorkflowRequest, v1alpha1.GetAccessWorkflowResponse]
 	updateAccessWorkflow *connect_go.Client[v1alpha1.UpdateAccessWorkflowRequest, v1alpha1.UpdateAccessWorkflowResponse]
 	deleteAccessWorkflow *connect_go.Client[v1alpha1.DeleteAccessWorkflowRequest, v1alpha1.DeleteAccessWorkflowResponse]
 }
@@ -104,10 +104,10 @@ func (c *accessWorkflowServiceClient) CreateAccessWorkflow(ctx context.Context, 
 	return c.createAccessWorkflow.CallUnary(ctx, req)
 }
 
-// ReadAccessWorkflow calls
-// commonfate.control.config.v1alpha1.AccessWorkflowService.ReadAccessWorkflow.
-func (c *accessWorkflowServiceClient) ReadAccessWorkflow(ctx context.Context, req *connect_go.Request[v1alpha1.ReadAccessWorkflowRequest]) (*connect_go.Response[v1alpha1.ReadAccessWorkflowResponse], error) {
-	return c.readAccessWorkflow.CallUnary(ctx, req)
+// GetAccessWorkflow calls
+// commonfate.control.config.v1alpha1.AccessWorkflowService.GetAccessWorkflow.
+func (c *accessWorkflowServiceClient) GetAccessWorkflow(ctx context.Context, req *connect_go.Request[v1alpha1.GetAccessWorkflowRequest]) (*connect_go.Response[v1alpha1.GetAccessWorkflowResponse], error) {
+	return c.getAccessWorkflow.CallUnary(ctx, req)
 }
 
 // UpdateAccessWorkflow calls
@@ -126,7 +126,7 @@ func (c *accessWorkflowServiceClient) DeleteAccessWorkflow(ctx context.Context, 
 // commonfate.control.config.v1alpha1.AccessWorkflowService service.
 type AccessWorkflowServiceHandler interface {
 	CreateAccessWorkflow(context.Context, *connect_go.Request[v1alpha1.CreateAccessWorkflowRequest]) (*connect_go.Response[v1alpha1.CreateAccessWorkflowResponse], error)
-	ReadAccessWorkflow(context.Context, *connect_go.Request[v1alpha1.ReadAccessWorkflowRequest]) (*connect_go.Response[v1alpha1.ReadAccessWorkflowResponse], error)
+	GetAccessWorkflow(context.Context, *connect_go.Request[v1alpha1.GetAccessWorkflowRequest]) (*connect_go.Response[v1alpha1.GetAccessWorkflowResponse], error)
 	UpdateAccessWorkflow(context.Context, *connect_go.Request[v1alpha1.UpdateAccessWorkflowRequest]) (*connect_go.Response[v1alpha1.UpdateAccessWorkflowResponse], error)
 	DeleteAccessWorkflow(context.Context, *connect_go.Request[v1alpha1.DeleteAccessWorkflowRequest]) (*connect_go.Response[v1alpha1.DeleteAccessWorkflowResponse], error)
 }
@@ -142,9 +142,9 @@ func NewAccessWorkflowServiceHandler(svc AccessWorkflowServiceHandler, opts ...c
 		svc.CreateAccessWorkflow,
 		opts...,
 	)
-	accessWorkflowServiceReadAccessWorkflowHandler := connect_go.NewUnaryHandler(
-		AccessWorkflowServiceReadAccessWorkflowProcedure,
-		svc.ReadAccessWorkflow,
+	accessWorkflowServiceGetAccessWorkflowHandler := connect_go.NewUnaryHandler(
+		AccessWorkflowServiceGetAccessWorkflowProcedure,
+		svc.GetAccessWorkflow,
 		opts...,
 	)
 	accessWorkflowServiceUpdateAccessWorkflowHandler := connect_go.NewUnaryHandler(
@@ -161,8 +161,8 @@ func NewAccessWorkflowServiceHandler(svc AccessWorkflowServiceHandler, opts ...c
 		switch r.URL.Path {
 		case AccessWorkflowServiceCreateAccessWorkflowProcedure:
 			accessWorkflowServiceCreateAccessWorkflowHandler.ServeHTTP(w, r)
-		case AccessWorkflowServiceReadAccessWorkflowProcedure:
-			accessWorkflowServiceReadAccessWorkflowHandler.ServeHTTP(w, r)
+		case AccessWorkflowServiceGetAccessWorkflowProcedure:
+			accessWorkflowServiceGetAccessWorkflowHandler.ServeHTTP(w, r)
 		case AccessWorkflowServiceUpdateAccessWorkflowProcedure:
 			accessWorkflowServiceUpdateAccessWorkflowHandler.ServeHTTP(w, r)
 		case AccessWorkflowServiceDeleteAccessWorkflowProcedure:
@@ -180,8 +180,8 @@ func (UnimplementedAccessWorkflowServiceHandler) CreateAccessWorkflow(context.Co
 	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("commonfate.control.config.v1alpha1.AccessWorkflowService.CreateAccessWorkflow is not implemented"))
 }
 
-func (UnimplementedAccessWorkflowServiceHandler) ReadAccessWorkflow(context.Context, *connect_go.Request[v1alpha1.ReadAccessWorkflowRequest]) (*connect_go.Response[v1alpha1.ReadAccessWorkflowResponse], error) {
-	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("commonfate.control.config.v1alpha1.AccessWorkflowService.ReadAccessWorkflow is not implemented"))
+func (UnimplementedAccessWorkflowServiceHandler) GetAccessWorkflow(context.Context, *connect_go.Request[v1alpha1.GetAccessWorkflowRequest]) (*connect_go.Response[v1alpha1.GetAccessWorkflowResponse], error) {
+	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("commonfate.control.config.v1alpha1.AccessWorkflowService.GetAccessWorkflow is not implemented"))
 }
 
 func (UnimplementedAccessWorkflowServiceHandler) UpdateAccessWorkflow(context.Context, *connect_go.Request[v1alpha1.UpdateAccessWorkflowRequest]) (*connect_go.Response[v1alpha1.UpdateAccessWorkflowResponse], error) {

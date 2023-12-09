@@ -4,7 +4,7 @@ package commonfate.control.config.v1alpha1;
 
 service SlackAlertService {
     rpc CreateSlackAlert(CreateSlackAlertRequest) returns (CreateSlackAlertResponse) {}
-    rpc ReadSlackAlert(ReadSlackAlertRequest) returns (ReadSlackAlertResponse) {}
+    rpc GetSlackAlert(GetSlackAlertRequest) returns (GetSlackAlertResponse) {}
     rpc UpdateSlackAlert(UpdateSlackAlertRequest) returns (UpdateSlackAlertResponse) {}
     rpc DeleteSlackAlert(DeleteSlackAlertRequest) returns (DeleteSlackAlertResponse) {}
 }
@@ -24,11 +24,11 @@ message CreateSlackAlertResponse {
     SlackAlert alert = 1;
 }
 
-message ReadSlackAlertRequest {
+message GetSlackAlertRequest {
     string id = 1;
 }
 
-message ReadSlackAlertResponse {
+message GetSlackAlertResponse {
     SlackAlert alert = 1;
 }
 

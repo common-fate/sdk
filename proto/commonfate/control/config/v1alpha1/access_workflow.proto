@@ -7,7 +7,7 @@ import "commonfate/entity/v1alpha1/uid.proto";
 
 service AccessWorkflowService {
     rpc CreateAccessWorkflow(CreateAccessWorkflowRequest) returns (CreateAccessWorkflowResponse) {}
-    rpc ReadAccessWorkflow(ReadAccessWorkflowRequest) returns (ReadAccessWorkflowResponse) {}
+    rpc GetAccessWorkflow(GetAccessWorkflowRequest) returns (GetAccessWorkflowResponse) {}
     rpc UpdateAccessWorkflow(UpdateAccessWorkflowRequest) returns (UpdateAccessWorkflowResponse) {}
     rpc DeleteAccessWorkflow(DeleteAccessWorkflowRequest) returns (DeleteAccessWorkflowResponse) {}
 }
@@ -31,11 +31,11 @@ message CreateAccessWorkflowResponse {
     AccessWorkflow workflow = 1;
 }
 
-message ReadAccessWorkflowRequest {
+message GetAccessWorkflowRequest {
     string id = 1;
 }
 
-message ReadAccessWorkflowResponse {
+message GetAccessWorkflowResponse {
     AccessWorkflow workflow = 1;
 }
 
