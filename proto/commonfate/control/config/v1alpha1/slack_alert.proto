@@ -11,13 +11,15 @@ service SlackAlertService {
 
 message CreateSlackAlertRequest {
     string workflow_id = 2;
-    string slack_channel = 3; 
+    string slack_channel_id = 3; 
+    string slack_workspace_id = 4; 
 }
 
 message SlackAlert {
     string id = 1;
     string workflow_id = 2;
-    string slack_channel = 3; 
+    string slack_channel_id = 3; 
+    string slack_workspace_id = 4; 
 }
 
 message CreateSlackAlertResponse {
