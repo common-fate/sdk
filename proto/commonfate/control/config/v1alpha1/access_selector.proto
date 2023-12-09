@@ -1,6 +1,7 @@
 syntax = "proto3";
 package commonfate.control.config.v1alpha1;
 
+import "commonfate/entity/v1alpha1/uid.proto";
 
 
 service AccessSelectorService {
@@ -10,36 +11,19 @@ service AccessSelectorService {
     rpc DeleteAccessSelector(DeleteAccessSelectorRequest) returns (DeleteAccessSelectorResponse) {}
 }
 
-
-
-
-
-
-message Targets {
-    string type = 1; //eg GCP:Project
-    string name = 2; //eg demo-project-1
-}
-
-
 message CreateAccessSelectorRequest {
     string name = 1;
-    string workflow_id = 2;
-    string selector_type = 3; //GPC or AWS
-    string role = 4; //Validation on this in the API based on the selector type 
-    repeated Targets targets = 5;
-  
-
+    string resource_type = 2;
+    commonfate.entity.v1alpha1.UID belonging_to = 3;
+    string when = 4;
 }
 
-// A JIT Workflow governs JIT access to particular cloud resources.
 message AccessSelector {
     string id = 1;
     string name = 2;
-    string workflow_id = 3;
-    string selector_type = 4; //GPC or AWS
-    string role = 5; //Validation on this in the API based on the selector type 
-    repeated Targets targets = 6;
-
+    string resource_type = 3;
+    commonfate.entity.v1alpha1.UID belonging_to = 4;
+    string when = 5;
 }
 
 message CreateAccessSelectorResponse {

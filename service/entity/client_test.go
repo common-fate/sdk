@@ -143,6 +143,17 @@ type testEntityWithTimeField struct {
 
 func (t testEntityWithTimeField) UID() uid.UID { return uid.New("WithTimeField", t.ID) }
 
+type testEntityWithNestedStruct struct {
+	ID  string       `authz:"id"`
+	Foo NestedStruct `authz:"foo"`
+}
+
+func (t testEntityWithNestedStruct) UID() uid.UID { return uid.New("WithNestedStruct", t.ID) }
+
+type NestedStruct struct {
+	Something string `authz:"something"`
+}
+
 func Test_transformToEntity(t *testing.T) {
 	type args struct {
 		e Entity
@@ -668,6 +679,16 @@ func TestUnmarshalEntity_roundtrip(t *testing.T) {
 				Other:     time.Hour,
 			},
 			out: &testEntityWithTimeField{},
+		},
+		{
+			name: "with nested struct",
+			in: &testEntityWithNestedStruct{
+				ID: "123",
+				Foo: NestedStruct{
+					Something: "hi",
+				},
+			},
+			out: &testEntityWithNestedStruct{},
 		},
 	}
 	for _, tt := range tests {
