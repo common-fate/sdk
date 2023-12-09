@@ -1,0 +1,58 @@
+syntax = "proto3";
+package commonfate.control.config.v1alpha1;
+
+import "commonfate/entity/v1alpha1/uid.proto";
+import "commonfate/access/v1alpha1/diagnostic.proto";
+
+
+service SelectorService {
+    rpc CreateSelector(CreateSelectorRequest) returns (CreateSelectorResponse) {}
+    rpc GetSelector(GetSelectorRequest) returns (GetSelectorResponse) {}
+    rpc UpdateSelector(UpdateSelectorRequest) returns (UpdateSelectorResponse) {}
+    rpc DeleteSelector(DeleteSelectorRequest) returns (DeleteSelectorResponse) {}
+}
+
+message CreateSelectorRequest {
+    string name = 1;
+    string resource_type = 2;
+    commonfate.entity.v1alpha1.UID belonging_to = 3;
+    string when = 4;
+}
+
+message Selector {
+    string id = 1;
+    string name = 2;
+    string resource_type = 3;
+    commonfate.entity.v1alpha1.UID belonging_to = 4;
+    string when = 5;
+}
+
+message CreateSelectorResponse {
+    Selector selector = 1;
+    repeated commonfate.access.v1alpha1.Diagnostic diagnostics = 2;
+}
+
+message GetSelectorRequest {
+    string id = 1;
+}
+
+message GetSelectorResponse {
+    Selector selector = 1;
+}
+
+message UpdateSelectorRequest {
+    Selector selector = 1;
+}
+
+message UpdateSelectorResponse {
+    Selector selector = 1;
+    repeated commonfate.access.v1alpha1.Diagnostic diagnostics = 2;
+}
+
+message DeleteSelectorRequest {
+    string id = 1;
+}
+
+message DeleteSelectorResponse {
+    string id = 1;
+}
