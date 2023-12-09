@@ -31,7 +31,11 @@ service EntityService {
 
 message SelectRequest {
     string universe = 1;
-    UID parent = 2;
+
+    // The topmost parent entity to perform the selection on.
+    // The entity service will load the descendents of this entity to 
+    // load all of the 'resource_type' resources belonging to this entity.
+    UID belonging_to = 2;
 
     string resource_type = 3;
 
