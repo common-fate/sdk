@@ -23,7 +23,8 @@ message AccessWorkflow {
 message CreateAccessWorkflowRequest {
     string name = 2; 
     google.protobuf.Duration access_duration = 3;
-    int32 priority = 4;
+    google.protobuf.Duration extension_window = 4;
+    int32 priority = 5;
 }
 
 message CreateAccessWorkflowResponse {
