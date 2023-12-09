@@ -139,6 +139,9 @@ enum GrantChange {
 
   // The Grant has been extended
   GRANT_CHANGE_EXTENDED = 3;
+
+  // The provisioning process failed for the Grant
+  GRANT_CHANGE_PROVISIONING_FAILED = 4;
 }
 
 
