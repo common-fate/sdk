@@ -42,11 +42,11 @@ message GetAccessSelectorResponse {
 
 message UpdateAccessSelectorRequest {
     AccessSelector selector = 1;
-    repeated commonfate.access.v1alpha1.Diagnostic diagnostics = 2;
 }
 
 message UpdateAccessSelectorResponse {
     AccessSelector selector = 1;
+    repeated commonfate.access.v1alpha1.Diagnostic diagnostics = 2;
 }
 
 message DeleteAccessSelectorRequest {
