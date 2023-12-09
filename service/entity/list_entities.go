@@ -12,7 +12,6 @@ import (
 type ListInput struct {
 	Type            string
 	PageToken       string
-	When            []string
 	IncludeArchived bool
 }
 
@@ -21,7 +20,6 @@ func (c *Client) List(ctx context.Context, input ListInput) (*ListOutput, error)
 		Universe:        "default",
 		Type:            input.Type,
 		PageToken:       input.PageToken,
-		When:            input.When,
 		IncludeArchived: input.IncludeArchived,
 	}
 
