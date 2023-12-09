@@ -32,6 +32,11 @@ func (c *Client) BatchUpdate(ctx context.Context, input BatchUpdateInput) (*Batc
 		Put:      []*entityv1alpha1.Entity{},
 	}
 
+	if len(input.Put) == 0 && len(input.PutChildren) == 0 && len(input.Archive) == 0 && len(input.Unarchive) == 0 && len(input.Delete) == 0 && len(input.DeleteChildren) == 0 {
+		// no API call required
+		return nil, nil
+	}
+
 	for _, e := range input.Put {
 		parsed, children, err := Marshal(e)
 		if err != nil {
