@@ -1,0 +1,60 @@
+syntax = "proto3";
+package commonfate.control.config.v1alpha1;
+
+import "commonfate/entity/v1alpha1/uid.proto";
+import "commonfate/access/v1alpha1/diagnostic.proto";
+
+
+service WebhookProvisionerService {
+    rpc CreateWebhookProvisioner(CreateWebhookProvisionerRequest) returns (CreateWebhookProvisionerResponse) {}
+    rpc GetWebhookProvisioner(GetWebhookProvisionerRequest) returns (GetWebhookProvisionerResponse) {}
+    rpc UpdateWebhookProvisioner(UpdateWebhookProvisionerRequest) returns (UpdateWebhookProvisionerResponse) {}
+    rpc DeleteWebhookProvisioner(DeleteWebhookProvisionerRequest) returns (DeleteWebhookProvisionerResponse) {}
+}
+
+message Capabilities {
+    string target_type = 1;
+    string role_type = 2;
+    commonfate.entity.v1alpha1.UID integration = 3;
+}
+
+message CreateWebhookProvisionerRequest {
+    string url = 2;
+    repeated Capabilities capabilities = 3;
+}
+
+message WebhookProvisioner {
+    string id = 1;
+    string url = 2;
+    repeated Capabilities capabilities = 3;
+}
+
+message CreateWebhookProvisionerResponse {
+    WebhookProvisioner WebhookProvisioner = 1;
+    repeated commonfate.access.v1alpha1.Diagnostic diagnostics = 2;
+}
+
+message GetWebhookProvisionerRequest {
+    string id = 1;
+}
+
+message GetWebhookProvisionerResponse {
+    WebhookProvisioner WebhookProvisioner = 1;
+}
+
+message UpdateWebhookProvisionerRequest {
+    WebhookProvisioner WebhookProvisioner = 1;
+}
+
+message UpdateWebhookProvisionerResponse {
+    WebhookProvisioner WebhookProvisioner = 1;
+    repeated commonfate.access.v1alpha1.Diagnostic diagnostics = 2;
+}
+
+message DeleteWebhookProvisionerRequest {
+    string id = 1;
+}
+
+message DeleteWebhookProvisionerResponse {
+    string id = 1;
+}
