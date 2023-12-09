@@ -39,6 +39,9 @@ message Grant {
     // For active grants, the time that the user may attempt to extend the grant.
     // If empty, extension is not permitted.
     google.protobuf.Timestamp extension_permitted_at = 9;
+
+    // The ID of the Access Request associated with the Grant.
+    string access_request_id = 10;
 }
 
 enum GrantStatus {
