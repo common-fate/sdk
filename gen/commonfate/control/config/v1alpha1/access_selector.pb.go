@@ -475,7 +475,7 @@ type DeleteAccessSelectorResponse struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Selector *AccessSelector `protobuf:"bytes,1,opt,name=selector,proto3" json:"selector,omitempty"`
+	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 }
 
 func (x *DeleteAccessSelectorResponse) Reset() {
@@ -510,11 +510,11 @@ func (*DeleteAccessSelectorResponse) Descriptor() ([]byte, []int) {
 	return file_commonfate_control_config_v1alpha1_access_selector_proto_rawDescGZIP(), []int{8}
 }
 
-func (x *DeleteAccessSelectorResponse) GetSelector() *AccessSelector {
+func (x *DeleteAccessSelectorResponse) GetId() string {
 	if x != nil {
-		return x.Selector
+		return x.Id
 	}
-	return nil
+	return ""
 }
 
 var File_commonfate_control_config_v1alpha1_access_selector_proto protoreflect.FileDescriptor
@@ -596,14 +596,10 @@ var file_commonfate_control_config_v1alpha1_access_selector_proto_rawDesc = []by
 	0x74, 0x69, 0x63, 0x73, 0x22, 0x2d, 0x0a, 0x1b, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x41, 0x63,
 	0x63, 0x65, 0x73, 0x73, 0x53, 0x65, 0x6c, 0x65, 0x63, 0x74, 0x6f, 0x72, 0x52, 0x65, 0x71, 0x75,
 	0x65, 0x73, 0x74, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52,
-	0x02, 0x69, 0x64, 0x22, 0x6e, 0x0a, 0x1c, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x41, 0x63, 0x63,
+	0x02, 0x69, 0x64, 0x22, 0x2e, 0x0a, 0x1c, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x41, 0x63, 0x63,
 	0x65, 0x73, 0x73, 0x53, 0x65, 0x6c, 0x65, 0x63, 0x74, 0x6f, 0x72, 0x52, 0x65, 0x73, 0x70, 0x6f,
-	0x6e, 0x73, 0x65, 0x12, 0x4e, 0x0a, 0x08, 0x73, 0x65, 0x6c, 0x65, 0x63, 0x74, 0x6f, 0x72, 0x18,
-	0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x32, 0x2e, 0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x66, 0x61,
-	0x74, 0x65, 0x2e, 0x63, 0x6f, 0x6e, 0x74, 0x72, 0x6f, 0x6c, 0x2e, 0x63, 0x6f, 0x6e, 0x66, 0x69,
-	0x67, 0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x2e, 0x41, 0x63, 0x63, 0x65, 0x73,
-	0x73, 0x53, 0x65, 0x6c, 0x65, 0x63, 0x74, 0x6f, 0x72, 0x52, 0x08, 0x73, 0x65, 0x6c, 0x65, 0x63,
-	0x74, 0x6f, 0x72, 0x32, 0x87, 0x05, 0x0a, 0x15, 0x41, 0x63, 0x63, 0x65, 0x73, 0x73, 0x53, 0x65,
+	0x6e, 0x73, 0x65, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52,
+	0x02, 0x69, 0x64, 0x32, 0x87, 0x05, 0x0a, 0x15, 0x41, 0x63, 0x63, 0x65, 0x73, 0x73, 0x53, 0x65,
 	0x6c, 0x65, 0x63, 0x74, 0x6f, 0x72, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x12, 0x9b, 0x01,
 	0x0a, 0x14, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x41, 0x63, 0x63, 0x65, 0x73, 0x73, 0x53, 0x65,
 	0x6c, 0x65, 0x63, 0x74, 0x6f, 0x72, 0x12, 0x3f, 0x2e, 0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x66,
@@ -702,20 +698,19 @@ var file_commonfate_control_config_v1alpha1_access_selector_proto_depIdxs = []in
 	1,  // 5: commonfate.control.config.v1alpha1.UpdateAccessSelectorRequest.selector:type_name -> commonfate.control.config.v1alpha1.AccessSelector
 	1,  // 6: commonfate.control.config.v1alpha1.UpdateAccessSelectorResponse.selector:type_name -> commonfate.control.config.v1alpha1.AccessSelector
 	10, // 7: commonfate.control.config.v1alpha1.UpdateAccessSelectorResponse.diagnostics:type_name -> commonfate.access.v1alpha1.Diagnostic
-	1,  // 8: commonfate.control.config.v1alpha1.DeleteAccessSelectorResponse.selector:type_name -> commonfate.control.config.v1alpha1.AccessSelector
-	0,  // 9: commonfate.control.config.v1alpha1.AccessSelectorService.CreateAccessSelector:input_type -> commonfate.control.config.v1alpha1.CreateAccessSelectorRequest
-	3,  // 10: commonfate.control.config.v1alpha1.AccessSelectorService.ReadAccessSelector:input_type -> commonfate.control.config.v1alpha1.GetAccessSelectorRequest
-	5,  // 11: commonfate.control.config.v1alpha1.AccessSelectorService.UpdateAccessSelector:input_type -> commonfate.control.config.v1alpha1.UpdateAccessSelectorRequest
-	7,  // 12: commonfate.control.config.v1alpha1.AccessSelectorService.DeleteAccessSelector:input_type -> commonfate.control.config.v1alpha1.DeleteAccessSelectorRequest
-	2,  // 13: commonfate.control.config.v1alpha1.AccessSelectorService.CreateAccessSelector:output_type -> commonfate.control.config.v1alpha1.CreateAccessSelectorResponse
-	4,  // 14: commonfate.control.config.v1alpha1.AccessSelectorService.ReadAccessSelector:output_type -> commonfate.control.config.v1alpha1.GetAccessSelectorResponse
-	6,  // 15: commonfate.control.config.v1alpha1.AccessSelectorService.UpdateAccessSelector:output_type -> commonfate.control.config.v1alpha1.UpdateAccessSelectorResponse
-	8,  // 16: commonfate.control.config.v1alpha1.AccessSelectorService.DeleteAccessSelector:output_type -> commonfate.control.config.v1alpha1.DeleteAccessSelectorResponse
-	13, // [13:17] is the sub-list for method output_type
-	9,  // [9:13] is the sub-list for method input_type
-	9,  // [9:9] is the sub-list for extension type_name
-	9,  // [9:9] is the sub-list for extension extendee
-	0,  // [0:9] is the sub-list for field type_name
+	0,  // 8: commonfate.control.config.v1alpha1.AccessSelectorService.CreateAccessSelector:input_type -> commonfate.control.config.v1alpha1.CreateAccessSelectorRequest
+	3,  // 9: commonfate.control.config.v1alpha1.AccessSelectorService.ReadAccessSelector:input_type -> commonfate.control.config.v1alpha1.GetAccessSelectorRequest
+	5,  // 10: commonfate.control.config.v1alpha1.AccessSelectorService.UpdateAccessSelector:input_type -> commonfate.control.config.v1alpha1.UpdateAccessSelectorRequest
+	7,  // 11: commonfate.control.config.v1alpha1.AccessSelectorService.DeleteAccessSelector:input_type -> commonfate.control.config.v1alpha1.DeleteAccessSelectorRequest
+	2,  // 12: commonfate.control.config.v1alpha1.AccessSelectorService.CreateAccessSelector:output_type -> commonfate.control.config.v1alpha1.CreateAccessSelectorResponse
+	4,  // 13: commonfate.control.config.v1alpha1.AccessSelectorService.ReadAccessSelector:output_type -> commonfate.control.config.v1alpha1.GetAccessSelectorResponse
+	6,  // 14: commonfate.control.config.v1alpha1.AccessSelectorService.UpdateAccessSelector:output_type -> commonfate.control.config.v1alpha1.UpdateAccessSelectorResponse
+	8,  // 15: commonfate.control.config.v1alpha1.AccessSelectorService.DeleteAccessSelector:output_type -> commonfate.control.config.v1alpha1.DeleteAccessSelectorResponse
+	12, // [12:16] is the sub-list for method output_type
+	8,  // [8:12] is the sub-list for method input_type
+	8,  // [8:8] is the sub-list for extension type_name
+	8,  // [8:8] is the sub-list for extension extendee
+	0,  // [0:8] is the sub-list for field type_name
 }
 
 func init() { file_commonfate_control_config_v1alpha1_access_selector_proto_init() }

@@ -2,6 +2,7 @@ syntax = "proto3";
 package commonfate.control.config.v1alpha1;
 
 import "google/protobuf/duration.proto";
+import "commonfate/entity/v1alpha1/uid.proto";
 
 
 service AccessWorkflowService {
@@ -11,6 +12,13 @@ service AccessWorkflowService {
     rpc DeleteAccessWorkflow(DeleteAccessWorkflowRequest) returns (DeleteAccessWorkflowResponse) {}
 }
 
+message AccessWorkflow {
+    string id = 1;
+    string name = 2; 
+    google.protobuf.Duration access_duration = 3;
+    google.protobuf.Duration extension_window = 4;
+    int32 priority = 5;
+}
 
 message CreateAccessWorkflowRequest {
     string name = 2; 
@@ -19,10 +27,7 @@ message CreateAccessWorkflowRequest {
 }
 
 message CreateAccessWorkflowResponse {
-    string id = 1;
-    string name = 2; 
-    google.protobuf.Duration access_duration = 3;
-    int32 priority = 4;
+    AccessWorkflow workflow = 1;
 }
 
 message ReadAccessWorkflowRequest {
@@ -30,24 +35,15 @@ message ReadAccessWorkflowRequest {
 }
 
 message ReadAccessWorkflowResponse {
-    string id = 1;
-    string name = 2; 
-    google.protobuf.Duration access_duration = 3;
-    int32 priority = 4;
+    AccessWorkflow workflow = 1;
 }
 
 message UpdateAccessWorkflowRequest {
-    string id = 1;
-    string name = 2; 
-    google.protobuf.Duration access_duration = 3;
-    int32 priority = 4;
+    AccessWorkflow workflow = 1;
 }
 
 message UpdateAccessWorkflowResponse {
-    string id = 1;
-    string name = 2; 
-    google.protobuf.Duration access_duration = 3;
-    int32 priority = 4;
+    AccessWorkflow workflow = 1;
 }
 
 message DeleteAccessWorkflowRequest {

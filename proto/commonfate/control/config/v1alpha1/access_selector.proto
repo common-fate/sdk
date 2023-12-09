@@ -54,5 +54,5 @@ message DeleteAccessSelectorRequest {
 }
 
 message DeleteAccessSelectorResponse {
-    AccessSelector selector = 1;
+    string id = 1;
 }

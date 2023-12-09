@@ -1,0 +1,57 @@
+syntax = "proto3";
+package commonfate.control.config.v1alpha1;
+
+import "google/protobuf/duration.proto";
+import "commonfate/entity/v1alpha1/uid.proto";
+
+
+service AvailabilitySpecService {
+    rpc CreateAvailabilitySpec(CreateAvailabilitySpecRequest) returns (CreateAvailabilitySpecResponse) {}
+    rpc ReadAvailabilitySpec(ReadAvailabilitySpecRequest) returns (ReadAvailabilitySpecResponse) {}
+    rpc UpdateAvailabilitySpec(UpdateAvailabilitySpecRequest) returns (UpdateAvailabilitySpecResponse) {}
+    rpc DeleteAvailabilitySpec(DeleteAvailabilitySpecRequest) returns (DeleteAvailabilitySpecResponse) {}
+}
+
+
+message AvailabilitySpec {
+    string id = 1;
+    commonfate.entity.v1alpha1.UID role = 2;
+    commonfate.entity.v1alpha1.UID target = 3;
+    commonfate.entity.v1alpha1.UID integration = 4;
+    commonfate.entity.v1alpha1.UID identity_domain = 5;
+}
+
+message CreateAvailabilitySpecRequest {
+    commonfate.entity.v1alpha1.UID role = 2;
+    commonfate.entity.v1alpha1.UID target = 3;
+    commonfate.entity.v1alpha1.UID integration = 4;
+    commonfate.entity.v1alpha1.UID identity_domain = 5;
+}
+
+message CreateAvailabilitySpecResponse {
+    AvailabilitySpec availability_spec = 1;
+}
+
+message ReadAvailabilitySpecRequest {
+    string id = 1;
+}
+
+message ReadAvailabilitySpecResponse {
+    AvailabilitySpec availability_spec = 1;
+}
+
+message UpdateAvailabilitySpecRequest {
+    AvailabilitySpec availability_spec = 1;
+}
+
+message UpdateAvailabilitySpecResponse {
+    AvailabilitySpec availability_spec = 1;
+}
+
+message DeleteAvailabilitySpecRequest {
+    string id = 1;
+}
+
+message DeleteAvailabilitySpecResponse {
+    string id = 1;
+}
