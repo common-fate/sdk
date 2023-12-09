@@ -2,6 +2,7 @@ syntax = "proto3";
 package commonfate.control.config.v1alpha1;
 
 import "commonfate/entity/v1alpha1/uid.proto";
+import "commonfate/access/v1alpha1/diagnostic.proto";
 
 
 service AccessSelectorService {
@@ -28,6 +29,7 @@ message AccessSelector {
 
 message CreateAccessSelectorResponse {
     AccessSelector selector = 1;
+    repeated commonfate.access.v1alpha1.Diagnostic diagnostics = 2;
 }
 
 message GetAccessSelectorRequest {
@@ -40,6 +42,7 @@ message GetAccessSelectorResponse {
 
 message UpdateAccessSelectorRequest {
     AccessSelector selector = 1;
+    repeated commonfate.access.v1alpha1.Diagnostic diagnostics = 2;
 }
 
 message UpdateAccessSelectorResponse {
