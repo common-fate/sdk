@@ -33,8 +33,6 @@ const (
 // reflection-formatted method names, remove the leading slash and convert the remaining slash to a
 // period.
 const (
-	// AccessServiceEnsureProcedure is the fully-qualified name of the AccessService's Ensure RPC.
-	AccessServiceEnsureProcedure = "/commonfate.access.v1alpha1.AccessService/Ensure"
 	// AccessServiceBatchEnsureProcedure is the fully-qualified name of the AccessService's BatchEnsure
 	// RPC.
 	AccessServiceBatchEnsureProcedure = "/commonfate.access.v1alpha1.AccessService/BatchEnsure"
@@ -45,17 +43,6 @@ const (
 
 // AccessServiceClient is a client for the commonfate.access.v1alpha1.AccessService service.
 type AccessServiceClient interface {
-	// Ensure is a high-level declarative API which can be called to ensure access has been provisioned to an entitlement.
-	//
-	// The method checks whether the entitlement has been provisioned to the user.
-	// If the entitlement has not been provisioned, an Access Request will be created for the entitlement.
-	// If a pending Access Request exists for the entitlement, this request is returned.
-	//
-	// In future, this method may trigger an extension to any Access Requests which are due to expire.
-	//
-	// This method is used by the Common Fate CLI in commands like 'cf exec gcp -- <command>' to ensure access
-	// is provisioned prior to running a command.
-	Ensure(context.Context, *connect_go.Request[v1alpha1.EnsureRequest]) (*connect_go.Response[v1alpha1.EnsureResponse], error)
 	// BatchEnsure is a high-level declarative API which can be called to ensure access has been provisioned to multiple entitlements.
 	//
 	// The method checks whether the entitlement has been provisioned to the user.
@@ -78,11 +65,6 @@ type AccessServiceClient interface {
 func NewAccessServiceClient(httpClient connect_go.HTTPClient, baseURL string, opts ...connect_go.ClientOption) AccessServiceClient {
 	baseURL = strings.TrimRight(baseURL, "/")
 	return &accessServiceClient{
-		ensure: connect_go.NewClient[v1alpha1.EnsureRequest, v1alpha1.EnsureResponse](
-			httpClient,
-			baseURL+AccessServiceEnsureProcedure,
-			opts...,
-		),
 		batchEnsure: connect_go.NewClient[v1alpha1.BatchEnsureRequest, v1alpha1.BatchEnsureResponse](
 			httpClient,
 			baseURL+AccessServiceBatchEnsureProcedure,
@@ -98,14 +80,8 @@ func NewAccessServiceClient(httpClient connect_go.HTTPClient, baseURL string, op
 
 // accessServiceClient implements AccessServiceClient.
 type accessServiceClient struct {
-	ensure              *connect_go.Client[v1alpha1.EnsureRequest, v1alpha1.EnsureResponse]
 	batchEnsure         *connect_go.Client[v1alpha1.BatchEnsureRequest, v1alpha1.BatchEnsureResponse]
 	queryAvailabilities *connect_go.Client[v1alpha1.QueryAvailabilitiesRequest, v1alpha1.QueryAvailabilitiesResponse]
-}
-
-// Ensure calls commonfate.access.v1alpha1.AccessService.Ensure.
-func (c *accessServiceClient) Ensure(ctx context.Context, req *connect_go.Request[v1alpha1.EnsureRequest]) (*connect_go.Response[v1alpha1.EnsureResponse], error) {
-	return c.ensure.CallUnary(ctx, req)
 }
 
 // BatchEnsure calls commonfate.access.v1alpha1.AccessService.BatchEnsure.
@@ -121,17 +97,6 @@ func (c *accessServiceClient) QueryAvailabilities(ctx context.Context, req *conn
 // AccessServiceHandler is an implementation of the commonfate.access.v1alpha1.AccessService
 // service.
 type AccessServiceHandler interface {
-	// Ensure is a high-level declarative API which can be called to ensure access has been provisioned to an entitlement.
-	//
-	// The method checks whether the entitlement has been provisioned to the user.
-	// If the entitlement has not been provisioned, an Access Request will be created for the entitlement.
-	// If a pending Access Request exists for the entitlement, this request is returned.
-	//
-	// In future, this method may trigger an extension to any Access Requests which are due to expire.
-	//
-	// This method is used by the Common Fate CLI in commands like 'cf exec gcp -- <command>' to ensure access
-	// is provisioned prior to running a command.
-	Ensure(context.Context, *connect_go.Request[v1alpha1.EnsureRequest]) (*connect_go.Response[v1alpha1.EnsureResponse], error)
 	// BatchEnsure is a high-level declarative API which can be called to ensure access has been provisioned to multiple entitlements.
 	//
 	// The method checks whether the entitlement has been provisioned to the user.
@@ -150,11 +115,6 @@ type AccessServiceHandler interface {
 // By default, handlers support the Connect, gRPC, and gRPC-Web protocols with the binary Protobuf
 // and JSON codecs. They also support gzip compression.
 func NewAccessServiceHandler(svc AccessServiceHandler, opts ...connect_go.HandlerOption) (string, http.Handler) {
-	accessServiceEnsureHandler := connect_go.NewUnaryHandler(
-		AccessServiceEnsureProcedure,
-		svc.Ensure,
-		opts...,
-	)
 	accessServiceBatchEnsureHandler := connect_go.NewUnaryHandler(
 		AccessServiceBatchEnsureProcedure,
 		svc.BatchEnsure,
@@ -167,8 +127,6 @@ func NewAccessServiceHandler(svc AccessServiceHandler, opts ...connect_go.Handle
 	)
 	return "/commonfate.access.v1alpha1.AccessService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
-		case AccessServiceEnsureProcedure:
-			accessServiceEnsureHandler.ServeHTTP(w, r)
 		case AccessServiceBatchEnsureProcedure:
 			accessServiceBatchEnsureHandler.ServeHTTP(w, r)
 		case AccessServiceQueryAvailabilitiesProcedure:
@@ -181,10 +139,6 @@ func NewAccessServiceHandler(svc AccessServiceHandler, opts ...connect_go.Handle
 
 // UnimplementedAccessServiceHandler returns CodeUnimplemented from all methods.
 type UnimplementedAccessServiceHandler struct{}
-
-func (UnimplementedAccessServiceHandler) Ensure(context.Context, *connect_go.Request[v1alpha1.EnsureRequest]) (*connect_go.Response[v1alpha1.EnsureResponse], error) {
-	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("commonfate.access.v1alpha1.AccessService.Ensure is not implemented"))
-}
 
 func (UnimplementedAccessServiceHandler) BatchEnsure(context.Context, *connect_go.Request[v1alpha1.BatchEnsureRequest]) (*connect_go.Response[v1alpha1.BatchEnsureResponse], error) {
 	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("commonfate.access.v1alpha1.AccessService.BatchEnsure is not implemented"))

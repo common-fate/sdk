@@ -16,19 +16,6 @@ import "google/protobuf/timestamp.proto";
 // AccessService is the Access Handler's user-facing API.
 // Users call this API to ensure that they have access to entitlements.
 service AccessService {
-  // Ensure is a high-level declarative API which can be called to ensure access has been provisioned to an entitlement.
-  //
-  // The method checks whether the entitlement has been provisioned to the user.
-  // If the entitlement has not been provisioned, an Access Request will be created for the entitlement.
-  // If a pending Access Request exists for the entitlement, this request is returned.
-  //
-  // In future, this method may trigger an extension to any Access Requests which are due to expire.
-  // 
-  //
-  // This method is used by the Common Fate CLI in commands like 'cf exec gcp -- <command>' to ensure access
-  // is provisioned prior to running a command.
-  rpc Ensure(EnsureRequest) returns (EnsureResponse) {}
-
   // BatchEnsure is a high-level declarative API which can be called to ensure access has been provisioned to multiple entitlements.
   //
   // The method checks whether the entitlement has been provisioned to the user.
@@ -75,15 +62,6 @@ message Availability {
   commonfate.entity.v1alpha1.UID reviewers = 7;
 }
 
-
-message EnsureRequest {
-  // The entitlements to request access to.
-  EntitlementInput entitlement = 1;
-
-  // Optional justification as to why access is required.
-  Justification justification = 4;
-}
-
 message Specifier {
   oneof specify {
     // Specify a resource using a UID. If you're using Common Fate programatically
@@ -128,42 +106,23 @@ message BatchEnsureRequest {
   bool dry_run = 3;
 }
 
-message EnsureResponse {
-  // An ID which can be used to debug the evaluation of the access policies
-  // associated with the request.
-  string trace_id = 1;
-
-  // An Access Request. Will be nil if access is already active because the user was assigned
-  // persistent access to the entitlement.
-  AccessRequest access_request = 4;
-
-  // The Grant associated with the Access Request.
-  // Unlike the BatchGrant endpoint, the Grant endpoint will always return Access Requests
-  // that have a single associated grant. For convenience, the Grant is also returned here.
-  Grant grant = 5;
-
-  // User-facing diagnostic warnings
-  repeated Diagnostic diagnostics = 6;
-}
-
 message BatchEnsureResponse {
   // An ID which can be used to debug the evaluation of the access policies
   // associated with the request.
   string trace_id = 1;
 
-  // An Access Request. Will be nil if access is already active because the user was assigned
-  // persistent access to the entitlement.
-  repeated AccessRequest access_requests = 4;
+  repeated Grant requested = 2;
+  // pending Grants that already existed.
+  repeated Grant pending = 3;
+  repeated Grant activated = 4;
+  repeated Grant extended = 5;
 
   // User-facing diagnostic warnings, for messages such as the user not having permissions
   // to request some of the entitlements they asked for.
   //
   // Rather than failing the entire operation the Access Handler returns warnings.
-  repeated Diagnostic diagnostics = 5;
+  repeated Diagnostic diagnostics = 6;
 
-  repeated Grant requested = 6;
-  repeated Grant activated = 7;
-  repeated Grant extended = 8;
 }
 
 message Justification {
