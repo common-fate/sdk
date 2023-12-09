@@ -36,7 +36,7 @@ message SelectRequest {
     string resource_type = 3;
 
     // A Cedar expression to match entities for.
-    repeated string when = 4;
+    string when = 4;
 }
 
 message SelectResponse {
