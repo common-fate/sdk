@@ -5,6 +5,6 @@ import (
 	"github.com/common-fate/sdk/gen/commonfate/control/config/v1alpha1/configv1alpha1connect"
 )
 
-func NewFromConfig(cfg *config.Context) configv1alpha1connect.AccessSelectorServiceClient {
-	return configv1alpha1connect.NewAccessSelectorServiceClient(cfg.HTTPClient, cfg.APIURL)
+func NewFromConfig(cfg *config.Context) configv1alpha1connect.SelectorServiceClient {
+	return configv1alpha1connect.NewSelectorServiceClient(cfg.HTTPClient, cfg.APIURL)
 }
