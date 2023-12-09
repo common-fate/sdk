@@ -60,6 +60,9 @@ message Availability {
   uint32 priority = 6;
 
   commonfate.entity.v1alpha1.UID reviewers = 7;
+  
+  // the ID of the selector which was used to match the targets
+  commonfate.entity.v1alpha1.UID target_selector = 8;
 }
 
 message Specifier {
