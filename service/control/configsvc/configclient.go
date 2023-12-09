@@ -24,3 +24,7 @@ func (c Client) AccessWorkflow() configv1alpha1connect.AccessWorkflowServiceClie
 func (c Client) AvailabilitySpec() configv1alpha1connect.AvailabilitySpecServiceClient {
 	return configv1alpha1connect.NewAvailabilitySpecServiceClient(c.cfg.HTTPClient, c.cfg.APIURL)
 }
+
+func (c Client) WebhookProvisioner() configv1alpha1connect.WebhookProvisionerServiceClient {
+	return configv1alpha1connect.NewWebhookProvisionerServiceClient(c.cfg.HTTPClient, c.cfg.APIURL)
+}
