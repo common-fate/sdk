@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package commonfate.access.v1alpha1;
 
-import "commonfate/entity/v1alpha1/uid.proto";
+import "commonfate/entity/v1alpha1/eid.proto";
 
 
 enum DiagnosticLevel {
@@ -17,7 +17,7 @@ message Diagnostic {
 
     // The resource the diagnostic message relates to.
     // Can be empty if the message doesn't relate to a particular resource.
-    commonfate.entity.v1alpha1.UID resource = 2;
+    commonfate.entity.v1alpha1.EID resource = 2;
 
     // The message.
     string message = 3;

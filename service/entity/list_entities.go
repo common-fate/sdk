@@ -4,8 +4,8 @@ import (
 	"context"
 
 	"github.com/bufbuild/connect-go"
+	"github.com/common-fate/sdk/eid"
 	entityv1alpha1 "github.com/common-fate/sdk/gen/commonfate/entity/v1alpha1"
-	"github.com/common-fate/sdk/uid"
 	"github.com/patrickmn/go-cache"
 )
 
@@ -30,9 +30,9 @@ func (c *Client) List(ctx context.Context, input ListInput) (*ListOutput, error)
 
 	// update the attribute cache
 	for _, e := range res.Msg.Entities {
-		id := uid.UID{
-			Type: e.Uid.Type,
-			ID:   e.Uid.Id,
+		id := eid.EID{
+			Type: e.Eid.Type,
+			ID:   e.Eid.Id,
 		}
 
 		c.cache.Set(id.String(), e, cache.DefaultExpiration)

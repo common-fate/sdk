@@ -1,0 +1,135 @@
+package eid
+
+import (
+	"fmt"
+	"strings"
+
+	accessv1alpha1 "github.com/common-fate/sdk/gen/commonfate/access/v1alpha1"
+	entityv1alpha1 "github.com/common-fate/sdk/gen/commonfate/entity/v1alpha1"
+	"github.com/pkg/errors"
+)
+
+// EID is a unique identifier for an entity
+// which includes both it's type and ID.
+//
+// e.g. 'GCP::Project::dev'
+type EID struct {
+	// Type of the entity.
+	// e.g. in GCP::Project::dev
+	// it is 'GCP::Project'
+	Type string `json:"type"`
+
+	// ID of the entity.
+	// e.g. in GCP::Project::dev
+	// it is 'dev'
+	ID string `json:"id"`
+}
+
+// New creates a EID from a provided entity type and ID.
+func New(entityType string, id string) EID {
+	return EID{Type: entityType, ID: id}
+}
+
+// Ptr creates a EID from a provided entity type and ID
+// and returns it as a pointer.
+func Ptr(entityType string, id string) *EID {
+	return &EID{Type: entityType, ID: id}
+}
+
+func (u EID) ToAPI() *entityv1alpha1.EID {
+	return &entityv1alpha1.EID{
+		Type: u.Type,
+		Id:   u.ID,
+	}
+}
+
+// Valid returns true if the EID has both a type and an ID.
+func (u EID) Valid() error {
+	if u.Type == "" && u.ID == "" {
+		return errors.New("EID was empty")
+	}
+	if u.Type == "" {
+		return fmt.Errorf("EID with ID %s had no type", u.ID)
+	}
+	if u.ID == "" {
+		return fmt.Errorf("EID with type %s had no ID", u.Type)
+	}
+	return nil
+}
+
+func (u EID) String() string {
+	return fmt.Sprintf(`%s::"%s"`, u.Type, u.ID)
+}
+
+func FromAPI(eid *entityv1alpha1.EID) EID {
+	if eid == nil {
+		return EID{}
+	}
+
+	return EID{
+		Type: eid.Type,
+		ID:   eid.Id,
+	}
+}
+
+func (u EID) Equals(other EID) bool {
+	return u.Type == other.Type && u.ID == other.ID
+}
+
+// Parse extracts a EID from the input string.
+// Unlike Cedar policies, we accept EIDs without mandatory double quotes
+// around the ID component.
+//
+// For example: AWS::Account::123456789012 is a valid Common Fate EID, but
+// is an invalid Cedar EID.
+//
+// We are more relaxed about parsing because nearly all of our EIDs do not
+// contain any whitespace, so it saves users having to type additional
+// quote characters when using our CLI.
+//
+// If the ID component of the EID contains any whitespace it must be
+// enclosed in double quotes.
+func Parse(input string) (EID, error) {
+	parts := strings.Split(input, "::")
+
+	// Check if there are at least two parts (type and ID)
+	if len(parts) < 2 {
+		return EID{}, errors.New("invalid EID format")
+	}
+
+	// Join the type parts with "::" separator
+	// and assign it to the Type field
+	eidType := strings.Join(parts[:len(parts)-1], "::")
+
+	// Check if the type contains whitespace
+	if len(strings.Fields(eidType)) > 1 {
+		return EID{}, errors.New("whitespace not allowed in the EID type")
+	}
+
+	// The last part is the ID
+	eidID := parts[len(parts)-1]
+
+	// Check if the ID has spaces but is not enclosed in quotes
+	if strings.Contains(eidID, " ") && !strings.HasPrefix(eidID, "\"") && !strings.HasSuffix(eidID, "\"") {
+		return EID{}, errors.New("spaces in ID must be enclosed in quotes")
+	}
+
+	// If the ID is enclosed in quotes, remove them
+	if strings.HasPrefix(eidID, "\"") && strings.HasSuffix(eidID, "\"") {
+		eidID = eidID[1 : len(eidID)-1]
+	}
+
+	return EID{
+		Type: eidType,
+		ID:   eidID,
+	}, nil
+}
+
+// ToSpecifier returns a Specifier which will match the EID.
+func (u EID) ToSpecifier() *accessv1alpha1.Specifier {
+	return &accessv1alpha1.Specifier{
+		Specify: &accessv1alpha1.Specifier_Eid{
+			Eid: u.ToAPI(),
+		},
+	}
+}

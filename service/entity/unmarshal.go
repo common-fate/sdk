@@ -5,8 +5,8 @@ import (
 	"reflect"
 	"time"
 
+	"github.com/common-fate/sdk/eid"
 	entityv1alpha1 "github.com/common-fate/sdk/gen/commonfate/entity/v1alpha1"
-	"github.com/common-fate/sdk/uid"
 )
 
 func Unmarshal(e *entityv1alpha1.Entity, out Entity) error {
@@ -15,21 +15,21 @@ func Unmarshal(e *entityv1alpha1.Entity, out Entity) error {
 		return fmt.Errorf("output must be a pointer to a struct")
 	}
 
-	// Check EntityType matches the UID Type
-	if e.Uid == nil || e.Uid.Type != out.UID().Type {
-		return fmt.Errorf("entity type mismatch: expected %s, got %s", out.UID().Type, e.Uid.Type)
+	// Check EntityType matches the EID Type
+	if e.Eid == nil || e.Eid.Type != out.EID().Type {
+		return fmt.Errorf("entity type mismatch: expected %s, got %s", out.EID().Type, e.Eid.Type)
 	}
 
 	v = v.Elem()
 
-	// Handle UID
-	if e.Uid != nil && e.Uid.Id != "" {
+	// Handle EID
+	if e.Eid != nil && e.Eid.Id != "" {
 		for i := 0; i < v.NumField(); i++ {
 			field := v.Type().Field(i)
 			tag := parseTag(string(field.Tag))
 
 			if tag == "id" {
-				v.Field(i).SetString(e.Uid.Id)
+				v.Field(i).SetString(e.Eid.Id)
 				break
 			}
 		}
@@ -78,18 +78,18 @@ func unmarshalSetValue(setValue *entityv1alpha1.Value, field reflect.Value) erro
 
 	switch val := setValue.Value.(type) {
 	case *entityv1alpha1.Value_Entity:
-		_, ok := field.Interface().(uid.UID)
+		_, ok := field.Interface().(eid.EID)
 		if ok {
-			field.Set(reflect.ValueOf(uid.UID{
+			field.Set(reflect.ValueOf(eid.EID{
 				Type: val.Entity.Type,
 				ID:   val.Entity.Id,
 			}))
 			return nil
 		}
 
-		_, ok = field.Interface().(*uid.UID)
+		_, ok = field.Interface().(*eid.EID)
 		if ok {
-			field.Set(reflect.ValueOf(&uid.UID{
+			field.Set(reflect.ValueOf(&eid.EID{
 				Type: val.Entity.Type,
 				ID:   val.Entity.Id,
 			}))

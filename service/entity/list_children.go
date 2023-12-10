@@ -4,17 +4,17 @@ import (
 	"context"
 
 	"github.com/bufbuild/connect-go"
+	"github.com/common-fate/sdk/eid"
 	entityv1alpha1 "github.com/common-fate/sdk/gen/commonfate/entity/v1alpha1"
-	"github.com/common-fate/sdk/uid"
 )
 
 type ListChildrenInput struct {
-	Parent    uid.UID
+	Parent    eid.EID
 	PageToken string
 }
 
 type ListChildrenOutput struct {
-	Children      []uid.UID
+	Children      []eid.EID
 	NextPageToken string
 }
 
@@ -35,7 +35,7 @@ func (c *Client) ListChildren(ctx context.Context, input ListChildrenInput) (Lis
 	}
 
 	for _, p := range res.Msg.Children {
-		out.Children = append(out.Children, uid.FromAPI(p))
+		out.Children = append(out.Children, eid.FromAPI(p))
 	}
 
 	return out, nil

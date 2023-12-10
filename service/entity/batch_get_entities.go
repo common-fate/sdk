@@ -4,13 +4,13 @@ import (
 	"context"
 
 	"github.com/bufbuild/connect-go"
+	"github.com/common-fate/sdk/eid"
 	entityv1alpha1 "github.com/common-fate/sdk/gen/commonfate/entity/v1alpha1"
-	"github.com/common-fate/sdk/uid"
 	"github.com/patrickmn/go-cache"
 )
 
 type BatchGetInput struct {
-	UIDs []uid.UID
+	EIDs []eid.EID
 	// UseCache will try and retrieve entities from
 	// the client cache if it's present.
 	//
@@ -21,11 +21,11 @@ type BatchGetInput struct {
 type BatchGetOutput = entityv1alpha1.BatchGetResponse
 
 func (c *Client) BatchGet(ctx context.Context, input BatchGetInput) (*BatchGetOutput, error) {
-	// de-duplicate UIDs
-	uids := map[uid.UID]bool{}
+	// de-duplicate EIDs
+	eids := map[eid.EID]bool{}
 
-	for _, i := range input.UIDs {
-		uids[i] = true
+	for _, i := range input.EIDs {
+		eids[i] = true
 	}
 
 	req := &entityv1alpha1.BatchGetRequest{
@@ -34,7 +34,7 @@ func (c *Client) BatchGet(ctx context.Context, input BatchGetInput) (*BatchGetOu
 
 	var cached []*entityv1alpha1.Entity
 
-	for u := range uids {
+	for u := range eids {
 		if input.UseCache {
 			if got, ok := c.cache.Get(u.String()); ok {
 				if entity, ok := got.(*entityv1alpha1.Entity); ok {
@@ -44,12 +44,12 @@ func (c *Client) BatchGet(ctx context.Context, input BatchGetInput) (*BatchGetOu
 			}
 		}
 
-		req.Uids = append(req.Uids, u.ToAPI())
+		req.Eids = append(req.Eids, u.ToAPI())
 	}
 
 	output := &entityv1alpha1.BatchGetResponse{}
 
-	if len(req.Uids) > 0 {
+	if len(req.Eids) > 0 {
 		res, err := c.raw.BatchGet(ctx, connect.NewRequest(req))
 		if err != nil {
 			return nil, err
@@ -58,12 +58,12 @@ func (c *Client) BatchGet(ctx context.Context, input BatchGetInput) (*BatchGetOu
 
 		// update the attribute cache
 		for _, e := range res.Msg.Entities {
-			uid := uid.UID{
-				Type: e.Uid.Type,
-				ID:   e.Uid.Id,
+			eid := eid.EID{
+				Type: e.Eid.Type,
+				ID:   e.Eid.Id,
 			}
 
-			c.cache.Set(uid.String(), e, cache.DefaultExpiration)
+			c.cache.Set(eid.String(), e, cache.DefaultExpiration)
 		}
 	}
 

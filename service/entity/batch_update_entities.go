@@ -4,8 +4,8 @@ import (
 	"context"
 
 	"github.com/bufbuild/connect-go"
+	"github.com/common-fate/sdk/eid"
 	entityv1alpha1 "github.com/common-fate/sdk/gen/commonfate/entity/v1alpha1"
-	"github.com/common-fate/sdk/uid"
 )
 
 type BatchUpdateInput struct {
@@ -13,13 +13,13 @@ type BatchUpdateInput struct {
 	Put []Entity
 	// PutChildren is a slice of parent/child relationships to be added to the entity store.
 	PutChildren []ChildRelation
-	// Archive is a slice of UIDs of entities to be archived.
+	// Archive is a slice of EIDs of entities to be archived.
 	// When an entity is archived it will no longer appear in the List API calls by default.
-	Archive []uid.UID
-	// Unarchive is a slice of UIDs of entities to be made active again.
-	Unarchive []uid.UID
-	// Unarchive is a slice of UIDs of entities to be deleted from the entity store.
-	Delete []uid.UID
+	Archive []eid.EID
+	// Unarchive is a slice of EIDs of entities to be made active again.
+	Unarchive []eid.EID
+	// Unarchive is a slice of EIDs of entities to be deleted from the entity store.
+	Delete []eid.EID
 	// DeleteChildren is a slice of parent/child relations to be removed from the entity store.
 	DeleteChildren []ChildRelation
 }

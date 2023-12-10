@@ -6,9 +6,9 @@ import (
 	"time"
 
 	"github.com/bufbuild/connect-go"
+	"github.com/common-fate/sdk/eid"
 	entityv1alpha1 "github.com/common-fate/sdk/gen/commonfate/entity/v1alpha1"
 	"github.com/common-fate/sdk/gen/commonfate/entity/v1alpha1/entityv1alpha1connect"
-	"github.com/common-fate/sdk/uid"
 	"github.com/fatih/structtag"
 	"github.com/patrickmn/go-cache"
 	"github.com/pkg/errors"
@@ -56,12 +56,12 @@ func NewClient(opts Opts) Client {
 
 // Entities are objects that can be stored in the authz database.
 type Entity interface {
-	UID() uid.UID
+	EID() eid.EID
 }
 
 // Implementing the parent interface allows an entity to provide parents based on its attributes.
 type Parenter interface {
-	Parents() []uid.UID
+	Parents() []eid.EID
 }
 
 func Marshal(e Entity) (*entityv1alpha1.Entity, []*entityv1alpha1.ChildRelation, error) {
@@ -75,7 +75,7 @@ func Marshal(e Entity) (*entityv1alpha1.Entity, []*entityv1alpha1.ChildRelation,
 	}
 
 	entity := entityv1alpha1.Entity{
-		Uid:        e.UID().ToAPI(),
+		Eid:        e.EID().ToAPI(),
 		Attributes: []*entityv1alpha1.Attribute{},
 	}
 
@@ -86,12 +86,12 @@ func Marshal(e Entity) (*entityv1alpha1.Entity, []*entityv1alpha1.ChildRelation,
 		for _, parent := range p.Parents() {
 			err := parent.Valid()
 			if err != nil {
-				return nil, nil, errors.Wrapf(err, "parsing parents for entity %s", e.UID())
+				return nil, nil, errors.Wrapf(err, "parsing parents for entity %s", e.EID())
 			}
 
 			children = append(children, &entityv1alpha1.ChildRelation{
 				Parent: parent.ToAPI(),
-				Child:  entity.Uid,
+				Child:  entity.Eid,
 			})
 		}
 	}
@@ -113,7 +113,7 @@ func Marshal(e Entity) (*entityv1alpha1.Entity, []*entityv1alpha1.ChildRelation,
 		// try and parse as an attribute
 		attr, err := extractAttr(v.Field(i))
 		if err != nil {
-			return nil, nil, errors.Wrapf(err, "extracting attributes for entity %s: field %s", e.UID(), key)
+			return nil, nil, errors.Wrapf(err, "extracting attributes for entity %s: field %s", e.EID(), key)
 		}
 
 		entity.Attributes = append(entity.Attributes, &entityv1alpha1.Attribute{
@@ -129,15 +129,15 @@ func extractAttr(val reflect.Value) (*entityv1alpha1.Value, error) {
 	switch val.Kind() {
 	case reflect.Struct:
 		// try and parse as an entity reference
-		uid, ok := val.Interface().(uid.UID)
+		eid, ok := val.Interface().(eid.EID)
 		if ok {
-			err := uid.Valid()
+			err := eid.Valid()
 			if err != nil {
 				return nil, err
 			}
 			return &entityv1alpha1.Value{
 				Value: &entityv1alpha1.Value_Entity{
-					Entity: uid.ToAPI(),
+					Entity: eid.ToAPI(),
 				},
 			}, nil
 		}

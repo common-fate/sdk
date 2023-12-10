@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package commonfate.entity.v1alpha1;
 
-import "commonfate/entity/v1alpha1/uid.proto";
+import "commonfate/entity/v1alpha1/eid.proto";
 
 message Attribute {
     string key = 1;
@@ -14,7 +14,7 @@ message Value {
         string str = 1;
         bool bool = 2;
         int64 long = 3;
-        UID entity = 4;
+        EID entity = 4;
         Record record = 5;
         Set set = 6;
     }
@@ -30,6 +30,6 @@ message Set {
 
 
 message Entity {
-    UID uid = 1;
+    EID eid = 1;
     repeated Attribute attributes = 2;
 }

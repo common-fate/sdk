@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"testing"
 
+	"github.com/common-fate/sdk/eid"
 	"github.com/common-fate/sdk/service/authz"
-	"github.com/common-fate/sdk/uid"
 )
 
 // MockBatch is a mock batch authorizer which implements the
@@ -14,7 +14,7 @@ import (
 type MockBatch struct {
 	t           *testing.T
 	lastRequest *authz.Request
-	evaluations map[uid.UID]map[uid.UID]map[uid.UID]Evaluation
+	evaluations map[eid.EID]map[eid.EID]map[eid.EID]Evaluation
 	executed    bool
 	strict      bool
 }
@@ -23,7 +23,7 @@ var _ Authorizer = &MockBatch{}
 
 func NewMock(t *testing.T) *MockBatch {
 	return &MockBatch{
-		evaluations: map[uid.UID]map[uid.UID]map[uid.UID]Evaluation{},
+		evaluations: map[eid.EID]map[eid.EID]map[eid.EID]Evaluation{},
 	}
 }
 
@@ -35,7 +35,7 @@ func (a *MockBatch) Strict() *MockBatch {
 	return a
 }
 
-func (a *MockBatch) Allow(principal uid.UID, resource uid.UID, actions ...uid.UID) *MockBatch {
+func (a *MockBatch) Allow(principal eid.EID, resource eid.EID, actions ...eid.EID) *MockBatch {
 	for _, action := range actions {
 		req := authz.Request{
 			Principal: principal,
@@ -71,14 +71,14 @@ func (a *MockBatch) Annotations(key string, values ...string) *MockBatch {
 func (a *MockBatch) Mock(req authz.Request, eval Evaluation) *MockBatch {
 	principalMap, ok := a.evaluations[req.Principal]
 	if !ok {
-		principalMap = make(map[uid.UID]map[uid.UID]Evaluation)
+		principalMap = make(map[eid.EID]map[eid.EID]Evaluation)
 		a.evaluations[req.Principal] = principalMap
 	}
 
 	// Check if the resource map exists for the principal
 	resourceMap, ok := principalMap[req.Resource]
 	if !ok {
-		resourceMap = make(map[uid.UID]Evaluation)
+		resourceMap = make(map[eid.EID]Evaluation)
 		principalMap[req.Resource] = resourceMap
 	}
 

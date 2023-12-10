@@ -4,8 +4,7 @@ package commonfate.access.v1alpha1;
 
 import "commonfate/entity/v1alpha1/eid.proto";
 
-message User {
+message NamedEID {
     commonfate.entity.v1alpha1.EID eid = 1;
     string name = 2;
-    string email = 3;
 }

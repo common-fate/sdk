@@ -1,7 +1,7 @@
 syntax = "proto3";
 package commonfate.control.config.v1alpha1;
 
-import "commonfate/entity/v1alpha1/uid.proto";
+import "commonfate/entity/v1alpha1/eid.proto";
 import "commonfate/access/v1alpha1/diagnostic.proto";
 
 
@@ -20,7 +20,7 @@ message Selector {
     string id = 1;
     string name = 2;
     string resource_type = 3;
-    commonfate.entity.v1alpha1.UID belonging_to = 4;
+    commonfate.entity.v1alpha1.EID belonging_to = 4;
     string when = 5;
 }
 

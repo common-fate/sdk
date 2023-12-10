@@ -1,13 +1,13 @@
 package entity
 
 import (
+	"github.com/common-fate/sdk/eid"
 	entityv1alpha1 "github.com/common-fate/sdk/gen/commonfate/entity/v1alpha1"
-	"github.com/common-fate/sdk/uid"
 )
 
 type ChildRelation struct {
-	Parent uid.UID
-	Child  uid.UID
+	Parent eid.EID
+	Child  eid.EID
 }
 
 func (cr ChildRelation) ToAPI() *entityv1alpha1.ChildRelation {

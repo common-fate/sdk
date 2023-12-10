@@ -5,7 +5,7 @@ import (
 	"strings"
 )
 
-func (u *UID) Display() string {
+func (u *EID) Display() string {
 	if strings.Contains(u.Id, " ") {
 		return fmt.Sprintf(`%s::"%s"`, u.Type, u.Id)
 	}

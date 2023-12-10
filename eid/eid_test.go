@@ -1,35 +1,35 @@
-package uid
+package eid
 
 import (
 	"reflect"
 	"testing"
 )
 
-func TestParseUID(t *testing.T) {
+func TestParseEID(t *testing.T) {
 	tests := []struct {
 		input    string
-		expected UID
+		expected EID
 		wantErr  bool
 	}{
 		// Test cases without spaces in the ID
-		{"AWS::Account::12345abc", UID{Type: "AWS::Account", ID: "12345abc"}, false},
-		{"GCP::Project::dev", UID{Type: "GCP::Project", ID: "dev"}, false},
-		{"MyNamespace::Nested::Nested::something", UID{Type: "MyNamespace::Nested::Nested", ID: "something"}, false},
+		{"AWS::Account::12345abc", EID{Type: "AWS::Account", ID: "12345abc"}, false},
+		{"GCP::Project::dev", EID{Type: "GCP::Project", ID: "dev"}, false},
+		{"MyNamespace::Nested::Nested::something", EID{Type: "MyNamespace::Nested::Nested", ID: "something"}, false},
 
 		// Test case with spaces in the ID and enclosed in quotes
-		{"ExampleWithSpaces::\"some ID here with spaces\"", UID{Type: "ExampleWithSpaces", ID: "some ID here with spaces"}, false},
+		{"ExampleWithSpaces::\"some ID here with spaces\"", EID{Type: "ExampleWithSpaces", ID: "some ID here with spaces"}, false},
 
 		// Test case with spaces in the ID but not enclosed in quotes (should be invalid)
-		{"ExampleWithSpaces::some ID here with spaces", UID{}, true},
+		{"ExampleWithSpaces::some ID here with spaces", EID{}, true},
 
 		// Test case with spaces in the type (should be invalid)
-		{"Type With Spaces::someID", UID{}, true},
+		{"Type With Spaces::someID", EID{}, true},
 
 		// Test case with invalid format (not enough parts)
-		{"InvalidFormat", UID{}, true},
+		{"InvalidFormat", EID{}, true},
 
 		// Test case with invalid format (empty input)
-		{"", UID{}, true},
+		{"", EID{}, true},
 	}
 
 	for _, test := range tests {

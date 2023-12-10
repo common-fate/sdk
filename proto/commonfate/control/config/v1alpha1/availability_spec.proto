@@ -2,7 +2,7 @@ syntax = "proto3";
 package commonfate.control.config.v1alpha1;
 
 import "google/protobuf/duration.proto";
-import "commonfate/entity/v1alpha1/uid.proto";
+import "commonfate/entity/v1alpha1/eid.proto";
 
 
 service AvailabilitySpecService {
@@ -16,16 +16,16 @@ service AvailabilitySpecService {
 message AvailabilitySpec {
     string id = 1;
     string workflow_id = 2;
-    commonfate.entity.v1alpha1.UID role = 3;
-    commonfate.entity.v1alpha1.UID target = 4;
-    commonfate.entity.v1alpha1.UID identity_domain = 6;
+    commonfate.entity.v1alpha1.EID role = 3;
+    commonfate.entity.v1alpha1.EID target = 4;
+    commonfate.entity.v1alpha1.EID identity_domain = 6;
 }
 
 message CreateAvailabilitySpecRequest {
     string workflow_id = 1;
-    commonfate.entity.v1alpha1.UID role = 2;
-    commonfate.entity.v1alpha1.UID target = 3;
-    commonfate.entity.v1alpha1.UID identity_domain = 4;
+    commonfate.entity.v1alpha1.EID role = 2;
+    commonfate.entity.v1alpha1.EID target = 3;
+    commonfate.entity.v1alpha1.EID identity_domain = 4;
 }
 
 message CreateAvailabilitySpecResponse {

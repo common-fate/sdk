@@ -1,7 +1,7 @@
 syntax = "proto3";
 package commonfate.control.config.v1alpha1;
 
-import "commonfate/entity/v1alpha1/uid.proto";
+import "commonfate/entity/v1alpha1/eid.proto";
 import "commonfate/access/v1alpha1/diagnostic.proto";
 
 
@@ -15,7 +15,7 @@ service WebhookProvisionerService {
 message Capability {
     string target_type = 1;
     string role_type = 2;
-    commonfate.entity.v1alpha1.UID belonging_to = 3;
+    commonfate.entity.v1alpha1.EID belonging_to = 3;
 }
 
 message CreateWebhookProvisionerRequest {

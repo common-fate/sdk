@@ -4,8 +4,8 @@ import (
 	"context"
 	"testing"
 
+	"github.com/common-fate/sdk/eid"
 	"github.com/common-fate/sdk/service/authz"
-	"github.com/common-fate/sdk/uid"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -13,15 +13,15 @@ func TestMockBatchWorks(t *testing.T) {
 	a := NewMock(t)
 
 	req := authz.Request{
-		Principal: uid.UID{
+		Principal: eid.EID{
 			Type: "User",
 			ID:   "test",
 		},
-		Resource: uid.UID{
+		Resource: eid.EID{
 			Type: "Resource",
 			ID:   "foo",
 		},
-		Action: uid.UID{
+		Action: eid.EID{
 			Type: "Action",
 			ID:   "bar",
 		},
@@ -47,9 +47,9 @@ func TestMockBatchWorks(t *testing.T) {
 func TestMockAnnotations(t *testing.T) {
 	a := NewMock(t)
 
-	principal := uid.New("User", "test")
-	resource := uid.New("Resource", "foo")
-	action := uid.New("Action", "bar")
+	principal := eid.New("User", "test")
+	resource := eid.New("Resource", "foo")
+	action := eid.New("Action", "bar")
 
 	annos := NewAnnotations()
 	annos.Set("foo", Annotation{Value: "bar"})

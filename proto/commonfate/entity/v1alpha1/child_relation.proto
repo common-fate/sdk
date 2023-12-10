@@ -2,9 +2,9 @@ syntax = "proto3";
 
 package commonfate.entity.v1alpha1;
 
-import "commonfate/entity/v1alpha1/uid.proto";
+import "commonfate/entity/v1alpha1/eid.proto";
 
 message ChildRelation {
-    UID parent = 1;
-    UID child = 2;
+    EID parent = 1;
+    EID child = 2;
 }

@@ -5,8 +5,8 @@ package commonfate.access.v1alpha1;
 import "commonfate/control/attest/v1alpha1/attestation.proto";
 import "commonfate/access/v1alpha1/user.proto";
 import "commonfate/entity/v1alpha1/entity.proto";
-import "commonfate/entity/v1alpha1/uid.proto";
-import "commonfate/access/v1alpha1/named_uid.proto";
+import "commonfate/entity/v1alpha1/eid.proto";
+import "commonfate/access/v1alpha1/named_eid.proto";
 import "commonfate/access/v1alpha1/audit_logs.proto";
 import "google/protobuf/duration.proto";
 import "google/protobuf/timestamp.proto";
@@ -14,7 +14,7 @@ import "google/protobuf/timestamp.proto";
 
 message ProvisionRequest {
     // The ID of the Grant.
-    commonfate.entity.v1alpha1.UID grant = 1;
+    commonfate.entity.v1alpha1.EID grant = 1;
 
     commonfate.entity.v1alpha1.Entity principal = 2;
 

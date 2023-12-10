@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package commonfate.entity.v1alpha1;
 
-import "commonfate/entity/v1alpha1/uid.proto";
+import "commonfate/entity/v1alpha1/eid.proto";
 import "commonfate/entity/v1alpha1/entity.proto";
 import "commonfate/entity/v1alpha1/child_relation.proto";
 
@@ -13,7 +13,7 @@ service EntityService {
     // List entities matching filter conditions.
     rpc List(ListRequest) returns (ListResponse) {}
 
-    // Get an entity by UID.
+    // Get an entity by EID.
     rpc Get(GetRequest) returns (GetResponse) {}
 
     // List the children for a particular entity.
@@ -22,7 +22,7 @@ service EntityService {
     // List the parents for a particular entity.
     rpc ListParents(ListParentsRequest) returns (ListParentsResponse) {}
 
-    // Get multiple entities by UID.
+    // Get multiple entities by EID.
     rpc BatchGet(BatchGetRequest) returns (BatchGetResponse) {}
 
     
@@ -35,7 +35,7 @@ message SelectRequest {
     // The topmost parent entity to perform the selection on.
     // The entity service will load the descendents of this entity to 
     // load all of the 'resource_type' resources belonging to this entity.
-    UID belonging_to = 2;
+    EID belonging_to = 2;
 
     string resource_type = 3;
 
@@ -71,11 +71,11 @@ message ListChildrenRequest {
     // The token for the next page.
     string page_token = 2;
 
-    UID parent = 3;
+    EID parent = 3;
 }
 
 message ListChildrenResponse {
-    repeated UID children = 1;
+    repeated EID children = 1;
     string next_page_token = 2;
 }
 
@@ -86,18 +86,18 @@ message ListParentsRequest {
     // The token for the next page.
     string page_token = 2;
 
-    UID child = 3;
+    EID child = 3;
 }
 
 message ListParentsResponse {
-    repeated UID parents = 1;
+    repeated EID parents = 1;
     string next_page_token = 2;
 }
 
 
 message GetRequest {
     string universe = 1;
-    UID uid = 2;
+    EID eid = 2;
 }
 
 message GetResponse {
@@ -106,7 +106,7 @@ message GetResponse {
 
 message BatchGetRequest {
     string universe = 1;
-    repeated UID uids = 2;
+    repeated EID eids = 2;
 }
 
 message BatchGetResponse {
@@ -123,13 +123,13 @@ message BatchUpdateRequest {
     repeated ChildRelation put_children = 3;
 
     // entities to archive
-    repeated UID archive = 4;
+    repeated EID archive = 4;
 
     // entities to mark as active
-    repeated UID unarchive = 5;
+    repeated EID unarchive = 5;
 
     // entities to delete
-    repeated UID delete = 6;
+    repeated EID delete = 6;
 
     // parent/child relations to delete.
     repeated ChildRelation delete_children = 7;

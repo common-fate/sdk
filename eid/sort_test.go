@@ -1,4 +1,4 @@
-package uid
+package eid
 
 import (
 	"slices"
@@ -8,53 +8,53 @@ import (
 )
 
 func TestSortingTypes(t *testing.T) {
-	uids := []UID{
+	eids := []EID{
 		New("BBB", "xyz"),
 		New("AAA", "xyz"),
 	}
 
-	want := []UID{
+	want := []EID{
 		New("AAA", "xyz"),
 		New("BBB", "xyz"),
 	}
 
-	slices.SortStableFunc(uids, SortFunc)
+	slices.SortStableFunc(eids, SortFunc)
 
-	assert.Equal(t, want, uids)
+	assert.Equal(t, want, eids)
 }
 
 func TestSortingIDs(t *testing.T) {
-	uids := []UID{
+	eids := []EID{
 		New("AAA", "xyz"),
 		New("AAA", "aaa"),
 	}
 
-	want := []UID{
+	want := []EID{
 		New("AAA", "aaa"),
 		New("AAA", "xyz"),
 	}
 
-	slices.SortStableFunc(uids, SortFunc)
+	slices.SortStableFunc(eids, SortFunc)
 
-	assert.Equal(t, want, uids)
+	assert.Equal(t, want, eids)
 }
 
 func TestSortingIDsAndTypes(t *testing.T) {
-	uids := []UID{
+	eids := []EID{
 		New("BBB", "aaa"),
 		New("AAA", "xyz"),
 		New("BBB", "xyz"),
 		New("AAA", "aaa"),
 	}
 
-	want := []UID{
+	want := []EID{
 		New("AAA", "aaa"),
 		New("AAA", "xyz"),
 		New("BBB", "aaa"),
 		New("BBB", "xyz"),
 	}
 
-	slices.SortStableFunc(uids, SortFunc)
+	slices.SortStableFunc(eids, SortFunc)
 
-	assert.Equal(t, want, uids)
+	assert.Equal(t, want, eids)
 }

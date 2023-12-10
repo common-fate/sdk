@@ -1,15 +1,15 @@
 package authz
 
 import (
+	"github.com/common-fate/sdk/eid"
 	authzv1alpha1 "github.com/common-fate/sdk/gen/commonfate/authz/v1alpha1"
 	"github.com/common-fate/sdk/service/entity"
-	"github.com/common-fate/sdk/uid"
 )
 
 type Request struct {
-	Principal       uid.UID                `json:"principal"`
-	Action          uid.UID                `json:"action"`
-	Resource        uid.UID                `json:"resource"`
+	Principal       eid.EID                `json:"principal"`
+	Action          eid.EID                `json:"action"`
+	Resource        eid.EID                `json:"resource"`
 	OverlayEntities []entity.Entity        `json:"overlay_entities,omitempty"`
 	OverlayChildren []entity.ChildRelation `json:"overlay_children,omitempty"`
 }

@@ -4,13 +4,13 @@ import (
 	"context"
 
 	"github.com/bufbuild/connect-go"
+	"github.com/common-fate/sdk/eid"
 	entityv1alpha1 "github.com/common-fate/sdk/gen/commonfate/entity/v1alpha1"
-	"github.com/common-fate/sdk/uid"
 	"github.com/patrickmn/go-cache"
 )
 
 type GetInput struct {
-	UID uid.UID
+	EID eid.EID
 	// UseCache will try and retrieve entities from
 	// the client cache if it's present.
 	//
@@ -21,11 +21,11 @@ type GetInput struct {
 func (c *Client) GetEntity(ctx context.Context, input GetInput) (*entityv1alpha1.GetResponse, error) {
 	req := &entityv1alpha1.GetRequest{
 		Universe: "default",
-		Uid:      input.UID.ToAPI(),
+		Eid:      input.EID.ToAPI(),
 	}
 
 	if input.UseCache {
-		if got, ok := c.cache.Get(input.UID.String()); ok {
+		if got, ok := c.cache.Get(input.EID.String()); ok {
 			if entity, ok := got.(*entityv1alpha1.Entity); ok {
 				return &entityv1alpha1.GetResponse{
 					Entity: entity,
@@ -39,7 +39,7 @@ func (c *Client) GetEntity(ctx context.Context, input GetInput) (*entityv1alpha1
 		return nil, err
 	}
 
-	c.cache.Set(input.UID.String(), res.Msg.Entity, cache.DefaultExpiration)
+	c.cache.Set(input.EID.String(), res.Msg.Entity, cache.DefaultExpiration)
 
 	return res.Msg, nil
 }

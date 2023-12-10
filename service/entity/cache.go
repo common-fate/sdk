@@ -6,8 +6,8 @@ import (
 	"fmt"
 
 	"github.com/common-fate/apikit/logger"
+	"github.com/common-fate/sdk/eid"
 	entityv1alpha1 "github.com/common-fate/sdk/gen/commonfate/entity/v1alpha1"
-	"github.com/common-fate/sdk/uid"
 	"github.com/patrickmn/go-cache"
 	"go.uber.org/zap"
 )
@@ -27,10 +27,10 @@ func (c *Client) AttrCache() *AttrCache {
 // If the attribute does not exist for an entity or there is an error, an empty string is returned
 //
 // An error is logged if there was an issue reaching the Authz service.
-func (c *AttrCache) String(ctx context.Context, uid uid.UID, attr string) string {
-	log := logger.Get(ctx).Named("namecache").With("uid", uid, "attr", attr)
+func (c *AttrCache) String(ctx context.Context, eid eid.EID, attr string) string {
+	log := logger.Get(ctx).Named("namecache").With("eid", eid, "attr", attr)
 
-	cached, ok := c.client.cache.Get(uid.String())
+	cached, ok := c.client.cache.Get(eid.String())
 	if ok {
 		// cache hit
 		res, err := extractStringAttr(cached, attr)
@@ -40,7 +40,7 @@ func (c *AttrCache) String(ctx context.Context, uid uid.UID, attr string) string
 		}
 
 		// renew the cached duration
-		c.client.cache.Set(uid.String(), cached, cache.DefaultExpiration)
+		c.client.cache.Set(eid.String(), cached, cache.DefaultExpiration)
 
 		return res
 	}
@@ -48,7 +48,7 @@ func (c *AttrCache) String(ctx context.Context, uid uid.UID, attr string) string
 	log.Debugw("cache miss")
 
 	res, err := c.client.GetEntity(ctx, GetInput{
-		UID: uid,
+		EID: eid,
 	})
 	if err != nil {
 		log.Errorw("error loading entity from authz", zap.Error(err))

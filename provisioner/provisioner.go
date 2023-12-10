@@ -1,16 +1,16 @@
 package provisioner
 
 import (
+	"github.com/common-fate/sdk/eid"
 	"github.com/common-fate/sdk/service/entity"
-	"github.com/common-fate/sdk/uid"
 )
 
 type Grant struct {
-	Grant           uid.UID  `json:"grant"`
-	Principal       uid.UID  `json:"principal"`
-	MappedPrincipal *uid.UID `json:"mapped_principal,omitempty"`
-	Target          uid.UID  `json:"target"`
-	Role            uid.UID  `json:"role"`
+	Grant           eid.EID  `json:"grant"`
+	Principal       eid.EID  `json:"principal"`
+	MappedPrincipal *eid.EID `json:"mapped_principal,omitempty"`
+	Target          eid.EID  `json:"target"`
+	Role            eid.EID  `json:"role"`
 }
 
 type GrantResponse struct {

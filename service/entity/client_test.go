@@ -5,8 +5,8 @@ import (
 	"testing"
 	"time"
 
+	"github.com/common-fate/sdk/eid"
 	entityv1alpha1 "github.com/common-fate/sdk/gen/commonfate/entity/v1alpha1"
-	"github.com/common-fate/sdk/uid"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -15,7 +15,7 @@ type testUser struct {
 	Name string `authz:"name"`
 }
 
-func (t testUser) UID() uid.UID { return uid.New("User", t.ID) }
+func (t testUser) EID() eid.EID { return eid.New("User", t.ID) }
 
 type testAccount struct {
 	ID      string `authz:"id"`
@@ -23,8 +23,8 @@ type testAccount struct {
 	OrgUnit string
 }
 
-func (t testAccount) Parents() []uid.UID { return []uid.UID{uid.New("OrgUnit", t.OrgUnit)} }
-func (t testAccount) UID() uid.UID       { return uid.New("Account", t.ID) }
+func (t testAccount) Parents() []eid.EID { return []eid.EID{eid.New("OrgUnit", t.OrgUnit)} }
+func (t testAccount) EID() eid.EID       { return eid.New("Account", t.ID) }
 
 type testVault struct {
 	ID        string `authz:"id"`
@@ -33,30 +33,30 @@ type testVault struct {
 	StringVal string `authz:"string_val"`
 }
 
-func (t testVault) UID() uid.UID { return uid.New("Vault", t.ID) }
+func (t testVault) EID() eid.EID { return eid.New("Vault", t.ID) }
 
 type testAnyParents struct {
 	ID        string    `authz:"id"`
-	Resources []uid.UID // no tag here as we just want the parent relations, we don't want this as an attr
+	Resources []eid.EID // no tag here as we just want the parent relations, we don't want this as an attr
 }
 
-func (t testAnyParents) Parents() []uid.UID { return t.Resources }
-func (t testAnyParents) UID() uid.UID       { return uid.New("AnyParent", t.ID) }
+func (t testAnyParents) Parents() []eid.EID { return t.Resources }
+func (t testAnyParents) EID() eid.EID       { return eid.New("AnyParent", t.ID) }
 
 type testAccessRequest struct {
 	ID       string  `authz:"id"`
-	Resource uid.UID `authz:"resource"`
+	Resource eid.EID `authz:"resource"`
 }
 
-func (t testAccessRequest) Parents() []uid.UID { return []uid.UID{t.Resource} }
-func (t testAccessRequest) UID() uid.UID       { return uid.New("AccessRequest", t.ID) }
+func (t testAccessRequest) Parents() []eid.EID { return []eid.EID{t.Resource} }
+func (t testAccessRequest) EID() eid.EID       { return eid.New("AccessRequest", t.ID) }
 
 type testEntitlement struct {
 	ID     string  `authz:"id"`
-	Target uid.UID `authz:"target"`
+	Target eid.EID `authz:"target"`
 }
 
-func (t testEntitlement) UID() uid.UID     { return uid.New("Entitlement", t.ID) }
+func (t testEntitlement) EID() eid.EID     { return eid.New("Entitlement", t.ID) }
 func (testEntitlement) EntityType() string { return "Entitlement" }
 
 type testEntityWithSet struct {
@@ -65,15 +65,15 @@ type testEntityWithSet struct {
 	Other  []int    `authz:"other"`
 }
 
-func (t testEntityWithSet) UID() uid.UID     { return uid.New("WithSet", t.ID) }
+func (t testEntityWithSet) EID() eid.EID     { return eid.New("WithSet", t.ID) }
 func (testEntityWithSet) EntityType() string { return "WithSet" }
 
 type testEntityWithSetOfReferences struct {
 	ID   string    `authz:"id"`
-	Refs []uid.UID `authz:"refs"`
+	Refs []eid.EID `authz:"refs"`
 }
 
-func (t testEntityWithSetOfReferences) UID() uid.UID     { return uid.New("WithSetOfReferences", t.ID) }
+func (t testEntityWithSetOfReferences) EID() eid.EID     { return eid.New("WithSetOfReferences", t.ID) }
 func (testEntityWithSetOfReferences) EntityType() string { return "WithSetOfReferences" }
 
 type exampleRecord struct {
@@ -86,12 +86,12 @@ type testEntityWithRecord struct {
 	Example exampleRecord `authz:"example_record"`
 }
 
-func (t testEntityWithRecord) UID() uid.UID     { return uid.New("WithRecord", t.ID) }
+func (t testEntityWithRecord) EID() eid.EID     { return eid.New("WithRecord", t.ID) }
 func (testEntityWithRecord) EntityType() string { return "WithRecord" }
 
 type entityRefs struct {
-	Foo uid.UID `authz:"foo"`
-	Bar uid.UID `authz:"bar"`
+	Foo eid.EID `authz:"foo"`
+	Bar eid.EID `authz:"bar"`
 }
 
 type testEntityWithRecordOfRefs struct {
@@ -99,7 +99,7 @@ type testEntityWithRecordOfRefs struct {
 	Refs entityRefs `authz:"refs"`
 }
 
-func (t testEntityWithRecordOfRefs) UID() uid.UID { return uid.New("WithRecordOfRefs", t.ID) }
+func (t testEntityWithRecordOfRefs) EID() eid.EID { return eid.New("WithRecordOfRefs", t.ID) }
 
 type recordOfSets struct {
 	Foo    []string      `authz:"foo"`
@@ -112,28 +112,28 @@ type testEntityWithRecordOfSets struct {
 	Record recordOfSets `authz:"record"`
 }
 
-func (t testEntityWithRecordOfSets) UID() uid.UID { return uid.New("WithRecordOfSets", t.ID) }
+func (t testEntityWithRecordOfSets) EID() eid.EID { return eid.New("WithRecordOfSets", t.ID) }
 
 type testEntityWithParentsMethod struct {
 	ID     string  `authz:"id"`
-	Target uid.UID `authz:"target"`
-	Other  uid.UID `authz:"other"`
+	Target eid.EID `authz:"target"`
+	Other  eid.EID `authz:"other"`
 }
 
-func (t testEntityWithParentsMethod) UID() uid.UID       { return uid.New("WithParentsMethod", t.ID) }
-func (e testEntityWithParentsMethod) Parents() []uid.UID { return []uid.UID{e.Other, e.Target} }
+func (t testEntityWithParentsMethod) EID() eid.EID       { return eid.New("WithParentsMethod", t.ID) }
+func (e testEntityWithParentsMethod) Parents() []eid.EID { return []eid.EID{e.Other, e.Target} }
 
 type testEntityWithOptionalField struct {
 	ID       string         `authz:"id"`
 	Foo      *string        `authz:"foo"`
-	Bar      *uid.UID       `authz:"bar"`
+	Bar      *eid.EID       `authz:"bar"`
 	Long     *int           `authz:"long"`
 	Uint     uint           `authz:"uint"`
 	Time     *time.Time     `authz:"time"`
 	Duration *time.Duration `authz:"duration"`
 }
 
-func (t testEntityWithOptionalField) UID() uid.UID { return uid.New("WithOptionalField", t.ID) }
+func (t testEntityWithOptionalField) EID() eid.EID { return eid.New("WithOptionalField", t.ID) }
 
 type testEntityWithTimeField struct {
 	ID        string        `authz:"id"`
@@ -141,14 +141,14 @@ type testEntityWithTimeField struct {
 	Other     time.Duration `authz:"other"`
 }
 
-func (t testEntityWithTimeField) UID() uid.UID { return uid.New("WithTimeField", t.ID) }
+func (t testEntityWithTimeField) EID() eid.EID { return eid.New("WithTimeField", t.ID) }
 
 type testEntityWithNestedStruct struct {
 	ID  string       `authz:"id"`
 	Foo NestedStruct `authz:"foo"`
 }
 
-func (t testEntityWithNestedStruct) UID() uid.UID { return uid.New("WithNestedStruct", t.ID) }
+func (t testEntityWithNestedStruct) EID() eid.EID { return eid.New("WithNestedStruct", t.ID) }
 
 type NestedStruct struct {
 	Something string `authz:"something"`
@@ -174,7 +174,7 @@ func Test_transformToEntity(t *testing.T) {
 				},
 			},
 			want: &entityv1alpha1.Entity{
-				Uid: &entityv1alpha1.UID{
+				Eid: &entityv1alpha1.EID{
 					Type: "User",
 					Id:   "test",
 				},
@@ -200,7 +200,7 @@ func Test_transformToEntity(t *testing.T) {
 				},
 			},
 			want: &entityv1alpha1.Entity{
-				Uid: &entityv1alpha1.UID{
+				Eid: &entityv1alpha1.EID{
 					Type: "Account",
 					Id:   "test",
 				},
@@ -217,11 +217,11 @@ func Test_transformToEntity(t *testing.T) {
 			},
 			wantChildren: []*entityv1alpha1.ChildRelation{
 				{
-					Parent: &entityv1alpha1.UID{
+					Parent: &entityv1alpha1.EID{
 						Type: "OrgUnit",
 						Id:   "prod",
 					},
-					Child: &entityv1alpha1.UID{
+					Child: &entityv1alpha1.EID{
 						Type: "Account",
 						Id:   "test",
 					},
@@ -239,7 +239,7 @@ func Test_transformToEntity(t *testing.T) {
 				},
 			},
 			want: &entityv1alpha1.Entity{
-				Uid: &entityv1alpha1.UID{
+				Eid: &entityv1alpha1.EID{
 					Type: "Vault",
 					Id:   "test",
 				},
@@ -276,7 +276,7 @@ func Test_transformToEntity(t *testing.T) {
 			args: args{
 				e: testAnyParents{
 					ID: "test",
-					Resources: []uid.UID{
+					Resources: []eid.EID{
 						{
 							Type: "Something",
 							ID:   "test",
@@ -289,7 +289,7 @@ func Test_transformToEntity(t *testing.T) {
 				},
 			},
 			want: &entityv1alpha1.Entity{
-				Uid: &entityv1alpha1.UID{
+				Eid: &entityv1alpha1.EID{
 					Type: "AnyParent",
 					Id:   "test",
 				},
@@ -297,21 +297,21 @@ func Test_transformToEntity(t *testing.T) {
 			},
 			wantChildren: []*entityv1alpha1.ChildRelation{
 				{
-					Parent: &entityv1alpha1.UID{
+					Parent: &entityv1alpha1.EID{
 						Type: "Something",
 						Id:   "test",
 					},
-					Child: &entityv1alpha1.UID{
+					Child: &entityv1alpha1.EID{
 						Type: "AnyParent",
 						Id:   "test",
 					},
 				},
 				{
-					Parent: &entityv1alpha1.UID{
+					Parent: &entityv1alpha1.EID{
 						Type: "Other",
 						Id:   "else",
 					},
-					Child: &entityv1alpha1.UID{
+					Child: &entityv1alpha1.EID{
 						Type: "AnyParent",
 						Id:   "test",
 					},
@@ -323,11 +323,11 @@ func Test_transformToEntity(t *testing.T) {
 			args: args{
 				e: testAccessRequest{
 					ID:       "test",
-					Resource: uid.New("Something", "test"),
+					Resource: eid.New("Something", "test"),
 				},
 			},
 			want: &entityv1alpha1.Entity{
-				Uid: &entityv1alpha1.UID{
+				Eid: &entityv1alpha1.EID{
 					Type: "AccessRequest",
 					Id:   "test",
 				},
@@ -337,7 +337,7 @@ func Test_transformToEntity(t *testing.T) {
 
 						Value: &entityv1alpha1.Value{
 							Value: &entityv1alpha1.Value_Entity{
-								Entity: uid.New("Something", "test").ToAPI(),
+								Entity: eid.New("Something", "test").ToAPI(),
 							},
 						},
 					},
@@ -345,11 +345,11 @@ func Test_transformToEntity(t *testing.T) {
 			},
 			wantChildren: []*entityv1alpha1.ChildRelation{
 				{
-					Parent: &entityv1alpha1.UID{
+					Parent: &entityv1alpha1.EID{
 						Type: "Something",
 						Id:   "test",
 					},
-					Child: &entityv1alpha1.UID{
+					Child: &entityv1alpha1.EID{
 						Type: "AccessRequest",
 						Id:   "test",
 					},
@@ -361,14 +361,14 @@ func Test_transformToEntity(t *testing.T) {
 			args: args{
 				e: testEntitlement{
 					ID: "123",
-					Target: uid.UID{
+					Target: eid.EID{
 						Type: "Vault",
 						ID:   "test",
 					},
 				},
 			},
 			want: &entityv1alpha1.Entity{
-				Uid: &entityv1alpha1.UID{
+				Eid: &entityv1alpha1.EID{
 					Type: "Entitlement",
 					Id:   "123",
 				},
@@ -377,7 +377,7 @@ func Test_transformToEntity(t *testing.T) {
 						Key: "target",
 						Value: &entityv1alpha1.Value{
 							Value: &entityv1alpha1.Value_Entity{
-								Entity: &entityv1alpha1.UID{
+								Entity: &entityv1alpha1.EID{
 									Type: "Vault",
 									Id:   "test",
 								},
@@ -392,18 +392,18 @@ func Test_transformToEntity(t *testing.T) {
 			args: args{
 				e: testEntityWithParentsMethod{
 					ID: "test",
-					Target: uid.UID{
+					Target: eid.EID{
 						Type: "Foo",
 						ID:   "1",
 					},
-					Other: uid.UID{
+					Other: eid.EID{
 						Type: "Bar",
 						ID:   "2",
 					},
 				},
 			},
 			want: &entityv1alpha1.Entity{
-				Uid: &entityv1alpha1.UID{
+				Eid: &entityv1alpha1.EID{
 					Type: "WithParentsMethod",
 					Id:   "test",
 				},
@@ -412,7 +412,7 @@ func Test_transformToEntity(t *testing.T) {
 						Key: "target",
 						Value: &entityv1alpha1.Value{
 							Value: &entityv1alpha1.Value_Entity{
-								Entity: &entityv1alpha1.UID{
+								Entity: &entityv1alpha1.EID{
 									Type: "Foo",
 									Id:   "1",
 								},
@@ -423,7 +423,7 @@ func Test_transformToEntity(t *testing.T) {
 						Key: "other",
 						Value: &entityv1alpha1.Value{
 							Value: &entityv1alpha1.Value_Entity{
-								Entity: &entityv1alpha1.UID{
+								Entity: &entityv1alpha1.EID{
 									Type: "Bar",
 									Id:   "2",
 								},
@@ -434,21 +434,21 @@ func Test_transformToEntity(t *testing.T) {
 			},
 			wantChildren: []*entityv1alpha1.ChildRelation{
 				{
-					Parent: &entityv1alpha1.UID{
+					Parent: &entityv1alpha1.EID{
 						Type: "Bar",
 						Id:   "2",
 					},
-					Child: &entityv1alpha1.UID{
+					Child: &entityv1alpha1.EID{
 						Type: "WithParentsMethod",
 						Id:   "test",
 					},
 				},
 				{
-					Parent: &entityv1alpha1.UID{
+					Parent: &entityv1alpha1.EID{
 						Type: "Foo",
 						Id:   "1",
 					},
-					Child: &entityv1alpha1.UID{
+					Child: &entityv1alpha1.EID{
 						Type: "WithParentsMethod",
 						Id:   "test",
 					},
@@ -465,7 +465,7 @@ func Test_transformToEntity(t *testing.T) {
 				},
 			},
 			want: &entityv1alpha1.Entity{
-				Uid: &entityv1alpha1.UID{
+				Eid: &entityv1alpha1.EID{
 					Type: "WithTimeField",
 					Id:   "test",
 				},
@@ -571,7 +571,7 @@ func TestUnmarshalEntity_roundtrip(t *testing.T) {
 			name: "entity reference as a field",
 			in: &testEntitlement{
 				ID: "123",
-				Target: uid.UID{
+				Target: eid.EID{
 					Type: "Vault",
 					ID:   "test",
 				},
@@ -591,7 +591,7 @@ func TestUnmarshalEntity_roundtrip(t *testing.T) {
 			name: "entity with set of entity references",
 			in: &testEntityWithSetOfReferences{
 				ID: "123",
-				Refs: []uid.UID{
+				Refs: []eid.EID{
 					{
 						Type: "Something",
 						ID:   "1",
@@ -620,11 +620,11 @@ func TestUnmarshalEntity_roundtrip(t *testing.T) {
 			in: &testEntityWithRecordOfRefs{
 				ID: "123",
 				Refs: entityRefs{
-					Foo: uid.UID{
+					Foo: eid.EID{
 						Type: "Something",
 						ID:   "1",
 					},
-					Bar: uid.UID{
+					Bar: eid.EID{
 						Type: "Other",
 						ID:   "2",
 					},
@@ -652,7 +652,7 @@ func TestUnmarshalEntity_roundtrip(t *testing.T) {
 			in: &testEntityWithOptionalField{
 				ID:  "123",
 				Foo: &exampleString,
-				Bar: &uid.UID{
+				Bar: &eid.EID{
 					Type: "Something",
 					ID:   "1",
 				},

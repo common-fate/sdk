@@ -2,7 +2,7 @@ syntax = "proto3";
 package commonfate.control.config.v1alpha1;
 
 import "google/protobuf/duration.proto";
-import "commonfate/entity/v1alpha1/uid.proto";
+import "commonfate/entity/v1alpha1/eid.proto";
 
 
 service AccessWorkflowService {

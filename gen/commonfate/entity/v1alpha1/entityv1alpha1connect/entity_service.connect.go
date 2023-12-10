@@ -58,13 +58,13 @@ type EntityServiceClient interface {
 	BatchUpdate(context.Context, *connect_go.Request[v1alpha1.BatchUpdateRequest]) (*connect_go.Response[v1alpha1.BatchUpdateResponse], error)
 	// List entities matching filter conditions.
 	List(context.Context, *connect_go.Request[v1alpha1.ListRequest]) (*connect_go.Response[v1alpha1.ListResponse], error)
-	// Get an entity by UID.
+	// Get an entity by EID.
 	Get(context.Context, *connect_go.Request[v1alpha1.GetRequest]) (*connect_go.Response[v1alpha1.GetResponse], error)
 	// List the children for a particular entity.
 	ListChildren(context.Context, *connect_go.Request[v1alpha1.ListChildrenRequest]) (*connect_go.Response[v1alpha1.ListChildrenResponse], error)
 	// List the parents for a particular entity.
 	ListParents(context.Context, *connect_go.Request[v1alpha1.ListParentsRequest]) (*connect_go.Response[v1alpha1.ListParentsResponse], error)
-	// Get multiple entities by UID.
+	// Get multiple entities by EID.
 	BatchGet(context.Context, *connect_go.Request[v1alpha1.BatchGetRequest]) (*connect_go.Response[v1alpha1.BatchGetResponse], error)
 	Select(context.Context, *connect_go.Request[v1alpha1.SelectRequest]) (*connect_go.Response[v1alpha1.SelectResponse], error)
 }
@@ -170,13 +170,13 @@ type EntityServiceHandler interface {
 	BatchUpdate(context.Context, *connect_go.Request[v1alpha1.BatchUpdateRequest]) (*connect_go.Response[v1alpha1.BatchUpdateResponse], error)
 	// List entities matching filter conditions.
 	List(context.Context, *connect_go.Request[v1alpha1.ListRequest]) (*connect_go.Response[v1alpha1.ListResponse], error)
-	// Get an entity by UID.
+	// Get an entity by EID.
 	Get(context.Context, *connect_go.Request[v1alpha1.GetRequest]) (*connect_go.Response[v1alpha1.GetResponse], error)
 	// List the children for a particular entity.
 	ListChildren(context.Context, *connect_go.Request[v1alpha1.ListChildrenRequest]) (*connect_go.Response[v1alpha1.ListChildrenResponse], error)
 	// List the parents for a particular entity.
 	ListParents(context.Context, *connect_go.Request[v1alpha1.ListParentsRequest]) (*connect_go.Response[v1alpha1.ListParentsResponse], error)
-	// Get multiple entities by UID.
+	// Get multiple entities by EID.
 	BatchGet(context.Context, *connect_go.Request[v1alpha1.BatchGetRequest]) (*connect_go.Response[v1alpha1.BatchGetResponse], error)
 	Select(context.Context, *connect_go.Request[v1alpha1.SelectRequest]) (*connect_go.Response[v1alpha1.SelectResponse], error)
 }

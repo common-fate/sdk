@@ -4,8 +4,8 @@ package commonfate.access.v1alpha1;
 
 import "commonfate/control/attest/v1alpha1/attestation.proto";
 import "commonfate/access/v1alpha1/user.proto";
-import "commonfate/entity/v1alpha1/uid.proto";
-import "commonfate/access/v1alpha1/named_uid.proto";
+import "commonfate/entity/v1alpha1/eid.proto";
+import "commonfate/access/v1alpha1/named_eid.proto";
 import "commonfate/access/v1alpha1/identity.proto";
 import "google/protobuf/duration.proto";
 import "google/protobuf/struct.proto";
@@ -17,10 +17,10 @@ service AuditLogService {
 
 message QueryAuditLogsRequest {
     // Query for audit logs relating to a particular target
-    commonfate.entity.v1alpha1.UID target = 1;
+    commonfate.entity.v1alpha1.EID target = 1;
 
     // Query for audit logs performed by a particular actor
-    // commonfate.entity.v1alpha1.UID actor = 2;
+    // commonfate.entity.v1alpha1.EID actor = 2;
 
     // The token for the next page.
     string page_token = 10;
@@ -51,7 +51,7 @@ message AuditLog {
     google.protobuf.Timestamp occurred_at = 4;
 
     // all related resources affected by the action.
-    repeated commonfate.entity.v1alpha1.UID targets = 5;
+    repeated commonfate.entity.v1alpha1.EID targets = 5;
     
     // a human-friendly message describing the action.
     string message = 6;

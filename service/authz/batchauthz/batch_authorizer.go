@@ -6,10 +6,10 @@ import (
 	"fmt"
 
 	"github.com/bufbuild/connect-go"
+	"github.com/common-fate/sdk/eid"
 	authzv1alpha1 "github.com/common-fate/sdk/gen/commonfate/authz/v1alpha1"
 	"github.com/common-fate/sdk/service/authz"
 	"github.com/common-fate/sdk/service/entity"
-	"github.com/common-fate/sdk/uid"
 )
 
 // Batch is a batch authorization request.
@@ -19,7 +19,7 @@ import (
 type Batch struct {
 	request *authzv1alpha1.BatchAuthorizeRequest
 	// evaluations is a map of principal -> resource -> action -> Evaluation
-	evaluations map[uid.UID]map[uid.UID]map[uid.UID]*authzv1alpha1.Evaluation
+	evaluations map[eid.EID]map[eid.EID]map[eid.EID]*authzv1alpha1.Evaluation
 	executor    Executor
 	executed    bool
 }
@@ -33,7 +33,7 @@ func New(executor Executor) *Batch {
 			Environment: "production",
 		},
 		executor:    executor,
-		evaluations: map[uid.UID]map[uid.UID]map[uid.UID]*authzv1alpha1.Evaluation{},
+		evaluations: map[eid.EID]map[eid.EID]map[eid.EID]*authzv1alpha1.Evaluation{},
 	}
 }
 
@@ -74,21 +74,21 @@ func (a *Batch) Authorize(ctx context.Context) error {
 	}
 
 	for _, eval := range res.Msg.Evaluations {
-		principal := uid.FromAPI(eval.Request.Principal)
-		action := uid.FromAPI(eval.Request.Action)
-		resource := uid.FromAPI(eval.Request.Resource)
+		principal := eid.FromAPI(eval.Request.Principal)
+		action := eid.FromAPI(eval.Request.Action)
+		resource := eid.FromAPI(eval.Request.Resource)
 
 		// Check if the principal exists in the evaluations map
 		principalMap, ok := a.evaluations[principal]
 		if !ok {
-			principalMap = make(map[uid.UID]map[uid.UID]*authzv1alpha1.Evaluation)
+			principalMap = make(map[eid.EID]map[eid.EID]*authzv1alpha1.Evaluation)
 			a.evaluations[principal] = principalMap
 		}
 
 		// Check if the resource map exists for the principal
 		resourceMap, ok := principalMap[resource]
 		if !ok {
-			resourceMap = make(map[uid.UID]*authzv1alpha1.Evaluation)
+			resourceMap = make(map[eid.EID]*authzv1alpha1.Evaluation)
 			principalMap[resource] = resourceMap
 		}
 

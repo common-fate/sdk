@@ -5,8 +5,8 @@ package commonfate.access.v1alpha1;
 import "commonfate/control/attest/v1alpha1/attestation.proto";
 import "commonfate/access/v1alpha1/user.proto";
 import "commonfate/entity/v1alpha1/entity.proto";
-import "commonfate/entity/v1alpha1/uid.proto";
-import "commonfate/access/v1alpha1/named_uid.proto";
+import "commonfate/entity/v1alpha1/eid.proto";
+import "commonfate/access/v1alpha1/named_eid.proto";
 import "commonfate/access/v1alpha1/audit_logs.proto";
 import "google/protobuf/duration.proto";
 import "google/protobuf/timestamp.proto";
@@ -20,10 +20,10 @@ message Grant {
     string name = 2;
 
     // The resource being requested.
-    NamedUID target = 3;
+    NamedEID target = 3;
 
     // The role being requested, such as "View" or "Admin".
-    NamedUID role = 4;
+    NamedEID role = 4;
 
     // The user or service account that requested the access.
     //

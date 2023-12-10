@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package commonfate.entity.v1alpha1;
 
-message UID {
+message EID {
     string type = 1;
     string id = 2;
 }

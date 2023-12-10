@@ -2,8 +2,8 @@ syntax = "proto3";
 
 package commonfate.access.v1alpha1;
 
-import "commonfate/entity/v1alpha1/uid.proto";
-import "commonfate/access/v1alpha1/named_uid.proto";
+import "commonfate/entity/v1alpha1/eid.proto";
+import "commonfate/access/v1alpha1/named_eid.proto";
 
 
 service EntityService {
@@ -11,14 +11,14 @@ service EntityService {
 }
 
 message QueryDescendentsRequest {
-    commonfate.entity.v1alpha1.UID parent = 1;
+    commonfate.entity.v1alpha1.EID parent = 1;
     string entity_type = 2;
     // The token for the next page.
     string page_token = 10;
 }
 
 message QueryDescendentsResponse {
-    repeated NamedUID entities = 1;
+    repeated NamedEID entities = 1;
     // The token for the next page.
     string next_page_token = 2;
 }

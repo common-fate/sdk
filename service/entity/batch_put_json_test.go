@@ -3,8 +3,8 @@ package entity
 import (
 	"testing"
 
+	"github.com/common-fate/sdk/eid"
 	entityv1alpha1 "github.com/common-fate/sdk/gen/commonfate/entity/v1alpha1"
-	"github.com/common-fate/sdk/uid"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -19,7 +19,7 @@ func Test_transformJSONToEntity(t *testing.T) {
 		{
 			name: "ok",
 			give: EntityJSON{
-				UID: uid.UID{
+				EID: eid.EID{
 					Type: "User",
 					ID:   "test",
 				},
@@ -29,7 +29,7 @@ func Test_transformJSONToEntity(t *testing.T) {
 				},
 			},
 			want: &entityv1alpha1.Entity{
-				Uid: &entityv1alpha1.UID{
+				Eid: &entityv1alpha1.EID{
 					Type: "User",
 					Id:   "test",
 				},
@@ -56,7 +56,7 @@ func Test_transformJSONToEntity(t *testing.T) {
 		{
 			name: "with set of entity refs",
 			give: EntityJSON{
-				UID: uid.UID{
+				EID: eid.EID{
 					Type: "User",
 					ID:   "test",
 				},
@@ -72,7 +72,7 @@ func Test_transformJSONToEntity(t *testing.T) {
 				},
 			},
 			want: &entityv1alpha1.Entity{
-				Uid: &entityv1alpha1.UID{
+				Eid: &entityv1alpha1.EID{
 					Type: "User",
 					Id:   "test",
 				},
@@ -85,7 +85,7 @@ func Test_transformJSONToEntity(t *testing.T) {
 									Values: []*entityv1alpha1.Value{
 										{
 											Value: &entityv1alpha1.Value_Entity{
-												Entity: &entityv1alpha1.UID{
+												Entity: &entityv1alpha1.EID{
 													Type: "Foo",
 													Id:   "foo",
 												},

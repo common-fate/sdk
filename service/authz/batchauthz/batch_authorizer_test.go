@@ -5,10 +5,10 @@ import (
 	"testing"
 
 	"github.com/bufbuild/connect-go"
+	"github.com/common-fate/sdk/eid"
 	authzv1alpha1 "github.com/common-fate/sdk/gen/commonfate/authz/v1alpha1"
 	entityv1alpha1 "github.com/common-fate/sdk/gen/commonfate/entity/v1alpha1"
 	"github.com/common-fate/sdk/service/authz"
-	"github.com/common-fate/sdk/uid"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -27,7 +27,7 @@ func TestBatch_Authorize(t *testing.T) {
 		name            string
 		executor        mockExecutor
 		wantExecuted    bool
-		wantEvaluations map[uid.UID]map[uid.UID]map[uid.UID]*authzv1alpha1.Evaluation
+		wantEvaluations map[eid.EID]map[eid.EID]map[eid.EID]*authzv1alpha1.Evaluation
 		wantErr         bool
 	}{
 		{
@@ -38,15 +38,15 @@ func TestBatch_Authorize(t *testing.T) {
 						{
 							Id: "eval_1",
 							Request: &authzv1alpha1.Request{
-								Principal: &entityv1alpha1.UID{
+								Principal: &entityv1alpha1.EID{
 									Type: "User",
 									Id:   "test",
 								},
-								Action: &entityv1alpha1.UID{
+								Action: &entityv1alpha1.EID{
 									Type: "Action",
 									Id:   "foo",
 								},
-								Resource: &entityv1alpha1.UID{
+								Resource: &entityv1alpha1.EID{
 									Type: "Resource",
 									Id:   "bar",
 								},
@@ -56,21 +56,21 @@ func TestBatch_Authorize(t *testing.T) {
 				},
 			},
 			wantExecuted: true,
-			wantEvaluations: map[uid.UID]map[uid.UID]map[uid.UID]*authzv1alpha1.Evaluation{
+			wantEvaluations: map[eid.EID]map[eid.EID]map[eid.EID]*authzv1alpha1.Evaluation{
 				{Type: "User", ID: "test"}: {
 					{Type: "Resource", ID: "bar"}: {
 						{Type: "Action", ID: "foo"}: {
 							Id: "eval_1",
 							Request: &authzv1alpha1.Request{
-								Principal: &entityv1alpha1.UID{
+								Principal: &entityv1alpha1.EID{
 									Type: "User",
 									Id:   "test",
 								},
-								Action: &entityv1alpha1.UID{
+								Action: &entityv1alpha1.EID{
 									Type: "Action",
 									Id:   "foo",
 								},
-								Resource: &entityv1alpha1.UID{
+								Resource: &entityv1alpha1.EID{
 									Type: "Resource",
 									Id:   "bar",
 								},
@@ -126,15 +126,15 @@ func TestBatch_IsPermitted(t *testing.T) {
 								},
 							},
 							Request: &authzv1alpha1.Request{
-								Principal: &entityv1alpha1.UID{
+								Principal: &entityv1alpha1.EID{
 									Type: "User",
 									Id:   "test",
 								},
-								Action: &entityv1alpha1.UID{
+								Action: &entityv1alpha1.EID{
 									Type: "Action",
 									Id:   "foo",
 								},
-								Resource: &entityv1alpha1.UID{
+								Resource: &entityv1alpha1.EID{
 									Type: "Resource",
 									Id:   "bar",
 								},
@@ -151,15 +151,15 @@ func TestBatch_IsPermitted(t *testing.T) {
 				Errors:      []string{"error1"},
 			},
 			give: authz.Request{
-				Principal: uid.UID{
+				Principal: eid.EID{
 					Type: "User",
 					ID:   "test",
 				},
-				Action: uid.UID{
+				Action: eid.EID{
 					Type: "Action",
 					ID:   "foo",
 				},
-				Resource: uid.UID{
+				Resource: eid.EID{
 					Type: "Resource",
 					ID:   "bar",
 				},

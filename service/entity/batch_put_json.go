@@ -5,17 +5,17 @@ import (
 	"fmt"
 
 	"github.com/bufbuild/connect-go"
+	"github.com/common-fate/sdk/eid"
 	entityv1alpha1 "github.com/common-fate/sdk/gen/commonfate/entity/v1alpha1"
-	"github.com/common-fate/sdk/uid"
 	"github.com/pkg/errors"
 )
 
 // EntityJSON is a JSON representation of entities.
 // It matches the Cedar Rust SDK JSON format.
 type EntityJSON struct {
-	UID     uid.UID        `json:"uid"`
+	EID     eid.EID        `json:"eid"`
 	Attrs   map[string]any `json:"attrs"`
-	Parents []uid.UID      `json:"parents"`
+	Parents []eid.EID      `json:"parents"`
 }
 
 type BatchPutJSONInput struct {
@@ -53,7 +53,7 @@ func transformJSONToEntity(e EntityJSON) (*entityv1alpha1.Entity, []*entityv1alp
 	}
 
 	res := entityv1alpha1.Entity{
-		Uid:        e.UID.ToAPI(),
+		Eid:        e.EID.ToAPI(),
 		Attributes: attrs,
 	}
 
@@ -62,7 +62,7 @@ func transformJSONToEntity(e EntityJSON) (*entityv1alpha1.Entity, []*entityv1alp
 	for _, v := range e.Parents {
 		children = append(children, &entityv1alpha1.ChildRelation{
 			Parent: v.ToAPI(),
-			Child:  e.UID.ToAPI(),
+			Child:  e.EID.ToAPI(),
 		})
 	}
 
@@ -144,7 +144,7 @@ func transformAttr(v any) (*entityv1alpha1.Value, error) {
 
 				return &entityv1alpha1.Value{
 					Value: &entityv1alpha1.Value_Entity{
-						Entity: &entityv1alpha1.UID{
+						Entity: &entityv1alpha1.EID{
 							Type: typ,
 							Id:   id,
 						},
@@ -176,7 +176,7 @@ func transformAttr(v any) (*entityv1alpha1.Value, error) {
 
 			return &entityv1alpha1.Value{
 				Value: &entityv1alpha1.Value_Entity{
-					Entity: &entityv1alpha1.UID{
+					Entity: &entityv1alpha1.EID{
 						Type: typStr,
 						Id:   idStr,
 					},

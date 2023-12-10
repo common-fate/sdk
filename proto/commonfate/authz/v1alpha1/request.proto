@@ -2,15 +2,15 @@ syntax = "proto3";
 
 package commonfate.authz.v1alpha1;
 
-import "commonfate/entity/v1alpha1/uid.proto";
+import "commonfate/entity/v1alpha1/eid.proto";
 import "commonfate/entity/v1alpha1/entity.proto";
 import "commonfate/entity/v1alpha1/child_relation.proto";
 
 
 message Request {
-    commonfate.entity.v1alpha1.UID principal = 1;
-    commonfate.entity.v1alpha1.UID action = 2;
-    commonfate.entity.v1alpha1.UID resource = 3;
+    commonfate.entity.v1alpha1.EID principal = 1;
+    commonfate.entity.v1alpha1.EID action = 2;
+    commonfate.entity.v1alpha1.EID resource = 3;
     // A client side identifier for the authorization request.
     // The client_key will be included in the corresponding evaluation for the
     // particular request made.

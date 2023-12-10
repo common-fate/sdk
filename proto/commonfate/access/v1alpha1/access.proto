@@ -7,8 +7,8 @@ import "commonfate/access/v1alpha1/access_request.proto";
 import "commonfate/access/v1alpha1/grant.proto";
 import "commonfate/access/v1alpha1/diagnostic.proto";
 import "commonfate/entity/v1alpha1/entity.proto";
-import "commonfate/entity/v1alpha1/uid.proto";
-import "commonfate/access/v1alpha1/named_uid.proto";
+import "commonfate/entity/v1alpha1/eid.proto";
+import "commonfate/access/v1alpha1/named_eid.proto";
 import "commonfate/access/v1alpha1/user.proto";
 import "google/protobuf/duration.proto";
 import "google/protobuf/timestamp.proto";
@@ -46,10 +46,10 @@ message Availability {
   string id = 1;
 
   // The particular resource which this entitlement gives access to
-  NamedUID target = 2;
+  NamedEID target = 2;
 
   // The particular role this entitlement gives access to
-  NamedUID role = 3;
+  NamedEID role = 3;
 
   // the JIT workflow associated with the entitlement.
   string workflow_id = 4;
@@ -59,27 +59,27 @@ message Availability {
 
   uint32 priority = 6;
 
-  commonfate.entity.v1alpha1.UID reviewers = 7;
+  commonfate.entity.v1alpha1.EID reviewers = 7;
   
   // the ID of the selector which was used to match the targets
-  commonfate.entity.v1alpha1.UID target_selector = 8;
+  commonfate.entity.v1alpha1.EID target_selector = 8;
 }
 
 message Specifier {
   oneof specify {
-    // Specify a resource using a UID. If you're using Common Fate programatically
+    // Specify a resource using a EID. If you're using Common Fate programatically
     // and you know the resource you want to specify, you should use this field.
-    commonfate.entity.v1alpha1.UID uid = 1;
+    commonfate.entity.v1alpha1.EID eid = 1;
 
     // Specify a resource using a string lookup. This is used in our CLI
-    // to allow end users to look up resources by name, ID and/or UID.
+    // to allow end users to look up resources by name, ID and/or EID.
     //
     // The order of matching is:
-    // 1. the 'lookup' field will be parsed as a UID - if it's valid it will be a UID lookup
+    // 1. the 'lookup' field will be parsed as a EID - if it's valid it will be a EID lookup
     // 2. the 'lookup' field will be matched against all resource IDs
     // 3. the 'lookup' field will be matched against all resource names.
     //
-    // If the lookup is a valid UID but it is not found, the API will return a Not Found error.
+    // If the lookup is a valid EID but it is not found, the API will return a Not Found error.
     // The API will return an Invalid Arguments error if the lookup is ambiguous and could match
     // multiple resources.
     string lookup = 2;

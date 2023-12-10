@@ -5,7 +5,7 @@ package commonfate.authz.v1alpha1;
 import "google/protobuf/struct.proto";
 import "google/protobuf/timestamp.proto";
 import "commonfate/entity/v1alpha1/entity.proto";
-import "commonfate/entity/v1alpha1/uid.proto";
+import "commonfate/entity/v1alpha1/eid.proto";
 import "commonfate/authz/v1alpha1/request.proto";
 import "commonfate/authz/v1alpha1/policy.proto";
 import "commonfate/authz/v1alpha1/evaluation.proto";

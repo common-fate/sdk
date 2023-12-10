@@ -15,21 +15,21 @@ func (u *User) Display() string {
 		return u.Email
 	}
 
-	if u.Uid == nil {
+	if u.Eid == nil {
 		return ""
 	}
 
-	return u.Uid.Display()
+	return u.Eid.Display()
 }
 
-func (u *NamedUID) Display() string {
+func (u *NamedEID) Display() string {
 	if u.Name != "" {
 		return u.Name
 	}
 
-	if u.Uid == nil {
+	if u.Eid == nil {
 		return ""
 	}
 
-	return u.Uid.Display()
+	return u.Eid.Display()
 }
