@@ -1,4 +1,4 @@
-package authz
+package policyset
 
 import authzv1alpha1 "github.com/common-fate/sdk/gen/commonfate/authz/v1alpha1"
 
@@ -29,7 +29,7 @@ type PolicySet struct {
 	Policies []Policy `json:"policies"`
 }
 
-func PolicySetFromAPI(input *authzv1alpha1.PolicySet) PolicySet {
+func FromAPI(input *authzv1alpha1.PolicySet) PolicySet {
 	if input == nil {
 		return PolicySet{}
 	}

@@ -54,9 +54,7 @@ func (c *Client) BatchAuthorize(ctx context.Context, input BatchAuthorizeInput) 
 	}
 
 	res, err := c.raw.BatchAuthorize(ctx, connect.NewRequest(&authzv1alpha1.BatchAuthorizeRequest{
-		Universe:    "default",
-		Environment: "production",
-		Requests:    r,
+		Requests: r,
 	}))
 	if err != nil {
 		return BatchAuthorizeResponse{}, err

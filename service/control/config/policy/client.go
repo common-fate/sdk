@@ -1,4 +1,4 @@
-package policy
+package policyset
 
 import (
 	"github.com/common-fate/sdk/config"

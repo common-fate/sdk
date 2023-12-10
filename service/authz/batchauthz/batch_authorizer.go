@@ -28,10 +28,7 @@ var _ Authorizer = &Batch{}
 
 func New(executor Executor) *Batch {
 	return &Batch{
-		request: &authzv1alpha1.BatchAuthorizeRequest{
-			Universe:    "default",
-			Environment: "production",
-		},
+		request:     &authzv1alpha1.BatchAuthorizeRequest{},
 		executor:    executor,
 		evaluations: map[eid.EID]map[eid.EID]map[eid.EID]*authzv1alpha1.Evaluation{},
 	}
