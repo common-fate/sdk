@@ -58,11 +58,11 @@ message BatchPutPolicySetRequest {
 message BatchPutPolicySetResponse {}
 
 message DeletePolicySetRequest {
-    repeated string policy_set_ids = 3;
+     string id = 1;
 }
 
 message DeletePolicySetResponse {
-    repeated string policy_set_ids = 1;
+    string id = 1;
 }
 
 
