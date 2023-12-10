@@ -27,6 +27,8 @@ type PolicySet struct {
 	ID string `json:"id"`
 
 	Policies []Policy `json:"policies"`
+
+	Text string `json:"text"`
 }
 
 func FromAPI(input *authzv1alpha1.PolicySet) PolicySet {
@@ -35,7 +37,8 @@ func FromAPI(input *authzv1alpha1.PolicySet) PolicySet {
 	}
 
 	ps := PolicySet{
-		ID: input.Id,
+		ID:   input.Id,
+		Text: input.Text,
 	}
 
 	for _, p := range input.Policies {
