@@ -18,16 +18,14 @@ message AvailabilitySpec {
     string workflow_id = 2;
     commonfate.entity.v1alpha1.UID role = 3;
     commonfate.entity.v1alpha1.UID target = 4;
-    commonfate.entity.v1alpha1.UID integration = 5;
     commonfate.entity.v1alpha1.UID identity_domain = 6;
 }
 
 message CreateAvailabilitySpecRequest {
-    commonfate.entity.v1alpha1.UID role = 1;
-    string workflow_id = 2;
+    string workflow_id = 1;
+    commonfate.entity.v1alpha1.UID role = 2;
     commonfate.entity.v1alpha1.UID target = 3;
-    commonfate.entity.v1alpha1.UID integration = 4;
-    commonfate.entity.v1alpha1.UID identity_domain = 5;
+    commonfate.entity.v1alpha1.UID identity_domain = 4;
 }
 
 message CreateAvailabilitySpecResponse {

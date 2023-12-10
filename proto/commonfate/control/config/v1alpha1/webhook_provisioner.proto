@@ -15,7 +15,7 @@ service WebhookProvisionerService {
 message Capability {
     string target_type = 1;
     string role_type = 2;
-    commonfate.entity.v1alpha1.UID integration = 3;
+    commonfate.entity.v1alpha1.UID belonging_to = 3;
 }
 
 message CreateWebhookProvisionerRequest {
