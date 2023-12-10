@@ -6,8 +6,9 @@ import "commonfate/entity/v1alpha1/entity.proto";
 
 
 service PolicyService {
-    // adds Cedar policies for a particular policy store
-    rpc BatchPutPolicySet(BatchPutPolicySetRequest) returns (BatchPutPolicySetResponse) {}
+    rpc CreatePolicySet(CreatePolicySetRequest) returns (CreatePolicySetResponse) {}
+
+    rpc UpdatePolicySet(UpdatePolicySetRequest) returns (UpdatePolicySetResponse) {}
 
     rpc ListPolicySets(ListPolicySetsRequest) returns (ListPolicySetsResponse) {}
 
@@ -31,6 +32,9 @@ message PolicySet {
     
     // The policies contained in the policy set.
     repeated Policy policies = 2;
+
+    // The source code for the policy set.
+    string text = 3;
 }
 
 message PolicySetInput {
@@ -51,11 +55,21 @@ message ListPolicySetsResponse {
     string next_page_token = 2;
 }
 
-message BatchPutPolicySetRequest {
-    repeated PolicySetInput policy_sets = 3;
+message CreatePolicySetRequest {
+    PolicySetInput policy_set = 1;
 }
 
-message BatchPutPolicySetResponse {}
+message CreatePolicySetResponse {
+    PolicySet policy_set = 1;
+}
+
+message UpdatePolicySetRequest {
+    PolicySetInput policy_set = 1;
+}
+
+message UpdatePolicySetResponse {
+    PolicySet policy_set = 1;
+}
 
 message DeletePolicySetRequest {
      string id = 1;
@@ -64,7 +78,6 @@ message DeletePolicySetRequest {
 message DeletePolicySetResponse {
     string id = 1;
 }
-
 
 message GetPolicySetRequest {
     // The token for the next page.
