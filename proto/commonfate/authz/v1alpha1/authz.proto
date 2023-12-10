@@ -35,24 +35,8 @@ import "commonfate/authz/v1alpha1/evaluation.proto";
 //
 // Currently the service only supports a single Universe, called 'default', and a single Environment, called 'production'.
 service AuthzService {
-    // // updates the schema for a particular policy store
-    // rpc PutSchema(PutSchemaRequest) returns (PutSchemaResponse) {}
-
-    // rpc GetSchema(GetSchemaRequest) returns (GetSchemaResponse) {}
-
-    // adds Cedar policies for a particular policy store
-    rpc BatchPutPolicySet(BatchPutPolicySetRequest) returns (BatchPutPolicySetResponse) {}
-
-    // run the policy and returns allow or deny + diagnostics and a decision ID.
-    // rpc Authorize(AuthorizeRequest) returns (AuthorizeResponse) {}
-
     // run multiple authorization evaluations and returns allow + deny for each.
     rpc BatchAuthorize(BatchAuthorizeRequest) returns (BatchAuthorizeResponse) {}
-
-    // // look up which principals could access a particular resource
-    // rpc LookupPrincipal(LookupPrincipalRequest) returns (LookupPrincipalResponse) {}
-
-    rpc ListPolicySets(ListPolicySetsRequest) returns (ListPolicySetsResponse) {}
 }
 
 message BatchAuthorizeRequest {
@@ -64,24 +48,3 @@ message BatchAuthorizeRequest {
 message BatchAuthorizeResponse {
     repeated Evaluation evaluations = 1;
 }
-
-message ListPolicySetsRequest {
-    string universe = 1;
-    string environment = 2;
-
-     // The token for the next page.
-     string page_token = 4;
-}
-
-message ListPolicySetsResponse {
-    repeated PolicySet policy_sets = 1;
-    string next_page_token = 2;
-}
-
-message BatchPutPolicySetRequest {
-    string universe = 1;
-    string environment = 2;
-    repeated PolicySetInput policy_sets = 3;
-}
-
-message BatchPutPolicySetResponse {}

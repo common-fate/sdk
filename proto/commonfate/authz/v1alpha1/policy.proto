@@ -5,6 +5,16 @@ package commonfate.authz.v1alpha1;
 import "commonfate/entity/v1alpha1/entity.proto";
 
 
+service PolicyService {
+    // adds Cedar policies for a particular policy store
+    rpc BatchPutPolicySet(BatchPutPolicySetRequest) returns (BatchPutPolicySetResponse) {}
+
+    rpc ListPolicySets(ListPolicySetsRequest) returns (ListPolicySetsResponse) {}
+
+    rpc DeletePolicySet(DeletePolicySetRequest) returns (DeletePolicySetResponse) {}
+}
+
+
 message Policy {
     // ID of the policy.
     string id = 1;
@@ -26,4 +36,37 @@ message PolicySetInput {
     string id = 1;
     // Cedar code for the policy set.
     string text = 2;
+}
+
+
+message ListPolicySetsRequest {
+    string universe = 1;
+    string environment = 2;
+
+    // The token for the next page.
+    string page_token = 4;
+}
+
+message ListPolicySetsResponse {
+    repeated PolicySet policy_sets = 1;
+    string next_page_token = 2;
+}
+
+message BatchPutPolicySetRequest {
+    string universe = 1;
+    string environment = 2;
+    repeated PolicySetInput policy_sets = 3;
+}
+
+message BatchPutPolicySetResponse {}
+
+message DeletePolicySetRequest {
+    string universe = 1;
+    string environment = 2;
+
+    repeated string policy_set_ids = 3;
+}
+
+message DeletePolicySetResponse {
+    repeated string policy_set_ids = 1;
 }
