@@ -27,7 +27,7 @@ message Header {
 
 message Device {
   string serial_number = 2;
-  string ueid = 3;
+  string uuid = 3;
   string platform = 4;
   string architecture = 5;
   string hostname = 6;

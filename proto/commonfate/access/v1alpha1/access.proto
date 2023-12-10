@@ -150,5 +150,4 @@ enum GrantChange {
 
 message Justification {
   optional string reason = 1;
-  optional commonfate.control.attest.v1alpha1.Attestation device_attestation = 2;
 }
