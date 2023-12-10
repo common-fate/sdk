@@ -39,6 +39,9 @@ const (
 	// PolicyServiceListPolicySetsProcedure is the fully-qualified name of the PolicyService's
 	// ListPolicySets RPC.
 	PolicyServiceListPolicySetsProcedure = "/commonfate.authz.v1alpha1.PolicyService/ListPolicySets"
+	// PolicyServiceGetPolicySetProcedure is the fully-qualified name of the PolicyService's
+	// GetPolicySet RPC.
+	PolicyServiceGetPolicySetProcedure = "/commonfate.authz.v1alpha1.PolicyService/GetPolicySet"
 	// PolicyServiceDeletePolicySetProcedure is the fully-qualified name of the PolicyService's
 	// DeletePolicySet RPC.
 	PolicyServiceDeletePolicySetProcedure = "/commonfate.authz.v1alpha1.PolicyService/DeletePolicySet"
@@ -49,6 +52,7 @@ type PolicyServiceClient interface {
 	// adds Cedar policies for a particular policy store
 	BatchPutPolicySet(context.Context, *connect_go.Request[v1alpha1.BatchPutPolicySetRequest]) (*connect_go.Response[v1alpha1.BatchPutPolicySetResponse], error)
 	ListPolicySets(context.Context, *connect_go.Request[v1alpha1.ListPolicySetsRequest]) (*connect_go.Response[v1alpha1.ListPolicySetsResponse], error)
+	GetPolicySet(context.Context, *connect_go.Request[v1alpha1.GetPolicySetRequest]) (*connect_go.Response[v1alpha1.GetPolicySetResponse], error)
 	DeletePolicySet(context.Context, *connect_go.Request[v1alpha1.DeletePolicySetRequest]) (*connect_go.Response[v1alpha1.DeletePolicySetResponse], error)
 }
 
@@ -72,6 +76,11 @@ func NewPolicyServiceClient(httpClient connect_go.HTTPClient, baseURL string, op
 			baseURL+PolicyServiceListPolicySetsProcedure,
 			opts...,
 		),
+		getPolicySet: connect_go.NewClient[v1alpha1.GetPolicySetRequest, v1alpha1.GetPolicySetResponse](
+			httpClient,
+			baseURL+PolicyServiceGetPolicySetProcedure,
+			opts...,
+		),
 		deletePolicySet: connect_go.NewClient[v1alpha1.DeletePolicySetRequest, v1alpha1.DeletePolicySetResponse](
 			httpClient,
 			baseURL+PolicyServiceDeletePolicySetProcedure,
@@ -84,6 +93,7 @@ func NewPolicyServiceClient(httpClient connect_go.HTTPClient, baseURL string, op
 type policyServiceClient struct {
 	batchPutPolicySet *connect_go.Client[v1alpha1.BatchPutPolicySetRequest, v1alpha1.BatchPutPolicySetResponse]
 	listPolicySets    *connect_go.Client[v1alpha1.ListPolicySetsRequest, v1alpha1.ListPolicySetsResponse]
+	getPolicySet      *connect_go.Client[v1alpha1.GetPolicySetRequest, v1alpha1.GetPolicySetResponse]
 	deletePolicySet   *connect_go.Client[v1alpha1.DeletePolicySetRequest, v1alpha1.DeletePolicySetResponse]
 }
 
@@ -97,6 +107,11 @@ func (c *policyServiceClient) ListPolicySets(ctx context.Context, req *connect_g
 	return c.listPolicySets.CallUnary(ctx, req)
 }
 
+// GetPolicySet calls commonfate.authz.v1alpha1.PolicyService.GetPolicySet.
+func (c *policyServiceClient) GetPolicySet(ctx context.Context, req *connect_go.Request[v1alpha1.GetPolicySetRequest]) (*connect_go.Response[v1alpha1.GetPolicySetResponse], error) {
+	return c.getPolicySet.CallUnary(ctx, req)
+}
+
 // DeletePolicySet calls commonfate.authz.v1alpha1.PolicyService.DeletePolicySet.
 func (c *policyServiceClient) DeletePolicySet(ctx context.Context, req *connect_go.Request[v1alpha1.DeletePolicySetRequest]) (*connect_go.Response[v1alpha1.DeletePolicySetResponse], error) {
 	return c.deletePolicySet.CallUnary(ctx, req)
@@ -107,6 +122,7 @@ type PolicyServiceHandler interface {
 	// adds Cedar policies for a particular policy store
 	BatchPutPolicySet(context.Context, *connect_go.Request[v1alpha1.BatchPutPolicySetRequest]) (*connect_go.Response[v1alpha1.BatchPutPolicySetResponse], error)
 	ListPolicySets(context.Context, *connect_go.Request[v1alpha1.ListPolicySetsRequest]) (*connect_go.Response[v1alpha1.ListPolicySetsResponse], error)
+	GetPolicySet(context.Context, *connect_go.Request[v1alpha1.GetPolicySetRequest]) (*connect_go.Response[v1alpha1.GetPolicySetResponse], error)
 	DeletePolicySet(context.Context, *connect_go.Request[v1alpha1.DeletePolicySetRequest]) (*connect_go.Response[v1alpha1.DeletePolicySetResponse], error)
 }
 
@@ -126,6 +142,11 @@ func NewPolicyServiceHandler(svc PolicyServiceHandler, opts ...connect_go.Handle
 		svc.ListPolicySets,
 		opts...,
 	)
+	policyServiceGetPolicySetHandler := connect_go.NewUnaryHandler(
+		PolicyServiceGetPolicySetProcedure,
+		svc.GetPolicySet,
+		opts...,
+	)
 	policyServiceDeletePolicySetHandler := connect_go.NewUnaryHandler(
 		PolicyServiceDeletePolicySetProcedure,
 		svc.DeletePolicySet,
@@ -137,6 +158,8 @@ func NewPolicyServiceHandler(svc PolicyServiceHandler, opts ...connect_go.Handle
 			policyServiceBatchPutPolicySetHandler.ServeHTTP(w, r)
 		case PolicyServiceListPolicySetsProcedure:
 			policyServiceListPolicySetsHandler.ServeHTTP(w, r)
+		case PolicyServiceGetPolicySetProcedure:
+			policyServiceGetPolicySetHandler.ServeHTTP(w, r)
 		case PolicyServiceDeletePolicySetProcedure:
 			policyServiceDeletePolicySetHandler.ServeHTTP(w, r)
 		default:
@@ -154,6 +177,10 @@ func (UnimplementedPolicyServiceHandler) BatchPutPolicySet(context.Context, *con
 
 func (UnimplementedPolicyServiceHandler) ListPolicySets(context.Context, *connect_go.Request[v1alpha1.ListPolicySetsRequest]) (*connect_go.Response[v1alpha1.ListPolicySetsResponse], error) {
 	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("commonfate.authz.v1alpha1.PolicyService.ListPolicySets is not implemented"))
+}
+
+func (UnimplementedPolicyServiceHandler) GetPolicySet(context.Context, *connect_go.Request[v1alpha1.GetPolicySetRequest]) (*connect_go.Response[v1alpha1.GetPolicySetResponse], error) {
+	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("commonfate.authz.v1alpha1.PolicyService.GetPolicySet is not implemented"))
 }
 
 func (UnimplementedPolicyServiceHandler) DeletePolicySet(context.Context, *connect_go.Request[v1alpha1.DeletePolicySetRequest]) (*connect_go.Response[v1alpha1.DeletePolicySetResponse], error) {

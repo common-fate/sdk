@@ -11,8 +11,6 @@ import "commonfate/entity/v1alpha1/entity.proto";
 
 // EvalService is the API for auditing authorization evaluations made by authz.
 service EvaluationService {
-    rpc QueryEvaluations(QueryEvaluationsRequest) returns (QueryEvaluationsResponse) {}
-
     // Fetches debug information about the evaluation of a particular decision
     rpc DebugEvaluation(DebugEvaluationRequest) returns (DebugEvaluationResponse) {}
 }
@@ -26,17 +24,6 @@ message DebugEvaluationResponse {
     DebugInformation debug_information = 2;
 }
 
-
-message QueryEvaluationsRequest {
-    string universe = 1;
-    string environment = 2;
-    string next_page_token = 10;
-}
-
-message QueryEvaluationsResponse {
-    repeated Evaluation evaluations = 1;
-    string next_page_token = 2;
-}
 
 enum Decision {
     DECISION_UNSPECIFIED = 0;

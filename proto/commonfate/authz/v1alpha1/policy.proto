@@ -11,6 +11,8 @@ service PolicyService {
 
     rpc ListPolicySets(ListPolicySetsRequest) returns (ListPolicySetsResponse) {}
 
+    rpc GetPolicySet(GetPolicySetRequest) returns (GetPolicySetResponse) {}
+
     rpc DeletePolicySet(DeletePolicySetRequest) returns (DeletePolicySetResponse) {}
 }
 
@@ -40,9 +42,6 @@ message PolicySetInput {
 
 
 message ListPolicySetsRequest {
-    string universe = 1;
-    string environment = 2;
-
     // The token for the next page.
     string page_token = 4;
 }
@@ -53,20 +52,25 @@ message ListPolicySetsResponse {
 }
 
 message BatchPutPolicySetRequest {
-    string universe = 1;
-    string environment = 2;
     repeated PolicySetInput policy_sets = 3;
 }
 
 message BatchPutPolicySetResponse {}
 
 message DeletePolicySetRequest {
-    string universe = 1;
-    string environment = 2;
-
     repeated string policy_set_ids = 3;
 }
 
 message DeletePolicySetResponse {
     repeated string policy_set_ids = 1;
+}
+
+
+message GetPolicySetRequest {
+    // The token for the next page.
+    string id = 1;
+}
+
+message GetPolicySetResponse {
+    PolicySet policy_set = 1;
 }
