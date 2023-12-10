@@ -27,6 +27,7 @@ type Context struct {
 	name         string
 	APIURL       string `toml:"api_url,omitempty" json:"api_url,omitempty"`
 	AccessURL    string `toml:"access_url,omitempty" json:"access_url,omitempty"`
+	AuthzURL     string `toml:"authz_url,omitempty" json:"authz_url,omitempty"`
 	OIDCIssuer   string `toml:"oidc_issuer,omitempty" json:"oidc_issuer,omitempty"`
 	OIDCClientID string `toml:"oidc_client_id,omitempty" json:"oidc_client_id,omitempty"`
 	// OIDCClientSecret, if specified, will cause the client to use machine-to-machine OIDC authentication.

@@ -35,8 +35,13 @@ func LoadDefault(ctx context.Context) (*Context, error) {
 }
 
 type Opts struct {
-	APIURL       string
-	AccessURL    string
+	APIURL string
+	// AccessURL is the base URL of the Access Handler.
+	// If empty, the API URL is used.
+	AccessURL string
+	// AccessURL is the base URL of the authz service.
+	// If empty, the API URL is used.
+	AuthzURL     string
 	ClientID     string
 	ClientSecret string
 	OIDCIssuer   string
@@ -69,15 +74,12 @@ func New(ctx context.Context, opts Opts) (*Context, error) {
 
 // NewServerContext requires all option to be passed and does not attempt to read from the local config file
 // it also uses an in memory token store to avoid keychain access
-// usefull for service to service client credentials auth
-// targetServiceURL shoudl be the service you will be calling with these credentials
-// if you need to call multiple then make multiple clients
-// @TODO improve this
 func NewServerContext(ctx context.Context, opts Opts) (*Context, error) {
 
 	context := &Context{
 		APIURL:           opts.APIURL,
 		AccessURL:        opts.AccessURL,
+		AuthzURL:         opts.AuthzURL,
 		OIDCClientID:     opts.ClientID,
 		OIDCClientSecret: &opts.ClientSecret,
 		OIDCIssuer:       opts.OIDCIssuer,
