@@ -4,4 +4,5 @@ package commonfate.control.integration.v1alpha1;
 
 message GCP {
     string workload_identity_config = 1;
+    string service_account_credentials_secret_path = 2;
 }
