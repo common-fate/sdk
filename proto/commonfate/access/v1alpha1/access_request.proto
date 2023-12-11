@@ -80,6 +80,9 @@ message AccessRequest {
 message ApproveAccessRequestRequest {
   // The ID of the Access Request.
   string id = 1;
+
+  // If provided, will only approve the grants with the specified IDs
+  repeated string approve_grants = 2;
 }
 
 message ApproveAccessRequestResponse {
