@@ -32,13 +32,15 @@ message GetGCPIntegrationRequest {
 
 message GetGCPIntegrationResponse {
     GCP gcp = 1;
+    string name = 2;
 }
 
 
 message UpdateIntegrationRequest {
     string id = 1;
+    string name = 2;
     oneof integration {
-        GCP gcp = 2;
+        GCP gcp = 3;
     }
 }
 
