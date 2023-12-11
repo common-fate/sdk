@@ -1,17 +1,23 @@
 package entity
 
 import (
+	"crypto/tls"
 	"fmt"
+	"net"
 	"reflect"
+	"strings"
 	"time"
 
 	"github.com/bufbuild/connect-go"
+	"github.com/common-fate/sdk/config"
 	"github.com/common-fate/sdk/eid"
 	entityv1alpha1 "github.com/common-fate/sdk/gen/commonfate/entity/v1alpha1"
 	"github.com/common-fate/sdk/gen/commonfate/entity/v1alpha1/entityv1alpha1connect"
 	"github.com/fatih/structtag"
 	"github.com/patrickmn/go-cache"
 	"github.com/pkg/errors"
+	"golang.org/x/net/http2"
+	"golang.org/x/oauth2"
 )
 
 type Client struct {
@@ -34,6 +40,13 @@ type Opts struct {
 	AttrCleanupInterval time.Duration
 }
 
+var insecureTransport = &http2.Transport{
+	AllowHTTP: true,
+	DialTLS: func(network, addr string, _ *tls.Config) (net.Conn, error) {
+		return net.Dial(network, addr)
+	},
+}
+
 func NewClient(opts Opts) Client {
 	// client uses GRPC by default as the authz service does not support Buf Connect.
 	connectOpts := []connect.ClientOption{connect.WithGRPC()}
@@ -52,6 +65,26 @@ func NewClient(opts Opts) Client {
 	rawClient := entityv1alpha1connect.NewEntityServiceClient(opts.HTTPClient, opts.BaseURL, connectOpts...)
 
 	return Client{raw: rawClient, cache: c}
+}
+
+func NewFromConfig(cfg *config.Context) Client {
+	url := cfg.AuthzURL
+	if url == "" {
+		url = cfg.APIURL
+	}
+
+	connectOpts := []connect.ClientOption{connect.WithGRPC()}
+
+	httpclient := cfg.HTTPClient
+	if strings.HasPrefix(url, "http://") {
+		httpclient.Transport = &oauth2.Transport{
+			Source: cfg.TokenSource,
+			Base:   insecureTransport,
+		}
+	}
+	rawClient := entityv1alpha1connect.NewEntityServiceClient(httpclient, url, connectOpts...)
+
+	return Client{raw: rawClient}
 }
 
 // Entities are objects that can be stored in the authz database.
