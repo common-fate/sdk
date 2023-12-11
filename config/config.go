@@ -39,6 +39,8 @@ type Context struct {
 	// OIDCProvider is filled in by calling Initialize()
 	OIDCProvider rp.RelyingParty
 
+	TokenSource *tokenstore.NotifyRefreshTokenSource
+
 	TokenStore TokenStore
 }
 
@@ -101,6 +103,7 @@ func (c *Context) Initialize(ctx context.Context, opts InitializeOpts) error {
 		T:         tok,
 		SaveToken: c.TokenStore.Save,
 	}
+	c.TokenSource = src
 
 	c.HTTPClient = oauth2.NewClient(ctx, src)
 
