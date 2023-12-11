@@ -3,13 +3,13 @@ package policyset
 import (
 	"crypto/tls"
 	"net"
-	"net/http"
 	"strings"
 
 	"github.com/bufbuild/connect-go"
 	"github.com/common-fate/sdk/config"
 	"github.com/common-fate/sdk/gen/commonfate/authz/v1alpha1/authzv1alpha1connect"
 	"golang.org/x/net/http2"
+	"golang.org/x/oauth2"
 )
 
 type Client struct {
@@ -40,28 +40,21 @@ func NewFromConfig(cfg *config.Context) Client {
 
 	connectOpts := []connect.ClientOption{connect.WithGRPC()}
 
-	var httpclient connect.HTTPClient
+	httpclient := cfg.HTTPClient
 	if strings.HasPrefix(url, "http://") {
-		httpclient = newInsecureClient()
-	} else {
-		httpclient = http.DefaultClient
+		httpclient.Transport = &oauth2.Transport{
+			Source: cfg.TokenSource,
+			Base:   insecureTransport,
+		}
 	}
 	rawClient := authzv1alpha1connect.NewPolicyServiceClient(httpclient, url, connectOpts...)
 
 	return Client{raw: rawClient}
 }
 
-func newInsecureClient() *http.Client {
-	return &http.Client{
-		Transport: &http2.Transport{
-			AllowHTTP: true,
-			DialTLS: func(network, addr string, _ *tls.Config) (net.Conn, error) {
-				// If you're also using this client for non-h2c traffic, you may want
-				// to delegate to tls.Dial if the network isn't TCP or the addr isn't
-				// in an allowlist.
-				return net.Dial(network, addr)
-			},
-			// Don't forget timeouts!
-		},
-	}
+var insecureTransport = &http2.Transport{
+	AllowHTTP: true,
+	DialTLS: func(network, addr string, _ *tls.Config) (net.Conn, error) {
+		return net.Dial(network, addr)
+	},
 }
