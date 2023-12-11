@@ -1,0 +1,56 @@
+syntax = "proto3";
+package commonfate.control.integrations.v1alpha1;
+
+import "commonfate/control/integrations/v1alpha1/gcp.proto";
+
+service IntegrationService {
+    rpc CreateIntegration(CreateIntegrationRequest) returns (CreateIntegrationResponse) {}
+    rpc UpdateIntegration(UpdateIntegrationRequest) returns (UpdateIntegrationResponse) {}
+    rpc DeleteIntegration(DeleteIntegrationRequest) returns (DeleteIntegrationResponse) {}
+
+
+    rpc GetGCPIntegration(GetGCPIntegrationRequest) returns (GetGCPIntegrationResponse) {}
+}
+
+
+message CreateIntegrationRequest {
+    string name = 1;
+    oneof integration {
+        GCP gcp = 2;
+    }
+}
+
+
+message CreateIntegrationResponse {
+    string id = 1;
+}
+
+
+message GetGCPIntegrationRequest {
+    string id = 1;
+}
+
+message GetGCPIntegrationResponse {
+    GCP gcp = 1;
+}
+
+
+message UpdateIntegrationRequest {
+    string id = 1;
+    oneof integration {
+        GCP gcp = 2;
+    }
+}
+
+message UpdateIntegrationResponse {
+    string id = 1;
+}
+
+
+message DeleteIntegrationRequest {
+    string id = 1;
+}
+
+message DeleteIntegrationResponse {
+    string id = 1;
+}

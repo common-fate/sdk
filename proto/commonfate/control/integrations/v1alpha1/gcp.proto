@@ -1,0 +1,7 @@
+syntax = "proto3";
+package commonfate.control.integrations.v1alpha1;
+
+
+message GCP {
+    string workload_identity_config = 1;
+}
