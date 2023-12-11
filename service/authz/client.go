@@ -47,14 +47,16 @@ func NewFromConfig(cfg *config.Context) Client {
 
 	connectOpts := []connect.ClientOption{connect.WithGRPC()}
 
-	httpclient := cfg.HTTPClient
+	// dereference the client to avoid mutating it for all services
+	// that share the config (this can cause HTTP2 issues in local dev)
+	httpclient := *cfg.HTTPClient
 	if strings.HasPrefix(url, "http://") {
 		httpclient.Transport = &oauth2.Transport{
 			Source: cfg.TokenSource,
 			Base:   insecureTransport,
 		}
 	}
-	rawClient := authzv1alpha1connect.NewAuthzServiceClient(httpclient, url, connectOpts...)
+	rawClient := authzv1alpha1connect.NewAuthzServiceClient(&httpclient, url, connectOpts...)
 
 	return Client{raw: rawClient}
 }
