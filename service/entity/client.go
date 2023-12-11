@@ -84,7 +84,9 @@ func NewFromConfig(cfg *config.Context) Client {
 	}
 	rawClient := entityv1alpha1connect.NewEntityServiceClient(httpclient, url, connectOpts...)
 
-	return Client{raw: rawClient}
+	c := cache.New(24*time.Hour, 48*time.Hour)
+
+	return Client{raw: rawClient, cache: c}
 }
 
 // Entities are objects that can be stored in the authz database.
