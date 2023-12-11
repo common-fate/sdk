@@ -45,6 +45,9 @@ const (
 	// IntegrationServiceGetGCPIntegrationProcedure is the fully-qualified name of the
 	// IntegrationService's GetGCPIntegration RPC.
 	IntegrationServiceGetGCPIntegrationProcedure = "/commonfate.control.integration.v1alpha1.IntegrationService/GetGCPIntegration"
+	// IntegrationServiceGetAWSIDCIntegrationProcedure is the fully-qualified name of the
+	// IntegrationService's GetAWSIDCIntegration RPC.
+	IntegrationServiceGetAWSIDCIntegrationProcedure = "/commonfate.control.integration.v1alpha1.IntegrationService/GetAWSIDCIntegration"
 )
 
 // IntegrationServiceClient is a client for the
@@ -54,6 +57,7 @@ type IntegrationServiceClient interface {
 	UpdateIntegration(context.Context, *connect_go.Request[v1alpha1.UpdateIntegrationRequest]) (*connect_go.Response[v1alpha1.UpdateIntegrationResponse], error)
 	DeleteIntegration(context.Context, *connect_go.Request[v1alpha1.DeleteIntegrationRequest]) (*connect_go.Response[v1alpha1.DeleteIntegrationResponse], error)
 	GetGCPIntegration(context.Context, *connect_go.Request[v1alpha1.GetGCPIntegrationRequest]) (*connect_go.Response[v1alpha1.GetGCPIntegrationResponse], error)
+	GetAWSIDCIntegration(context.Context, *connect_go.Request[v1alpha1.GetAWSIDCIntegrationRequest]) (*connect_go.Response[v1alpha1.GetAWSIDCIntegrationResponse], error)
 }
 
 // NewIntegrationServiceClient constructs a client for the
@@ -87,15 +91,21 @@ func NewIntegrationServiceClient(httpClient connect_go.HTTPClient, baseURL strin
 			baseURL+IntegrationServiceGetGCPIntegrationProcedure,
 			opts...,
 		),
+		getAWSIDCIntegration: connect_go.NewClient[v1alpha1.GetAWSIDCIntegrationRequest, v1alpha1.GetAWSIDCIntegrationResponse](
+			httpClient,
+			baseURL+IntegrationServiceGetAWSIDCIntegrationProcedure,
+			opts...,
+		),
 	}
 }
 
 // integrationServiceClient implements IntegrationServiceClient.
 type integrationServiceClient struct {
-	createIntegration *connect_go.Client[v1alpha1.CreateIntegrationRequest, v1alpha1.CreateIntegrationResponse]
-	updateIntegration *connect_go.Client[v1alpha1.UpdateIntegrationRequest, v1alpha1.UpdateIntegrationResponse]
-	deleteIntegration *connect_go.Client[v1alpha1.DeleteIntegrationRequest, v1alpha1.DeleteIntegrationResponse]
-	getGCPIntegration *connect_go.Client[v1alpha1.GetGCPIntegrationRequest, v1alpha1.GetGCPIntegrationResponse]
+	createIntegration    *connect_go.Client[v1alpha1.CreateIntegrationRequest, v1alpha1.CreateIntegrationResponse]
+	updateIntegration    *connect_go.Client[v1alpha1.UpdateIntegrationRequest, v1alpha1.UpdateIntegrationResponse]
+	deleteIntegration    *connect_go.Client[v1alpha1.DeleteIntegrationRequest, v1alpha1.DeleteIntegrationResponse]
+	getGCPIntegration    *connect_go.Client[v1alpha1.GetGCPIntegrationRequest, v1alpha1.GetGCPIntegrationResponse]
+	getAWSIDCIntegration *connect_go.Client[v1alpha1.GetAWSIDCIntegrationRequest, v1alpha1.GetAWSIDCIntegrationResponse]
 }
 
 // CreateIntegration calls
@@ -122,6 +132,12 @@ func (c *integrationServiceClient) GetGCPIntegration(ctx context.Context, req *c
 	return c.getGCPIntegration.CallUnary(ctx, req)
 }
 
+// GetAWSIDCIntegration calls
+// commonfate.control.integration.v1alpha1.IntegrationService.GetAWSIDCIntegration.
+func (c *integrationServiceClient) GetAWSIDCIntegration(ctx context.Context, req *connect_go.Request[v1alpha1.GetAWSIDCIntegrationRequest]) (*connect_go.Response[v1alpha1.GetAWSIDCIntegrationResponse], error) {
+	return c.getAWSIDCIntegration.CallUnary(ctx, req)
+}
+
 // IntegrationServiceHandler is an implementation of the
 // commonfate.control.integration.v1alpha1.IntegrationService service.
 type IntegrationServiceHandler interface {
@@ -129,6 +145,7 @@ type IntegrationServiceHandler interface {
 	UpdateIntegration(context.Context, *connect_go.Request[v1alpha1.UpdateIntegrationRequest]) (*connect_go.Response[v1alpha1.UpdateIntegrationResponse], error)
 	DeleteIntegration(context.Context, *connect_go.Request[v1alpha1.DeleteIntegrationRequest]) (*connect_go.Response[v1alpha1.DeleteIntegrationResponse], error)
 	GetGCPIntegration(context.Context, *connect_go.Request[v1alpha1.GetGCPIntegrationRequest]) (*connect_go.Response[v1alpha1.GetGCPIntegrationResponse], error)
+	GetAWSIDCIntegration(context.Context, *connect_go.Request[v1alpha1.GetAWSIDCIntegrationRequest]) (*connect_go.Response[v1alpha1.GetAWSIDCIntegrationResponse], error)
 }
 
 // NewIntegrationServiceHandler builds an HTTP handler from the service implementation. It returns
@@ -157,6 +174,11 @@ func NewIntegrationServiceHandler(svc IntegrationServiceHandler, opts ...connect
 		svc.GetGCPIntegration,
 		opts...,
 	)
+	integrationServiceGetAWSIDCIntegrationHandler := connect_go.NewUnaryHandler(
+		IntegrationServiceGetAWSIDCIntegrationProcedure,
+		svc.GetAWSIDCIntegration,
+		opts...,
+	)
 	return "/commonfate.control.integration.v1alpha1.IntegrationService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
 		case IntegrationServiceCreateIntegrationProcedure:
@@ -167,6 +189,8 @@ func NewIntegrationServiceHandler(svc IntegrationServiceHandler, opts ...connect
 			integrationServiceDeleteIntegrationHandler.ServeHTTP(w, r)
 		case IntegrationServiceGetGCPIntegrationProcedure:
 			integrationServiceGetGCPIntegrationHandler.ServeHTTP(w, r)
+		case IntegrationServiceGetAWSIDCIntegrationProcedure:
+			integrationServiceGetAWSIDCIntegrationHandler.ServeHTTP(w, r)
 		default:
 			http.NotFound(w, r)
 		}
@@ -190,4 +214,8 @@ func (UnimplementedIntegrationServiceHandler) DeleteIntegration(context.Context,
 
 func (UnimplementedIntegrationServiceHandler) GetGCPIntegration(context.Context, *connect_go.Request[v1alpha1.GetGCPIntegrationRequest]) (*connect_go.Response[v1alpha1.GetGCPIntegrationResponse], error) {
 	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("commonfate.control.integration.v1alpha1.IntegrationService.GetGCPIntegration is not implemented"))
+}
+
+func (UnimplementedIntegrationServiceHandler) GetAWSIDCIntegration(context.Context, *connect_go.Request[v1alpha1.GetAWSIDCIntegrationRequest]) (*connect_go.Response[v1alpha1.GetAWSIDCIntegrationResponse], error) {
+	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("commonfate.control.integration.v1alpha1.IntegrationService.GetAWSIDCIntegration is not implemented"))
 }

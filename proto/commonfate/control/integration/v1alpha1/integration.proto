@@ -2,6 +2,7 @@ syntax = "proto3";
 package commonfate.control.integration.v1alpha1;
 
 import "commonfate/control/integration/v1alpha1/gcp.proto";
+import "commonfate/control/integration/v1alpha1/aws_idc.proto";
 
 service IntegrationService {
     rpc CreateIntegration(CreateIntegrationRequest) returns (CreateIntegrationResponse) {}
@@ -10,6 +11,7 @@ service IntegrationService {
 
 
     rpc GetGCPIntegration(GetGCPIntegrationRequest) returns (GetGCPIntegrationResponse) {}
+    rpc GetAWSIDCIntegration(GetAWSIDCIntegrationRequest) returns (GetAWSIDCIntegrationResponse) {}
 }
 
 
@@ -17,6 +19,7 @@ message CreateIntegrationRequest {
     string name = 1;
     oneof integration {
         GCP gcp = 2;
+        AWSIDC aws_idc = 3;
     }
 }
 
@@ -26,21 +29,12 @@ message CreateIntegrationResponse {
 }
 
 
-message GetGCPIntegrationRequest {
-    string id = 1;
-}
-
-message GetGCPIntegrationResponse {
-    GCP gcp = 1;
-    string name = 2;
-}
-
-
 message UpdateIntegrationRequest {
     string id = 1;
     string name = 2;
     oneof integration {
         GCP gcp = 3;
+        AWSIDC aws_idc = 4;
     }
 }
 
@@ -55,4 +49,24 @@ message DeleteIntegrationRequest {
 
 message DeleteIntegrationResponse {
     string id = 1;
+}
+
+
+message GetGCPIntegrationRequest {
+    string id = 1;
+}
+
+message GetGCPIntegrationResponse {
+    GCP gcp = 1;
+    string name = 2;
+}
+
+
+message GetAWSIDCIntegrationRequest {
+    string id = 1;
+}
+
+message GetAWSIDCIntegrationResponse {
+    AWSIDC aws_idc = 1;
+    string name = 2;
 }
