@@ -2,7 +2,7 @@
 //
 // Source: commonfate/control/integration/v1alpha1/integration.proto
 
-package integrationsv1alpha1connect
+package integrationv1alpha1connect
 
 import (
 	context "context"
@@ -22,7 +22,7 @@ const _ = connect_go.IsAtLeastVersion0_1_0
 
 const (
 	// IntegrationServiceName is the fully-qualified name of the IntegrationService service.
-	IntegrationServiceName = "commonfate.control.integrations.v1alpha1.IntegrationService"
+	IntegrationServiceName = "commonfate.control.integration.v1alpha1.IntegrationService"
 )
 
 // These constants are the fully-qualified names of the RPCs defined in this package. They're
@@ -35,20 +35,20 @@ const (
 const (
 	// IntegrationServiceCreateIntegrationProcedure is the fully-qualified name of the
 	// IntegrationService's CreateIntegration RPC.
-	IntegrationServiceCreateIntegrationProcedure = "/commonfate.control.integrations.v1alpha1.IntegrationService/CreateIntegration"
+	IntegrationServiceCreateIntegrationProcedure = "/commonfate.control.integration.v1alpha1.IntegrationService/CreateIntegration"
 	// IntegrationServiceUpdateIntegrationProcedure is the fully-qualified name of the
 	// IntegrationService's UpdateIntegration RPC.
-	IntegrationServiceUpdateIntegrationProcedure = "/commonfate.control.integrations.v1alpha1.IntegrationService/UpdateIntegration"
+	IntegrationServiceUpdateIntegrationProcedure = "/commonfate.control.integration.v1alpha1.IntegrationService/UpdateIntegration"
 	// IntegrationServiceDeleteIntegrationProcedure is the fully-qualified name of the
 	// IntegrationService's DeleteIntegration RPC.
-	IntegrationServiceDeleteIntegrationProcedure = "/commonfate.control.integrations.v1alpha1.IntegrationService/DeleteIntegration"
+	IntegrationServiceDeleteIntegrationProcedure = "/commonfate.control.integration.v1alpha1.IntegrationService/DeleteIntegration"
 	// IntegrationServiceGetGCPIntegrationProcedure is the fully-qualified name of the
 	// IntegrationService's GetGCPIntegration RPC.
-	IntegrationServiceGetGCPIntegrationProcedure = "/commonfate.control.integrations.v1alpha1.IntegrationService/GetGCPIntegration"
+	IntegrationServiceGetGCPIntegrationProcedure = "/commonfate.control.integration.v1alpha1.IntegrationService/GetGCPIntegration"
 )
 
 // IntegrationServiceClient is a client for the
-// commonfate.control.integrations.v1alpha1.IntegrationService service.
+// commonfate.control.integration.v1alpha1.IntegrationService service.
 type IntegrationServiceClient interface {
 	CreateIntegration(context.Context, *connect_go.Request[v1alpha1.CreateIntegrationRequest]) (*connect_go.Response[v1alpha1.CreateIntegrationResponse], error)
 	UpdateIntegration(context.Context, *connect_go.Request[v1alpha1.UpdateIntegrationRequest]) (*connect_go.Response[v1alpha1.UpdateIntegrationResponse], error)
@@ -57,7 +57,7 @@ type IntegrationServiceClient interface {
 }
 
 // NewIntegrationServiceClient constructs a client for the
-// commonfate.control.integrations.v1alpha1.IntegrationService service. By default, it uses the
+// commonfate.control.integration.v1alpha1.IntegrationService service. By default, it uses the
 // Connect protocol with the binary Protobuf Codec, asks for gzipped responses, and sends
 // uncompressed requests. To use the gRPC or gRPC-Web protocols, supply the connect.WithGRPC() or
 // connect.WithGRPCWeb() options.
@@ -99,31 +99,31 @@ type integrationServiceClient struct {
 }
 
 // CreateIntegration calls
-// commonfate.control.integrations.v1alpha1.IntegrationService.CreateIntegration.
+// commonfate.control.integration.v1alpha1.IntegrationService.CreateIntegration.
 func (c *integrationServiceClient) CreateIntegration(ctx context.Context, req *connect_go.Request[v1alpha1.CreateIntegrationRequest]) (*connect_go.Response[v1alpha1.CreateIntegrationResponse], error) {
 	return c.createIntegration.CallUnary(ctx, req)
 }
 
 // UpdateIntegration calls
-// commonfate.control.integrations.v1alpha1.IntegrationService.UpdateIntegration.
+// commonfate.control.integration.v1alpha1.IntegrationService.UpdateIntegration.
 func (c *integrationServiceClient) UpdateIntegration(ctx context.Context, req *connect_go.Request[v1alpha1.UpdateIntegrationRequest]) (*connect_go.Response[v1alpha1.UpdateIntegrationResponse], error) {
 	return c.updateIntegration.CallUnary(ctx, req)
 }
 
 // DeleteIntegration calls
-// commonfate.control.integrations.v1alpha1.IntegrationService.DeleteIntegration.
+// commonfate.control.integration.v1alpha1.IntegrationService.DeleteIntegration.
 func (c *integrationServiceClient) DeleteIntegration(ctx context.Context, req *connect_go.Request[v1alpha1.DeleteIntegrationRequest]) (*connect_go.Response[v1alpha1.DeleteIntegrationResponse], error) {
 	return c.deleteIntegration.CallUnary(ctx, req)
 }
 
 // GetGCPIntegration calls
-// commonfate.control.integrations.v1alpha1.IntegrationService.GetGCPIntegration.
+// commonfate.control.integration.v1alpha1.IntegrationService.GetGCPIntegration.
 func (c *integrationServiceClient) GetGCPIntegration(ctx context.Context, req *connect_go.Request[v1alpha1.GetGCPIntegrationRequest]) (*connect_go.Response[v1alpha1.GetGCPIntegrationResponse], error) {
 	return c.getGCPIntegration.CallUnary(ctx, req)
 }
 
 // IntegrationServiceHandler is an implementation of the
-// commonfate.control.integrations.v1alpha1.IntegrationService service.
+// commonfate.control.integration.v1alpha1.IntegrationService service.
 type IntegrationServiceHandler interface {
 	CreateIntegration(context.Context, *connect_go.Request[v1alpha1.CreateIntegrationRequest]) (*connect_go.Response[v1alpha1.CreateIntegrationResponse], error)
 	UpdateIntegration(context.Context, *connect_go.Request[v1alpha1.UpdateIntegrationRequest]) (*connect_go.Response[v1alpha1.UpdateIntegrationResponse], error)
@@ -157,7 +157,7 @@ func NewIntegrationServiceHandler(svc IntegrationServiceHandler, opts ...connect
 		svc.GetGCPIntegration,
 		opts...,
 	)
-	return "/commonfate.control.integrations.v1alpha1.IntegrationService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	return "/commonfate.control.integration.v1alpha1.IntegrationService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
 		case IntegrationServiceCreateIntegrationProcedure:
 			integrationServiceCreateIntegrationHandler.ServeHTTP(w, r)
@@ -177,17 +177,17 @@ func NewIntegrationServiceHandler(svc IntegrationServiceHandler, opts ...connect
 type UnimplementedIntegrationServiceHandler struct{}
 
 func (UnimplementedIntegrationServiceHandler) CreateIntegration(context.Context, *connect_go.Request[v1alpha1.CreateIntegrationRequest]) (*connect_go.Response[v1alpha1.CreateIntegrationResponse], error) {
-	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("commonfate.control.integrations.v1alpha1.IntegrationService.CreateIntegration is not implemented"))
+	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("commonfate.control.integration.v1alpha1.IntegrationService.CreateIntegration is not implemented"))
 }
 
 func (UnimplementedIntegrationServiceHandler) UpdateIntegration(context.Context, *connect_go.Request[v1alpha1.UpdateIntegrationRequest]) (*connect_go.Response[v1alpha1.UpdateIntegrationResponse], error) {
-	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("commonfate.control.integrations.v1alpha1.IntegrationService.UpdateIntegration is not implemented"))
+	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("commonfate.control.integration.v1alpha1.IntegrationService.UpdateIntegration is not implemented"))
 }
 
 func (UnimplementedIntegrationServiceHandler) DeleteIntegration(context.Context, *connect_go.Request[v1alpha1.DeleteIntegrationRequest]) (*connect_go.Response[v1alpha1.DeleteIntegrationResponse], error) {
-	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("commonfate.control.integrations.v1alpha1.IntegrationService.DeleteIntegration is not implemented"))
+	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("commonfate.control.integration.v1alpha1.IntegrationService.DeleteIntegration is not implemented"))
 }
 
 func (UnimplementedIntegrationServiceHandler) GetGCPIntegration(context.Context, *connect_go.Request[v1alpha1.GetGCPIntegrationRequest]) (*connect_go.Response[v1alpha1.GetGCPIntegrationResponse], error) {
-	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("commonfate.control.integrations.v1alpha1.IntegrationService.GetGCPIntegration is not implemented"))
+	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("commonfate.control.integration.v1alpha1.IntegrationService.GetGCPIntegration is not implemented"))
 }
