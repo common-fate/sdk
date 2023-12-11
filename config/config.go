@@ -80,8 +80,8 @@ func (c *Context) Initialize(ctx context.Context, opts InitializeOpts) error {
 		cfg := clientcredentials.Config{
 			ClientID:     c.OIDCClientID,
 			ClientSecret: *c.OIDCClientSecret,
-			Scopes:       []string{"cf.client/machine"},
-			TokenURL:     p.OAuthConfig().Endpoint.TokenURL,
+			// Scopes:       []string{"cf.client/machine"},
+			TokenURL: p.OAuthConfig().Endpoint.TokenURL,
 		}
 
 		_, err := cfg.Token(ctx)
