@@ -108,7 +108,7 @@ func load() (*Config, error) {
 		return nil, err
 	}
 
-	fp := filepath.Join(home, ".commonfate", "config")
+	fp := filepath.Join(home, ".common-fate", "config")
 	cfg, err := openConfigFile(fp)
 	if os.IsNotExist(err) {
 		// return an empty config if the file doesn't exist
