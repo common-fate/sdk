@@ -6,5 +6,5 @@ message AWSIDC {
     string sso_instance_arn = 1;
     string identity_store_id = 2;
     string sso_region = 3;
-    string sso_read_role_arn = 4;
+    string reader_role_arn = 4;
 }
