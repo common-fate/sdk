@@ -95,10 +95,10 @@ func NewServerContext(ctx context.Context, opts Opts) (*Context, error) {
 }
 
 func load() (*Config, error) {
-	// if COMMON_FATE_CONFIG_FILE is set, use a custom file path
+	// if CF_CONFIG_FILE is set, use a custom file path
 	// for the config file location.
 	// the file specified must exist.
-	customPath := os.Getenv("COMMON_FATE_CONFIG_FILE")
+	customPath := os.Getenv("CF_CONFIG_FILE")
 	if customPath != "" {
 		return openConfigFile(customPath)
 	}
@@ -108,7 +108,7 @@ func load() (*Config, error) {
 		return nil, err
 	}
 
-	fp := filepath.Join(home, ".common-fate", "config")
+	fp := filepath.Join(home, ".cf", "config")
 	cfg, err := openConfigFile(fp)
 	if os.IsNotExist(err) {
 		// return an empty config if the file doesn't exist

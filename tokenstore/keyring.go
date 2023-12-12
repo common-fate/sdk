@@ -116,7 +116,7 @@ func (s *cfKeyring) openKeyring() (keyring.Keyring, error) {
 
 	dirname := os.Getenv("COMMON_FATE_KEYRING_FILE_DIR")
 	if dirname == "" {
-		dirname = "~/.commonfate"
+		dirname = "~/.cf"
 	}
 
 	keychainName := os.Getenv("COMMON_FATE_KEYRING_MACOS_KEYCHAIN_NAME")
