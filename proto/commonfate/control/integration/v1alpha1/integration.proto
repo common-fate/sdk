@@ -48,6 +48,7 @@ message Integration {
     Status status = 4;
     repeated commonfate.access.v1alpha1.Diagnostic diagnostics = 5;
     Config config = 6;
+    string setup_url = 7;
 }
 
 message CreateIntegrationResponse {
@@ -56,7 +57,7 @@ message CreateIntegrationResponse {
 
 enum Status {
     STATUS_UNSPECIFIED = 0;
-    STATUS_PENDING_OAUTH_INSTALL = 1;
+    STATUS_PENDING_SETUP = 1;
     STATUS_HEALTHY = 2;
     STATUS_UNHEALTHY = 3;
 }
