@@ -110,6 +110,13 @@ func transformAttr(v any) (*entityv1alpha1.Value, error) {
 			},
 		}, nil
 
+	case bool:
+		return &entityv1alpha1.Value{
+			Value: &entityv1alpha1.Value_Bool{
+				Bool: val,
+			},
+		}, nil
+
 	case []any:
 		setValue := entityv1alpha1.Value_Set{
 			Set: &entityv1alpha1.Set{
