@@ -109,17 +109,17 @@ func (s *cfKeyring) openKeyring() (keyring.Keyring, error) {
 		return s.keyring, nil
 	}
 
-	name := os.Getenv("COMMON_FATE_KEYRING_NAME")
+	name := os.Getenv("CF_KEYRING_NAME")
 	if name == "" {
-		name = "common-fate-ciem"
+		name = "common-fate"
 	}
 
-	dirname := os.Getenv("COMMON_FATE_KEYRING_FILE_DIR")
+	dirname := os.Getenv("CF_KEYRING_FILE_DIR")
 	if dirname == "" {
 		dirname = "~/.cf"
 	}
 
-	keychainName := os.Getenv("COMMON_FATE_KEYRING_MACOS_KEYCHAIN_NAME")
+	keychainName := os.Getenv("CF_KEYRING_MACOS_KEYCHAIN_NAME")
 	if keychainName == "" {
 		keychainName = "login"
 	}
@@ -149,7 +149,7 @@ func (s *cfKeyring) openKeyring() (keyring.Keyring, error) {
 		FilePasswordFunc: keyring.TerminalPrompt,
 	}
 
-	kab := os.Getenv("COMMON_FATE_KEYRING_ALLOWED_BACKENDS")
+	kab := os.Getenv("CF_KEYRING_ALLOWED_BACKENDS")
 	if kab != "" {
 		kab = strings.ReplaceAll(kab, " ", "") // remove any spaces
 		backends := strings.Split(kab, ",")
@@ -165,7 +165,7 @@ func (s *cfKeyring) openKeyring() (keyring.Keyring, error) {
 		c.AllowedBackends = backends
 	}
 
-	if strings.ToLower(os.Getenv("COMMON_FATE_KEYRING_DEBUG")) == "true" {
+	if strings.ToLower(os.Getenv("CF_KEYRING_DEBUG")) == "true" {
 		keyring.Debug = true
 	}
 
