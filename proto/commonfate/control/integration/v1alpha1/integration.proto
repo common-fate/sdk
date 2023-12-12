@@ -8,41 +8,65 @@ import "commonfate/access/v1alpha1/diagnostic.proto";
 service IntegrationService {
     rpc CreateIntegration(CreateIntegrationRequest) returns (CreateIntegrationResponse) {}
     rpc UpdateIntegration(UpdateIntegrationRequest) returns (UpdateIntegrationResponse) {}
+    rpc GetIntegration(GetIntegrationRequest) returns (GetIntegrationResponse) {}
     rpc DeleteIntegration(DeleteIntegrationRequest) returns (DeleteIntegrationResponse) {}
-
-
-    rpc GetGCPIntegration(GetGCPIntegrationRequest) returns (GetGCPIntegrationResponse) {}
-    rpc GetAWSIDCIntegration(GetAWSIDCIntegrationRequest) returns (GetAWSIDCIntegrationResponse) {}
+    rpc ListIntegrations(ListIntegrationsRequest) returns (ListIntegrationsResponse) {}
 }
 
+message ListIntegrationsRequest {
+    // The token for the next page.
+    string page_token = 1;
+}
+
+message ListIntegrationsResponse {
+    repeated Integration integrations = 1;
+    string next_page_token = 2;
+}
 
 message CreateIntegrationRequest {
     string name = 1;
-    oneof integration {
+    oneof parameters {
         GCP gcp = 2;
         AWSIDC aws_idc = 3;
+        Slack slack = 4;
+        PagerDuty pagerduty = 5;
     }
 }
 
-
-message CreateIntegrationResponse {
-    string id = 1;
-    repeated commonfate.access.v1alpha1.Diagnostic diagnostics = 2;
-}
-
-
-message UpdateIntegrationRequest {
+message Integration {
     string id = 1;
     string name = 2;
-    oneof integration {
-        GCP gcp = 3;
-        AWSIDC aws_idc = 4;
+    Status status = 3;
+    repeated commonfate.access.v1alpha1.Diagnostic diagnostics = 4;
+    oneof parameters {
+        GCP gcp = 5;
+        AWSIDC aws_idc = 6;
+        Slack slack = 7;
+        PagerDuty pagerduty = 8;
     }
+}
+
+message CreateIntegrationResponse {
+    Integration integration = 1;
+}
+
+enum Status {
+    STATUS_UNSPECIFIED = 0;
+    STATUS_PENDING_OAUTH_INSTALL = 1;
+    STATUS_HEALTHY = 2;
+    STATUS_UNHEALTHY = 3;
+}
+
+message GetIntegrationRequest {
+    string id = 1;
+}
+
+message UpdateIntegrationRequest {
+    Integration integration = 1;
 }
 
 message UpdateIntegrationResponse {
-    string id = 1;
-    repeated commonfate.access.v1alpha1.Diagnostic diagnostics = 2;
+    Integration integration = 1;
 }
 
 
@@ -52,24 +76,4 @@ message DeleteIntegrationRequest {
 
 message DeleteIntegrationResponse {
     string id = 1;
-}
-
-
-message GetGCPIntegrationRequest {
-    string id = 1;
-}
-
-message GetGCPIntegrationResponse {
-    GCP gcp = 1;
-    string name = 2;
-}
-
-
-message GetAWSIDCIntegrationRequest {
-    string id = 1;
-}
-
-message GetAWSIDCIntegrationResponse {
-    AWSIDC aws_idc = 1;
-    string name = 2;
 }

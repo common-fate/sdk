@@ -1,0 +1,10 @@
+syntax = "proto3";
+package commonfate.control.integration.v1alpha1;
+
+
+message PagerDuty {
+    string workload_identity_config = 1;
+    string service_account_credentials_secret_path = 2;
+    string organization_id = 3;
+    string google_workspace_customer_id = 4;
+}

@@ -1,0 +1,9 @@
+syntax = "proto3";
+package commonfate.control.integration.v1alpha1;
+
+
+message Slack {
+    string client_id = 1;
+    string client_secret_secret_path = 2;
+    string signing_secret_secret_path = 3;
+}
