@@ -27,10 +27,10 @@ message ListIntegrationsResponse {
 
 message CreateIntegrationRequest {
     string name = 1;
-    IntegrationDetails details = 2;
+    Parameters details = 2;
 }
 
-message IntegrationDetails {
+message Parameters {
     oneof parameters {
         GCP gcp = 1;
         AWSIDC aws_idc = 2;
@@ -40,11 +40,14 @@ message IntegrationDetails {
 }
 
 message Integration {
+    reserved 'type';
+    reserved 3;
+
     string id = 1;
     string name = 2;
-    Status status = 3;
-    repeated commonfate.access.v1alpha1.Diagnostic diagnostics = 4;
-    IntegrationDetails details = 5;
+    Status status = 4;
+    repeated commonfate.access.v1alpha1.Diagnostic diagnostics = 5;
+    Parameters details = 6;
 }
 
 message CreateIntegrationResponse {
