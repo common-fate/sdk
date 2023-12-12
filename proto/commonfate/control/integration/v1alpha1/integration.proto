@@ -27,11 +27,15 @@ message ListIntegrationsResponse {
 
 message CreateIntegrationRequest {
     string name = 1;
+    IntegrationDetails details = 2;
+}
+
+message IntegrationDetails {
     oneof parameters {
-        GCP gcp = 2;
-        AWSIDC aws_idc = 3;
-        Slack slack = 4;
-        PagerDuty pagerduty = 5;
+        GCP gcp = 1;
+        AWSIDC aws_idc = 2;
+        Slack slack = 3;
+        PagerDuty pagerduty = 4;
     }
 }
 
@@ -40,12 +44,7 @@ message Integration {
     string name = 2;
     Status status = 3;
     repeated commonfate.access.v1alpha1.Diagnostic diagnostics = 4;
-    oneof parameters {
-        GCP gcp = 5;
-        AWSIDC aws_idc = 6;
-        Slack slack = 7;
-        PagerDuty pagerduty = 8;
-    }
+    IntegrationDetails details = 5;
 }
 
 message CreateIntegrationResponse {
