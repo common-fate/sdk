@@ -27,11 +27,11 @@ message ListIntegrationsResponse {
 
 message CreateIntegrationRequest {
     string name = 1;
-    Parameters details = 2;
+    Config config = 2;
 }
 
-message Parameters {
-    oneof parameters {
+message Config {
+    oneof config {
         GCP gcp = 1;
         AWSIDC aws_idc = 2;
         Slack slack = 3;
@@ -47,7 +47,7 @@ message Integration {
     string name = 2;
     Status status = 4;
     repeated commonfate.access.v1alpha1.Diagnostic diagnostics = 5;
-    Parameters details = 6;
+    Config config = 6;
 }
 
 message CreateIntegrationResponse {
