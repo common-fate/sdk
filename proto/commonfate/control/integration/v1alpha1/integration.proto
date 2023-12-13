@@ -13,6 +13,7 @@ service IntegrationService {
     rpc GetIntegration(GetIntegrationRequest) returns (GetIntegrationResponse) {}
     rpc DeleteIntegration(DeleteIntegrationRequest) returns (DeleteIntegrationResponse) {}
     rpc ListIntegrations(ListIntegrationsRequest) returns (ListIntegrationsResponse) {}
+    rpc GetSetupURL(GetSetupURLRequest) returns (GetSetupURLResponse) {}
 }
 
 message ListIntegrationsRequest {
@@ -48,7 +49,6 @@ message Integration {
     Status status = 4;
     repeated commonfate.access.v1alpha1.Diagnostic diagnostics = 5;
     Config config = 6;
-    string setup_url = 7;
 }
 
 message CreateIntegrationResponse {
@@ -85,4 +85,12 @@ message DeleteIntegrationRequest {
 
 message DeleteIntegrationResponse {
     string id = 1;
+}
+
+message GetSetupURLRequest {
+    string id = 1;
+}
+
+message GetSetupURLResponse {
+    string url = 2;
 }

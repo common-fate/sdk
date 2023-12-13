@@ -48,6 +48,9 @@ const (
 	// IntegrationServiceListIntegrationsProcedure is the fully-qualified name of the
 	// IntegrationService's ListIntegrations RPC.
 	IntegrationServiceListIntegrationsProcedure = "/commonfate.control.integration.v1alpha1.IntegrationService/ListIntegrations"
+	// IntegrationServiceGetSetupURLProcedure is the fully-qualified name of the IntegrationService's
+	// GetSetupURL RPC.
+	IntegrationServiceGetSetupURLProcedure = "/commonfate.control.integration.v1alpha1.IntegrationService/GetSetupURL"
 )
 
 // IntegrationServiceClient is a client for the
@@ -58,6 +61,7 @@ type IntegrationServiceClient interface {
 	GetIntegration(context.Context, *connect_go.Request[v1alpha1.GetIntegrationRequest]) (*connect_go.Response[v1alpha1.GetIntegrationResponse], error)
 	DeleteIntegration(context.Context, *connect_go.Request[v1alpha1.DeleteIntegrationRequest]) (*connect_go.Response[v1alpha1.DeleteIntegrationResponse], error)
 	ListIntegrations(context.Context, *connect_go.Request[v1alpha1.ListIntegrationsRequest]) (*connect_go.Response[v1alpha1.ListIntegrationsResponse], error)
+	GetSetupURL(context.Context, *connect_go.Request[v1alpha1.GetSetupURLRequest]) (*connect_go.Response[v1alpha1.GetSetupURLResponse], error)
 }
 
 // NewIntegrationServiceClient constructs a client for the
@@ -96,6 +100,11 @@ func NewIntegrationServiceClient(httpClient connect_go.HTTPClient, baseURL strin
 			baseURL+IntegrationServiceListIntegrationsProcedure,
 			opts...,
 		),
+		getSetupURL: connect_go.NewClient[v1alpha1.GetSetupURLRequest, v1alpha1.GetSetupURLResponse](
+			httpClient,
+			baseURL+IntegrationServiceGetSetupURLProcedure,
+			opts...,
+		),
 	}
 }
 
@@ -106,6 +115,7 @@ type integrationServiceClient struct {
 	getIntegration    *connect_go.Client[v1alpha1.GetIntegrationRequest, v1alpha1.GetIntegrationResponse]
 	deleteIntegration *connect_go.Client[v1alpha1.DeleteIntegrationRequest, v1alpha1.DeleteIntegrationResponse]
 	listIntegrations  *connect_go.Client[v1alpha1.ListIntegrationsRequest, v1alpha1.ListIntegrationsResponse]
+	getSetupURL       *connect_go.Client[v1alpha1.GetSetupURLRequest, v1alpha1.GetSetupURLResponse]
 }
 
 // CreateIntegration calls
@@ -137,6 +147,11 @@ func (c *integrationServiceClient) ListIntegrations(ctx context.Context, req *co
 	return c.listIntegrations.CallUnary(ctx, req)
 }
 
+// GetSetupURL calls commonfate.control.integration.v1alpha1.IntegrationService.GetSetupURL.
+func (c *integrationServiceClient) GetSetupURL(ctx context.Context, req *connect_go.Request[v1alpha1.GetSetupURLRequest]) (*connect_go.Response[v1alpha1.GetSetupURLResponse], error) {
+	return c.getSetupURL.CallUnary(ctx, req)
+}
+
 // IntegrationServiceHandler is an implementation of the
 // commonfate.control.integration.v1alpha1.IntegrationService service.
 type IntegrationServiceHandler interface {
@@ -145,6 +160,7 @@ type IntegrationServiceHandler interface {
 	GetIntegration(context.Context, *connect_go.Request[v1alpha1.GetIntegrationRequest]) (*connect_go.Response[v1alpha1.GetIntegrationResponse], error)
 	DeleteIntegration(context.Context, *connect_go.Request[v1alpha1.DeleteIntegrationRequest]) (*connect_go.Response[v1alpha1.DeleteIntegrationResponse], error)
 	ListIntegrations(context.Context, *connect_go.Request[v1alpha1.ListIntegrationsRequest]) (*connect_go.Response[v1alpha1.ListIntegrationsResponse], error)
+	GetSetupURL(context.Context, *connect_go.Request[v1alpha1.GetSetupURLRequest]) (*connect_go.Response[v1alpha1.GetSetupURLResponse], error)
 }
 
 // NewIntegrationServiceHandler builds an HTTP handler from the service implementation. It returns
@@ -178,6 +194,11 @@ func NewIntegrationServiceHandler(svc IntegrationServiceHandler, opts ...connect
 		svc.ListIntegrations,
 		opts...,
 	)
+	integrationServiceGetSetupURLHandler := connect_go.NewUnaryHandler(
+		IntegrationServiceGetSetupURLProcedure,
+		svc.GetSetupURL,
+		opts...,
+	)
 	return "/commonfate.control.integration.v1alpha1.IntegrationService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
 		case IntegrationServiceCreateIntegrationProcedure:
@@ -190,6 +211,8 @@ func NewIntegrationServiceHandler(svc IntegrationServiceHandler, opts ...connect
 			integrationServiceDeleteIntegrationHandler.ServeHTTP(w, r)
 		case IntegrationServiceListIntegrationsProcedure:
 			integrationServiceListIntegrationsHandler.ServeHTTP(w, r)
+		case IntegrationServiceGetSetupURLProcedure:
+			integrationServiceGetSetupURLHandler.ServeHTTP(w, r)
 		default:
 			http.NotFound(w, r)
 		}
@@ -217,4 +240,8 @@ func (UnimplementedIntegrationServiceHandler) DeleteIntegration(context.Context,
 
 func (UnimplementedIntegrationServiceHandler) ListIntegrations(context.Context, *connect_go.Request[v1alpha1.ListIntegrationsRequest]) (*connect_go.Response[v1alpha1.ListIntegrationsResponse], error) {
 	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("commonfate.control.integration.v1alpha1.IntegrationService.ListIntegrations is not implemented"))
+}
+
+func (UnimplementedIntegrationServiceHandler) GetSetupURL(context.Context, *connect_go.Request[v1alpha1.GetSetupURLRequest]) (*connect_go.Response[v1alpha1.GetSetupURLResponse], error) {
+	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("commonfate.control.integration.v1alpha1.IntegrationService.GetSetupURL is not implemented"))
 }
