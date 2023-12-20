@@ -2,6 +2,7 @@ package config
 
 import (
 	"context"
+	"errors"
 	"os"
 	"path/filepath"
 
@@ -132,6 +133,30 @@ func load() (*Config, error) {
 	}
 
 	return cfg, nil
+}
+
+func ListContexts() ([]string, error) {
+	cfg, err := load()
+	if err != nil {
+		return nil, err
+	}
+	contexts := []string{}
+	for k := range cfg.Contexts {
+		contexts = append(contexts, k)
+	}
+	return contexts, nil
+}
+
+func SwitchContext(contextName string) error {
+	cfg, err := load()
+	if err != nil {
+		return err
+	}
+	if _, ok := cfg.Contexts[contextName]; ok {
+		cfg.CurrentContext = contextName
+		return Save(cfg)
+	}
+	return errors.New("context not found in config file")
 }
 
 func openConfigFile(filepath string) (*Config, error) {
