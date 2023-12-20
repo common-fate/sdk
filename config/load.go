@@ -141,8 +141,8 @@ func ListContexts() ([]string, error) {
 		return nil, err
 	}
 	contexts := []string{}
-	for _, c := range cfg.Contexts {
-		contexts = append(contexts, c.name)
+	for k := range cfg.Contexts {
+		contexts = append(contexts, k)
 	}
 	return contexts, nil
 }
