@@ -154,10 +154,7 @@ func SwitchContext(contextName string) error {
 	}
 	if _, ok := cfg.Contexts[contextName]; ok {
 		cfg.CurrentContext = contextName
-		err = Save(cfg)
-		if err != nil {
-			return err
-		}
+		return Save(cfg)
 	}
 	return errors.New("context not found in config file")
 }
