@@ -49,8 +49,8 @@ type Opts struct {
 }
 
 // in order of precedence, select a source for the client ID or nil
-func clientSecret(context *Context, opts Opts) *string {
-	clientSecret := grab.FirstNonZero(opts.ClientSecret, os.Getenv("CF_OIDC_CLIENT_SECRET"), grab.Value(context.OIDCClientSecret))
+func clientSecret(contextSecret *string, opts Opts) *string {
+	clientSecret := grab.FirstNonZero(opts.ClientSecret, os.Getenv("CF_OIDC_CLIENT_SECRET"), grab.Value(contextSecret))
 	if clientSecret == "" {
 		return nil
 	}
@@ -71,7 +71,7 @@ func New(ctx context.Context, opts Opts) (*Context, error) {
 	current.AccessURL = opts.AccessURL
 	current.OIDCClientID = opts.ClientID
 
-	current.OIDCClientSecret = clientSecret(current, opts)
+	current.OIDCClientSecret = clientSecret(current.OIDCClientSecret, opts)
 
 	current.OIDCIssuer = opts.OIDCIssuer
 
@@ -95,7 +95,7 @@ func NewServerContext(ctx context.Context, opts Opts) (*Context, error) {
 
 		OIDCIssuer: opts.OIDCIssuer,
 	}
-	context.OIDCClientSecret = clientSecret(context, opts)
+	context.OIDCClientSecret = clientSecret(context.OIDCClientSecret, opts)
 
 	// Initialise with an in memory token store to avoid keychain use
 	err := context.Initialize(ctx, InitializeOpts{TokenStore: tokenstore.NewInMemoryTokenStore()})
