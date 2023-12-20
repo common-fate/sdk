@@ -8,7 +8,7 @@ require (
 	github.com/bufbuild/connect-go v1.10.0
 	github.com/common-fate/apikit v0.3.0
 	github.com/common-fate/clio v1.2.3
-	github.com/common-fate/grab v1.0.0
+	github.com/common-fate/grab v1.1.0
 	github.com/fatih/structtag v1.2.0
 	github.com/go-chi/chi/v5 v5.0.10
 	github.com/google/uuid v1.4.0
