@@ -1,0 +1,9 @@
+syntax = "proto3";
+package commonfate.control.integration.v1alpha1;
+
+
+message Entra {
+    string tenant_id = 1;
+    string client_id = 2;
+    string client_secret_secret_path = 3;
+}
