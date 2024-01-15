@@ -4,5 +4,5 @@ package commonfate.control.integration.v1alpha1;
 
 message AWSRDSPostgres {
     repeated string regions = 1;
-    repeated string reader_role_arn = 2;
+    repeated string read_role_arns = 2;
 }
