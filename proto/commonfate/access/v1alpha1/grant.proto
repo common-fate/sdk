@@ -42,6 +42,9 @@ message Grant {
 
     // The ID of the Access Request associated with the Grant.
     string access_request_id = 10;
+
+    // Approved is true if there are any approving reviews on the Grant.
+    bool approved = 11;
 }
 
 enum GrantStatus {
