@@ -3,6 +3,7 @@ package commonfate.control.integration.v1alpha1;
 
 import "commonfate/control/integration/v1alpha1/gcp.proto";
 import "commonfate/control/integration/v1alpha1/aws_idc.proto";
+import "commonfate/control/integration/v1alpha1/aws_rds_postgres.proto";
 import "commonfate/control/integration/v1alpha1/slack.proto";
 import "commonfate/control/integration/v1alpha1/pagerduty.proto";
 import "commonfate/control/integration/v1alpha1/opsgenie.proto";
@@ -40,6 +41,7 @@ message Config {
         PagerDuty pagerduty = 4;
         OpsGenie opsgenie = 5;
         Entra entra = 6;
+        AWSRDSPostgres aws_rds_postgres = 7;
     }
 }
 
