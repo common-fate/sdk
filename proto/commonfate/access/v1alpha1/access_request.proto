@@ -26,6 +26,8 @@ service AccessRequestService {
     // If the caller is not permitted to approve particular grants, warnings will be returned.
     rpc ApproveAccessRequest(ApproveAccessRequestRequest) returns (ApproveAccessRequestResponse) {}
 
+    rpc ActivateAccessRequest(ActivateAccessRequestRequest) returns (ActivateAccessRequestResponse) {}
+
     // Closing an Access Request will make it no longer reviewable and will deactivate any Grants associated with the request.
     rpc CloseAccessRequest(CloseAccessRequestRequest) returns (CloseAccessRequestResponse) {}
 }
@@ -98,5 +100,17 @@ message CloseAccessRequestRequest {
 }
 
 message CloseAccessRequestResponse {
+  repeated Diagnostic diagnostics = 1;
+}
+
+message ActivateAccessRequestRequest {
+  // The ID of the Access Request.
+  string id = 1;
+
+  // If provided, will only activate the grants with the specified IDs
+  repeated string activate_grants = 2;
+}
+
+message ActivateAccessRequestResponse {
   repeated Diagnostic diagnostics = 1;
 }
