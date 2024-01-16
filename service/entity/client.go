@@ -291,6 +291,38 @@ func extractAttr(val reflect.Value) (*entityv1alpha1.Value, error) {
 
 		// Extract the value from the non-nil pointer
 		return extractAttr(val.Elem())
+	case reflect.Map:
+		if val.Type() != reflect.MapOf(reflect.TypeOf(""), reflect.TypeOf("")) {
+			return nil, fmt.Errorf("input is not a map[string]string")
+		}
+
+		record := &entityv1alpha1.Record{
+			Attributes: []*entityv1alpha1.Attribute{},
+		}
+
+		for _, keyVal := range val.MapKeys() {
+			key := keyVal.String()
+			value := val.MapIndex(keyVal)
+
+			// Assuming value is also a string
+			attr := value.String()
+
+			record.Attributes = append(record.Attributes, &entityv1alpha1.Attribute{
+				Key: key,
+				Value: &entityv1alpha1.Value{
+					Value: &entityv1alpha1.Value_Str{
+						Str: attr,
+					},
+				},
+			})
+		}
+
+		return &entityv1alpha1.Value{
+			Value: &entityv1alpha1.Value_Record{
+				Record: record,
+			},
+		}, nil
+
 	}
 
 	return nil, fmt.Errorf("extractAttr: unsupported attribute field type: %s", val.Kind())

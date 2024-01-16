@@ -178,6 +178,18 @@ func unmarshalSetValue(setValue *entityv1alpha1.Value, field reflect.Value) erro
 			}
 
 			return nil
+		case reflect.Map:
+			if field.Type() != reflect.MapOf(reflect.TypeOf(""), reflect.TypeOf("")) {
+				return fmt.Errorf("input is not a map[string]string")
+			}
+
+			m := map[string]string{}
+			for _, attr := range val.Record.Attributes {
+				m[attr.Key] = attr.Value.GetStr()
+			}
+			field.Set(reflect.ValueOf(m))
+			return nil
+
 		}
 	case nil:
 		// Handle the case where the value is nil

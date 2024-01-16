@@ -6,11 +6,12 @@ import (
 )
 
 type Grant struct {
-	Grant           eid.EID  `json:"grant"`
-	Principal       eid.EID  `json:"principal"`
-	MappedPrincipal *eid.EID `json:"mapped_principal,omitempty"`
-	Target          eid.EID  `json:"target"`
-	Role            eid.EID  `json:"role"`
+	Grant              eid.EID           `json:"grant"`
+	Principal          eid.EID           `json:"principal"`
+	MappedPrincipal    *eid.EID          `json:"mapped_principal,omitempty"`
+	Target             eid.EID           `json:"target"`
+	Role               eid.EID           `json:"role"`
+	ProvisionerContext map[string]string `json:"provisioner_context"`
 }
 
 type GrantResponse struct {
