@@ -2,7 +2,7 @@ syntax = "proto3";
 package commonfate.control.integration.v1alpha1;
 
 
-message AWSRDSPostgres {
+message AWSRDS {
     repeated string regions = 1;
     repeated string read_role_arns = 2;
 }
