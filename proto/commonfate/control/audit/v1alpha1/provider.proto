@@ -13,7 +13,7 @@ service ProviderAuditTrailService {
 
 message BatchPutAuditLogRequest {
     string grant_id = 1;
-    repeated AuditLog audit_log = 2;
+    repeated AuditLog audit_logs = 2;
 }
 
 message BatchPutAuditLogResponse {
