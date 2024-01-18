@@ -3,9 +3,9 @@ module github.com/common-fate/sdk
 go 1.21.3
 
 require (
+	connectrpc.com/connect v1.14.0
 	github.com/99designs/keyring v1.2.2
 	github.com/BurntSushi/toml v1.3.2
-	github.com/bufbuild/connect-go v1.10.0
 	github.com/common-fate/apikit v0.3.0
 	github.com/common-fate/clio v1.2.3
 	github.com/common-fate/grab v1.1.0
@@ -19,9 +19,10 @@ require (
 	github.com/stretchr/testify v1.8.4
 	github.com/zitadel/oidc/v2 v2.12.0
 	go.uber.org/zap v1.26.0
+	golang.org/x/net v0.18.0
 	golang.org/x/oauth2 v0.14.0
 	golang.org/x/sync v0.5.0
-	google.golang.org/protobuf v1.31.0
+	google.golang.org/protobuf v1.32.0
 )
 
 require (
@@ -42,7 +43,6 @@ require (
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	go.uber.org/multierr v1.10.0 // indirect
 	golang.org/x/crypto v0.15.0 // indirect
-	golang.org/x/net v0.18.0 // indirect
 	golang.org/x/sys v0.14.0 // indirect
 	golang.org/x/term v0.14.0 // indirect
 	golang.org/x/text v0.14.0 // indirect

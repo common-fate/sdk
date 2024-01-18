@@ -4,7 +4,7 @@ import (
 	"context"
 	"testing"
 
-	"github.com/bufbuild/connect-go"
+	"connectrpc.com/connect"
 	"github.com/common-fate/sdk/eid"
 	authzv1alpha1 "github.com/common-fate/sdk/gen/commonfate/authz/v1alpha1"
 	entityv1alpha1 "github.com/common-fate/sdk/gen/commonfate/entity/v1alpha1"

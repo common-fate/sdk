@@ -5,9 +5,9 @@
 package accessv1alpha1connect
 
 import (
+	connect "connectrpc.com/connect"
 	context "context"
 	errors "errors"
-	connect_go "github.com/bufbuild/connect-go"
 	v1alpha1 "github.com/common-fate/sdk/gen/commonfate/access/v1alpha1"
 	http "net/http"
 	strings "strings"
@@ -18,7 +18,7 @@ import (
 // generated with a version of connect newer than the one compiled into your binary. You can fix the
 // problem by either regenerating this code with an older version of connect or updating the connect
 // version compiled into your binary.
-const _ = connect_go.IsAtLeastVersion0_1_0
+const _ = connect.IsAtLeastVersion1_13_0
 
 const (
 	// AccessServiceName is the fully-qualified name of the AccessService service.
@@ -41,6 +41,13 @@ const (
 	AccessServiceQueryAvailabilitiesProcedure = "/commonfate.access.v1alpha1.AccessService/QueryAvailabilities"
 )
 
+// These variables are the protoreflect.Descriptor objects for the RPCs defined in this package.
+var (
+	accessServiceServiceDescriptor                   = v1alpha1.File_commonfate_access_v1alpha1_access_proto.Services().ByName("AccessService")
+	accessServiceBatchEnsureMethodDescriptor         = accessServiceServiceDescriptor.Methods().ByName("BatchEnsure")
+	accessServiceQueryAvailabilitiesMethodDescriptor = accessServiceServiceDescriptor.Methods().ByName("QueryAvailabilities")
+)
+
 // AccessServiceClient is a client for the commonfate.access.v1alpha1.AccessService service.
 type AccessServiceClient interface {
 	// BatchEnsure is a high-level declarative API which can be called to ensure access has been provisioned to multiple entitlements.
@@ -50,9 +57,9 @@ type AccessServiceClient interface {
 	// If a pending Access Request exists for the entitlement, this request is returned.
 	//
 	// In future, this method may trigger an extension to any Access Requests which are due to expire.
-	BatchEnsure(context.Context, *connect_go.Request[v1alpha1.BatchEnsureRequest]) (*connect_go.Response[v1alpha1.BatchEnsureResponse], error)
+	BatchEnsure(context.Context, *connect.Request[v1alpha1.BatchEnsureRequest]) (*connect.Response[v1alpha1.BatchEnsureResponse], error)
 	// Query for JIT availabilities.
-	QueryAvailabilities(context.Context, *connect_go.Request[v1alpha1.QueryAvailabilitiesRequest]) (*connect_go.Response[v1alpha1.QueryAvailabilitiesResponse], error)
+	QueryAvailabilities(context.Context, *connect.Request[v1alpha1.QueryAvailabilitiesRequest]) (*connect.Response[v1alpha1.QueryAvailabilitiesResponse], error)
 }
 
 // NewAccessServiceClient constructs a client for the commonfate.access.v1alpha1.AccessService
@@ -62,35 +69,37 @@ type AccessServiceClient interface {
 //
 // The URL supplied here should be the base URL for the Connect or gRPC server (for example,
 // http://api.acme.com or https://acme.com/grpc).
-func NewAccessServiceClient(httpClient connect_go.HTTPClient, baseURL string, opts ...connect_go.ClientOption) AccessServiceClient {
+func NewAccessServiceClient(httpClient connect.HTTPClient, baseURL string, opts ...connect.ClientOption) AccessServiceClient {
 	baseURL = strings.TrimRight(baseURL, "/")
 	return &accessServiceClient{
-		batchEnsure: connect_go.NewClient[v1alpha1.BatchEnsureRequest, v1alpha1.BatchEnsureResponse](
+		batchEnsure: connect.NewClient[v1alpha1.BatchEnsureRequest, v1alpha1.BatchEnsureResponse](
 			httpClient,
 			baseURL+AccessServiceBatchEnsureProcedure,
-			opts...,
+			connect.WithSchema(accessServiceBatchEnsureMethodDescriptor),
+			connect.WithClientOptions(opts...),
 		),
-		queryAvailabilities: connect_go.NewClient[v1alpha1.QueryAvailabilitiesRequest, v1alpha1.QueryAvailabilitiesResponse](
+		queryAvailabilities: connect.NewClient[v1alpha1.QueryAvailabilitiesRequest, v1alpha1.QueryAvailabilitiesResponse](
 			httpClient,
 			baseURL+AccessServiceQueryAvailabilitiesProcedure,
-			opts...,
+			connect.WithSchema(accessServiceQueryAvailabilitiesMethodDescriptor),
+			connect.WithClientOptions(opts...),
 		),
 	}
 }
 
 // accessServiceClient implements AccessServiceClient.
 type accessServiceClient struct {
-	batchEnsure         *connect_go.Client[v1alpha1.BatchEnsureRequest, v1alpha1.BatchEnsureResponse]
-	queryAvailabilities *connect_go.Client[v1alpha1.QueryAvailabilitiesRequest, v1alpha1.QueryAvailabilitiesResponse]
+	batchEnsure         *connect.Client[v1alpha1.BatchEnsureRequest, v1alpha1.BatchEnsureResponse]
+	queryAvailabilities *connect.Client[v1alpha1.QueryAvailabilitiesRequest, v1alpha1.QueryAvailabilitiesResponse]
 }
 
 // BatchEnsure calls commonfate.access.v1alpha1.AccessService.BatchEnsure.
-func (c *accessServiceClient) BatchEnsure(ctx context.Context, req *connect_go.Request[v1alpha1.BatchEnsureRequest]) (*connect_go.Response[v1alpha1.BatchEnsureResponse], error) {
+func (c *accessServiceClient) BatchEnsure(ctx context.Context, req *connect.Request[v1alpha1.BatchEnsureRequest]) (*connect.Response[v1alpha1.BatchEnsureResponse], error) {
 	return c.batchEnsure.CallUnary(ctx, req)
 }
 
 // QueryAvailabilities calls commonfate.access.v1alpha1.AccessService.QueryAvailabilities.
-func (c *accessServiceClient) QueryAvailabilities(ctx context.Context, req *connect_go.Request[v1alpha1.QueryAvailabilitiesRequest]) (*connect_go.Response[v1alpha1.QueryAvailabilitiesResponse], error) {
+func (c *accessServiceClient) QueryAvailabilities(ctx context.Context, req *connect.Request[v1alpha1.QueryAvailabilitiesRequest]) (*connect.Response[v1alpha1.QueryAvailabilitiesResponse], error) {
 	return c.queryAvailabilities.CallUnary(ctx, req)
 }
 
@@ -104,9 +113,9 @@ type AccessServiceHandler interface {
 	// If a pending Access Request exists for the entitlement, this request is returned.
 	//
 	// In future, this method may trigger an extension to any Access Requests which are due to expire.
-	BatchEnsure(context.Context, *connect_go.Request[v1alpha1.BatchEnsureRequest]) (*connect_go.Response[v1alpha1.BatchEnsureResponse], error)
+	BatchEnsure(context.Context, *connect.Request[v1alpha1.BatchEnsureRequest]) (*connect.Response[v1alpha1.BatchEnsureResponse], error)
 	// Query for JIT availabilities.
-	QueryAvailabilities(context.Context, *connect_go.Request[v1alpha1.QueryAvailabilitiesRequest]) (*connect_go.Response[v1alpha1.QueryAvailabilitiesResponse], error)
+	QueryAvailabilities(context.Context, *connect.Request[v1alpha1.QueryAvailabilitiesRequest]) (*connect.Response[v1alpha1.QueryAvailabilitiesResponse], error)
 }
 
 // NewAccessServiceHandler builds an HTTP handler from the service implementation. It returns the
@@ -114,16 +123,18 @@ type AccessServiceHandler interface {
 //
 // By default, handlers support the Connect, gRPC, and gRPC-Web protocols with the binary Protobuf
 // and JSON codecs. They also support gzip compression.
-func NewAccessServiceHandler(svc AccessServiceHandler, opts ...connect_go.HandlerOption) (string, http.Handler) {
-	accessServiceBatchEnsureHandler := connect_go.NewUnaryHandler(
+func NewAccessServiceHandler(svc AccessServiceHandler, opts ...connect.HandlerOption) (string, http.Handler) {
+	accessServiceBatchEnsureHandler := connect.NewUnaryHandler(
 		AccessServiceBatchEnsureProcedure,
 		svc.BatchEnsure,
-		opts...,
+		connect.WithSchema(accessServiceBatchEnsureMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
 	)
-	accessServiceQueryAvailabilitiesHandler := connect_go.NewUnaryHandler(
+	accessServiceQueryAvailabilitiesHandler := connect.NewUnaryHandler(
 		AccessServiceQueryAvailabilitiesProcedure,
 		svc.QueryAvailabilities,
-		opts...,
+		connect.WithSchema(accessServiceQueryAvailabilitiesMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
 	)
 	return "/commonfate.access.v1alpha1.AccessService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
@@ -140,10 +151,10 @@ func NewAccessServiceHandler(svc AccessServiceHandler, opts ...connect_go.Handle
 // UnimplementedAccessServiceHandler returns CodeUnimplemented from all methods.
 type UnimplementedAccessServiceHandler struct{}
 
-func (UnimplementedAccessServiceHandler) BatchEnsure(context.Context, *connect_go.Request[v1alpha1.BatchEnsureRequest]) (*connect_go.Response[v1alpha1.BatchEnsureResponse], error) {
-	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("commonfate.access.v1alpha1.AccessService.BatchEnsure is not implemented"))
+func (UnimplementedAccessServiceHandler) BatchEnsure(context.Context, *connect.Request[v1alpha1.BatchEnsureRequest]) (*connect.Response[v1alpha1.BatchEnsureResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.access.v1alpha1.AccessService.BatchEnsure is not implemented"))
 }
 
-func (UnimplementedAccessServiceHandler) QueryAvailabilities(context.Context, *connect_go.Request[v1alpha1.QueryAvailabilitiesRequest]) (*connect_go.Response[v1alpha1.QueryAvailabilitiesResponse], error) {
-	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("commonfate.access.v1alpha1.AccessService.QueryAvailabilities is not implemented"))
+func (UnimplementedAccessServiceHandler) QueryAvailabilities(context.Context, *connect.Request[v1alpha1.QueryAvailabilitiesRequest]) (*connect.Response[v1alpha1.QueryAvailabilitiesResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.access.v1alpha1.AccessService.QueryAvailabilities is not implemented"))
 }
