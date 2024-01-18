@@ -33,3 +33,7 @@ message ProvisionRequest {
     
     commonfate.entity.v1alpha1.Entity role = 5;
 }
+
+message ProvisionResponse {
+    repeated commonfate.entity.v1alpha1.Entity entities = 1;
+}
