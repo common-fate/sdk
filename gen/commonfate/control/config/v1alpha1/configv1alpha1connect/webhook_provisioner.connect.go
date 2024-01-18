@@ -5,9 +5,9 @@
 package configv1alpha1connect
 
 import (
+	connect "connectrpc.com/connect"
 	context "context"
 	errors "errors"
-	connect_go "github.com/bufbuild/connect-go"
 	v1alpha1 "github.com/common-fate/sdk/gen/commonfate/control/config/v1alpha1"
 	http "net/http"
 	strings "strings"
@@ -18,7 +18,7 @@ import (
 // generated with a version of connect newer than the one compiled into your binary. You can fix the
 // problem by either regenerating this code with an older version of connect or updating the connect
 // version compiled into your binary.
-const _ = connect_go.IsAtLeastVersion0_1_0
+const _ = connect.IsAtLeastVersion1_13_0
 
 const (
 	// WebhookProvisionerServiceName is the fully-qualified name of the WebhookProvisionerService
@@ -48,13 +48,22 @@ const (
 	WebhookProvisionerServiceDeleteWebhookProvisionerProcedure = "/commonfate.control.config.v1alpha1.WebhookProvisionerService/DeleteWebhookProvisioner"
 )
 
+// These variables are the protoreflect.Descriptor objects for the RPCs defined in this package.
+var (
+	webhookProvisionerServiceServiceDescriptor                        = v1alpha1.File_commonfate_control_config_v1alpha1_webhook_provisioner_proto.Services().ByName("WebhookProvisionerService")
+	webhookProvisionerServiceCreateWebhookProvisionerMethodDescriptor = webhookProvisionerServiceServiceDescriptor.Methods().ByName("CreateWebhookProvisioner")
+	webhookProvisionerServiceGetWebhookProvisionerMethodDescriptor    = webhookProvisionerServiceServiceDescriptor.Methods().ByName("GetWebhookProvisioner")
+	webhookProvisionerServiceUpdateWebhookProvisionerMethodDescriptor = webhookProvisionerServiceServiceDescriptor.Methods().ByName("UpdateWebhookProvisioner")
+	webhookProvisionerServiceDeleteWebhookProvisionerMethodDescriptor = webhookProvisionerServiceServiceDescriptor.Methods().ByName("DeleteWebhookProvisioner")
+)
+
 // WebhookProvisionerServiceClient is a client for the
 // commonfate.control.config.v1alpha1.WebhookProvisionerService service.
 type WebhookProvisionerServiceClient interface {
-	CreateWebhookProvisioner(context.Context, *connect_go.Request[v1alpha1.CreateWebhookProvisionerRequest]) (*connect_go.Response[v1alpha1.CreateWebhookProvisionerResponse], error)
-	GetWebhookProvisioner(context.Context, *connect_go.Request[v1alpha1.GetWebhookProvisionerRequest]) (*connect_go.Response[v1alpha1.GetWebhookProvisionerResponse], error)
-	UpdateWebhookProvisioner(context.Context, *connect_go.Request[v1alpha1.UpdateWebhookProvisionerRequest]) (*connect_go.Response[v1alpha1.UpdateWebhookProvisionerResponse], error)
-	DeleteWebhookProvisioner(context.Context, *connect_go.Request[v1alpha1.DeleteWebhookProvisionerRequest]) (*connect_go.Response[v1alpha1.DeleteWebhookProvisionerResponse], error)
+	CreateWebhookProvisioner(context.Context, *connect.Request[v1alpha1.CreateWebhookProvisionerRequest]) (*connect.Response[v1alpha1.CreateWebhookProvisionerResponse], error)
+	GetWebhookProvisioner(context.Context, *connect.Request[v1alpha1.GetWebhookProvisionerRequest]) (*connect.Response[v1alpha1.GetWebhookProvisionerResponse], error)
+	UpdateWebhookProvisioner(context.Context, *connect.Request[v1alpha1.UpdateWebhookProvisionerRequest]) (*connect.Response[v1alpha1.UpdateWebhookProvisionerResponse], error)
+	DeleteWebhookProvisioner(context.Context, *connect.Request[v1alpha1.DeleteWebhookProvisionerRequest]) (*connect.Response[v1alpha1.DeleteWebhookProvisionerResponse], error)
 }
 
 // NewWebhookProvisionerServiceClient constructs a client for the
@@ -65,71 +74,75 @@ type WebhookProvisionerServiceClient interface {
 //
 // The URL supplied here should be the base URL for the Connect or gRPC server (for example,
 // http://api.acme.com or https://acme.com/grpc).
-func NewWebhookProvisionerServiceClient(httpClient connect_go.HTTPClient, baseURL string, opts ...connect_go.ClientOption) WebhookProvisionerServiceClient {
+func NewWebhookProvisionerServiceClient(httpClient connect.HTTPClient, baseURL string, opts ...connect.ClientOption) WebhookProvisionerServiceClient {
 	baseURL = strings.TrimRight(baseURL, "/")
 	return &webhookProvisionerServiceClient{
-		createWebhookProvisioner: connect_go.NewClient[v1alpha1.CreateWebhookProvisionerRequest, v1alpha1.CreateWebhookProvisionerResponse](
+		createWebhookProvisioner: connect.NewClient[v1alpha1.CreateWebhookProvisionerRequest, v1alpha1.CreateWebhookProvisionerResponse](
 			httpClient,
 			baseURL+WebhookProvisionerServiceCreateWebhookProvisionerProcedure,
-			opts...,
+			connect.WithSchema(webhookProvisionerServiceCreateWebhookProvisionerMethodDescriptor),
+			connect.WithClientOptions(opts...),
 		),
-		getWebhookProvisioner: connect_go.NewClient[v1alpha1.GetWebhookProvisionerRequest, v1alpha1.GetWebhookProvisionerResponse](
+		getWebhookProvisioner: connect.NewClient[v1alpha1.GetWebhookProvisionerRequest, v1alpha1.GetWebhookProvisionerResponse](
 			httpClient,
 			baseURL+WebhookProvisionerServiceGetWebhookProvisionerProcedure,
-			opts...,
+			connect.WithSchema(webhookProvisionerServiceGetWebhookProvisionerMethodDescriptor),
+			connect.WithClientOptions(opts...),
 		),
-		updateWebhookProvisioner: connect_go.NewClient[v1alpha1.UpdateWebhookProvisionerRequest, v1alpha1.UpdateWebhookProvisionerResponse](
+		updateWebhookProvisioner: connect.NewClient[v1alpha1.UpdateWebhookProvisionerRequest, v1alpha1.UpdateWebhookProvisionerResponse](
 			httpClient,
 			baseURL+WebhookProvisionerServiceUpdateWebhookProvisionerProcedure,
-			opts...,
+			connect.WithSchema(webhookProvisionerServiceUpdateWebhookProvisionerMethodDescriptor),
+			connect.WithClientOptions(opts...),
 		),
-		deleteWebhookProvisioner: connect_go.NewClient[v1alpha1.DeleteWebhookProvisionerRequest, v1alpha1.DeleteWebhookProvisionerResponse](
+		deleteWebhookProvisioner: connect.NewClient[v1alpha1.DeleteWebhookProvisionerRequest, v1alpha1.DeleteWebhookProvisionerResponse](
 			httpClient,
 			baseURL+WebhookProvisionerServiceDeleteWebhookProvisionerProcedure,
-			opts...,
+			connect.WithSchema(webhookProvisionerServiceDeleteWebhookProvisionerMethodDescriptor),
+			connect.WithClientOptions(opts...),
 		),
 	}
 }
 
 // webhookProvisionerServiceClient implements WebhookProvisionerServiceClient.
 type webhookProvisionerServiceClient struct {
-	createWebhookProvisioner *connect_go.Client[v1alpha1.CreateWebhookProvisionerRequest, v1alpha1.CreateWebhookProvisionerResponse]
-	getWebhookProvisioner    *connect_go.Client[v1alpha1.GetWebhookProvisionerRequest, v1alpha1.GetWebhookProvisionerResponse]
-	updateWebhookProvisioner *connect_go.Client[v1alpha1.UpdateWebhookProvisionerRequest, v1alpha1.UpdateWebhookProvisionerResponse]
-	deleteWebhookProvisioner *connect_go.Client[v1alpha1.DeleteWebhookProvisionerRequest, v1alpha1.DeleteWebhookProvisionerResponse]
+	createWebhookProvisioner *connect.Client[v1alpha1.CreateWebhookProvisionerRequest, v1alpha1.CreateWebhookProvisionerResponse]
+	getWebhookProvisioner    *connect.Client[v1alpha1.GetWebhookProvisionerRequest, v1alpha1.GetWebhookProvisionerResponse]
+	updateWebhookProvisioner *connect.Client[v1alpha1.UpdateWebhookProvisionerRequest, v1alpha1.UpdateWebhookProvisionerResponse]
+	deleteWebhookProvisioner *connect.Client[v1alpha1.DeleteWebhookProvisionerRequest, v1alpha1.DeleteWebhookProvisionerResponse]
 }
 
 // CreateWebhookProvisioner calls
 // commonfate.control.config.v1alpha1.WebhookProvisionerService.CreateWebhookProvisioner.
-func (c *webhookProvisionerServiceClient) CreateWebhookProvisioner(ctx context.Context, req *connect_go.Request[v1alpha1.CreateWebhookProvisionerRequest]) (*connect_go.Response[v1alpha1.CreateWebhookProvisionerResponse], error) {
+func (c *webhookProvisionerServiceClient) CreateWebhookProvisioner(ctx context.Context, req *connect.Request[v1alpha1.CreateWebhookProvisionerRequest]) (*connect.Response[v1alpha1.CreateWebhookProvisionerResponse], error) {
 	return c.createWebhookProvisioner.CallUnary(ctx, req)
 }
 
 // GetWebhookProvisioner calls
 // commonfate.control.config.v1alpha1.WebhookProvisionerService.GetWebhookProvisioner.
-func (c *webhookProvisionerServiceClient) GetWebhookProvisioner(ctx context.Context, req *connect_go.Request[v1alpha1.GetWebhookProvisionerRequest]) (*connect_go.Response[v1alpha1.GetWebhookProvisionerResponse], error) {
+func (c *webhookProvisionerServiceClient) GetWebhookProvisioner(ctx context.Context, req *connect.Request[v1alpha1.GetWebhookProvisionerRequest]) (*connect.Response[v1alpha1.GetWebhookProvisionerResponse], error) {
 	return c.getWebhookProvisioner.CallUnary(ctx, req)
 }
 
 // UpdateWebhookProvisioner calls
 // commonfate.control.config.v1alpha1.WebhookProvisionerService.UpdateWebhookProvisioner.
-func (c *webhookProvisionerServiceClient) UpdateWebhookProvisioner(ctx context.Context, req *connect_go.Request[v1alpha1.UpdateWebhookProvisionerRequest]) (*connect_go.Response[v1alpha1.UpdateWebhookProvisionerResponse], error) {
+func (c *webhookProvisionerServiceClient) UpdateWebhookProvisioner(ctx context.Context, req *connect.Request[v1alpha1.UpdateWebhookProvisionerRequest]) (*connect.Response[v1alpha1.UpdateWebhookProvisionerResponse], error) {
 	return c.updateWebhookProvisioner.CallUnary(ctx, req)
 }
 
 // DeleteWebhookProvisioner calls
 // commonfate.control.config.v1alpha1.WebhookProvisionerService.DeleteWebhookProvisioner.
-func (c *webhookProvisionerServiceClient) DeleteWebhookProvisioner(ctx context.Context, req *connect_go.Request[v1alpha1.DeleteWebhookProvisionerRequest]) (*connect_go.Response[v1alpha1.DeleteWebhookProvisionerResponse], error) {
+func (c *webhookProvisionerServiceClient) DeleteWebhookProvisioner(ctx context.Context, req *connect.Request[v1alpha1.DeleteWebhookProvisionerRequest]) (*connect.Response[v1alpha1.DeleteWebhookProvisionerResponse], error) {
 	return c.deleteWebhookProvisioner.CallUnary(ctx, req)
 }
 
 // WebhookProvisionerServiceHandler is an implementation of the
 // commonfate.control.config.v1alpha1.WebhookProvisionerService service.
 type WebhookProvisionerServiceHandler interface {
-	CreateWebhookProvisioner(context.Context, *connect_go.Request[v1alpha1.CreateWebhookProvisionerRequest]) (*connect_go.Response[v1alpha1.CreateWebhookProvisionerResponse], error)
-	GetWebhookProvisioner(context.Context, *connect_go.Request[v1alpha1.GetWebhookProvisionerRequest]) (*connect_go.Response[v1alpha1.GetWebhookProvisionerResponse], error)
-	UpdateWebhookProvisioner(context.Context, *connect_go.Request[v1alpha1.UpdateWebhookProvisionerRequest]) (*connect_go.Response[v1alpha1.UpdateWebhookProvisionerResponse], error)
-	DeleteWebhookProvisioner(context.Context, *connect_go.Request[v1alpha1.DeleteWebhookProvisionerRequest]) (*connect_go.Response[v1alpha1.DeleteWebhookProvisionerResponse], error)
+	CreateWebhookProvisioner(context.Context, *connect.Request[v1alpha1.CreateWebhookProvisionerRequest]) (*connect.Response[v1alpha1.CreateWebhookProvisionerResponse], error)
+	GetWebhookProvisioner(context.Context, *connect.Request[v1alpha1.GetWebhookProvisionerRequest]) (*connect.Response[v1alpha1.GetWebhookProvisionerResponse], error)
+	UpdateWebhookProvisioner(context.Context, *connect.Request[v1alpha1.UpdateWebhookProvisionerRequest]) (*connect.Response[v1alpha1.UpdateWebhookProvisionerResponse], error)
+	DeleteWebhookProvisioner(context.Context, *connect.Request[v1alpha1.DeleteWebhookProvisionerRequest]) (*connect.Response[v1alpha1.DeleteWebhookProvisionerResponse], error)
 }
 
 // NewWebhookProvisionerServiceHandler builds an HTTP handler from the service implementation. It
@@ -137,26 +150,30 @@ type WebhookProvisionerServiceHandler interface {
 //
 // By default, handlers support the Connect, gRPC, and gRPC-Web protocols with the binary Protobuf
 // and JSON codecs. They also support gzip compression.
-func NewWebhookProvisionerServiceHandler(svc WebhookProvisionerServiceHandler, opts ...connect_go.HandlerOption) (string, http.Handler) {
-	webhookProvisionerServiceCreateWebhookProvisionerHandler := connect_go.NewUnaryHandler(
+func NewWebhookProvisionerServiceHandler(svc WebhookProvisionerServiceHandler, opts ...connect.HandlerOption) (string, http.Handler) {
+	webhookProvisionerServiceCreateWebhookProvisionerHandler := connect.NewUnaryHandler(
 		WebhookProvisionerServiceCreateWebhookProvisionerProcedure,
 		svc.CreateWebhookProvisioner,
-		opts...,
+		connect.WithSchema(webhookProvisionerServiceCreateWebhookProvisionerMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
 	)
-	webhookProvisionerServiceGetWebhookProvisionerHandler := connect_go.NewUnaryHandler(
+	webhookProvisionerServiceGetWebhookProvisionerHandler := connect.NewUnaryHandler(
 		WebhookProvisionerServiceGetWebhookProvisionerProcedure,
 		svc.GetWebhookProvisioner,
-		opts...,
+		connect.WithSchema(webhookProvisionerServiceGetWebhookProvisionerMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
 	)
-	webhookProvisionerServiceUpdateWebhookProvisionerHandler := connect_go.NewUnaryHandler(
+	webhookProvisionerServiceUpdateWebhookProvisionerHandler := connect.NewUnaryHandler(
 		WebhookProvisionerServiceUpdateWebhookProvisionerProcedure,
 		svc.UpdateWebhookProvisioner,
-		opts...,
+		connect.WithSchema(webhookProvisionerServiceUpdateWebhookProvisionerMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
 	)
-	webhookProvisionerServiceDeleteWebhookProvisionerHandler := connect_go.NewUnaryHandler(
+	webhookProvisionerServiceDeleteWebhookProvisionerHandler := connect.NewUnaryHandler(
 		WebhookProvisionerServiceDeleteWebhookProvisionerProcedure,
 		svc.DeleteWebhookProvisioner,
-		opts...,
+		connect.WithSchema(webhookProvisionerServiceDeleteWebhookProvisionerMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
 	)
 	return "/commonfate.control.config.v1alpha1.WebhookProvisionerService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
@@ -177,18 +194,18 @@ func NewWebhookProvisionerServiceHandler(svc WebhookProvisionerServiceHandler, o
 // UnimplementedWebhookProvisionerServiceHandler returns CodeUnimplemented from all methods.
 type UnimplementedWebhookProvisionerServiceHandler struct{}
 
-func (UnimplementedWebhookProvisionerServiceHandler) CreateWebhookProvisioner(context.Context, *connect_go.Request[v1alpha1.CreateWebhookProvisionerRequest]) (*connect_go.Response[v1alpha1.CreateWebhookProvisionerResponse], error) {
-	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("commonfate.control.config.v1alpha1.WebhookProvisionerService.CreateWebhookProvisioner is not implemented"))
+func (UnimplementedWebhookProvisionerServiceHandler) CreateWebhookProvisioner(context.Context, *connect.Request[v1alpha1.CreateWebhookProvisionerRequest]) (*connect.Response[v1alpha1.CreateWebhookProvisionerResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.control.config.v1alpha1.WebhookProvisionerService.CreateWebhookProvisioner is not implemented"))
 }
 
-func (UnimplementedWebhookProvisionerServiceHandler) GetWebhookProvisioner(context.Context, *connect_go.Request[v1alpha1.GetWebhookProvisionerRequest]) (*connect_go.Response[v1alpha1.GetWebhookProvisionerResponse], error) {
-	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("commonfate.control.config.v1alpha1.WebhookProvisionerService.GetWebhookProvisioner is not implemented"))
+func (UnimplementedWebhookProvisionerServiceHandler) GetWebhookProvisioner(context.Context, *connect.Request[v1alpha1.GetWebhookProvisionerRequest]) (*connect.Response[v1alpha1.GetWebhookProvisionerResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.control.config.v1alpha1.WebhookProvisionerService.GetWebhookProvisioner is not implemented"))
 }
 
-func (UnimplementedWebhookProvisionerServiceHandler) UpdateWebhookProvisioner(context.Context, *connect_go.Request[v1alpha1.UpdateWebhookProvisionerRequest]) (*connect_go.Response[v1alpha1.UpdateWebhookProvisionerResponse], error) {
-	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("commonfate.control.config.v1alpha1.WebhookProvisionerService.UpdateWebhookProvisioner is not implemented"))
+func (UnimplementedWebhookProvisionerServiceHandler) UpdateWebhookProvisioner(context.Context, *connect.Request[v1alpha1.UpdateWebhookProvisionerRequest]) (*connect.Response[v1alpha1.UpdateWebhookProvisionerResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.control.config.v1alpha1.WebhookProvisionerService.UpdateWebhookProvisioner is not implemented"))
 }
 
-func (UnimplementedWebhookProvisionerServiceHandler) DeleteWebhookProvisioner(context.Context, *connect_go.Request[v1alpha1.DeleteWebhookProvisionerRequest]) (*connect_go.Response[v1alpha1.DeleteWebhookProvisionerResponse], error) {
-	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("commonfate.control.config.v1alpha1.WebhookProvisionerService.DeleteWebhookProvisioner is not implemented"))
+func (UnimplementedWebhookProvisionerServiceHandler) DeleteWebhookProvisioner(context.Context, *connect.Request[v1alpha1.DeleteWebhookProvisionerRequest]) (*connect.Response[v1alpha1.DeleteWebhookProvisionerResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.control.config.v1alpha1.WebhookProvisionerService.DeleteWebhookProvisioner is not implemented"))
 }

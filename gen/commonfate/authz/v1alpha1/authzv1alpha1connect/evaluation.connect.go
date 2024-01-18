@@ -5,9 +5,9 @@
 package authzv1alpha1connect
 
 import (
+	connect "connectrpc.com/connect"
 	context "context"
 	errors "errors"
-	connect_go "github.com/bufbuild/connect-go"
 	v1alpha1 "github.com/common-fate/sdk/gen/commonfate/authz/v1alpha1"
 	http "net/http"
 	strings "strings"
@@ -18,7 +18,7 @@ import (
 // generated with a version of connect newer than the one compiled into your binary. You can fix the
 // problem by either regenerating this code with an older version of connect or updating the connect
 // version compiled into your binary.
-const _ = connect_go.IsAtLeastVersion0_1_0
+const _ = connect.IsAtLeastVersion1_13_0
 
 const (
 	// EvaluationServiceName is the fully-qualified name of the EvaluationService service.
@@ -38,10 +38,16 @@ const (
 	EvaluationServiceDebugEvaluationProcedure = "/commonfate.authz.v1alpha1.EvaluationService/DebugEvaluation"
 )
 
+// These variables are the protoreflect.Descriptor objects for the RPCs defined in this package.
+var (
+	evaluationServiceServiceDescriptor               = v1alpha1.File_commonfate_authz_v1alpha1_evaluation_proto.Services().ByName("EvaluationService")
+	evaluationServiceDebugEvaluationMethodDescriptor = evaluationServiceServiceDescriptor.Methods().ByName("DebugEvaluation")
+)
+
 // EvaluationServiceClient is a client for the commonfate.authz.v1alpha1.EvaluationService service.
 type EvaluationServiceClient interface {
 	// Fetches debug information about the evaluation of a particular decision
-	DebugEvaluation(context.Context, *connect_go.Request[v1alpha1.DebugEvaluationRequest]) (*connect_go.Response[v1alpha1.DebugEvaluationResponse], error)
+	DebugEvaluation(context.Context, *connect.Request[v1alpha1.DebugEvaluationRequest]) (*connect.Response[v1alpha1.DebugEvaluationResponse], error)
 }
 
 // NewEvaluationServiceClient constructs a client for the
@@ -52,24 +58,25 @@ type EvaluationServiceClient interface {
 //
 // The URL supplied here should be the base URL for the Connect or gRPC server (for example,
 // http://api.acme.com or https://acme.com/grpc).
-func NewEvaluationServiceClient(httpClient connect_go.HTTPClient, baseURL string, opts ...connect_go.ClientOption) EvaluationServiceClient {
+func NewEvaluationServiceClient(httpClient connect.HTTPClient, baseURL string, opts ...connect.ClientOption) EvaluationServiceClient {
 	baseURL = strings.TrimRight(baseURL, "/")
 	return &evaluationServiceClient{
-		debugEvaluation: connect_go.NewClient[v1alpha1.DebugEvaluationRequest, v1alpha1.DebugEvaluationResponse](
+		debugEvaluation: connect.NewClient[v1alpha1.DebugEvaluationRequest, v1alpha1.DebugEvaluationResponse](
 			httpClient,
 			baseURL+EvaluationServiceDebugEvaluationProcedure,
-			opts...,
+			connect.WithSchema(evaluationServiceDebugEvaluationMethodDescriptor),
+			connect.WithClientOptions(opts...),
 		),
 	}
 }
 
 // evaluationServiceClient implements EvaluationServiceClient.
 type evaluationServiceClient struct {
-	debugEvaluation *connect_go.Client[v1alpha1.DebugEvaluationRequest, v1alpha1.DebugEvaluationResponse]
+	debugEvaluation *connect.Client[v1alpha1.DebugEvaluationRequest, v1alpha1.DebugEvaluationResponse]
 }
 
 // DebugEvaluation calls commonfate.authz.v1alpha1.EvaluationService.DebugEvaluation.
-func (c *evaluationServiceClient) DebugEvaluation(ctx context.Context, req *connect_go.Request[v1alpha1.DebugEvaluationRequest]) (*connect_go.Response[v1alpha1.DebugEvaluationResponse], error) {
+func (c *evaluationServiceClient) DebugEvaluation(ctx context.Context, req *connect.Request[v1alpha1.DebugEvaluationRequest]) (*connect.Response[v1alpha1.DebugEvaluationResponse], error) {
 	return c.debugEvaluation.CallUnary(ctx, req)
 }
 
@@ -77,7 +84,7 @@ func (c *evaluationServiceClient) DebugEvaluation(ctx context.Context, req *conn
 // service.
 type EvaluationServiceHandler interface {
 	// Fetches debug information about the evaluation of a particular decision
-	DebugEvaluation(context.Context, *connect_go.Request[v1alpha1.DebugEvaluationRequest]) (*connect_go.Response[v1alpha1.DebugEvaluationResponse], error)
+	DebugEvaluation(context.Context, *connect.Request[v1alpha1.DebugEvaluationRequest]) (*connect.Response[v1alpha1.DebugEvaluationResponse], error)
 }
 
 // NewEvaluationServiceHandler builds an HTTP handler from the service implementation. It returns
@@ -85,11 +92,12 @@ type EvaluationServiceHandler interface {
 //
 // By default, handlers support the Connect, gRPC, and gRPC-Web protocols with the binary Protobuf
 // and JSON codecs. They also support gzip compression.
-func NewEvaluationServiceHandler(svc EvaluationServiceHandler, opts ...connect_go.HandlerOption) (string, http.Handler) {
-	evaluationServiceDebugEvaluationHandler := connect_go.NewUnaryHandler(
+func NewEvaluationServiceHandler(svc EvaluationServiceHandler, opts ...connect.HandlerOption) (string, http.Handler) {
+	evaluationServiceDebugEvaluationHandler := connect.NewUnaryHandler(
 		EvaluationServiceDebugEvaluationProcedure,
 		svc.DebugEvaluation,
-		opts...,
+		connect.WithSchema(evaluationServiceDebugEvaluationMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
 	)
 	return "/commonfate.authz.v1alpha1.EvaluationService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
@@ -104,6 +112,6 @@ func NewEvaluationServiceHandler(svc EvaluationServiceHandler, opts ...connect_g
 // UnimplementedEvaluationServiceHandler returns CodeUnimplemented from all methods.
 type UnimplementedEvaluationServiceHandler struct{}
 
-func (UnimplementedEvaluationServiceHandler) DebugEvaluation(context.Context, *connect_go.Request[v1alpha1.DebugEvaluationRequest]) (*connect_go.Response[v1alpha1.DebugEvaluationResponse], error) {
-	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("commonfate.authz.v1alpha1.EvaluationService.DebugEvaluation is not implemented"))
+func (UnimplementedEvaluationServiceHandler) DebugEvaluation(context.Context, *connect.Request[v1alpha1.DebugEvaluationRequest]) (*connect.Response[v1alpha1.DebugEvaluationResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.authz.v1alpha1.EvaluationService.DebugEvaluation is not implemented"))
 }

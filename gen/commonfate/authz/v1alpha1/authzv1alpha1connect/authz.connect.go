@@ -5,9 +5,9 @@
 package authzv1alpha1connect
 
 import (
+	connect "connectrpc.com/connect"
 	context "context"
 	errors "errors"
-	connect_go "github.com/bufbuild/connect-go"
 	v1alpha1 "github.com/common-fate/sdk/gen/commonfate/authz/v1alpha1"
 	http "net/http"
 	strings "strings"
@@ -18,7 +18,7 @@ import (
 // generated with a version of connect newer than the one compiled into your binary. You can fix the
 // problem by either regenerating this code with an older version of connect or updating the connect
 // version compiled into your binary.
-const _ = connect_go.IsAtLeastVersion0_1_0
+const _ = connect.IsAtLeastVersion1_13_0
 
 const (
 	// AuthzServiceName is the fully-qualified name of the AuthzService service.
@@ -38,10 +38,16 @@ const (
 	AuthzServiceBatchAuthorizeProcedure = "/commonfate.authz.v1alpha1.AuthzService/BatchAuthorize"
 )
 
+// These variables are the protoreflect.Descriptor objects for the RPCs defined in this package.
+var (
+	authzServiceServiceDescriptor              = v1alpha1.File_commonfate_authz_v1alpha1_authz_proto.Services().ByName("AuthzService")
+	authzServiceBatchAuthorizeMethodDescriptor = authzServiceServiceDescriptor.Methods().ByName("BatchAuthorize")
+)
+
 // AuthzServiceClient is a client for the commonfate.authz.v1alpha1.AuthzService service.
 type AuthzServiceClient interface {
 	// run multiple authorization evaluations and returns allow + deny for each.
-	BatchAuthorize(context.Context, *connect_go.Request[v1alpha1.BatchAuthorizeRequest]) (*connect_go.Response[v1alpha1.BatchAuthorizeResponse], error)
+	BatchAuthorize(context.Context, *connect.Request[v1alpha1.BatchAuthorizeRequest]) (*connect.Response[v1alpha1.BatchAuthorizeResponse], error)
 }
 
 // NewAuthzServiceClient constructs a client for the commonfate.authz.v1alpha1.AuthzService service.
@@ -51,31 +57,32 @@ type AuthzServiceClient interface {
 //
 // The URL supplied here should be the base URL for the Connect or gRPC server (for example,
 // http://api.acme.com or https://acme.com/grpc).
-func NewAuthzServiceClient(httpClient connect_go.HTTPClient, baseURL string, opts ...connect_go.ClientOption) AuthzServiceClient {
+func NewAuthzServiceClient(httpClient connect.HTTPClient, baseURL string, opts ...connect.ClientOption) AuthzServiceClient {
 	baseURL = strings.TrimRight(baseURL, "/")
 	return &authzServiceClient{
-		batchAuthorize: connect_go.NewClient[v1alpha1.BatchAuthorizeRequest, v1alpha1.BatchAuthorizeResponse](
+		batchAuthorize: connect.NewClient[v1alpha1.BatchAuthorizeRequest, v1alpha1.BatchAuthorizeResponse](
 			httpClient,
 			baseURL+AuthzServiceBatchAuthorizeProcedure,
-			opts...,
+			connect.WithSchema(authzServiceBatchAuthorizeMethodDescriptor),
+			connect.WithClientOptions(opts...),
 		),
 	}
 }
 
 // authzServiceClient implements AuthzServiceClient.
 type authzServiceClient struct {
-	batchAuthorize *connect_go.Client[v1alpha1.BatchAuthorizeRequest, v1alpha1.BatchAuthorizeResponse]
+	batchAuthorize *connect.Client[v1alpha1.BatchAuthorizeRequest, v1alpha1.BatchAuthorizeResponse]
 }
 
 // BatchAuthorize calls commonfate.authz.v1alpha1.AuthzService.BatchAuthorize.
-func (c *authzServiceClient) BatchAuthorize(ctx context.Context, req *connect_go.Request[v1alpha1.BatchAuthorizeRequest]) (*connect_go.Response[v1alpha1.BatchAuthorizeResponse], error) {
+func (c *authzServiceClient) BatchAuthorize(ctx context.Context, req *connect.Request[v1alpha1.BatchAuthorizeRequest]) (*connect.Response[v1alpha1.BatchAuthorizeResponse], error) {
 	return c.batchAuthorize.CallUnary(ctx, req)
 }
 
 // AuthzServiceHandler is an implementation of the commonfate.authz.v1alpha1.AuthzService service.
 type AuthzServiceHandler interface {
 	// run multiple authorization evaluations and returns allow + deny for each.
-	BatchAuthorize(context.Context, *connect_go.Request[v1alpha1.BatchAuthorizeRequest]) (*connect_go.Response[v1alpha1.BatchAuthorizeResponse], error)
+	BatchAuthorize(context.Context, *connect.Request[v1alpha1.BatchAuthorizeRequest]) (*connect.Response[v1alpha1.BatchAuthorizeResponse], error)
 }
 
 // NewAuthzServiceHandler builds an HTTP handler from the service implementation. It returns the
@@ -83,11 +90,12 @@ type AuthzServiceHandler interface {
 //
 // By default, handlers support the Connect, gRPC, and gRPC-Web protocols with the binary Protobuf
 // and JSON codecs. They also support gzip compression.
-func NewAuthzServiceHandler(svc AuthzServiceHandler, opts ...connect_go.HandlerOption) (string, http.Handler) {
-	authzServiceBatchAuthorizeHandler := connect_go.NewUnaryHandler(
+func NewAuthzServiceHandler(svc AuthzServiceHandler, opts ...connect.HandlerOption) (string, http.Handler) {
+	authzServiceBatchAuthorizeHandler := connect.NewUnaryHandler(
 		AuthzServiceBatchAuthorizeProcedure,
 		svc.BatchAuthorize,
-		opts...,
+		connect.WithSchema(authzServiceBatchAuthorizeMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
 	)
 	return "/commonfate.authz.v1alpha1.AuthzService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
@@ -102,6 +110,6 @@ func NewAuthzServiceHandler(svc AuthzServiceHandler, opts ...connect_go.HandlerO
 // UnimplementedAuthzServiceHandler returns CodeUnimplemented from all methods.
 type UnimplementedAuthzServiceHandler struct{}
 
-func (UnimplementedAuthzServiceHandler) BatchAuthorize(context.Context, *connect_go.Request[v1alpha1.BatchAuthorizeRequest]) (*connect_go.Response[v1alpha1.BatchAuthorizeResponse], error) {
-	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("commonfate.authz.v1alpha1.AuthzService.BatchAuthorize is not implemented"))
+func (UnimplementedAuthzServiceHandler) BatchAuthorize(context.Context, *connect.Request[v1alpha1.BatchAuthorizeRequest]) (*connect.Response[v1alpha1.BatchAuthorizeResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.authz.v1alpha1.AuthzService.BatchAuthorize is not implemented"))
 }

@@ -7,7 +7,7 @@ package configv1alpha1connect
 import (
 	context "context"
 	errors "errors"
-	connect_go "github.com/bufbuild/connect-go"
+	connect_go "connectrpc.com/connect"
 	v1alpha1 "github.com/common-fate/sdk/gen/commonfate/control/config/v1alpha1"
 	http "net/http"
 	strings "strings"

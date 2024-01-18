@@ -5,9 +5,9 @@
 package accessv1alpha1connect
 
 import (
+	connect "connectrpc.com/connect"
 	context "context"
 	errors "errors"
-	connect_go "github.com/bufbuild/connect-go"
 	v1alpha1 "github.com/common-fate/sdk/gen/commonfate/access/v1alpha1"
 	http "net/http"
 	strings "strings"
@@ -18,7 +18,7 @@ import (
 // generated with a version of connect newer than the one compiled into your binary. You can fix the
 // problem by either regenerating this code with an older version of connect or updating the connect
 // version compiled into your binary.
-const _ = connect_go.IsAtLeastVersion0_1_0
+const _ = connect.IsAtLeastVersion1_13_0
 
 const (
 	// IdentityServiceName is the fully-qualified name of the IdentityService service.
@@ -38,9 +38,15 @@ const (
 	IdentityServiceGetCallerIdentityProcedure = "/commonfate.access.v1alpha1.IdentityService/GetCallerIdentity"
 )
 
+// These variables are the protoreflect.Descriptor objects for the RPCs defined in this package.
+var (
+	identityServiceServiceDescriptor                 = v1alpha1.File_commonfate_access_v1alpha1_identity_proto.Services().ByName("IdentityService")
+	identityServiceGetCallerIdentityMethodDescriptor = identityServiceServiceDescriptor.Methods().ByName("GetCallerIdentity")
+)
+
 // IdentityServiceClient is a client for the commonfate.access.v1alpha1.IdentityService service.
 type IdentityServiceClient interface {
-	GetCallerIdentity(context.Context, *connect_go.Request[v1alpha1.GetCallerIdentityRequest]) (*connect_go.Response[v1alpha1.GetCallerIdentityResponse], error)
+	GetCallerIdentity(context.Context, *connect.Request[v1alpha1.GetCallerIdentityRequest]) (*connect.Response[v1alpha1.GetCallerIdentityResponse], error)
 }
 
 // NewIdentityServiceClient constructs a client for the commonfate.access.v1alpha1.IdentityService
@@ -50,31 +56,32 @@ type IdentityServiceClient interface {
 //
 // The URL supplied here should be the base URL for the Connect or gRPC server (for example,
 // http://api.acme.com or https://acme.com/grpc).
-func NewIdentityServiceClient(httpClient connect_go.HTTPClient, baseURL string, opts ...connect_go.ClientOption) IdentityServiceClient {
+func NewIdentityServiceClient(httpClient connect.HTTPClient, baseURL string, opts ...connect.ClientOption) IdentityServiceClient {
 	baseURL = strings.TrimRight(baseURL, "/")
 	return &identityServiceClient{
-		getCallerIdentity: connect_go.NewClient[v1alpha1.GetCallerIdentityRequest, v1alpha1.GetCallerIdentityResponse](
+		getCallerIdentity: connect.NewClient[v1alpha1.GetCallerIdentityRequest, v1alpha1.GetCallerIdentityResponse](
 			httpClient,
 			baseURL+IdentityServiceGetCallerIdentityProcedure,
-			opts...,
+			connect.WithSchema(identityServiceGetCallerIdentityMethodDescriptor),
+			connect.WithClientOptions(opts...),
 		),
 	}
 }
 
 // identityServiceClient implements IdentityServiceClient.
 type identityServiceClient struct {
-	getCallerIdentity *connect_go.Client[v1alpha1.GetCallerIdentityRequest, v1alpha1.GetCallerIdentityResponse]
+	getCallerIdentity *connect.Client[v1alpha1.GetCallerIdentityRequest, v1alpha1.GetCallerIdentityResponse]
 }
 
 // GetCallerIdentity calls commonfate.access.v1alpha1.IdentityService.GetCallerIdentity.
-func (c *identityServiceClient) GetCallerIdentity(ctx context.Context, req *connect_go.Request[v1alpha1.GetCallerIdentityRequest]) (*connect_go.Response[v1alpha1.GetCallerIdentityResponse], error) {
+func (c *identityServiceClient) GetCallerIdentity(ctx context.Context, req *connect.Request[v1alpha1.GetCallerIdentityRequest]) (*connect.Response[v1alpha1.GetCallerIdentityResponse], error) {
 	return c.getCallerIdentity.CallUnary(ctx, req)
 }
 
 // IdentityServiceHandler is an implementation of the commonfate.access.v1alpha1.IdentityService
 // service.
 type IdentityServiceHandler interface {
-	GetCallerIdentity(context.Context, *connect_go.Request[v1alpha1.GetCallerIdentityRequest]) (*connect_go.Response[v1alpha1.GetCallerIdentityResponse], error)
+	GetCallerIdentity(context.Context, *connect.Request[v1alpha1.GetCallerIdentityRequest]) (*connect.Response[v1alpha1.GetCallerIdentityResponse], error)
 }
 
 // NewIdentityServiceHandler builds an HTTP handler from the service implementation. It returns the
@@ -82,11 +89,12 @@ type IdentityServiceHandler interface {
 //
 // By default, handlers support the Connect, gRPC, and gRPC-Web protocols with the binary Protobuf
 // and JSON codecs. They also support gzip compression.
-func NewIdentityServiceHandler(svc IdentityServiceHandler, opts ...connect_go.HandlerOption) (string, http.Handler) {
-	identityServiceGetCallerIdentityHandler := connect_go.NewUnaryHandler(
+func NewIdentityServiceHandler(svc IdentityServiceHandler, opts ...connect.HandlerOption) (string, http.Handler) {
+	identityServiceGetCallerIdentityHandler := connect.NewUnaryHandler(
 		IdentityServiceGetCallerIdentityProcedure,
 		svc.GetCallerIdentity,
-		opts...,
+		connect.WithSchema(identityServiceGetCallerIdentityMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
 	)
 	return "/commonfate.access.v1alpha1.IdentityService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
@@ -101,6 +109,6 @@ func NewIdentityServiceHandler(svc IdentityServiceHandler, opts ...connect_go.Ha
 // UnimplementedIdentityServiceHandler returns CodeUnimplemented from all methods.
 type UnimplementedIdentityServiceHandler struct{}
 
-func (UnimplementedIdentityServiceHandler) GetCallerIdentity(context.Context, *connect_go.Request[v1alpha1.GetCallerIdentityRequest]) (*connect_go.Response[v1alpha1.GetCallerIdentityResponse], error) {
-	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("commonfate.access.v1alpha1.IdentityService.GetCallerIdentity is not implemented"))
+func (UnimplementedIdentityServiceHandler) GetCallerIdentity(context.Context, *connect.Request[v1alpha1.GetCallerIdentityRequest]) (*connect.Response[v1alpha1.GetCallerIdentityResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.access.v1alpha1.IdentityService.GetCallerIdentity is not implemented"))
 }
