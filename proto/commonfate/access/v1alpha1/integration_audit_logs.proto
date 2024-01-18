@@ -1,36 +1,37 @@
 syntax = "proto3";
-package commonfate.control.audit.v1alpha1;
+package commonfate.access.v1alpha1;
 
 
-import "commonfate/entity/v1alpha1/eid.proto";
 
+import "google/protobuf/struct.proto";
 
 import "google/protobuf/timestamp.proto";
 
-service ProviderAuditTrailService {
+service IntegrationAuditLogService {
+    // Put audit logs relating to a grant
     rpc BatchPutAuditLog(BatchPutAuditLogRequest) returns (BatchPutAuditLogResponse) {}
 }
 
 message BatchPutAuditLogRequest {
     string grant_id = 1;
-    repeated AuditLog audit_logs = 2;
+    repeated IntegrationAuditLog audit_logs = 2;
 }
 
 message BatchPutAuditLogResponse {
 }
 
 
-message AuditLog {
+message IntegrationAuditLog {
     // the action which occurred
     string action = 1;
 
     // the timestamp the action occurred at.
     google.protobuf.Timestamp occurred_at = 2;
-
-    // all related resources affected by the action.
-    repeated commonfate.entity.v1alpha1.EID targets = 3;
     
     // a human-friendly message describing the action.
-    string message = 4;
+    string message = 3;
+
+    // structured data details the audit log event
+    google.protobuf.Struct details = 4;
     
 }
