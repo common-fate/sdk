@@ -5,6 +5,7 @@ package commonfate.access.v1alpha1;
 
 import "commonfate/access/v1alpha1/access.proto";
 import "commonfate/access/v1alpha1/grant.proto";
+import "commonfate/entity/v1alpha1/entity.proto";
 
 
 
@@ -41,6 +42,6 @@ message QueryGrantChildrenRequest {
 }
 
 message QueryGrantChildrenResponse {
-  repeated Grant entities = 1;
+  repeated commonfate.entity.v1alpha1.Entity entities = 1;
   string next_page_token = 2;
 }
