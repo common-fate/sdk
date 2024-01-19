@@ -1,4 +1,4 @@
-package request
+package grants
 
 import (
 	"github.com/common-fate/sdk/config"
