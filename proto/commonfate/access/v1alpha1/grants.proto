@@ -25,6 +25,8 @@ message QueryGrantsRequest {
     commonfate.entity.v1alpha1.EID target = 3;
 
     commonfate.entity.v1alpha1.EID role = 4;
+    // The status of the Grant.
+    GrantStatus status = 5;
 
 }
 
