@@ -6,7 +6,7 @@ package commonfate.access.v1alpha1;
 import "commonfate/access/v1alpha1/access.proto";
 import "commonfate/access/v1alpha1/grant.proto";
 import "commonfate/entity/v1alpha1/entity.proto";
-
+import "commonfate/entity/v1alpha1/eid.proto";
 
 
 // The Grant API.
@@ -20,11 +20,11 @@ message QueryGrantsRequest {
     // The token for the next page.
     string page_token = 1;
 
-    Specifier principal = 2;
+    commonfate.entity.v1alpha1.EID principal = 2;
 
-    Specifier target = 3;
+    commonfate.entity.v1alpha1.EID target = 3;
 
-    Specifier role = 4;
+    commonfate.entity.v1alpha1.EID role = 4;
 
 }
 
