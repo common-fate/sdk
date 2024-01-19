@@ -21,8 +21,8 @@ import (
 const _ = connect_go.IsAtLeastVersion0_1_0
 
 const (
-	// GrantServiceName is the fully-qualified name of the GrantService service.
-	GrantServiceName = "commonfate.access.v1alpha1.GrantService"
+	// GrantsServiceName is the fully-qualified name of the GrantsService service.
+	GrantsServiceName = "commonfate.access.v1alpha1.GrantsService"
 )
 
 // These constants are the fully-qualified names of the RPCs defined in this package. They're
@@ -33,100 +33,101 @@ const (
 // reflection-formatted method names, remove the leading slash and convert the remaining slash to a
 // period.
 const (
-	// GrantServiceQueryGrantsProcedure is the fully-qualified name of the GrantService's QueryGrants
+	// GrantsServiceQueryGrantsProcedure is the fully-qualified name of the GrantsService's QueryGrants
 	// RPC.
-	GrantServiceQueryGrantsProcedure = "/commonfate.access.v1alpha1.GrantService/QueryGrants"
-	// GrantServiceQueryGrantChildrenProcedure is the fully-qualified name of the GrantService's
+	GrantsServiceQueryGrantsProcedure = "/commonfate.access.v1alpha1.GrantsService/QueryGrants"
+	// GrantsServiceQueryGrantChildrenProcedure is the fully-qualified name of the GrantsService's
 	// QueryGrantChildren RPC.
-	GrantServiceQueryGrantChildrenProcedure = "/commonfate.access.v1alpha1.GrantService/QueryGrantChildren"
+	GrantsServiceQueryGrantChildrenProcedure = "/commonfate.access.v1alpha1.GrantsService/QueryGrantChildren"
 )
 
-// GrantServiceClient is a client for the commonfate.access.v1alpha1.GrantService service.
-type GrantServiceClient interface {
+// GrantsServiceClient is a client for the commonfate.access.v1alpha1.GrantsService service.
+type GrantsServiceClient interface {
 	QueryGrants(context.Context, *connect_go.Request[v1alpha1.QueryGrantsRequest]) (*connect_go.Response[v1alpha1.QueryGrantsResponse], error)
 	QueryGrantChildren(context.Context, *connect_go.Request[v1alpha1.QueryGrantChildrenRequest]) (*connect_go.Response[v1alpha1.QueryGrantChildrenResponse], error)
 }
 
-// NewGrantServiceClient constructs a client for the commonfate.access.v1alpha1.GrantService
+// NewGrantsServiceClient constructs a client for the commonfate.access.v1alpha1.GrantsService
 // service. By default, it uses the Connect protocol with the binary Protobuf Codec, asks for
 // gzipped responses, and sends uncompressed requests. To use the gRPC or gRPC-Web protocols, supply
 // the connect.WithGRPC() or connect.WithGRPCWeb() options.
 //
 // The URL supplied here should be the base URL for the Connect or gRPC server (for example,
 // http://api.acme.com or https://acme.com/grpc).
-func NewGrantServiceClient(httpClient connect_go.HTTPClient, baseURL string, opts ...connect_go.ClientOption) GrantServiceClient {
+func NewGrantsServiceClient(httpClient connect_go.HTTPClient, baseURL string, opts ...connect_go.ClientOption) GrantsServiceClient {
 	baseURL = strings.TrimRight(baseURL, "/")
-	return &grantServiceClient{
+	return &grantsServiceClient{
 		queryGrants: connect_go.NewClient[v1alpha1.QueryGrantsRequest, v1alpha1.QueryGrantsResponse](
 			httpClient,
-			baseURL+GrantServiceQueryGrantsProcedure,
+			baseURL+GrantsServiceQueryGrantsProcedure,
 			opts...,
 		),
 		queryGrantChildren: connect_go.NewClient[v1alpha1.QueryGrantChildrenRequest, v1alpha1.QueryGrantChildrenResponse](
 			httpClient,
-			baseURL+GrantServiceQueryGrantChildrenProcedure,
+			baseURL+GrantsServiceQueryGrantChildrenProcedure,
 			opts...,
 		),
 	}
 }
 
-// grantServiceClient implements GrantServiceClient.
-type grantServiceClient struct {
+// grantsServiceClient implements GrantsServiceClient.
+type grantsServiceClient struct {
 	queryGrants        *connect_go.Client[v1alpha1.QueryGrantsRequest, v1alpha1.QueryGrantsResponse]
 	queryGrantChildren *connect_go.Client[v1alpha1.QueryGrantChildrenRequest, v1alpha1.QueryGrantChildrenResponse]
 }
 
-// QueryGrants calls commonfate.access.v1alpha1.GrantService.QueryGrants.
-func (c *grantServiceClient) QueryGrants(ctx context.Context, req *connect_go.Request[v1alpha1.QueryGrantsRequest]) (*connect_go.Response[v1alpha1.QueryGrantsResponse], error) {
+// QueryGrants calls commonfate.access.v1alpha1.GrantsService.QueryGrants.
+func (c *grantsServiceClient) QueryGrants(ctx context.Context, req *connect_go.Request[v1alpha1.QueryGrantsRequest]) (*connect_go.Response[v1alpha1.QueryGrantsResponse], error) {
 	return c.queryGrants.CallUnary(ctx, req)
 }
 
-// QueryGrantChildren calls commonfate.access.v1alpha1.GrantService.QueryGrantChildren.
-func (c *grantServiceClient) QueryGrantChildren(ctx context.Context, req *connect_go.Request[v1alpha1.QueryGrantChildrenRequest]) (*connect_go.Response[v1alpha1.QueryGrantChildrenResponse], error) {
+// QueryGrantChildren calls commonfate.access.v1alpha1.GrantsService.QueryGrantChildren.
+func (c *grantsServiceClient) QueryGrantChildren(ctx context.Context, req *connect_go.Request[v1alpha1.QueryGrantChildrenRequest]) (*connect_go.Response[v1alpha1.QueryGrantChildrenResponse], error) {
 	return c.queryGrantChildren.CallUnary(ctx, req)
 }
 
-// GrantServiceHandler is an implementation of the commonfate.access.v1alpha1.GrantService service.
-type GrantServiceHandler interface {
+// GrantsServiceHandler is an implementation of the commonfate.access.v1alpha1.GrantsService
+// service.
+type GrantsServiceHandler interface {
 	QueryGrants(context.Context, *connect_go.Request[v1alpha1.QueryGrantsRequest]) (*connect_go.Response[v1alpha1.QueryGrantsResponse], error)
 	QueryGrantChildren(context.Context, *connect_go.Request[v1alpha1.QueryGrantChildrenRequest]) (*connect_go.Response[v1alpha1.QueryGrantChildrenResponse], error)
 }
 
-// NewGrantServiceHandler builds an HTTP handler from the service implementation. It returns the
+// NewGrantsServiceHandler builds an HTTP handler from the service implementation. It returns the
 // path on which to mount the handler and the handler itself.
 //
 // By default, handlers support the Connect, gRPC, and gRPC-Web protocols with the binary Protobuf
 // and JSON codecs. They also support gzip compression.
-func NewGrantServiceHandler(svc GrantServiceHandler, opts ...connect_go.HandlerOption) (string, http.Handler) {
-	grantServiceQueryGrantsHandler := connect_go.NewUnaryHandler(
-		GrantServiceQueryGrantsProcedure,
+func NewGrantsServiceHandler(svc GrantsServiceHandler, opts ...connect_go.HandlerOption) (string, http.Handler) {
+	grantsServiceQueryGrantsHandler := connect_go.NewUnaryHandler(
+		GrantsServiceQueryGrantsProcedure,
 		svc.QueryGrants,
 		opts...,
 	)
-	grantServiceQueryGrantChildrenHandler := connect_go.NewUnaryHandler(
-		GrantServiceQueryGrantChildrenProcedure,
+	grantsServiceQueryGrantChildrenHandler := connect_go.NewUnaryHandler(
+		GrantsServiceQueryGrantChildrenProcedure,
 		svc.QueryGrantChildren,
 		opts...,
 	)
-	return "/commonfate.access.v1alpha1.GrantService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	return "/commonfate.access.v1alpha1.GrantsService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
-		case GrantServiceQueryGrantsProcedure:
-			grantServiceQueryGrantsHandler.ServeHTTP(w, r)
-		case GrantServiceQueryGrantChildrenProcedure:
-			grantServiceQueryGrantChildrenHandler.ServeHTTP(w, r)
+		case GrantsServiceQueryGrantsProcedure:
+			grantsServiceQueryGrantsHandler.ServeHTTP(w, r)
+		case GrantsServiceQueryGrantChildrenProcedure:
+			grantsServiceQueryGrantChildrenHandler.ServeHTTP(w, r)
 		default:
 			http.NotFound(w, r)
 		}
 	})
 }
 
-// UnimplementedGrantServiceHandler returns CodeUnimplemented from all methods.
-type UnimplementedGrantServiceHandler struct{}
+// UnimplementedGrantsServiceHandler returns CodeUnimplemented from all methods.
+type UnimplementedGrantsServiceHandler struct{}
 
-func (UnimplementedGrantServiceHandler) QueryGrants(context.Context, *connect_go.Request[v1alpha1.QueryGrantsRequest]) (*connect_go.Response[v1alpha1.QueryGrantsResponse], error) {
-	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("commonfate.access.v1alpha1.GrantService.QueryGrants is not implemented"))
+func (UnimplementedGrantsServiceHandler) QueryGrants(context.Context, *connect_go.Request[v1alpha1.QueryGrantsRequest]) (*connect_go.Response[v1alpha1.QueryGrantsResponse], error) {
+	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("commonfate.access.v1alpha1.GrantsService.QueryGrants is not implemented"))
 }
 
-func (UnimplementedGrantServiceHandler) QueryGrantChildren(context.Context, *connect_go.Request[v1alpha1.QueryGrantChildrenRequest]) (*connect_go.Response[v1alpha1.QueryGrantChildrenResponse], error) {
-	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("commonfate.access.v1alpha1.GrantService.QueryGrantChildren is not implemented"))
+func (UnimplementedGrantsServiceHandler) QueryGrantChildren(context.Context, *connect_go.Request[v1alpha1.QueryGrantChildrenRequest]) (*connect_go.Response[v1alpha1.QueryGrantChildrenResponse], error) {
+	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("commonfate.access.v1alpha1.GrantsService.QueryGrantChildren is not implemented"))
 }

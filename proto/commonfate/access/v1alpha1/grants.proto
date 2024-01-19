@@ -9,7 +9,7 @@ import "commonfate/access/v1alpha1/grant.proto";
 
 
 // The Grant API.
-service GrantService {
+service GrantsService {
     rpc QueryGrants(QueryGrantsRequest) returns (QueryGrantsResponse) {}
     rpc QueryGrantChildren(QueryGrantChildrenRequest) returns (QueryGrantChildrenResponse) {}
 }
