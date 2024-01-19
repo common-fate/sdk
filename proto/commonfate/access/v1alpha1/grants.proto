@@ -1,0 +1,46 @@
+syntax = "proto3";
+
+package commonfate.access.v1alpha1;
+
+
+import "commonfate/access/v1alpha1/access.proto";
+import "commonfate/access/v1alpha1/grant.proto";
+
+
+
+// The Grant API.
+service GrantService {
+    rpc QueryGrants(QueryGrantsRequest) returns (QueryGrantsResponse) {}
+    rpc QueryGrantChildren(QueryGrantChildrenRequest) returns (QueryGrantChildrenResponse) {}
+}
+
+  
+message QueryGrantsRequest {
+    // The token for the next page.
+    string page_token = 1;
+
+    Specifier principal = 2;
+
+    Specifier target = 3;
+
+    Specifier role = 4;
+
+}
+
+message QueryGrantsResponse {
+  repeated Grant grants = 1;
+  string next_page_token = 2;
+}
+
+message QueryGrantChildrenRequest {
+    string id = 1;
+    // The token for the next page.
+    string page_token = 2;
+
+
+}
+
+message QueryGrantChildrenResponse {
+  repeated Grant entities = 1;
+  string next_page_token = 2;
+}
