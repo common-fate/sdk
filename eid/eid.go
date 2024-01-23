@@ -76,6 +76,49 @@ func (u EID) Equals(other EID) bool {
 	return u.Type == other.Type && u.ID == other.ID
 }
 
+// customSplit splits the string on "::" with specific conditions.
+// Do not split if there is a single colon : before the double colon ::.
+// If there is a triple colon ::: or more, only consider splitting on a double colon :: that comes before it, still respecting the first rule.
+func customSplit(s string) []string {
+	var (
+		colons       strings.Builder
+		lastPosition int
+		components   []string
+	)
+
+	var foundDouble bool
+	for i, char := range s {
+		if char == ':' {
+			colons.WriteRune(char)
+		} else {
+			colonSequence := colons.String()
+			if len(colonSequence) > 0 {
+				// Check if the colon sequence is exactly ":" if it is, then don't split the string because it is not a valid eid
+				// just return the whole string
+				if colonSequence == ":" && !foundDouble {
+					return []string{s}
+				}
+				// Check if the colon sequence is exactly "::"
+				if colonSequence == "::" {
+					foundDouble = true
+					// Add the component found before this sequence (excluding single colons before it)
+					components = append(components, s[lastPosition:i-len(colonSequence)])
+					lastPosition = i
+				}
+				colons.Reset()
+			}
+		}
+	}
+
+	// Handling the last component if any colons are left
+	colonSequence := colons.String()
+	if len(colonSequence) <= 2 {
+		components = append(components, s[lastPosition:])
+	}
+
+	return components
+}
+
 // Parse extracts a EID from the input string.
 // Unlike Cedar policies, we accept EIDs without mandatory double quotes
 // around the ID component.
@@ -90,7 +133,8 @@ func (u EID) Equals(other EID) bool {
 // If the ID component of the EID contains any whitespace it must be
 // enclosed in double quotes.
 func Parse(input string) (EID, error) {
-	parts := strings.Split(input, "::")
+	parts := customSplit(input)
+	// parts := strings.Split(input, "::")
 
 	// Check if there are at least two parts (type and ID)
 	if len(parts) < 2 {
