@@ -76,42 +76,46 @@ func (u EID) Equals(other EID) bool {
 	return u.Type == other.Type && u.ID == other.ID
 }
 
-// customSplit splits the string on "::" with specific conditions.
-// Do not split if there is a single colon : before the double colon ::.
-// If there is a triple colon ::: or more, only consider splitting on a double colon :: that comes before it, still respecting the first rule.
-func customSplit(s string) []string {
+// splitEID splits the string on "::" with specific conditions:
+//   - Do not split if there is a single colon ':' before the double colon '::'.
+//   - If there is a triple colon ':::' or more, only consider splitting on a double colon '::' that comes before it,
+//     while still respecting the first rule.
+func splitEID(s string) []string {
 	var (
-		colons       strings.Builder
-		lastPosition int
-		components   []string
+		colons       strings.Builder // Accumulates colon characters
+		lastPosition int             // Tracks the start of the next component
+		components   []string        // Holds the split components
 	)
 
-	var foundDouble bool
+	var foundDouble bool // Flag to track if a valid double colon "::" has been found
+
 	for i, char := range s {
 		if char == ':' {
-			colons.WriteRune(char)
+			colons.WriteRune(char) // Accumulate colon characters
 		} else {
-			colonSequence := colons.String()
-			if len(colonSequence) > 0 {
-				// Check if the colon sequence is exactly ":" if it is, then don't split the string because it is not a valid eid
-				// just return the whole string
-				if colonSequence == ":" && !foundDouble {
-					return []string{s}
-				}
-				// Check if the colon sequence is exactly "::"
-				if colonSequence == "::" {
-					foundDouble = true
-					// Add the component found before this sequence (excluding single colons before it)
-					components = append(components, s[lastPosition:i-len(colonSequence)])
-					lastPosition = i
-				}
-				colons.Reset()
+			colonSequence := colons.String() // Extract the accumulated colon sequence
+
+			// If the sequence is a single colon and no double colon has been found,
+			// return the entire string as it does not meet the split criteria.
+			if colonSequence == ":" && !foundDouble {
+				return []string{s}
 			}
+
+			// Check if the colon sequence is exactly "::"
+			if colonSequence == "::" {
+				foundDouble = true // Mark that a valid double colon has been found
+				// Add the component found before this sequence (excluding single colons before it)
+				components = append(components, s[lastPosition:i-len(colonSequence)])
+				lastPosition = i // Update the start position for the next component
+			}
+
+			colons.Reset() // Reset the colon accumulator for the next sequence
 		}
 	}
 
-	// Handling the last component if any colons are left
+	// Handle the last component if any colons are left
 	colonSequence := colons.String()
+	// Add the final component if the last colon sequence is less than or equal to "::"
 	if len(colonSequence) <= 2 {
 		components = append(components, s[lastPosition:])
 	}
@@ -133,7 +137,7 @@ func customSplit(s string) []string {
 // If the ID component of the EID contains any whitespace it must be
 // enclosed in double quotes.
 func Parse(input string) (EID, error) {
-	parts := customSplit(input)
+	parts := splitEID(input)
 	// parts := strings.Split(input, "::")
 
 	// Check if there are at least two parts (type and ID)
