@@ -5,9 +5,9 @@
 package configv1alpha1connect
 
 import (
+	connect "connectrpc.com/connect"
 	context "context"
 	errors "errors"
-	connect_go "github.com/bufbuild/connect-go"
 	v1alpha1 "github.com/common-fate/sdk/gen/commonfate/control/config/v1alpha1"
 	http "net/http"
 	strings "strings"
@@ -18,7 +18,7 @@ import (
 // generated with a version of connect newer than the one compiled into your binary. You can fix the
 // problem by either regenerating this code with an older version of connect or updating the connect
 // version compiled into your binary.
-const _ = connect_go.IsAtLeastVersion0_1_0
+const _ = connect.IsAtLeastVersion1_13_0
 
 const (
 	// AvailabilitySpecServiceName is the fully-qualified name of the AvailabilitySpecService service.
@@ -47,13 +47,22 @@ const (
 	AvailabilitySpecServiceDeleteAvailabilitySpecProcedure = "/commonfate.control.config.v1alpha1.AvailabilitySpecService/DeleteAvailabilitySpec"
 )
 
+// These variables are the protoreflect.Descriptor objects for the RPCs defined in this package.
+var (
+	availabilitySpecServiceServiceDescriptor                      = v1alpha1.File_commonfate_control_config_v1alpha1_availability_spec_proto.Services().ByName("AvailabilitySpecService")
+	availabilitySpecServiceCreateAvailabilitySpecMethodDescriptor = availabilitySpecServiceServiceDescriptor.Methods().ByName("CreateAvailabilitySpec")
+	availabilitySpecServiceGetAvailabilitySpecMethodDescriptor    = availabilitySpecServiceServiceDescriptor.Methods().ByName("GetAvailabilitySpec")
+	availabilitySpecServiceUpdateAvailabilitySpecMethodDescriptor = availabilitySpecServiceServiceDescriptor.Methods().ByName("UpdateAvailabilitySpec")
+	availabilitySpecServiceDeleteAvailabilitySpecMethodDescriptor = availabilitySpecServiceServiceDescriptor.Methods().ByName("DeleteAvailabilitySpec")
+)
+
 // AvailabilitySpecServiceClient is a client for the
 // commonfate.control.config.v1alpha1.AvailabilitySpecService service.
 type AvailabilitySpecServiceClient interface {
-	CreateAvailabilitySpec(context.Context, *connect_go.Request[v1alpha1.CreateAvailabilitySpecRequest]) (*connect_go.Response[v1alpha1.CreateAvailabilitySpecResponse], error)
-	GetAvailabilitySpec(context.Context, *connect_go.Request[v1alpha1.GetAvailabilitySpecRequest]) (*connect_go.Response[v1alpha1.GetAvailabilitySpecResponse], error)
-	UpdateAvailabilitySpec(context.Context, *connect_go.Request[v1alpha1.UpdateAvailabilitySpecRequest]) (*connect_go.Response[v1alpha1.UpdateAvailabilitySpecResponse], error)
-	DeleteAvailabilitySpec(context.Context, *connect_go.Request[v1alpha1.DeleteAvailabilitySpecRequest]) (*connect_go.Response[v1alpha1.DeleteAvailabilitySpecResponse], error)
+	CreateAvailabilitySpec(context.Context, *connect.Request[v1alpha1.CreateAvailabilitySpecRequest]) (*connect.Response[v1alpha1.CreateAvailabilitySpecResponse], error)
+	GetAvailabilitySpec(context.Context, *connect.Request[v1alpha1.GetAvailabilitySpecRequest]) (*connect.Response[v1alpha1.GetAvailabilitySpecResponse], error)
+	UpdateAvailabilitySpec(context.Context, *connect.Request[v1alpha1.UpdateAvailabilitySpecRequest]) (*connect.Response[v1alpha1.UpdateAvailabilitySpecResponse], error)
+	DeleteAvailabilitySpec(context.Context, *connect.Request[v1alpha1.DeleteAvailabilitySpecRequest]) (*connect.Response[v1alpha1.DeleteAvailabilitySpecResponse], error)
 }
 
 // NewAvailabilitySpecServiceClient constructs a client for the
@@ -64,71 +73,75 @@ type AvailabilitySpecServiceClient interface {
 //
 // The URL supplied here should be the base URL for the Connect or gRPC server (for example,
 // http://api.acme.com or https://acme.com/grpc).
-func NewAvailabilitySpecServiceClient(httpClient connect_go.HTTPClient, baseURL string, opts ...connect_go.ClientOption) AvailabilitySpecServiceClient {
+func NewAvailabilitySpecServiceClient(httpClient connect.HTTPClient, baseURL string, opts ...connect.ClientOption) AvailabilitySpecServiceClient {
 	baseURL = strings.TrimRight(baseURL, "/")
 	return &availabilitySpecServiceClient{
-		createAvailabilitySpec: connect_go.NewClient[v1alpha1.CreateAvailabilitySpecRequest, v1alpha1.CreateAvailabilitySpecResponse](
+		createAvailabilitySpec: connect.NewClient[v1alpha1.CreateAvailabilitySpecRequest, v1alpha1.CreateAvailabilitySpecResponse](
 			httpClient,
 			baseURL+AvailabilitySpecServiceCreateAvailabilitySpecProcedure,
-			opts...,
+			connect.WithSchema(availabilitySpecServiceCreateAvailabilitySpecMethodDescriptor),
+			connect.WithClientOptions(opts...),
 		),
-		getAvailabilitySpec: connect_go.NewClient[v1alpha1.GetAvailabilitySpecRequest, v1alpha1.GetAvailabilitySpecResponse](
+		getAvailabilitySpec: connect.NewClient[v1alpha1.GetAvailabilitySpecRequest, v1alpha1.GetAvailabilitySpecResponse](
 			httpClient,
 			baseURL+AvailabilitySpecServiceGetAvailabilitySpecProcedure,
-			opts...,
+			connect.WithSchema(availabilitySpecServiceGetAvailabilitySpecMethodDescriptor),
+			connect.WithClientOptions(opts...),
 		),
-		updateAvailabilitySpec: connect_go.NewClient[v1alpha1.UpdateAvailabilitySpecRequest, v1alpha1.UpdateAvailabilitySpecResponse](
+		updateAvailabilitySpec: connect.NewClient[v1alpha1.UpdateAvailabilitySpecRequest, v1alpha1.UpdateAvailabilitySpecResponse](
 			httpClient,
 			baseURL+AvailabilitySpecServiceUpdateAvailabilitySpecProcedure,
-			opts...,
+			connect.WithSchema(availabilitySpecServiceUpdateAvailabilitySpecMethodDescriptor),
+			connect.WithClientOptions(opts...),
 		),
-		deleteAvailabilitySpec: connect_go.NewClient[v1alpha1.DeleteAvailabilitySpecRequest, v1alpha1.DeleteAvailabilitySpecResponse](
+		deleteAvailabilitySpec: connect.NewClient[v1alpha1.DeleteAvailabilitySpecRequest, v1alpha1.DeleteAvailabilitySpecResponse](
 			httpClient,
 			baseURL+AvailabilitySpecServiceDeleteAvailabilitySpecProcedure,
-			opts...,
+			connect.WithSchema(availabilitySpecServiceDeleteAvailabilitySpecMethodDescriptor),
+			connect.WithClientOptions(opts...),
 		),
 	}
 }
 
 // availabilitySpecServiceClient implements AvailabilitySpecServiceClient.
 type availabilitySpecServiceClient struct {
-	createAvailabilitySpec *connect_go.Client[v1alpha1.CreateAvailabilitySpecRequest, v1alpha1.CreateAvailabilitySpecResponse]
-	getAvailabilitySpec    *connect_go.Client[v1alpha1.GetAvailabilitySpecRequest, v1alpha1.GetAvailabilitySpecResponse]
-	updateAvailabilitySpec *connect_go.Client[v1alpha1.UpdateAvailabilitySpecRequest, v1alpha1.UpdateAvailabilitySpecResponse]
-	deleteAvailabilitySpec *connect_go.Client[v1alpha1.DeleteAvailabilitySpecRequest, v1alpha1.DeleteAvailabilitySpecResponse]
+	createAvailabilitySpec *connect.Client[v1alpha1.CreateAvailabilitySpecRequest, v1alpha1.CreateAvailabilitySpecResponse]
+	getAvailabilitySpec    *connect.Client[v1alpha1.GetAvailabilitySpecRequest, v1alpha1.GetAvailabilitySpecResponse]
+	updateAvailabilitySpec *connect.Client[v1alpha1.UpdateAvailabilitySpecRequest, v1alpha1.UpdateAvailabilitySpecResponse]
+	deleteAvailabilitySpec *connect.Client[v1alpha1.DeleteAvailabilitySpecRequest, v1alpha1.DeleteAvailabilitySpecResponse]
 }
 
 // CreateAvailabilitySpec calls
 // commonfate.control.config.v1alpha1.AvailabilitySpecService.CreateAvailabilitySpec.
-func (c *availabilitySpecServiceClient) CreateAvailabilitySpec(ctx context.Context, req *connect_go.Request[v1alpha1.CreateAvailabilitySpecRequest]) (*connect_go.Response[v1alpha1.CreateAvailabilitySpecResponse], error) {
+func (c *availabilitySpecServiceClient) CreateAvailabilitySpec(ctx context.Context, req *connect.Request[v1alpha1.CreateAvailabilitySpecRequest]) (*connect.Response[v1alpha1.CreateAvailabilitySpecResponse], error) {
 	return c.createAvailabilitySpec.CallUnary(ctx, req)
 }
 
 // GetAvailabilitySpec calls
 // commonfate.control.config.v1alpha1.AvailabilitySpecService.GetAvailabilitySpec.
-func (c *availabilitySpecServiceClient) GetAvailabilitySpec(ctx context.Context, req *connect_go.Request[v1alpha1.GetAvailabilitySpecRequest]) (*connect_go.Response[v1alpha1.GetAvailabilitySpecResponse], error) {
+func (c *availabilitySpecServiceClient) GetAvailabilitySpec(ctx context.Context, req *connect.Request[v1alpha1.GetAvailabilitySpecRequest]) (*connect.Response[v1alpha1.GetAvailabilitySpecResponse], error) {
 	return c.getAvailabilitySpec.CallUnary(ctx, req)
 }
 
 // UpdateAvailabilitySpec calls
 // commonfate.control.config.v1alpha1.AvailabilitySpecService.UpdateAvailabilitySpec.
-func (c *availabilitySpecServiceClient) UpdateAvailabilitySpec(ctx context.Context, req *connect_go.Request[v1alpha1.UpdateAvailabilitySpecRequest]) (*connect_go.Response[v1alpha1.UpdateAvailabilitySpecResponse], error) {
+func (c *availabilitySpecServiceClient) UpdateAvailabilitySpec(ctx context.Context, req *connect.Request[v1alpha1.UpdateAvailabilitySpecRequest]) (*connect.Response[v1alpha1.UpdateAvailabilitySpecResponse], error) {
 	return c.updateAvailabilitySpec.CallUnary(ctx, req)
 }
 
 // DeleteAvailabilitySpec calls
 // commonfate.control.config.v1alpha1.AvailabilitySpecService.DeleteAvailabilitySpec.
-func (c *availabilitySpecServiceClient) DeleteAvailabilitySpec(ctx context.Context, req *connect_go.Request[v1alpha1.DeleteAvailabilitySpecRequest]) (*connect_go.Response[v1alpha1.DeleteAvailabilitySpecResponse], error) {
+func (c *availabilitySpecServiceClient) DeleteAvailabilitySpec(ctx context.Context, req *connect.Request[v1alpha1.DeleteAvailabilitySpecRequest]) (*connect.Response[v1alpha1.DeleteAvailabilitySpecResponse], error) {
 	return c.deleteAvailabilitySpec.CallUnary(ctx, req)
 }
 
 // AvailabilitySpecServiceHandler is an implementation of the
 // commonfate.control.config.v1alpha1.AvailabilitySpecService service.
 type AvailabilitySpecServiceHandler interface {
-	CreateAvailabilitySpec(context.Context, *connect_go.Request[v1alpha1.CreateAvailabilitySpecRequest]) (*connect_go.Response[v1alpha1.CreateAvailabilitySpecResponse], error)
-	GetAvailabilitySpec(context.Context, *connect_go.Request[v1alpha1.GetAvailabilitySpecRequest]) (*connect_go.Response[v1alpha1.GetAvailabilitySpecResponse], error)
-	UpdateAvailabilitySpec(context.Context, *connect_go.Request[v1alpha1.UpdateAvailabilitySpecRequest]) (*connect_go.Response[v1alpha1.UpdateAvailabilitySpecResponse], error)
-	DeleteAvailabilitySpec(context.Context, *connect_go.Request[v1alpha1.DeleteAvailabilitySpecRequest]) (*connect_go.Response[v1alpha1.DeleteAvailabilitySpecResponse], error)
+	CreateAvailabilitySpec(context.Context, *connect.Request[v1alpha1.CreateAvailabilitySpecRequest]) (*connect.Response[v1alpha1.CreateAvailabilitySpecResponse], error)
+	GetAvailabilitySpec(context.Context, *connect.Request[v1alpha1.GetAvailabilitySpecRequest]) (*connect.Response[v1alpha1.GetAvailabilitySpecResponse], error)
+	UpdateAvailabilitySpec(context.Context, *connect.Request[v1alpha1.UpdateAvailabilitySpecRequest]) (*connect.Response[v1alpha1.UpdateAvailabilitySpecResponse], error)
+	DeleteAvailabilitySpec(context.Context, *connect.Request[v1alpha1.DeleteAvailabilitySpecRequest]) (*connect.Response[v1alpha1.DeleteAvailabilitySpecResponse], error)
 }
 
 // NewAvailabilitySpecServiceHandler builds an HTTP handler from the service implementation. It
@@ -136,26 +149,30 @@ type AvailabilitySpecServiceHandler interface {
 //
 // By default, handlers support the Connect, gRPC, and gRPC-Web protocols with the binary Protobuf
 // and JSON codecs. They also support gzip compression.
-func NewAvailabilitySpecServiceHandler(svc AvailabilitySpecServiceHandler, opts ...connect_go.HandlerOption) (string, http.Handler) {
-	availabilitySpecServiceCreateAvailabilitySpecHandler := connect_go.NewUnaryHandler(
+func NewAvailabilitySpecServiceHandler(svc AvailabilitySpecServiceHandler, opts ...connect.HandlerOption) (string, http.Handler) {
+	availabilitySpecServiceCreateAvailabilitySpecHandler := connect.NewUnaryHandler(
 		AvailabilitySpecServiceCreateAvailabilitySpecProcedure,
 		svc.CreateAvailabilitySpec,
-		opts...,
+		connect.WithSchema(availabilitySpecServiceCreateAvailabilitySpecMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
 	)
-	availabilitySpecServiceGetAvailabilitySpecHandler := connect_go.NewUnaryHandler(
+	availabilitySpecServiceGetAvailabilitySpecHandler := connect.NewUnaryHandler(
 		AvailabilitySpecServiceGetAvailabilitySpecProcedure,
 		svc.GetAvailabilitySpec,
-		opts...,
+		connect.WithSchema(availabilitySpecServiceGetAvailabilitySpecMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
 	)
-	availabilitySpecServiceUpdateAvailabilitySpecHandler := connect_go.NewUnaryHandler(
+	availabilitySpecServiceUpdateAvailabilitySpecHandler := connect.NewUnaryHandler(
 		AvailabilitySpecServiceUpdateAvailabilitySpecProcedure,
 		svc.UpdateAvailabilitySpec,
-		opts...,
+		connect.WithSchema(availabilitySpecServiceUpdateAvailabilitySpecMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
 	)
-	availabilitySpecServiceDeleteAvailabilitySpecHandler := connect_go.NewUnaryHandler(
+	availabilitySpecServiceDeleteAvailabilitySpecHandler := connect.NewUnaryHandler(
 		AvailabilitySpecServiceDeleteAvailabilitySpecProcedure,
 		svc.DeleteAvailabilitySpec,
-		opts...,
+		connect.WithSchema(availabilitySpecServiceDeleteAvailabilitySpecMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
 	)
 	return "/commonfate.control.config.v1alpha1.AvailabilitySpecService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
@@ -176,18 +193,18 @@ func NewAvailabilitySpecServiceHandler(svc AvailabilitySpecServiceHandler, opts 
 // UnimplementedAvailabilitySpecServiceHandler returns CodeUnimplemented from all methods.
 type UnimplementedAvailabilitySpecServiceHandler struct{}
 
-func (UnimplementedAvailabilitySpecServiceHandler) CreateAvailabilitySpec(context.Context, *connect_go.Request[v1alpha1.CreateAvailabilitySpecRequest]) (*connect_go.Response[v1alpha1.CreateAvailabilitySpecResponse], error) {
-	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("commonfate.control.config.v1alpha1.AvailabilitySpecService.CreateAvailabilitySpec is not implemented"))
+func (UnimplementedAvailabilitySpecServiceHandler) CreateAvailabilitySpec(context.Context, *connect.Request[v1alpha1.CreateAvailabilitySpecRequest]) (*connect.Response[v1alpha1.CreateAvailabilitySpecResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.control.config.v1alpha1.AvailabilitySpecService.CreateAvailabilitySpec is not implemented"))
 }
 
-func (UnimplementedAvailabilitySpecServiceHandler) GetAvailabilitySpec(context.Context, *connect_go.Request[v1alpha1.GetAvailabilitySpecRequest]) (*connect_go.Response[v1alpha1.GetAvailabilitySpecResponse], error) {
-	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("commonfate.control.config.v1alpha1.AvailabilitySpecService.GetAvailabilitySpec is not implemented"))
+func (UnimplementedAvailabilitySpecServiceHandler) GetAvailabilitySpec(context.Context, *connect.Request[v1alpha1.GetAvailabilitySpecRequest]) (*connect.Response[v1alpha1.GetAvailabilitySpecResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.control.config.v1alpha1.AvailabilitySpecService.GetAvailabilitySpec is not implemented"))
 }
 
-func (UnimplementedAvailabilitySpecServiceHandler) UpdateAvailabilitySpec(context.Context, *connect_go.Request[v1alpha1.UpdateAvailabilitySpecRequest]) (*connect_go.Response[v1alpha1.UpdateAvailabilitySpecResponse], error) {
-	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("commonfate.control.config.v1alpha1.AvailabilitySpecService.UpdateAvailabilitySpec is not implemented"))
+func (UnimplementedAvailabilitySpecServiceHandler) UpdateAvailabilitySpec(context.Context, *connect.Request[v1alpha1.UpdateAvailabilitySpecRequest]) (*connect.Response[v1alpha1.UpdateAvailabilitySpecResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.control.config.v1alpha1.AvailabilitySpecService.UpdateAvailabilitySpec is not implemented"))
 }
 
-func (UnimplementedAvailabilitySpecServiceHandler) DeleteAvailabilitySpec(context.Context, *connect_go.Request[v1alpha1.DeleteAvailabilitySpecRequest]) (*connect_go.Response[v1alpha1.DeleteAvailabilitySpecResponse], error) {
-	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("commonfate.control.config.v1alpha1.AvailabilitySpecService.DeleteAvailabilitySpec is not implemented"))
+func (UnimplementedAvailabilitySpecServiceHandler) DeleteAvailabilitySpec(context.Context, *connect.Request[v1alpha1.DeleteAvailabilitySpecRequest]) (*connect.Response[v1alpha1.DeleteAvailabilitySpecResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.control.config.v1alpha1.AvailabilitySpecService.DeleteAvailabilitySpec is not implemented"))
 }

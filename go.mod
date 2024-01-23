@@ -3,12 +3,12 @@ module github.com/common-fate/sdk
 go 1.21.3
 
 require (
+	connectrpc.com/connect v1.14.0
 	github.com/99designs/keyring v1.2.2
 	github.com/BurntSushi/toml v1.3.2
-	github.com/bufbuild/connect-go v1.10.0
 	github.com/common-fate/apikit v0.3.0
 	github.com/common-fate/clio v1.2.3
-	github.com/common-fate/grab v1.0.0
+	github.com/common-fate/grab v1.1.0
 	github.com/fatih/structtag v1.2.0
 	github.com/go-chi/chi/v5 v5.0.10
 	github.com/google/uuid v1.4.0
@@ -22,14 +22,14 @@ require (
 	golang.org/x/net v0.18.0
 	golang.org/x/oauth2 v0.14.0
 	golang.org/x/sync v0.5.0
-	google.golang.org/protobuf v1.31.0
+	google.golang.org/protobuf v1.32.0
 )
 
 require (
 	github.com/99designs/go-keychain v0.0.0-20191008050251-8e49817e8af4 // indirect
 	github.com/danieljoos/wincred v1.1.2 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
-	github.com/dvsekhvalnov/jose2go v1.5.0 // indirect
+	github.com/dvsekhvalnov/jose2go v1.6.0 // indirect
 	github.com/godbus/dbus v0.0.0-20190726142602-4481cbc300e2 // indirect
 	github.com/golang/protobuf v1.5.3 // indirect
 	github.com/gorilla/schema v1.2.0 // indirect

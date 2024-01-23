@@ -5,9 +5,9 @@
 package configv1alpha1connect
 
 import (
+	connect "connectrpc.com/connect"
 	context "context"
 	errors "errors"
-	connect_go "github.com/bufbuild/connect-go"
 	v1alpha1 "github.com/common-fate/sdk/gen/commonfate/control/config/v1alpha1"
 	http "net/http"
 	strings "strings"
@@ -18,7 +18,7 @@ import (
 // generated with a version of connect newer than the one compiled into your binary. You can fix the
 // problem by either regenerating this code with an older version of connect or updating the connect
 // version compiled into your binary.
-const _ = connect_go.IsAtLeastVersion0_1_0
+const _ = connect.IsAtLeastVersion1_13_0
 
 const (
 	// IDPServiceName is the fully-qualified name of the IDPService service.
@@ -43,12 +43,21 @@ const (
 	IDPServiceDeleteIDPProcedure = "/commonfate.control.config.v1alpha1.IDPService/DeleteIDP"
 )
 
+// These variables are the protoreflect.Descriptor objects for the RPCs defined in this package.
+var (
+	iDPServiceServiceDescriptor         = v1alpha1.File_commonfate_control_config_v1alpha1_idp_proto.Services().ByName("IDPService")
+	iDPServiceCreateIDPMethodDescriptor = iDPServiceServiceDescriptor.Methods().ByName("CreateIDP")
+	iDPServiceReadIDPMethodDescriptor   = iDPServiceServiceDescriptor.Methods().ByName("ReadIDP")
+	iDPServiceUpdateIDPMethodDescriptor = iDPServiceServiceDescriptor.Methods().ByName("UpdateIDP")
+	iDPServiceDeleteIDPMethodDescriptor = iDPServiceServiceDescriptor.Methods().ByName("DeleteIDP")
+)
+
 // IDPServiceClient is a client for the commonfate.control.config.v1alpha1.IDPService service.
 type IDPServiceClient interface {
-	CreateIDP(context.Context, *connect_go.Request[v1alpha1.CreateIDPRequest]) (*connect_go.Response[v1alpha1.CreateIDPResponse], error)
-	ReadIDP(context.Context, *connect_go.Request[v1alpha1.ReadIDPRequest]) (*connect_go.Response[v1alpha1.ReadIDPResponse], error)
-	UpdateIDP(context.Context, *connect_go.Request[v1alpha1.UpdateIDPRequest]) (*connect_go.Response[v1alpha1.UpdateIDPResponse], error)
-	DeleteIDP(context.Context, *connect_go.Request[v1alpha1.DeleteIDPRequest]) (*connect_go.Response[v1alpha1.DeleteIDPResponse], error)
+	CreateIDP(context.Context, *connect.Request[v1alpha1.CreateIDPRequest]) (*connect.Response[v1alpha1.CreateIDPResponse], error)
+	ReadIDP(context.Context, *connect.Request[v1alpha1.ReadIDPRequest]) (*connect.Response[v1alpha1.ReadIDPResponse], error)
+	UpdateIDP(context.Context, *connect.Request[v1alpha1.UpdateIDPRequest]) (*connect.Response[v1alpha1.UpdateIDPResponse], error)
+	DeleteIDP(context.Context, *connect.Request[v1alpha1.DeleteIDPRequest]) (*connect.Response[v1alpha1.DeleteIDPResponse], error)
 }
 
 // NewIDPServiceClient constructs a client for the commonfate.control.config.v1alpha1.IDPService
@@ -58,67 +67,71 @@ type IDPServiceClient interface {
 //
 // The URL supplied here should be the base URL for the Connect or gRPC server (for example,
 // http://api.acme.com or https://acme.com/grpc).
-func NewIDPServiceClient(httpClient connect_go.HTTPClient, baseURL string, opts ...connect_go.ClientOption) IDPServiceClient {
+func NewIDPServiceClient(httpClient connect.HTTPClient, baseURL string, opts ...connect.ClientOption) IDPServiceClient {
 	baseURL = strings.TrimRight(baseURL, "/")
 	return &iDPServiceClient{
-		createIDP: connect_go.NewClient[v1alpha1.CreateIDPRequest, v1alpha1.CreateIDPResponse](
+		createIDP: connect.NewClient[v1alpha1.CreateIDPRequest, v1alpha1.CreateIDPResponse](
 			httpClient,
 			baseURL+IDPServiceCreateIDPProcedure,
-			opts...,
+			connect.WithSchema(iDPServiceCreateIDPMethodDescriptor),
+			connect.WithClientOptions(opts...),
 		),
-		readIDP: connect_go.NewClient[v1alpha1.ReadIDPRequest, v1alpha1.ReadIDPResponse](
+		readIDP: connect.NewClient[v1alpha1.ReadIDPRequest, v1alpha1.ReadIDPResponse](
 			httpClient,
 			baseURL+IDPServiceReadIDPProcedure,
-			opts...,
+			connect.WithSchema(iDPServiceReadIDPMethodDescriptor),
+			connect.WithClientOptions(opts...),
 		),
-		updateIDP: connect_go.NewClient[v1alpha1.UpdateIDPRequest, v1alpha1.UpdateIDPResponse](
+		updateIDP: connect.NewClient[v1alpha1.UpdateIDPRequest, v1alpha1.UpdateIDPResponse](
 			httpClient,
 			baseURL+IDPServiceUpdateIDPProcedure,
-			opts...,
+			connect.WithSchema(iDPServiceUpdateIDPMethodDescriptor),
+			connect.WithClientOptions(opts...),
 		),
-		deleteIDP: connect_go.NewClient[v1alpha1.DeleteIDPRequest, v1alpha1.DeleteIDPResponse](
+		deleteIDP: connect.NewClient[v1alpha1.DeleteIDPRequest, v1alpha1.DeleteIDPResponse](
 			httpClient,
 			baseURL+IDPServiceDeleteIDPProcedure,
-			opts...,
+			connect.WithSchema(iDPServiceDeleteIDPMethodDescriptor),
+			connect.WithClientOptions(opts...),
 		),
 	}
 }
 
 // iDPServiceClient implements IDPServiceClient.
 type iDPServiceClient struct {
-	createIDP *connect_go.Client[v1alpha1.CreateIDPRequest, v1alpha1.CreateIDPResponse]
-	readIDP   *connect_go.Client[v1alpha1.ReadIDPRequest, v1alpha1.ReadIDPResponse]
-	updateIDP *connect_go.Client[v1alpha1.UpdateIDPRequest, v1alpha1.UpdateIDPResponse]
-	deleteIDP *connect_go.Client[v1alpha1.DeleteIDPRequest, v1alpha1.DeleteIDPResponse]
+	createIDP *connect.Client[v1alpha1.CreateIDPRequest, v1alpha1.CreateIDPResponse]
+	readIDP   *connect.Client[v1alpha1.ReadIDPRequest, v1alpha1.ReadIDPResponse]
+	updateIDP *connect.Client[v1alpha1.UpdateIDPRequest, v1alpha1.UpdateIDPResponse]
+	deleteIDP *connect.Client[v1alpha1.DeleteIDPRequest, v1alpha1.DeleteIDPResponse]
 }
 
 // CreateIDP calls commonfate.control.config.v1alpha1.IDPService.CreateIDP.
-func (c *iDPServiceClient) CreateIDP(ctx context.Context, req *connect_go.Request[v1alpha1.CreateIDPRequest]) (*connect_go.Response[v1alpha1.CreateIDPResponse], error) {
+func (c *iDPServiceClient) CreateIDP(ctx context.Context, req *connect.Request[v1alpha1.CreateIDPRequest]) (*connect.Response[v1alpha1.CreateIDPResponse], error) {
 	return c.createIDP.CallUnary(ctx, req)
 }
 
 // ReadIDP calls commonfate.control.config.v1alpha1.IDPService.ReadIDP.
-func (c *iDPServiceClient) ReadIDP(ctx context.Context, req *connect_go.Request[v1alpha1.ReadIDPRequest]) (*connect_go.Response[v1alpha1.ReadIDPResponse], error) {
+func (c *iDPServiceClient) ReadIDP(ctx context.Context, req *connect.Request[v1alpha1.ReadIDPRequest]) (*connect.Response[v1alpha1.ReadIDPResponse], error) {
 	return c.readIDP.CallUnary(ctx, req)
 }
 
 // UpdateIDP calls commonfate.control.config.v1alpha1.IDPService.UpdateIDP.
-func (c *iDPServiceClient) UpdateIDP(ctx context.Context, req *connect_go.Request[v1alpha1.UpdateIDPRequest]) (*connect_go.Response[v1alpha1.UpdateIDPResponse], error) {
+func (c *iDPServiceClient) UpdateIDP(ctx context.Context, req *connect.Request[v1alpha1.UpdateIDPRequest]) (*connect.Response[v1alpha1.UpdateIDPResponse], error) {
 	return c.updateIDP.CallUnary(ctx, req)
 }
 
 // DeleteIDP calls commonfate.control.config.v1alpha1.IDPService.DeleteIDP.
-func (c *iDPServiceClient) DeleteIDP(ctx context.Context, req *connect_go.Request[v1alpha1.DeleteIDPRequest]) (*connect_go.Response[v1alpha1.DeleteIDPResponse], error) {
+func (c *iDPServiceClient) DeleteIDP(ctx context.Context, req *connect.Request[v1alpha1.DeleteIDPRequest]) (*connect.Response[v1alpha1.DeleteIDPResponse], error) {
 	return c.deleteIDP.CallUnary(ctx, req)
 }
 
 // IDPServiceHandler is an implementation of the commonfate.control.config.v1alpha1.IDPService
 // service.
 type IDPServiceHandler interface {
-	CreateIDP(context.Context, *connect_go.Request[v1alpha1.CreateIDPRequest]) (*connect_go.Response[v1alpha1.CreateIDPResponse], error)
-	ReadIDP(context.Context, *connect_go.Request[v1alpha1.ReadIDPRequest]) (*connect_go.Response[v1alpha1.ReadIDPResponse], error)
-	UpdateIDP(context.Context, *connect_go.Request[v1alpha1.UpdateIDPRequest]) (*connect_go.Response[v1alpha1.UpdateIDPResponse], error)
-	DeleteIDP(context.Context, *connect_go.Request[v1alpha1.DeleteIDPRequest]) (*connect_go.Response[v1alpha1.DeleteIDPResponse], error)
+	CreateIDP(context.Context, *connect.Request[v1alpha1.CreateIDPRequest]) (*connect.Response[v1alpha1.CreateIDPResponse], error)
+	ReadIDP(context.Context, *connect.Request[v1alpha1.ReadIDPRequest]) (*connect.Response[v1alpha1.ReadIDPResponse], error)
+	UpdateIDP(context.Context, *connect.Request[v1alpha1.UpdateIDPRequest]) (*connect.Response[v1alpha1.UpdateIDPResponse], error)
+	DeleteIDP(context.Context, *connect.Request[v1alpha1.DeleteIDPRequest]) (*connect.Response[v1alpha1.DeleteIDPResponse], error)
 }
 
 // NewIDPServiceHandler builds an HTTP handler from the service implementation. It returns the path
@@ -126,26 +139,30 @@ type IDPServiceHandler interface {
 //
 // By default, handlers support the Connect, gRPC, and gRPC-Web protocols with the binary Protobuf
 // and JSON codecs. They also support gzip compression.
-func NewIDPServiceHandler(svc IDPServiceHandler, opts ...connect_go.HandlerOption) (string, http.Handler) {
-	iDPServiceCreateIDPHandler := connect_go.NewUnaryHandler(
+func NewIDPServiceHandler(svc IDPServiceHandler, opts ...connect.HandlerOption) (string, http.Handler) {
+	iDPServiceCreateIDPHandler := connect.NewUnaryHandler(
 		IDPServiceCreateIDPProcedure,
 		svc.CreateIDP,
-		opts...,
+		connect.WithSchema(iDPServiceCreateIDPMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
 	)
-	iDPServiceReadIDPHandler := connect_go.NewUnaryHandler(
+	iDPServiceReadIDPHandler := connect.NewUnaryHandler(
 		IDPServiceReadIDPProcedure,
 		svc.ReadIDP,
-		opts...,
+		connect.WithSchema(iDPServiceReadIDPMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
 	)
-	iDPServiceUpdateIDPHandler := connect_go.NewUnaryHandler(
+	iDPServiceUpdateIDPHandler := connect.NewUnaryHandler(
 		IDPServiceUpdateIDPProcedure,
 		svc.UpdateIDP,
-		opts...,
+		connect.WithSchema(iDPServiceUpdateIDPMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
 	)
-	iDPServiceDeleteIDPHandler := connect_go.NewUnaryHandler(
+	iDPServiceDeleteIDPHandler := connect.NewUnaryHandler(
 		IDPServiceDeleteIDPProcedure,
 		svc.DeleteIDP,
-		opts...,
+		connect.WithSchema(iDPServiceDeleteIDPMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
 	)
 	return "/commonfate.control.config.v1alpha1.IDPService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
@@ -166,18 +183,18 @@ func NewIDPServiceHandler(svc IDPServiceHandler, opts ...connect_go.HandlerOptio
 // UnimplementedIDPServiceHandler returns CodeUnimplemented from all methods.
 type UnimplementedIDPServiceHandler struct{}
 
-func (UnimplementedIDPServiceHandler) CreateIDP(context.Context, *connect_go.Request[v1alpha1.CreateIDPRequest]) (*connect_go.Response[v1alpha1.CreateIDPResponse], error) {
-	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("commonfate.control.config.v1alpha1.IDPService.CreateIDP is not implemented"))
+func (UnimplementedIDPServiceHandler) CreateIDP(context.Context, *connect.Request[v1alpha1.CreateIDPRequest]) (*connect.Response[v1alpha1.CreateIDPResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.control.config.v1alpha1.IDPService.CreateIDP is not implemented"))
 }
 
-func (UnimplementedIDPServiceHandler) ReadIDP(context.Context, *connect_go.Request[v1alpha1.ReadIDPRequest]) (*connect_go.Response[v1alpha1.ReadIDPResponse], error) {
-	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("commonfate.control.config.v1alpha1.IDPService.ReadIDP is not implemented"))
+func (UnimplementedIDPServiceHandler) ReadIDP(context.Context, *connect.Request[v1alpha1.ReadIDPRequest]) (*connect.Response[v1alpha1.ReadIDPResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.control.config.v1alpha1.IDPService.ReadIDP is not implemented"))
 }
 
-func (UnimplementedIDPServiceHandler) UpdateIDP(context.Context, *connect_go.Request[v1alpha1.UpdateIDPRequest]) (*connect_go.Response[v1alpha1.UpdateIDPResponse], error) {
-	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("commonfate.control.config.v1alpha1.IDPService.UpdateIDP is not implemented"))
+func (UnimplementedIDPServiceHandler) UpdateIDP(context.Context, *connect.Request[v1alpha1.UpdateIDPRequest]) (*connect.Response[v1alpha1.UpdateIDPResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.control.config.v1alpha1.IDPService.UpdateIDP is not implemented"))
 }
 
-func (UnimplementedIDPServiceHandler) DeleteIDP(context.Context, *connect_go.Request[v1alpha1.DeleteIDPRequest]) (*connect_go.Response[v1alpha1.DeleteIDPResponse], error) {
-	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("commonfate.control.config.v1alpha1.IDPService.DeleteIDP is not implemented"))
+func (UnimplementedIDPServiceHandler) DeleteIDP(context.Context, *connect.Request[v1alpha1.DeleteIDPRequest]) (*connect.Response[v1alpha1.DeleteIDPResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.control.config.v1alpha1.IDPService.DeleteIDP is not implemented"))
 }

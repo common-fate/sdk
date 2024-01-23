@@ -5,9 +5,9 @@
 package authzv1alpha1connect
 
 import (
+	connect "connectrpc.com/connect"
 	context "context"
 	errors "errors"
-	connect_go "github.com/bufbuild/connect-go"
 	v1alpha1 "github.com/common-fate/sdk/gen/commonfate/authz/v1alpha1"
 	http "net/http"
 	strings "strings"
@@ -18,7 +18,7 @@ import (
 // generated with a version of connect newer than the one compiled into your binary. You can fix the
 // problem by either regenerating this code with an older version of connect or updating the connect
 // version compiled into your binary.
-const _ = connect_go.IsAtLeastVersion0_1_0
+const _ = connect.IsAtLeastVersion1_13_0
 
 const (
 	// HealthServiceName is the fully-qualified name of the HealthService service.
@@ -38,9 +38,15 @@ const (
 	HealthServiceHealthCheckProcedure = "/commonfate.authz.v1alpha1.HealthService/HealthCheck"
 )
 
+// These variables are the protoreflect.Descriptor objects for the RPCs defined in this package.
+var (
+	healthServiceServiceDescriptor           = v1alpha1.File_commonfate_authz_v1alpha1_health_proto.Services().ByName("HealthService")
+	healthServiceHealthCheckMethodDescriptor = healthServiceServiceDescriptor.Methods().ByName("HealthCheck")
+)
+
 // HealthServiceClient is a client for the commonfate.authz.v1alpha1.HealthService service.
 type HealthServiceClient interface {
-	HealthCheck(context.Context, *connect_go.Request[v1alpha1.HealthCheckRequest]) (*connect_go.Response[v1alpha1.HealthCheckResponse], error)
+	HealthCheck(context.Context, *connect.Request[v1alpha1.HealthCheckRequest]) (*connect.Response[v1alpha1.HealthCheckResponse], error)
 }
 
 // NewHealthServiceClient constructs a client for the commonfate.authz.v1alpha1.HealthService
@@ -50,30 +56,31 @@ type HealthServiceClient interface {
 //
 // The URL supplied here should be the base URL for the Connect or gRPC server (for example,
 // http://api.acme.com or https://acme.com/grpc).
-func NewHealthServiceClient(httpClient connect_go.HTTPClient, baseURL string, opts ...connect_go.ClientOption) HealthServiceClient {
+func NewHealthServiceClient(httpClient connect.HTTPClient, baseURL string, opts ...connect.ClientOption) HealthServiceClient {
 	baseURL = strings.TrimRight(baseURL, "/")
 	return &healthServiceClient{
-		healthCheck: connect_go.NewClient[v1alpha1.HealthCheckRequest, v1alpha1.HealthCheckResponse](
+		healthCheck: connect.NewClient[v1alpha1.HealthCheckRequest, v1alpha1.HealthCheckResponse](
 			httpClient,
 			baseURL+HealthServiceHealthCheckProcedure,
-			opts...,
+			connect.WithSchema(healthServiceHealthCheckMethodDescriptor),
+			connect.WithClientOptions(opts...),
 		),
 	}
 }
 
 // healthServiceClient implements HealthServiceClient.
 type healthServiceClient struct {
-	healthCheck *connect_go.Client[v1alpha1.HealthCheckRequest, v1alpha1.HealthCheckResponse]
+	healthCheck *connect.Client[v1alpha1.HealthCheckRequest, v1alpha1.HealthCheckResponse]
 }
 
 // HealthCheck calls commonfate.authz.v1alpha1.HealthService.HealthCheck.
-func (c *healthServiceClient) HealthCheck(ctx context.Context, req *connect_go.Request[v1alpha1.HealthCheckRequest]) (*connect_go.Response[v1alpha1.HealthCheckResponse], error) {
+func (c *healthServiceClient) HealthCheck(ctx context.Context, req *connect.Request[v1alpha1.HealthCheckRequest]) (*connect.Response[v1alpha1.HealthCheckResponse], error) {
 	return c.healthCheck.CallUnary(ctx, req)
 }
 
 // HealthServiceHandler is an implementation of the commonfate.authz.v1alpha1.HealthService service.
 type HealthServiceHandler interface {
-	HealthCheck(context.Context, *connect_go.Request[v1alpha1.HealthCheckRequest]) (*connect_go.Response[v1alpha1.HealthCheckResponse], error)
+	HealthCheck(context.Context, *connect.Request[v1alpha1.HealthCheckRequest]) (*connect.Response[v1alpha1.HealthCheckResponse], error)
 }
 
 // NewHealthServiceHandler builds an HTTP handler from the service implementation. It returns the
@@ -81,11 +88,12 @@ type HealthServiceHandler interface {
 //
 // By default, handlers support the Connect, gRPC, and gRPC-Web protocols with the binary Protobuf
 // and JSON codecs. They also support gzip compression.
-func NewHealthServiceHandler(svc HealthServiceHandler, opts ...connect_go.HandlerOption) (string, http.Handler) {
-	healthServiceHealthCheckHandler := connect_go.NewUnaryHandler(
+func NewHealthServiceHandler(svc HealthServiceHandler, opts ...connect.HandlerOption) (string, http.Handler) {
+	healthServiceHealthCheckHandler := connect.NewUnaryHandler(
 		HealthServiceHealthCheckProcedure,
 		svc.HealthCheck,
-		opts...,
+		connect.WithSchema(healthServiceHealthCheckMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
 	)
 	return "/commonfate.authz.v1alpha1.HealthService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
@@ -100,6 +108,6 @@ func NewHealthServiceHandler(svc HealthServiceHandler, opts ...connect_go.Handle
 // UnimplementedHealthServiceHandler returns CodeUnimplemented from all methods.
 type UnimplementedHealthServiceHandler struct{}
 
-func (UnimplementedHealthServiceHandler) HealthCheck(context.Context, *connect_go.Request[v1alpha1.HealthCheckRequest]) (*connect_go.Response[v1alpha1.HealthCheckResponse], error) {
-	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("commonfate.authz.v1alpha1.HealthService.HealthCheck is not implemented"))
+func (UnimplementedHealthServiceHandler) HealthCheck(context.Context, *connect.Request[v1alpha1.HealthCheckRequest]) (*connect.Response[v1alpha1.HealthCheckResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.authz.v1alpha1.HealthService.HealthCheck is not implemented"))
 }

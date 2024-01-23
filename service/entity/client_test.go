@@ -707,3 +707,30 @@ func TestUnmarshalEntity_roundtrip(t *testing.T) {
 		})
 	}
 }
+
+func TestMarshal(t *testing.T) {
+	// tests that marshal and unmarshal works for a map[string]string
+	a := Account{
+		Context: map[string]string{"hello": "world", "wow": "test"},
+	}
+	ent, _, err := Marshal(a)
+	if err != nil {
+		t.Fatal(err)
+	}
+	var b Account
+	err = Unmarshal(ent, &b)
+	if err != nil {
+		t.Fatal(err)
+	}
+	assert.Equal(t, a, b)
+}
+
+type Account struct {
+	ID      string            `json:"id" authz:"id"`
+	Name    string            `json:"name" authz:"name"`
+	Context map[string]string `json:"context" authz:"context"`
+}
+
+func (e Account) EID() eid.EID { return eid.New(AccountType, e.ID) }
+
+const AccountType = "AWS::Account"

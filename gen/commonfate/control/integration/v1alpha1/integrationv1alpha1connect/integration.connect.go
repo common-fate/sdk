@@ -5,9 +5,9 @@
 package integrationv1alpha1connect
 
 import (
+	connect "connectrpc.com/connect"
 	context "context"
 	errors "errors"
-	connect_go "github.com/bufbuild/connect-go"
 	v1alpha1 "github.com/common-fate/sdk/gen/commonfate/control/integration/v1alpha1"
 	http "net/http"
 	strings "strings"
@@ -18,7 +18,7 @@ import (
 // generated with a version of connect newer than the one compiled into your binary. You can fix the
 // problem by either regenerating this code with an older version of connect or updating the connect
 // version compiled into your binary.
-const _ = connect_go.IsAtLeastVersion0_1_0
+const _ = connect.IsAtLeastVersion1_13_0
 
 const (
 	// IntegrationServiceName is the fully-qualified name of the IntegrationService service.
@@ -50,14 +50,24 @@ const (
 	IntegrationServiceListIntegrationsProcedure = "/commonfate.control.integration.v1alpha1.IntegrationService/ListIntegrations"
 )
 
+// These variables are the protoreflect.Descriptor objects for the RPCs defined in this package.
+var (
+	integrationServiceServiceDescriptor                 = v1alpha1.File_commonfate_control_integration_v1alpha1_integration_proto.Services().ByName("IntegrationService")
+	integrationServiceCreateIntegrationMethodDescriptor = integrationServiceServiceDescriptor.Methods().ByName("CreateIntegration")
+	integrationServiceUpdateIntegrationMethodDescriptor = integrationServiceServiceDescriptor.Methods().ByName("UpdateIntegration")
+	integrationServiceGetIntegrationMethodDescriptor    = integrationServiceServiceDescriptor.Methods().ByName("GetIntegration")
+	integrationServiceDeleteIntegrationMethodDescriptor = integrationServiceServiceDescriptor.Methods().ByName("DeleteIntegration")
+	integrationServiceListIntegrationsMethodDescriptor  = integrationServiceServiceDescriptor.Methods().ByName("ListIntegrations")
+)
+
 // IntegrationServiceClient is a client for the
 // commonfate.control.integration.v1alpha1.IntegrationService service.
 type IntegrationServiceClient interface {
-	CreateIntegration(context.Context, *connect_go.Request[v1alpha1.CreateIntegrationRequest]) (*connect_go.Response[v1alpha1.CreateIntegrationResponse], error)
-	UpdateIntegration(context.Context, *connect_go.Request[v1alpha1.UpdateIntegrationRequest]) (*connect_go.Response[v1alpha1.UpdateIntegrationResponse], error)
-	GetIntegration(context.Context, *connect_go.Request[v1alpha1.GetIntegrationRequest]) (*connect_go.Response[v1alpha1.GetIntegrationResponse], error)
-	DeleteIntegration(context.Context, *connect_go.Request[v1alpha1.DeleteIntegrationRequest]) (*connect_go.Response[v1alpha1.DeleteIntegrationResponse], error)
-	ListIntegrations(context.Context, *connect_go.Request[v1alpha1.ListIntegrationsRequest]) (*connect_go.Response[v1alpha1.ListIntegrationsResponse], error)
+	CreateIntegration(context.Context, *connect.Request[v1alpha1.CreateIntegrationRequest]) (*connect.Response[v1alpha1.CreateIntegrationResponse], error)
+	UpdateIntegration(context.Context, *connect.Request[v1alpha1.UpdateIntegrationRequest]) (*connect.Response[v1alpha1.UpdateIntegrationResponse], error)
+	GetIntegration(context.Context, *connect.Request[v1alpha1.GetIntegrationRequest]) (*connect.Response[v1alpha1.GetIntegrationResponse], error)
+	DeleteIntegration(context.Context, *connect.Request[v1alpha1.DeleteIntegrationRequest]) (*connect.Response[v1alpha1.DeleteIntegrationResponse], error)
+	ListIntegrations(context.Context, *connect.Request[v1alpha1.ListIntegrationsRequest]) (*connect.Response[v1alpha1.ListIntegrationsResponse], error)
 }
 
 // NewIntegrationServiceClient constructs a client for the
@@ -68,83 +78,88 @@ type IntegrationServiceClient interface {
 //
 // The URL supplied here should be the base URL for the Connect or gRPC server (for example,
 // http://api.acme.com or https://acme.com/grpc).
-func NewIntegrationServiceClient(httpClient connect_go.HTTPClient, baseURL string, opts ...connect_go.ClientOption) IntegrationServiceClient {
+func NewIntegrationServiceClient(httpClient connect.HTTPClient, baseURL string, opts ...connect.ClientOption) IntegrationServiceClient {
 	baseURL = strings.TrimRight(baseURL, "/")
 	return &integrationServiceClient{
-		createIntegration: connect_go.NewClient[v1alpha1.CreateIntegrationRequest, v1alpha1.CreateIntegrationResponse](
+		createIntegration: connect.NewClient[v1alpha1.CreateIntegrationRequest, v1alpha1.CreateIntegrationResponse](
 			httpClient,
 			baseURL+IntegrationServiceCreateIntegrationProcedure,
-			opts...,
+			connect.WithSchema(integrationServiceCreateIntegrationMethodDescriptor),
+			connect.WithClientOptions(opts...),
 		),
-		updateIntegration: connect_go.NewClient[v1alpha1.UpdateIntegrationRequest, v1alpha1.UpdateIntegrationResponse](
+		updateIntegration: connect.NewClient[v1alpha1.UpdateIntegrationRequest, v1alpha1.UpdateIntegrationResponse](
 			httpClient,
 			baseURL+IntegrationServiceUpdateIntegrationProcedure,
-			opts...,
+			connect.WithSchema(integrationServiceUpdateIntegrationMethodDescriptor),
+			connect.WithClientOptions(opts...),
 		),
-		getIntegration: connect_go.NewClient[v1alpha1.GetIntegrationRequest, v1alpha1.GetIntegrationResponse](
+		getIntegration: connect.NewClient[v1alpha1.GetIntegrationRequest, v1alpha1.GetIntegrationResponse](
 			httpClient,
 			baseURL+IntegrationServiceGetIntegrationProcedure,
-			opts...,
+			connect.WithSchema(integrationServiceGetIntegrationMethodDescriptor),
+			connect.WithClientOptions(opts...),
 		),
-		deleteIntegration: connect_go.NewClient[v1alpha1.DeleteIntegrationRequest, v1alpha1.DeleteIntegrationResponse](
+		deleteIntegration: connect.NewClient[v1alpha1.DeleteIntegrationRequest, v1alpha1.DeleteIntegrationResponse](
 			httpClient,
 			baseURL+IntegrationServiceDeleteIntegrationProcedure,
-			opts...,
+			connect.WithSchema(integrationServiceDeleteIntegrationMethodDescriptor),
+			connect.WithClientOptions(opts...),
 		),
-		listIntegrations: connect_go.NewClient[v1alpha1.ListIntegrationsRequest, v1alpha1.ListIntegrationsResponse](
+		listIntegrations: connect.NewClient[v1alpha1.ListIntegrationsRequest, v1alpha1.ListIntegrationsResponse](
 			httpClient,
 			baseURL+IntegrationServiceListIntegrationsProcedure,
-			opts...,
+			connect.WithSchema(integrationServiceListIntegrationsMethodDescriptor),
+			connect.WithClientOptions(opts...),
 		),
 	}
 }
 
 // integrationServiceClient implements IntegrationServiceClient.
 type integrationServiceClient struct {
-	createIntegration *connect_go.Client[v1alpha1.CreateIntegrationRequest, v1alpha1.CreateIntegrationResponse]
-	updateIntegration *connect_go.Client[v1alpha1.UpdateIntegrationRequest, v1alpha1.UpdateIntegrationResponse]
-	getIntegration    *connect_go.Client[v1alpha1.GetIntegrationRequest, v1alpha1.GetIntegrationResponse]
-	deleteIntegration *connect_go.Client[v1alpha1.DeleteIntegrationRequest, v1alpha1.DeleteIntegrationResponse]
-	listIntegrations  *connect_go.Client[v1alpha1.ListIntegrationsRequest, v1alpha1.ListIntegrationsResponse]
+	createIntegration *connect.Client[v1alpha1.CreateIntegrationRequest, v1alpha1.CreateIntegrationResponse]
+	updateIntegration *connect.Client[v1alpha1.UpdateIntegrationRequest, v1alpha1.UpdateIntegrationResponse]
+	getIntegration    *connect.Client[v1alpha1.GetIntegrationRequest, v1alpha1.GetIntegrationResponse]
+	deleteIntegration *connect.Client[v1alpha1.DeleteIntegrationRequest, v1alpha1.DeleteIntegrationResponse]
+	listIntegrations  *connect.Client[v1alpha1.ListIntegrationsRequest, v1alpha1.ListIntegrationsResponse]
 }
 
 // CreateIntegration calls
 // commonfate.control.integration.v1alpha1.IntegrationService.CreateIntegration.
-func (c *integrationServiceClient) CreateIntegration(ctx context.Context, req *connect_go.Request[v1alpha1.CreateIntegrationRequest]) (*connect_go.Response[v1alpha1.CreateIntegrationResponse], error) {
+func (c *integrationServiceClient) CreateIntegration(ctx context.Context, req *connect.Request[v1alpha1.CreateIntegrationRequest]) (*connect.Response[v1alpha1.CreateIntegrationResponse], error) {
 	return c.createIntegration.CallUnary(ctx, req)
 }
 
 // UpdateIntegration calls
 // commonfate.control.integration.v1alpha1.IntegrationService.UpdateIntegration.
-func (c *integrationServiceClient) UpdateIntegration(ctx context.Context, req *connect_go.Request[v1alpha1.UpdateIntegrationRequest]) (*connect_go.Response[v1alpha1.UpdateIntegrationResponse], error) {
+func (c *integrationServiceClient) UpdateIntegration(ctx context.Context, req *connect.Request[v1alpha1.UpdateIntegrationRequest]) (*connect.Response[v1alpha1.UpdateIntegrationResponse], error) {
 	return c.updateIntegration.CallUnary(ctx, req)
 }
 
 // GetIntegration calls commonfate.control.integration.v1alpha1.IntegrationService.GetIntegration.
-func (c *integrationServiceClient) GetIntegration(ctx context.Context, req *connect_go.Request[v1alpha1.GetIntegrationRequest]) (*connect_go.Response[v1alpha1.GetIntegrationResponse], error) {
+func (c *integrationServiceClient) GetIntegration(ctx context.Context, req *connect.Request[v1alpha1.GetIntegrationRequest]) (*connect.Response[v1alpha1.GetIntegrationResponse], error) {
 	return c.getIntegration.CallUnary(ctx, req)
 }
 
 // DeleteIntegration calls
 // commonfate.control.integration.v1alpha1.IntegrationService.DeleteIntegration.
-func (c *integrationServiceClient) DeleteIntegration(ctx context.Context, req *connect_go.Request[v1alpha1.DeleteIntegrationRequest]) (*connect_go.Response[v1alpha1.DeleteIntegrationResponse], error) {
+func (c *integrationServiceClient) DeleteIntegration(ctx context.Context, req *connect.Request[v1alpha1.DeleteIntegrationRequest]) (*connect.Response[v1alpha1.DeleteIntegrationResponse], error) {
 	return c.deleteIntegration.CallUnary(ctx, req)
 }
 
 // ListIntegrations calls
 // commonfate.control.integration.v1alpha1.IntegrationService.ListIntegrations.
-func (c *integrationServiceClient) ListIntegrations(ctx context.Context, req *connect_go.Request[v1alpha1.ListIntegrationsRequest]) (*connect_go.Response[v1alpha1.ListIntegrationsResponse], error) {
+func (c *integrationServiceClient) ListIntegrations(ctx context.Context, req *connect.Request[v1alpha1.ListIntegrationsRequest]) (*connect.Response[v1alpha1.ListIntegrationsResponse], error) {
 	return c.listIntegrations.CallUnary(ctx, req)
 }
 
 // IntegrationServiceHandler is an implementation of the
 // commonfate.control.integration.v1alpha1.IntegrationService service.
 type IntegrationServiceHandler interface {
-	CreateIntegration(context.Context, *connect_go.Request[v1alpha1.CreateIntegrationRequest]) (*connect_go.Response[v1alpha1.CreateIntegrationResponse], error)
-	UpdateIntegration(context.Context, *connect_go.Request[v1alpha1.UpdateIntegrationRequest]) (*connect_go.Response[v1alpha1.UpdateIntegrationResponse], error)
-	GetIntegration(context.Context, *connect_go.Request[v1alpha1.GetIntegrationRequest]) (*connect_go.Response[v1alpha1.GetIntegrationResponse], error)
-	DeleteIntegration(context.Context, *connect_go.Request[v1alpha1.DeleteIntegrationRequest]) (*connect_go.Response[v1alpha1.DeleteIntegrationResponse], error)
-	ListIntegrations(context.Context, *connect_go.Request[v1alpha1.ListIntegrationsRequest]) (*connect_go.Response[v1alpha1.ListIntegrationsResponse], error)
+	CreateIntegration(context.Context, *connect.Request[v1alpha1.CreateIntegrationRequest]) (*connect.Response[v1alpha1.CreateIntegrationResponse], error)
+	UpdateIntegration(context.Context, *connect.Request[v1alpha1.UpdateIntegrationRequest]) (*connect.Response[v1alpha1.UpdateIntegrationResponse], error)
+	GetIntegration(context.Context, *connect.Request[v1alpha1.GetIntegrationRequest]) (*connect.Response[v1alpha1.GetIntegrationResponse], error)
+	DeleteIntegration(context.Context, *connect.Request[v1alpha1.DeleteIntegrationRequest]) (*connect.Response[v1alpha1.DeleteIntegrationResponse], error)
+	ListIntegrations(context.Context, *connect.Request[v1alpha1.ListIntegrationsRequest]) (*connect.Response[v1alpha1.ListIntegrationsResponse], error)
 }
 
 // NewIntegrationServiceHandler builds an HTTP handler from the service implementation. It returns
@@ -152,31 +167,36 @@ type IntegrationServiceHandler interface {
 //
 // By default, handlers support the Connect, gRPC, and gRPC-Web protocols with the binary Protobuf
 // and JSON codecs. They also support gzip compression.
-func NewIntegrationServiceHandler(svc IntegrationServiceHandler, opts ...connect_go.HandlerOption) (string, http.Handler) {
-	integrationServiceCreateIntegrationHandler := connect_go.NewUnaryHandler(
+func NewIntegrationServiceHandler(svc IntegrationServiceHandler, opts ...connect.HandlerOption) (string, http.Handler) {
+	integrationServiceCreateIntegrationHandler := connect.NewUnaryHandler(
 		IntegrationServiceCreateIntegrationProcedure,
 		svc.CreateIntegration,
-		opts...,
+		connect.WithSchema(integrationServiceCreateIntegrationMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
 	)
-	integrationServiceUpdateIntegrationHandler := connect_go.NewUnaryHandler(
+	integrationServiceUpdateIntegrationHandler := connect.NewUnaryHandler(
 		IntegrationServiceUpdateIntegrationProcedure,
 		svc.UpdateIntegration,
-		opts...,
+		connect.WithSchema(integrationServiceUpdateIntegrationMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
 	)
-	integrationServiceGetIntegrationHandler := connect_go.NewUnaryHandler(
+	integrationServiceGetIntegrationHandler := connect.NewUnaryHandler(
 		IntegrationServiceGetIntegrationProcedure,
 		svc.GetIntegration,
-		opts...,
+		connect.WithSchema(integrationServiceGetIntegrationMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
 	)
-	integrationServiceDeleteIntegrationHandler := connect_go.NewUnaryHandler(
+	integrationServiceDeleteIntegrationHandler := connect.NewUnaryHandler(
 		IntegrationServiceDeleteIntegrationProcedure,
 		svc.DeleteIntegration,
-		opts...,
+		connect.WithSchema(integrationServiceDeleteIntegrationMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
 	)
-	integrationServiceListIntegrationsHandler := connect_go.NewUnaryHandler(
+	integrationServiceListIntegrationsHandler := connect.NewUnaryHandler(
 		IntegrationServiceListIntegrationsProcedure,
 		svc.ListIntegrations,
-		opts...,
+		connect.WithSchema(integrationServiceListIntegrationsMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
 	)
 	return "/commonfate.control.integration.v1alpha1.IntegrationService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
@@ -199,22 +219,22 @@ func NewIntegrationServiceHandler(svc IntegrationServiceHandler, opts ...connect
 // UnimplementedIntegrationServiceHandler returns CodeUnimplemented from all methods.
 type UnimplementedIntegrationServiceHandler struct{}
 
-func (UnimplementedIntegrationServiceHandler) CreateIntegration(context.Context, *connect_go.Request[v1alpha1.CreateIntegrationRequest]) (*connect_go.Response[v1alpha1.CreateIntegrationResponse], error) {
-	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("commonfate.control.integration.v1alpha1.IntegrationService.CreateIntegration is not implemented"))
+func (UnimplementedIntegrationServiceHandler) CreateIntegration(context.Context, *connect.Request[v1alpha1.CreateIntegrationRequest]) (*connect.Response[v1alpha1.CreateIntegrationResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.control.integration.v1alpha1.IntegrationService.CreateIntegration is not implemented"))
 }
 
-func (UnimplementedIntegrationServiceHandler) UpdateIntegration(context.Context, *connect_go.Request[v1alpha1.UpdateIntegrationRequest]) (*connect_go.Response[v1alpha1.UpdateIntegrationResponse], error) {
-	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("commonfate.control.integration.v1alpha1.IntegrationService.UpdateIntegration is not implemented"))
+func (UnimplementedIntegrationServiceHandler) UpdateIntegration(context.Context, *connect.Request[v1alpha1.UpdateIntegrationRequest]) (*connect.Response[v1alpha1.UpdateIntegrationResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.control.integration.v1alpha1.IntegrationService.UpdateIntegration is not implemented"))
 }
 
-func (UnimplementedIntegrationServiceHandler) GetIntegration(context.Context, *connect_go.Request[v1alpha1.GetIntegrationRequest]) (*connect_go.Response[v1alpha1.GetIntegrationResponse], error) {
-	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("commonfate.control.integration.v1alpha1.IntegrationService.GetIntegration is not implemented"))
+func (UnimplementedIntegrationServiceHandler) GetIntegration(context.Context, *connect.Request[v1alpha1.GetIntegrationRequest]) (*connect.Response[v1alpha1.GetIntegrationResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.control.integration.v1alpha1.IntegrationService.GetIntegration is not implemented"))
 }
 
-func (UnimplementedIntegrationServiceHandler) DeleteIntegration(context.Context, *connect_go.Request[v1alpha1.DeleteIntegrationRequest]) (*connect_go.Response[v1alpha1.DeleteIntegrationResponse], error) {
-	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("commonfate.control.integration.v1alpha1.IntegrationService.DeleteIntegration is not implemented"))
+func (UnimplementedIntegrationServiceHandler) DeleteIntegration(context.Context, *connect.Request[v1alpha1.DeleteIntegrationRequest]) (*connect.Response[v1alpha1.DeleteIntegrationResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.control.integration.v1alpha1.IntegrationService.DeleteIntegration is not implemented"))
 }
 
-func (UnimplementedIntegrationServiceHandler) ListIntegrations(context.Context, *connect_go.Request[v1alpha1.ListIntegrationsRequest]) (*connect_go.Response[v1alpha1.ListIntegrationsResponse], error) {
-	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("commonfate.control.integration.v1alpha1.IntegrationService.ListIntegrations is not implemented"))
+func (UnimplementedIntegrationServiceHandler) ListIntegrations(context.Context, *connect.Request[v1alpha1.ListIntegrationsRequest]) (*connect.Response[v1alpha1.ListIntegrationsResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.control.integration.v1alpha1.IntegrationService.ListIntegrations is not implemented"))
 }

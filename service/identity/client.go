@@ -1,4 +1,4 @@
-package audit
+package identity
 
 import (
 	"github.com/common-fate/sdk/config"

@@ -5,9 +5,9 @@
 package configv1alpha1connect
 
 import (
+	connect "connectrpc.com/connect"
 	context "context"
 	errors "errors"
-	connect_go "github.com/bufbuild/connect-go"
 	v1alpha1 "github.com/common-fate/sdk/gen/commonfate/control/config/v1alpha1"
 	http "net/http"
 	strings "strings"
@@ -18,7 +18,7 @@ import (
 // generated with a version of connect newer than the one compiled into your binary. You can fix the
 // problem by either regenerating this code with an older version of connect or updating the connect
 // version compiled into your binary.
-const _ = connect_go.IsAtLeastVersion0_1_0
+const _ = connect.IsAtLeastVersion1_13_0
 
 const (
 	// SlackAlertServiceName is the fully-qualified name of the SlackAlertService service.
@@ -47,13 +47,22 @@ const (
 	SlackAlertServiceDeleteSlackAlertProcedure = "/commonfate.control.config.v1alpha1.SlackAlertService/DeleteSlackAlert"
 )
 
+// These variables are the protoreflect.Descriptor objects for the RPCs defined in this package.
+var (
+	slackAlertServiceServiceDescriptor                = v1alpha1.File_commonfate_control_config_v1alpha1_slack_alert_proto.Services().ByName("SlackAlertService")
+	slackAlertServiceCreateSlackAlertMethodDescriptor = slackAlertServiceServiceDescriptor.Methods().ByName("CreateSlackAlert")
+	slackAlertServiceGetSlackAlertMethodDescriptor    = slackAlertServiceServiceDescriptor.Methods().ByName("GetSlackAlert")
+	slackAlertServiceUpdateSlackAlertMethodDescriptor = slackAlertServiceServiceDescriptor.Methods().ByName("UpdateSlackAlert")
+	slackAlertServiceDeleteSlackAlertMethodDescriptor = slackAlertServiceServiceDescriptor.Methods().ByName("DeleteSlackAlert")
+)
+
 // SlackAlertServiceClient is a client for the commonfate.control.config.v1alpha1.SlackAlertService
 // service.
 type SlackAlertServiceClient interface {
-	CreateSlackAlert(context.Context, *connect_go.Request[v1alpha1.CreateSlackAlertRequest]) (*connect_go.Response[v1alpha1.CreateSlackAlertResponse], error)
-	GetSlackAlert(context.Context, *connect_go.Request[v1alpha1.GetSlackAlertRequest]) (*connect_go.Response[v1alpha1.GetSlackAlertResponse], error)
-	UpdateSlackAlert(context.Context, *connect_go.Request[v1alpha1.UpdateSlackAlertRequest]) (*connect_go.Response[v1alpha1.UpdateSlackAlertResponse], error)
-	DeleteSlackAlert(context.Context, *connect_go.Request[v1alpha1.DeleteSlackAlertRequest]) (*connect_go.Response[v1alpha1.DeleteSlackAlertResponse], error)
+	CreateSlackAlert(context.Context, *connect.Request[v1alpha1.CreateSlackAlertRequest]) (*connect.Response[v1alpha1.CreateSlackAlertResponse], error)
+	GetSlackAlert(context.Context, *connect.Request[v1alpha1.GetSlackAlertRequest]) (*connect.Response[v1alpha1.GetSlackAlertResponse], error)
+	UpdateSlackAlert(context.Context, *connect.Request[v1alpha1.UpdateSlackAlertRequest]) (*connect.Response[v1alpha1.UpdateSlackAlertResponse], error)
+	DeleteSlackAlert(context.Context, *connect.Request[v1alpha1.DeleteSlackAlertRequest]) (*connect.Response[v1alpha1.DeleteSlackAlertResponse], error)
 }
 
 // NewSlackAlertServiceClient constructs a client for the
@@ -64,67 +73,71 @@ type SlackAlertServiceClient interface {
 //
 // The URL supplied here should be the base URL for the Connect or gRPC server (for example,
 // http://api.acme.com or https://acme.com/grpc).
-func NewSlackAlertServiceClient(httpClient connect_go.HTTPClient, baseURL string, opts ...connect_go.ClientOption) SlackAlertServiceClient {
+func NewSlackAlertServiceClient(httpClient connect.HTTPClient, baseURL string, opts ...connect.ClientOption) SlackAlertServiceClient {
 	baseURL = strings.TrimRight(baseURL, "/")
 	return &slackAlertServiceClient{
-		createSlackAlert: connect_go.NewClient[v1alpha1.CreateSlackAlertRequest, v1alpha1.CreateSlackAlertResponse](
+		createSlackAlert: connect.NewClient[v1alpha1.CreateSlackAlertRequest, v1alpha1.CreateSlackAlertResponse](
 			httpClient,
 			baseURL+SlackAlertServiceCreateSlackAlertProcedure,
-			opts...,
+			connect.WithSchema(slackAlertServiceCreateSlackAlertMethodDescriptor),
+			connect.WithClientOptions(opts...),
 		),
-		getSlackAlert: connect_go.NewClient[v1alpha1.GetSlackAlertRequest, v1alpha1.GetSlackAlertResponse](
+		getSlackAlert: connect.NewClient[v1alpha1.GetSlackAlertRequest, v1alpha1.GetSlackAlertResponse](
 			httpClient,
 			baseURL+SlackAlertServiceGetSlackAlertProcedure,
-			opts...,
+			connect.WithSchema(slackAlertServiceGetSlackAlertMethodDescriptor),
+			connect.WithClientOptions(opts...),
 		),
-		updateSlackAlert: connect_go.NewClient[v1alpha1.UpdateSlackAlertRequest, v1alpha1.UpdateSlackAlertResponse](
+		updateSlackAlert: connect.NewClient[v1alpha1.UpdateSlackAlertRequest, v1alpha1.UpdateSlackAlertResponse](
 			httpClient,
 			baseURL+SlackAlertServiceUpdateSlackAlertProcedure,
-			opts...,
+			connect.WithSchema(slackAlertServiceUpdateSlackAlertMethodDescriptor),
+			connect.WithClientOptions(opts...),
 		),
-		deleteSlackAlert: connect_go.NewClient[v1alpha1.DeleteSlackAlertRequest, v1alpha1.DeleteSlackAlertResponse](
+		deleteSlackAlert: connect.NewClient[v1alpha1.DeleteSlackAlertRequest, v1alpha1.DeleteSlackAlertResponse](
 			httpClient,
 			baseURL+SlackAlertServiceDeleteSlackAlertProcedure,
-			opts...,
+			connect.WithSchema(slackAlertServiceDeleteSlackAlertMethodDescriptor),
+			connect.WithClientOptions(opts...),
 		),
 	}
 }
 
 // slackAlertServiceClient implements SlackAlertServiceClient.
 type slackAlertServiceClient struct {
-	createSlackAlert *connect_go.Client[v1alpha1.CreateSlackAlertRequest, v1alpha1.CreateSlackAlertResponse]
-	getSlackAlert    *connect_go.Client[v1alpha1.GetSlackAlertRequest, v1alpha1.GetSlackAlertResponse]
-	updateSlackAlert *connect_go.Client[v1alpha1.UpdateSlackAlertRequest, v1alpha1.UpdateSlackAlertResponse]
-	deleteSlackAlert *connect_go.Client[v1alpha1.DeleteSlackAlertRequest, v1alpha1.DeleteSlackAlertResponse]
+	createSlackAlert *connect.Client[v1alpha1.CreateSlackAlertRequest, v1alpha1.CreateSlackAlertResponse]
+	getSlackAlert    *connect.Client[v1alpha1.GetSlackAlertRequest, v1alpha1.GetSlackAlertResponse]
+	updateSlackAlert *connect.Client[v1alpha1.UpdateSlackAlertRequest, v1alpha1.UpdateSlackAlertResponse]
+	deleteSlackAlert *connect.Client[v1alpha1.DeleteSlackAlertRequest, v1alpha1.DeleteSlackAlertResponse]
 }
 
 // CreateSlackAlert calls commonfate.control.config.v1alpha1.SlackAlertService.CreateSlackAlert.
-func (c *slackAlertServiceClient) CreateSlackAlert(ctx context.Context, req *connect_go.Request[v1alpha1.CreateSlackAlertRequest]) (*connect_go.Response[v1alpha1.CreateSlackAlertResponse], error) {
+func (c *slackAlertServiceClient) CreateSlackAlert(ctx context.Context, req *connect.Request[v1alpha1.CreateSlackAlertRequest]) (*connect.Response[v1alpha1.CreateSlackAlertResponse], error) {
 	return c.createSlackAlert.CallUnary(ctx, req)
 }
 
 // GetSlackAlert calls commonfate.control.config.v1alpha1.SlackAlertService.GetSlackAlert.
-func (c *slackAlertServiceClient) GetSlackAlert(ctx context.Context, req *connect_go.Request[v1alpha1.GetSlackAlertRequest]) (*connect_go.Response[v1alpha1.GetSlackAlertResponse], error) {
+func (c *slackAlertServiceClient) GetSlackAlert(ctx context.Context, req *connect.Request[v1alpha1.GetSlackAlertRequest]) (*connect.Response[v1alpha1.GetSlackAlertResponse], error) {
 	return c.getSlackAlert.CallUnary(ctx, req)
 }
 
 // UpdateSlackAlert calls commonfate.control.config.v1alpha1.SlackAlertService.UpdateSlackAlert.
-func (c *slackAlertServiceClient) UpdateSlackAlert(ctx context.Context, req *connect_go.Request[v1alpha1.UpdateSlackAlertRequest]) (*connect_go.Response[v1alpha1.UpdateSlackAlertResponse], error) {
+func (c *slackAlertServiceClient) UpdateSlackAlert(ctx context.Context, req *connect.Request[v1alpha1.UpdateSlackAlertRequest]) (*connect.Response[v1alpha1.UpdateSlackAlertResponse], error) {
 	return c.updateSlackAlert.CallUnary(ctx, req)
 }
 
 // DeleteSlackAlert calls commonfate.control.config.v1alpha1.SlackAlertService.DeleteSlackAlert.
-func (c *slackAlertServiceClient) DeleteSlackAlert(ctx context.Context, req *connect_go.Request[v1alpha1.DeleteSlackAlertRequest]) (*connect_go.Response[v1alpha1.DeleteSlackAlertResponse], error) {
+func (c *slackAlertServiceClient) DeleteSlackAlert(ctx context.Context, req *connect.Request[v1alpha1.DeleteSlackAlertRequest]) (*connect.Response[v1alpha1.DeleteSlackAlertResponse], error) {
 	return c.deleteSlackAlert.CallUnary(ctx, req)
 }
 
 // SlackAlertServiceHandler is an implementation of the
 // commonfate.control.config.v1alpha1.SlackAlertService service.
 type SlackAlertServiceHandler interface {
-	CreateSlackAlert(context.Context, *connect_go.Request[v1alpha1.CreateSlackAlertRequest]) (*connect_go.Response[v1alpha1.CreateSlackAlertResponse], error)
-	GetSlackAlert(context.Context, *connect_go.Request[v1alpha1.GetSlackAlertRequest]) (*connect_go.Response[v1alpha1.GetSlackAlertResponse], error)
-	UpdateSlackAlert(context.Context, *connect_go.Request[v1alpha1.UpdateSlackAlertRequest]) (*connect_go.Response[v1alpha1.UpdateSlackAlertResponse], error)
-	DeleteSlackAlert(context.Context, *connect_go.Request[v1alpha1.DeleteSlackAlertRequest]) (*connect_go.Response[v1alpha1.DeleteSlackAlertResponse], error)
+	CreateSlackAlert(context.Context, *connect.Request[v1alpha1.CreateSlackAlertRequest]) (*connect.Response[v1alpha1.CreateSlackAlertResponse], error)
+	GetSlackAlert(context.Context, *connect.Request[v1alpha1.GetSlackAlertRequest]) (*connect.Response[v1alpha1.GetSlackAlertResponse], error)
+	UpdateSlackAlert(context.Context, *connect.Request[v1alpha1.UpdateSlackAlertRequest]) (*connect.Response[v1alpha1.UpdateSlackAlertResponse], error)
+	DeleteSlackAlert(context.Context, *connect.Request[v1alpha1.DeleteSlackAlertRequest]) (*connect.Response[v1alpha1.DeleteSlackAlertResponse], error)
 }
 
 // NewSlackAlertServiceHandler builds an HTTP handler from the service implementation. It returns
@@ -132,26 +145,30 @@ type SlackAlertServiceHandler interface {
 //
 // By default, handlers support the Connect, gRPC, and gRPC-Web protocols with the binary Protobuf
 // and JSON codecs. They also support gzip compression.
-func NewSlackAlertServiceHandler(svc SlackAlertServiceHandler, opts ...connect_go.HandlerOption) (string, http.Handler) {
-	slackAlertServiceCreateSlackAlertHandler := connect_go.NewUnaryHandler(
+func NewSlackAlertServiceHandler(svc SlackAlertServiceHandler, opts ...connect.HandlerOption) (string, http.Handler) {
+	slackAlertServiceCreateSlackAlertHandler := connect.NewUnaryHandler(
 		SlackAlertServiceCreateSlackAlertProcedure,
 		svc.CreateSlackAlert,
-		opts...,
+		connect.WithSchema(slackAlertServiceCreateSlackAlertMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
 	)
-	slackAlertServiceGetSlackAlertHandler := connect_go.NewUnaryHandler(
+	slackAlertServiceGetSlackAlertHandler := connect.NewUnaryHandler(
 		SlackAlertServiceGetSlackAlertProcedure,
 		svc.GetSlackAlert,
-		opts...,
+		connect.WithSchema(slackAlertServiceGetSlackAlertMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
 	)
-	slackAlertServiceUpdateSlackAlertHandler := connect_go.NewUnaryHandler(
+	slackAlertServiceUpdateSlackAlertHandler := connect.NewUnaryHandler(
 		SlackAlertServiceUpdateSlackAlertProcedure,
 		svc.UpdateSlackAlert,
-		opts...,
+		connect.WithSchema(slackAlertServiceUpdateSlackAlertMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
 	)
-	slackAlertServiceDeleteSlackAlertHandler := connect_go.NewUnaryHandler(
+	slackAlertServiceDeleteSlackAlertHandler := connect.NewUnaryHandler(
 		SlackAlertServiceDeleteSlackAlertProcedure,
 		svc.DeleteSlackAlert,
-		opts...,
+		connect.WithSchema(slackAlertServiceDeleteSlackAlertMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
 	)
 	return "/commonfate.control.config.v1alpha1.SlackAlertService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
@@ -172,18 +189,18 @@ func NewSlackAlertServiceHandler(svc SlackAlertServiceHandler, opts ...connect_g
 // UnimplementedSlackAlertServiceHandler returns CodeUnimplemented from all methods.
 type UnimplementedSlackAlertServiceHandler struct{}
 
-func (UnimplementedSlackAlertServiceHandler) CreateSlackAlert(context.Context, *connect_go.Request[v1alpha1.CreateSlackAlertRequest]) (*connect_go.Response[v1alpha1.CreateSlackAlertResponse], error) {
-	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("commonfate.control.config.v1alpha1.SlackAlertService.CreateSlackAlert is not implemented"))
+func (UnimplementedSlackAlertServiceHandler) CreateSlackAlert(context.Context, *connect.Request[v1alpha1.CreateSlackAlertRequest]) (*connect.Response[v1alpha1.CreateSlackAlertResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.control.config.v1alpha1.SlackAlertService.CreateSlackAlert is not implemented"))
 }
 
-func (UnimplementedSlackAlertServiceHandler) GetSlackAlert(context.Context, *connect_go.Request[v1alpha1.GetSlackAlertRequest]) (*connect_go.Response[v1alpha1.GetSlackAlertResponse], error) {
-	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("commonfate.control.config.v1alpha1.SlackAlertService.GetSlackAlert is not implemented"))
+func (UnimplementedSlackAlertServiceHandler) GetSlackAlert(context.Context, *connect.Request[v1alpha1.GetSlackAlertRequest]) (*connect.Response[v1alpha1.GetSlackAlertResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.control.config.v1alpha1.SlackAlertService.GetSlackAlert is not implemented"))
 }
 
-func (UnimplementedSlackAlertServiceHandler) UpdateSlackAlert(context.Context, *connect_go.Request[v1alpha1.UpdateSlackAlertRequest]) (*connect_go.Response[v1alpha1.UpdateSlackAlertResponse], error) {
-	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("commonfate.control.config.v1alpha1.SlackAlertService.UpdateSlackAlert is not implemented"))
+func (UnimplementedSlackAlertServiceHandler) UpdateSlackAlert(context.Context, *connect.Request[v1alpha1.UpdateSlackAlertRequest]) (*connect.Response[v1alpha1.UpdateSlackAlertResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.control.config.v1alpha1.SlackAlertService.UpdateSlackAlert is not implemented"))
 }
 
-func (UnimplementedSlackAlertServiceHandler) DeleteSlackAlert(context.Context, *connect_go.Request[v1alpha1.DeleteSlackAlertRequest]) (*connect_go.Response[v1alpha1.DeleteSlackAlertResponse], error) {
-	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("commonfate.control.config.v1alpha1.SlackAlertService.DeleteSlackAlert is not implemented"))
+func (UnimplementedSlackAlertServiceHandler) DeleteSlackAlert(context.Context, *connect.Request[v1alpha1.DeleteSlackAlertRequest]) (*connect.Response[v1alpha1.DeleteSlackAlertResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.control.config.v1alpha1.SlackAlertService.DeleteSlackAlert is not implemented"))
 }

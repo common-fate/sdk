@@ -5,11 +5,13 @@ package commonfate.access.v1alpha1;
 import "commonfate/control/attest/v1alpha1/attestation.proto";
 import "commonfate/access/v1alpha1/user.proto";
 import "commonfate/entity/v1alpha1/entity.proto";
-import "commonfate/entity/v1alpha1/eid.proto";
+
 import "commonfate/access/v1alpha1/named_eid.proto";
 import "commonfate/access/v1alpha1/audit_logs.proto";
 import "google/protobuf/duration.proto";
 import "google/protobuf/timestamp.proto";
+
+
 
 
 message Grant {
@@ -42,6 +44,9 @@ message Grant {
 
     // The ID of the Access Request associated with the Grant.
     string access_request_id = 10;
+
+    // Approved is true if there are any approving reviews on the Grant.
+    bool approved = 11;
 }
 
 enum GrantStatus {

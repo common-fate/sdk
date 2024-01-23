@@ -3,8 +3,11 @@ package commonfate.control.integration.v1alpha1;
 
 import "commonfate/control/integration/v1alpha1/gcp.proto";
 import "commonfate/control/integration/v1alpha1/aws_idc.proto";
+import "commonfate/control/integration/v1alpha1/aws_rds.proto";
 import "commonfate/control/integration/v1alpha1/slack.proto";
 import "commonfate/control/integration/v1alpha1/pagerduty.proto";
+import "commonfate/control/integration/v1alpha1/opsgenie.proto";
+import "commonfate/control/integration/v1alpha1/entra.proto";
 import "commonfate/access/v1alpha1/diagnostic.proto";
 
 service IntegrationService {
@@ -36,6 +39,9 @@ message Config {
         AWSIDC aws_idc = 2;
         Slack slack = 3;
         PagerDuty pagerduty = 4;
+        OpsGenie opsgenie = 5;
+        Entra entra = 6;
+        AWSRDS aws_rds = 7;
     }
 }
 

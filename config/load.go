@@ -2,11 +2,13 @@ package config
 
 import (
 	"context"
+	"errors"
 	"os"
 	"path/filepath"
 
 	"github.com/BurntSushi/toml"
 	"github.com/common-fate/clio"
+	"github.com/common-fate/grab"
 	"github.com/common-fate/sdk/tokenstore"
 )
 
@@ -47,6 +49,14 @@ type Opts struct {
 	OIDCIssuer   string
 }
 
+// in order of precedence, select a source for the client ID or nil
+func clientSecret(contextSecret *string, opts Opts) *string {
+	clientSecret := grab.FirstNonZero(opts.ClientSecret, os.Getenv("CF_OIDC_CLIENT_SECRET"), grab.Value(contextSecret))
+	if clientSecret == "" {
+		return nil
+	}
+	return &clientSecret
+}
 func New(ctx context.Context, opts Opts) (*Context, error) {
 	cfg, err := load()
 	if err != nil {
@@ -61,7 +71,9 @@ func New(ctx context.Context, opts Opts) (*Context, error) {
 	current.APIURL = opts.APIURL
 	current.AccessURL = opts.AccessURL
 	current.OIDCClientID = opts.ClientID
-	current.OIDCClientSecret = &opts.ClientSecret
+
+	current.OIDCClientSecret = clientSecret(current.OIDCClientSecret, opts)
+
 	current.OIDCIssuer = opts.OIDCIssuer
 
 	err = current.Initialize(ctx, InitializeOpts{})
@@ -77,13 +89,14 @@ func New(ctx context.Context, opts Opts) (*Context, error) {
 func NewServerContext(ctx context.Context, opts Opts) (*Context, error) {
 
 	context := &Context{
-		APIURL:           opts.APIURL,
-		AccessURL:        opts.AccessURL,
-		AuthzURL:         opts.AuthzURL,
-		OIDCClientID:     opts.ClientID,
-		OIDCClientSecret: &opts.ClientSecret,
-		OIDCIssuer:       opts.OIDCIssuer,
+		APIURL:       opts.APIURL,
+		AccessURL:    opts.AccessURL,
+		AuthzURL:     opts.AuthzURL,
+		OIDCClientID: opts.ClientID,
+
+		OIDCIssuer: opts.OIDCIssuer,
 	}
+	context.OIDCClientSecret = clientSecret(context.OIDCClientSecret, opts)
 
 	// Initialise with an in memory token store to avoid keychain use
 	err := context.Initialize(ctx, InitializeOpts{TokenStore: tokenstore.NewInMemoryTokenStore()})
@@ -120,6 +133,30 @@ func load() (*Config, error) {
 	}
 
 	return cfg, nil
+}
+
+func ListContexts() ([]string, error) {
+	cfg, err := load()
+	if err != nil {
+		return nil, err
+	}
+	contexts := []string{}
+	for k := range cfg.Contexts {
+		contexts = append(contexts, k)
+	}
+	return contexts, nil
+}
+
+func SwitchContext(contextName string) error {
+	cfg, err := load()
+	if err != nil {
+		return err
+	}
+	if _, ok := cfg.Contexts[contextName]; ok {
+		cfg.CurrentContext = contextName
+		return Save(cfg)
+	}
+	return errors.New("context not found in config file")
 }
 
 func openConfigFile(filepath string) (*Config, error) {
