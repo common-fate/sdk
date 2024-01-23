@@ -5,9 +5,9 @@
 package entityv1alpha1connect
 
 import (
+	connect "connectrpc.com/connect"
 	context "context"
 	errors "errors"
-	connect_go "github.com/bufbuild/connect-go"
 	v1alpha1 "github.com/common-fate/sdk/gen/commonfate/entity/v1alpha1"
 	http "net/http"
 	strings "strings"
@@ -18,7 +18,7 @@ import (
 // generated with a version of connect newer than the one compiled into your binary. You can fix the
 // problem by either regenerating this code with an older version of connect or updating the connect
 // version compiled into your binary.
-const _ = connect_go.IsAtLeastVersion0_1_0
+const _ = connect.IsAtLeastVersion1_13_0
 
 const (
 	// EntityServiceName is the fully-qualified name of the EntityService service.
@@ -52,21 +52,33 @@ const (
 	EntityServiceSelectProcedure = "/commonfate.entity.v1alpha1.EntityService/Select"
 )
 
+// These variables are the protoreflect.Descriptor objects for the RPCs defined in this package.
+var (
+	entityServiceServiceDescriptor            = v1alpha1.File_commonfate_entity_v1alpha1_entity_service_proto.Services().ByName("EntityService")
+	entityServiceBatchUpdateMethodDescriptor  = entityServiceServiceDescriptor.Methods().ByName("BatchUpdate")
+	entityServiceListMethodDescriptor         = entityServiceServiceDescriptor.Methods().ByName("List")
+	entityServiceGetMethodDescriptor          = entityServiceServiceDescriptor.Methods().ByName("Get")
+	entityServiceListChildrenMethodDescriptor = entityServiceServiceDescriptor.Methods().ByName("ListChildren")
+	entityServiceListParentsMethodDescriptor  = entityServiceServiceDescriptor.Methods().ByName("ListParents")
+	entityServiceBatchGetMethodDescriptor     = entityServiceServiceDescriptor.Methods().ByName("BatchGet")
+	entityServiceSelectMethodDescriptor       = entityServiceServiceDescriptor.Methods().ByName("Select")
+)
+
 // EntityServiceClient is a client for the commonfate.entity.v1alpha1.EntityService service.
 type EntityServiceClient interface {
 	// creates or updates entities for a particular policy store in the authorization service.
-	BatchUpdate(context.Context, *connect_go.Request[v1alpha1.BatchUpdateRequest]) (*connect_go.Response[v1alpha1.BatchUpdateResponse], error)
+	BatchUpdate(context.Context, *connect.Request[v1alpha1.BatchUpdateRequest]) (*connect.Response[v1alpha1.BatchUpdateResponse], error)
 	// List entities matching filter conditions.
-	List(context.Context, *connect_go.Request[v1alpha1.ListRequest]) (*connect_go.Response[v1alpha1.ListResponse], error)
+	List(context.Context, *connect.Request[v1alpha1.ListRequest]) (*connect.Response[v1alpha1.ListResponse], error)
 	// Get an entity by EID.
-	Get(context.Context, *connect_go.Request[v1alpha1.GetRequest]) (*connect_go.Response[v1alpha1.GetResponse], error)
+	Get(context.Context, *connect.Request[v1alpha1.GetRequest]) (*connect.Response[v1alpha1.GetResponse], error)
 	// List the children for a particular entity.
-	ListChildren(context.Context, *connect_go.Request[v1alpha1.ListChildrenRequest]) (*connect_go.Response[v1alpha1.ListChildrenResponse], error)
+	ListChildren(context.Context, *connect.Request[v1alpha1.ListChildrenRequest]) (*connect.Response[v1alpha1.ListChildrenResponse], error)
 	// List the parents for a particular entity.
-	ListParents(context.Context, *connect_go.Request[v1alpha1.ListParentsRequest]) (*connect_go.Response[v1alpha1.ListParentsResponse], error)
+	ListParents(context.Context, *connect.Request[v1alpha1.ListParentsRequest]) (*connect.Response[v1alpha1.ListParentsResponse], error)
 	// Get multiple entities by EID.
-	BatchGet(context.Context, *connect_go.Request[v1alpha1.BatchGetRequest]) (*connect_go.Response[v1alpha1.BatchGetResponse], error)
-	Select(context.Context, *connect_go.Request[v1alpha1.SelectRequest]) (*connect_go.Response[v1alpha1.SelectResponse], error)
+	BatchGet(context.Context, *connect.Request[v1alpha1.BatchGetRequest]) (*connect.Response[v1alpha1.BatchGetResponse], error)
+	Select(context.Context, *connect.Request[v1alpha1.SelectRequest]) (*connect.Response[v1alpha1.SelectResponse], error)
 }
 
 // NewEntityServiceClient constructs a client for the commonfate.entity.v1alpha1.EntityService
@@ -76,90 +88,97 @@ type EntityServiceClient interface {
 //
 // The URL supplied here should be the base URL for the Connect or gRPC server (for example,
 // http://api.acme.com or https://acme.com/grpc).
-func NewEntityServiceClient(httpClient connect_go.HTTPClient, baseURL string, opts ...connect_go.ClientOption) EntityServiceClient {
+func NewEntityServiceClient(httpClient connect.HTTPClient, baseURL string, opts ...connect.ClientOption) EntityServiceClient {
 	baseURL = strings.TrimRight(baseURL, "/")
 	return &entityServiceClient{
-		batchUpdate: connect_go.NewClient[v1alpha1.BatchUpdateRequest, v1alpha1.BatchUpdateResponse](
+		batchUpdate: connect.NewClient[v1alpha1.BatchUpdateRequest, v1alpha1.BatchUpdateResponse](
 			httpClient,
 			baseURL+EntityServiceBatchUpdateProcedure,
-			opts...,
+			connect.WithSchema(entityServiceBatchUpdateMethodDescriptor),
+			connect.WithClientOptions(opts...),
 		),
-		list: connect_go.NewClient[v1alpha1.ListRequest, v1alpha1.ListResponse](
+		list: connect.NewClient[v1alpha1.ListRequest, v1alpha1.ListResponse](
 			httpClient,
 			baseURL+EntityServiceListProcedure,
-			opts...,
+			connect.WithSchema(entityServiceListMethodDescriptor),
+			connect.WithClientOptions(opts...),
 		),
-		get: connect_go.NewClient[v1alpha1.GetRequest, v1alpha1.GetResponse](
+		get: connect.NewClient[v1alpha1.GetRequest, v1alpha1.GetResponse](
 			httpClient,
 			baseURL+EntityServiceGetProcedure,
-			opts...,
+			connect.WithSchema(entityServiceGetMethodDescriptor),
+			connect.WithClientOptions(opts...),
 		),
-		listChildren: connect_go.NewClient[v1alpha1.ListChildrenRequest, v1alpha1.ListChildrenResponse](
+		listChildren: connect.NewClient[v1alpha1.ListChildrenRequest, v1alpha1.ListChildrenResponse](
 			httpClient,
 			baseURL+EntityServiceListChildrenProcedure,
-			opts...,
+			connect.WithSchema(entityServiceListChildrenMethodDescriptor),
+			connect.WithClientOptions(opts...),
 		),
-		listParents: connect_go.NewClient[v1alpha1.ListParentsRequest, v1alpha1.ListParentsResponse](
+		listParents: connect.NewClient[v1alpha1.ListParentsRequest, v1alpha1.ListParentsResponse](
 			httpClient,
 			baseURL+EntityServiceListParentsProcedure,
-			opts...,
+			connect.WithSchema(entityServiceListParentsMethodDescriptor),
+			connect.WithClientOptions(opts...),
 		),
-		batchGet: connect_go.NewClient[v1alpha1.BatchGetRequest, v1alpha1.BatchGetResponse](
+		batchGet: connect.NewClient[v1alpha1.BatchGetRequest, v1alpha1.BatchGetResponse](
 			httpClient,
 			baseURL+EntityServiceBatchGetProcedure,
-			opts...,
+			connect.WithSchema(entityServiceBatchGetMethodDescriptor),
+			connect.WithClientOptions(opts...),
 		),
-		_select: connect_go.NewClient[v1alpha1.SelectRequest, v1alpha1.SelectResponse](
+		_select: connect.NewClient[v1alpha1.SelectRequest, v1alpha1.SelectResponse](
 			httpClient,
 			baseURL+EntityServiceSelectProcedure,
-			opts...,
+			connect.WithSchema(entityServiceSelectMethodDescriptor),
+			connect.WithClientOptions(opts...),
 		),
 	}
 }
 
 // entityServiceClient implements EntityServiceClient.
 type entityServiceClient struct {
-	batchUpdate  *connect_go.Client[v1alpha1.BatchUpdateRequest, v1alpha1.BatchUpdateResponse]
-	list         *connect_go.Client[v1alpha1.ListRequest, v1alpha1.ListResponse]
-	get          *connect_go.Client[v1alpha1.GetRequest, v1alpha1.GetResponse]
-	listChildren *connect_go.Client[v1alpha1.ListChildrenRequest, v1alpha1.ListChildrenResponse]
-	listParents  *connect_go.Client[v1alpha1.ListParentsRequest, v1alpha1.ListParentsResponse]
-	batchGet     *connect_go.Client[v1alpha1.BatchGetRequest, v1alpha1.BatchGetResponse]
-	_select      *connect_go.Client[v1alpha1.SelectRequest, v1alpha1.SelectResponse]
+	batchUpdate  *connect.Client[v1alpha1.BatchUpdateRequest, v1alpha1.BatchUpdateResponse]
+	list         *connect.Client[v1alpha1.ListRequest, v1alpha1.ListResponse]
+	get          *connect.Client[v1alpha1.GetRequest, v1alpha1.GetResponse]
+	listChildren *connect.Client[v1alpha1.ListChildrenRequest, v1alpha1.ListChildrenResponse]
+	listParents  *connect.Client[v1alpha1.ListParentsRequest, v1alpha1.ListParentsResponse]
+	batchGet     *connect.Client[v1alpha1.BatchGetRequest, v1alpha1.BatchGetResponse]
+	_select      *connect.Client[v1alpha1.SelectRequest, v1alpha1.SelectResponse]
 }
 
 // BatchUpdate calls commonfate.entity.v1alpha1.EntityService.BatchUpdate.
-func (c *entityServiceClient) BatchUpdate(ctx context.Context, req *connect_go.Request[v1alpha1.BatchUpdateRequest]) (*connect_go.Response[v1alpha1.BatchUpdateResponse], error) {
+func (c *entityServiceClient) BatchUpdate(ctx context.Context, req *connect.Request[v1alpha1.BatchUpdateRequest]) (*connect.Response[v1alpha1.BatchUpdateResponse], error) {
 	return c.batchUpdate.CallUnary(ctx, req)
 }
 
 // List calls commonfate.entity.v1alpha1.EntityService.List.
-func (c *entityServiceClient) List(ctx context.Context, req *connect_go.Request[v1alpha1.ListRequest]) (*connect_go.Response[v1alpha1.ListResponse], error) {
+func (c *entityServiceClient) List(ctx context.Context, req *connect.Request[v1alpha1.ListRequest]) (*connect.Response[v1alpha1.ListResponse], error) {
 	return c.list.CallUnary(ctx, req)
 }
 
 // Get calls commonfate.entity.v1alpha1.EntityService.Get.
-func (c *entityServiceClient) Get(ctx context.Context, req *connect_go.Request[v1alpha1.GetRequest]) (*connect_go.Response[v1alpha1.GetResponse], error) {
+func (c *entityServiceClient) Get(ctx context.Context, req *connect.Request[v1alpha1.GetRequest]) (*connect.Response[v1alpha1.GetResponse], error) {
 	return c.get.CallUnary(ctx, req)
 }
 
 // ListChildren calls commonfate.entity.v1alpha1.EntityService.ListChildren.
-func (c *entityServiceClient) ListChildren(ctx context.Context, req *connect_go.Request[v1alpha1.ListChildrenRequest]) (*connect_go.Response[v1alpha1.ListChildrenResponse], error) {
+func (c *entityServiceClient) ListChildren(ctx context.Context, req *connect.Request[v1alpha1.ListChildrenRequest]) (*connect.Response[v1alpha1.ListChildrenResponse], error) {
 	return c.listChildren.CallUnary(ctx, req)
 }
 
 // ListParents calls commonfate.entity.v1alpha1.EntityService.ListParents.
-func (c *entityServiceClient) ListParents(ctx context.Context, req *connect_go.Request[v1alpha1.ListParentsRequest]) (*connect_go.Response[v1alpha1.ListParentsResponse], error) {
+func (c *entityServiceClient) ListParents(ctx context.Context, req *connect.Request[v1alpha1.ListParentsRequest]) (*connect.Response[v1alpha1.ListParentsResponse], error) {
 	return c.listParents.CallUnary(ctx, req)
 }
 
 // BatchGet calls commonfate.entity.v1alpha1.EntityService.BatchGet.
-func (c *entityServiceClient) BatchGet(ctx context.Context, req *connect_go.Request[v1alpha1.BatchGetRequest]) (*connect_go.Response[v1alpha1.BatchGetResponse], error) {
+func (c *entityServiceClient) BatchGet(ctx context.Context, req *connect.Request[v1alpha1.BatchGetRequest]) (*connect.Response[v1alpha1.BatchGetResponse], error) {
 	return c.batchGet.CallUnary(ctx, req)
 }
 
 // Select calls commonfate.entity.v1alpha1.EntityService.Select.
-func (c *entityServiceClient) Select(ctx context.Context, req *connect_go.Request[v1alpha1.SelectRequest]) (*connect_go.Response[v1alpha1.SelectResponse], error) {
+func (c *entityServiceClient) Select(ctx context.Context, req *connect.Request[v1alpha1.SelectRequest]) (*connect.Response[v1alpha1.SelectResponse], error) {
 	return c._select.CallUnary(ctx, req)
 }
 
@@ -167,18 +186,18 @@ func (c *entityServiceClient) Select(ctx context.Context, req *connect_go.Reques
 // service.
 type EntityServiceHandler interface {
 	// creates or updates entities for a particular policy store in the authorization service.
-	BatchUpdate(context.Context, *connect_go.Request[v1alpha1.BatchUpdateRequest]) (*connect_go.Response[v1alpha1.BatchUpdateResponse], error)
+	BatchUpdate(context.Context, *connect.Request[v1alpha1.BatchUpdateRequest]) (*connect.Response[v1alpha1.BatchUpdateResponse], error)
 	// List entities matching filter conditions.
-	List(context.Context, *connect_go.Request[v1alpha1.ListRequest]) (*connect_go.Response[v1alpha1.ListResponse], error)
+	List(context.Context, *connect.Request[v1alpha1.ListRequest]) (*connect.Response[v1alpha1.ListResponse], error)
 	// Get an entity by EID.
-	Get(context.Context, *connect_go.Request[v1alpha1.GetRequest]) (*connect_go.Response[v1alpha1.GetResponse], error)
+	Get(context.Context, *connect.Request[v1alpha1.GetRequest]) (*connect.Response[v1alpha1.GetResponse], error)
 	// List the children for a particular entity.
-	ListChildren(context.Context, *connect_go.Request[v1alpha1.ListChildrenRequest]) (*connect_go.Response[v1alpha1.ListChildrenResponse], error)
+	ListChildren(context.Context, *connect.Request[v1alpha1.ListChildrenRequest]) (*connect.Response[v1alpha1.ListChildrenResponse], error)
 	// List the parents for a particular entity.
-	ListParents(context.Context, *connect_go.Request[v1alpha1.ListParentsRequest]) (*connect_go.Response[v1alpha1.ListParentsResponse], error)
+	ListParents(context.Context, *connect.Request[v1alpha1.ListParentsRequest]) (*connect.Response[v1alpha1.ListParentsResponse], error)
 	// Get multiple entities by EID.
-	BatchGet(context.Context, *connect_go.Request[v1alpha1.BatchGetRequest]) (*connect_go.Response[v1alpha1.BatchGetResponse], error)
-	Select(context.Context, *connect_go.Request[v1alpha1.SelectRequest]) (*connect_go.Response[v1alpha1.SelectResponse], error)
+	BatchGet(context.Context, *connect.Request[v1alpha1.BatchGetRequest]) (*connect.Response[v1alpha1.BatchGetResponse], error)
+	Select(context.Context, *connect.Request[v1alpha1.SelectRequest]) (*connect.Response[v1alpha1.SelectResponse], error)
 }
 
 // NewEntityServiceHandler builds an HTTP handler from the service implementation. It returns the
@@ -186,41 +205,48 @@ type EntityServiceHandler interface {
 //
 // By default, handlers support the Connect, gRPC, and gRPC-Web protocols with the binary Protobuf
 // and JSON codecs. They also support gzip compression.
-func NewEntityServiceHandler(svc EntityServiceHandler, opts ...connect_go.HandlerOption) (string, http.Handler) {
-	entityServiceBatchUpdateHandler := connect_go.NewUnaryHandler(
+func NewEntityServiceHandler(svc EntityServiceHandler, opts ...connect.HandlerOption) (string, http.Handler) {
+	entityServiceBatchUpdateHandler := connect.NewUnaryHandler(
 		EntityServiceBatchUpdateProcedure,
 		svc.BatchUpdate,
-		opts...,
+		connect.WithSchema(entityServiceBatchUpdateMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
 	)
-	entityServiceListHandler := connect_go.NewUnaryHandler(
+	entityServiceListHandler := connect.NewUnaryHandler(
 		EntityServiceListProcedure,
 		svc.List,
-		opts...,
+		connect.WithSchema(entityServiceListMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
 	)
-	entityServiceGetHandler := connect_go.NewUnaryHandler(
+	entityServiceGetHandler := connect.NewUnaryHandler(
 		EntityServiceGetProcedure,
 		svc.Get,
-		opts...,
+		connect.WithSchema(entityServiceGetMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
 	)
-	entityServiceListChildrenHandler := connect_go.NewUnaryHandler(
+	entityServiceListChildrenHandler := connect.NewUnaryHandler(
 		EntityServiceListChildrenProcedure,
 		svc.ListChildren,
-		opts...,
+		connect.WithSchema(entityServiceListChildrenMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
 	)
-	entityServiceListParentsHandler := connect_go.NewUnaryHandler(
+	entityServiceListParentsHandler := connect.NewUnaryHandler(
 		EntityServiceListParentsProcedure,
 		svc.ListParents,
-		opts...,
+		connect.WithSchema(entityServiceListParentsMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
 	)
-	entityServiceBatchGetHandler := connect_go.NewUnaryHandler(
+	entityServiceBatchGetHandler := connect.NewUnaryHandler(
 		EntityServiceBatchGetProcedure,
 		svc.BatchGet,
-		opts...,
+		connect.WithSchema(entityServiceBatchGetMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
 	)
-	entityServiceSelectHandler := connect_go.NewUnaryHandler(
+	entityServiceSelectHandler := connect.NewUnaryHandler(
 		EntityServiceSelectProcedure,
 		svc.Select,
-		opts...,
+		connect.WithSchema(entityServiceSelectMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
 	)
 	return "/commonfate.entity.v1alpha1.EntityService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
@@ -247,30 +273,30 @@ func NewEntityServiceHandler(svc EntityServiceHandler, opts ...connect_go.Handle
 // UnimplementedEntityServiceHandler returns CodeUnimplemented from all methods.
 type UnimplementedEntityServiceHandler struct{}
 
-func (UnimplementedEntityServiceHandler) BatchUpdate(context.Context, *connect_go.Request[v1alpha1.BatchUpdateRequest]) (*connect_go.Response[v1alpha1.BatchUpdateResponse], error) {
-	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("commonfate.entity.v1alpha1.EntityService.BatchUpdate is not implemented"))
+func (UnimplementedEntityServiceHandler) BatchUpdate(context.Context, *connect.Request[v1alpha1.BatchUpdateRequest]) (*connect.Response[v1alpha1.BatchUpdateResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.entity.v1alpha1.EntityService.BatchUpdate is not implemented"))
 }
 
-func (UnimplementedEntityServiceHandler) List(context.Context, *connect_go.Request[v1alpha1.ListRequest]) (*connect_go.Response[v1alpha1.ListResponse], error) {
-	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("commonfate.entity.v1alpha1.EntityService.List is not implemented"))
+func (UnimplementedEntityServiceHandler) List(context.Context, *connect.Request[v1alpha1.ListRequest]) (*connect.Response[v1alpha1.ListResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.entity.v1alpha1.EntityService.List is not implemented"))
 }
 
-func (UnimplementedEntityServiceHandler) Get(context.Context, *connect_go.Request[v1alpha1.GetRequest]) (*connect_go.Response[v1alpha1.GetResponse], error) {
-	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("commonfate.entity.v1alpha1.EntityService.Get is not implemented"))
+func (UnimplementedEntityServiceHandler) Get(context.Context, *connect.Request[v1alpha1.GetRequest]) (*connect.Response[v1alpha1.GetResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.entity.v1alpha1.EntityService.Get is not implemented"))
 }
 
-func (UnimplementedEntityServiceHandler) ListChildren(context.Context, *connect_go.Request[v1alpha1.ListChildrenRequest]) (*connect_go.Response[v1alpha1.ListChildrenResponse], error) {
-	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("commonfate.entity.v1alpha1.EntityService.ListChildren is not implemented"))
+func (UnimplementedEntityServiceHandler) ListChildren(context.Context, *connect.Request[v1alpha1.ListChildrenRequest]) (*connect.Response[v1alpha1.ListChildrenResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.entity.v1alpha1.EntityService.ListChildren is not implemented"))
 }
 
-func (UnimplementedEntityServiceHandler) ListParents(context.Context, *connect_go.Request[v1alpha1.ListParentsRequest]) (*connect_go.Response[v1alpha1.ListParentsResponse], error) {
-	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("commonfate.entity.v1alpha1.EntityService.ListParents is not implemented"))
+func (UnimplementedEntityServiceHandler) ListParents(context.Context, *connect.Request[v1alpha1.ListParentsRequest]) (*connect.Response[v1alpha1.ListParentsResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.entity.v1alpha1.EntityService.ListParents is not implemented"))
 }
 
-func (UnimplementedEntityServiceHandler) BatchGet(context.Context, *connect_go.Request[v1alpha1.BatchGetRequest]) (*connect_go.Response[v1alpha1.BatchGetResponse], error) {
-	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("commonfate.entity.v1alpha1.EntityService.BatchGet is not implemented"))
+func (UnimplementedEntityServiceHandler) BatchGet(context.Context, *connect.Request[v1alpha1.BatchGetRequest]) (*connect.Response[v1alpha1.BatchGetResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.entity.v1alpha1.EntityService.BatchGet is not implemented"))
 }
 
-func (UnimplementedEntityServiceHandler) Select(context.Context, *connect_go.Request[v1alpha1.SelectRequest]) (*connect_go.Response[v1alpha1.SelectResponse], error) {
-	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("commonfate.entity.v1alpha1.EntityService.Select is not implemented"))
+func (UnimplementedEntityServiceHandler) Select(context.Context, *connect.Request[v1alpha1.SelectRequest]) (*connect.Response[v1alpha1.SelectResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.entity.v1alpha1.EntityService.Select is not implemented"))
 }

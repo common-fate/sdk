@@ -5,9 +5,9 @@
 package oauthv1alpha1connect
 
 import (
+	connect "connectrpc.com/connect"
 	context "context"
 	errors "errors"
-	connect_go "github.com/bufbuild/connect-go"
 	v1alpha1 "github.com/common-fate/sdk/gen/commonfate/control/oauth/v1alpha1"
 	http "net/http"
 	strings "strings"
@@ -18,7 +18,7 @@ import (
 // generated with a version of connect newer than the one compiled into your binary. You can fix the
 // problem by either regenerating this code with an older version of connect or updating the connect
 // version compiled into your binary.
-const _ = connect_go.IsAtLeastVersion0_1_0
+const _ = connect.IsAtLeastVersion1_13_0
 
 const (
 	// OAuthServiceName is the fully-qualified name of the OAuthService service.
@@ -47,14 +47,23 @@ const (
 	OAuthServiceRemoveSlackIntegrationProcedure = "/commonfate.control.oauth.v1alpha1.OAuthService/RemoveSlackIntegration"
 )
 
+// These variables are the protoreflect.Descriptor objects for the RPCs defined in this package.
+var (
+	oAuthServiceServiceDescriptor                          = v1alpha1.File_commonfate_control_oauth_v1alpha1_oauth_proto.Services().ByName("OAuthService")
+	oAuthServiceGetPagerDutyIntegrationMethodDescriptor    = oAuthServiceServiceDescriptor.Methods().ByName("GetPagerDutyIntegration")
+	oAuthServiceRemovePagerDutyIntegrationMethodDescriptor = oAuthServiceServiceDescriptor.Methods().ByName("RemovePagerDutyIntegration")
+	oAuthServiceGetSlackIntegrationMethodDescriptor        = oAuthServiceServiceDescriptor.Methods().ByName("GetSlackIntegration")
+	oAuthServiceRemoveSlackIntegrationMethodDescriptor     = oAuthServiceServiceDescriptor.Methods().ByName("RemoveSlackIntegration")
+)
+
 // OAuthServiceClient is a client for the commonfate.control.oauth.v1alpha1.OAuthService service.
 type OAuthServiceClient interface {
 	// rpc CreatePagerDutyIntegration(CreatePagerDutyIntegrationRequest) returns (CreatePagerDutyIntegrationResponse) {}
-	GetPagerDutyIntegration(context.Context, *connect_go.Request[v1alpha1.GetPagerDutyIntegrationRequest]) (*connect_go.Response[v1alpha1.GetPagerDutyIntegrationResponse], error)
-	RemovePagerDutyIntegration(context.Context, *connect_go.Request[v1alpha1.RemovePagerDutyIntegrationRequest]) (*connect_go.Response[v1alpha1.RemovePagerDutyIntegrationResponse], error)
+	GetPagerDutyIntegration(context.Context, *connect.Request[v1alpha1.GetPagerDutyIntegrationRequest]) (*connect.Response[v1alpha1.GetPagerDutyIntegrationResponse], error)
+	RemovePagerDutyIntegration(context.Context, *connect.Request[v1alpha1.RemovePagerDutyIntegrationRequest]) (*connect.Response[v1alpha1.RemovePagerDutyIntegrationResponse], error)
 	// rpc CreateSlackIntegration(CreateSlackIntegrationRequest) returns (CreateSlackIntegrationResponse) {}
-	GetSlackIntegration(context.Context, *connect_go.Request[v1alpha1.GetSlackIntegrationRequest]) (*connect_go.Response[v1alpha1.GetSlackIntegrationResponse], error)
-	RemoveSlackIntegration(context.Context, *connect_go.Request[v1alpha1.RemoveSlackIntegrationRequest]) (*connect_go.Response[v1alpha1.RemoveSlackIntegrationResponse], error)
+	GetSlackIntegration(context.Context, *connect.Request[v1alpha1.GetSlackIntegrationRequest]) (*connect.Response[v1alpha1.GetSlackIntegrationResponse], error)
+	RemoveSlackIntegration(context.Context, *connect.Request[v1alpha1.RemoveSlackIntegrationRequest]) (*connect.Response[v1alpha1.RemoveSlackIntegrationResponse], error)
 }
 
 // NewOAuthServiceClient constructs a client for the commonfate.control.oauth.v1alpha1.OAuthService
@@ -64,60 +73,64 @@ type OAuthServiceClient interface {
 //
 // The URL supplied here should be the base URL for the Connect or gRPC server (for example,
 // http://api.acme.com or https://acme.com/grpc).
-func NewOAuthServiceClient(httpClient connect_go.HTTPClient, baseURL string, opts ...connect_go.ClientOption) OAuthServiceClient {
+func NewOAuthServiceClient(httpClient connect.HTTPClient, baseURL string, opts ...connect.ClientOption) OAuthServiceClient {
 	baseURL = strings.TrimRight(baseURL, "/")
 	return &oAuthServiceClient{
-		getPagerDutyIntegration: connect_go.NewClient[v1alpha1.GetPagerDutyIntegrationRequest, v1alpha1.GetPagerDutyIntegrationResponse](
+		getPagerDutyIntegration: connect.NewClient[v1alpha1.GetPagerDutyIntegrationRequest, v1alpha1.GetPagerDutyIntegrationResponse](
 			httpClient,
 			baseURL+OAuthServiceGetPagerDutyIntegrationProcedure,
-			opts...,
+			connect.WithSchema(oAuthServiceGetPagerDutyIntegrationMethodDescriptor),
+			connect.WithClientOptions(opts...),
 		),
-		removePagerDutyIntegration: connect_go.NewClient[v1alpha1.RemovePagerDutyIntegrationRequest, v1alpha1.RemovePagerDutyIntegrationResponse](
+		removePagerDutyIntegration: connect.NewClient[v1alpha1.RemovePagerDutyIntegrationRequest, v1alpha1.RemovePagerDutyIntegrationResponse](
 			httpClient,
 			baseURL+OAuthServiceRemovePagerDutyIntegrationProcedure,
-			opts...,
+			connect.WithSchema(oAuthServiceRemovePagerDutyIntegrationMethodDescriptor),
+			connect.WithClientOptions(opts...),
 		),
-		getSlackIntegration: connect_go.NewClient[v1alpha1.GetSlackIntegrationRequest, v1alpha1.GetSlackIntegrationResponse](
+		getSlackIntegration: connect.NewClient[v1alpha1.GetSlackIntegrationRequest, v1alpha1.GetSlackIntegrationResponse](
 			httpClient,
 			baseURL+OAuthServiceGetSlackIntegrationProcedure,
-			opts...,
+			connect.WithSchema(oAuthServiceGetSlackIntegrationMethodDescriptor),
+			connect.WithClientOptions(opts...),
 		),
-		removeSlackIntegration: connect_go.NewClient[v1alpha1.RemoveSlackIntegrationRequest, v1alpha1.RemoveSlackIntegrationResponse](
+		removeSlackIntegration: connect.NewClient[v1alpha1.RemoveSlackIntegrationRequest, v1alpha1.RemoveSlackIntegrationResponse](
 			httpClient,
 			baseURL+OAuthServiceRemoveSlackIntegrationProcedure,
-			opts...,
+			connect.WithSchema(oAuthServiceRemoveSlackIntegrationMethodDescriptor),
+			connect.WithClientOptions(opts...),
 		),
 	}
 }
 
 // oAuthServiceClient implements OAuthServiceClient.
 type oAuthServiceClient struct {
-	getPagerDutyIntegration    *connect_go.Client[v1alpha1.GetPagerDutyIntegrationRequest, v1alpha1.GetPagerDutyIntegrationResponse]
-	removePagerDutyIntegration *connect_go.Client[v1alpha1.RemovePagerDutyIntegrationRequest, v1alpha1.RemovePagerDutyIntegrationResponse]
-	getSlackIntegration        *connect_go.Client[v1alpha1.GetSlackIntegrationRequest, v1alpha1.GetSlackIntegrationResponse]
-	removeSlackIntegration     *connect_go.Client[v1alpha1.RemoveSlackIntegrationRequest, v1alpha1.RemoveSlackIntegrationResponse]
+	getPagerDutyIntegration    *connect.Client[v1alpha1.GetPagerDutyIntegrationRequest, v1alpha1.GetPagerDutyIntegrationResponse]
+	removePagerDutyIntegration *connect.Client[v1alpha1.RemovePagerDutyIntegrationRequest, v1alpha1.RemovePagerDutyIntegrationResponse]
+	getSlackIntegration        *connect.Client[v1alpha1.GetSlackIntegrationRequest, v1alpha1.GetSlackIntegrationResponse]
+	removeSlackIntegration     *connect.Client[v1alpha1.RemoveSlackIntegrationRequest, v1alpha1.RemoveSlackIntegrationResponse]
 }
 
 // GetPagerDutyIntegration calls
 // commonfate.control.oauth.v1alpha1.OAuthService.GetPagerDutyIntegration.
-func (c *oAuthServiceClient) GetPagerDutyIntegration(ctx context.Context, req *connect_go.Request[v1alpha1.GetPagerDutyIntegrationRequest]) (*connect_go.Response[v1alpha1.GetPagerDutyIntegrationResponse], error) {
+func (c *oAuthServiceClient) GetPagerDutyIntegration(ctx context.Context, req *connect.Request[v1alpha1.GetPagerDutyIntegrationRequest]) (*connect.Response[v1alpha1.GetPagerDutyIntegrationResponse], error) {
 	return c.getPagerDutyIntegration.CallUnary(ctx, req)
 }
 
 // RemovePagerDutyIntegration calls
 // commonfate.control.oauth.v1alpha1.OAuthService.RemovePagerDutyIntegration.
-func (c *oAuthServiceClient) RemovePagerDutyIntegration(ctx context.Context, req *connect_go.Request[v1alpha1.RemovePagerDutyIntegrationRequest]) (*connect_go.Response[v1alpha1.RemovePagerDutyIntegrationResponse], error) {
+func (c *oAuthServiceClient) RemovePagerDutyIntegration(ctx context.Context, req *connect.Request[v1alpha1.RemovePagerDutyIntegrationRequest]) (*connect.Response[v1alpha1.RemovePagerDutyIntegrationResponse], error) {
 	return c.removePagerDutyIntegration.CallUnary(ctx, req)
 }
 
 // GetSlackIntegration calls commonfate.control.oauth.v1alpha1.OAuthService.GetSlackIntegration.
-func (c *oAuthServiceClient) GetSlackIntegration(ctx context.Context, req *connect_go.Request[v1alpha1.GetSlackIntegrationRequest]) (*connect_go.Response[v1alpha1.GetSlackIntegrationResponse], error) {
+func (c *oAuthServiceClient) GetSlackIntegration(ctx context.Context, req *connect.Request[v1alpha1.GetSlackIntegrationRequest]) (*connect.Response[v1alpha1.GetSlackIntegrationResponse], error) {
 	return c.getSlackIntegration.CallUnary(ctx, req)
 }
 
 // RemoveSlackIntegration calls
 // commonfate.control.oauth.v1alpha1.OAuthService.RemoveSlackIntegration.
-func (c *oAuthServiceClient) RemoveSlackIntegration(ctx context.Context, req *connect_go.Request[v1alpha1.RemoveSlackIntegrationRequest]) (*connect_go.Response[v1alpha1.RemoveSlackIntegrationResponse], error) {
+func (c *oAuthServiceClient) RemoveSlackIntegration(ctx context.Context, req *connect.Request[v1alpha1.RemoveSlackIntegrationRequest]) (*connect.Response[v1alpha1.RemoveSlackIntegrationResponse], error) {
 	return c.removeSlackIntegration.CallUnary(ctx, req)
 }
 
@@ -125,11 +138,11 @@ func (c *oAuthServiceClient) RemoveSlackIntegration(ctx context.Context, req *co
 // service.
 type OAuthServiceHandler interface {
 	// rpc CreatePagerDutyIntegration(CreatePagerDutyIntegrationRequest) returns (CreatePagerDutyIntegrationResponse) {}
-	GetPagerDutyIntegration(context.Context, *connect_go.Request[v1alpha1.GetPagerDutyIntegrationRequest]) (*connect_go.Response[v1alpha1.GetPagerDutyIntegrationResponse], error)
-	RemovePagerDutyIntegration(context.Context, *connect_go.Request[v1alpha1.RemovePagerDutyIntegrationRequest]) (*connect_go.Response[v1alpha1.RemovePagerDutyIntegrationResponse], error)
+	GetPagerDutyIntegration(context.Context, *connect.Request[v1alpha1.GetPagerDutyIntegrationRequest]) (*connect.Response[v1alpha1.GetPagerDutyIntegrationResponse], error)
+	RemovePagerDutyIntegration(context.Context, *connect.Request[v1alpha1.RemovePagerDutyIntegrationRequest]) (*connect.Response[v1alpha1.RemovePagerDutyIntegrationResponse], error)
 	// rpc CreateSlackIntegration(CreateSlackIntegrationRequest) returns (CreateSlackIntegrationResponse) {}
-	GetSlackIntegration(context.Context, *connect_go.Request[v1alpha1.GetSlackIntegrationRequest]) (*connect_go.Response[v1alpha1.GetSlackIntegrationResponse], error)
-	RemoveSlackIntegration(context.Context, *connect_go.Request[v1alpha1.RemoveSlackIntegrationRequest]) (*connect_go.Response[v1alpha1.RemoveSlackIntegrationResponse], error)
+	GetSlackIntegration(context.Context, *connect.Request[v1alpha1.GetSlackIntegrationRequest]) (*connect.Response[v1alpha1.GetSlackIntegrationResponse], error)
+	RemoveSlackIntegration(context.Context, *connect.Request[v1alpha1.RemoveSlackIntegrationRequest]) (*connect.Response[v1alpha1.RemoveSlackIntegrationResponse], error)
 }
 
 // NewOAuthServiceHandler builds an HTTP handler from the service implementation. It returns the
@@ -137,26 +150,30 @@ type OAuthServiceHandler interface {
 //
 // By default, handlers support the Connect, gRPC, and gRPC-Web protocols with the binary Protobuf
 // and JSON codecs. They also support gzip compression.
-func NewOAuthServiceHandler(svc OAuthServiceHandler, opts ...connect_go.HandlerOption) (string, http.Handler) {
-	oAuthServiceGetPagerDutyIntegrationHandler := connect_go.NewUnaryHandler(
+func NewOAuthServiceHandler(svc OAuthServiceHandler, opts ...connect.HandlerOption) (string, http.Handler) {
+	oAuthServiceGetPagerDutyIntegrationHandler := connect.NewUnaryHandler(
 		OAuthServiceGetPagerDutyIntegrationProcedure,
 		svc.GetPagerDutyIntegration,
-		opts...,
+		connect.WithSchema(oAuthServiceGetPagerDutyIntegrationMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
 	)
-	oAuthServiceRemovePagerDutyIntegrationHandler := connect_go.NewUnaryHandler(
+	oAuthServiceRemovePagerDutyIntegrationHandler := connect.NewUnaryHandler(
 		OAuthServiceRemovePagerDutyIntegrationProcedure,
 		svc.RemovePagerDutyIntegration,
-		opts...,
+		connect.WithSchema(oAuthServiceRemovePagerDutyIntegrationMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
 	)
-	oAuthServiceGetSlackIntegrationHandler := connect_go.NewUnaryHandler(
+	oAuthServiceGetSlackIntegrationHandler := connect.NewUnaryHandler(
 		OAuthServiceGetSlackIntegrationProcedure,
 		svc.GetSlackIntegration,
-		opts...,
+		connect.WithSchema(oAuthServiceGetSlackIntegrationMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
 	)
-	oAuthServiceRemoveSlackIntegrationHandler := connect_go.NewUnaryHandler(
+	oAuthServiceRemoveSlackIntegrationHandler := connect.NewUnaryHandler(
 		OAuthServiceRemoveSlackIntegrationProcedure,
 		svc.RemoveSlackIntegration,
-		opts...,
+		connect.WithSchema(oAuthServiceRemoveSlackIntegrationMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
 	)
 	return "/commonfate.control.oauth.v1alpha1.OAuthService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
@@ -177,18 +194,18 @@ func NewOAuthServiceHandler(svc OAuthServiceHandler, opts ...connect_go.HandlerO
 // UnimplementedOAuthServiceHandler returns CodeUnimplemented from all methods.
 type UnimplementedOAuthServiceHandler struct{}
 
-func (UnimplementedOAuthServiceHandler) GetPagerDutyIntegration(context.Context, *connect_go.Request[v1alpha1.GetPagerDutyIntegrationRequest]) (*connect_go.Response[v1alpha1.GetPagerDutyIntegrationResponse], error) {
-	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("commonfate.control.oauth.v1alpha1.OAuthService.GetPagerDutyIntegration is not implemented"))
+func (UnimplementedOAuthServiceHandler) GetPagerDutyIntegration(context.Context, *connect.Request[v1alpha1.GetPagerDutyIntegrationRequest]) (*connect.Response[v1alpha1.GetPagerDutyIntegrationResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.control.oauth.v1alpha1.OAuthService.GetPagerDutyIntegration is not implemented"))
 }
 
-func (UnimplementedOAuthServiceHandler) RemovePagerDutyIntegration(context.Context, *connect_go.Request[v1alpha1.RemovePagerDutyIntegrationRequest]) (*connect_go.Response[v1alpha1.RemovePagerDutyIntegrationResponse], error) {
-	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("commonfate.control.oauth.v1alpha1.OAuthService.RemovePagerDutyIntegration is not implemented"))
+func (UnimplementedOAuthServiceHandler) RemovePagerDutyIntegration(context.Context, *connect.Request[v1alpha1.RemovePagerDutyIntegrationRequest]) (*connect.Response[v1alpha1.RemovePagerDutyIntegrationResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.control.oauth.v1alpha1.OAuthService.RemovePagerDutyIntegration is not implemented"))
 }
 
-func (UnimplementedOAuthServiceHandler) GetSlackIntegration(context.Context, *connect_go.Request[v1alpha1.GetSlackIntegrationRequest]) (*connect_go.Response[v1alpha1.GetSlackIntegrationResponse], error) {
-	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("commonfate.control.oauth.v1alpha1.OAuthService.GetSlackIntegration is not implemented"))
+func (UnimplementedOAuthServiceHandler) GetSlackIntegration(context.Context, *connect.Request[v1alpha1.GetSlackIntegrationRequest]) (*connect.Response[v1alpha1.GetSlackIntegrationResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.control.oauth.v1alpha1.OAuthService.GetSlackIntegration is not implemented"))
 }
 
-func (UnimplementedOAuthServiceHandler) RemoveSlackIntegration(context.Context, *connect_go.Request[v1alpha1.RemoveSlackIntegrationRequest]) (*connect_go.Response[v1alpha1.RemoveSlackIntegrationResponse], error) {
-	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("commonfate.control.oauth.v1alpha1.OAuthService.RemoveSlackIntegration is not implemented"))
+func (UnimplementedOAuthServiceHandler) RemoveSlackIntegration(context.Context, *connect.Request[v1alpha1.RemoveSlackIntegrationRequest]) (*connect.Response[v1alpha1.RemoveSlackIntegrationResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.control.oauth.v1alpha1.OAuthService.RemoveSlackIntegration is not implemented"))
 }

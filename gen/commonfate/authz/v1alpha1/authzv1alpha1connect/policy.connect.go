@@ -5,9 +5,9 @@
 package authzv1alpha1connect
 
 import (
+	connect "connectrpc.com/connect"
 	context "context"
 	errors "errors"
-	connect_go "github.com/bufbuild/connect-go"
 	v1alpha1 "github.com/common-fate/sdk/gen/commonfate/authz/v1alpha1"
 	http "net/http"
 	strings "strings"
@@ -18,7 +18,7 @@ import (
 // generated with a version of connect newer than the one compiled into your binary. You can fix the
 // problem by either regenerating this code with an older version of connect or updating the connect
 // version compiled into your binary.
-const _ = connect_go.IsAtLeastVersion0_1_0
+const _ = connect.IsAtLeastVersion1_13_0
 
 const (
 	// PolicyServiceName is the fully-qualified name of the PolicyService service.
@@ -50,13 +50,23 @@ const (
 	PolicyServiceDeletePolicySetProcedure = "/commonfate.authz.v1alpha1.PolicyService/DeletePolicySet"
 )
 
+// These variables are the protoreflect.Descriptor objects for the RPCs defined in this package.
+var (
+	policyServiceServiceDescriptor               = v1alpha1.File_commonfate_authz_v1alpha1_policy_proto.Services().ByName("PolicyService")
+	policyServiceCreatePolicySetMethodDescriptor = policyServiceServiceDescriptor.Methods().ByName("CreatePolicySet")
+	policyServiceUpdatePolicySetMethodDescriptor = policyServiceServiceDescriptor.Methods().ByName("UpdatePolicySet")
+	policyServiceListPolicySetsMethodDescriptor  = policyServiceServiceDescriptor.Methods().ByName("ListPolicySets")
+	policyServiceGetPolicySetMethodDescriptor    = policyServiceServiceDescriptor.Methods().ByName("GetPolicySet")
+	policyServiceDeletePolicySetMethodDescriptor = policyServiceServiceDescriptor.Methods().ByName("DeletePolicySet")
+)
+
 // PolicyServiceClient is a client for the commonfate.authz.v1alpha1.PolicyService service.
 type PolicyServiceClient interface {
-	CreatePolicySet(context.Context, *connect_go.Request[v1alpha1.CreatePolicySetRequest]) (*connect_go.Response[v1alpha1.CreatePolicySetResponse], error)
-	UpdatePolicySet(context.Context, *connect_go.Request[v1alpha1.UpdatePolicySetRequest]) (*connect_go.Response[v1alpha1.UpdatePolicySetResponse], error)
-	ListPolicySets(context.Context, *connect_go.Request[v1alpha1.ListPolicySetsRequest]) (*connect_go.Response[v1alpha1.ListPolicySetsResponse], error)
-	GetPolicySet(context.Context, *connect_go.Request[v1alpha1.GetPolicySetRequest]) (*connect_go.Response[v1alpha1.GetPolicySetResponse], error)
-	DeletePolicySet(context.Context, *connect_go.Request[v1alpha1.DeletePolicySetRequest]) (*connect_go.Response[v1alpha1.DeletePolicySetResponse], error)
+	CreatePolicySet(context.Context, *connect.Request[v1alpha1.CreatePolicySetRequest]) (*connect.Response[v1alpha1.CreatePolicySetResponse], error)
+	UpdatePolicySet(context.Context, *connect.Request[v1alpha1.UpdatePolicySetRequest]) (*connect.Response[v1alpha1.UpdatePolicySetResponse], error)
+	ListPolicySets(context.Context, *connect.Request[v1alpha1.ListPolicySetsRequest]) (*connect.Response[v1alpha1.ListPolicySetsResponse], error)
+	GetPolicySet(context.Context, *connect.Request[v1alpha1.GetPolicySetRequest]) (*connect.Response[v1alpha1.GetPolicySetResponse], error)
+	DeletePolicySet(context.Context, *connect.Request[v1alpha1.DeletePolicySetRequest]) (*connect.Response[v1alpha1.DeletePolicySetResponse], error)
 }
 
 // NewPolicyServiceClient constructs a client for the commonfate.authz.v1alpha1.PolicyService
@@ -66,78 +76,83 @@ type PolicyServiceClient interface {
 //
 // The URL supplied here should be the base URL for the Connect or gRPC server (for example,
 // http://api.acme.com or https://acme.com/grpc).
-func NewPolicyServiceClient(httpClient connect_go.HTTPClient, baseURL string, opts ...connect_go.ClientOption) PolicyServiceClient {
+func NewPolicyServiceClient(httpClient connect.HTTPClient, baseURL string, opts ...connect.ClientOption) PolicyServiceClient {
 	baseURL = strings.TrimRight(baseURL, "/")
 	return &policyServiceClient{
-		createPolicySet: connect_go.NewClient[v1alpha1.CreatePolicySetRequest, v1alpha1.CreatePolicySetResponse](
+		createPolicySet: connect.NewClient[v1alpha1.CreatePolicySetRequest, v1alpha1.CreatePolicySetResponse](
 			httpClient,
 			baseURL+PolicyServiceCreatePolicySetProcedure,
-			opts...,
+			connect.WithSchema(policyServiceCreatePolicySetMethodDescriptor),
+			connect.WithClientOptions(opts...),
 		),
-		updatePolicySet: connect_go.NewClient[v1alpha1.UpdatePolicySetRequest, v1alpha1.UpdatePolicySetResponse](
+		updatePolicySet: connect.NewClient[v1alpha1.UpdatePolicySetRequest, v1alpha1.UpdatePolicySetResponse](
 			httpClient,
 			baseURL+PolicyServiceUpdatePolicySetProcedure,
-			opts...,
+			connect.WithSchema(policyServiceUpdatePolicySetMethodDescriptor),
+			connect.WithClientOptions(opts...),
 		),
-		listPolicySets: connect_go.NewClient[v1alpha1.ListPolicySetsRequest, v1alpha1.ListPolicySetsResponse](
+		listPolicySets: connect.NewClient[v1alpha1.ListPolicySetsRequest, v1alpha1.ListPolicySetsResponse](
 			httpClient,
 			baseURL+PolicyServiceListPolicySetsProcedure,
-			opts...,
+			connect.WithSchema(policyServiceListPolicySetsMethodDescriptor),
+			connect.WithClientOptions(opts...),
 		),
-		getPolicySet: connect_go.NewClient[v1alpha1.GetPolicySetRequest, v1alpha1.GetPolicySetResponse](
+		getPolicySet: connect.NewClient[v1alpha1.GetPolicySetRequest, v1alpha1.GetPolicySetResponse](
 			httpClient,
 			baseURL+PolicyServiceGetPolicySetProcedure,
-			opts...,
+			connect.WithSchema(policyServiceGetPolicySetMethodDescriptor),
+			connect.WithClientOptions(opts...),
 		),
-		deletePolicySet: connect_go.NewClient[v1alpha1.DeletePolicySetRequest, v1alpha1.DeletePolicySetResponse](
+		deletePolicySet: connect.NewClient[v1alpha1.DeletePolicySetRequest, v1alpha1.DeletePolicySetResponse](
 			httpClient,
 			baseURL+PolicyServiceDeletePolicySetProcedure,
-			opts...,
+			connect.WithSchema(policyServiceDeletePolicySetMethodDescriptor),
+			connect.WithClientOptions(opts...),
 		),
 	}
 }
 
 // policyServiceClient implements PolicyServiceClient.
 type policyServiceClient struct {
-	createPolicySet *connect_go.Client[v1alpha1.CreatePolicySetRequest, v1alpha1.CreatePolicySetResponse]
-	updatePolicySet *connect_go.Client[v1alpha1.UpdatePolicySetRequest, v1alpha1.UpdatePolicySetResponse]
-	listPolicySets  *connect_go.Client[v1alpha1.ListPolicySetsRequest, v1alpha1.ListPolicySetsResponse]
-	getPolicySet    *connect_go.Client[v1alpha1.GetPolicySetRequest, v1alpha1.GetPolicySetResponse]
-	deletePolicySet *connect_go.Client[v1alpha1.DeletePolicySetRequest, v1alpha1.DeletePolicySetResponse]
+	createPolicySet *connect.Client[v1alpha1.CreatePolicySetRequest, v1alpha1.CreatePolicySetResponse]
+	updatePolicySet *connect.Client[v1alpha1.UpdatePolicySetRequest, v1alpha1.UpdatePolicySetResponse]
+	listPolicySets  *connect.Client[v1alpha1.ListPolicySetsRequest, v1alpha1.ListPolicySetsResponse]
+	getPolicySet    *connect.Client[v1alpha1.GetPolicySetRequest, v1alpha1.GetPolicySetResponse]
+	deletePolicySet *connect.Client[v1alpha1.DeletePolicySetRequest, v1alpha1.DeletePolicySetResponse]
 }
 
 // CreatePolicySet calls commonfate.authz.v1alpha1.PolicyService.CreatePolicySet.
-func (c *policyServiceClient) CreatePolicySet(ctx context.Context, req *connect_go.Request[v1alpha1.CreatePolicySetRequest]) (*connect_go.Response[v1alpha1.CreatePolicySetResponse], error) {
+func (c *policyServiceClient) CreatePolicySet(ctx context.Context, req *connect.Request[v1alpha1.CreatePolicySetRequest]) (*connect.Response[v1alpha1.CreatePolicySetResponse], error) {
 	return c.createPolicySet.CallUnary(ctx, req)
 }
 
 // UpdatePolicySet calls commonfate.authz.v1alpha1.PolicyService.UpdatePolicySet.
-func (c *policyServiceClient) UpdatePolicySet(ctx context.Context, req *connect_go.Request[v1alpha1.UpdatePolicySetRequest]) (*connect_go.Response[v1alpha1.UpdatePolicySetResponse], error) {
+func (c *policyServiceClient) UpdatePolicySet(ctx context.Context, req *connect.Request[v1alpha1.UpdatePolicySetRequest]) (*connect.Response[v1alpha1.UpdatePolicySetResponse], error) {
 	return c.updatePolicySet.CallUnary(ctx, req)
 }
 
 // ListPolicySets calls commonfate.authz.v1alpha1.PolicyService.ListPolicySets.
-func (c *policyServiceClient) ListPolicySets(ctx context.Context, req *connect_go.Request[v1alpha1.ListPolicySetsRequest]) (*connect_go.Response[v1alpha1.ListPolicySetsResponse], error) {
+func (c *policyServiceClient) ListPolicySets(ctx context.Context, req *connect.Request[v1alpha1.ListPolicySetsRequest]) (*connect.Response[v1alpha1.ListPolicySetsResponse], error) {
 	return c.listPolicySets.CallUnary(ctx, req)
 }
 
 // GetPolicySet calls commonfate.authz.v1alpha1.PolicyService.GetPolicySet.
-func (c *policyServiceClient) GetPolicySet(ctx context.Context, req *connect_go.Request[v1alpha1.GetPolicySetRequest]) (*connect_go.Response[v1alpha1.GetPolicySetResponse], error) {
+func (c *policyServiceClient) GetPolicySet(ctx context.Context, req *connect.Request[v1alpha1.GetPolicySetRequest]) (*connect.Response[v1alpha1.GetPolicySetResponse], error) {
 	return c.getPolicySet.CallUnary(ctx, req)
 }
 
 // DeletePolicySet calls commonfate.authz.v1alpha1.PolicyService.DeletePolicySet.
-func (c *policyServiceClient) DeletePolicySet(ctx context.Context, req *connect_go.Request[v1alpha1.DeletePolicySetRequest]) (*connect_go.Response[v1alpha1.DeletePolicySetResponse], error) {
+func (c *policyServiceClient) DeletePolicySet(ctx context.Context, req *connect.Request[v1alpha1.DeletePolicySetRequest]) (*connect.Response[v1alpha1.DeletePolicySetResponse], error) {
 	return c.deletePolicySet.CallUnary(ctx, req)
 }
 
 // PolicyServiceHandler is an implementation of the commonfate.authz.v1alpha1.PolicyService service.
 type PolicyServiceHandler interface {
-	CreatePolicySet(context.Context, *connect_go.Request[v1alpha1.CreatePolicySetRequest]) (*connect_go.Response[v1alpha1.CreatePolicySetResponse], error)
-	UpdatePolicySet(context.Context, *connect_go.Request[v1alpha1.UpdatePolicySetRequest]) (*connect_go.Response[v1alpha1.UpdatePolicySetResponse], error)
-	ListPolicySets(context.Context, *connect_go.Request[v1alpha1.ListPolicySetsRequest]) (*connect_go.Response[v1alpha1.ListPolicySetsResponse], error)
-	GetPolicySet(context.Context, *connect_go.Request[v1alpha1.GetPolicySetRequest]) (*connect_go.Response[v1alpha1.GetPolicySetResponse], error)
-	DeletePolicySet(context.Context, *connect_go.Request[v1alpha1.DeletePolicySetRequest]) (*connect_go.Response[v1alpha1.DeletePolicySetResponse], error)
+	CreatePolicySet(context.Context, *connect.Request[v1alpha1.CreatePolicySetRequest]) (*connect.Response[v1alpha1.CreatePolicySetResponse], error)
+	UpdatePolicySet(context.Context, *connect.Request[v1alpha1.UpdatePolicySetRequest]) (*connect.Response[v1alpha1.UpdatePolicySetResponse], error)
+	ListPolicySets(context.Context, *connect.Request[v1alpha1.ListPolicySetsRequest]) (*connect.Response[v1alpha1.ListPolicySetsResponse], error)
+	GetPolicySet(context.Context, *connect.Request[v1alpha1.GetPolicySetRequest]) (*connect.Response[v1alpha1.GetPolicySetResponse], error)
+	DeletePolicySet(context.Context, *connect.Request[v1alpha1.DeletePolicySetRequest]) (*connect.Response[v1alpha1.DeletePolicySetResponse], error)
 }
 
 // NewPolicyServiceHandler builds an HTTP handler from the service implementation. It returns the
@@ -145,31 +160,36 @@ type PolicyServiceHandler interface {
 //
 // By default, handlers support the Connect, gRPC, and gRPC-Web protocols with the binary Protobuf
 // and JSON codecs. They also support gzip compression.
-func NewPolicyServiceHandler(svc PolicyServiceHandler, opts ...connect_go.HandlerOption) (string, http.Handler) {
-	policyServiceCreatePolicySetHandler := connect_go.NewUnaryHandler(
+func NewPolicyServiceHandler(svc PolicyServiceHandler, opts ...connect.HandlerOption) (string, http.Handler) {
+	policyServiceCreatePolicySetHandler := connect.NewUnaryHandler(
 		PolicyServiceCreatePolicySetProcedure,
 		svc.CreatePolicySet,
-		opts...,
+		connect.WithSchema(policyServiceCreatePolicySetMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
 	)
-	policyServiceUpdatePolicySetHandler := connect_go.NewUnaryHandler(
+	policyServiceUpdatePolicySetHandler := connect.NewUnaryHandler(
 		PolicyServiceUpdatePolicySetProcedure,
 		svc.UpdatePolicySet,
-		opts...,
+		connect.WithSchema(policyServiceUpdatePolicySetMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
 	)
-	policyServiceListPolicySetsHandler := connect_go.NewUnaryHandler(
+	policyServiceListPolicySetsHandler := connect.NewUnaryHandler(
 		PolicyServiceListPolicySetsProcedure,
 		svc.ListPolicySets,
-		opts...,
+		connect.WithSchema(policyServiceListPolicySetsMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
 	)
-	policyServiceGetPolicySetHandler := connect_go.NewUnaryHandler(
+	policyServiceGetPolicySetHandler := connect.NewUnaryHandler(
 		PolicyServiceGetPolicySetProcedure,
 		svc.GetPolicySet,
-		opts...,
+		connect.WithSchema(policyServiceGetPolicySetMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
 	)
-	policyServiceDeletePolicySetHandler := connect_go.NewUnaryHandler(
+	policyServiceDeletePolicySetHandler := connect.NewUnaryHandler(
 		PolicyServiceDeletePolicySetProcedure,
 		svc.DeletePolicySet,
-		opts...,
+		connect.WithSchema(policyServiceDeletePolicySetMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
 	)
 	return "/commonfate.authz.v1alpha1.PolicyService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
@@ -192,22 +212,22 @@ func NewPolicyServiceHandler(svc PolicyServiceHandler, opts ...connect_go.Handle
 // UnimplementedPolicyServiceHandler returns CodeUnimplemented from all methods.
 type UnimplementedPolicyServiceHandler struct{}
 
-func (UnimplementedPolicyServiceHandler) CreatePolicySet(context.Context, *connect_go.Request[v1alpha1.CreatePolicySetRequest]) (*connect_go.Response[v1alpha1.CreatePolicySetResponse], error) {
-	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("commonfate.authz.v1alpha1.PolicyService.CreatePolicySet is not implemented"))
+func (UnimplementedPolicyServiceHandler) CreatePolicySet(context.Context, *connect.Request[v1alpha1.CreatePolicySetRequest]) (*connect.Response[v1alpha1.CreatePolicySetResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.authz.v1alpha1.PolicyService.CreatePolicySet is not implemented"))
 }
 
-func (UnimplementedPolicyServiceHandler) UpdatePolicySet(context.Context, *connect_go.Request[v1alpha1.UpdatePolicySetRequest]) (*connect_go.Response[v1alpha1.UpdatePolicySetResponse], error) {
-	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("commonfate.authz.v1alpha1.PolicyService.UpdatePolicySet is not implemented"))
+func (UnimplementedPolicyServiceHandler) UpdatePolicySet(context.Context, *connect.Request[v1alpha1.UpdatePolicySetRequest]) (*connect.Response[v1alpha1.UpdatePolicySetResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.authz.v1alpha1.PolicyService.UpdatePolicySet is not implemented"))
 }
 
-func (UnimplementedPolicyServiceHandler) ListPolicySets(context.Context, *connect_go.Request[v1alpha1.ListPolicySetsRequest]) (*connect_go.Response[v1alpha1.ListPolicySetsResponse], error) {
-	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("commonfate.authz.v1alpha1.PolicyService.ListPolicySets is not implemented"))
+func (UnimplementedPolicyServiceHandler) ListPolicySets(context.Context, *connect.Request[v1alpha1.ListPolicySetsRequest]) (*connect.Response[v1alpha1.ListPolicySetsResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.authz.v1alpha1.PolicyService.ListPolicySets is not implemented"))
 }
 
-func (UnimplementedPolicyServiceHandler) GetPolicySet(context.Context, *connect_go.Request[v1alpha1.GetPolicySetRequest]) (*connect_go.Response[v1alpha1.GetPolicySetResponse], error) {
-	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("commonfate.authz.v1alpha1.PolicyService.GetPolicySet is not implemented"))
+func (UnimplementedPolicyServiceHandler) GetPolicySet(context.Context, *connect.Request[v1alpha1.GetPolicySetRequest]) (*connect.Response[v1alpha1.GetPolicySetResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.authz.v1alpha1.PolicyService.GetPolicySet is not implemented"))
 }
 
-func (UnimplementedPolicyServiceHandler) DeletePolicySet(context.Context, *connect_go.Request[v1alpha1.DeletePolicySetRequest]) (*connect_go.Response[v1alpha1.DeletePolicySetResponse], error) {
-	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("commonfate.authz.v1alpha1.PolicyService.DeletePolicySet is not implemented"))
+func (UnimplementedPolicyServiceHandler) DeletePolicySet(context.Context, *connect.Request[v1alpha1.DeletePolicySetRequest]) (*connect.Response[v1alpha1.DeletePolicySetResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.authz.v1alpha1.PolicyService.DeletePolicySet is not implemented"))
 }

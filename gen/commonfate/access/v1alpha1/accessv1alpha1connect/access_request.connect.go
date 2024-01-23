@@ -5,9 +5,9 @@
 package accessv1alpha1connect
 
 import (
+	connect "connectrpc.com/connect"
 	context "context"
 	errors "errors"
-	connect_go "github.com/bufbuild/connect-go"
 	v1alpha1 "github.com/common-fate/sdk/gen/commonfate/access/v1alpha1"
 	http "net/http"
 	strings "strings"
@@ -18,7 +18,7 @@ import (
 // generated with a version of connect newer than the one compiled into your binary. You can fix the
 // problem by either regenerating this code with an older version of connect or updating the connect
 // version compiled into your binary.
-const _ = connect_go.IsAtLeastVersion0_1_0
+const _ = connect.IsAtLeastVersion1_13_0
 
 const (
 	// AccessRequestServiceName is the fully-qualified name of the AccessRequestService service.
@@ -42,22 +42,36 @@ const (
 	// AccessRequestServiceApproveAccessRequestProcedure is the fully-qualified name of the
 	// AccessRequestService's ApproveAccessRequest RPC.
 	AccessRequestServiceApproveAccessRequestProcedure = "/commonfate.access.v1alpha1.AccessRequestService/ApproveAccessRequest"
+	// AccessRequestServiceActivateAccessRequestProcedure is the fully-qualified name of the
+	// AccessRequestService's ActivateAccessRequest RPC.
+	AccessRequestServiceActivateAccessRequestProcedure = "/commonfate.access.v1alpha1.AccessRequestService/ActivateAccessRequest"
 	// AccessRequestServiceCloseAccessRequestProcedure is the fully-qualified name of the
 	// AccessRequestService's CloseAccessRequest RPC.
 	AccessRequestServiceCloseAccessRequestProcedure = "/commonfate.access.v1alpha1.AccessRequestService/CloseAccessRequest"
 )
 
+// These variables are the protoreflect.Descriptor objects for the RPCs defined in this package.
+var (
+	accessRequestServiceServiceDescriptor                     = v1alpha1.File_commonfate_access_v1alpha1_access_request_proto.Services().ByName("AccessRequestService")
+	accessRequestServiceQueryAccessRequestsMethodDescriptor   = accessRequestServiceServiceDescriptor.Methods().ByName("QueryAccessRequests")
+	accessRequestServiceGetAccessRequestMethodDescriptor      = accessRequestServiceServiceDescriptor.Methods().ByName("GetAccessRequest")
+	accessRequestServiceApproveAccessRequestMethodDescriptor  = accessRequestServiceServiceDescriptor.Methods().ByName("ApproveAccessRequest")
+	accessRequestServiceActivateAccessRequestMethodDescriptor = accessRequestServiceServiceDescriptor.Methods().ByName("ActivateAccessRequest")
+	accessRequestServiceCloseAccessRequestMethodDescriptor    = accessRequestServiceServiceDescriptor.Methods().ByName("CloseAccessRequest")
+)
+
 // AccessRequestServiceClient is a client for the commonfate.access.v1alpha1.AccessRequestService
 // service.
 type AccessRequestServiceClient interface {
-	QueryAccessRequests(context.Context, *connect_go.Request[v1alpha1.QueryAccessRequestsRequest]) (*connect_go.Response[v1alpha1.QueryAccessRequestsResponse], error)
-	GetAccessRequest(context.Context, *connect_go.Request[v1alpha1.GetAccessRequestRequest]) (*connect_go.Response[v1alpha1.GetAccessRequestResponse], error)
+	QueryAccessRequests(context.Context, *connect.Request[v1alpha1.QueryAccessRequestsRequest]) (*connect.Response[v1alpha1.QueryAccessRequestsResponse], error)
+	GetAccessRequest(context.Context, *connect.Request[v1alpha1.GetAccessRequestRequest]) (*connect.Response[v1alpha1.GetAccessRequestResponse], error)
 	// Approving an Access Request will attempt to approve all of the Grants associated with the request.
 	//
 	// If the caller is not permitted to approve particular grants, warnings will be returned.
-	ApproveAccessRequest(context.Context, *connect_go.Request[v1alpha1.ApproveAccessRequestRequest]) (*connect_go.Response[v1alpha1.ApproveAccessRequestResponse], error)
+	ApproveAccessRequest(context.Context, *connect.Request[v1alpha1.ApproveAccessRequestRequest]) (*connect.Response[v1alpha1.ApproveAccessRequestResponse], error)
+	ActivateAccessRequest(context.Context, *connect.Request[v1alpha1.ActivateAccessRequestRequest]) (*connect.Response[v1alpha1.ActivateAccessRequestResponse], error)
 	// Closing an Access Request will make it no longer reviewable and will deactivate any Grants associated with the request.
-	CloseAccessRequest(context.Context, *connect_go.Request[v1alpha1.CloseAccessRequestRequest]) (*connect_go.Response[v1alpha1.CloseAccessRequestResponse], error)
+	CloseAccessRequest(context.Context, *connect.Request[v1alpha1.CloseAccessRequestRequest]) (*connect.Response[v1alpha1.CloseAccessRequestResponse], error)
 }
 
 // NewAccessRequestServiceClient constructs a client for the
@@ -68,71 +82,89 @@ type AccessRequestServiceClient interface {
 //
 // The URL supplied here should be the base URL for the Connect or gRPC server (for example,
 // http://api.acme.com or https://acme.com/grpc).
-func NewAccessRequestServiceClient(httpClient connect_go.HTTPClient, baseURL string, opts ...connect_go.ClientOption) AccessRequestServiceClient {
+func NewAccessRequestServiceClient(httpClient connect.HTTPClient, baseURL string, opts ...connect.ClientOption) AccessRequestServiceClient {
 	baseURL = strings.TrimRight(baseURL, "/")
 	return &accessRequestServiceClient{
-		queryAccessRequests: connect_go.NewClient[v1alpha1.QueryAccessRequestsRequest, v1alpha1.QueryAccessRequestsResponse](
+		queryAccessRequests: connect.NewClient[v1alpha1.QueryAccessRequestsRequest, v1alpha1.QueryAccessRequestsResponse](
 			httpClient,
 			baseURL+AccessRequestServiceQueryAccessRequestsProcedure,
-			opts...,
+			connect.WithSchema(accessRequestServiceQueryAccessRequestsMethodDescriptor),
+			connect.WithClientOptions(opts...),
 		),
-		getAccessRequest: connect_go.NewClient[v1alpha1.GetAccessRequestRequest, v1alpha1.GetAccessRequestResponse](
+		getAccessRequest: connect.NewClient[v1alpha1.GetAccessRequestRequest, v1alpha1.GetAccessRequestResponse](
 			httpClient,
 			baseURL+AccessRequestServiceGetAccessRequestProcedure,
-			opts...,
+			connect.WithSchema(accessRequestServiceGetAccessRequestMethodDescriptor),
+			connect.WithClientOptions(opts...),
 		),
-		approveAccessRequest: connect_go.NewClient[v1alpha1.ApproveAccessRequestRequest, v1alpha1.ApproveAccessRequestResponse](
+		approveAccessRequest: connect.NewClient[v1alpha1.ApproveAccessRequestRequest, v1alpha1.ApproveAccessRequestResponse](
 			httpClient,
 			baseURL+AccessRequestServiceApproveAccessRequestProcedure,
-			opts...,
+			connect.WithSchema(accessRequestServiceApproveAccessRequestMethodDescriptor),
+			connect.WithClientOptions(opts...),
 		),
-		closeAccessRequest: connect_go.NewClient[v1alpha1.CloseAccessRequestRequest, v1alpha1.CloseAccessRequestResponse](
+		activateAccessRequest: connect.NewClient[v1alpha1.ActivateAccessRequestRequest, v1alpha1.ActivateAccessRequestResponse](
+			httpClient,
+			baseURL+AccessRequestServiceActivateAccessRequestProcedure,
+			connect.WithSchema(accessRequestServiceActivateAccessRequestMethodDescriptor),
+			connect.WithClientOptions(opts...),
+		),
+		closeAccessRequest: connect.NewClient[v1alpha1.CloseAccessRequestRequest, v1alpha1.CloseAccessRequestResponse](
 			httpClient,
 			baseURL+AccessRequestServiceCloseAccessRequestProcedure,
-			opts...,
+			connect.WithSchema(accessRequestServiceCloseAccessRequestMethodDescriptor),
+			connect.WithClientOptions(opts...),
 		),
 	}
 }
 
 // accessRequestServiceClient implements AccessRequestServiceClient.
 type accessRequestServiceClient struct {
-	queryAccessRequests  *connect_go.Client[v1alpha1.QueryAccessRequestsRequest, v1alpha1.QueryAccessRequestsResponse]
-	getAccessRequest     *connect_go.Client[v1alpha1.GetAccessRequestRequest, v1alpha1.GetAccessRequestResponse]
-	approveAccessRequest *connect_go.Client[v1alpha1.ApproveAccessRequestRequest, v1alpha1.ApproveAccessRequestResponse]
-	closeAccessRequest   *connect_go.Client[v1alpha1.CloseAccessRequestRequest, v1alpha1.CloseAccessRequestResponse]
+	queryAccessRequests   *connect.Client[v1alpha1.QueryAccessRequestsRequest, v1alpha1.QueryAccessRequestsResponse]
+	getAccessRequest      *connect.Client[v1alpha1.GetAccessRequestRequest, v1alpha1.GetAccessRequestResponse]
+	approveAccessRequest  *connect.Client[v1alpha1.ApproveAccessRequestRequest, v1alpha1.ApproveAccessRequestResponse]
+	activateAccessRequest *connect.Client[v1alpha1.ActivateAccessRequestRequest, v1alpha1.ActivateAccessRequestResponse]
+	closeAccessRequest    *connect.Client[v1alpha1.CloseAccessRequestRequest, v1alpha1.CloseAccessRequestResponse]
 }
 
 // QueryAccessRequests calls commonfate.access.v1alpha1.AccessRequestService.QueryAccessRequests.
-func (c *accessRequestServiceClient) QueryAccessRequests(ctx context.Context, req *connect_go.Request[v1alpha1.QueryAccessRequestsRequest]) (*connect_go.Response[v1alpha1.QueryAccessRequestsResponse], error) {
+func (c *accessRequestServiceClient) QueryAccessRequests(ctx context.Context, req *connect.Request[v1alpha1.QueryAccessRequestsRequest]) (*connect.Response[v1alpha1.QueryAccessRequestsResponse], error) {
 	return c.queryAccessRequests.CallUnary(ctx, req)
 }
 
 // GetAccessRequest calls commonfate.access.v1alpha1.AccessRequestService.GetAccessRequest.
-func (c *accessRequestServiceClient) GetAccessRequest(ctx context.Context, req *connect_go.Request[v1alpha1.GetAccessRequestRequest]) (*connect_go.Response[v1alpha1.GetAccessRequestResponse], error) {
+func (c *accessRequestServiceClient) GetAccessRequest(ctx context.Context, req *connect.Request[v1alpha1.GetAccessRequestRequest]) (*connect.Response[v1alpha1.GetAccessRequestResponse], error) {
 	return c.getAccessRequest.CallUnary(ctx, req)
 }
 
 // ApproveAccessRequest calls commonfate.access.v1alpha1.AccessRequestService.ApproveAccessRequest.
-func (c *accessRequestServiceClient) ApproveAccessRequest(ctx context.Context, req *connect_go.Request[v1alpha1.ApproveAccessRequestRequest]) (*connect_go.Response[v1alpha1.ApproveAccessRequestResponse], error) {
+func (c *accessRequestServiceClient) ApproveAccessRequest(ctx context.Context, req *connect.Request[v1alpha1.ApproveAccessRequestRequest]) (*connect.Response[v1alpha1.ApproveAccessRequestResponse], error) {
 	return c.approveAccessRequest.CallUnary(ctx, req)
 }
 
+// ActivateAccessRequest calls
+// commonfate.access.v1alpha1.AccessRequestService.ActivateAccessRequest.
+func (c *accessRequestServiceClient) ActivateAccessRequest(ctx context.Context, req *connect.Request[v1alpha1.ActivateAccessRequestRequest]) (*connect.Response[v1alpha1.ActivateAccessRequestResponse], error) {
+	return c.activateAccessRequest.CallUnary(ctx, req)
+}
+
 // CloseAccessRequest calls commonfate.access.v1alpha1.AccessRequestService.CloseAccessRequest.
-func (c *accessRequestServiceClient) CloseAccessRequest(ctx context.Context, req *connect_go.Request[v1alpha1.CloseAccessRequestRequest]) (*connect_go.Response[v1alpha1.CloseAccessRequestResponse], error) {
+func (c *accessRequestServiceClient) CloseAccessRequest(ctx context.Context, req *connect.Request[v1alpha1.CloseAccessRequestRequest]) (*connect.Response[v1alpha1.CloseAccessRequestResponse], error) {
 	return c.closeAccessRequest.CallUnary(ctx, req)
 }
 
 // AccessRequestServiceHandler is an implementation of the
 // commonfate.access.v1alpha1.AccessRequestService service.
 type AccessRequestServiceHandler interface {
-	QueryAccessRequests(context.Context, *connect_go.Request[v1alpha1.QueryAccessRequestsRequest]) (*connect_go.Response[v1alpha1.QueryAccessRequestsResponse], error)
-	GetAccessRequest(context.Context, *connect_go.Request[v1alpha1.GetAccessRequestRequest]) (*connect_go.Response[v1alpha1.GetAccessRequestResponse], error)
+	QueryAccessRequests(context.Context, *connect.Request[v1alpha1.QueryAccessRequestsRequest]) (*connect.Response[v1alpha1.QueryAccessRequestsResponse], error)
+	GetAccessRequest(context.Context, *connect.Request[v1alpha1.GetAccessRequestRequest]) (*connect.Response[v1alpha1.GetAccessRequestResponse], error)
 	// Approving an Access Request will attempt to approve all of the Grants associated with the request.
 	//
 	// If the caller is not permitted to approve particular grants, warnings will be returned.
-	ApproveAccessRequest(context.Context, *connect_go.Request[v1alpha1.ApproveAccessRequestRequest]) (*connect_go.Response[v1alpha1.ApproveAccessRequestResponse], error)
+	ApproveAccessRequest(context.Context, *connect.Request[v1alpha1.ApproveAccessRequestRequest]) (*connect.Response[v1alpha1.ApproveAccessRequestResponse], error)
+	ActivateAccessRequest(context.Context, *connect.Request[v1alpha1.ActivateAccessRequestRequest]) (*connect.Response[v1alpha1.ActivateAccessRequestResponse], error)
 	// Closing an Access Request will make it no longer reviewable and will deactivate any Grants associated with the request.
-	CloseAccessRequest(context.Context, *connect_go.Request[v1alpha1.CloseAccessRequestRequest]) (*connect_go.Response[v1alpha1.CloseAccessRequestResponse], error)
+	CloseAccessRequest(context.Context, *connect.Request[v1alpha1.CloseAccessRequestRequest]) (*connect.Response[v1alpha1.CloseAccessRequestResponse], error)
 }
 
 // NewAccessRequestServiceHandler builds an HTTP handler from the service implementation. It returns
@@ -140,26 +172,36 @@ type AccessRequestServiceHandler interface {
 //
 // By default, handlers support the Connect, gRPC, and gRPC-Web protocols with the binary Protobuf
 // and JSON codecs. They also support gzip compression.
-func NewAccessRequestServiceHandler(svc AccessRequestServiceHandler, opts ...connect_go.HandlerOption) (string, http.Handler) {
-	accessRequestServiceQueryAccessRequestsHandler := connect_go.NewUnaryHandler(
+func NewAccessRequestServiceHandler(svc AccessRequestServiceHandler, opts ...connect.HandlerOption) (string, http.Handler) {
+	accessRequestServiceQueryAccessRequestsHandler := connect.NewUnaryHandler(
 		AccessRequestServiceQueryAccessRequestsProcedure,
 		svc.QueryAccessRequests,
-		opts...,
+		connect.WithSchema(accessRequestServiceQueryAccessRequestsMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
 	)
-	accessRequestServiceGetAccessRequestHandler := connect_go.NewUnaryHandler(
+	accessRequestServiceGetAccessRequestHandler := connect.NewUnaryHandler(
 		AccessRequestServiceGetAccessRequestProcedure,
 		svc.GetAccessRequest,
-		opts...,
+		connect.WithSchema(accessRequestServiceGetAccessRequestMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
 	)
-	accessRequestServiceApproveAccessRequestHandler := connect_go.NewUnaryHandler(
+	accessRequestServiceApproveAccessRequestHandler := connect.NewUnaryHandler(
 		AccessRequestServiceApproveAccessRequestProcedure,
 		svc.ApproveAccessRequest,
-		opts...,
+		connect.WithSchema(accessRequestServiceApproveAccessRequestMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
 	)
-	accessRequestServiceCloseAccessRequestHandler := connect_go.NewUnaryHandler(
+	accessRequestServiceActivateAccessRequestHandler := connect.NewUnaryHandler(
+		AccessRequestServiceActivateAccessRequestProcedure,
+		svc.ActivateAccessRequest,
+		connect.WithSchema(accessRequestServiceActivateAccessRequestMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
+	)
+	accessRequestServiceCloseAccessRequestHandler := connect.NewUnaryHandler(
 		AccessRequestServiceCloseAccessRequestProcedure,
 		svc.CloseAccessRequest,
-		opts...,
+		connect.WithSchema(accessRequestServiceCloseAccessRequestMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
 	)
 	return "/commonfate.access.v1alpha1.AccessRequestService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
@@ -169,6 +211,8 @@ func NewAccessRequestServiceHandler(svc AccessRequestServiceHandler, opts ...con
 			accessRequestServiceGetAccessRequestHandler.ServeHTTP(w, r)
 		case AccessRequestServiceApproveAccessRequestProcedure:
 			accessRequestServiceApproveAccessRequestHandler.ServeHTTP(w, r)
+		case AccessRequestServiceActivateAccessRequestProcedure:
+			accessRequestServiceActivateAccessRequestHandler.ServeHTTP(w, r)
 		case AccessRequestServiceCloseAccessRequestProcedure:
 			accessRequestServiceCloseAccessRequestHandler.ServeHTTP(w, r)
 		default:
@@ -180,18 +224,22 @@ func NewAccessRequestServiceHandler(svc AccessRequestServiceHandler, opts ...con
 // UnimplementedAccessRequestServiceHandler returns CodeUnimplemented from all methods.
 type UnimplementedAccessRequestServiceHandler struct{}
 
-func (UnimplementedAccessRequestServiceHandler) QueryAccessRequests(context.Context, *connect_go.Request[v1alpha1.QueryAccessRequestsRequest]) (*connect_go.Response[v1alpha1.QueryAccessRequestsResponse], error) {
-	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("commonfate.access.v1alpha1.AccessRequestService.QueryAccessRequests is not implemented"))
+func (UnimplementedAccessRequestServiceHandler) QueryAccessRequests(context.Context, *connect.Request[v1alpha1.QueryAccessRequestsRequest]) (*connect.Response[v1alpha1.QueryAccessRequestsResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.access.v1alpha1.AccessRequestService.QueryAccessRequests is not implemented"))
 }
 
-func (UnimplementedAccessRequestServiceHandler) GetAccessRequest(context.Context, *connect_go.Request[v1alpha1.GetAccessRequestRequest]) (*connect_go.Response[v1alpha1.GetAccessRequestResponse], error) {
-	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("commonfate.access.v1alpha1.AccessRequestService.GetAccessRequest is not implemented"))
+func (UnimplementedAccessRequestServiceHandler) GetAccessRequest(context.Context, *connect.Request[v1alpha1.GetAccessRequestRequest]) (*connect.Response[v1alpha1.GetAccessRequestResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.access.v1alpha1.AccessRequestService.GetAccessRequest is not implemented"))
 }
 
-func (UnimplementedAccessRequestServiceHandler) ApproveAccessRequest(context.Context, *connect_go.Request[v1alpha1.ApproveAccessRequestRequest]) (*connect_go.Response[v1alpha1.ApproveAccessRequestResponse], error) {
-	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("commonfate.access.v1alpha1.AccessRequestService.ApproveAccessRequest is not implemented"))
+func (UnimplementedAccessRequestServiceHandler) ApproveAccessRequest(context.Context, *connect.Request[v1alpha1.ApproveAccessRequestRequest]) (*connect.Response[v1alpha1.ApproveAccessRequestResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.access.v1alpha1.AccessRequestService.ApproveAccessRequest is not implemented"))
 }
 
-func (UnimplementedAccessRequestServiceHandler) CloseAccessRequest(context.Context, *connect_go.Request[v1alpha1.CloseAccessRequestRequest]) (*connect_go.Response[v1alpha1.CloseAccessRequestResponse], error) {
-	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("commonfate.access.v1alpha1.AccessRequestService.CloseAccessRequest is not implemented"))
+func (UnimplementedAccessRequestServiceHandler) ActivateAccessRequest(context.Context, *connect.Request[v1alpha1.ActivateAccessRequestRequest]) (*connect.Response[v1alpha1.ActivateAccessRequestResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.access.v1alpha1.AccessRequestService.ActivateAccessRequest is not implemented"))
+}
+
+func (UnimplementedAccessRequestServiceHandler) CloseAccessRequest(context.Context, *connect.Request[v1alpha1.CloseAccessRequestRequest]) (*connect.Response[v1alpha1.CloseAccessRequestResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.access.v1alpha1.AccessRequestService.CloseAccessRequest is not implemented"))
 }

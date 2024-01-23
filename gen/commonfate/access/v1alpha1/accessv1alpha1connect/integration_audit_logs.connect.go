@@ -5,9 +5,9 @@
 package accessv1alpha1connect
 
 import (
+	connect "connectrpc.com/connect"
 	context "context"
 	errors "errors"
-	connect_go "github.com/bufbuild/connect-go"
 	v1alpha1 "github.com/common-fate/sdk/gen/commonfate/access/v1alpha1"
 	http "net/http"
 	strings "strings"
@@ -18,7 +18,7 @@ import (
 // generated with a version of connect newer than the one compiled into your binary. You can fix the
 // problem by either regenerating this code with an older version of connect or updating the connect
 // version compiled into your binary.
-const _ = connect_go.IsAtLeastVersion0_1_0
+const _ = connect.IsAtLeastVersion1_13_0
 
 const (
 	// IntegrationAuditLogServiceName is the fully-qualified name of the IntegrationAuditLogService
@@ -39,11 +39,17 @@ const (
 	IntegrationAuditLogServiceBatchPutAuditLogProcedure = "/commonfate.access.v1alpha1.IntegrationAuditLogService/BatchPutAuditLog"
 )
 
+// These variables are the protoreflect.Descriptor objects for the RPCs defined in this package.
+var (
+	integrationAuditLogServiceServiceDescriptor                = v1alpha1.File_commonfate_access_v1alpha1_integration_audit_logs_proto.Services().ByName("IntegrationAuditLogService")
+	integrationAuditLogServiceBatchPutAuditLogMethodDescriptor = integrationAuditLogServiceServiceDescriptor.Methods().ByName("BatchPutAuditLog")
+)
+
 // IntegrationAuditLogServiceClient is a client for the
 // commonfate.access.v1alpha1.IntegrationAuditLogService service.
 type IntegrationAuditLogServiceClient interface {
 	// Put audit logs relating to a grant
-	BatchPutAuditLog(context.Context, *connect_go.Request[v1alpha1.BatchPutAuditLogRequest]) (*connect_go.Response[v1alpha1.BatchPutAuditLogResponse], error)
+	BatchPutAuditLog(context.Context, *connect.Request[v1alpha1.BatchPutAuditLogRequest]) (*connect.Response[v1alpha1.BatchPutAuditLogResponse], error)
 }
 
 // NewIntegrationAuditLogServiceClient constructs a client for the
@@ -54,24 +60,25 @@ type IntegrationAuditLogServiceClient interface {
 //
 // The URL supplied here should be the base URL for the Connect or gRPC server (for example,
 // http://api.acme.com or https://acme.com/grpc).
-func NewIntegrationAuditLogServiceClient(httpClient connect_go.HTTPClient, baseURL string, opts ...connect_go.ClientOption) IntegrationAuditLogServiceClient {
+func NewIntegrationAuditLogServiceClient(httpClient connect.HTTPClient, baseURL string, opts ...connect.ClientOption) IntegrationAuditLogServiceClient {
 	baseURL = strings.TrimRight(baseURL, "/")
 	return &integrationAuditLogServiceClient{
-		batchPutAuditLog: connect_go.NewClient[v1alpha1.BatchPutAuditLogRequest, v1alpha1.BatchPutAuditLogResponse](
+		batchPutAuditLog: connect.NewClient[v1alpha1.BatchPutAuditLogRequest, v1alpha1.BatchPutAuditLogResponse](
 			httpClient,
 			baseURL+IntegrationAuditLogServiceBatchPutAuditLogProcedure,
-			opts...,
+			connect.WithSchema(integrationAuditLogServiceBatchPutAuditLogMethodDescriptor),
+			connect.WithClientOptions(opts...),
 		),
 	}
 }
 
 // integrationAuditLogServiceClient implements IntegrationAuditLogServiceClient.
 type integrationAuditLogServiceClient struct {
-	batchPutAuditLog *connect_go.Client[v1alpha1.BatchPutAuditLogRequest, v1alpha1.BatchPutAuditLogResponse]
+	batchPutAuditLog *connect.Client[v1alpha1.BatchPutAuditLogRequest, v1alpha1.BatchPutAuditLogResponse]
 }
 
 // BatchPutAuditLog calls commonfate.access.v1alpha1.IntegrationAuditLogService.BatchPutAuditLog.
-func (c *integrationAuditLogServiceClient) BatchPutAuditLog(ctx context.Context, req *connect_go.Request[v1alpha1.BatchPutAuditLogRequest]) (*connect_go.Response[v1alpha1.BatchPutAuditLogResponse], error) {
+func (c *integrationAuditLogServiceClient) BatchPutAuditLog(ctx context.Context, req *connect.Request[v1alpha1.BatchPutAuditLogRequest]) (*connect.Response[v1alpha1.BatchPutAuditLogResponse], error) {
 	return c.batchPutAuditLog.CallUnary(ctx, req)
 }
 
@@ -79,7 +86,7 @@ func (c *integrationAuditLogServiceClient) BatchPutAuditLog(ctx context.Context,
 // commonfate.access.v1alpha1.IntegrationAuditLogService service.
 type IntegrationAuditLogServiceHandler interface {
 	// Put audit logs relating to a grant
-	BatchPutAuditLog(context.Context, *connect_go.Request[v1alpha1.BatchPutAuditLogRequest]) (*connect_go.Response[v1alpha1.BatchPutAuditLogResponse], error)
+	BatchPutAuditLog(context.Context, *connect.Request[v1alpha1.BatchPutAuditLogRequest]) (*connect.Response[v1alpha1.BatchPutAuditLogResponse], error)
 }
 
 // NewIntegrationAuditLogServiceHandler builds an HTTP handler from the service implementation. It
@@ -87,11 +94,12 @@ type IntegrationAuditLogServiceHandler interface {
 //
 // By default, handlers support the Connect, gRPC, and gRPC-Web protocols with the binary Protobuf
 // and JSON codecs. They also support gzip compression.
-func NewIntegrationAuditLogServiceHandler(svc IntegrationAuditLogServiceHandler, opts ...connect_go.HandlerOption) (string, http.Handler) {
-	integrationAuditLogServiceBatchPutAuditLogHandler := connect_go.NewUnaryHandler(
+func NewIntegrationAuditLogServiceHandler(svc IntegrationAuditLogServiceHandler, opts ...connect.HandlerOption) (string, http.Handler) {
+	integrationAuditLogServiceBatchPutAuditLogHandler := connect.NewUnaryHandler(
 		IntegrationAuditLogServiceBatchPutAuditLogProcedure,
 		svc.BatchPutAuditLog,
-		opts...,
+		connect.WithSchema(integrationAuditLogServiceBatchPutAuditLogMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
 	)
 	return "/commonfate.access.v1alpha1.IntegrationAuditLogService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
@@ -106,6 +114,6 @@ func NewIntegrationAuditLogServiceHandler(svc IntegrationAuditLogServiceHandler,
 // UnimplementedIntegrationAuditLogServiceHandler returns CodeUnimplemented from all methods.
 type UnimplementedIntegrationAuditLogServiceHandler struct{}
 
-func (UnimplementedIntegrationAuditLogServiceHandler) BatchPutAuditLog(context.Context, *connect_go.Request[v1alpha1.BatchPutAuditLogRequest]) (*connect_go.Response[v1alpha1.BatchPutAuditLogResponse], error) {
-	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("commonfate.access.v1alpha1.IntegrationAuditLogService.BatchPutAuditLog is not implemented"))
+func (UnimplementedIntegrationAuditLogServiceHandler) BatchPutAuditLog(context.Context, *connect.Request[v1alpha1.BatchPutAuditLogRequest]) (*connect.Response[v1alpha1.BatchPutAuditLogResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.access.v1alpha1.IntegrationAuditLogService.BatchPutAuditLog is not implemented"))
 }
