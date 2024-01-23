@@ -8,6 +8,7 @@ import "commonfate/entity/v1alpha1/entity.proto";
 import "commonfate/entity/v1alpha1/eid.proto";
 import "commonfate/access/v1alpha1/named_eid.proto";
 import "commonfate/access/v1alpha1/audit_logs.proto";
+import "commonfate/entity/v1alpha1/child_relation.proto";
 import "google/protobuf/duration.proto";
 import "google/protobuf/timestamp.proto";
 
@@ -32,4 +33,9 @@ message ProvisionRequest {
     commonfate.entity.v1alpha1.Entity target = 4;
     
     commonfate.entity.v1alpha1.Entity role = 5;
+}
+
+message ProvisionResponse {
+    repeated commonfate.entity.v1alpha1.Entity entities = 1;
+	repeated commonfate.entity.v1alpha1.ChildRelation child_relations = 2;
 }
