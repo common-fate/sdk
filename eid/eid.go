@@ -138,7 +138,6 @@ func splitEID(s string) []string {
 // enclosed in double quotes.
 func Parse(input string) (EID, error) {
 	parts := splitEID(input)
-	// parts := strings.Split(input, "::")
 
 	// Check if there are at least two parts (type and ID)
 	if len(parts) < 2 {
