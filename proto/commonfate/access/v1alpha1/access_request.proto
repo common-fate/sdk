@@ -34,7 +34,9 @@ service AccessRequestService {
 
 message QueryAccessRequestsRequest {
     // The token for the next page.
-    string page_token = 10;
+    string page_token = 1;
+    bool archived = 2;
+
 }
 
 message QueryAccessRequestsResponse {
