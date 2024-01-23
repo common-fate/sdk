@@ -76,6 +76,53 @@ func (u EID) Equals(other EID) bool {
 	return u.Type == other.Type && u.ID == other.ID
 }
 
+// splitEID splits the string on "::" with specific conditions:
+//   - Do not split if there is a single colon ':' before the double colon '::'.
+//   - If there is a triple colon ':::' or more, only consider splitting on a double colon '::' that comes before it,
+//     while still respecting the first rule.
+func splitEID(s string) []string {
+	var (
+		colons       strings.Builder // Accumulates colon characters
+		lastPosition int             // Tracks the start of the next component
+		components   []string        // Holds the split components
+	)
+
+	var foundDouble bool // Flag to track if a valid double colon "::" has been found
+
+	for i, char := range s {
+		if char == ':' {
+			colons.WriteRune(char) // Accumulate colon characters
+		} else {
+			colonSequence := colons.String() // Extract the accumulated colon sequence
+
+			// If the sequence is a single colon and no double colon has been found,
+			// return the entire string as it does not meet the split criteria.
+			if colonSequence == ":" && !foundDouble {
+				return []string{s}
+			}
+
+			// Check if the colon sequence is exactly "::"
+			if colonSequence == "::" {
+				foundDouble = true // Mark that a valid double colon has been found
+				// Add the component found before this sequence (excluding single colons before it)
+				components = append(components, s[lastPosition:i-len(colonSequence)])
+				lastPosition = i // Update the start position for the next component
+			}
+
+			colons.Reset() // Reset the colon accumulator for the next sequence
+		}
+	}
+
+	// Handle the last component if any colons are left
+	colonSequence := colons.String()
+	// Add the final component if the last colon sequence is less than or equal to "::"
+	if len(colonSequence) <= 2 {
+		components = append(components, s[lastPosition:])
+	}
+
+	return components
+}
+
 // Parse extracts a EID from the input string.
 // Unlike Cedar policies, we accept EIDs without mandatory double quotes
 // around the ID component.
@@ -90,7 +137,7 @@ func (u EID) Equals(other EID) bool {
 // If the ID component of the EID contains any whitespace it must be
 // enclosed in double quotes.
 func Parse(input string) (EID, error) {
-	parts := strings.Split(input, "::")
+	parts := splitEID(input)
 
 	// Check if there are at least two parts (type and ID)
 	if len(parts) < 2 {

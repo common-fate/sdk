@@ -30,6 +30,16 @@ func TestParseEID(t *testing.T) {
 
 		// Test case with invalid format (empty input)
 		{"", EID{}, true},
+
+		// custom parser correctly identifies that a lookup with colons is not an eid because a single colon preceeds a double
+		{"arn:aws:sso:::permissionSet/ssoins-1234eeee/ps-1234eee", EID{}, true},
+
+		// don't split triple colons or more
+		{"Before::After:::Triple", EID{Type: "Before", ID: "After:::Triple"}, false},
+		// don't split triple+ colons
+		{"Before::After::::Triple", EID{Type: "Before", ID: "After::::Triple"}, false},
+		// don't split triple+ colons
+		{"Before:Hello::After::::Triple", EID{}, true},
 	}
 
 	for _, test := range tests {
