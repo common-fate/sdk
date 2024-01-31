@@ -47,6 +47,7 @@ var (
 // Token returns the token.
 func (s *Storage) Token() (*oauth2.Token, error) {
 	var t oauth2.Token
+	clio.Debugf("attempting to fetch token: %s", s.name)
 	err := s.keyring.Retrieve(s.name, &t)
 	if err != nil {
 		clio.Debugf("error fetching token: %s", err)
