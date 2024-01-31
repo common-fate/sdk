@@ -174,6 +174,11 @@ func openConfigFile(filepath string) (*Config, error) {
 		return nil, err
 	}
 
+	for k, context := range cfg.Contexts {
+		context.name = k
+		cfg.Contexts[k] = context
+	}
+
 	clio.Debugw("loaded config", "cfg", cfg)
 	return &cfg, nil
 }
