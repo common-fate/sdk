@@ -9,6 +9,60 @@ import (
 	entityv1alpha1 "github.com/common-fate/sdk/gen/commonfate/entity/v1alpha1"
 )
 
+func UnmarshalPtr(e *entityv1alpha1.Entity, out *Entity) error {
+	v := reflect.ValueOf(out)
+	if v.Kind() != reflect.Ptr || v.Elem().Kind() != reflect.Struct {
+		return fmt.Errorf("output must be a pointer to a struct")
+	}
+
+	// Check EntityType matches the EID Type
+	eaa := *out
+	if e.Eid == nil || e.Eid.Type != eaa.EID().Type {
+		return fmt.Errorf("entity type mismatch: expected %s, got %s", eaa.EID().Type, e.Eid.Type)
+	}
+
+	v = v.Elem()
+
+	// Handle EID
+	if e.Eid != nil && e.Eid.Id != "" {
+		for i := 0; i < v.NumField(); i++ {
+			field := v.Type().Field(i)
+			tag := parseTag(string(field.Tag))
+
+			if tag == "id" {
+				v.Field(i).SetString(e.Eid.Id)
+				break
+			}
+		}
+	}
+
+	// build a map of tag keys to struct fields
+	keys := map[string]reflect.Value{}
+
+	for i := 0; i < v.NumField(); i++ {
+		field := v.Type().Field(i)
+		fieldValue := v.Field(i)
+		tag := parseTag(string(field.Tag))
+		keys[tag] = fieldValue
+	}
+
+	// Handle Attributes
+	for _, attr := range e.Attributes {
+		// find the corresponding field
+		field, ok := keys[attr.Key]
+		if !ok {
+			// no field mapped in the struct
+			continue
+		}
+
+		if err := unmarshalSetValue(attr.Value, field); err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
 func Unmarshal(e *entityv1alpha1.Entity, out Entity) error {
 	v := reflect.ValueOf(out)
 	if v.Kind() != reflect.Ptr || v.Elem().Kind() != reflect.Struct {
