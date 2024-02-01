@@ -9,16 +9,20 @@ import (
 	entityv1alpha1 "github.com/common-fate/sdk/gen/commonfate/entity/v1alpha1"
 )
 
-func UnmarshalPtr(e *entityv1alpha1.Entity, out *Entity) error {
+type EntityPointer[T any] interface {
+	*T
+	Entity
+}
+
+func UnmarshalPtr[T any, EP EntityPointer[T]](e *entityv1alpha1.Entity, out EP) error {
 	v := reflect.ValueOf(out)
 	if v.Kind() != reflect.Ptr || v.Elem().Kind() != reflect.Struct {
 		return fmt.Errorf("output must be a pointer to a struct")
 	}
 
-	// Check EntityType matches the EID Type
-	eaa := *out
-	if e.Eid == nil || e.Eid.Type != eaa.EID().Type {
-		return fmt.Errorf("entity type mismatch: expected %s, got %s", eaa.EID().Type, e.Eid.Type)
+	// Check EntityType matches the EID Types
+	if e.Eid == nil || e.Eid.Type != out.EID().Type {
+		return fmt.Errorf("entity type mismatch: expected %s, got %s", out.EID().Type, e.Eid.Type)
 	}
 
 	v = v.Elem()
