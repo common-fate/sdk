@@ -12,8 +12,7 @@ message Report {
 }
 
 message UsageSummary {
-    string integration_id = 1;
-    string integration_name = 2;
+    string label = 2;
     int32 in_use_count = 3;
     int32 unused_count = 4;
     int32 indeterminate_count = 5;
