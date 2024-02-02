@@ -14,8 +14,12 @@ message EntitlementUsage {
     Usage Usage = 4;
     string usage_reason = 5;
 
-    repeated commonfate.access.v1alpha1.NamedEID access_paths = 6;
+    repeated AccessPath access_paths = 6;
     optional google.protobuf.Timestamp last_used = 7;
+}
+
+message AccessPath {
+    repeated commonfate.access.v1alpha1.NamedEID path = 1;
 }
 
 enum Usage {
