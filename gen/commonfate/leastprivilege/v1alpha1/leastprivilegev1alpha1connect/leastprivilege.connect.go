@@ -21,8 +21,8 @@ import (
 const _ = connect.IsAtLeastVersion1_13_0
 
 const (
-	// LeastPrivilegeServiceName is the fully-qualified name of the LeastPrivilegeService service.
-	LeastPrivilegeServiceName = "commonfate.leastprivilege.v1alpha1.LeastPrivilegeService"
+	// ReportServiceName is the fully-qualified name of the ReportService service.
+	ReportServiceName = "commonfate.leastprivilege.v1alpha1.ReportService"
 )
 
 // These constants are the fully-qualified names of the RPCs defined in this package. They're
@@ -33,117 +33,116 @@ const (
 // reflection-formatted method names, remove the leading slash and convert the remaining slash to a
 // period.
 const (
-	// LeastPrivilegeServiceGetLatestReportProcedure is the fully-qualified name of the
-	// LeastPrivilegeService's GetLatestReport RPC.
-	LeastPrivilegeServiceGetLatestReportProcedure = "/commonfate.leastprivilege.v1alpha1.LeastPrivilegeService/GetLatestReport"
-	// LeastPrivilegeServiceGetLatestEntitlementUsagesProcedure is the fully-qualified name of the
-	// LeastPrivilegeService's GetLatestEntitlementUsages RPC.
-	LeastPrivilegeServiceGetLatestEntitlementUsagesProcedure = "/commonfate.leastprivilege.v1alpha1.LeastPrivilegeService/GetLatestEntitlementUsages"
+	// ReportServiceGetLatestReportProcedure is the fully-qualified name of the ReportService's
+	// GetLatestReport RPC.
+	ReportServiceGetLatestReportProcedure = "/commonfate.leastprivilege.v1alpha1.ReportService/GetLatestReport"
+	// ReportServiceGetLatestEntitlementUsagesProcedure is the fully-qualified name of the
+	// ReportService's GetLatestEntitlementUsages RPC.
+	ReportServiceGetLatestEntitlementUsagesProcedure = "/commonfate.leastprivilege.v1alpha1.ReportService/GetLatestEntitlementUsages"
 )
 
 // These variables are the protoreflect.Descriptor objects for the RPCs defined in this package.
 var (
-	leastPrivilegeServiceServiceDescriptor                          = v1alpha1.File_commonfate_leastprivilege_v1alpha1_leastprivilege_proto.Services().ByName("LeastPrivilegeService")
-	leastPrivilegeServiceGetLatestReportMethodDescriptor            = leastPrivilegeServiceServiceDescriptor.Methods().ByName("GetLatestReport")
-	leastPrivilegeServiceGetLatestEntitlementUsagesMethodDescriptor = leastPrivilegeServiceServiceDescriptor.Methods().ByName("GetLatestEntitlementUsages")
+	reportServiceServiceDescriptor                          = v1alpha1.File_commonfate_leastprivilege_v1alpha1_leastprivilege_proto.Services().ByName("ReportService")
+	reportServiceGetLatestReportMethodDescriptor            = reportServiceServiceDescriptor.Methods().ByName("GetLatestReport")
+	reportServiceGetLatestEntitlementUsagesMethodDescriptor = reportServiceServiceDescriptor.Methods().ByName("GetLatestEntitlementUsages")
 )
 
-// LeastPrivilegeServiceClient is a client for the
-// commonfate.leastprivilege.v1alpha1.LeastPrivilegeService service.
-type LeastPrivilegeServiceClient interface {
+// ReportServiceClient is a client for the commonfate.leastprivilege.v1alpha1.ReportService service.
+type ReportServiceClient interface {
 	// retrieves the latest least privilege report.
 	GetLatestReport(context.Context, *connect.Request[v1alpha1.GetLatestReportRequest]) (*connect.Response[v1alpha1.GetLatestReportResponse], error)
 	GetLatestEntitlementUsages(context.Context, *connect.Request[v1alpha1.GetLatestEntitlementUsagesRequest]) (*connect.Response[v1alpha1.GetLatestEntitlementUsagesResponse], error)
 }
 
-// NewLeastPrivilegeServiceClient constructs a client for the
-// commonfate.leastprivilege.v1alpha1.LeastPrivilegeService service. By default, it uses the Connect
+// NewReportServiceClient constructs a client for the
+// commonfate.leastprivilege.v1alpha1.ReportService service. By default, it uses the Connect
 // protocol with the binary Protobuf Codec, asks for gzipped responses, and sends uncompressed
 // requests. To use the gRPC or gRPC-Web protocols, supply the connect.WithGRPC() or
 // connect.WithGRPCWeb() options.
 //
 // The URL supplied here should be the base URL for the Connect or gRPC server (for example,
 // http://api.acme.com or https://acme.com/grpc).
-func NewLeastPrivilegeServiceClient(httpClient connect.HTTPClient, baseURL string, opts ...connect.ClientOption) LeastPrivilegeServiceClient {
+func NewReportServiceClient(httpClient connect.HTTPClient, baseURL string, opts ...connect.ClientOption) ReportServiceClient {
 	baseURL = strings.TrimRight(baseURL, "/")
-	return &leastPrivilegeServiceClient{
+	return &reportServiceClient{
 		getLatestReport: connect.NewClient[v1alpha1.GetLatestReportRequest, v1alpha1.GetLatestReportResponse](
 			httpClient,
-			baseURL+LeastPrivilegeServiceGetLatestReportProcedure,
-			connect.WithSchema(leastPrivilegeServiceGetLatestReportMethodDescriptor),
+			baseURL+ReportServiceGetLatestReportProcedure,
+			connect.WithSchema(reportServiceGetLatestReportMethodDescriptor),
 			connect.WithClientOptions(opts...),
 		),
 		getLatestEntitlementUsages: connect.NewClient[v1alpha1.GetLatestEntitlementUsagesRequest, v1alpha1.GetLatestEntitlementUsagesResponse](
 			httpClient,
-			baseURL+LeastPrivilegeServiceGetLatestEntitlementUsagesProcedure,
-			connect.WithSchema(leastPrivilegeServiceGetLatestEntitlementUsagesMethodDescriptor),
+			baseURL+ReportServiceGetLatestEntitlementUsagesProcedure,
+			connect.WithSchema(reportServiceGetLatestEntitlementUsagesMethodDescriptor),
 			connect.WithClientOptions(opts...),
 		),
 	}
 }
 
-// leastPrivilegeServiceClient implements LeastPrivilegeServiceClient.
-type leastPrivilegeServiceClient struct {
+// reportServiceClient implements ReportServiceClient.
+type reportServiceClient struct {
 	getLatestReport            *connect.Client[v1alpha1.GetLatestReportRequest, v1alpha1.GetLatestReportResponse]
 	getLatestEntitlementUsages *connect.Client[v1alpha1.GetLatestEntitlementUsagesRequest, v1alpha1.GetLatestEntitlementUsagesResponse]
 }
 
-// GetLatestReport calls commonfate.leastprivilege.v1alpha1.LeastPrivilegeService.GetLatestReport.
-func (c *leastPrivilegeServiceClient) GetLatestReport(ctx context.Context, req *connect.Request[v1alpha1.GetLatestReportRequest]) (*connect.Response[v1alpha1.GetLatestReportResponse], error) {
+// GetLatestReport calls commonfate.leastprivilege.v1alpha1.ReportService.GetLatestReport.
+func (c *reportServiceClient) GetLatestReport(ctx context.Context, req *connect.Request[v1alpha1.GetLatestReportRequest]) (*connect.Response[v1alpha1.GetLatestReportResponse], error) {
 	return c.getLatestReport.CallUnary(ctx, req)
 }
 
 // GetLatestEntitlementUsages calls
-// commonfate.leastprivilege.v1alpha1.LeastPrivilegeService.GetLatestEntitlementUsages.
-func (c *leastPrivilegeServiceClient) GetLatestEntitlementUsages(ctx context.Context, req *connect.Request[v1alpha1.GetLatestEntitlementUsagesRequest]) (*connect.Response[v1alpha1.GetLatestEntitlementUsagesResponse], error) {
+// commonfate.leastprivilege.v1alpha1.ReportService.GetLatestEntitlementUsages.
+func (c *reportServiceClient) GetLatestEntitlementUsages(ctx context.Context, req *connect.Request[v1alpha1.GetLatestEntitlementUsagesRequest]) (*connect.Response[v1alpha1.GetLatestEntitlementUsagesResponse], error) {
 	return c.getLatestEntitlementUsages.CallUnary(ctx, req)
 }
 
-// LeastPrivilegeServiceHandler is an implementation of the
-// commonfate.leastprivilege.v1alpha1.LeastPrivilegeService service.
-type LeastPrivilegeServiceHandler interface {
+// ReportServiceHandler is an implementation of the commonfate.leastprivilege.v1alpha1.ReportService
+// service.
+type ReportServiceHandler interface {
 	// retrieves the latest least privilege report.
 	GetLatestReport(context.Context, *connect.Request[v1alpha1.GetLatestReportRequest]) (*connect.Response[v1alpha1.GetLatestReportResponse], error)
 	GetLatestEntitlementUsages(context.Context, *connect.Request[v1alpha1.GetLatestEntitlementUsagesRequest]) (*connect.Response[v1alpha1.GetLatestEntitlementUsagesResponse], error)
 }
 
-// NewLeastPrivilegeServiceHandler builds an HTTP handler from the service implementation. It
-// returns the path on which to mount the handler and the handler itself.
+// NewReportServiceHandler builds an HTTP handler from the service implementation. It returns the
+// path on which to mount the handler and the handler itself.
 //
 // By default, handlers support the Connect, gRPC, and gRPC-Web protocols with the binary Protobuf
 // and JSON codecs. They also support gzip compression.
-func NewLeastPrivilegeServiceHandler(svc LeastPrivilegeServiceHandler, opts ...connect.HandlerOption) (string, http.Handler) {
-	leastPrivilegeServiceGetLatestReportHandler := connect.NewUnaryHandler(
-		LeastPrivilegeServiceGetLatestReportProcedure,
+func NewReportServiceHandler(svc ReportServiceHandler, opts ...connect.HandlerOption) (string, http.Handler) {
+	reportServiceGetLatestReportHandler := connect.NewUnaryHandler(
+		ReportServiceGetLatestReportProcedure,
 		svc.GetLatestReport,
-		connect.WithSchema(leastPrivilegeServiceGetLatestReportMethodDescriptor),
+		connect.WithSchema(reportServiceGetLatestReportMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
-	leastPrivilegeServiceGetLatestEntitlementUsagesHandler := connect.NewUnaryHandler(
-		LeastPrivilegeServiceGetLatestEntitlementUsagesProcedure,
+	reportServiceGetLatestEntitlementUsagesHandler := connect.NewUnaryHandler(
+		ReportServiceGetLatestEntitlementUsagesProcedure,
 		svc.GetLatestEntitlementUsages,
-		connect.WithSchema(leastPrivilegeServiceGetLatestEntitlementUsagesMethodDescriptor),
+		connect.WithSchema(reportServiceGetLatestEntitlementUsagesMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
-	return "/commonfate.leastprivilege.v1alpha1.LeastPrivilegeService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	return "/commonfate.leastprivilege.v1alpha1.ReportService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
-		case LeastPrivilegeServiceGetLatestReportProcedure:
-			leastPrivilegeServiceGetLatestReportHandler.ServeHTTP(w, r)
-		case LeastPrivilegeServiceGetLatestEntitlementUsagesProcedure:
-			leastPrivilegeServiceGetLatestEntitlementUsagesHandler.ServeHTTP(w, r)
+		case ReportServiceGetLatestReportProcedure:
+			reportServiceGetLatestReportHandler.ServeHTTP(w, r)
+		case ReportServiceGetLatestEntitlementUsagesProcedure:
+			reportServiceGetLatestEntitlementUsagesHandler.ServeHTTP(w, r)
 		default:
 			http.NotFound(w, r)
 		}
 	})
 }
 
-// UnimplementedLeastPrivilegeServiceHandler returns CodeUnimplemented from all methods.
-type UnimplementedLeastPrivilegeServiceHandler struct{}
+// UnimplementedReportServiceHandler returns CodeUnimplemented from all methods.
+type UnimplementedReportServiceHandler struct{}
 
-func (UnimplementedLeastPrivilegeServiceHandler) GetLatestReport(context.Context, *connect.Request[v1alpha1.GetLatestReportRequest]) (*connect.Response[v1alpha1.GetLatestReportResponse], error) {
-	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.leastprivilege.v1alpha1.LeastPrivilegeService.GetLatestReport is not implemented"))
+func (UnimplementedReportServiceHandler) GetLatestReport(context.Context, *connect.Request[v1alpha1.GetLatestReportRequest]) (*connect.Response[v1alpha1.GetLatestReportResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.leastprivilege.v1alpha1.ReportService.GetLatestReport is not implemented"))
 }
 
-func (UnimplementedLeastPrivilegeServiceHandler) GetLatestEntitlementUsages(context.Context, *connect.Request[v1alpha1.GetLatestEntitlementUsagesRequest]) (*connect.Response[v1alpha1.GetLatestEntitlementUsagesResponse], error) {
-	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.leastprivilege.v1alpha1.LeastPrivilegeService.GetLatestEntitlementUsages is not implemented"))
+func (UnimplementedReportServiceHandler) GetLatestEntitlementUsages(context.Context, *connect.Request[v1alpha1.GetLatestEntitlementUsagesRequest]) (*connect.Response[v1alpha1.GetLatestEntitlementUsagesResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.leastprivilege.v1alpha1.ReportService.GetLatestEntitlementUsages is not implemented"))
 }

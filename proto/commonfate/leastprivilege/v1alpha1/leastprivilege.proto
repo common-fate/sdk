@@ -7,7 +7,7 @@ import "commonfate/leastprivilege/v1alpha1/entitlement_usage.proto";
 import "commonfate/leastprivilege/v1alpha1/report.proto";
 
 
-service LeastPrivilegeService {
+service ReportService {
     // retrieves the latest least privilege report.
     rpc GetLatestReport(GetLatestReportRequest) returns (GetLatestReportResponse) {}
 
