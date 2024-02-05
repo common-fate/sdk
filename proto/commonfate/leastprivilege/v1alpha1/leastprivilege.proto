@@ -11,7 +11,9 @@ service ReportService {
     // retrieves the latest least privilege report.
     rpc GetLatestReport(GetLatestReportRequest) returns (GetLatestReportResponse) {}
 
-    rpc QueryLatestEntitlementUsages(QueryLatestEntitlementUsagesRequest) returns (QueryLatestEntitlementUsagesResponse) {}
+    rpc GetHistoricalReports(GetHistoricalReportsRequest) returns (GetHistoricalReportsResponse) {}
+
+    rpc DownloadEntitlementUsage(DownloadEntitlementUsageRequest) returns (DownloadEntitlementUsageResponse) {}
 }
 
 message GetLatestReportRequest {}
@@ -20,12 +22,15 @@ message GetLatestReportResponse {
     Report report = 1;
 }
 
+message GetHistoricalReportsRequest {}
 
-message QueryLatestEntitlementUsagesRequest {
-    string page_token = 1;
+message GetHistoricalReportsResponse {
+    repeated Report reports = 1;
 }
 
-message QueryLatestEntitlementUsagesResponse {
-    repeated EntitlementUsage entitlement_usages = 1;
-    string next_page_token = 2;
+message DownloadEntitlementUsageRequest {
+}
+
+message DownloadEntitlementUsageResponse {
+    string download_url = 1;
 }
