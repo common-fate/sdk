@@ -39,17 +39,17 @@ const (
 	// ReportServiceGetHistoricalReportsProcedure is the fully-qualified name of the ReportService's
 	// GetHistoricalReports RPC.
 	ReportServiceGetHistoricalReportsProcedure = "/commonfate.leastprivilege.v1alpha1.ReportService/GetHistoricalReports"
-	// ReportServiceDownloadEntitlementUsageProcedure is the fully-qualified name of the ReportService's
-	// DownloadEntitlementUsage RPC.
-	ReportServiceDownloadEntitlementUsageProcedure = "/commonfate.leastprivilege.v1alpha1.ReportService/DownloadEntitlementUsage"
+	// ReportServiceDownloadEntitlementUsageReportProcedure is the fully-qualified name of the
+	// ReportService's DownloadEntitlementUsageReport RPC.
+	ReportServiceDownloadEntitlementUsageReportProcedure = "/commonfate.leastprivilege.v1alpha1.ReportService/DownloadEntitlementUsageReport"
 )
 
 // These variables are the protoreflect.Descriptor objects for the RPCs defined in this package.
 var (
-	reportServiceServiceDescriptor                        = v1alpha1.File_commonfate_leastprivilege_v1alpha1_leastprivilege_proto.Services().ByName("ReportService")
-	reportServiceGetLatestReportMethodDescriptor          = reportServiceServiceDescriptor.Methods().ByName("GetLatestReport")
-	reportServiceGetHistoricalReportsMethodDescriptor     = reportServiceServiceDescriptor.Methods().ByName("GetHistoricalReports")
-	reportServiceDownloadEntitlementUsageMethodDescriptor = reportServiceServiceDescriptor.Methods().ByName("DownloadEntitlementUsage")
+	reportServiceServiceDescriptor                              = v1alpha1.File_commonfate_leastprivilege_v1alpha1_leastprivilege_proto.Services().ByName("ReportService")
+	reportServiceGetLatestReportMethodDescriptor                = reportServiceServiceDescriptor.Methods().ByName("GetLatestReport")
+	reportServiceGetHistoricalReportsMethodDescriptor           = reportServiceServiceDescriptor.Methods().ByName("GetHistoricalReports")
+	reportServiceDownloadEntitlementUsageReportMethodDescriptor = reportServiceServiceDescriptor.Methods().ByName("DownloadEntitlementUsageReport")
 )
 
 // ReportServiceClient is a client for the commonfate.leastprivilege.v1alpha1.ReportService service.
@@ -57,7 +57,7 @@ type ReportServiceClient interface {
 	// retrieves the latest least privilege report.
 	GetLatestReport(context.Context, *connect.Request[v1alpha1.GetLatestReportRequest]) (*connect.Response[v1alpha1.GetLatestReportResponse], error)
 	GetHistoricalReports(context.Context, *connect.Request[v1alpha1.GetHistoricalReportsRequest]) (*connect.Response[v1alpha1.GetHistoricalReportsResponse], error)
-	DownloadEntitlementUsage(context.Context, *connect.Request[v1alpha1.DownloadEntitlementUsageRequest]) (*connect.Response[v1alpha1.DownloadEntitlementUsageResponse], error)
+	DownloadEntitlementUsageReport(context.Context, *connect.Request[v1alpha1.DownloadEntitlementUsageReportRequest]) (*connect.Response[v1alpha1.DownloadEntitlementUsageReportResponse], error)
 }
 
 // NewReportServiceClient constructs a client for the
@@ -83,10 +83,10 @@ func NewReportServiceClient(httpClient connect.HTTPClient, baseURL string, opts 
 			connect.WithSchema(reportServiceGetHistoricalReportsMethodDescriptor),
 			connect.WithClientOptions(opts...),
 		),
-		downloadEntitlementUsage: connect.NewClient[v1alpha1.DownloadEntitlementUsageRequest, v1alpha1.DownloadEntitlementUsageResponse](
+		downloadEntitlementUsageReport: connect.NewClient[v1alpha1.DownloadEntitlementUsageReportRequest, v1alpha1.DownloadEntitlementUsageReportResponse](
 			httpClient,
-			baseURL+ReportServiceDownloadEntitlementUsageProcedure,
-			connect.WithSchema(reportServiceDownloadEntitlementUsageMethodDescriptor),
+			baseURL+ReportServiceDownloadEntitlementUsageReportProcedure,
+			connect.WithSchema(reportServiceDownloadEntitlementUsageReportMethodDescriptor),
 			connect.WithClientOptions(opts...),
 		),
 	}
@@ -94,9 +94,9 @@ func NewReportServiceClient(httpClient connect.HTTPClient, baseURL string, opts 
 
 // reportServiceClient implements ReportServiceClient.
 type reportServiceClient struct {
-	getLatestReport          *connect.Client[v1alpha1.GetLatestReportRequest, v1alpha1.GetLatestReportResponse]
-	getHistoricalReports     *connect.Client[v1alpha1.GetHistoricalReportsRequest, v1alpha1.GetHistoricalReportsResponse]
-	downloadEntitlementUsage *connect.Client[v1alpha1.DownloadEntitlementUsageRequest, v1alpha1.DownloadEntitlementUsageResponse]
+	getLatestReport                *connect.Client[v1alpha1.GetLatestReportRequest, v1alpha1.GetLatestReportResponse]
+	getHistoricalReports           *connect.Client[v1alpha1.GetHistoricalReportsRequest, v1alpha1.GetHistoricalReportsResponse]
+	downloadEntitlementUsageReport *connect.Client[v1alpha1.DownloadEntitlementUsageReportRequest, v1alpha1.DownloadEntitlementUsageReportResponse]
 }
 
 // GetLatestReport calls commonfate.leastprivilege.v1alpha1.ReportService.GetLatestReport.
@@ -109,10 +109,10 @@ func (c *reportServiceClient) GetHistoricalReports(ctx context.Context, req *con
 	return c.getHistoricalReports.CallUnary(ctx, req)
 }
 
-// DownloadEntitlementUsage calls
-// commonfate.leastprivilege.v1alpha1.ReportService.DownloadEntitlementUsage.
-func (c *reportServiceClient) DownloadEntitlementUsage(ctx context.Context, req *connect.Request[v1alpha1.DownloadEntitlementUsageRequest]) (*connect.Response[v1alpha1.DownloadEntitlementUsageResponse], error) {
-	return c.downloadEntitlementUsage.CallUnary(ctx, req)
+// DownloadEntitlementUsageReport calls
+// commonfate.leastprivilege.v1alpha1.ReportService.DownloadEntitlementUsageReport.
+func (c *reportServiceClient) DownloadEntitlementUsageReport(ctx context.Context, req *connect.Request[v1alpha1.DownloadEntitlementUsageReportRequest]) (*connect.Response[v1alpha1.DownloadEntitlementUsageReportResponse], error) {
+	return c.downloadEntitlementUsageReport.CallUnary(ctx, req)
 }
 
 // ReportServiceHandler is an implementation of the commonfate.leastprivilege.v1alpha1.ReportService
@@ -121,7 +121,7 @@ type ReportServiceHandler interface {
 	// retrieves the latest least privilege report.
 	GetLatestReport(context.Context, *connect.Request[v1alpha1.GetLatestReportRequest]) (*connect.Response[v1alpha1.GetLatestReportResponse], error)
 	GetHistoricalReports(context.Context, *connect.Request[v1alpha1.GetHistoricalReportsRequest]) (*connect.Response[v1alpha1.GetHistoricalReportsResponse], error)
-	DownloadEntitlementUsage(context.Context, *connect.Request[v1alpha1.DownloadEntitlementUsageRequest]) (*connect.Response[v1alpha1.DownloadEntitlementUsageResponse], error)
+	DownloadEntitlementUsageReport(context.Context, *connect.Request[v1alpha1.DownloadEntitlementUsageReportRequest]) (*connect.Response[v1alpha1.DownloadEntitlementUsageReportResponse], error)
 }
 
 // NewReportServiceHandler builds an HTTP handler from the service implementation. It returns the
@@ -142,10 +142,10 @@ func NewReportServiceHandler(svc ReportServiceHandler, opts ...connect.HandlerOp
 		connect.WithSchema(reportServiceGetHistoricalReportsMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
-	reportServiceDownloadEntitlementUsageHandler := connect.NewUnaryHandler(
-		ReportServiceDownloadEntitlementUsageProcedure,
-		svc.DownloadEntitlementUsage,
-		connect.WithSchema(reportServiceDownloadEntitlementUsageMethodDescriptor),
+	reportServiceDownloadEntitlementUsageReportHandler := connect.NewUnaryHandler(
+		ReportServiceDownloadEntitlementUsageReportProcedure,
+		svc.DownloadEntitlementUsageReport,
+		connect.WithSchema(reportServiceDownloadEntitlementUsageReportMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
 	return "/commonfate.leastprivilege.v1alpha1.ReportService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -154,8 +154,8 @@ func NewReportServiceHandler(svc ReportServiceHandler, opts ...connect.HandlerOp
 			reportServiceGetLatestReportHandler.ServeHTTP(w, r)
 		case ReportServiceGetHistoricalReportsProcedure:
 			reportServiceGetHistoricalReportsHandler.ServeHTTP(w, r)
-		case ReportServiceDownloadEntitlementUsageProcedure:
-			reportServiceDownloadEntitlementUsageHandler.ServeHTTP(w, r)
+		case ReportServiceDownloadEntitlementUsageReportProcedure:
+			reportServiceDownloadEntitlementUsageReportHandler.ServeHTTP(w, r)
 		default:
 			http.NotFound(w, r)
 		}
@@ -173,6 +173,6 @@ func (UnimplementedReportServiceHandler) GetHistoricalReports(context.Context, *
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.leastprivilege.v1alpha1.ReportService.GetHistoricalReports is not implemented"))
 }
 
-func (UnimplementedReportServiceHandler) DownloadEntitlementUsage(context.Context, *connect.Request[v1alpha1.DownloadEntitlementUsageRequest]) (*connect.Response[v1alpha1.DownloadEntitlementUsageResponse], error) {
-	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.leastprivilege.v1alpha1.ReportService.DownloadEntitlementUsage is not implemented"))
+func (UnimplementedReportServiceHandler) DownloadEntitlementUsageReport(context.Context, *connect.Request[v1alpha1.DownloadEntitlementUsageReportRequest]) (*connect.Response[v1alpha1.DownloadEntitlementUsageReportResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.leastprivilege.v1alpha1.ReportService.DownloadEntitlementUsageReport is not implemented"))
 }

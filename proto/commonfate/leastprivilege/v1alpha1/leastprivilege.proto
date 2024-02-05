@@ -13,7 +13,7 @@ service ReportService {
 
     rpc GetHistoricalReports(GetHistoricalReportsRequest) returns (GetHistoricalReportsResponse) {}
 
-    rpc DownloadEntitlementUsage(DownloadEntitlementUsageRequest) returns (DownloadEntitlementUsageResponse) {}
+    rpc DownloadEntitlementUsageReport(DownloadEntitlementUsageReportRequest) returns (DownloadEntitlementUsageReportResponse) {}
 }
 
 message GetLatestReportRequest {}
@@ -28,9 +28,9 @@ message GetHistoricalReportsResponse {
     repeated Report reports = 1;
 }
 
-message DownloadEntitlementUsageRequest {
+message DownloadEntitlementUsageReportRequest {
 }
 
-message DownloadEntitlementUsageResponse {
+message DownloadEntitlementUsageReportResponse {
     string download_url = 1;
 }
