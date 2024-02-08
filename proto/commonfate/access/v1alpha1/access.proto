@@ -145,6 +145,8 @@ enum GrantChange {
 
   // The provisioning process failed for the Grant
   GRANT_CHANGE_PROVISIONING_FAILED = 4;
+
+
 }
 
 
