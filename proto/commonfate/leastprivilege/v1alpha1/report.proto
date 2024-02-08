@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package commonfate.leastprivilege.v1alpha1;
+
+import "google/protobuf/timestamp.proto";
+
+message Report {
+    repeated UsageSummary usage_summaries = 1;
+    google.protobuf.Timestamp created_at = 2;
+    google.protobuf.Timestamp timestamp = 3;
+    google.protobuf.Timestamp usage_cutoff_time = 4;
+}
+
+message UsageSummary {
+    string label = 2;
+    int32 in_use_count = 3;
+    int32 unused_count = 4;
+    int32 indeterminate_count = 5;
+}

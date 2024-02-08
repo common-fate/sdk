@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+package commonfate.leastprivilege.v1alpha1;
+
+import "google/protobuf/timestamp.proto";
+import "commonfate/leastprivilege/v1alpha1/entitlement_usage.proto";
+import "commonfate/leastprivilege/v1alpha1/report.proto";
+
+
+service ReportService {
+    // retrieves the latest least privilege report.
+    rpc GetLatestReport(GetLatestReportRequest) returns (GetLatestReportResponse) {}
+
+    rpc GetHistoricalReports(GetHistoricalReportsRequest) returns (GetHistoricalReportsResponse) {}
+
+    rpc DownloadEntitlementUsageReport(DownloadEntitlementUsageReportRequest) returns (DownloadEntitlementUsageReportResponse) {}
+}
+
+message GetLatestReportRequest {}
+
+message GetLatestReportResponse {
+    Report report = 1;
+}
+
+message GetHistoricalReportsRequest {}
+
+message GetHistoricalReportsResponse {
+    repeated Report reports = 1;
+}
+
+message DownloadEntitlementUsageReportRequest {
+}
+
+message DownloadEntitlementUsageReportResponse {
+    string download_url = 1;
+}

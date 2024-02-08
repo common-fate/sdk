@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+package commonfate.leastprivilege.v1alpha1;
+
+import "commonfate/access/v1alpha1/named_eid.proto";
+import "commonfate/access/v1alpha1/user.proto";
+import "google/protobuf/timestamp.proto";
+
+message EntitlementUsage {
+    commonfate.access.v1alpha1.NamedEID target = 1;
+    commonfate.access.v1alpha1.NamedEID role = 2;
+    commonfate.access.v1alpha1.User principal = 3;
+
+    Usage Usage = 4;
+    string usage_reason = 5;
+
+    repeated AccessPath access_paths = 6;
+    optional google.protobuf.Timestamp last_used = 7;
+}
+
+message AccessPath {
+    repeated commonfate.access.v1alpha1.NamedEID path = 1;
+}
+
+enum Usage {
+    // It was not possible to infer whether the entitlement is in use or not.
+    USAGE_UNSPECIFIED = 0;
+
+    // The entitlement is currently in use.
+    USAGE_IN_USE = 3;
+
+    // The entitlement is unused.
+    USAGE_UNUSED = 4;
+}
