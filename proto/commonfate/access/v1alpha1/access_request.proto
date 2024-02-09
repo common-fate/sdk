@@ -77,7 +77,7 @@ message AccessRequest {
     bool existing = 5;
 
     // The reason access was requested
-    optional string reason = 6;
+    Justification reason = 6;
     
     // The timestamp that the request was created at.
     google.protobuf.Timestamp created_at = 8;
@@ -118,4 +118,8 @@ message ActivateAccessRequestRequest {
 
 message ActivateAccessRequestResponse {
   repeated Diagnostic diagnostics = 1;
+}
+
+message Justification {
+  optional string reason = 1;
 }
