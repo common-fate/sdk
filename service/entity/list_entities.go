@@ -13,7 +13,7 @@ type ListInput struct {
 	Type            string
 	PageToken       string
 	IncludeArchived bool
-	OrderAscending  bool
+	OrderDescending bool
 }
 
 func (c *Client) List(ctx context.Context, input ListInput) (*ListOutput, error) {
@@ -23,8 +23,8 @@ func (c *Client) List(ctx context.Context, input ListInput) (*ListOutput, error)
 		PageToken:       input.PageToken,
 		IncludeArchived: input.IncludeArchived,
 	}
-	if input.OrderAscending {
-		req.Order = entityv1alpha1.Order_ORDER_ASCENDING.Enum()
+	if input.OrderDescending {
+		req.Order = entityv1alpha1.Order_ORDER_DESCENDING.Enum().Enum()
 	}
 
 	res, err := c.raw.List(ctx, connect.NewRequest(req))
