@@ -1,5 +1,15 @@
 # @common-fate/sdk
 
+## 1.3.0
+
+### Minor Changes
+
+- f09745e: Add justifications to requests returned by the API
+
+### Patch Changes
+
+- 5bef771: Add order field to list entities rpc
+
 ## 1.2.0
 
 ### Minor Changes
