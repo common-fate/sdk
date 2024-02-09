@@ -76,9 +76,6 @@ message AccessRequest {
     // True if the Access Request already existed and wasn't created by the API call.
     bool existing = 5;
 
-    // The reason access was requested
-    optional string reason = 6;
-    
     // The timestamp that the request was created at.
     google.protobuf.Timestamp created_at = 8;
 }
