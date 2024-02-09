@@ -150,6 +150,3 @@ enum GrantChange {
 }
 
 
-message Justification {
-  optional string reason = 1;
-}

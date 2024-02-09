@@ -80,6 +80,9 @@ message AccessRequest {
 
     // The timestamp that the request was created at.
     google.protobuf.Timestamp created_at = 8;
+
+    // The justification supplied when the request was created
+    Justification justification = 9;
 }
 
 
@@ -117,4 +120,8 @@ message ActivateAccessRequestRequest {
 
 message ActivateAccessRequestResponse {
   repeated Diagnostic diagnostics = 1;
+}
+
+message Justification {
+  optional string reason = 1;
 }
