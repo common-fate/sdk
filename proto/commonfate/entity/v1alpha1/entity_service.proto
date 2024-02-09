@@ -58,7 +58,16 @@ message ListRequest {
 
     // If true, will include archived entities in the query
     bool include_archived = 6;
+
+    optional Order order = 7;
+
 }
+enum Order {
+    ORDER_UNSPECIFIED = 0;    
+    ORDER_ASCENDING = 1;
+    ORDER_DESCENDING = 2;
+}
+
 
 message ListResponse {
     repeated Entity entities = 1;

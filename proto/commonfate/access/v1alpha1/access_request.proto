@@ -6,6 +6,7 @@ import "commonfate/control/attest/v1alpha1/attestation.proto";
 import "commonfate/access/v1alpha1/user.proto";
 import "commonfate/access/v1alpha1/diagnostic.proto";
 import "commonfate/entity/v1alpha1/entity.proto";
+import "commonfate/entity/v1alpha1/entity_service.proto";
 import "commonfate/entity/v1alpha1/eid.proto";
 import "commonfate/access/v1alpha1/grant.proto";
 import "commonfate/access/v1alpha1/named_eid.proto";
@@ -36,6 +37,7 @@ message QueryAccessRequestsRequest {
     // The token for the next page.
     string page_token = 1;
     bool archived = 2;
+    optional commonfate.entity.v1alpha1.Order order = 3;
 
 }
 
