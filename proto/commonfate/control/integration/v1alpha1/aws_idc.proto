@@ -7,4 +7,6 @@ message AWSIDC {
     string identity_store_id = 2;
     string sso_region = 3;
     string reader_role_arn = 4;
+    string audit_role_name = 5;
+    repeated string resource_regions = 6;
 }
