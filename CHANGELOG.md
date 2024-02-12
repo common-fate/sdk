@@ -1,5 +1,11 @@
 # @common-fate/sdk
 
+## 1.4.0
+
+### Minor Changes
+
+- 68f719a: Adds additional fields to the AWS IDC integration resource
+
 ## 1.3.0
 
 ### Minor Changes
