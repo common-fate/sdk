@@ -36,7 +36,6 @@ type response struct {
 	// prevented the flow from completing
 	Err   error
 	Token (*oauth2.Token)
-	Nonce string
 }
 
 func (lf LoginFlow) Login(ctx context.Context) error {
@@ -53,7 +52,6 @@ func (lf LoginFlow) Login(ctx context.Context) error {
 	tokenWriter := func(w http.ResponseWriter, r *http.Request, tokens *oidc.Tokens[*oidc.IDTokenClaims], state string, rp rp.RelyingParty) {
 		authResponse <- response{
 			Token: tokens.Token,
-			Nonce: tokens.IDTokenClaims.Nonce,
 		}
 		_, _ = w.Write([]byte("success! You can now close this window"))
 	}
