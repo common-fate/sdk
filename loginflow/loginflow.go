@@ -105,7 +105,8 @@ func (lf LoginFlow) Login(ctx context.Context) error {
 				res := string(resWriter.body)
 
 				/*
-					Sometimes the nonce will have a value when the auth library is not expecting it, typcally trying to login again fixes the issue
+Sometimes the nonce will have a value when the auth library is not expecting it, typcally trying to login again fixes the issue. 
+This is a related issue with Entra and the oidc client specifically see https://github.com/zitadel/oidc/issues/509
 					So we have programmed this in and it will make one attempt to retry login before failing.
 					To reproduce the none error, you go to the auth URL either custom like auth.myteam.com or the cognito url cf-auth-words.cognito.com and clear all the cookies
 					Then try to login again, and you should get the nonce error
