@@ -1,5 +1,11 @@
 # @common-fate/sdk
 
+## 1.4.1
+
+### Patch Changes
+
+- f784061: Add a retry step to the loginflow which will detect errors validating the nonce and retry login 1 time. Retring usually fixes the issue.
+
 ## 1.4.0
 
 ### Minor Changes
