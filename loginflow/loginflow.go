@@ -2,7 +2,9 @@ package loginflow
 
 import (
 	"context"
+	"errors"
 	"net/http"
+	"strings"
 	"time"
 
 	"github.com/99designs/keyring"
@@ -14,6 +16,7 @@ import (
 	"github.com/pkg/browser"
 	"github.com/zitadel/oidc/v2/pkg/client/rp"
 	"github.com/zitadel/oidc/v2/pkg/oidc"
+	"go.uber.org/zap"
 	"golang.org/x/oauth2"
 	"golang.org/x/sync/errgroup"
 )
@@ -37,6 +40,37 @@ type response struct {
 	Err   error
 	Token (*oauth2.Token)
 }
+type myResponseWriter struct {
+	header         http.Header
+	statusCode     int
+	body           []byte
+	headerWritten  bool
+	headerFlushed  bool
+	originalWriter http.ResponseWriter
+}
+
+func (w *myResponseWriter) Header() http.Header {
+	if w.header == nil {
+		w.header = make(http.Header)
+	}
+	return w.header
+}
+
+func (w *myResponseWriter) Write(data []byte) (int, error) {
+	if !w.headerWritten {
+		w.WriteHeader(http.StatusOK)
+	}
+	w.body = append(w.body, data...)
+	return len(data), nil
+}
+
+func (w *myResponseWriter) WriteHeader(statusCode int) {
+	if w.headerFlushed {
+		return
+	}
+	w.statusCode = statusCode
+	w.headerWritten = true
+}
 
 func (lf LoginFlow) Login(ctx context.Context) error {
 
@@ -57,6 +91,46 @@ func (lf LoginFlow) Login(ctx context.Context) error {
 	}
 
 	r := chi.NewRouter()
+
+	nonceErrorRetryAttempts := 0
+
+	r.Use(func(h http.Handler) http.Handler {
+		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if strings.HasPrefix(r.URL.Path, "/auth/callback") {
+				resWriter := &myResponseWriter{
+					originalWriter: nil,
+				}
+				h.ServeHTTP(resWriter, r)
+
+				res := string(resWriter.body)
+
+				/*
+Sometimes the nonce will have a value when the auth library is not expecting it, typcally trying to login again fixes the issue. 
+This is a related issue with Entra and the oidc client specifically see https://github.com/zitadel/oidc/issues/509
+					So we have programmed this in and it will make one attempt to retry login before failing.
+					To reproduce the none error, you go to the auth URL either custom like auth.myteam.com or the cognito url cf-auth-words.cognito.com and clear all the cookies
+					Then try to login again, and you should get the nonce error
+				*/
+				if strings.Contains(res, "failed to exchange token: nonce does not match") {
+					if nonceErrorRetryAttempts != 0 {
+						// Write the original response after 1 retry attempt
+						w.WriteHeader(http.StatusForbidden)
+						w.Write(resWriter.body)
+						return
+					}
+					clio.Debugw("Caught a nonce validation error when exchanging code for token and will retry by redirecting to the login page", zap.Error(errors.New(res)))
+					http.Redirect(w, r, "/login", http.StatusTemporaryRedirect)
+					return
+				}
+
+				clio.Debugw("callback response body", "body", res)
+
+				w.Write(resWriter.body)
+				return
+			}
+			h.ServeHTTP(w, r)
+		})
+	})
 	r.Handle("/auth/callback", rp.CodeExchangeHandler(tokenWriter, lf.cfg.OIDCProvider))
 	r.Handle("/login", rp.AuthURLHandler(state, lf.cfg.OIDCProvider, rp.WithPromptURLParam("Welcome back!")))
 	server := &http.Server{
