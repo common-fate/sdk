@@ -122,7 +122,6 @@ message BatchEnsureResponse {
   //
   // Rather than failing the entire operation the Access Handler returns warnings.
   repeated Diagnostic diagnostics = 6;
-  string request_id = 7;
 
 }
 
