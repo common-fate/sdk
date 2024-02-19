@@ -1,5 +1,11 @@
 # @common-fate/sdk
 
+## 1.5.0
+
+### Minor Changes
+
+- 68abc45: Revert the addition of provisioning status, add request ID to the batch ensure response
+
 ## 1.4.1
 
 ### Patch Changes
