@@ -56,7 +56,6 @@ enum GrantStatus {
     GRANT_STATUS_PENDING = 1;
 
 
-    GRANT_STATUS_PROVISIONING = 2;
 
     // The grant to the entitlement is currently active. 
     GRANT_STATUS_ACTIVE = 3;
