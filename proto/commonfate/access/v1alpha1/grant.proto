@@ -58,11 +58,11 @@ enum GrantStatus {
 
 
     // The grant to the entitlement is currently active. 
-    GRANT_STATUS_ACTIVE = 2;
+    GRANT_STATUS_ACTIVE = 3;
 
     // No longer active. Grants may be closed due to several reasons, such as:
     // - the grant was cancelled by the user
     // - the grant was revoked by an administrator
     // - the grant has expired
-    GRANT_STATUS_CLOSED = 3;
+    GRANT_STATUS_CLOSED = 4;
 }
