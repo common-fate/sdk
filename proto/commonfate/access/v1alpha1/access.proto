@@ -115,13 +115,15 @@ message BatchEnsureResponse {
   string trace_id = 1;
 
 
-  repeated GrantState grants = 2;
+  // repeated GrantState grants = 2;
  
   // User-facing diagnostic warnings, for messages such as the user not having permissions
   // to request some of the entitlements they asked for.
   //
   // Rather than failing the entire operation the Access Handler returns warnings.
   repeated Diagnostic diagnostics = 6;
+
+  repeated AccessRequest access_requests = 7;
 
 }
 
