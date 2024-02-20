@@ -125,6 +125,8 @@ message BatchEnsureResponse {
 
   repeated AccessRequest access_requests = 7;
 
+  bool success = 8;
+
 }
 
 message GrantState {
