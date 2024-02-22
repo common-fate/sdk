@@ -114,7 +114,7 @@ message BatchEnsureResponse {
   // associated with the request.
   string trace_id = 1;
 
-
+  repeated GrantState changes = 2;
  
   // User-facing diagnostic warnings, for messages such as the user not having permissions
   // to request some of the entitlements they asked for.
@@ -123,10 +123,6 @@ message BatchEnsureResponse {
   repeated Diagnostic diagnostics = 6;
 
   repeated AccessRequest access_requests = 7;
-
-  repeated GrantState changes = 2;
-
-
 }
 
 message GrantState {
