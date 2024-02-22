@@ -126,7 +126,6 @@ message BatchEnsureResponse {
 
   repeated GrantState changes = 2;
 
-  bool success = 8;
 
 }
 
