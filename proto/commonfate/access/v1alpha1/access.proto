@@ -124,7 +124,7 @@ message BatchEnsureResponse {
 
   repeated AccessRequest access_requests = 7;
 
-  repeated GrantChange changes = 9;
+  repeated GrantState changes = 9;
 
   bool success = 8;
 
