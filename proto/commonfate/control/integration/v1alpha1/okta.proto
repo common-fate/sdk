@@ -1,8 +1,8 @@
 syntax = "proto3";
 package commonfate.control.integration.v1alpha1;
 
-
 message Okta {
-    string organization_id = 1;
-    string api_key_secret_path = 2;
+  string organization_id = 1;
+  string organization_url = 2;
+  string api_key_secret_path = 3;
 }
