@@ -42,6 +42,7 @@ message Config {
         OpsGenie opsgenie = 5;
         Entra entra = 6;
         AWSRDS aws_rds = 7;
+        Okta okta = 8;
     }
 }
 
