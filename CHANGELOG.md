@@ -1,5 +1,11 @@
 # @common-fate/sdk
 
+## 1.6.0
+
+### Minor Changes
+
+- 9fb6511: Add Okta integration type
+
 ## 1.5.0
 
 ### Minor Changes
