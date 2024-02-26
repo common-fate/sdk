@@ -72,8 +72,8 @@ message Annotation {
 }
 
 message DebugInformation {
-    // Policies which contributed to the authorization decision.
-    repeated Policy policies = 1;
+    // PolicySets which contributed to the authorization decision.
+    repeated PolicySet policy_sets = 1;
 
     // Entities which contributed to the authorization decision.
     repeated commonfate.entity.v1alpha1.Entity entities = 2;
