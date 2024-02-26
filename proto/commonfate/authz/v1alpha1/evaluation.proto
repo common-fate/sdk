@@ -20,10 +20,8 @@ message DebugEvaluationRequest {
 }
 
 message DebugEvaluationResponse {
-    Evaluation evaluation = 1;
-    DebugInformation debug_information = 2;
+    DebugEvaluation debug_evaluation = 1;
 }
-
 
 enum Decision {
     DECISION_UNSPECIFIED = 0;
@@ -35,6 +33,16 @@ enum Decision {
     DECISION_DENY = 4;
 }
 
+// DebugEvaluation contains additional information about a particular
+// authorization evaluation, allowing an administrator to debug the decision
+// and understand why the request was allowed or denied.
+message DebugEvaluation {
+    // version is used when serializing the DebugEvaluation message in order to ensure
+    // forwards-compatibility. Version should be set to '1' when storing DebugEvaluation messages in archival storage.
+    uint32 version = 1;
+    Evaluation evaluation = 2;
+    DebugInformation debug_information = 3;
+}
 
 message Evaluation {
     string id = 1;

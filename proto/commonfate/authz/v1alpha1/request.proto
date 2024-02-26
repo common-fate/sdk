@@ -6,7 +6,6 @@ import "commonfate/entity/v1alpha1/eid.proto";
 import "commonfate/entity/v1alpha1/entity.proto";
 import "commonfate/entity/v1alpha1/child_relation.proto";
 
-
 message Request {
     commonfate.entity.v1alpha1.EID principal = 1;
     commonfate.entity.v1alpha1.EID action = 2;
@@ -23,4 +22,24 @@ message Request {
 
     // Parent/child relationships to 'overlay' temporarily on the entities stored in the authz service.
     repeated commonfate.entity.v1alpha1.ChildRelation overlay_children = 6;
+
+    // Metadata associated with the authorization evaluation.
+    // Common Fate uses this to add attributes like the Access Request ID
+    // to the evaluation.
+    //
+    // Metadata is *not* used to make authorization decisions but rather is used to aid in observability
+    // and debugging of authorization decisions.
+    repeated MetadataAttribute metadata = 7;
 }
+
+
+// MetadataAttribute is a particular key/value pair associated with the
+// authorization request.
+message MetadataAttribute {
+    string key = 1;
+    oneof value {
+        string str = 2;
+        bool bool = 3;
+    }
+}
+
