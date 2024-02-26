@@ -1,5 +1,11 @@
 # @common-fate/sdk
 
+## 1.6.1
+
+### Patch Changes
+
+- 2ae046d: Revert a change which incorrectly added the 'request_id' field to the BatchEnsure response
+
 ## 1.6.0
 
 ### Minor Changes
