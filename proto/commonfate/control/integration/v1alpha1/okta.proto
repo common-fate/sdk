@@ -1,0 +1,7 @@
+syntax = "proto3";
+package commonfate.control.integration.v1alpha1;
+
+message Okta {
+  string organization_id = 1;
+  string api_key_secret_path = 2;
+}

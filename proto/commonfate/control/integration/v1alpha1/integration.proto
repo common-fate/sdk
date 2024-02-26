@@ -1,94 +1,95 @@
 syntax = "proto3";
 package commonfate.control.integration.v1alpha1;
 
-import "commonfate/control/integration/v1alpha1/gcp.proto";
+import "commonfate/access/v1alpha1/diagnostic.proto";
 import "commonfate/control/integration/v1alpha1/aws_idc.proto";
 import "commonfate/control/integration/v1alpha1/aws_rds.proto";
-import "commonfate/control/integration/v1alpha1/slack.proto";
-import "commonfate/control/integration/v1alpha1/pagerduty.proto";
-import "commonfate/control/integration/v1alpha1/opsgenie.proto";
 import "commonfate/control/integration/v1alpha1/entra.proto";
-import "commonfate/access/v1alpha1/diagnostic.proto";
+import "commonfate/control/integration/v1alpha1/gcp.proto";
+import "commonfate/control/integration/v1alpha1/okta.proto";
+import "commonfate/control/integration/v1alpha1/opsgenie.proto";
+import "commonfate/control/integration/v1alpha1/pagerduty.proto";
+import "commonfate/control/integration/v1alpha1/slack.proto";
 
 service IntegrationService {
-    rpc CreateIntegration(CreateIntegrationRequest) returns (CreateIntegrationResponse) {}
-    rpc UpdateIntegration(UpdateIntegrationRequest) returns (UpdateIntegrationResponse) {}
-    rpc GetIntegration(GetIntegrationRequest) returns (GetIntegrationResponse) {}
-    rpc DeleteIntegration(DeleteIntegrationRequest) returns (DeleteIntegrationResponse) {}
-    rpc ListIntegrations(ListIntegrationsRequest) returns (ListIntegrationsResponse) {}
+  rpc CreateIntegration(CreateIntegrationRequest) returns (CreateIntegrationResponse) {}
+  rpc UpdateIntegration(UpdateIntegrationRequest) returns (UpdateIntegrationResponse) {}
+  rpc GetIntegration(GetIntegrationRequest) returns (GetIntegrationResponse) {}
+  rpc DeleteIntegration(DeleteIntegrationRequest) returns (DeleteIntegrationResponse) {}
+  rpc ListIntegrations(ListIntegrationsRequest) returns (ListIntegrationsResponse) {}
 }
 
 message ListIntegrationsRequest {
-    // The token for the next page.
-    string page_token = 1;
+  // The token for the next page.
+  string page_token = 1;
 }
 
 message ListIntegrationsResponse {
-    repeated Integration integrations = 1;
-    string next_page_token = 2;
+  repeated Integration integrations = 1;
+  string next_page_token = 2;
 }
 
 message CreateIntegrationRequest {
-    string name = 1;
-    Config config = 2;
+  string name = 1;
+  Config config = 2;
 }
 
 message Config {
-    oneof config {
-        GCP gcp = 1;
-        AWSIDC aws_idc = 2;
-        Slack slack = 3;
-        PagerDuty pagerduty = 4;
-        OpsGenie opsgenie = 5;
-        Entra entra = 6;
-        AWSRDS aws_rds = 7;
-    }
+  oneof config {
+    GCP gcp = 1;
+    AWSIDC aws_idc = 2;
+    Slack slack = 3;
+    PagerDuty pagerduty = 4;
+    OpsGenie opsgenie = 5;
+    Entra entra = 6;
+    AWSRDS aws_rds = 7;
+    Okta okta = 8;
+  }
 }
 
 message Integration {
-    reserved 'type';
-    reserved 3;
+  reserved 'type';
+  reserved 3;
 
-    string id = 1;
-    string name = 2;
-    Status status = 4;
-    repeated commonfate.access.v1alpha1.Diagnostic diagnostics = 5;
-    Config config = 6;
-    string setup_url = 7;
+  string id = 1;
+  string name = 2;
+  Status status = 4;
+  repeated commonfate.access.v1alpha1.Diagnostic diagnostics = 5;
+  Config config = 6;
+  string setup_url = 7;
 }
 
 message CreateIntegrationResponse {
-    Integration integration = 1;
+  Integration integration = 1;
 }
 
 enum Status {
-    STATUS_UNSPECIFIED = 0;
-    STATUS_PENDING_SETUP = 1;
-    STATUS_HEALTHY = 2;
-    STATUS_UNHEALTHY = 3;
+  STATUS_UNSPECIFIED = 0;
+  STATUS_PENDING_SETUP = 1;
+  STATUS_HEALTHY = 2;
+  STATUS_UNHEALTHY = 3;
 }
 
 message GetIntegrationRequest {
-    string id = 1;
+  string id = 1;
 }
 
 message GetIntegrationResponse {
-    Integration integration = 1;
+  Integration integration = 1;
 }
 
 message UpdateIntegrationRequest {
-    Integration integration = 1;
+  Integration integration = 1;
 }
 
 message UpdateIntegrationResponse {
-    Integration integration = 1;
+  Integration integration = 1;
 }
 
-
 message DeleteIntegrationRequest {
-    string id = 1;
+  string id = 1;
 }
 
 message DeleteIntegrationResponse {
-    string id = 1;
+  string id = 1;
 }
