@@ -47,6 +47,15 @@ message Grant {
 
     // Approved is true if there are any approving reviews on the Grant.
     bool approved = 11;
+
+    // The time that the grant was closed.
+    google.protobuf.Timestamp closed_at = 12;
+
+    // For grants which were activated, the time that the access was activated.
+    google.protobuf.Timestamp activated_at = 13;
+
+    // For grants which were activated, the time that the access was deprovisioned.
+    google.protobuf.Timestamp deprovisioned_at = 14;
 }
 
 enum GrantStatus {

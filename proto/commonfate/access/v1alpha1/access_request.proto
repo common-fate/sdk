@@ -83,6 +83,11 @@ message AccessRequest {
 
     // The justification supplied when the request was created
     Justification justification = 9;
+
+    // The user or service account that requested the access.
+    //
+    // If a service account requested access, the 'name' and 'email' may be empty.
+    User principal = 10;
 }
 
 
