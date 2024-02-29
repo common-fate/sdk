@@ -56,6 +56,12 @@ message Grant {
 
     // For grants which were activated, the time that the access was deprovisioned.
     google.protobuf.Timestamp deprovisioned_at = 14;
+
+    // The status of provisioning attempts
+    // will be PROVISIONING_STATUS_NOT_ATTEMPTED before the grant is activated
+    // will be PROVISIONING_STATUS_ATTEMPTED when the grant is activated and before the provisioner has returned successfully
+    // will be PROVISIONING_STATUS_SUCCESSFUL after provisioning has completed successfully
+    ProvisioningStatus provisioning_status = 15;
 }
 
 enum GrantStatus {
@@ -63,9 +69,6 @@ enum GrantStatus {
 
     // Awaiting a manual review.
     GRANT_STATUS_PENDING = 1;
-
-
-    GRANT_STATUS_PROVISIONING = 2;
 
     // The grant to the entitlement is currently active. 
     GRANT_STATUS_ACTIVE = 3;
@@ -75,4 +78,14 @@ enum GrantStatus {
     // - the grant was revoked by an administrator
     // - the grant has expired
     GRANT_STATUS_CLOSED = 4;
+}
+
+enum ProvisioningStatus {
+    PROVISIONING_STATUS_UNSPECIFIED = 0;
+
+    PROVISIONING_STATUS_NOT_ATTEMPTED = 1;
+
+    PROVISIONING_STATUS_ATTEMPTING = 2;
+
+    PROVISIONING_STATUS_SUCCESSFUL = 3;
 }
