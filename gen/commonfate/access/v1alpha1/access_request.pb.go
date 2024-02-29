@@ -263,6 +263,10 @@ type AccessRequest struct {
 	CreatedAt *timestamppb.Timestamp `protobuf:"bytes,8,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
 	// The justification supplied when the request was created
 	Justification *Justification `protobuf:"bytes,9,opt,name=justification,proto3" json:"justification,omitempty"`
+	// The user or service account that requested the access.
+	//
+	// If a service account requested access, the 'name' and 'email' may be empty.
+	Principal *User `protobuf:"bytes,10,opt,name=principal,proto3" json:"principal,omitempty"`
 }
 
 func (x *AccessRequest) Reset() {
@@ -342,6 +346,13 @@ func (x *AccessRequest) GetCreatedAt() *timestamppb.Timestamp {
 func (x *AccessRequest) GetJustification() *Justification {
 	if x != nil {
 		return x.Justification
+	}
+	return nil
+}
+
+func (x *AccessRequest) GetPrincipal() *User {
+	if x != nil {
+		return x.Principal
 	}
 	return nil
 }
@@ -771,7 +782,7 @@ var file_commonfate_access_v1alpha1_access_request_proto_rawDesc = []byte{
 	0x61, 0x74, 0x65, 0x2e, 0x61, 0x63, 0x63, 0x65, 0x73, 0x73, 0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70,
 	0x68, 0x61, 0x31, 0x2e, 0x41, 0x63, 0x63, 0x65, 0x73, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73,
 	0x74, 0x52, 0x0d, 0x61, 0x63, 0x63, 0x65, 0x73, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
-	0x22, 0xbd, 0x02, 0x0a, 0x0d, 0x41, 0x63, 0x63, 0x65, 0x73, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65,
+	0x22, 0xfd, 0x02, 0x0a, 0x0d, 0x41, 0x63, 0x63, 0x65, 0x73, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65,
 	0x73, 0x74, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x02,
 	0x69, 0x64, 0x12, 0x19, 0x0a, 0x08, 0x62, 0x61, 0x74, 0x63, 0x68, 0x5f, 0x69, 0x64, 0x18, 0x02,
 	0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x62, 0x61, 0x74, 0x63, 0x68, 0x49, 0x64, 0x12, 0x39, 0x0a,
@@ -791,6 +802,10 @@ var file_commonfate_access_v1alpha1_access_request_proto_rawDesc = []byte{
 	0x61, 0x74, 0x65, 0x2e, 0x61, 0x63, 0x63, 0x65, 0x73, 0x73, 0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70,
 	0x68, 0x61, 0x31, 0x2e, 0x4a, 0x75, 0x73, 0x74, 0x69, 0x66, 0x69, 0x63, 0x61, 0x74, 0x69, 0x6f,
 	0x6e, 0x52, 0x0d, 0x6a, 0x75, 0x73, 0x74, 0x69, 0x66, 0x69, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e,
+	0x12, 0x3e, 0x0a, 0x09, 0x70, 0x72, 0x69, 0x6e, 0x63, 0x69, 0x70, 0x61, 0x6c, 0x18, 0x0a, 0x20,
+	0x01, 0x28, 0x0b, 0x32, 0x20, 0x2e, 0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x66, 0x61, 0x74, 0x65,
+	0x2e, 0x61, 0x63, 0x63, 0x65, 0x73, 0x73, 0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31,
+	0x2e, 0x55, 0x73, 0x65, 0x72, 0x52, 0x09, 0x70, 0x72, 0x69, 0x6e, 0x63, 0x69, 0x70, 0x61, 0x6c,
 	0x22, 0x54, 0x0a, 0x1b, 0x41, 0x70, 0x70, 0x72, 0x6f, 0x76, 0x65, 0x41, 0x63, 0x63, 0x65, 0x73,
 	0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12,
 	0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x02, 0x69, 0x64, 0x12,
@@ -924,7 +939,8 @@ var file_commonfate_access_v1alpha1_access_request_proto_goTypes = []interface{}
 	(v1alpha1.Order)(0),                   // 12: commonfate.entity.v1alpha1.Order
 	(*Grant)(nil),                         // 13: commonfate.access.v1alpha1.Grant
 	(*timestamppb.Timestamp)(nil),         // 14: google.protobuf.Timestamp
-	(*Diagnostic)(nil),                    // 15: commonfate.access.v1alpha1.Diagnostic
+	(*User)(nil),                          // 15: commonfate.access.v1alpha1.User
+	(*Diagnostic)(nil),                    // 16: commonfate.access.v1alpha1.Diagnostic
 }
 var file_commonfate_access_v1alpha1_access_request_proto_depIdxs = []int32{
 	12, // 0: commonfate.access.v1alpha1.QueryAccessRequestsRequest.order:type_name -> commonfate.entity.v1alpha1.Order
@@ -933,24 +949,25 @@ var file_commonfate_access_v1alpha1_access_request_proto_depIdxs = []int32{
 	13, // 3: commonfate.access.v1alpha1.AccessRequest.grants:type_name -> commonfate.access.v1alpha1.Grant
 	14, // 4: commonfate.access.v1alpha1.AccessRequest.created_at:type_name -> google.protobuf.Timestamp
 	11, // 5: commonfate.access.v1alpha1.AccessRequest.justification:type_name -> commonfate.access.v1alpha1.Justification
-	15, // 6: commonfate.access.v1alpha1.ApproveAccessRequestResponse.diagnostics:type_name -> commonfate.access.v1alpha1.Diagnostic
-	15, // 7: commonfate.access.v1alpha1.CloseAccessRequestResponse.diagnostics:type_name -> commonfate.access.v1alpha1.Diagnostic
-	15, // 8: commonfate.access.v1alpha1.ActivateAccessRequestResponse.diagnostics:type_name -> commonfate.access.v1alpha1.Diagnostic
-	0,  // 9: commonfate.access.v1alpha1.AccessRequestService.QueryAccessRequests:input_type -> commonfate.access.v1alpha1.QueryAccessRequestsRequest
-	2,  // 10: commonfate.access.v1alpha1.AccessRequestService.GetAccessRequest:input_type -> commonfate.access.v1alpha1.GetAccessRequestRequest
-	5,  // 11: commonfate.access.v1alpha1.AccessRequestService.ApproveAccessRequest:input_type -> commonfate.access.v1alpha1.ApproveAccessRequestRequest
-	9,  // 12: commonfate.access.v1alpha1.AccessRequestService.ActivateAccessRequest:input_type -> commonfate.access.v1alpha1.ActivateAccessRequestRequest
-	7,  // 13: commonfate.access.v1alpha1.AccessRequestService.CloseAccessRequest:input_type -> commonfate.access.v1alpha1.CloseAccessRequestRequest
-	1,  // 14: commonfate.access.v1alpha1.AccessRequestService.QueryAccessRequests:output_type -> commonfate.access.v1alpha1.QueryAccessRequestsResponse
-	3,  // 15: commonfate.access.v1alpha1.AccessRequestService.GetAccessRequest:output_type -> commonfate.access.v1alpha1.GetAccessRequestResponse
-	6,  // 16: commonfate.access.v1alpha1.AccessRequestService.ApproveAccessRequest:output_type -> commonfate.access.v1alpha1.ApproveAccessRequestResponse
-	10, // 17: commonfate.access.v1alpha1.AccessRequestService.ActivateAccessRequest:output_type -> commonfate.access.v1alpha1.ActivateAccessRequestResponse
-	8,  // 18: commonfate.access.v1alpha1.AccessRequestService.CloseAccessRequest:output_type -> commonfate.access.v1alpha1.CloseAccessRequestResponse
-	14, // [14:19] is the sub-list for method output_type
-	9,  // [9:14] is the sub-list for method input_type
-	9,  // [9:9] is the sub-list for extension type_name
-	9,  // [9:9] is the sub-list for extension extendee
-	0,  // [0:9] is the sub-list for field type_name
+	15, // 6: commonfate.access.v1alpha1.AccessRequest.principal:type_name -> commonfate.access.v1alpha1.User
+	16, // 7: commonfate.access.v1alpha1.ApproveAccessRequestResponse.diagnostics:type_name -> commonfate.access.v1alpha1.Diagnostic
+	16, // 8: commonfate.access.v1alpha1.CloseAccessRequestResponse.diagnostics:type_name -> commonfate.access.v1alpha1.Diagnostic
+	16, // 9: commonfate.access.v1alpha1.ActivateAccessRequestResponse.diagnostics:type_name -> commonfate.access.v1alpha1.Diagnostic
+	0,  // 10: commonfate.access.v1alpha1.AccessRequestService.QueryAccessRequests:input_type -> commonfate.access.v1alpha1.QueryAccessRequestsRequest
+	2,  // 11: commonfate.access.v1alpha1.AccessRequestService.GetAccessRequest:input_type -> commonfate.access.v1alpha1.GetAccessRequestRequest
+	5,  // 12: commonfate.access.v1alpha1.AccessRequestService.ApproveAccessRequest:input_type -> commonfate.access.v1alpha1.ApproveAccessRequestRequest
+	9,  // 13: commonfate.access.v1alpha1.AccessRequestService.ActivateAccessRequest:input_type -> commonfate.access.v1alpha1.ActivateAccessRequestRequest
+	7,  // 14: commonfate.access.v1alpha1.AccessRequestService.CloseAccessRequest:input_type -> commonfate.access.v1alpha1.CloseAccessRequestRequest
+	1,  // 15: commonfate.access.v1alpha1.AccessRequestService.QueryAccessRequests:output_type -> commonfate.access.v1alpha1.QueryAccessRequestsResponse
+	3,  // 16: commonfate.access.v1alpha1.AccessRequestService.GetAccessRequest:output_type -> commonfate.access.v1alpha1.GetAccessRequestResponse
+	6,  // 17: commonfate.access.v1alpha1.AccessRequestService.ApproveAccessRequest:output_type -> commonfate.access.v1alpha1.ApproveAccessRequestResponse
+	10, // 18: commonfate.access.v1alpha1.AccessRequestService.ActivateAccessRequest:output_type -> commonfate.access.v1alpha1.ActivateAccessRequestResponse
+	8,  // 19: commonfate.access.v1alpha1.AccessRequestService.CloseAccessRequest:output_type -> commonfate.access.v1alpha1.CloseAccessRequestResponse
+	15, // [15:20] is the sub-list for method output_type
+	10, // [10:15] is the sub-list for method input_type
+	10, // [10:10] is the sub-list for extension type_name
+	10, // [10:10] is the sub-list for extension extendee
+	0,  // [0:10] is the sub-list for field type_name
 }
 
 func init() { file_commonfate_access_v1alpha1_access_request_proto_init() }
