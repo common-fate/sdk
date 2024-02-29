@@ -1,5 +1,11 @@
 # @common-fate/sdk
 
+## 1.7.0
+
+### Minor Changes
+
+- 4dfc30d: Adds additional timing information to Grants and adds the Principal to Access Requests
+
 ## 1.6.1
 
 ### Patch Changes
