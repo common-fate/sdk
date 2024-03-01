@@ -57,10 +57,7 @@ message Grant {
     // For grants which were activated, the time that the access was deprovisioned.
     google.protobuf.Timestamp deprovisioned_at = 14;
 
-    // The status of provisioning attempts
-    // will be PROVISIONING_STATUS_NOT_ATTEMPTED before the grant is activated
-    // will be PROVISIONING_STATUS_ATTEMPTED when the grant is activated and before the provisioner has returned successfully
-    // will be PROVISIONING_STATUS_SUCCESSFUL after provisioning has completed successfully
+    // The provisioning status of the Grant. This status tracks whether the entitlements have been successfully provisioned in the integration that Common Fate is provisioning access to, such as AWS or GCP.
     ProvisioningStatus provisioning_status = 15;
 }
 
@@ -83,9 +80,12 @@ enum GrantStatus {
 enum ProvisioningStatus {
     PROVISIONING_STATUS_UNSPECIFIED = 0;
 
+    // Provisioning has not been attempted. This is the value before the Grant is activated.
     PROVISIONING_STATUS_NOT_ATTEMPTED = 1;
 
+    // The Grant is currently being provisioned.
     PROVISIONING_STATUS_ATTEMPTING = 2;
 
+    // Provisioning has completed successfully.
     PROVISIONING_STATUS_SUCCESSFUL = 3;
 }
