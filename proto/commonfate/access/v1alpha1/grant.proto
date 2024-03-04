@@ -56,6 +56,9 @@ message Grant {
 
     // For grants which were activated, the time that the access was deprovisioned.
     google.protobuf.Timestamp deprovisioned_at = 14;
+
+    // The provisioning status of the Grant. This status tracks whether the entitlements have been successfully provisioned in the integration that Common Fate is provisioning access to, such as AWS or GCP.
+    ProvisioningStatus provisioning_status = 15;
 }
 
 enum GrantStatus {
@@ -63,9 +66,6 @@ enum GrantStatus {
 
     // Awaiting a manual review.
     GRANT_STATUS_PENDING = 1;
-
-
-    GRANT_STATUS_PROVISIONING = 2;
 
     // The grant to the entitlement is currently active. 
     GRANT_STATUS_ACTIVE = 3;
@@ -75,4 +75,17 @@ enum GrantStatus {
     // - the grant was revoked by an administrator
     // - the grant has expired
     GRANT_STATUS_CLOSED = 4;
+}
+
+enum ProvisioningStatus {
+    PROVISIONING_STATUS_UNSPECIFIED = 0;
+
+    // Provisioning has not been attempted. This is the value before the Grant is activated.
+    PROVISIONING_STATUS_NOT_ATTEMPTED = 1;
+
+    // The Grant is currently being provisioned.
+    PROVISIONING_STATUS_ATTEMPTING = 2;
+
+    // Provisioning has completed successfully.
+    PROVISIONING_STATUS_SUCCESSFUL = 3;
 }
