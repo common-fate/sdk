@@ -22,7 +22,7 @@ const _ = connect.IsAtLeastVersion1_13_0
 
 const (
 	// ResetServiceName is the fully-qualified name of the ResetService service.
-	ResetServiceName = "commonfate.control.reset.v1alpha1.ResetService"
+	ResetServiceName = "commonfate.control.integration.reset.v1alpha1.ResetService"
 )
 
 // These constants are the fully-qualified names of the RPCs defined in this package. They're
@@ -35,7 +35,7 @@ const (
 const (
 	// ResetServiceResetEntraUsersProcedure is the fully-qualified name of the ResetService's
 	// ResetEntraUsers RPC.
-	ResetServiceResetEntraUsersProcedure = "/commonfate.control.reset.v1alpha1.ResetService/ResetEntraUsers"
+	ResetServiceResetEntraUsersProcedure = "/commonfate.control.integration.reset.v1alpha1.ResetService/ResetEntraUsers"
 )
 
 // These variables are the protoreflect.Descriptor objects for the RPCs defined in this package.
@@ -44,15 +44,17 @@ var (
 	resetServiceResetEntraUsersMethodDescriptor = resetServiceServiceDescriptor.Methods().ByName("ResetEntraUsers")
 )
 
-// ResetServiceClient is a client for the commonfate.control.reset.v1alpha1.ResetService service.
+// ResetServiceClient is a client for the commonfate.control.integration.reset.v1alpha1.ResetService
+// service.
 type ResetServiceClient interface {
 	ResetEntraUsers(context.Context, *connect.Request[v1alpha1.ResetEntraUsersRequest]) (*connect.Response[v1alpha1.ResetEntraUsersResponse], error)
 }
 
-// NewResetServiceClient constructs a client for the commonfate.control.reset.v1alpha1.ResetService
-// service. By default, it uses the Connect protocol with the binary Protobuf Codec, asks for
-// gzipped responses, and sends uncompressed requests. To use the gRPC or gRPC-Web protocols, supply
-// the connect.WithGRPC() or connect.WithGRPCWeb() options.
+// NewResetServiceClient constructs a client for the
+// commonfate.control.integration.reset.v1alpha1.ResetService service. By default, it uses the
+// Connect protocol with the binary Protobuf Codec, asks for gzipped responses, and sends
+// uncompressed requests. To use the gRPC or gRPC-Web protocols, supply the connect.WithGRPC() or
+// connect.WithGRPCWeb() options.
 //
 // The URL supplied here should be the base URL for the Connect or gRPC server (for example,
 // http://api.acme.com or https://acme.com/grpc).
@@ -73,13 +75,13 @@ type resetServiceClient struct {
 	resetEntraUsers *connect.Client[v1alpha1.ResetEntraUsersRequest, v1alpha1.ResetEntraUsersResponse]
 }
 
-// ResetEntraUsers calls commonfate.control.reset.v1alpha1.ResetService.ResetEntraUsers.
+// ResetEntraUsers calls commonfate.control.integration.reset.v1alpha1.ResetService.ResetEntraUsers.
 func (c *resetServiceClient) ResetEntraUsers(ctx context.Context, req *connect.Request[v1alpha1.ResetEntraUsersRequest]) (*connect.Response[v1alpha1.ResetEntraUsersResponse], error) {
 	return c.resetEntraUsers.CallUnary(ctx, req)
 }
 
-// ResetServiceHandler is an implementation of the commonfate.control.reset.v1alpha1.ResetService
-// service.
+// ResetServiceHandler is an implementation of the
+// commonfate.control.integration.reset.v1alpha1.ResetService service.
 type ResetServiceHandler interface {
 	ResetEntraUsers(context.Context, *connect.Request[v1alpha1.ResetEntraUsersRequest]) (*connect.Response[v1alpha1.ResetEntraUsersResponse], error)
 }
@@ -96,7 +98,7 @@ func NewResetServiceHandler(svc ResetServiceHandler, opts ...connect.HandlerOpti
 		connect.WithSchema(resetServiceResetEntraUsersMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
-	return "/commonfate.control.reset.v1alpha1.ResetService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	return "/commonfate.control.integration.reset.v1alpha1.ResetService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
 		case ResetServiceResetEntraUsersProcedure:
 			resetServiceResetEntraUsersHandler.ServeHTTP(w, r)
@@ -110,5 +112,5 @@ func NewResetServiceHandler(svc ResetServiceHandler, opts ...connect.HandlerOpti
 type UnimplementedResetServiceHandler struct{}
 
 func (UnimplementedResetServiceHandler) ResetEntraUsers(context.Context, *connect.Request[v1alpha1.ResetEntraUsersRequest]) (*connect.Response[v1alpha1.ResetEntraUsersResponse], error) {
-	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.control.reset.v1alpha1.ResetService.ResetEntraUsers is not implemented"))
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.control.integration.reset.v1alpha1.ResetService.ResetEntraUsers is not implemented"))
 }
