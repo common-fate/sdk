@@ -85,10 +85,13 @@ func (GrantStatus) EnumDescriptor() ([]byte, []int) {
 type ProvisioningStatus int32
 
 const (
-	ProvisioningStatus_PROVISIONING_STATUS_UNSPECIFIED   ProvisioningStatus = 0
+	ProvisioningStatus_PROVISIONING_STATUS_UNSPECIFIED ProvisioningStatus = 0
+	// Provisioning has not been attempted. This is the value before the Grant is activated.
 	ProvisioningStatus_PROVISIONING_STATUS_NOT_ATTEMPTED ProvisioningStatus = 1
-	ProvisioningStatus_PROVISIONING_STATUS_ATTEMPTING    ProvisioningStatus = 2
-	ProvisioningStatus_PROVISIONING_STATUS_SUCCESSFUL    ProvisioningStatus = 3
+	// The Grant is currently being provisioned.
+	ProvisioningStatus_PROVISIONING_STATUS_ATTEMPTING ProvisioningStatus = 2
+	// Provisioning has completed successfully.
+	ProvisioningStatus_PROVISIONING_STATUS_SUCCESSFUL ProvisioningStatus = 3
 )
 
 // Enum value maps for ProvisioningStatus.
@@ -168,10 +171,7 @@ type Grant struct {
 	ActivatedAt *timestamppb.Timestamp `protobuf:"bytes,13,opt,name=activated_at,json=activatedAt,proto3" json:"activated_at,omitempty"`
 	// For grants which were activated, the time that the access was deprovisioned.
 	DeprovisionedAt *timestamppb.Timestamp `protobuf:"bytes,14,opt,name=deprovisioned_at,json=deprovisionedAt,proto3" json:"deprovisioned_at,omitempty"`
-	// The status of provisioning attempts
-	// will be PROVISIONING_STATUS_NOT_ATTEMPTED before the grant is activated
-	// will be PROVISIONING_STATUS_ATTEMPTED when the grant is activated and before the provisioner has returned successfully
-	// will be PROVISIONING_STATUS_SUCCESSFUL after provisioning has completed successfully
+	// The provisioning status of the Grant. This status tracks whether the entitlements have been successfully provisioned in the integration that Common Fate is provisioning access to, such as AWS or GCP.
 	ProvisioningStatus ProvisioningStatus `protobuf:"varint,15,opt,name=provisioning_status,json=provisioningStatus,proto3,enum=commonfate.access.v1alpha1.ProvisioningStatus" json:"provisioning_status,omitempty"`
 }
 

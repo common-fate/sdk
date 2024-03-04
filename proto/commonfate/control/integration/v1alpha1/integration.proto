@@ -10,6 +10,7 @@ import "commonfate/control/integration/v1alpha1/okta.proto";
 import "commonfate/control/integration/v1alpha1/opsgenie.proto";
 import "commonfate/control/integration/v1alpha1/pagerduty.proto";
 import "commonfate/control/integration/v1alpha1/slack.proto";
+import "commonfate/control/integration/v1alpha1/datastax.proto";
 
 service IntegrationService {
   rpc CreateIntegration(CreateIntegrationRequest) returns (CreateIntegrationResponse) {}
@@ -44,6 +45,7 @@ message Config {
     Entra entra = 6;
     AWSRDS aws_rds = 7;
     Okta okta = 8;
+    DataStax datastax = 9;
   }
 }
 
