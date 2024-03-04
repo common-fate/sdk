@@ -1,5 +1,11 @@
 # @common-fate/sdk
 
+## 1.8.0
+
+### Minor Changes
+
+- 9a22117: Add provisioning attempt for grants
+
 ## 1.7.0
 
 ### Minor Changes
