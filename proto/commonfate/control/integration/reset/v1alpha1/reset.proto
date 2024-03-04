@@ -1,5 +1,5 @@
 syntax = "proto3";
-package commonfate.control.integration.v1alpha1;
+package commonfate.control.reset.v1alpha1;
 
 import "google/protobuf/duration.proto";
 import "commonfate/entity/v1alpha1/eid.proto";
