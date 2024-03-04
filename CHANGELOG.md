@@ -1,5 +1,11 @@
 # @common-fate/sdk
 
+## 1.9.0
+
+### Minor Changes
+
+- 19f18a5: Added DataStax integration
+
 ## 1.8.0
 
 ### Minor Changes
