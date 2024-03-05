@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package commonfate.deployment.diagnostics.v1alpha1;
+package commonfate.deployment.diagnostic.v1alpha1;
 
 import "google/protobuf/timestamp.proto";
 

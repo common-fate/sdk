@@ -2,7 +2,7 @@
 //
 // Source: commonfate/deployment/diagnostic/v1alpha1/diagnostic.proto
 
-package diagnosticsv1alpha1connect
+package diagnosticv1alpha1connect
 
 import (
 	connect "connectrpc.com/connect"
@@ -22,7 +22,7 @@ const _ = connect.IsAtLeastVersion1_13_0
 
 const (
 	// DiagnosticServiceName is the fully-qualified name of the DiagnosticService service.
-	DiagnosticServiceName = "commonfate.deployment.diagnostics.v1alpha1.DiagnosticService"
+	DiagnosticServiceName = "commonfate.deployment.diagnostic.v1alpha1.DiagnosticService"
 )
 
 // These constants are the fully-qualified names of the RPCs defined in this package. They're
@@ -35,7 +35,7 @@ const (
 const (
 	// DiagnosticServiceGetOAuthTokenMetadataProcedure is the fully-qualified name of the
 	// DiagnosticService's GetOAuthTokenMetadata RPC.
-	DiagnosticServiceGetOAuthTokenMetadataProcedure = "/commonfate.deployment.diagnostics.v1alpha1.DiagnosticService/GetOAuthTokenMetadata"
+	DiagnosticServiceGetOAuthTokenMetadataProcedure = "/commonfate.deployment.diagnostic.v1alpha1.DiagnosticService/GetOAuthTokenMetadata"
 )
 
 // These variables are the protoreflect.Descriptor objects for the RPCs defined in this package.
@@ -45,14 +45,14 @@ var (
 )
 
 // DiagnosticServiceClient is a client for the
-// commonfate.deployment.diagnostics.v1alpha1.DiagnosticService service.
+// commonfate.deployment.diagnostic.v1alpha1.DiagnosticService service.
 type DiagnosticServiceClient interface {
 	// Retrieves metadata about the current OAuth2.0 tokens stored by Common Fate.
 	GetOAuthTokenMetadata(context.Context, *connect.Request[v1alpha1.GetOAuthTokenMetadataRequest]) (*connect.Response[v1alpha1.GetOAuthTokenMetadataResponse], error)
 }
 
 // NewDiagnosticServiceClient constructs a client for the
-// commonfate.deployment.diagnostics.v1alpha1.DiagnosticService service. By default, it uses the
+// commonfate.deployment.diagnostic.v1alpha1.DiagnosticService service. By default, it uses the
 // Connect protocol with the binary Protobuf Codec, asks for gzipped responses, and sends
 // uncompressed requests. To use the gRPC or gRPC-Web protocols, supply the connect.WithGRPC() or
 // connect.WithGRPCWeb() options.
@@ -77,13 +77,13 @@ type diagnosticServiceClient struct {
 }
 
 // GetOAuthTokenMetadata calls
-// commonfate.deployment.diagnostics.v1alpha1.DiagnosticService.GetOAuthTokenMetadata.
+// commonfate.deployment.diagnostic.v1alpha1.DiagnosticService.GetOAuthTokenMetadata.
 func (c *diagnosticServiceClient) GetOAuthTokenMetadata(ctx context.Context, req *connect.Request[v1alpha1.GetOAuthTokenMetadataRequest]) (*connect.Response[v1alpha1.GetOAuthTokenMetadataResponse], error) {
 	return c.getOAuthTokenMetadata.CallUnary(ctx, req)
 }
 
 // DiagnosticServiceHandler is an implementation of the
-// commonfate.deployment.diagnostics.v1alpha1.DiagnosticService service.
+// commonfate.deployment.diagnostic.v1alpha1.DiagnosticService service.
 type DiagnosticServiceHandler interface {
 	// Retrieves metadata about the current OAuth2.0 tokens stored by Common Fate.
 	GetOAuthTokenMetadata(context.Context, *connect.Request[v1alpha1.GetOAuthTokenMetadataRequest]) (*connect.Response[v1alpha1.GetOAuthTokenMetadataResponse], error)
@@ -101,7 +101,7 @@ func NewDiagnosticServiceHandler(svc DiagnosticServiceHandler, opts ...connect.H
 		connect.WithSchema(diagnosticServiceGetOAuthTokenMetadataMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
-	return "/commonfate.deployment.diagnostics.v1alpha1.DiagnosticService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	return "/commonfate.deployment.diagnostic.v1alpha1.DiagnosticService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
 		case DiagnosticServiceGetOAuthTokenMetadataProcedure:
 			diagnosticServiceGetOAuthTokenMetadataHandler.ServeHTTP(w, r)
@@ -115,5 +115,5 @@ func NewDiagnosticServiceHandler(svc DiagnosticServiceHandler, opts ...connect.H
 type UnimplementedDiagnosticServiceHandler struct{}
 
 func (UnimplementedDiagnosticServiceHandler) GetOAuthTokenMetadata(context.Context, *connect.Request[v1alpha1.GetOAuthTokenMetadataRequest]) (*connect.Response[v1alpha1.GetOAuthTokenMetadataResponse], error) {
-	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.deployment.diagnostics.v1alpha1.DiagnosticService.GetOAuthTokenMetadata is not implemented"))
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.deployment.diagnostic.v1alpha1.DiagnosticService.GetOAuthTokenMetadata is not implemented"))
 }
