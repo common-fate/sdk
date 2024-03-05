@@ -7,6 +7,9 @@ import "commonfate/entity/v1alpha1/eid.proto";
 
 service ResetService {
     rpc ResetEntraUsers(ResetEntraUsersRequest) returns (ResetEntraUsersResponse) {}
+
+    // Removes an OAuth2.0 token from an installed integration from Common Fate.
+    rpc RemoveOAuthToken(RemoveOAuthTokenRequest) returns (RemoveOAuthTokenResponse) {}
 }
 
 message ResetEntraUsersRequest {
@@ -17,3 +20,10 @@ message ResetEntraUsersRequest {
 message ResetEntraUsersResponse {
   repeated commonfate.entity.v1alpha1.EID deleted_entities = 1;
 }
+
+message RemoveOAuthTokenRequest {
+  // The ID of the token to remove.
+  string id = 1;
+}
+
+message RemoveOAuthTokenResponse {}
