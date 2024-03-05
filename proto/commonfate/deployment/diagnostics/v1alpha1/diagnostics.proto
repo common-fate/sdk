@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package commonfate.deployment.diagnostics.v1alpha1;
+
+import "google/protobuf/timestamp.proto";
+
+// The Diagnostics service contains APIs to query for read-only diagnostic
+// information associated with a Common Fate deployment.
+service DiagnosticsService {
+    // Retrieves metadata about the current OAuth2.0 tokens stored by Common Fate.
+    rpc GetOAuthTokenMetadata(GetOAuthTokenMetadataRequest) returns (GetOAuthTokenMetadataResponse) {}
+}
+
+message GetOAuthTokenMetadataRequest {}
+
+message GetOAuthTokenMetadataResponse {
+    repeated OAuthTokenMetadata tokens = 1;
+}
+
+message OAuthTokenMetadata {
+    string id = 1;
+    string app_name = 2;
+    google.protobuf.Timestamp expires_at = 3;
+}
