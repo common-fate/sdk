@@ -22,3 +22,8 @@ message OAuthTokenMetadata {
     string app_name = 2;
     google.protobuf.Timestamp expires_at = 3;
 }
+
+// AllDiagnostics is used client-side to combine and serialise all collected diagnostics into a single JSON.
+message AllDiagnostics {
+    GetOAuthTokenMetadataResponse oauth_token_metadata = 1;
+}
