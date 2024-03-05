@@ -1,0 +1,19 @@
+syntax = "proto3";
+package commonfate.control.integration.reset.v1alpha1;
+
+import "google/protobuf/duration.proto";
+import "commonfate/entity/v1alpha1/eid.proto";
+
+
+service ResetService {
+    rpc ResetEntraUsers(ResetEntraUsersRequest) returns (ResetEntraUsersResponse) {}
+}
+
+message ResetEntraUsersRequest {
+  // If true, will return a preview of changes rather than actually resetting them.
+  bool dry_run = 1;
+}
+
+message ResetEntraUsersResponse {
+  repeated commonfate.entity.v1alpha1.EID deleted_entities = 1;
+}
