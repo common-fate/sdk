@@ -6,7 +6,7 @@ import "google/protobuf/timestamp.proto";
 
 // The Diagnostics service contains APIs to query for read-only diagnostic
 // information associated with a Common Fate deployment.
-service DiagnosticsService {
+service DiagnosticService {
     // Retrieves metadata about the current OAuth2.0 tokens stored by Common Fate.
     rpc GetOAuthTokenMetadata(GetOAuthTokenMetadataRequest) returns (GetOAuthTokenMetadataResponse) {}
 }
