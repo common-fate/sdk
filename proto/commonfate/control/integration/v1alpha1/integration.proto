@@ -90,6 +90,8 @@ message UpdateIntegrationResponse {
 
 message DeleteIntegrationRequest {
   string id = 1;
+  Config config = 2;
+
 }
 
 message DeleteIntegrationResponse {
