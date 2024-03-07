@@ -7,6 +7,7 @@ import "google/protobuf/timestamp.proto";
 import "commonfate/authz/v1alpha1/request.proto";
 import "commonfate/authz/v1alpha1/policy.proto";
 import "commonfate/entity/v1alpha1/entity.proto";
+import "google/protobuf/duration.proto";
 
 
 // EvalService is the API for auditing authorization evaluations made by authz.
@@ -44,6 +45,9 @@ message Evaluation {
     // The client-side identifier for the request specified in AuthorizationRequest.
     string client_key = 5;
     google.protobuf.Timestamp evaluated_at = 6;
+
+    // the duration that it took to make the authorization decision
+    google.protobuf.Duration evaluation_duration = 7;
 }
 
 message Diagnostics {
