@@ -59,6 +59,9 @@ message Grant {
 
     // The provisioning status of the Grant. This status tracks whether the entitlements have been successfully provisioned in the integration that Common Fate is provisioning access to, such as AWS or GCP.
     ProvisioningStatus provisioning_status = 15;
+
+    google.protobuf.Duration duration = 16;
+
 }
 
 enum GrantStatus {
