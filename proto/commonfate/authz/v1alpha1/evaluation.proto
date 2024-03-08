@@ -12,9 +12,23 @@ import "google/protobuf/duration.proto";
 
 // EvalService is the API for auditing authorization evaluations made by authz.
 service EvaluationService {
+    // Query for historical authorization evaluations.
+    rpc QueryEvaluations(QueryEvaluationsRequest) returns (QueryEvaluationsResponse) {}
+
     // Fetches debug information about the evaluation of a particular decision
     rpc DebugEvaluation(DebugEvaluationRequest) returns (DebugEvaluationResponse) {}
 }
+
+message QueryEvaluationsRequest {
+    // The token for the next page.
+    string page_token = 1;
+}
+
+message QueryEvaluationsResponse {
+    repeated Evaluation evaluations = 1;
+    string next_page_token = 2;
+}
+
 
 message DebugEvaluationRequest {
     string id = 1;

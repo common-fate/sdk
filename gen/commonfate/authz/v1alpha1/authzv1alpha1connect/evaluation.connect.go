@@ -33,6 +33,9 @@ const (
 // reflection-formatted method names, remove the leading slash and convert the remaining slash to a
 // period.
 const (
+	// EvaluationServiceQueryEvaluationsProcedure is the fully-qualified name of the EvaluationService's
+	// QueryEvaluations RPC.
+	EvaluationServiceQueryEvaluationsProcedure = "/commonfate.authz.v1alpha1.EvaluationService/QueryEvaluations"
 	// EvaluationServiceDebugEvaluationProcedure is the fully-qualified name of the EvaluationService's
 	// DebugEvaluation RPC.
 	EvaluationServiceDebugEvaluationProcedure = "/commonfate.authz.v1alpha1.EvaluationService/DebugEvaluation"
@@ -40,12 +43,15 @@ const (
 
 // These variables are the protoreflect.Descriptor objects for the RPCs defined in this package.
 var (
-	evaluationServiceServiceDescriptor               = v1alpha1.File_commonfate_authz_v1alpha1_evaluation_proto.Services().ByName("EvaluationService")
-	evaluationServiceDebugEvaluationMethodDescriptor = evaluationServiceServiceDescriptor.Methods().ByName("DebugEvaluation")
+	evaluationServiceServiceDescriptor                = v1alpha1.File_commonfate_authz_v1alpha1_evaluation_proto.Services().ByName("EvaluationService")
+	evaluationServiceQueryEvaluationsMethodDescriptor = evaluationServiceServiceDescriptor.Methods().ByName("QueryEvaluations")
+	evaluationServiceDebugEvaluationMethodDescriptor  = evaluationServiceServiceDescriptor.Methods().ByName("DebugEvaluation")
 )
 
 // EvaluationServiceClient is a client for the commonfate.authz.v1alpha1.EvaluationService service.
 type EvaluationServiceClient interface {
+	// Query for historical authorization evaluations.
+	QueryEvaluations(context.Context, *connect.Request[v1alpha1.QueryEvaluationsRequest]) (*connect.Response[v1alpha1.QueryEvaluationsResponse], error)
 	// Fetches debug information about the evaluation of a particular decision
 	DebugEvaluation(context.Context, *connect.Request[v1alpha1.DebugEvaluationRequest]) (*connect.Response[v1alpha1.DebugEvaluationResponse], error)
 }
@@ -61,6 +67,12 @@ type EvaluationServiceClient interface {
 func NewEvaluationServiceClient(httpClient connect.HTTPClient, baseURL string, opts ...connect.ClientOption) EvaluationServiceClient {
 	baseURL = strings.TrimRight(baseURL, "/")
 	return &evaluationServiceClient{
+		queryEvaluations: connect.NewClient[v1alpha1.QueryEvaluationsRequest, v1alpha1.QueryEvaluationsResponse](
+			httpClient,
+			baseURL+EvaluationServiceQueryEvaluationsProcedure,
+			connect.WithSchema(evaluationServiceQueryEvaluationsMethodDescriptor),
+			connect.WithClientOptions(opts...),
+		),
 		debugEvaluation: connect.NewClient[v1alpha1.DebugEvaluationRequest, v1alpha1.DebugEvaluationResponse](
 			httpClient,
 			baseURL+EvaluationServiceDebugEvaluationProcedure,
@@ -72,7 +84,13 @@ func NewEvaluationServiceClient(httpClient connect.HTTPClient, baseURL string, o
 
 // evaluationServiceClient implements EvaluationServiceClient.
 type evaluationServiceClient struct {
-	debugEvaluation *connect.Client[v1alpha1.DebugEvaluationRequest, v1alpha1.DebugEvaluationResponse]
+	queryEvaluations *connect.Client[v1alpha1.QueryEvaluationsRequest, v1alpha1.QueryEvaluationsResponse]
+	debugEvaluation  *connect.Client[v1alpha1.DebugEvaluationRequest, v1alpha1.DebugEvaluationResponse]
+}
+
+// QueryEvaluations calls commonfate.authz.v1alpha1.EvaluationService.QueryEvaluations.
+func (c *evaluationServiceClient) QueryEvaluations(ctx context.Context, req *connect.Request[v1alpha1.QueryEvaluationsRequest]) (*connect.Response[v1alpha1.QueryEvaluationsResponse], error) {
+	return c.queryEvaluations.CallUnary(ctx, req)
 }
 
 // DebugEvaluation calls commonfate.authz.v1alpha1.EvaluationService.DebugEvaluation.
@@ -83,6 +101,8 @@ func (c *evaluationServiceClient) DebugEvaluation(ctx context.Context, req *conn
 // EvaluationServiceHandler is an implementation of the commonfate.authz.v1alpha1.EvaluationService
 // service.
 type EvaluationServiceHandler interface {
+	// Query for historical authorization evaluations.
+	QueryEvaluations(context.Context, *connect.Request[v1alpha1.QueryEvaluationsRequest]) (*connect.Response[v1alpha1.QueryEvaluationsResponse], error)
 	// Fetches debug information about the evaluation of a particular decision
 	DebugEvaluation(context.Context, *connect.Request[v1alpha1.DebugEvaluationRequest]) (*connect.Response[v1alpha1.DebugEvaluationResponse], error)
 }
@@ -93,6 +113,12 @@ type EvaluationServiceHandler interface {
 // By default, handlers support the Connect, gRPC, and gRPC-Web protocols with the binary Protobuf
 // and JSON codecs. They also support gzip compression.
 func NewEvaluationServiceHandler(svc EvaluationServiceHandler, opts ...connect.HandlerOption) (string, http.Handler) {
+	evaluationServiceQueryEvaluationsHandler := connect.NewUnaryHandler(
+		EvaluationServiceQueryEvaluationsProcedure,
+		svc.QueryEvaluations,
+		connect.WithSchema(evaluationServiceQueryEvaluationsMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
+	)
 	evaluationServiceDebugEvaluationHandler := connect.NewUnaryHandler(
 		EvaluationServiceDebugEvaluationProcedure,
 		svc.DebugEvaluation,
@@ -101,6 +127,8 @@ func NewEvaluationServiceHandler(svc EvaluationServiceHandler, opts ...connect.H
 	)
 	return "/commonfate.authz.v1alpha1.EvaluationService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
+		case EvaluationServiceQueryEvaluationsProcedure:
+			evaluationServiceQueryEvaluationsHandler.ServeHTTP(w, r)
 		case EvaluationServiceDebugEvaluationProcedure:
 			evaluationServiceDebugEvaluationHandler.ServeHTTP(w, r)
 		default:
@@ -111,6 +139,10 @@ func NewEvaluationServiceHandler(svc EvaluationServiceHandler, opts ...connect.H
 
 // UnimplementedEvaluationServiceHandler returns CodeUnimplemented from all methods.
 type UnimplementedEvaluationServiceHandler struct{}
+
+func (UnimplementedEvaluationServiceHandler) QueryEvaluations(context.Context, *connect.Request[v1alpha1.QueryEvaluationsRequest]) (*connect.Response[v1alpha1.QueryEvaluationsResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.authz.v1alpha1.EvaluationService.QueryEvaluations is not implemented"))
+}
 
 func (UnimplementedEvaluationServiceHandler) DebugEvaluation(context.Context, *connect.Request[v1alpha1.DebugEvaluationRequest]) (*connect.Response[v1alpha1.DebugEvaluationResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.authz.v1alpha1.EvaluationService.DebugEvaluation is not implemented"))
