@@ -1,5 +1,12 @@
 # @common-fate/sdk
 
+## 1.10.0
+
+### Minor Changes
+
+- 65c8e59: Add evaluation duration on authorization Evaluation message.
+- 32a6184: Adds a duration field to the Grant message.
+
 ## 1.9.0
 
 ### Minor Changes
