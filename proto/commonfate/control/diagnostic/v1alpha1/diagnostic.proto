@@ -30,8 +30,19 @@ message ListBackgroundJobsRequest {
   // by default requests will return upp to 100 jobs, set this between 1 and 10000 to retrieve more jobs
   optional int64 count = 2;
 
-  // The job state to
-  optional string state = 3;
+  // The job state to filter for
+  JobState state = 3;
+}
+
+enum JobState {
+  JOB_STATE_UNSPECIFIED = 0;
+  JOB_STATE_AVAILABLE = 1;
+  JOB_STATE_CANCELLED = 2;
+  JOB_STATE_COMPLETED = 3;
+  JOB_STATE_DISCARDED = 4;
+  JOB_STATE_RETRYABLE = 5;
+  JOB_STATE_RUNNING = 6;
+  JOB_STATE_SCHEDULED = 7;
 }
 
 message ListBackgroundJobsResponse {
