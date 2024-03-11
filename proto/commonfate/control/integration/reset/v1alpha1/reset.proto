@@ -31,7 +31,7 @@ message RemoveOAuthTokenResponse {}
 
 message CancelBackgroundJobRequest {
   // The job id to cancel
-  string id = 1;
+  int64 id = 1;
 }
 
 message CancelBackgroundJobResponse {}
