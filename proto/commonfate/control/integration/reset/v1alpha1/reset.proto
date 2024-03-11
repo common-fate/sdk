@@ -1,15 +1,16 @@
 syntax = "proto3";
 package commonfate.control.integration.reset.v1alpha1;
 
-import "google/protobuf/duration.proto";
 import "commonfate/entity/v1alpha1/eid.proto";
 
-
 service ResetService {
-    rpc ResetEntraUsers(ResetEntraUsersRequest) returns (ResetEntraUsersResponse) {}
+  rpc ResetEntraUsers(ResetEntraUsersRequest) returns (ResetEntraUsersResponse) {}
 
-    // Removes an OAuth2.0 token from an installed integration from Common Fate.
-    rpc RemoveOAuthToken(RemoveOAuthTokenRequest) returns (RemoveOAuthTokenResponse) {}
+  // Removes an OAuth2.0 token from an installed integration from Common Fate.
+  rpc RemoveOAuthToken(RemoveOAuthTokenRequest) returns (RemoveOAuthTokenResponse) {}
+
+  // Cancels all current background tasks for a given kind.
+  rpc CancelBackgroundJob(CancelBackgroundJobRequest) returns (CancelBackgroundJobResponse) {}
 }
 
 message ResetEntraUsersRequest {
@@ -27,3 +28,10 @@ message RemoveOAuthTokenRequest {
 }
 
 message RemoveOAuthTokenResponse {}
+
+message CancelBackgroundJobRequest {
+  // The job id to cancel
+  int64 id = 1;
+}
+
+message CancelBackgroundJobResponse {}
