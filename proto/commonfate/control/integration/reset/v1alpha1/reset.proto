@@ -2,7 +2,6 @@ syntax = "proto3";
 package commonfate.control.integration.reset.v1alpha1;
 
 import "commonfate/entity/v1alpha1/eid.proto";
-import "google/protobuf/duration.proto";
 
 service ResetService {
   rpc ResetEntraUsers(ResetEntraUsersRequest) returns (ResetEntraUsersResponse) {}
@@ -11,7 +10,7 @@ service ResetService {
   rpc RemoveOAuthToken(RemoveOAuthTokenRequest) returns (RemoveOAuthTokenResponse) {}
 
   // Cancels all current background tasks for a given kind.
-  rpc CancelBackgroundJob(RemoveOAuthTokenRequest) returns (RemoveOAuthTokenResponse) {}
+  rpc CancelBackgroundJob(CancelBackgroundJobRequest) returns (CancelBackgroundJobResponse) {}
 }
 
 message ResetEntraUsersRequest {
