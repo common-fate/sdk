@@ -21,7 +21,7 @@ message SlackAlert {
     string workflow_id = 2;
     string slack_channel_id = 3; 
     string slack_workspace_id = 4; 
-    string integration_id = 5; 
+    optional string integration_id = 5; 
 
 }
 
