@@ -7,23 +7,147 @@ import "google/protobuf/timestamp.proto";
 // The Diagnostics service contains APIs to query for read-only diagnostic
 // information associated with a Common Fate deployment.
 service DiagnosticService {
-    // Retrieves metadata about the current OAuth2.0 tokens stored by Common Fate.
-    rpc GetOAuthTokenMetadata(GetOAuthTokenMetadataRequest) returns (GetOAuthTokenMetadataResponse) {}
+  // Retrieves metadata about the current OAuth2.0 tokens stored by Common Fate.
+  rpc GetOAuthTokenMetadata(GetOAuthTokenMetadataRequest) returns (GetOAuthTokenMetadataResponse) {}
+  rpc ListBackgroundJobs(ListBackgroundJobsRequest) returns (ListBackgroundJobsResponse) {}
 }
 
 message GetOAuthTokenMetadataRequest {}
 
 message GetOAuthTokenMetadataResponse {
-    repeated OAuthTokenMetadata tokens = 1;
+  repeated OAuthTokenMetadata tokens = 1;
 }
 
 message OAuthTokenMetadata {
-    string id = 1;
-    string app_name = 2;
-    google.protobuf.Timestamp expires_at = 3;
+  string id = 1;
+  string app_name = 2;
+  google.protobuf.Timestamp expires_at = 3;
+}
+
+message ListBackgroundJobsRequest {
+  // Optionally filter jobs by kind, supplying an empty list will return jobs for all kinds
+  repeated string kinds = 1;
+  // by default requests will return upp to 100 jobs, set this between 1 and 10000 to retrieve more jobs
+  optional int64 count = 2;
+
+  // The job state to filter for
+  JobState state = 3;
+}
+
+enum JobState {
+  JOB_STATE_UNSPECIFIED = 0;
+  JOB_STATE_AVAILABLE = 1;
+  JOB_STATE_CANCELLED = 2;
+  JOB_STATE_COMPLETED = 3;
+  JOB_STATE_DISCARDED = 4;
+  JOB_STATE_RETRYABLE = 5;
+  JOB_STATE_RUNNING = 6;
+  JOB_STATE_SCHEDULED = 7;
+}
+
+message ListBackgroundJobsResponse {
+  repeated Job jobs = 1;
+}
+
+message Job {
+  int64 id = 1;
+
+  // Attempt is the attempt number of the job. Jobs are inserted at 0, the
+  // number is incremented to 1 the first time work its worked, and may
+  // increment further if it's either snoozed or errors.
+  int64 attempt = 2;
+
+  // AttemptedAt is the time that the job was last worked. Starts out as `nil`
+  // on a new insert.
+  google.protobuf.Timestamp attempted_at = 3;
+
+  // AttemptedBy is the set of client IDs that have worked this job.
+  repeated string attempted_by = 4;
+
+  // CreatedAt is when the job record was created.
+  google.protobuf.Timestamp created_at = 5;
+
+  // EncodedArgs is the job's JobArgs encoded as JSON.
+  bytes encoded_args = 6;
+
+  // Errors is a set of errors that occurred when the job was worked, one for
+  // each attempt. Ordered from earliest error to the latest error.
+  repeated AttemptError errors = 7;
+
+  // FinalizedAt is the time at which the job was "finalized", meaning it was
+  // either completed successfully or errored for the last time such that
+  // it'll no longer be retried.
+  google.protobuf.Timestamp finalized_at = 8;
+
+  // Kind uniquely identifies the type of job and instructs which worker
+  // should work it. It is set at insertion time via `Kind()` on the
+  // `JobArgs`.
+  string kind = 9;
+
+  // MaxAttempts is the maximum number of attempts that the job will be tried
+  // before it errors for the last time and will no longer be worked.
+  //
+  // Extracted (in order of precedence) from job-specific InsertOpts
+  // on Insert, from the worker level InsertOpts from JobArgsWithInsertOpts,
+  // or from a client's default value.
+  int64 max_attempts = 10;
+
+  // Metadata is a field for storing arbitrary metadata on a job. It should
+  // always be a valid JSON object payload, and users should not overwrite or
+  // remove anything stored in this field by River.
+  bytes metadata = 11;
+
+  // Priority is the priority of the job, with 1 being the highest priority and
+  // 4 being the lowest. When fetching available jobs to work, the highest
+  // priority jobs will always be fetched before any lower priority jobs are
+  // fetched. Note that if your workers are swamped with more high-priority jobs
+  // then they can handle, lower priority jobs may not be fetched.
+  int64 priority = 12;
+
+  // Queue is the name of the queue where the job will be worked. Queues can
+  // be configured independently and be used to isolate jobs.
+  //
+  // Extracted from either specific InsertOpts on Insert, or InsertOpts from
+  // JobArgsWithInsertOpts, or a client's default value.
+  string queue = 13;
+
+  // ScheduledAt is when the job is scheduled to become available to be
+  // worked. Jobs default to running immediately, but may be scheduled
+  // for the future when they're inserted. They may also be scheduled for
+  // later because they were snoozed or because they errored and have
+  // additional retry attempts remaining.
+  google.protobuf.Timestamp scheduled_at = 14;
+
+  // State is the state of job like `available` or `completed`. Jobs are
+  // `available` when they're first inserted.
+  string state = 15;
+
+  // Tags are an arbitrary list of keywords to add to the job. They have no
+  // functional behavior and are meant entirely as a user-specified construct
+  // to help group and categorize jobs.
+  repeated string tags = 16;
+}
+
+// AttemptError is an error from a single job attempt that failed due to an
+// error or a panic.
+message AttemptError {
+  // At is the time at which the error occurred.
+  google.protobuf.Timestamp at = 1;
+
+  // Attempt is the attempt number on which the error occurred (maps to
+  // Attempt on a job row).
+  int64 attempt = 2;
+
+  // Error contains the stringified error of an error returned from a job or a
+  // panic value in case of a panic.
+  string error = 3;
+
+  // Trace contains a stack trace from a job that panicked. The trace is
+  // produced by invoking `debug.Trace()`.
+  string trace = 4;
 }
 
 // AllDiagnostics is used client-side to combine and serialise all collected diagnostics into a single JSON.
 message AllDiagnostics {
-    GetOAuthTokenMetadataResponse oauth_token_metadata = 1;
+  GetOAuthTokenMetadataResponse oauth_token_metadata = 1;
 }

@@ -36,12 +36,16 @@ const (
 	// DiagnosticServiceGetOAuthTokenMetadataProcedure is the fully-qualified name of the
 	// DiagnosticService's GetOAuthTokenMetadata RPC.
 	DiagnosticServiceGetOAuthTokenMetadataProcedure = "/commonfate.control.diagnostic.v1alpha1.DiagnosticService/GetOAuthTokenMetadata"
+	// DiagnosticServiceListBackgroundJobsProcedure is the fully-qualified name of the
+	// DiagnosticService's ListBackgroundJobs RPC.
+	DiagnosticServiceListBackgroundJobsProcedure = "/commonfate.control.diagnostic.v1alpha1.DiagnosticService/ListBackgroundJobs"
 )
 
 // These variables are the protoreflect.Descriptor objects for the RPCs defined in this package.
 var (
 	diagnosticServiceServiceDescriptor                     = v1alpha1.File_commonfate_control_diagnostic_v1alpha1_diagnostic_proto.Services().ByName("DiagnosticService")
 	diagnosticServiceGetOAuthTokenMetadataMethodDescriptor = diagnosticServiceServiceDescriptor.Methods().ByName("GetOAuthTokenMetadata")
+	diagnosticServiceListBackgroundJobsMethodDescriptor    = diagnosticServiceServiceDescriptor.Methods().ByName("ListBackgroundJobs")
 )
 
 // DiagnosticServiceClient is a client for the
@@ -49,6 +53,7 @@ var (
 type DiagnosticServiceClient interface {
 	// Retrieves metadata about the current OAuth2.0 tokens stored by Common Fate.
 	GetOAuthTokenMetadata(context.Context, *connect.Request[v1alpha1.GetOAuthTokenMetadataRequest]) (*connect.Response[v1alpha1.GetOAuthTokenMetadataResponse], error)
+	ListBackgroundJobs(context.Context, *connect.Request[v1alpha1.ListBackgroundJobsRequest]) (*connect.Response[v1alpha1.ListBackgroundJobsResponse], error)
 }
 
 // NewDiagnosticServiceClient constructs a client for the
@@ -68,12 +73,19 @@ func NewDiagnosticServiceClient(httpClient connect.HTTPClient, baseURL string, o
 			connect.WithSchema(diagnosticServiceGetOAuthTokenMetadataMethodDescriptor),
 			connect.WithClientOptions(opts...),
 		),
+		listBackgroundJobs: connect.NewClient[v1alpha1.ListBackgroundJobsRequest, v1alpha1.ListBackgroundJobsResponse](
+			httpClient,
+			baseURL+DiagnosticServiceListBackgroundJobsProcedure,
+			connect.WithSchema(diagnosticServiceListBackgroundJobsMethodDescriptor),
+			connect.WithClientOptions(opts...),
+		),
 	}
 }
 
 // diagnosticServiceClient implements DiagnosticServiceClient.
 type diagnosticServiceClient struct {
 	getOAuthTokenMetadata *connect.Client[v1alpha1.GetOAuthTokenMetadataRequest, v1alpha1.GetOAuthTokenMetadataResponse]
+	listBackgroundJobs    *connect.Client[v1alpha1.ListBackgroundJobsRequest, v1alpha1.ListBackgroundJobsResponse]
 }
 
 // GetOAuthTokenMetadata calls
@@ -82,11 +94,18 @@ func (c *diagnosticServiceClient) GetOAuthTokenMetadata(ctx context.Context, req
 	return c.getOAuthTokenMetadata.CallUnary(ctx, req)
 }
 
+// ListBackgroundJobs calls
+// commonfate.control.diagnostic.v1alpha1.DiagnosticService.ListBackgroundJobs.
+func (c *diagnosticServiceClient) ListBackgroundJobs(ctx context.Context, req *connect.Request[v1alpha1.ListBackgroundJobsRequest]) (*connect.Response[v1alpha1.ListBackgroundJobsResponse], error) {
+	return c.listBackgroundJobs.CallUnary(ctx, req)
+}
+
 // DiagnosticServiceHandler is an implementation of the
 // commonfate.control.diagnostic.v1alpha1.DiagnosticService service.
 type DiagnosticServiceHandler interface {
 	// Retrieves metadata about the current OAuth2.0 tokens stored by Common Fate.
 	GetOAuthTokenMetadata(context.Context, *connect.Request[v1alpha1.GetOAuthTokenMetadataRequest]) (*connect.Response[v1alpha1.GetOAuthTokenMetadataResponse], error)
+	ListBackgroundJobs(context.Context, *connect.Request[v1alpha1.ListBackgroundJobsRequest]) (*connect.Response[v1alpha1.ListBackgroundJobsResponse], error)
 }
 
 // NewDiagnosticServiceHandler builds an HTTP handler from the service implementation. It returns
@@ -101,10 +120,18 @@ func NewDiagnosticServiceHandler(svc DiagnosticServiceHandler, opts ...connect.H
 		connect.WithSchema(diagnosticServiceGetOAuthTokenMetadataMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
+	diagnosticServiceListBackgroundJobsHandler := connect.NewUnaryHandler(
+		DiagnosticServiceListBackgroundJobsProcedure,
+		svc.ListBackgroundJobs,
+		connect.WithSchema(diagnosticServiceListBackgroundJobsMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
+	)
 	return "/commonfate.control.diagnostic.v1alpha1.DiagnosticService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
 		case DiagnosticServiceGetOAuthTokenMetadataProcedure:
 			diagnosticServiceGetOAuthTokenMetadataHandler.ServeHTTP(w, r)
+		case DiagnosticServiceListBackgroundJobsProcedure:
+			diagnosticServiceListBackgroundJobsHandler.ServeHTTP(w, r)
 		default:
 			http.NotFound(w, r)
 		}
@@ -116,4 +143,8 @@ type UnimplementedDiagnosticServiceHandler struct{}
 
 func (UnimplementedDiagnosticServiceHandler) GetOAuthTokenMetadata(context.Context, *connect.Request[v1alpha1.GetOAuthTokenMetadataRequest]) (*connect.Response[v1alpha1.GetOAuthTokenMetadataResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.control.diagnostic.v1alpha1.DiagnosticService.GetOAuthTokenMetadata is not implemented"))
+}
+
+func (UnimplementedDiagnosticServiceHandler) ListBackgroundJobs(context.Context, *connect.Request[v1alpha1.ListBackgroundJobsRequest]) (*connect.Response[v1alpha1.ListBackgroundJobsResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.control.diagnostic.v1alpha1.DiagnosticService.ListBackgroundJobs is not implemented"))
 }

@@ -1,5 +1,11 @@
 # @common-fate/sdk
 
+## 1.11.0
+
+### Minor Changes
+
+- 6ae9a07: Add CancelBackgroundJob and ListBackgroundJobs RPCs for managing background jobs.
+
 ## 1.10.0
 
 ### Minor Changes
