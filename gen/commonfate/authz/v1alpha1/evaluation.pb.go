@@ -74,6 +74,204 @@ func (Decision) EnumDescriptor() ([]byte, []int) {
 	return file_commonfate_authz_v1alpha1_evaluation_proto_rawDescGZIP(), []int{0}
 }
 
+type QueryEvaluationsRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// The token for the next page.
+	PageToken string `protobuf:"bytes,1,opt,name=page_token,json=pageToken,proto3" json:"page_token,omitempty"`
+}
+
+func (x *QueryEvaluationsRequest) Reset() {
+	*x = QueryEvaluationsRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_commonfate_authz_v1alpha1_evaluation_proto_msgTypes[0]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *QueryEvaluationsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*QueryEvaluationsRequest) ProtoMessage() {}
+
+func (x *QueryEvaluationsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_commonfate_authz_v1alpha1_evaluation_proto_msgTypes[0]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use QueryEvaluationsRequest.ProtoReflect.Descriptor instead.
+func (*QueryEvaluationsRequest) Descriptor() ([]byte, []int) {
+	return file_commonfate_authz_v1alpha1_evaluation_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *QueryEvaluationsRequest) GetPageToken() string {
+	if x != nil {
+		return x.PageToken
+	}
+	return ""
+}
+
+type QueryEvaluationsResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Evaluations   []*Evaluation `protobuf:"bytes,1,rep,name=evaluations,proto3" json:"evaluations,omitempty"`
+	NextPageToken string        `protobuf:"bytes,2,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
+}
+
+func (x *QueryEvaluationsResponse) Reset() {
+	*x = QueryEvaluationsResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_commonfate_authz_v1alpha1_evaluation_proto_msgTypes[1]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *QueryEvaluationsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*QueryEvaluationsResponse) ProtoMessage() {}
+
+func (x *QueryEvaluationsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_commonfate_authz_v1alpha1_evaluation_proto_msgTypes[1]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use QueryEvaluationsResponse.ProtoReflect.Descriptor instead.
+func (*QueryEvaluationsResponse) Descriptor() ([]byte, []int) {
+	return file_commonfate_authz_v1alpha1_evaluation_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *QueryEvaluationsResponse) GetEvaluations() []*Evaluation {
+	if x != nil {
+		return x.Evaluations
+	}
+	return nil
+}
+
+func (x *QueryEvaluationsResponse) GetNextPageToken() string {
+	if x != nil {
+		return x.NextPageToken
+	}
+	return ""
+}
+
+type GetEvaluationRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// The authorization evaluation ID.
+	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+}
+
+func (x *GetEvaluationRequest) Reset() {
+	*x = GetEvaluationRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_commonfate_authz_v1alpha1_evaluation_proto_msgTypes[2]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetEvaluationRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetEvaluationRequest) ProtoMessage() {}
+
+func (x *GetEvaluationRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_commonfate_authz_v1alpha1_evaluation_proto_msgTypes[2]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetEvaluationRequest.ProtoReflect.Descriptor instead.
+func (*GetEvaluationRequest) Descriptor() ([]byte, []int) {
+	return file_commonfate_authz_v1alpha1_evaluation_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *GetEvaluationRequest) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+type GetEvaluationResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Evaluation *Evaluation `protobuf:"bytes,1,opt,name=evaluation,proto3" json:"evaluation,omitempty"`
+}
+
+func (x *GetEvaluationResponse) Reset() {
+	*x = GetEvaluationResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_commonfate_authz_v1alpha1_evaluation_proto_msgTypes[3]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetEvaluationResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetEvaluationResponse) ProtoMessage() {}
+
+func (x *GetEvaluationResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_commonfate_authz_v1alpha1_evaluation_proto_msgTypes[3]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetEvaluationResponse.ProtoReflect.Descriptor instead.
+func (*GetEvaluationResponse) Descriptor() ([]byte, []int) {
+	return file_commonfate_authz_v1alpha1_evaluation_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *GetEvaluationResponse) GetEvaluation() *Evaluation {
+	if x != nil {
+		return x.Evaluation
+	}
+	return nil
+}
+
 type DebugEvaluationRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -85,7 +283,7 @@ type DebugEvaluationRequest struct {
 func (x *DebugEvaluationRequest) Reset() {
 	*x = DebugEvaluationRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_commonfate_authz_v1alpha1_evaluation_proto_msgTypes[0]
+		mi := &file_commonfate_authz_v1alpha1_evaluation_proto_msgTypes[4]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -98,7 +296,7 @@ func (x *DebugEvaluationRequest) String() string {
 func (*DebugEvaluationRequest) ProtoMessage() {}
 
 func (x *DebugEvaluationRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_commonfate_authz_v1alpha1_evaluation_proto_msgTypes[0]
+	mi := &file_commonfate_authz_v1alpha1_evaluation_proto_msgTypes[4]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -111,7 +309,7 @@ func (x *DebugEvaluationRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DebugEvaluationRequest.ProtoReflect.Descriptor instead.
 func (*DebugEvaluationRequest) Descriptor() ([]byte, []int) {
-	return file_commonfate_authz_v1alpha1_evaluation_proto_rawDescGZIP(), []int{0}
+	return file_commonfate_authz_v1alpha1_evaluation_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *DebugEvaluationRequest) GetId() string {
@@ -132,7 +330,7 @@ type DebugEvaluationResponse struct {
 func (x *DebugEvaluationResponse) Reset() {
 	*x = DebugEvaluationResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_commonfate_authz_v1alpha1_evaluation_proto_msgTypes[1]
+		mi := &file_commonfate_authz_v1alpha1_evaluation_proto_msgTypes[5]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -145,7 +343,7 @@ func (x *DebugEvaluationResponse) String() string {
 func (*DebugEvaluationResponse) ProtoMessage() {}
 
 func (x *DebugEvaluationResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_commonfate_authz_v1alpha1_evaluation_proto_msgTypes[1]
+	mi := &file_commonfate_authz_v1alpha1_evaluation_proto_msgTypes[5]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -158,7 +356,7 @@ func (x *DebugEvaluationResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DebugEvaluationResponse.ProtoReflect.Descriptor instead.
 func (*DebugEvaluationResponse) Descriptor() ([]byte, []int) {
-	return file_commonfate_authz_v1alpha1_evaluation_proto_rawDescGZIP(), []int{1}
+	return file_commonfate_authz_v1alpha1_evaluation_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *DebugEvaluationResponse) GetDebugEvaluation() *DebugEvaluation {
@@ -186,7 +384,7 @@ type DebugEvaluation struct {
 func (x *DebugEvaluation) Reset() {
 	*x = DebugEvaluation{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_commonfate_authz_v1alpha1_evaluation_proto_msgTypes[2]
+		mi := &file_commonfate_authz_v1alpha1_evaluation_proto_msgTypes[6]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -199,7 +397,7 @@ func (x *DebugEvaluation) String() string {
 func (*DebugEvaluation) ProtoMessage() {}
 
 func (x *DebugEvaluation) ProtoReflect() protoreflect.Message {
-	mi := &file_commonfate_authz_v1alpha1_evaluation_proto_msgTypes[2]
+	mi := &file_commonfate_authz_v1alpha1_evaluation_proto_msgTypes[6]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -212,7 +410,7 @@ func (x *DebugEvaluation) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DebugEvaluation.ProtoReflect.Descriptor instead.
 func (*DebugEvaluation) Descriptor() ([]byte, []int) {
-	return file_commonfate_authz_v1alpha1_evaluation_proto_rawDescGZIP(), []int{2}
+	return file_commonfate_authz_v1alpha1_evaluation_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *DebugEvaluation) GetVersion() uint32 {
@@ -255,7 +453,7 @@ type Evaluation struct {
 func (x *Evaluation) Reset() {
 	*x = Evaluation{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_commonfate_authz_v1alpha1_evaluation_proto_msgTypes[3]
+		mi := &file_commonfate_authz_v1alpha1_evaluation_proto_msgTypes[7]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -268,7 +466,7 @@ func (x *Evaluation) String() string {
 func (*Evaluation) ProtoMessage() {}
 
 func (x *Evaluation) ProtoReflect() protoreflect.Message {
-	mi := &file_commonfate_authz_v1alpha1_evaluation_proto_msgTypes[3]
+	mi := &file_commonfate_authz_v1alpha1_evaluation_proto_msgTypes[7]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -281,7 +479,7 @@ func (x *Evaluation) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Evaluation.ProtoReflect.Descriptor instead.
 func (*Evaluation) Descriptor() ([]byte, []int) {
-	return file_commonfate_authz_v1alpha1_evaluation_proto_rawDescGZIP(), []int{3}
+	return file_commonfate_authz_v1alpha1_evaluation_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *Evaluation) GetId() string {
@@ -346,7 +544,7 @@ type Diagnostics struct {
 func (x *Diagnostics) Reset() {
 	*x = Diagnostics{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_commonfate_authz_v1alpha1_evaluation_proto_msgTypes[4]
+		mi := &file_commonfate_authz_v1alpha1_evaluation_proto_msgTypes[8]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -359,7 +557,7 @@ func (x *Diagnostics) String() string {
 func (*Diagnostics) ProtoMessage() {}
 
 func (x *Diagnostics) ProtoReflect() protoreflect.Message {
-	mi := &file_commonfate_authz_v1alpha1_evaluation_proto_msgTypes[4]
+	mi := &file_commonfate_authz_v1alpha1_evaluation_proto_msgTypes[8]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -372,7 +570,7 @@ func (x *Diagnostics) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Diagnostics.ProtoReflect.Descriptor instead.
 func (*Diagnostics) Descriptor() ([]byte, []int) {
-	return file_commonfate_authz_v1alpha1_evaluation_proto_rawDescGZIP(), []int{4}
+	return file_commonfate_authz_v1alpha1_evaluation_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *Diagnostics) GetReason() []string {
@@ -414,7 +612,7 @@ type Annotation struct {
 func (x *Annotation) Reset() {
 	*x = Annotation{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_commonfate_authz_v1alpha1_evaluation_proto_msgTypes[5]
+		mi := &file_commonfate_authz_v1alpha1_evaluation_proto_msgTypes[9]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -427,7 +625,7 @@ func (x *Annotation) String() string {
 func (*Annotation) ProtoMessage() {}
 
 func (x *Annotation) ProtoReflect() protoreflect.Message {
-	mi := &file_commonfate_authz_v1alpha1_evaluation_proto_msgTypes[5]
+	mi := &file_commonfate_authz_v1alpha1_evaluation_proto_msgTypes[9]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -440,7 +638,7 @@ func (x *Annotation) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Annotation.ProtoReflect.Descriptor instead.
 func (*Annotation) Descriptor() ([]byte, []int) {
-	return file_commonfate_authz_v1alpha1_evaluation_proto_rawDescGZIP(), []int{5}
+	return file_commonfate_authz_v1alpha1_evaluation_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *Annotation) GetPolicyId() string {
@@ -478,7 +676,7 @@ type DebugInformation struct {
 func (x *DebugInformation) Reset() {
 	*x = DebugInformation{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_commonfate_authz_v1alpha1_evaluation_proto_msgTypes[6]
+		mi := &file_commonfate_authz_v1alpha1_evaluation_proto_msgTypes[10]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -491,7 +689,7 @@ func (x *DebugInformation) String() string {
 func (*DebugInformation) ProtoMessage() {}
 
 func (x *DebugInformation) ProtoReflect() protoreflect.Message {
-	mi := &file_commonfate_authz_v1alpha1_evaluation_proto_msgTypes[6]
+	mi := &file_commonfate_authz_v1alpha1_evaluation_proto_msgTypes[10]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -504,7 +702,7 @@ func (x *DebugInformation) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DebugInformation.ProtoReflect.Descriptor instead.
 func (*DebugInformation) Descriptor() ([]byte, []int) {
-	return file_commonfate_authz_v1alpha1_evaluation_proto_rawDescGZIP(), []int{6}
+	return file_commonfate_authz_v1alpha1_evaluation_proto_rawDescGZIP(), []int{10}
 }
 
 func (x *DebugInformation) GetPolicySets() []*PolicySet {
@@ -540,7 +738,28 @@ var file_commonfate_authz_v1alpha1_evaluation_proto_rawDesc = []byte{
 	0x6c, 0x70, 0x68, 0x61, 0x31, 0x2f, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x2e, 0x70, 0x72, 0x6f,
 	0x74, 0x6f, 0x1a, 0x1e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f,
 	0x62, 0x75, 0x66, 0x2f, 0x64, 0x75, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x2e, 0x70, 0x72, 0x6f,
-	0x74, 0x6f, 0x22, 0x28, 0x0a, 0x16, 0x44, 0x65, 0x62, 0x75, 0x67, 0x45, 0x76, 0x61, 0x6c, 0x75,
+	0x74, 0x6f, 0x22, 0x38, 0x0a, 0x17, 0x51, 0x75, 0x65, 0x72, 0x79, 0x45, 0x76, 0x61, 0x6c, 0x75,
+	0x61, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x1d, 0x0a,
+	0x0a, 0x70, 0x61, 0x67, 0x65, 0x5f, 0x74, 0x6f, 0x6b, 0x65, 0x6e, 0x18, 0x01, 0x20, 0x01, 0x28,
+	0x09, 0x52, 0x09, 0x70, 0x61, 0x67, 0x65, 0x54, 0x6f, 0x6b, 0x65, 0x6e, 0x22, 0x8b, 0x01, 0x0a,
+	0x18, 0x51, 0x75, 0x65, 0x72, 0x79, 0x45, 0x76, 0x61, 0x6c, 0x75, 0x61, 0x74, 0x69, 0x6f, 0x6e,
+	0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x47, 0x0a, 0x0b, 0x65, 0x76, 0x61,
+	0x6c, 0x75, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x25,
+	0x2e, 0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x66, 0x61, 0x74, 0x65, 0x2e, 0x61, 0x75, 0x74, 0x68,
+	0x7a, 0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x2e, 0x45, 0x76, 0x61, 0x6c, 0x75,
+	0x61, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x0b, 0x65, 0x76, 0x61, 0x6c, 0x75, 0x61, 0x74, 0x69, 0x6f,
+	0x6e, 0x73, 0x12, 0x26, 0x0a, 0x0f, 0x6e, 0x65, 0x78, 0x74, 0x5f, 0x70, 0x61, 0x67, 0x65, 0x5f,
+	0x74, 0x6f, 0x6b, 0x65, 0x6e, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0d, 0x6e, 0x65, 0x78,
+	0x74, 0x50, 0x61, 0x67, 0x65, 0x54, 0x6f, 0x6b, 0x65, 0x6e, 0x22, 0x26, 0x0a, 0x14, 0x47, 0x65,
+	0x74, 0x45, 0x76, 0x61, 0x6c, 0x75, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x71, 0x75, 0x65,
+	0x73, 0x74, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x02,
+	0x69, 0x64, 0x22, 0x5e, 0x0a, 0x15, 0x47, 0x65, 0x74, 0x45, 0x76, 0x61, 0x6c, 0x75, 0x61, 0x74,
+	0x69, 0x6f, 0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x45, 0x0a, 0x0a, 0x65,
+	0x76, 0x61, 0x6c, 0x75, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32,
+	0x25, 0x2e, 0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x66, 0x61, 0x74, 0x65, 0x2e, 0x61, 0x75, 0x74,
+	0x68, 0x7a, 0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x2e, 0x45, 0x76, 0x61, 0x6c,
+	0x75, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x0a, 0x65, 0x76, 0x61, 0x6c, 0x75, 0x61, 0x74, 0x69,
+	0x6f, 0x6e, 0x22, 0x28, 0x0a, 0x16, 0x44, 0x65, 0x62, 0x75, 0x67, 0x45, 0x76, 0x61, 0x6c, 0x75,
 	0x61, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x0e, 0x0a, 0x02,
 	0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x02, 0x69, 0x64, 0x22, 0x70, 0x0a, 0x17,
 	0x44, 0x65, 0x62, 0x75, 0x67, 0x45, 0x76, 0x61, 0x6c, 0x75, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x52,
@@ -616,32 +835,48 @@ var file_commonfate_authz_v1alpha1_evaluation_proto_rawDesc = []byte{
 	0x55, 0x4e, 0x53, 0x50, 0x45, 0x43, 0x49, 0x46, 0x49, 0x45, 0x44, 0x10, 0x00, 0x12, 0x12, 0x0a,
 	0x0e, 0x44, 0x45, 0x43, 0x49, 0x53, 0x49, 0x4f, 0x4e, 0x5f, 0x41, 0x4c, 0x4c, 0x4f, 0x57, 0x10,
 	0x02, 0x12, 0x11, 0x0a, 0x0d, 0x44, 0x45, 0x43, 0x49, 0x53, 0x49, 0x4f, 0x4e, 0x5f, 0x44, 0x45,
-	0x4e, 0x59, 0x10, 0x04, 0x32, 0x8f, 0x01, 0x0a, 0x11, 0x45, 0x76, 0x61, 0x6c, 0x75, 0x61, 0x74,
-	0x69, 0x6f, 0x6e, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x12, 0x7a, 0x0a, 0x0f, 0x44, 0x65,
-	0x62, 0x75, 0x67, 0x45, 0x76, 0x61, 0x6c, 0x75, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x31, 0x2e,
-	0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x66, 0x61, 0x74, 0x65, 0x2e, 0x61, 0x75, 0x74, 0x68, 0x7a,
-	0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x2e, 0x44, 0x65, 0x62, 0x75, 0x67, 0x45,
-	0x76, 0x61, 0x6c, 0x75, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
-	0x1a, 0x32, 0x2e, 0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x66, 0x61, 0x74, 0x65, 0x2e, 0x61, 0x75,
-	0x74, 0x68, 0x7a, 0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x2e, 0x44, 0x65, 0x62,
-	0x75, 0x67, 0x45, 0x76, 0x61, 0x6c, 0x75, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x73, 0x70,
-	0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x42, 0xfe, 0x01, 0x0a, 0x1d, 0x63, 0x6f, 0x6d, 0x2e, 0x63,
-	0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x66, 0x61, 0x74, 0x65, 0x2e, 0x61, 0x75, 0x74, 0x68, 0x7a, 0x2e,
-	0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x42, 0x0f, 0x45, 0x76, 0x61, 0x6c, 0x75, 0x61,
-	0x74, 0x69, 0x6f, 0x6e, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50, 0x01, 0x5a, 0x46, 0x67, 0x69, 0x74,
-	0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x2d, 0x66,
-	0x61, 0x74, 0x65, 0x2f, 0x73, 0x64, 0x6b, 0x2f, 0x67, 0x65, 0x6e, 0x2f, 0x63, 0x6f, 0x6d, 0x6d,
-	0x6f, 0x6e, 0x66, 0x61, 0x74, 0x65, 0x2f, 0x61, 0x75, 0x74, 0x68, 0x7a, 0x2f, 0x76, 0x31, 0x61,
-	0x6c, 0x70, 0x68, 0x61, 0x31, 0x3b, 0x61, 0x75, 0x74, 0x68, 0x7a, 0x76, 0x31, 0x61, 0x6c, 0x70,
-	0x68, 0x61, 0x31, 0xa2, 0x02, 0x03, 0x43, 0x41, 0x58, 0xaa, 0x02, 0x19, 0x43, 0x6f, 0x6d, 0x6d,
-	0x6f, 0x6e, 0x66, 0x61, 0x74, 0x65, 0x2e, 0x41, 0x75, 0x74, 0x68, 0x7a, 0x2e, 0x56, 0x31, 0x61,
-	0x6c, 0x70, 0x68, 0x61, 0x31, 0xca, 0x02, 0x19, 0x43, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x66, 0x61,
-	0x74, 0x65, 0x5c, 0x41, 0x75, 0x74, 0x68, 0x7a, 0x5c, 0x56, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61,
-	0x31, 0xe2, 0x02, 0x25, 0x43, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x66, 0x61, 0x74, 0x65, 0x5c, 0x41,
-	0x75, 0x74, 0x68, 0x7a, 0x5c, 0x56, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x5c, 0x47, 0x50,
-	0x42, 0x4d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0xea, 0x02, 0x1b, 0x43, 0x6f, 0x6d, 0x6d,
-	0x6f, 0x6e, 0x66, 0x61, 0x74, 0x65, 0x3a, 0x3a, 0x41, 0x75, 0x74, 0x68, 0x7a, 0x3a, 0x3a, 0x56,
-	0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x4e, 0x59, 0x10, 0x04, 0x32, 0x84, 0x03, 0x0a, 0x11, 0x45, 0x76, 0x61, 0x6c, 0x75, 0x61, 0x74,
+	0x69, 0x6f, 0x6e, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x12, 0x7d, 0x0a, 0x10, 0x51, 0x75,
+	0x65, 0x72, 0x79, 0x45, 0x76, 0x61, 0x6c, 0x75, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x12, 0x32,
+	0x2e, 0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x66, 0x61, 0x74, 0x65, 0x2e, 0x61, 0x75, 0x74, 0x68,
+	0x7a, 0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79,
+	0x45, 0x76, 0x61, 0x6c, 0x75, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65,
+	0x73, 0x74, 0x1a, 0x33, 0x2e, 0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x66, 0x61, 0x74, 0x65, 0x2e,
+	0x61, 0x75, 0x74, 0x68, 0x7a, 0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x2e, 0x51,
+	0x75, 0x65, 0x72, 0x79, 0x45, 0x76, 0x61, 0x6c, 0x75, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x52,
+	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x12, 0x74, 0x0a, 0x0d, 0x47, 0x65, 0x74,
+	0x45, 0x76, 0x61, 0x6c, 0x75, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x2f, 0x2e, 0x63, 0x6f, 0x6d,
+	0x6d, 0x6f, 0x6e, 0x66, 0x61, 0x74, 0x65, 0x2e, 0x61, 0x75, 0x74, 0x68, 0x7a, 0x2e, 0x76, 0x31,
+	0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x2e, 0x47, 0x65, 0x74, 0x45, 0x76, 0x61, 0x6c, 0x75, 0x61,
+	0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x30, 0x2e, 0x63, 0x6f,
+	0x6d, 0x6d, 0x6f, 0x6e, 0x66, 0x61, 0x74, 0x65, 0x2e, 0x61, 0x75, 0x74, 0x68, 0x7a, 0x2e, 0x76,
+	0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x2e, 0x47, 0x65, 0x74, 0x45, 0x76, 0x61, 0x6c, 0x75,
+	0x61, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x12,
+	0x7a, 0x0a, 0x0f, 0x44, 0x65, 0x62, 0x75, 0x67, 0x45, 0x76, 0x61, 0x6c, 0x75, 0x61, 0x74, 0x69,
+	0x6f, 0x6e, 0x12, 0x31, 0x2e, 0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x66, 0x61, 0x74, 0x65, 0x2e,
+	0x61, 0x75, 0x74, 0x68, 0x7a, 0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x2e, 0x44,
+	0x65, 0x62, 0x75, 0x67, 0x45, 0x76, 0x61, 0x6c, 0x75, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65,
+	0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x32, 0x2e, 0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x66, 0x61,
+	0x74, 0x65, 0x2e, 0x61, 0x75, 0x74, 0x68, 0x7a, 0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61,
+	0x31, 0x2e, 0x44, 0x65, 0x62, 0x75, 0x67, 0x45, 0x76, 0x61, 0x6c, 0x75, 0x61, 0x74, 0x69, 0x6f,
+	0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x42, 0xfe, 0x01, 0x0a, 0x1d,
+	0x63, 0x6f, 0x6d, 0x2e, 0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x66, 0x61, 0x74, 0x65, 0x2e, 0x61,
+	0x75, 0x74, 0x68, 0x7a, 0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x42, 0x0f, 0x45,
+	0x76, 0x61, 0x6c, 0x75, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50, 0x01,
+	0x5a, 0x46, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x63, 0x6f, 0x6d,
+	0x6d, 0x6f, 0x6e, 0x2d, 0x66, 0x61, 0x74, 0x65, 0x2f, 0x73, 0x64, 0x6b, 0x2f, 0x67, 0x65, 0x6e,
+	0x2f, 0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x66, 0x61, 0x74, 0x65, 0x2f, 0x61, 0x75, 0x74, 0x68,
+	0x7a, 0x2f, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x3b, 0x61, 0x75, 0x74, 0x68, 0x7a,
+	0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0xa2, 0x02, 0x03, 0x43, 0x41, 0x58, 0xaa, 0x02,
+	0x19, 0x43, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x66, 0x61, 0x74, 0x65, 0x2e, 0x41, 0x75, 0x74, 0x68,
+	0x7a, 0x2e, 0x56, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0xca, 0x02, 0x19, 0x43, 0x6f, 0x6d,
+	0x6d, 0x6f, 0x6e, 0x66, 0x61, 0x74, 0x65, 0x5c, 0x41, 0x75, 0x74, 0x68, 0x7a, 0x5c, 0x56, 0x31,
+	0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0xe2, 0x02, 0x25, 0x43, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x66,
+	0x61, 0x74, 0x65, 0x5c, 0x41, 0x75, 0x74, 0x68, 0x7a, 0x5c, 0x56, 0x31, 0x61, 0x6c, 0x70, 0x68,
+	0x61, 0x31, 0x5c, 0x47, 0x50, 0x42, 0x4d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0xea, 0x02,
+	0x1b, 0x43, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x66, 0x61, 0x74, 0x65, 0x3a, 0x3a, 0x41, 0x75, 0x74,
+	0x68, 0x7a, 0x3a, 0x3a, 0x56, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x62, 0x06, 0x70, 0x72,
+	0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -657,41 +892,51 @@ func file_commonfate_authz_v1alpha1_evaluation_proto_rawDescGZIP() []byte {
 }
 
 var file_commonfate_authz_v1alpha1_evaluation_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_commonfate_authz_v1alpha1_evaluation_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
+var file_commonfate_authz_v1alpha1_evaluation_proto_msgTypes = make([]protoimpl.MessageInfo, 11)
 var file_commonfate_authz_v1alpha1_evaluation_proto_goTypes = []interface{}{
-	(Decision)(0),                   // 0: commonfate.authz.v1alpha1.Decision
-	(*DebugEvaluationRequest)(nil),  // 1: commonfate.authz.v1alpha1.DebugEvaluationRequest
-	(*DebugEvaluationResponse)(nil), // 2: commonfate.authz.v1alpha1.DebugEvaluationResponse
-	(*DebugEvaluation)(nil),         // 3: commonfate.authz.v1alpha1.DebugEvaluation
-	(*Evaluation)(nil),              // 4: commonfate.authz.v1alpha1.Evaluation
-	(*Diagnostics)(nil),             // 5: commonfate.authz.v1alpha1.Diagnostics
-	(*Annotation)(nil),              // 6: commonfate.authz.v1alpha1.Annotation
-	(*DebugInformation)(nil),        // 7: commonfate.authz.v1alpha1.DebugInformation
-	(*Request)(nil),                 // 8: commonfate.authz.v1alpha1.Request
-	(*timestamppb.Timestamp)(nil),   // 9: google.protobuf.Timestamp
-	(*durationpb.Duration)(nil),     // 10: google.protobuf.Duration
-	(*PolicySet)(nil),               // 11: commonfate.authz.v1alpha1.PolicySet
-	(*v1alpha1.Entity)(nil),         // 12: commonfate.entity.v1alpha1.Entity
+	(Decision)(0),                    // 0: commonfate.authz.v1alpha1.Decision
+	(*QueryEvaluationsRequest)(nil),  // 1: commonfate.authz.v1alpha1.QueryEvaluationsRequest
+	(*QueryEvaluationsResponse)(nil), // 2: commonfate.authz.v1alpha1.QueryEvaluationsResponse
+	(*GetEvaluationRequest)(nil),     // 3: commonfate.authz.v1alpha1.GetEvaluationRequest
+	(*GetEvaluationResponse)(nil),    // 4: commonfate.authz.v1alpha1.GetEvaluationResponse
+	(*DebugEvaluationRequest)(nil),   // 5: commonfate.authz.v1alpha1.DebugEvaluationRequest
+	(*DebugEvaluationResponse)(nil),  // 6: commonfate.authz.v1alpha1.DebugEvaluationResponse
+	(*DebugEvaluation)(nil),          // 7: commonfate.authz.v1alpha1.DebugEvaluation
+	(*Evaluation)(nil),               // 8: commonfate.authz.v1alpha1.Evaluation
+	(*Diagnostics)(nil),              // 9: commonfate.authz.v1alpha1.Diagnostics
+	(*Annotation)(nil),               // 10: commonfate.authz.v1alpha1.Annotation
+	(*DebugInformation)(nil),         // 11: commonfate.authz.v1alpha1.DebugInformation
+	(*Request)(nil),                  // 12: commonfate.authz.v1alpha1.Request
+	(*timestamppb.Timestamp)(nil),    // 13: google.protobuf.Timestamp
+	(*durationpb.Duration)(nil),      // 14: google.protobuf.Duration
+	(*PolicySet)(nil),                // 15: commonfate.authz.v1alpha1.PolicySet
+	(*v1alpha1.Entity)(nil),          // 16: commonfate.entity.v1alpha1.Entity
 }
 var file_commonfate_authz_v1alpha1_evaluation_proto_depIdxs = []int32{
-	3,  // 0: commonfate.authz.v1alpha1.DebugEvaluationResponse.debug_evaluation:type_name -> commonfate.authz.v1alpha1.DebugEvaluation
-	4,  // 1: commonfate.authz.v1alpha1.DebugEvaluation.evaluation:type_name -> commonfate.authz.v1alpha1.Evaluation
-	7,  // 2: commonfate.authz.v1alpha1.DebugEvaluation.debug_information:type_name -> commonfate.authz.v1alpha1.DebugInformation
-	8,  // 3: commonfate.authz.v1alpha1.Evaluation.request:type_name -> commonfate.authz.v1alpha1.Request
-	0,  // 4: commonfate.authz.v1alpha1.Evaluation.decision:type_name -> commonfate.authz.v1alpha1.Decision
-	5,  // 5: commonfate.authz.v1alpha1.Evaluation.diagnostics:type_name -> commonfate.authz.v1alpha1.Diagnostics
-	9,  // 6: commonfate.authz.v1alpha1.Evaluation.evaluated_at:type_name -> google.protobuf.Timestamp
-	10, // 7: commonfate.authz.v1alpha1.Evaluation.evaluation_duration:type_name -> google.protobuf.Duration
-	6,  // 8: commonfate.authz.v1alpha1.Diagnostics.annotations:type_name -> commonfate.authz.v1alpha1.Annotation
-	11, // 9: commonfate.authz.v1alpha1.DebugInformation.policy_sets:type_name -> commonfate.authz.v1alpha1.PolicySet
-	12, // 10: commonfate.authz.v1alpha1.DebugInformation.entities:type_name -> commonfate.entity.v1alpha1.Entity
-	1,  // 11: commonfate.authz.v1alpha1.EvaluationService.DebugEvaluation:input_type -> commonfate.authz.v1alpha1.DebugEvaluationRequest
-	2,  // 12: commonfate.authz.v1alpha1.EvaluationService.DebugEvaluation:output_type -> commonfate.authz.v1alpha1.DebugEvaluationResponse
-	12, // [12:13] is the sub-list for method output_type
-	11, // [11:12] is the sub-list for method input_type
-	11, // [11:11] is the sub-list for extension type_name
-	11, // [11:11] is the sub-list for extension extendee
-	0,  // [0:11] is the sub-list for field type_name
+	8,  // 0: commonfate.authz.v1alpha1.QueryEvaluationsResponse.evaluations:type_name -> commonfate.authz.v1alpha1.Evaluation
+	8,  // 1: commonfate.authz.v1alpha1.GetEvaluationResponse.evaluation:type_name -> commonfate.authz.v1alpha1.Evaluation
+	7,  // 2: commonfate.authz.v1alpha1.DebugEvaluationResponse.debug_evaluation:type_name -> commonfate.authz.v1alpha1.DebugEvaluation
+	8,  // 3: commonfate.authz.v1alpha1.DebugEvaluation.evaluation:type_name -> commonfate.authz.v1alpha1.Evaluation
+	11, // 4: commonfate.authz.v1alpha1.DebugEvaluation.debug_information:type_name -> commonfate.authz.v1alpha1.DebugInformation
+	12, // 5: commonfate.authz.v1alpha1.Evaluation.request:type_name -> commonfate.authz.v1alpha1.Request
+	0,  // 6: commonfate.authz.v1alpha1.Evaluation.decision:type_name -> commonfate.authz.v1alpha1.Decision
+	9,  // 7: commonfate.authz.v1alpha1.Evaluation.diagnostics:type_name -> commonfate.authz.v1alpha1.Diagnostics
+	13, // 8: commonfate.authz.v1alpha1.Evaluation.evaluated_at:type_name -> google.protobuf.Timestamp
+	14, // 9: commonfate.authz.v1alpha1.Evaluation.evaluation_duration:type_name -> google.protobuf.Duration
+	10, // 10: commonfate.authz.v1alpha1.Diagnostics.annotations:type_name -> commonfate.authz.v1alpha1.Annotation
+	15, // 11: commonfate.authz.v1alpha1.DebugInformation.policy_sets:type_name -> commonfate.authz.v1alpha1.PolicySet
+	16, // 12: commonfate.authz.v1alpha1.DebugInformation.entities:type_name -> commonfate.entity.v1alpha1.Entity
+	1,  // 13: commonfate.authz.v1alpha1.EvaluationService.QueryEvaluations:input_type -> commonfate.authz.v1alpha1.QueryEvaluationsRequest
+	3,  // 14: commonfate.authz.v1alpha1.EvaluationService.GetEvaluation:input_type -> commonfate.authz.v1alpha1.GetEvaluationRequest
+	5,  // 15: commonfate.authz.v1alpha1.EvaluationService.DebugEvaluation:input_type -> commonfate.authz.v1alpha1.DebugEvaluationRequest
+	2,  // 16: commonfate.authz.v1alpha1.EvaluationService.QueryEvaluations:output_type -> commonfate.authz.v1alpha1.QueryEvaluationsResponse
+	4,  // 17: commonfate.authz.v1alpha1.EvaluationService.GetEvaluation:output_type -> commonfate.authz.v1alpha1.GetEvaluationResponse
+	6,  // 18: commonfate.authz.v1alpha1.EvaluationService.DebugEvaluation:output_type -> commonfate.authz.v1alpha1.DebugEvaluationResponse
+	16, // [16:19] is the sub-list for method output_type
+	13, // [13:16] is the sub-list for method input_type
+	13, // [13:13] is the sub-list for extension type_name
+	13, // [13:13] is the sub-list for extension extendee
+	0,  // [0:13] is the sub-list for field type_name
 }
 
 func init() { file_commonfate_authz_v1alpha1_evaluation_proto_init() }
@@ -703,7 +948,7 @@ func file_commonfate_authz_v1alpha1_evaluation_proto_init() {
 	file_commonfate_authz_v1alpha1_policy_proto_init()
 	if !protoimpl.UnsafeEnabled {
 		file_commonfate_authz_v1alpha1_evaluation_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*DebugEvaluationRequest); i {
+			switch v := v.(*QueryEvaluationsRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -715,7 +960,7 @@ func file_commonfate_authz_v1alpha1_evaluation_proto_init() {
 			}
 		}
 		file_commonfate_authz_v1alpha1_evaluation_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*DebugEvaluationResponse); i {
+			switch v := v.(*QueryEvaluationsResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -727,7 +972,7 @@ func file_commonfate_authz_v1alpha1_evaluation_proto_init() {
 			}
 		}
 		file_commonfate_authz_v1alpha1_evaluation_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*DebugEvaluation); i {
+			switch v := v.(*GetEvaluationRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -739,7 +984,7 @@ func file_commonfate_authz_v1alpha1_evaluation_proto_init() {
 			}
 		}
 		file_commonfate_authz_v1alpha1_evaluation_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*Evaluation); i {
+			switch v := v.(*GetEvaluationResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -751,7 +996,7 @@ func file_commonfate_authz_v1alpha1_evaluation_proto_init() {
 			}
 		}
 		file_commonfate_authz_v1alpha1_evaluation_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*Diagnostics); i {
+			switch v := v.(*DebugEvaluationRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -763,7 +1008,7 @@ func file_commonfate_authz_v1alpha1_evaluation_proto_init() {
 			}
 		}
 		file_commonfate_authz_v1alpha1_evaluation_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*Annotation); i {
+			switch v := v.(*DebugEvaluationResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -775,6 +1020,54 @@ func file_commonfate_authz_v1alpha1_evaluation_proto_init() {
 			}
 		}
 		file_commonfate_authz_v1alpha1_evaluation_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*DebugEvaluation); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_commonfate_authz_v1alpha1_evaluation_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*Evaluation); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_commonfate_authz_v1alpha1_evaluation_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*Diagnostics); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_commonfate_authz_v1alpha1_evaluation_proto_msgTypes[9].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*Annotation); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_commonfate_authz_v1alpha1_evaluation_proto_msgTypes[10].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*DebugInformation); i {
 			case 0:
 				return &v.state
@@ -793,7 +1086,7 @@ func file_commonfate_authz_v1alpha1_evaluation_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_commonfate_authz_v1alpha1_evaluation_proto_rawDesc,
 			NumEnums:      1,
-			NumMessages:   7,
+			NumMessages:   11,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
