@@ -1,5 +1,12 @@
 # @common-fate/sdk
 
+## 1.12.0
+
+### Minor Changes
+
+- 7d1f434: Replaces the 'MetadataAttribute' with a simpler 'Tags' message used for authorization requests.
+- 7d1f434: Adds endpoint to query for authorization evaluation metadata.
+
 ## 1.11.0
 
 ### Minor Changes
