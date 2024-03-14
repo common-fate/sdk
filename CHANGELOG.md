@@ -1,5 +1,11 @@
 # @common-fate/sdk
 
+## 1.12.1
+
+### Patch Changes
+
+- 76fe697: Add optional integration ID field to slack notification resource
+
 ## 1.12.0
 
 ### Minor Changes
