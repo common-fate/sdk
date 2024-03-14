@@ -9,9 +9,9 @@ import (
 	entityv1alpha1 "github.com/common-fate/sdk/gen/commonfate/entity/v1alpha1"
 )
 
-func UnmarshalAll(entities []*entityv1alpha1.Entity, out []Entity) error {
+func UnmarshalAll[T Entity](entities []*entityv1alpha1.Entity, out []T) error {
 	for _, ent := range entities {
-		var outType Entity
+		var outType T
 		err := Unmarshal(ent, outType)
 		if err != nil {
 			return err
@@ -21,7 +21,7 @@ func UnmarshalAll(entities []*entityv1alpha1.Entity, out []Entity) error {
 	return nil
 }
 
-func Unmarshal(e *entityv1alpha1.Entity, out Entity) error {
+func Unmarshal[T Entity](e *entityv1alpha1.Entity, out T) error {
 	v := reflect.ValueOf(out)
 	if v.Kind() != reflect.Ptr || v.Elem().Kind() != reflect.Struct {
 		return fmt.Errorf("output must be a pointer to a struct")
