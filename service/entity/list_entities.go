@@ -96,6 +96,12 @@ func (c *Client) All(ctx context.Context, input ListInput) (out []*entityv1alpha
 }
 
 // All is a convenience that can be used to fetch all results and unmarshal them into the Type T
+// Example:
+//
+//	users, err := entity.All[cf.User](ctx, c, entity.ListOpts{})
+//	if err != nil
+//		return err
+//	}
 func All[T Entity](ctx context.Context, c *Client, input ListOpts) (out []T, err error) {
 	entities, err := c.All(ctx, ListInput{
 		Type:     (*new(T)).EID().Type,
