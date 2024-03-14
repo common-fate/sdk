@@ -96,6 +96,8 @@ message EntitlementInput {
 
    // The role to grant the principal access to the resource with.
   Specifier role = 3;
+
+  optional google.protobuf.Duration access_duration_override = 4;
 }
 
 message BatchEnsureRequest {
@@ -107,6 +109,8 @@ message BatchEnsureRequest {
 
   // If true, will return a preview of changes rather than actually provisioning access.
   bool dry_run = 3;
+
+  
 }
 
 message BatchEnsureResponse {
