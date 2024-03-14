@@ -10,10 +10,8 @@ import (
 )
 
 type ListInput struct {
-	Type            string
-	PageToken       string
-	IncludeArchived bool
-	OrderDescending bool
+	Type string
+	ListOptions
 }
 
 func (c *Client) List(ctx context.Context, input ListInput) (*ListOutput, error) {
@@ -56,6 +54,7 @@ type listEntitiesRequestCall struct {
 // in the google API it would be filterEntitiesRequestCall.Do() to make a single request
 // they also use a chained builder pattern
 func (c *Client) ListRequest(input ListInput) *listEntitiesRequestCall {
+
 	return &listEntitiesRequestCall{
 		input:  input,
 		client: c,
@@ -84,4 +83,34 @@ func (c *listEntitiesRequestCall) Pages(ctx context.Context, f func(*ListOutput)
 		}
 		c.input.PageToken = x.NextPageToken
 	}
+}
+
+type ListOptions struct {
+	PageToken       string
+	IncludeArchived bool
+	OrderDescending bool
+}
+
+func All[T Entity](ctx context.Context, c *Client, input ListOptions) ([]T, error) {
+	e := *new(T)
+	list := c.ListRequest(ListInput{
+		Type:        e.EID().Type,
+		ListOptions: input,
+	})
+	var out []T
+	err := list.Pages(ctx, func(lo *ListOutput) error {
+		for _, ent := range lo.Entities {
+			var outType T
+			err := Unmarshal(ent, outType)
+			if err != nil {
+				return err
+			}
+			out = append(out, outType)
+		}
+		return nil
+	})
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
 }
