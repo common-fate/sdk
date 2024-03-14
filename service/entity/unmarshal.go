@@ -9,6 +9,18 @@ import (
 	entityv1alpha1 "github.com/common-fate/sdk/gen/commonfate/entity/v1alpha1"
 )
 
+func UnmarshalAll(entities []*entityv1alpha1.Entity, out []Entity) error {
+	for _, ent := range entities {
+		var outType Entity
+		err := Unmarshal(ent, outType)
+		if err != nil {
+			return err
+		}
+		out = append(out, outType)
+	}
+	return nil
+}
+
 func Unmarshal(e *entityv1alpha1.Entity, out Entity) error {
 	v := reflect.ValueOf(out)
 	if v.Kind() != reflect.Ptr || v.Elem().Kind() != reflect.Struct {

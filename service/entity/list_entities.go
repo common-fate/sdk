@@ -10,8 +10,10 @@ import (
 )
 
 type ListInput struct {
-	Type string
-	ListOptions
+	Type            string
+	PageToken       string
+	IncludeArchived bool
+	OrderDescending bool
 }
 
 func (c *Client) List(ctx context.Context, input ListInput) (*ListOutput, error) {
@@ -48,13 +50,8 @@ type listEntitiesRequestCall struct {
 	client *Client
 }
 
-// FilterEntitiesRequest returns a request with filterEntitiesRequestCall.Pages() that will pull all pages of results, invoking the callback for each page
-// I based this pattern off the google cloud SDK, I found it to be pretty neat, not set on the naming
-// I think a good API here will have the option to do a single API call or a Pages call
-// in the google API it would be filterEntitiesRequestCall.Do() to make a single request
-// they also use a chained builder pattern
+// ListRequest returns a request with listEntitiesRequestCall.Pages() that will pull all pages of results, invoking the callback for each page
 func (c *Client) ListRequest(input ListInput) *listEntitiesRequestCall {
-
 	return &listEntitiesRequestCall{
 		input:  input,
 		client: c,
@@ -85,64 +82,11 @@ func (c *listEntitiesRequestCall) Pages(ctx context.Context, f func(*ListOutput)
 	}
 }
 
-type ListOptions struct {
-	PageToken       string
-	IncludeArchived bool
-	OrderDescending bool
-}
-
-// All retrieves all entities of a specified type from the data source.
-//
-// Parameters:
-//
-//	ctx: The context.Context for the request.
-//	c: The *Client object used to make the request.
-//	input: A struct containing options for listing entities, such as pagination, inclusion of archived entities,
-//	       and sorting order.
-//
-// Returns:
-//
-//	[]T: A slice of entities of type T retrieved from the data source.
-//	error: An error, if any, encountered during the retrieval process.
-//
-// Description:
-//
-//	All is a generic function designed to retrieve all entities of a specified type from a data source using a
-//	provided *Client object. The function iterates over pages of entities and unmarshals each entity into the
-//	specified type T, accumulating them into a slice returned to the caller. It handles pagination, error handling,
-//	and other aspects of the retrieval process internally.
-//
-// Example Usage:
-//
-//	entities, err := All[cf.User](ctx, client, ListOptions{
-//	    PageToken:       "some_page_token",
-//	    IncludeArchived: true,
-//	    OrderDescending: false,
-//	})
-//	if err != nil {
-//	    // Handle error
-//	}
-//	// entities will be a slice of type cf.User
-func All[T Entity](ctx context.Context, c *Client, input ListOptions) ([]T, error) {
-	e := *new(T)
-	list := c.ListRequest(ListInput{
-		Type:        e.EID().Type,
-		ListOptions: input,
-	})
-	var out []T
-	err := list.Pages(ctx, func(lo *ListOutput) error {
-		for _, ent := range lo.Entities {
-			var outType T
-			err := Unmarshal(ent, outType)
-			if err != nil {
-				return err
-			}
-			out = append(out, outType)
-		}
+// All returns all results from a paginated API
+func (c *Client) All(ctx context.Context, input ListInput) (out []*entityv1alpha1.Entity, err error) {
+	err = c.ListRequest(input).Pages(ctx, func(lo *ListOutput) error {
+		out = append(out, lo.Entities...)
 		return nil
 	})
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
+	return
 }
