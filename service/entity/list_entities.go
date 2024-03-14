@@ -91,6 +91,38 @@ type ListOptions struct {
 	OrderDescending bool
 }
 
+// All retrieves all entities of a specified type from the data source.
+//
+// Parameters:
+//
+//	ctx: The context.Context for the request.
+//	c: The *Client object used to make the request.
+//	input: A struct containing options for listing entities, such as pagination, inclusion of archived entities,
+//	       and sorting order.
+//
+// Returns:
+//
+//	[]T: A slice of entities of type T retrieved from the data source.
+//	error: An error, if any, encountered during the retrieval process.
+//
+// Description:
+//
+//	All is a generic function designed to retrieve all entities of a specified type from a data source using a
+//	provided *Client object. The function iterates over pages of entities and unmarshals each entity into the
+//	specified type T, accumulating them into a slice returned to the caller. It handles pagination, error handling,
+//	and other aspects of the retrieval process internally.
+//
+// Example Usage:
+//
+//	entities, err := All[cf.User](ctx, client, ListOptions{
+//	    PageToken:       "some_page_token",
+//	    IncludeArchived: true,
+//	    OrderDescending: false,
+//	})
+//	if err != nil {
+//	    // Handle error
+//	}
+//	// entities will be a slice of type cf.User
 func All[T Entity](ctx context.Context, c *Client, input ListOptions) ([]T, error) {
 	e := *new(T)
 	list := c.ListRequest(ListInput{
