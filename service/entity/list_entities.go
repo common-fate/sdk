@@ -10,17 +10,14 @@ import (
 )
 
 type ListInput struct {
-	Type string
-	ListOpts
-}
-
-type ListOpts struct {
+	Type            string
 	PageToken       string
 	IncludeArchived bool
 	OrderDescending bool
 }
 
 func (c *Client) List(ctx context.Context, input ListInput) (*ListOutput, error) {
+
 	req := &entityv1alpha1.ListRequest{
 		Universe:        "default",
 		Type:            input.Type,
@@ -95,6 +92,12 @@ func (c *Client) All(ctx context.Context, input ListInput) (out []*entityv1alpha
 	return
 }
 
+type ListAllInput struct {
+	PageToken       string
+	IncludeArchived bool
+	OrderDescending bool
+}
+
 // All is a convenience that can be used to fetch all results and unmarshal them into the Type T
 // Example:
 //
@@ -102,10 +105,12 @@ func (c *Client) All(ctx context.Context, input ListInput) (out []*entityv1alpha
 //	if err != nil
 //		return err
 //	}
-func All[T Entity](ctx context.Context, c *Client, input ListOpts) (out []T, err error) {
+func All[T Entity](ctx context.Context, c *Client, input ListAllInput) (out []T, err error) {
 	entities, err := c.All(ctx, ListInput{
-		Type:     (*new(T)).EID().Type,
-		ListOpts: input,
+		Type:            (*new(T)).EID().Type,
+		PageToken:       input.PageToken,
+		IncludeArchived: input.IncludeArchived,
+		OrderDescending: input.OrderDescending,
 	})
 	if err != nil {
 		return nil, err
