@@ -85,3 +85,12 @@ func (c *listEntitiesRequestCall) Pages(ctx context.Context, f func(*ListOutput)
 		c.input.PageToken = x.NextPageToken
 	}
 }
+
+// All returns all results from a paginated API
+func (c *Client) All(ctx context.Context, input ListInput) (out []*entityv1alpha1.Entity, err error) {
+	err = c.ListRequest(input).Pages(ctx, func(lo *ListOutput) error {
+		out = append(out, lo.Entities...)
+		return nil
+	})
+	return
+}
