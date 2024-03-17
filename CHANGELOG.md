@@ -1,5 +1,11 @@
 # @common-fate/sdk
 
+## 1.12.2
+
+### Patch Changes
+
+- 67cb8c8: Add All method to entity client
+
 ## 1.12.1
 
 ### Patch Changes
