@@ -97,7 +97,7 @@ message EntitlementInput {
    // The role to grant the principal access to the resource with.
   Specifier role = 3;
 
-  optional google.protobuf.Duration access_duration_override = 4;
+  optional google.protobuf.Duration duration = 4;
 }
 
 message BatchEnsureRequest {
