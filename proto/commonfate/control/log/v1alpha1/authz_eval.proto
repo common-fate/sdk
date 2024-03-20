@@ -35,10 +35,10 @@ message QueryEvaluationsRequest {
     string page_token = 1;
 
     // If provided, returns evaluations which occurred after this time.
-    optional google.protobuf.Timestamp from = 2;
+    optional google.protobuf.Timestamp start_time = 2;
 
     // If provided, returns evaluations which occurred before this time.
-    optional google.protobuf.Timestamp to = 3;
+    optional google.protobuf.Timestamp end_time = 3;
 
     // If provided, only evaluations matching the provided tags will be returned.
     repeated commonfate.authz.v1alpha1.Tag matching_tags = 4;
