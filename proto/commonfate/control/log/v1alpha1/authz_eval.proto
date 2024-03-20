@@ -9,6 +9,7 @@ import "commonfate/authz/v1alpha1/evaluation.proto";
 import "commonfate/authz/v1alpha1/policy.proto";
 import "commonfate/authz/v1alpha1/read_only.proto";
 import "commonfate/entity/v1alpha1/entity.proto";
+import "commonfate/entity/v1alpha1/eid.proto";
 import "google/protobuf/duration.proto";
 
 // EvalService is the API for auditing authorization evaluations made by authz.
@@ -32,6 +33,24 @@ service EvaluationService {
 message QueryEvaluationsRequest {
     // The token for the next page.
     string page_token = 1;
+
+    // If provided, returns evaluations which occurred after this time.
+    optional google.protobuf.Timestamp from = 2;
+
+    // If provided, returns evaluations which occurred before this time.
+    optional google.protobuf.Timestamp to = 3;
+
+    // If provided, only evaluations matching the provided tags will be returned.
+    repeated commonfate.authz.v1alpha1.Tag matching_tags = 4;
+
+    // If provided, filters for evaluations with the matching principal
+    commonfate.entity.v1alpha1.EID principal = 5;
+
+    // If provided, filters for evaluations with the matching action
+    commonfate.entity.v1alpha1.EID action = 6;
+
+    // If provided, filters for evaluations with the matching resource.
+    commonfate.entity.v1alpha1.EID resource = 7;
 }
 
 message QueryEvaluationsResponse {
