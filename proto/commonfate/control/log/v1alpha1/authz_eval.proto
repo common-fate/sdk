@@ -7,20 +7,26 @@ import "google/protobuf/timestamp.proto";
 import "commonfate/authz/v1alpha1/request.proto";
 import "commonfate/authz/v1alpha1/evaluation.proto";
 import "commonfate/authz/v1alpha1/policy.proto";
+import "commonfate/authz/v1alpha1/read_only.proto";
 import "commonfate/entity/v1alpha1/entity.proto";
 import "google/protobuf/duration.proto";
-
 
 // EvalService is the API for auditing authorization evaluations made by authz.
 service EvaluationService {
     // Query for historical authorization evaluations.
-    rpc QueryEvaluations(QueryEvaluationsRequest) returns (QueryEvaluationsResponse) {}
+    rpc QueryEvaluations(QueryEvaluationsRequest) returns (QueryEvaluationsResponse) {
+        option(commonfate.authz.v1alpha1.read_only) = true;
+    }
 
     // Returns an authorization evaluation by a particular ID.
-    rpc GetEvaluation(GetEvaluationRequest) returns (GetEvaluationResponse) {}
+    rpc GetEvaluation(GetEvaluationRequest) returns (GetEvaluationResponse) {
+        option(commonfate.authz.v1alpha1.read_only) = true;
+    }
 
     // Fetches debug information about the evaluation of a particular decision
-    rpc DebugEvaluation(DebugEvaluationRequest) returns (DebugEvaluationResponse) {}
+    rpc DebugEvaluation(DebugEvaluationRequest) returns (DebugEvaluationResponse) {
+        option(commonfate.authz.v1alpha1.read_only) = true;
+    }
 }
 
 message QueryEvaluationsRequest {
