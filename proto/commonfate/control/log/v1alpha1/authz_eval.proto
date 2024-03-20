@@ -51,6 +51,9 @@ message QueryEvaluationsRequest {
 
     // If provided, filters for evaluations with the matching resource.
     commonfate.entity.v1alpha1.EID resource = 7;
+
+    // If provided, filters for evaluations with the specified decision.
+    optional commonfate.authz.v1alpha1.Decision decision = 8;
 }
 
 message QueryEvaluationsResponse {
