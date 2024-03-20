@@ -1,13 +1,19 @@
 syntax = "proto3";
 package commonfate.control.oauth.v1alpha1;
+import "commonfate/authz/v1alpha1/read_only.proto";
+
 
 service OAuthService {
     // rpc CreatePagerDutyIntegration(CreatePagerDutyIntegrationRequest) returns (CreatePagerDutyIntegrationResponse) {}
-    rpc GetPagerDutyIntegration(GetPagerDutyIntegrationRequest) returns (GetPagerDutyIntegrationResponse) {}
+    rpc GetPagerDutyIntegration(GetPagerDutyIntegrationRequest) returns (GetPagerDutyIntegrationResponse) {
+        option(commonfate.authz.v1alpha1.read_only) = true;
+    }
     rpc RemovePagerDutyIntegration(RemovePagerDutyIntegrationRequest) returns (RemovePagerDutyIntegrationResponse) {}
 
     // rpc CreateSlackIntegration(CreateSlackIntegrationRequest) returns (CreateSlackIntegrationResponse) {}
-    rpc GetSlackIntegration(GetSlackIntegrationRequest) returns (GetSlackIntegrationResponse) {}
+    rpc GetSlackIntegration(GetSlackIntegrationRequest) returns (GetSlackIntegrationResponse) {
+        option(commonfate.authz.v1alpha1.read_only) = true;
+    }
     rpc RemoveSlackIntegration(RemoveSlackIntegrationRequest) returns (RemoveSlackIntegrationResponse) {}
     
 }
