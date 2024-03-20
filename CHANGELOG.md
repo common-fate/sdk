@@ -1,5 +1,11 @@
 # @common-fate/sdk
 
+## 1.12.3
+
+### Patch Changes
+
+- 0b1f5f8: adds duration field for adjusting duration for grant on batch ensure requests
+
 ## 1.12.2
 
 ### Patch Changes
