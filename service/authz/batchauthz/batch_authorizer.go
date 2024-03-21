@@ -9,7 +9,6 @@ import (
 	"github.com/common-fate/sdk/eid"
 	authzv1alpha1 "github.com/common-fate/sdk/gen/commonfate/authz/v1alpha1"
 	"github.com/common-fate/sdk/service/authz"
-	"github.com/common-fate/sdk/service/entity"
 )
 
 // Batch is a batch authorization request.
@@ -35,24 +34,9 @@ func New(executor Executor) *Batch {
 }
 
 func (a *Batch) AddRequest(req authz.Request) error {
-	apiReq := &authzv1alpha1.Request{
-		Principal: req.Principal.ToAPI(),
-		Action:    req.Action.ToAPI(),
-		Resource:  req.Resource.ToAPI(),
-	}
-
-	for _, e := range req.OverlayEntities {
-		apiEntity, childRels, err := entity.Marshal(e)
-		if err != nil {
-			return err
-		}
-
-		apiReq.OverlayEntities = append(apiReq.OverlayEntities, apiEntity)
-		apiReq.OverlayChildren = append(apiReq.OverlayChildren, childRels...)
-	}
-
-	for _, c := range req.OverlayChildren {
-		apiReq.OverlayChildren = append(apiReq.OverlayChildren, c.ToAPI())
+	apiReq, err := req.ToAPI()
+	if err != nil {
+		return err
 	}
 
 	a.request.Requests = append(a.request.Requests, apiReq)

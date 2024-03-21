@@ -11,11 +11,15 @@ import "commonfate/control/integration/v1alpha1/opsgenie.proto";
 import "commonfate/control/integration/v1alpha1/pagerduty.proto";
 import "commonfate/control/integration/v1alpha1/slack.proto";
 import "commonfate/control/integration/v1alpha1/datastax.proto";
+import "commonfate/authz/v1alpha1/read_only.proto";
+
 
 service IntegrationService {
   rpc CreateIntegration(CreateIntegrationRequest) returns (CreateIntegrationResponse) {}
   rpc UpdateIntegration(UpdateIntegrationRequest) returns (UpdateIntegrationResponse) {}
-  rpc GetIntegration(GetIntegrationRequest) returns (GetIntegrationResponse) {}
+  rpc GetIntegration(GetIntegrationRequest) returns (GetIntegrationResponse)  {
+    option(commonfate.authz.v1alpha1.read_only) = true;
+  }
   rpc DeleteIntegration(DeleteIntegrationRequest) returns (DeleteIntegrationResponse) {}
   rpc ListIntegrations(ListIntegrationsRequest) returns (ListIntegrationsResponse) {}
 }

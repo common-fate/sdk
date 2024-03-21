@@ -12,11 +12,11 @@ type Request struct {
 	Resource        eid.EID                `json:"resource"`
 	OverlayEntities []entity.Entity        `json:"overlay_entities,omitempty"`
 	OverlayChildren []entity.ChildRelation `json:"overlay_children,omitempty"`
+	Tags            map[string]string      `json:"tags,omitempty"`
 }
 
-func (r Request) ToAPI(key string) (*authzv1alpha1.Request, error) {
+func (r Request) ToAPI() (*authzv1alpha1.Request, error) {
 	res := &authzv1alpha1.Request{
-		ClientKey: key,
 		Principal: r.Principal.ToAPI(),
 		Action:    r.Action.ToAPI(),
 		Resource:  r.Resource.ToAPI(),
@@ -33,6 +33,13 @@ func (r Request) ToAPI(key string) (*authzv1alpha1.Request, error) {
 
 	for _, c := range r.OverlayChildren {
 		res.OverlayChildren = append(res.OverlayChildren, c.ToAPI())
+	}
+
+	for k, v := range r.Tags {
+		res.Tags = append(res.Tags, &authzv1alpha1.Tag{
+			Key:   k,
+			Value: v,
+		})
 	}
 
 	return res, nil

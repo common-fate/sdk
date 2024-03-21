@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package commonfate.control.feature.v1alpha1;
+import "commonfate/authz/v1alpha1/read_only.proto";
+
+
+// FeatureService is used to inform clients of which features are enabled
+// based on feature flags and user authorization, so that the client
+// can display an appropriate UI.
+//
+// Used in the Common Fate web console to determine which sidebar items
+// and UI elements are shown to users.
+service FeatureService {
+    // Returns a list of enabled features.
+    rpc GetFeatures(GetFeaturesRequest) returns (GetFeaturesResponse)  {
+        option(commonfate.authz.v1alpha1.read_only) = true;
+    }
+}
+
+message GetFeaturesRequest {}
+
+message GetFeaturesResponse {
+    repeated Feature features = 1;
+}
+
+message Feature {
+    // Name of the feature. By convention this is 'snake_case',
+    // for example: "least_privilege_analytics"
+    string name = 1;
+    bool enabled = 2;
+}
+

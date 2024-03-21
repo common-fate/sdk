@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package commonfate.authz.v1alpha1;
+
+import "google/protobuf/descriptor.proto";
+
+extend google.protobuf.MethodOptions {
+    // Denotes the particular RPC as being read-only.
+    // This applies a tag during authorization for our authorization audit log.
+    bool read_only = 50001;
+}

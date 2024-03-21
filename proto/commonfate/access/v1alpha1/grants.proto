@@ -7,12 +7,17 @@ import "commonfate/access/v1alpha1/access.proto";
 import "commonfate/access/v1alpha1/grant.proto";
 import "commonfate/entity/v1alpha1/entity.proto";
 import "commonfate/entity/v1alpha1/eid.proto";
+import "commonfate/authz/v1alpha1/read_only.proto";
 
 
 // The Grant API.
 service GrantsService {
-    rpc QueryGrants(QueryGrantsRequest) returns (QueryGrantsResponse) {}
-    rpc QueryGrantChildren(QueryGrantChildrenRequest) returns (QueryGrantChildrenResponse) {}
+    rpc QueryGrants(QueryGrantsRequest) returns (QueryGrantsResponse) {
+        option(commonfate.authz.v1alpha1.read_only) = true;
+    }
+    rpc QueryGrantChildren(QueryGrantChildrenRequest) returns (QueryGrantChildrenResponse) {
+        option(commonfate.authz.v1alpha1.read_only) = true;
+    }
 }
 
   
