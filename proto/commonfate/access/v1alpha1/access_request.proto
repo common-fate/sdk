@@ -9,6 +9,7 @@ import "commonfate/entity/v1alpha1/entity.proto";
 import "commonfate/entity/v1alpha1/entity_service.proto";
 import "commonfate/entity/v1alpha1/eid.proto";
 import "commonfate/access/v1alpha1/grant.proto";
+import "commonfate/authz/v1alpha1/read_only.proto";
 import "commonfate/access/v1alpha1/named_eid.proto";
 import "commonfate/access/v1alpha1/audit_logs.proto";
 import "google/protobuf/duration.proto";
@@ -19,8 +20,13 @@ import "google/protobuf/timestamp.proto";
 // When operating on Access Requests, Common Fate will automatically attempt to apply the action (Approve/Close/Revoke etc)
 // to each Grant associated with the Access Request. Warnings will be returned if the operation fails for any grants.
 service AccessRequestService {
-    rpc QueryAccessRequests(QueryAccessRequestsRequest) returns (QueryAccessRequestsResponse) {}
-    rpc GetAccessRequest(GetAccessRequestRequest) returns (GetAccessRequestResponse) {}
+    rpc QueryAccessRequests(QueryAccessRequestsRequest) returns (QueryAccessRequestsResponse) {
+      option(commonfate.authz.v1alpha1.read_only) = true;
+    }
+
+    rpc GetAccessRequest(GetAccessRequestRequest) returns (GetAccessRequestResponse) {
+      option(commonfate.authz.v1alpha1.read_only) = true;
+    }
 
     // Approving an Access Request will attempt to approve all of the Grants associated with the request.
     //
