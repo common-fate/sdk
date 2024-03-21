@@ -11,6 +11,9 @@ service ResetService {
 
   // Cancels all current background tasks for a given kind.
   rpc CancelBackgroundJob(CancelBackgroundJobRequest) returns (CancelBackgroundJobResponse) {}
+
+   // retries all current background tasks for a given kind.
+   rpc RetryBackgroundJob(RetryBackgroundJobRequest) returns (RetryBackgroundJobResponse) {}
 }
 
 message ResetEntraUsersRequest {
@@ -35,3 +38,10 @@ message CancelBackgroundJobRequest {
 }
 
 message CancelBackgroundJobResponse {}
+
+message RetryBackgroundJobRequest {
+  // The job id to retry
+  int64 id = 1;
+}
+
+message RetryBackgroundJobResponse {}

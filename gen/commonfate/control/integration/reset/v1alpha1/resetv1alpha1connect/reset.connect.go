@@ -42,6 +42,9 @@ const (
 	// ResetServiceCancelBackgroundJobProcedure is the fully-qualified name of the ResetService's
 	// CancelBackgroundJob RPC.
 	ResetServiceCancelBackgroundJobProcedure = "/commonfate.control.integration.reset.v1alpha1.ResetService/CancelBackgroundJob"
+	// ResetServiceRetryBackgroundJobProcedure is the fully-qualified name of the ResetService's
+	// RetryBackgroundJob RPC.
+	ResetServiceRetryBackgroundJobProcedure = "/commonfate.control.integration.reset.v1alpha1.ResetService/RetryBackgroundJob"
 )
 
 // These variables are the protoreflect.Descriptor objects for the RPCs defined in this package.
@@ -50,6 +53,7 @@ var (
 	resetServiceResetEntraUsersMethodDescriptor     = resetServiceServiceDescriptor.Methods().ByName("ResetEntraUsers")
 	resetServiceRemoveOAuthTokenMethodDescriptor    = resetServiceServiceDescriptor.Methods().ByName("RemoveOAuthToken")
 	resetServiceCancelBackgroundJobMethodDescriptor = resetServiceServiceDescriptor.Methods().ByName("CancelBackgroundJob")
+	resetServiceRetryBackgroundJobMethodDescriptor  = resetServiceServiceDescriptor.Methods().ByName("RetryBackgroundJob")
 )
 
 // ResetServiceClient is a client for the commonfate.control.integration.reset.v1alpha1.ResetService
@@ -60,6 +64,8 @@ type ResetServiceClient interface {
 	RemoveOAuthToken(context.Context, *connect.Request[v1alpha1.RemoveOAuthTokenRequest]) (*connect.Response[v1alpha1.RemoveOAuthTokenResponse], error)
 	// Cancels all current background tasks for a given kind.
 	CancelBackgroundJob(context.Context, *connect.Request[v1alpha1.CancelBackgroundJobRequest]) (*connect.Response[v1alpha1.CancelBackgroundJobResponse], error)
+	// retries all current background tasks for a given kind.
+	RetryBackgroundJob(context.Context, *connect.Request[v1alpha1.RetryBackgroundJobRequest]) (*connect.Response[v1alpha1.RetryBackgroundJobResponse], error)
 }
 
 // NewResetServiceClient constructs a client for the
@@ -91,6 +97,12 @@ func NewResetServiceClient(httpClient connect.HTTPClient, baseURL string, opts .
 			connect.WithSchema(resetServiceCancelBackgroundJobMethodDescriptor),
 			connect.WithClientOptions(opts...),
 		),
+		retryBackgroundJob: connect.NewClient[v1alpha1.RetryBackgroundJobRequest, v1alpha1.RetryBackgroundJobResponse](
+			httpClient,
+			baseURL+ResetServiceRetryBackgroundJobProcedure,
+			connect.WithSchema(resetServiceRetryBackgroundJobMethodDescriptor),
+			connect.WithClientOptions(opts...),
+		),
 	}
 }
 
@@ -99,6 +111,7 @@ type resetServiceClient struct {
 	resetEntraUsers     *connect.Client[v1alpha1.ResetEntraUsersRequest, v1alpha1.ResetEntraUsersResponse]
 	removeOAuthToken    *connect.Client[v1alpha1.RemoveOAuthTokenRequest, v1alpha1.RemoveOAuthTokenResponse]
 	cancelBackgroundJob *connect.Client[v1alpha1.CancelBackgroundJobRequest, v1alpha1.CancelBackgroundJobResponse]
+	retryBackgroundJob  *connect.Client[v1alpha1.RetryBackgroundJobRequest, v1alpha1.RetryBackgroundJobResponse]
 }
 
 // ResetEntraUsers calls commonfate.control.integration.reset.v1alpha1.ResetService.ResetEntraUsers.
@@ -118,6 +131,12 @@ func (c *resetServiceClient) CancelBackgroundJob(ctx context.Context, req *conne
 	return c.cancelBackgroundJob.CallUnary(ctx, req)
 }
 
+// RetryBackgroundJob calls
+// commonfate.control.integration.reset.v1alpha1.ResetService.RetryBackgroundJob.
+func (c *resetServiceClient) RetryBackgroundJob(ctx context.Context, req *connect.Request[v1alpha1.RetryBackgroundJobRequest]) (*connect.Response[v1alpha1.RetryBackgroundJobResponse], error) {
+	return c.retryBackgroundJob.CallUnary(ctx, req)
+}
+
 // ResetServiceHandler is an implementation of the
 // commonfate.control.integration.reset.v1alpha1.ResetService service.
 type ResetServiceHandler interface {
@@ -126,6 +145,8 @@ type ResetServiceHandler interface {
 	RemoveOAuthToken(context.Context, *connect.Request[v1alpha1.RemoveOAuthTokenRequest]) (*connect.Response[v1alpha1.RemoveOAuthTokenResponse], error)
 	// Cancels all current background tasks for a given kind.
 	CancelBackgroundJob(context.Context, *connect.Request[v1alpha1.CancelBackgroundJobRequest]) (*connect.Response[v1alpha1.CancelBackgroundJobResponse], error)
+	// retries all current background tasks for a given kind.
+	RetryBackgroundJob(context.Context, *connect.Request[v1alpha1.RetryBackgroundJobRequest]) (*connect.Response[v1alpha1.RetryBackgroundJobResponse], error)
 }
 
 // NewResetServiceHandler builds an HTTP handler from the service implementation. It returns the
@@ -152,6 +173,12 @@ func NewResetServiceHandler(svc ResetServiceHandler, opts ...connect.HandlerOpti
 		connect.WithSchema(resetServiceCancelBackgroundJobMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
+	resetServiceRetryBackgroundJobHandler := connect.NewUnaryHandler(
+		ResetServiceRetryBackgroundJobProcedure,
+		svc.RetryBackgroundJob,
+		connect.WithSchema(resetServiceRetryBackgroundJobMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
+	)
 	return "/commonfate.control.integration.reset.v1alpha1.ResetService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
 		case ResetServiceResetEntraUsersProcedure:
@@ -160,6 +187,8 @@ func NewResetServiceHandler(svc ResetServiceHandler, opts ...connect.HandlerOpti
 			resetServiceRemoveOAuthTokenHandler.ServeHTTP(w, r)
 		case ResetServiceCancelBackgroundJobProcedure:
 			resetServiceCancelBackgroundJobHandler.ServeHTTP(w, r)
+		case ResetServiceRetryBackgroundJobProcedure:
+			resetServiceRetryBackgroundJobHandler.ServeHTTP(w, r)
 		default:
 			http.NotFound(w, r)
 		}
@@ -179,4 +208,8 @@ func (UnimplementedResetServiceHandler) RemoveOAuthToken(context.Context, *conne
 
 func (UnimplementedResetServiceHandler) CancelBackgroundJob(context.Context, *connect.Request[v1alpha1.CancelBackgroundJobRequest]) (*connect.Response[v1alpha1.CancelBackgroundJobResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.control.integration.reset.v1alpha1.ResetService.CancelBackgroundJob is not implemented"))
+}
+
+func (UnimplementedResetServiceHandler) RetryBackgroundJob(context.Context, *connect.Request[v1alpha1.RetryBackgroundJobRequest]) (*connect.Response[v1alpha1.RetryBackgroundJobResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.control.integration.reset.v1alpha1.ResetService.RetryBackgroundJob is not implemented"))
 }
