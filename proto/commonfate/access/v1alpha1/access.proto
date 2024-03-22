@@ -33,7 +33,7 @@ service AccessService {
   }
 
   rpc QueryEntitlements(QueryEntitlementsRequest) returns (QueryEntitlementsResponse) {
-    // option(commonfate.authz.v1alpha1.read_only) = true;
+    option(commonfate.authz.v1alpha1.read_only) = true;
   }
 }
 
