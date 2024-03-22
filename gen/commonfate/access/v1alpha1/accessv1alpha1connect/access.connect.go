@@ -39,13 +39,17 @@ const (
 	// AccessServiceQueryAvailabilitiesProcedure is the fully-qualified name of the AccessService's
 	// QueryAvailabilities RPC.
 	AccessServiceQueryAvailabilitiesProcedure = "/commonfate.access.v1alpha1.AccessService/QueryAvailabilities"
+	// AccessServiceQueryAvailabilitiesLiteProcedure is the fully-qualified name of the AccessService's
+	// QueryAvailabilitiesLite RPC.
+	AccessServiceQueryAvailabilitiesLiteProcedure = "/commonfate.access.v1alpha1.AccessService/QueryAvailabilitiesLite"
 )
 
 // These variables are the protoreflect.Descriptor objects for the RPCs defined in this package.
 var (
-	accessServiceServiceDescriptor                   = v1alpha1.File_commonfate_access_v1alpha1_access_proto.Services().ByName("AccessService")
-	accessServiceBatchEnsureMethodDescriptor         = accessServiceServiceDescriptor.Methods().ByName("BatchEnsure")
-	accessServiceQueryAvailabilitiesMethodDescriptor = accessServiceServiceDescriptor.Methods().ByName("QueryAvailabilities")
+	accessServiceServiceDescriptor                       = v1alpha1.File_commonfate_access_v1alpha1_access_proto.Services().ByName("AccessService")
+	accessServiceBatchEnsureMethodDescriptor             = accessServiceServiceDescriptor.Methods().ByName("BatchEnsure")
+	accessServiceQueryAvailabilitiesMethodDescriptor     = accessServiceServiceDescriptor.Methods().ByName("QueryAvailabilities")
+	accessServiceQueryAvailabilitiesLiteMethodDescriptor = accessServiceServiceDescriptor.Methods().ByName("QueryAvailabilitiesLite")
 )
 
 // AccessServiceClient is a client for the commonfate.access.v1alpha1.AccessService service.
@@ -60,6 +64,7 @@ type AccessServiceClient interface {
 	BatchEnsure(context.Context, *connect.Request[v1alpha1.BatchEnsureRequest]) (*connect.Response[v1alpha1.BatchEnsureResponse], error)
 	// Query for JIT availabilities.
 	QueryAvailabilities(context.Context, *connect.Request[v1alpha1.QueryAvailabilitiesRequest]) (*connect.Response[v1alpha1.QueryAvailabilitiesResponse], error)
+	QueryAvailabilitiesLite(context.Context, *connect.Request[v1alpha1.QueryAvailabilitiesLiteRequest]) (*connect.Response[v1alpha1.QueryAvailabilitiesLiteResponse], error)
 }
 
 // NewAccessServiceClient constructs a client for the commonfate.access.v1alpha1.AccessService
@@ -84,13 +89,20 @@ func NewAccessServiceClient(httpClient connect.HTTPClient, baseURL string, opts 
 			connect.WithSchema(accessServiceQueryAvailabilitiesMethodDescriptor),
 			connect.WithClientOptions(opts...),
 		),
+		queryAvailabilitiesLite: connect.NewClient[v1alpha1.QueryAvailabilitiesLiteRequest, v1alpha1.QueryAvailabilitiesLiteResponse](
+			httpClient,
+			baseURL+AccessServiceQueryAvailabilitiesLiteProcedure,
+			connect.WithSchema(accessServiceQueryAvailabilitiesLiteMethodDescriptor),
+			connect.WithClientOptions(opts...),
+		),
 	}
 }
 
 // accessServiceClient implements AccessServiceClient.
 type accessServiceClient struct {
-	batchEnsure         *connect.Client[v1alpha1.BatchEnsureRequest, v1alpha1.BatchEnsureResponse]
-	queryAvailabilities *connect.Client[v1alpha1.QueryAvailabilitiesRequest, v1alpha1.QueryAvailabilitiesResponse]
+	batchEnsure             *connect.Client[v1alpha1.BatchEnsureRequest, v1alpha1.BatchEnsureResponse]
+	queryAvailabilities     *connect.Client[v1alpha1.QueryAvailabilitiesRequest, v1alpha1.QueryAvailabilitiesResponse]
+	queryAvailabilitiesLite *connect.Client[v1alpha1.QueryAvailabilitiesLiteRequest, v1alpha1.QueryAvailabilitiesLiteResponse]
 }
 
 // BatchEnsure calls commonfate.access.v1alpha1.AccessService.BatchEnsure.
@@ -101,6 +113,11 @@ func (c *accessServiceClient) BatchEnsure(ctx context.Context, req *connect.Requ
 // QueryAvailabilities calls commonfate.access.v1alpha1.AccessService.QueryAvailabilities.
 func (c *accessServiceClient) QueryAvailabilities(ctx context.Context, req *connect.Request[v1alpha1.QueryAvailabilitiesRequest]) (*connect.Response[v1alpha1.QueryAvailabilitiesResponse], error) {
 	return c.queryAvailabilities.CallUnary(ctx, req)
+}
+
+// QueryAvailabilitiesLite calls commonfate.access.v1alpha1.AccessService.QueryAvailabilitiesLite.
+func (c *accessServiceClient) QueryAvailabilitiesLite(ctx context.Context, req *connect.Request[v1alpha1.QueryAvailabilitiesLiteRequest]) (*connect.Response[v1alpha1.QueryAvailabilitiesLiteResponse], error) {
+	return c.queryAvailabilitiesLite.CallUnary(ctx, req)
 }
 
 // AccessServiceHandler is an implementation of the commonfate.access.v1alpha1.AccessService
@@ -116,6 +133,7 @@ type AccessServiceHandler interface {
 	BatchEnsure(context.Context, *connect.Request[v1alpha1.BatchEnsureRequest]) (*connect.Response[v1alpha1.BatchEnsureResponse], error)
 	// Query for JIT availabilities.
 	QueryAvailabilities(context.Context, *connect.Request[v1alpha1.QueryAvailabilitiesRequest]) (*connect.Response[v1alpha1.QueryAvailabilitiesResponse], error)
+	QueryAvailabilitiesLite(context.Context, *connect.Request[v1alpha1.QueryAvailabilitiesLiteRequest]) (*connect.Response[v1alpha1.QueryAvailabilitiesLiteResponse], error)
 }
 
 // NewAccessServiceHandler builds an HTTP handler from the service implementation. It returns the
@@ -136,12 +154,20 @@ func NewAccessServiceHandler(svc AccessServiceHandler, opts ...connect.HandlerOp
 		connect.WithSchema(accessServiceQueryAvailabilitiesMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
+	accessServiceQueryAvailabilitiesLiteHandler := connect.NewUnaryHandler(
+		AccessServiceQueryAvailabilitiesLiteProcedure,
+		svc.QueryAvailabilitiesLite,
+		connect.WithSchema(accessServiceQueryAvailabilitiesLiteMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
+	)
 	return "/commonfate.access.v1alpha1.AccessService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
 		case AccessServiceBatchEnsureProcedure:
 			accessServiceBatchEnsureHandler.ServeHTTP(w, r)
 		case AccessServiceQueryAvailabilitiesProcedure:
 			accessServiceQueryAvailabilitiesHandler.ServeHTTP(w, r)
+		case AccessServiceQueryAvailabilitiesLiteProcedure:
+			accessServiceQueryAvailabilitiesLiteHandler.ServeHTTP(w, r)
 		default:
 			http.NotFound(w, r)
 		}
@@ -157,4 +183,8 @@ func (UnimplementedAccessServiceHandler) BatchEnsure(context.Context, *connect.R
 
 func (UnimplementedAccessServiceHandler) QueryAvailabilities(context.Context, *connect.Request[v1alpha1.QueryAvailabilitiesRequest]) (*connect.Response[v1alpha1.QueryAvailabilitiesResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.access.v1alpha1.AccessService.QueryAvailabilities is not implemented"))
+}
+
+func (UnimplementedAccessServiceHandler) QueryAvailabilitiesLite(context.Context, *connect.Request[v1alpha1.QueryAvailabilitiesLiteRequest]) (*connect.Response[v1alpha1.QueryAvailabilitiesLiteResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.access.v1alpha1.AccessService.QueryAvailabilitiesLite is not implemented"))
 }
