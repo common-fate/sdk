@@ -53,7 +53,7 @@ message QueryEntitlementsRequest {
 }
 
 message QueryEntitlementsResponse {
- repeated Entitlement availabilities = 1;
+ repeated Entitlement entitlements = 1;
  string next_page_token = 2;
 }
 
