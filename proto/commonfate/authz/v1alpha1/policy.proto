@@ -22,7 +22,7 @@ service PolicyService {
     rpc DeletePolicySet(DeletePolicySetRequest) returns (DeletePolicySetResponse) {}
 
     // ValidatePolicySetText validates a provided Cedar policy set text document.
-    rpc ValidatePolicySetText(ValidatePolicySetTextRequest) returns (ValidatePolicySetTextRequest) {
+    rpc ValidatePolicySetText(ValidatePolicySetTextRequest) returns (ValidatePolicySetTextResponse) {
         option(commonfate.authz.v1alpha1.read_only) = true;
     }
 }
@@ -31,7 +31,7 @@ message ValidatePolicySetTextRequest {
     string policy_set_text = 1;
 }
 
-message ValidatePolicySetsResponse {
+message ValidatePolicySetTextResponse {
     ValidationResult result = 1;     
 }
 
