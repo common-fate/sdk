@@ -37,7 +37,7 @@ message ValidatePolicySetsResponse {
 
 message ValidationResult {
     repeated ValidationError errors = 1;
-    repeated ValidationError warnings = 2;
+    repeated ValidationWarning warnings = 2;
 }
 
 message ValidationError {
