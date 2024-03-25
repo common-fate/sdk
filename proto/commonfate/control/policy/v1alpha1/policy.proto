@@ -22,18 +22,19 @@ service PolicyService {
 
     rpc DeletePolicySet(DeletePolicySetRequest) returns (DeletePolicySetResponse) {}
 
-    rpc ValidatePolicySets(ValidatePolicySetsRequest) returns (ValidatePolicySetsRequest) {
+     // ValidatePolicySetText validates a provided Cedar policy set text document.
+     rpc ValidatePolicySetText(ValidatePolicySetTextRequest) returns (ValidatePolicySetTextRequest) {
         option(commonfate.authz.v1alpha1.read_only) = true;
     }
 }
 
-message ValidatePolicySetsRequest {
-    repeated commonfate.authz.v1alpha1.PolicySet policy_sets = 1;
+
+message ValidatePolicySetTextRequest {
+    string policy_set_text = 1;
 }
 
 message ValidatePolicySetsResponse {
-    repeated commonfate.authz.v1alpha1.ValidationError errors = 1;
-    repeated commonfate.authz.v1alpha1.ValidationError warnings = 2;
+    commonfate.authz.v1alpha1.ValidationResult result = 1;     
 }
 
 

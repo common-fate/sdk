@@ -48,20 +48,20 @@ const (
 	// PolicyServiceDeletePolicySetProcedure is the fully-qualified name of the PolicyService's
 	// DeletePolicySet RPC.
 	PolicyServiceDeletePolicySetProcedure = "/commonfate.authz.v1alpha1.PolicyService/DeletePolicySet"
-	// PolicyServiceValidatePolicySetsProcedure is the fully-qualified name of the PolicyService's
-	// ValidatePolicySets RPC.
-	PolicyServiceValidatePolicySetsProcedure = "/commonfate.authz.v1alpha1.PolicyService/ValidatePolicySets"
+	// PolicyServiceValidatePolicySetTextProcedure is the fully-qualified name of the PolicyService's
+	// ValidatePolicySetText RPC.
+	PolicyServiceValidatePolicySetTextProcedure = "/commonfate.authz.v1alpha1.PolicyService/ValidatePolicySetText"
 )
 
 // These variables are the protoreflect.Descriptor objects for the RPCs defined in this package.
 var (
-	policyServiceServiceDescriptor                  = v1alpha1.File_commonfate_authz_v1alpha1_policy_proto.Services().ByName("PolicyService")
-	policyServiceCreatePolicySetMethodDescriptor    = policyServiceServiceDescriptor.Methods().ByName("CreatePolicySet")
-	policyServiceUpdatePolicySetMethodDescriptor    = policyServiceServiceDescriptor.Methods().ByName("UpdatePolicySet")
-	policyServiceListPolicySetsMethodDescriptor     = policyServiceServiceDescriptor.Methods().ByName("ListPolicySets")
-	policyServiceGetPolicySetMethodDescriptor       = policyServiceServiceDescriptor.Methods().ByName("GetPolicySet")
-	policyServiceDeletePolicySetMethodDescriptor    = policyServiceServiceDescriptor.Methods().ByName("DeletePolicySet")
-	policyServiceValidatePolicySetsMethodDescriptor = policyServiceServiceDescriptor.Methods().ByName("ValidatePolicySets")
+	policyServiceServiceDescriptor                     = v1alpha1.File_commonfate_authz_v1alpha1_policy_proto.Services().ByName("PolicyService")
+	policyServiceCreatePolicySetMethodDescriptor       = policyServiceServiceDescriptor.Methods().ByName("CreatePolicySet")
+	policyServiceUpdatePolicySetMethodDescriptor       = policyServiceServiceDescriptor.Methods().ByName("UpdatePolicySet")
+	policyServiceListPolicySetsMethodDescriptor        = policyServiceServiceDescriptor.Methods().ByName("ListPolicySets")
+	policyServiceGetPolicySetMethodDescriptor          = policyServiceServiceDescriptor.Methods().ByName("GetPolicySet")
+	policyServiceDeletePolicySetMethodDescriptor       = policyServiceServiceDescriptor.Methods().ByName("DeletePolicySet")
+	policyServiceValidatePolicySetTextMethodDescriptor = policyServiceServiceDescriptor.Methods().ByName("ValidatePolicySetText")
 )
 
 // PolicyServiceClient is a client for the commonfate.authz.v1alpha1.PolicyService service.
@@ -71,7 +71,8 @@ type PolicyServiceClient interface {
 	ListPolicySets(context.Context, *connect.Request[v1alpha1.ListPolicySetsRequest]) (*connect.Response[v1alpha1.ListPolicySetsResponse], error)
 	GetPolicySet(context.Context, *connect.Request[v1alpha1.GetPolicySetRequest]) (*connect.Response[v1alpha1.GetPolicySetResponse], error)
 	DeletePolicySet(context.Context, *connect.Request[v1alpha1.DeletePolicySetRequest]) (*connect.Response[v1alpha1.DeletePolicySetResponse], error)
-	ValidatePolicySets(context.Context, *connect.Request[v1alpha1.ValidatePolicySetsRequest]) (*connect.Response[v1alpha1.ValidatePolicySetsRequest], error)
+	// ValidatePolicySetText validates a provided Cedar policy set text document.
+	ValidatePolicySetText(context.Context, *connect.Request[v1alpha1.ValidatePolicySetTextRequest]) (*connect.Response[v1alpha1.ValidatePolicySetTextRequest], error)
 }
 
 // NewPolicyServiceClient constructs a client for the commonfate.authz.v1alpha1.PolicyService
@@ -114,10 +115,10 @@ func NewPolicyServiceClient(httpClient connect.HTTPClient, baseURL string, opts 
 			connect.WithSchema(policyServiceDeletePolicySetMethodDescriptor),
 			connect.WithClientOptions(opts...),
 		),
-		validatePolicySets: connect.NewClient[v1alpha1.ValidatePolicySetsRequest, v1alpha1.ValidatePolicySetsRequest](
+		validatePolicySetText: connect.NewClient[v1alpha1.ValidatePolicySetTextRequest, v1alpha1.ValidatePolicySetTextRequest](
 			httpClient,
-			baseURL+PolicyServiceValidatePolicySetsProcedure,
-			connect.WithSchema(policyServiceValidatePolicySetsMethodDescriptor),
+			baseURL+PolicyServiceValidatePolicySetTextProcedure,
+			connect.WithSchema(policyServiceValidatePolicySetTextMethodDescriptor),
 			connect.WithClientOptions(opts...),
 		),
 	}
@@ -125,12 +126,12 @@ func NewPolicyServiceClient(httpClient connect.HTTPClient, baseURL string, opts 
 
 // policyServiceClient implements PolicyServiceClient.
 type policyServiceClient struct {
-	createPolicySet    *connect.Client[v1alpha1.CreatePolicySetRequest, v1alpha1.CreatePolicySetResponse]
-	updatePolicySet    *connect.Client[v1alpha1.UpdatePolicySetRequest, v1alpha1.UpdatePolicySetResponse]
-	listPolicySets     *connect.Client[v1alpha1.ListPolicySetsRequest, v1alpha1.ListPolicySetsResponse]
-	getPolicySet       *connect.Client[v1alpha1.GetPolicySetRequest, v1alpha1.GetPolicySetResponse]
-	deletePolicySet    *connect.Client[v1alpha1.DeletePolicySetRequest, v1alpha1.DeletePolicySetResponse]
-	validatePolicySets *connect.Client[v1alpha1.ValidatePolicySetsRequest, v1alpha1.ValidatePolicySetsRequest]
+	createPolicySet       *connect.Client[v1alpha1.CreatePolicySetRequest, v1alpha1.CreatePolicySetResponse]
+	updatePolicySet       *connect.Client[v1alpha1.UpdatePolicySetRequest, v1alpha1.UpdatePolicySetResponse]
+	listPolicySets        *connect.Client[v1alpha1.ListPolicySetsRequest, v1alpha1.ListPolicySetsResponse]
+	getPolicySet          *connect.Client[v1alpha1.GetPolicySetRequest, v1alpha1.GetPolicySetResponse]
+	deletePolicySet       *connect.Client[v1alpha1.DeletePolicySetRequest, v1alpha1.DeletePolicySetResponse]
+	validatePolicySetText *connect.Client[v1alpha1.ValidatePolicySetTextRequest, v1alpha1.ValidatePolicySetTextRequest]
 }
 
 // CreatePolicySet calls commonfate.authz.v1alpha1.PolicyService.CreatePolicySet.
@@ -158,9 +159,9 @@ func (c *policyServiceClient) DeletePolicySet(ctx context.Context, req *connect.
 	return c.deletePolicySet.CallUnary(ctx, req)
 }
 
-// ValidatePolicySets calls commonfate.authz.v1alpha1.PolicyService.ValidatePolicySets.
-func (c *policyServiceClient) ValidatePolicySets(ctx context.Context, req *connect.Request[v1alpha1.ValidatePolicySetsRequest]) (*connect.Response[v1alpha1.ValidatePolicySetsRequest], error) {
-	return c.validatePolicySets.CallUnary(ctx, req)
+// ValidatePolicySetText calls commonfate.authz.v1alpha1.PolicyService.ValidatePolicySetText.
+func (c *policyServiceClient) ValidatePolicySetText(ctx context.Context, req *connect.Request[v1alpha1.ValidatePolicySetTextRequest]) (*connect.Response[v1alpha1.ValidatePolicySetTextRequest], error) {
+	return c.validatePolicySetText.CallUnary(ctx, req)
 }
 
 // PolicyServiceHandler is an implementation of the commonfate.authz.v1alpha1.PolicyService service.
@@ -170,7 +171,8 @@ type PolicyServiceHandler interface {
 	ListPolicySets(context.Context, *connect.Request[v1alpha1.ListPolicySetsRequest]) (*connect.Response[v1alpha1.ListPolicySetsResponse], error)
 	GetPolicySet(context.Context, *connect.Request[v1alpha1.GetPolicySetRequest]) (*connect.Response[v1alpha1.GetPolicySetResponse], error)
 	DeletePolicySet(context.Context, *connect.Request[v1alpha1.DeletePolicySetRequest]) (*connect.Response[v1alpha1.DeletePolicySetResponse], error)
-	ValidatePolicySets(context.Context, *connect.Request[v1alpha1.ValidatePolicySetsRequest]) (*connect.Response[v1alpha1.ValidatePolicySetsRequest], error)
+	// ValidatePolicySetText validates a provided Cedar policy set text document.
+	ValidatePolicySetText(context.Context, *connect.Request[v1alpha1.ValidatePolicySetTextRequest]) (*connect.Response[v1alpha1.ValidatePolicySetTextRequest], error)
 }
 
 // NewPolicyServiceHandler builds an HTTP handler from the service implementation. It returns the
@@ -209,10 +211,10 @@ func NewPolicyServiceHandler(svc PolicyServiceHandler, opts ...connect.HandlerOp
 		connect.WithSchema(policyServiceDeletePolicySetMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
-	policyServiceValidatePolicySetsHandler := connect.NewUnaryHandler(
-		PolicyServiceValidatePolicySetsProcedure,
-		svc.ValidatePolicySets,
-		connect.WithSchema(policyServiceValidatePolicySetsMethodDescriptor),
+	policyServiceValidatePolicySetTextHandler := connect.NewUnaryHandler(
+		PolicyServiceValidatePolicySetTextProcedure,
+		svc.ValidatePolicySetText,
+		connect.WithSchema(policyServiceValidatePolicySetTextMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
 	return "/commonfate.authz.v1alpha1.PolicyService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -227,8 +229,8 @@ func NewPolicyServiceHandler(svc PolicyServiceHandler, opts ...connect.HandlerOp
 			policyServiceGetPolicySetHandler.ServeHTTP(w, r)
 		case PolicyServiceDeletePolicySetProcedure:
 			policyServiceDeletePolicySetHandler.ServeHTTP(w, r)
-		case PolicyServiceValidatePolicySetsProcedure:
-			policyServiceValidatePolicySetsHandler.ServeHTTP(w, r)
+		case PolicyServiceValidatePolicySetTextProcedure:
+			policyServiceValidatePolicySetTextHandler.ServeHTTP(w, r)
 		default:
 			http.NotFound(w, r)
 		}
@@ -258,6 +260,6 @@ func (UnimplementedPolicyServiceHandler) DeletePolicySet(context.Context, *conne
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.authz.v1alpha1.PolicyService.DeletePolicySet is not implemented"))
 }
 
-func (UnimplementedPolicyServiceHandler) ValidatePolicySets(context.Context, *connect.Request[v1alpha1.ValidatePolicySetsRequest]) (*connect.Response[v1alpha1.ValidatePolicySetsRequest], error) {
-	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.authz.v1alpha1.PolicyService.ValidatePolicySets is not implemented"))
+func (UnimplementedPolicyServiceHandler) ValidatePolicySetText(context.Context, *connect.Request[v1alpha1.ValidatePolicySetTextRequest]) (*connect.Response[v1alpha1.ValidatePolicySetTextRequest], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.authz.v1alpha1.PolicyService.ValidatePolicySetText is not implemented"))
 }
