@@ -37,9 +37,11 @@ message ValidatePolicySetsResponse {
 
 message ValidationError {
     string policy_id = 1;
-    optional SourceRange source_range = 2;
-    string message = 3;
-    ValidationErrorKind kind = 4;
+    string message = 2;
+
+    // additional fields which will be added in future.
+    // optional SourceRange source_range = 2;
+    // ValidationErrorKind kind = 4;
 }
 
 enum ValidationErrorKind {
@@ -65,9 +67,11 @@ enum ValidationErrorKind {
 
 message ValidationWarning {
     string policy_id = 1;
-    optional SourceRange source_range = 2;
-    string message = 3;
-    ValidationWarningKind kind = 4;
+    string message = 2;
+
+    // additional fields which will be added in future.
+    // optional SourceRange source_range = 2;
+    // ValidationWarningKind kind = 4;
 }
 
 enum ValidationWarningKind {
