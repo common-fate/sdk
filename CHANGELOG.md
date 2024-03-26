@@ -1,11 +1,5 @@
 # @common-fate/sdk
 
-## 1.13.1
-
-### Patch Changes
-
-- 48b6916: adds api for retrying river background tasks
-
 ## 1.13.0
 
 ### Minor Changes
