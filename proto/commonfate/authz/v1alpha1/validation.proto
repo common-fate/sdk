@@ -1,0 +1,95 @@
+syntax = "proto3";
+
+package commonfate.authz.v1alpha1;
+
+import "commonfate/authz/v1alpha1/read_only.proto";
+
+
+// ValidationService validates Cedar policies.
+service ValidationService {
+    // ValidatePolicySetText validates a provided Cedar policy set text document.
+    rpc ValidatePolicySetText(ValidatePolicySetTextRequest) returns (ValidatePolicySetTextResponse) {
+        option(commonfate.authz.v1alpha1.read_only) = true;
+    }
+}
+
+
+message ValidatePolicySetTextRequest {
+    string policy_set_text = 1;
+}
+
+message ValidatePolicySetTextResponse {
+    ValidationResult result = 1;     
+}
+
+message ValidationResult {
+    repeated ValidationError errors = 1;
+    repeated ValidationWarning warnings = 2;
+}
+
+message ValidationError {
+    string policy_id = 1;
+    string message = 2;
+
+    // additional fields which will be added in future.
+    // optional SourceRange source_range = 2;
+    // ValidationErrorKind kind = 4;
+}
+
+enum ValidationErrorKind {
+    VALIDATION_ERROR_KIND_UNSPECIFIED = 0;
+  
+    // A policy contains an entity type that is not declared in the schema.
+    VALIDATION_ERROR_UNRECOGNIZED_ENTITY_TYPE = 1;
+  
+    // A policy contains an action that is not declared in the schema.
+    VALIDATION_ERROR_UNRECOGNIZED_ACTION_ID = 2;
+
+    // There is no action satisfying the action head constraint that can be
+    // applied to a principal and resources that both satisfy their respective
+    // head conditions.
+    VALIDATION_ERROR_INVALID_ACTION_APPLICATION = 3;
+
+    // The type checker found an error.
+    VALIDATION_ERROR_TYPE_ERROR = 4;
+
+    // An unspecified entity was used in a policy.
+    VALIDATION_ERROR_UNSPECIFIED_ENTITY = 5;
+}
+
+message ValidationWarning {
+    string policy_id = 1;
+    string message = 2;
+
+    // additional fields which will be added in future.
+    // optional SourceRange source_range = 2;
+    // ValidationWarningKind kind = 4;
+}
+
+enum ValidationWarningKind {
+    VALIDATION_WARNING_KIND_UNSPECIFIED = 0;
+  
+    // A string contains mixed scripts. Different scripts can contain visually similar characters which may be confused for each other.
+    VALIDATION_WARNING_MIXED_SCRIPT_STRING = 1;
+  
+    // A string contains BIDI control characters. These can be used to create crafted pieces of code that obfuscate true control flow.
+    VALIDATION_WARNING_BIDI_CHARS_IN_STRING = 2;
+
+    // An id contains BIDI control characters. These can be used to create crafted pieces of code that obfuscate true control flow.
+    VALIDATION_WARNING_BIDI_CHARS_IN_IDENTIFIER = 3;
+
+    // An id contains mixed scripts. This can cause characters to be confused for each other.
+    VALIDATION_WARNING_MIXED_SCRIPT_IDENTIFIER = 4;
+
+    // An id contains characters that fall outside of the General Security Profile for Identifiers. We recommend adhering to this if possible. See Unicode® Technical Standard #39 for more info.
+    VALIDATION_WARNING_CONFUSABLE_IDENTIFIER = 5;
+
+    // An entity referenced in a policy does not exist.
+    VALIDATION_WARNING_ENTITY_DOES_NOT_EXIST = 6;
+}
+
+// The range in the policy definition which contains the error
+message SourceRange {
+    uint32 start = 1;
+    uint32 end = 2;
+}
