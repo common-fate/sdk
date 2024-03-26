@@ -3,6 +3,7 @@ syntax = "proto3";
 package commonfate.authz.v1alpha1;
 
 import "commonfate/entity/v1alpha1/entity.proto";
+import "commonfate/authz/v1alpha1/read_only.proto";
 
 
 service PolicyService {
@@ -10,9 +11,13 @@ service PolicyService {
 
     rpc UpdatePolicySet(UpdatePolicySetRequest) returns (UpdatePolicySetResponse) {}
 
-    rpc ListPolicySets(ListPolicySetsRequest) returns (ListPolicySetsResponse) {}
+    rpc ListPolicySets(ListPolicySetsRequest) returns (ListPolicySetsResponse) {
+        option(commonfate.authz.v1alpha1.read_only) = true;
+    }
 
-    rpc GetPolicySet(GetPolicySetRequest) returns (GetPolicySetResponse) {}
+    rpc GetPolicySet(GetPolicySetRequest) returns (GetPolicySetResponse) {
+        option(commonfate.authz.v1alpha1.read_only) = true;
+    }
 
     rpc DeletePolicySet(DeletePolicySetRequest) returns (DeletePolicySetResponse) {}
 }

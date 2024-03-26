@@ -12,6 +12,8 @@ import "commonfate/access/v1alpha1/named_eid.proto";
 import "commonfate/access/v1alpha1/user.proto";
 import "google/protobuf/duration.proto";
 import "google/protobuf/timestamp.proto";
+import "commonfate/authz/v1alpha1/read_only.proto";
+
 
 // AccessService is the Access Handler's user-facing API.
 // Users call this API to ensure that they have access to entitlements.
@@ -26,7 +28,9 @@ service AccessService {
   rpc BatchEnsure(BatchEnsureRequest) returns (BatchEnsureResponse) {}
 
   // Query for JIT availabilities.
-  rpc QueryAvailabilities(QueryAvailabilitiesRequest) returns (QueryAvailabilitiesResponse) {}
+  rpc QueryAvailabilities(QueryAvailabilitiesRequest) returns (QueryAvailabilitiesResponse) {
+    option(commonfate.authz.v1alpha1.read_only) = true;
+  }
 }
 
 message QueryAvailabilitiesRequest {

@@ -1,0 +1,120 @@
+syntax = "proto3";
+
+package commonfate.control.log.v1alpha1;
+
+import "google/protobuf/timestamp.proto";
+
+import "commonfate/authz/v1alpha1/request.proto";
+import "commonfate/authz/v1alpha1/evaluation.proto";
+import "commonfate/authz/v1alpha1/policy.proto";
+import "commonfate/authz/v1alpha1/read_only.proto";
+import "commonfate/entity/v1alpha1/entity.proto";
+import "commonfate/entity/v1alpha1/eid.proto";
+import "google/protobuf/duration.proto";
+
+// EvalService is the API for auditing authorization evaluations made by authz.
+service EvaluationService {
+    // Query for historical authorization evaluations.
+    rpc QueryEvaluations(QueryEvaluationsRequest) returns (QueryEvaluationsResponse) {
+        option(commonfate.authz.v1alpha1.read_only) = true;
+    }
+
+    // Returns an authorization evaluation by a particular ID.
+    rpc GetEvaluation(GetEvaluationRequest) returns (GetEvaluationResponse) {
+        option(commonfate.authz.v1alpha1.read_only) = true;
+    }
+
+    // Fetches debug information about the evaluation of a particular decision
+    rpc DebugEvaluation(DebugEvaluationRequest) returns (DebugEvaluationResponse) {
+        option(commonfate.authz.v1alpha1.read_only) = true;
+    }
+}
+
+message QueryEvaluationsRequest {
+    // The token for the next page.
+    string page_token = 1;
+
+    // Filters for the query. Events matching *all* filters will be returned.
+    repeated Filter filters = 2;
+}
+
+// Filters events with a particular authorization decision
+message DecisionFilter {
+    commonfate.authz.v1alpha1.Decision decision = 1;
+}
+
+// Filters event by a particular key/value tag associated when them.
+// Will filter for either events which match the tag, or do not match the tag,
+// based on the 'comparison' value.
+message TagFilter {
+    string key = 1;
+    string value = 2;
+    BoolComparison comparison = 3;
+}
+
+// Filters events where the principal/action/resource matches particular entities.
+message EntityFilter {
+    // IDs of entities to filter for. Will filter for a principal/action/resource matching any of these entities.
+    repeated commonfate.entity.v1alpha1.EID ids = 1;
+}
+
+// Filters events based on when they occurred.
+message OccurredAtFilter {
+    google.protobuf.Timestamp time = 1;
+    TimeComparison comparison = 2;
+}
+
+message Filter {
+    oneof filter {
+        TagFilter tag = 1;
+        OccurredAtFilter occurred_at = 2;
+        EntityFilter principal = 3;
+        EntityFilter action = 4;
+        EntityFilter resource = 5;
+        DecisionFilter decision = 6;
+    }
+}
+
+enum TimeComparison {
+    TIME_COMPARISON_UNSPECIFIED = 0;
+
+    // Events which occurred before the specified time.
+    TIME_COMPARISON_BEFORE = 1;
+
+    // Events which occurred after the specified time.
+    TIME_COMPARISON_AFTER = 2;
+}
+
+enum BoolComparison {
+    BOOL_COMPARISON_UNSPECIFIED = 0;
+
+    // Equal to the provided value.
+    BOOL_COMPARISON_EQUAL = 1;
+
+    // Not equal to the provided value.
+    TIME_COMPARISON_NOT_EQUAL = 2;
+}
+
+
+message QueryEvaluationsResponse {
+    repeated commonfate.authz.v1alpha1.Evaluation evaluations = 1;
+    string next_page_token = 2;
+}
+
+
+message GetEvaluationRequest {
+    // The authorization evaluation ID.
+    string id = 1;
+}
+
+message GetEvaluationResponse {
+    commonfate.authz.v1alpha1.Evaluation evaluation = 1;
+}
+
+message DebugEvaluationRequest {
+    string id = 1;
+}
+
+message DebugEvaluationResponse {
+    commonfate.authz.v1alpha1.DebugEvaluation debug_evaluation = 1;
+}
