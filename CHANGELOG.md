@@ -1,5 +1,15 @@
 # @common-fate/sdk
 
+## 1.14.0
+
+### Minor Changes
+
+- f9d63c8: Add Cedar policy validation APIs
+
+### Patch Changes
+
+- 3d71a71: add simple entitlement type and api for listing target role pairs
+
 ## 1.13.1
 
 ### Patch Changes
