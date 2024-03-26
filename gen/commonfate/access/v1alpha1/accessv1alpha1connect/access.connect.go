@@ -39,6 +39,9 @@ const (
 	// AccessServiceQueryAvailabilitiesProcedure is the fully-qualified name of the AccessService's
 	// QueryAvailabilities RPC.
 	AccessServiceQueryAvailabilitiesProcedure = "/commonfate.access.v1alpha1.AccessService/QueryAvailabilities"
+	// AccessServiceQueryEntitlementsProcedure is the fully-qualified name of the AccessService's
+	// QueryEntitlements RPC.
+	AccessServiceQueryEntitlementsProcedure = "/commonfate.access.v1alpha1.AccessService/QueryEntitlements"
 )
 
 // These variables are the protoreflect.Descriptor objects for the RPCs defined in this package.
@@ -46,6 +49,7 @@ var (
 	accessServiceServiceDescriptor                   = v1alpha1.File_commonfate_access_v1alpha1_access_proto.Services().ByName("AccessService")
 	accessServiceBatchEnsureMethodDescriptor         = accessServiceServiceDescriptor.Methods().ByName("BatchEnsure")
 	accessServiceQueryAvailabilitiesMethodDescriptor = accessServiceServiceDescriptor.Methods().ByName("QueryAvailabilities")
+	accessServiceQueryEntitlementsMethodDescriptor   = accessServiceServiceDescriptor.Methods().ByName("QueryEntitlements")
 )
 
 // AccessServiceClient is a client for the commonfate.access.v1alpha1.AccessService service.
@@ -60,6 +64,7 @@ type AccessServiceClient interface {
 	BatchEnsure(context.Context, *connect.Request[v1alpha1.BatchEnsureRequest]) (*connect.Response[v1alpha1.BatchEnsureResponse], error)
 	// Query for JIT availabilities.
 	QueryAvailabilities(context.Context, *connect.Request[v1alpha1.QueryAvailabilitiesRequest]) (*connect.Response[v1alpha1.QueryAvailabilitiesResponse], error)
+	QueryEntitlements(context.Context, *connect.Request[v1alpha1.QueryEntitlementsRequest]) (*connect.Response[v1alpha1.QueryEntitlementsResponse], error)
 }
 
 // NewAccessServiceClient constructs a client for the commonfate.access.v1alpha1.AccessService
@@ -84,6 +89,12 @@ func NewAccessServiceClient(httpClient connect.HTTPClient, baseURL string, opts 
 			connect.WithSchema(accessServiceQueryAvailabilitiesMethodDescriptor),
 			connect.WithClientOptions(opts...),
 		),
+		queryEntitlements: connect.NewClient[v1alpha1.QueryEntitlementsRequest, v1alpha1.QueryEntitlementsResponse](
+			httpClient,
+			baseURL+AccessServiceQueryEntitlementsProcedure,
+			connect.WithSchema(accessServiceQueryEntitlementsMethodDescriptor),
+			connect.WithClientOptions(opts...),
+		),
 	}
 }
 
@@ -91,6 +102,7 @@ func NewAccessServiceClient(httpClient connect.HTTPClient, baseURL string, opts 
 type accessServiceClient struct {
 	batchEnsure         *connect.Client[v1alpha1.BatchEnsureRequest, v1alpha1.BatchEnsureResponse]
 	queryAvailabilities *connect.Client[v1alpha1.QueryAvailabilitiesRequest, v1alpha1.QueryAvailabilitiesResponse]
+	queryEntitlements   *connect.Client[v1alpha1.QueryEntitlementsRequest, v1alpha1.QueryEntitlementsResponse]
 }
 
 // BatchEnsure calls commonfate.access.v1alpha1.AccessService.BatchEnsure.
@@ -101,6 +113,11 @@ func (c *accessServiceClient) BatchEnsure(ctx context.Context, req *connect.Requ
 // QueryAvailabilities calls commonfate.access.v1alpha1.AccessService.QueryAvailabilities.
 func (c *accessServiceClient) QueryAvailabilities(ctx context.Context, req *connect.Request[v1alpha1.QueryAvailabilitiesRequest]) (*connect.Response[v1alpha1.QueryAvailabilitiesResponse], error) {
 	return c.queryAvailabilities.CallUnary(ctx, req)
+}
+
+// QueryEntitlements calls commonfate.access.v1alpha1.AccessService.QueryEntitlements.
+func (c *accessServiceClient) QueryEntitlements(ctx context.Context, req *connect.Request[v1alpha1.QueryEntitlementsRequest]) (*connect.Response[v1alpha1.QueryEntitlementsResponse], error) {
+	return c.queryEntitlements.CallUnary(ctx, req)
 }
 
 // AccessServiceHandler is an implementation of the commonfate.access.v1alpha1.AccessService
@@ -116,6 +133,7 @@ type AccessServiceHandler interface {
 	BatchEnsure(context.Context, *connect.Request[v1alpha1.BatchEnsureRequest]) (*connect.Response[v1alpha1.BatchEnsureResponse], error)
 	// Query for JIT availabilities.
 	QueryAvailabilities(context.Context, *connect.Request[v1alpha1.QueryAvailabilitiesRequest]) (*connect.Response[v1alpha1.QueryAvailabilitiesResponse], error)
+	QueryEntitlements(context.Context, *connect.Request[v1alpha1.QueryEntitlementsRequest]) (*connect.Response[v1alpha1.QueryEntitlementsResponse], error)
 }
 
 // NewAccessServiceHandler builds an HTTP handler from the service implementation. It returns the
@@ -136,12 +154,20 @@ func NewAccessServiceHandler(svc AccessServiceHandler, opts ...connect.HandlerOp
 		connect.WithSchema(accessServiceQueryAvailabilitiesMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
+	accessServiceQueryEntitlementsHandler := connect.NewUnaryHandler(
+		AccessServiceQueryEntitlementsProcedure,
+		svc.QueryEntitlements,
+		connect.WithSchema(accessServiceQueryEntitlementsMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
+	)
 	return "/commonfate.access.v1alpha1.AccessService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
 		case AccessServiceBatchEnsureProcedure:
 			accessServiceBatchEnsureHandler.ServeHTTP(w, r)
 		case AccessServiceQueryAvailabilitiesProcedure:
 			accessServiceQueryAvailabilitiesHandler.ServeHTTP(w, r)
+		case AccessServiceQueryEntitlementsProcedure:
+			accessServiceQueryEntitlementsHandler.ServeHTTP(w, r)
 		default:
 			http.NotFound(w, r)
 		}
@@ -157,4 +183,8 @@ func (UnimplementedAccessServiceHandler) BatchEnsure(context.Context, *connect.R
 
 func (UnimplementedAccessServiceHandler) QueryAvailabilities(context.Context, *connect.Request[v1alpha1.QueryAvailabilitiesRequest]) (*connect.Response[v1alpha1.QueryAvailabilitiesResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.access.v1alpha1.AccessService.QueryAvailabilities is not implemented"))
+}
+
+func (UnimplementedAccessServiceHandler) QueryEntitlements(context.Context, *connect.Request[v1alpha1.QueryEntitlementsRequest]) (*connect.Response[v1alpha1.QueryEntitlementsResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.access.v1alpha1.AccessService.QueryEntitlements is not implemented"))
 }

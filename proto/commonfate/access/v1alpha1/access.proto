@@ -31,6 +31,10 @@ service AccessService {
   rpc QueryAvailabilities(QueryAvailabilitiesRequest) returns (QueryAvailabilitiesResponse) {
     option(commonfate.authz.v1alpha1.read_only) = true;
   }
+
+  rpc QueryEntitlements(QueryEntitlementsRequest) returns (QueryEntitlementsResponse) {
+    option(commonfate.authz.v1alpha1.read_only) = true;
+  }
 }
 
 message QueryAvailabilitiesRequest {
@@ -41,6 +45,25 @@ message QueryAvailabilitiesRequest {
 message QueryAvailabilitiesResponse {
   repeated Availability availabilities = 1;
   string next_page_token = 2;
+}
+
+message QueryEntitlementsRequest {
+  // The token for the next page.
+  string page_token = 10;
+}
+
+message QueryEntitlementsResponse {
+ repeated Entitlement entitlements = 1;
+ string next_page_token = 2;
+}
+
+
+message Entitlement {
+   // The particular resource which this entitlement gives access to
+   NamedEID target = 1;
+
+   // The particular role this entitlement gives access to
+   NamedEID role = 2;
 }
 
 
