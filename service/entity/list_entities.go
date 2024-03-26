@@ -7,6 +7,7 @@ import (
 	"github.com/common-fate/sdk/eid"
 	entityv1alpha1 "github.com/common-fate/sdk/gen/commonfate/entity/v1alpha1"
 	"github.com/patrickmn/go-cache"
+	"go.opentelemetry.io/otel/attribute"
 )
 
 type ListInput struct {
@@ -17,6 +18,9 @@ type ListInput struct {
 }
 
 func (c *Client) List(ctx context.Context, input ListInput) (*ListOutput, error) {
+	ctx, span := tracer.Start(ctx, "ListEntities")
+	defer span.End()
+
 	req := &entityv1alpha1.ListRequest{
 		Universe:        "default",
 		Type:            input.Type,
@@ -41,6 +45,8 @@ func (c *Client) List(ctx context.Context, input ListInput) (*ListOutput, error)
 
 		c.cache.Set(id.String(), e, cache.DefaultExpiration)
 	}
+
+	span.SetAttributes(attribute.Int("entities_count", len(res.Msg.Entities)))
 
 	return res.Msg, nil
 }
