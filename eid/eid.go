@@ -26,12 +26,15 @@ type EID struct {
 	ID string `json:"id"`
 }
 type eidJson struct {
-	Entity *EID `json:"__entity"`
+	Entity struct {
+		Type string `json:"type"`
+		ID   string `json:"id"`
+	} `json:"__entity"`
 }
 
 func (e *EID) MarshalJSON() ([]byte, error) {
 	return json.Marshal(eidJson{
-		Entity: e,
+		Entity: *e,
 	})
 }
 
