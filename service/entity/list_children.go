@@ -43,6 +43,7 @@ func (c *Client) ListChildren(ctx context.Context, input ListChildrenInput) (Lis
 	}
 
 	span.SetAttributes(attribute.Int("children_count", len(res.Msg.Children)))
+	span.SetAttributes(attribute.String("parent", input.Parent.ID))
 
 	return out, nil
 }
