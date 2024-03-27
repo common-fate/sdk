@@ -49,8 +49,8 @@ service AccessService {
 }
 
 message QueryApproversRequest {
-  commonfate.entity.v1alpha1.EID target = 1;
-  commonfate.entity.v1alpha1.EID role = 2;
+  Specifier target = 1;
+  Specifier role = 2;
 }
 
 message QueryApproversResponse {
@@ -79,7 +79,7 @@ message QueryEntitlementsResponse {
 }
 
 message PreviewEntitlementsRequest {
-  commonfate.entity.v1alpha1.EID principal = 1;
+  Specifier principal = 1;
   optional string target_type = 2;
 }
 
@@ -88,8 +88,8 @@ message PreviewEntitlementsResponse {
 }
 
 message PreviewEntitlementAccessRequest {
-  commonfate.entity.v1alpha1.EID target = 1;
-  commonfate.entity.v1alpha1.EID role = 2;
+  Specifier target = 1;
+  Specifier role = 2;
 }
 
 message PreviewEntitlementAccessResponse {
