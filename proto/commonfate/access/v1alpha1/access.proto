@@ -98,7 +98,7 @@ message PreviewEntitlementAccessResponse {
 }
 
 message PrincipalAccess {
-  NamedEID principal = 1;
+  User principal = 1;
   // Whether or not it is auto approved
   bool auto_approved = 2;
 }
