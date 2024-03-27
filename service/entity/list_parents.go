@@ -6,6 +6,7 @@ import (
 	"connectrpc.com/connect"
 	"github.com/common-fate/sdk/eid"
 	entityv1alpha1 "github.com/common-fate/sdk/gen/commonfate/entity/v1alpha1"
+	"go.opentelemetry.io/otel/attribute"
 )
 
 type ListParentsInput struct {
@@ -19,6 +20,9 @@ type ListParentsOutput struct {
 }
 
 func (c *Client) ListParents(ctx context.Context, input ListParentsInput) (ListParentsOutput, error) {
+	ctx, span := tracer.Start(ctx, "ListParents")
+	defer span.End()
+
 	req := &entityv1alpha1.ListParentsRequest{
 		Universe:  "default",
 		PageToken: input.PageToken,
@@ -37,6 +41,8 @@ func (c *Client) ListParents(ctx context.Context, input ListParentsInput) (ListP
 	for _, p := range res.Msg.Parents {
 		out.Parents = append(out.Parents, eid.FromAPI(p))
 	}
+
+	span.SetAttributes(attribute.Int("parents_count", len(res.Msg.Parents)))
 
 	return out, nil
 }

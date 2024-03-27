@@ -16,6 +16,7 @@ import (
 	"github.com/fatih/structtag"
 	"github.com/patrickmn/go-cache"
 	"github.com/pkg/errors"
+	"go.opentelemetry.io/otel"
 	"golang.org/x/net/http2"
 	"golang.org/x/oauth2"
 )
@@ -46,6 +47,10 @@ var insecureTransport = &http2.Transport{
 		return net.Dial(network, addr)
 	},
 }
+
+var (
+	tracer = otel.Tracer("sdk_service_entity")
+)
 
 func NewClient(opts Opts) Client {
 	// client uses GRPC by default as the authz service does not support Buf Connect.
