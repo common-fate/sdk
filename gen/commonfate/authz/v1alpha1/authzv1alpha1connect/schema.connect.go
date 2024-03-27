@@ -22,7 +22,7 @@ const _ = connect.IsAtLeastVersion1_13_0
 
 const (
 	// SchemaServiceName is the fully-qualified name of the SchemaService service.
-	SchemaServiceName = "commonfate.control.authz.v1alpha1.SchemaService"
+	SchemaServiceName = "commonfate.authz.v1alpha1.SchemaService"
 )
 
 // These constants are the fully-qualified names of the RPCs defined in this package. They're
@@ -35,7 +35,7 @@ const (
 const (
 	// SchemaServiceGetSchemaJSONStringProcedure is the fully-qualified name of the SchemaService's
 	// GetSchemaJSONString RPC.
-	SchemaServiceGetSchemaJSONStringProcedure = "/commonfate.control.authz.v1alpha1.SchemaService/GetSchemaJSONString"
+	SchemaServiceGetSchemaJSONStringProcedure = "/commonfate.authz.v1alpha1.SchemaService/GetSchemaJSONString"
 )
 
 // These variables are the protoreflect.Descriptor objects for the RPCs defined in this package.
@@ -44,17 +44,16 @@ var (
 	schemaServiceGetSchemaJSONStringMethodDescriptor = schemaServiceServiceDescriptor.Methods().ByName("GetSchemaJSONString")
 )
 
-// SchemaServiceClient is a client for the commonfate.control.authz.v1alpha1.SchemaService service.
+// SchemaServiceClient is a client for the commonfate.authz.v1alpha1.SchemaService service.
 type SchemaServiceClient interface {
 	// Retrieves a copy of the Cedar schema in JSON format, as a string.
 	GetSchemaJSONString(context.Context, *connect.Request[v1alpha1.GetSchemaJSONStringRequest]) (*connect.Response[v1alpha1.GetSchemaJSONStringResponse], error)
 }
 
-// NewSchemaServiceClient constructs a client for the
-// commonfate.control.authz.v1alpha1.SchemaService service. By default, it uses the Connect protocol
-// with the binary Protobuf Codec, asks for gzipped responses, and sends uncompressed requests. To
-// use the gRPC or gRPC-Web protocols, supply the connect.WithGRPC() or connect.WithGRPCWeb()
-// options.
+// NewSchemaServiceClient constructs a client for the commonfate.authz.v1alpha1.SchemaService
+// service. By default, it uses the Connect protocol with the binary Protobuf Codec, asks for
+// gzipped responses, and sends uncompressed requests. To use the gRPC or gRPC-Web protocols, supply
+// the connect.WithGRPC() or connect.WithGRPCWeb() options.
 //
 // The URL supplied here should be the base URL for the Connect or gRPC server (for example,
 // http://api.acme.com or https://acme.com/grpc).
@@ -75,13 +74,12 @@ type schemaServiceClient struct {
 	getSchemaJSONString *connect.Client[v1alpha1.GetSchemaJSONStringRequest, v1alpha1.GetSchemaJSONStringResponse]
 }
 
-// GetSchemaJSONString calls commonfate.control.authz.v1alpha1.SchemaService.GetSchemaJSONString.
+// GetSchemaJSONString calls commonfate.authz.v1alpha1.SchemaService.GetSchemaJSONString.
 func (c *schemaServiceClient) GetSchemaJSONString(ctx context.Context, req *connect.Request[v1alpha1.GetSchemaJSONStringRequest]) (*connect.Response[v1alpha1.GetSchemaJSONStringResponse], error) {
 	return c.getSchemaJSONString.CallUnary(ctx, req)
 }
 
-// SchemaServiceHandler is an implementation of the commonfate.control.authz.v1alpha1.SchemaService
-// service.
+// SchemaServiceHandler is an implementation of the commonfate.authz.v1alpha1.SchemaService service.
 type SchemaServiceHandler interface {
 	// Retrieves a copy of the Cedar schema in JSON format, as a string.
 	GetSchemaJSONString(context.Context, *connect.Request[v1alpha1.GetSchemaJSONStringRequest]) (*connect.Response[v1alpha1.GetSchemaJSONStringResponse], error)
@@ -99,7 +97,7 @@ func NewSchemaServiceHandler(svc SchemaServiceHandler, opts ...connect.HandlerOp
 		connect.WithSchema(schemaServiceGetSchemaJSONStringMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
-	return "/commonfate.control.authz.v1alpha1.SchemaService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	return "/commonfate.authz.v1alpha1.SchemaService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
 		case SchemaServiceGetSchemaJSONStringProcedure:
 			schemaServiceGetSchemaJSONStringHandler.ServeHTTP(w, r)
@@ -113,5 +111,5 @@ func NewSchemaServiceHandler(svc SchemaServiceHandler, opts ...connect.HandlerOp
 type UnimplementedSchemaServiceHandler struct{}
 
 func (UnimplementedSchemaServiceHandler) GetSchemaJSONString(context.Context, *connect.Request[v1alpha1.GetSchemaJSONStringRequest]) (*connect.Response[v1alpha1.GetSchemaJSONStringResponse], error) {
-	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.control.authz.v1alpha1.SchemaService.GetSchemaJSONString is not implemented"))
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.authz.v1alpha1.SchemaService.GetSchemaJSONString is not implemented"))
 }
