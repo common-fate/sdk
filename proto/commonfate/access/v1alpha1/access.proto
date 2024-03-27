@@ -38,6 +38,10 @@ service AccessService {
   rpc QueryApprovers(QueryApproversRequest) returns (QueryApproversResponse) {
     option (commonfate.authz.v1alpha1.read_only) = true;
   }
+
+  rpc PreviewEntitlements(PreviewEntitlementsRequest) returns (PreviewEntitlementsResponse) {
+    option (commonfate.authz.v1alpha1.read_only) = true;
+  }
 }
 
 message QueryApproversRequest {
@@ -69,12 +73,23 @@ message QueryEntitlementsResponse {
   string next_page_token = 2;
 }
 
+message PreviewEntitlementsRequest {
+  commonfate.entity.v1alpha1.EID principal = 1;
+}
+
+message PreviewEntitlementsResponse {
+  repeated Entitlement entitlements = 1;
+}
+
 message Entitlement {
   // The particular resource which this entitlement gives access to
   NamedEID target = 1;
 
   // The particular role this entitlement gives access to
   NamedEID role = 2;
+
+  // Whether or not it is auto approved
+  bool auto_approved = 3;
 }
 
 message Availability {

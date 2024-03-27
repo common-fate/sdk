@@ -45,6 +45,9 @@ const (
 	// AccessServiceQueryApproversProcedure is the fully-qualified name of the AccessService's
 	// QueryApprovers RPC.
 	AccessServiceQueryApproversProcedure = "/commonfate.access.v1alpha1.AccessService/QueryApprovers"
+	// AccessServicePreviewEntitlementsProcedure is the fully-qualified name of the AccessService's
+	// PreviewEntitlements RPC.
+	AccessServicePreviewEntitlementsProcedure = "/commonfate.access.v1alpha1.AccessService/PreviewEntitlements"
 )
 
 // These variables are the protoreflect.Descriptor objects for the RPCs defined in this package.
@@ -54,6 +57,7 @@ var (
 	accessServiceQueryAvailabilitiesMethodDescriptor = accessServiceServiceDescriptor.Methods().ByName("QueryAvailabilities")
 	accessServiceQueryEntitlementsMethodDescriptor   = accessServiceServiceDescriptor.Methods().ByName("QueryEntitlements")
 	accessServiceQueryApproversMethodDescriptor      = accessServiceServiceDescriptor.Methods().ByName("QueryApprovers")
+	accessServicePreviewEntitlementsMethodDescriptor = accessServiceServiceDescriptor.Methods().ByName("PreviewEntitlements")
 )
 
 // AccessServiceClient is a client for the commonfate.access.v1alpha1.AccessService service.
@@ -70,6 +74,7 @@ type AccessServiceClient interface {
 	QueryAvailabilities(context.Context, *connect.Request[v1alpha1.QueryAvailabilitiesRequest]) (*connect.Response[v1alpha1.QueryAvailabilitiesResponse], error)
 	QueryEntitlements(context.Context, *connect.Request[v1alpha1.QueryEntitlementsRequest]) (*connect.Response[v1alpha1.QueryEntitlementsResponse], error)
 	QueryApprovers(context.Context, *connect.Request[v1alpha1.QueryApproversRequest]) (*connect.Response[v1alpha1.QueryApproversResponse], error)
+	PreviewEntitlements(context.Context, *connect.Request[v1alpha1.PreviewEntitlementsRequest]) (*connect.Response[v1alpha1.PreviewEntitlementsResponse], error)
 }
 
 // NewAccessServiceClient constructs a client for the commonfate.access.v1alpha1.AccessService
@@ -106,6 +111,12 @@ func NewAccessServiceClient(httpClient connect.HTTPClient, baseURL string, opts 
 			connect.WithSchema(accessServiceQueryApproversMethodDescriptor),
 			connect.WithClientOptions(opts...),
 		),
+		previewEntitlements: connect.NewClient[v1alpha1.PreviewEntitlementsRequest, v1alpha1.PreviewEntitlementsResponse](
+			httpClient,
+			baseURL+AccessServicePreviewEntitlementsProcedure,
+			connect.WithSchema(accessServicePreviewEntitlementsMethodDescriptor),
+			connect.WithClientOptions(opts...),
+		),
 	}
 }
 
@@ -115,6 +126,7 @@ type accessServiceClient struct {
 	queryAvailabilities *connect.Client[v1alpha1.QueryAvailabilitiesRequest, v1alpha1.QueryAvailabilitiesResponse]
 	queryEntitlements   *connect.Client[v1alpha1.QueryEntitlementsRequest, v1alpha1.QueryEntitlementsResponse]
 	queryApprovers      *connect.Client[v1alpha1.QueryApproversRequest, v1alpha1.QueryApproversResponse]
+	previewEntitlements *connect.Client[v1alpha1.PreviewEntitlementsRequest, v1alpha1.PreviewEntitlementsResponse]
 }
 
 // BatchEnsure calls commonfate.access.v1alpha1.AccessService.BatchEnsure.
@@ -137,6 +149,11 @@ func (c *accessServiceClient) QueryApprovers(ctx context.Context, req *connect.R
 	return c.queryApprovers.CallUnary(ctx, req)
 }
 
+// PreviewEntitlements calls commonfate.access.v1alpha1.AccessService.PreviewEntitlements.
+func (c *accessServiceClient) PreviewEntitlements(ctx context.Context, req *connect.Request[v1alpha1.PreviewEntitlementsRequest]) (*connect.Response[v1alpha1.PreviewEntitlementsResponse], error) {
+	return c.previewEntitlements.CallUnary(ctx, req)
+}
+
 // AccessServiceHandler is an implementation of the commonfate.access.v1alpha1.AccessService
 // service.
 type AccessServiceHandler interface {
@@ -152,6 +169,7 @@ type AccessServiceHandler interface {
 	QueryAvailabilities(context.Context, *connect.Request[v1alpha1.QueryAvailabilitiesRequest]) (*connect.Response[v1alpha1.QueryAvailabilitiesResponse], error)
 	QueryEntitlements(context.Context, *connect.Request[v1alpha1.QueryEntitlementsRequest]) (*connect.Response[v1alpha1.QueryEntitlementsResponse], error)
 	QueryApprovers(context.Context, *connect.Request[v1alpha1.QueryApproversRequest]) (*connect.Response[v1alpha1.QueryApproversResponse], error)
+	PreviewEntitlements(context.Context, *connect.Request[v1alpha1.PreviewEntitlementsRequest]) (*connect.Response[v1alpha1.PreviewEntitlementsResponse], error)
 }
 
 // NewAccessServiceHandler builds an HTTP handler from the service implementation. It returns the
@@ -184,6 +202,12 @@ func NewAccessServiceHandler(svc AccessServiceHandler, opts ...connect.HandlerOp
 		connect.WithSchema(accessServiceQueryApproversMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
+	accessServicePreviewEntitlementsHandler := connect.NewUnaryHandler(
+		AccessServicePreviewEntitlementsProcedure,
+		svc.PreviewEntitlements,
+		connect.WithSchema(accessServicePreviewEntitlementsMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
+	)
 	return "/commonfate.access.v1alpha1.AccessService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
 		case AccessServiceBatchEnsureProcedure:
@@ -194,6 +218,8 @@ func NewAccessServiceHandler(svc AccessServiceHandler, opts ...connect.HandlerOp
 			accessServiceQueryEntitlementsHandler.ServeHTTP(w, r)
 		case AccessServiceQueryApproversProcedure:
 			accessServiceQueryApproversHandler.ServeHTTP(w, r)
+		case AccessServicePreviewEntitlementsProcedure:
+			accessServicePreviewEntitlementsHandler.ServeHTTP(w, r)
 		default:
 			http.NotFound(w, r)
 		}
@@ -217,4 +243,8 @@ func (UnimplementedAccessServiceHandler) QueryEntitlements(context.Context, *con
 
 func (UnimplementedAccessServiceHandler) QueryApprovers(context.Context, *connect.Request[v1alpha1.QueryApproversRequest]) (*connect.Response[v1alpha1.QueryApproversResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.access.v1alpha1.AccessService.QueryApprovers is not implemented"))
+}
+
+func (UnimplementedAccessServiceHandler) PreviewEntitlements(context.Context, *connect.Request[v1alpha1.PreviewEntitlementsRequest]) (*connect.Response[v1alpha1.PreviewEntitlementsResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.access.v1alpha1.AccessService.PreviewEntitlements is not implemented"))
 }
