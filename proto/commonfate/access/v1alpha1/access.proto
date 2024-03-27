@@ -42,6 +42,10 @@ service AccessService {
   rpc PreviewEntitlements(PreviewEntitlementsRequest) returns (PreviewEntitlementsResponse) {
     option (commonfate.authz.v1alpha1.read_only) = true;
   }
+
+  rpc PreviewEntitlementAccess(PreviewEntitlementAccessRequest) returns (PreviewEntitlementAccessResponse) {
+    option (commonfate.authz.v1alpha1.read_only) = true;
+  }
 }
 
 message QueryApproversRequest {
@@ -64,6 +68,7 @@ message QueryAvailabilitiesResponse {
 }
 
 message QueryEntitlementsRequest {
+  optional string target_type = 1;
   // The token for the next page.
   string page_token = 10;
 }
@@ -75,10 +80,27 @@ message QueryEntitlementsResponse {
 
 message PreviewEntitlementsRequest {
   commonfate.entity.v1alpha1.EID principal = 1;
+  optional string target_type = 2;
 }
 
 message PreviewEntitlementsResponse {
   repeated Entitlement entitlements = 1;
+}
+
+message PreviewEntitlementAccessRequest {
+  commonfate.entity.v1alpha1.EID target = 1;
+  commonfate.entity.v1alpha1.EID role = 2;
+}
+
+message PreviewEntitlementAccessResponse {
+  // The principals which have access to request access and whether that access will be auto approved
+  repeated PrincipalAccess access = 1;
+}
+
+message PrincipalAccess {
+  NamedEID principal = 1;
+  // Whether or not it is auto approved
+  bool auto_approved = 2;
 }
 
 message Entitlement {
