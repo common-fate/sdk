@@ -64,7 +64,7 @@ type ResetServiceClient interface {
 	RemoveOAuthToken(context.Context, *connect.Request[v1alpha1.RemoveOAuthTokenRequest]) (*connect.Response[v1alpha1.RemoveOAuthTokenResponse], error)
 	// Cancels all current background tasks for a given kind.
 	CancelBackgroundJob(context.Context, *connect.Request[v1alpha1.CancelBackgroundJobRequest]) (*connect.Response[v1alpha1.CancelBackgroundJobResponse], error)
-	// retries all current background tasks for a given kind.
+	// retries the given job ID is it is in the retryable state.
 	RetryBackgroundJob(context.Context, *connect.Request[v1alpha1.RetryBackgroundJobRequest]) (*connect.Response[v1alpha1.RetryBackgroundJobResponse], error)
 }
 
@@ -145,7 +145,7 @@ type ResetServiceHandler interface {
 	RemoveOAuthToken(context.Context, *connect.Request[v1alpha1.RemoveOAuthTokenRequest]) (*connect.Response[v1alpha1.RemoveOAuthTokenResponse], error)
 	// Cancels all current background tasks for a given kind.
 	CancelBackgroundJob(context.Context, *connect.Request[v1alpha1.CancelBackgroundJobRequest]) (*connect.Response[v1alpha1.CancelBackgroundJobResponse], error)
-	// retries all current background tasks for a given kind.
+	// retries the given job ID is it is in the retryable state.
 	RetryBackgroundJob(context.Context, *connect.Request[v1alpha1.RetryBackgroundJobRequest]) (*connect.Response[v1alpha1.RetryBackgroundJobResponse], error)
 }
 

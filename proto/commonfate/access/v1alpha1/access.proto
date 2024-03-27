@@ -2,18 +2,17 @@ syntax = "proto3";
 
 package commonfate.access.v1alpha1;
 
-import "commonfate/control/attest/v1alpha1/attestation.proto";
 import "commonfate/access/v1alpha1/access_request.proto";
-import "commonfate/access/v1alpha1/grant.proto";
 import "commonfate/access/v1alpha1/diagnostic.proto";
-import "commonfate/entity/v1alpha1/entity.proto";
-import "commonfate/entity/v1alpha1/eid.proto";
+import "commonfate/access/v1alpha1/grant.proto";
 import "commonfate/access/v1alpha1/named_eid.proto";
 import "commonfate/access/v1alpha1/user.proto";
+import "commonfate/authz/v1alpha1/read_only.proto";
+import "commonfate/control/attest/v1alpha1/attestation.proto";
+import "commonfate/entity/v1alpha1/eid.proto";
+import "commonfate/entity/v1alpha1/entity.proto";
 import "google/protobuf/duration.proto";
 import "google/protobuf/timestamp.proto";
-import "commonfate/authz/v1alpha1/read_only.proto";
-
 
 // AccessService is the Access Handler's user-facing API.
 // Users call this API to ensure that they have access to entitlements.
@@ -29,17 +28,30 @@ service AccessService {
 
   // Query for JIT availabilities.
   rpc QueryAvailabilities(QueryAvailabilitiesRequest) returns (QueryAvailabilitiesResponse) {
-    option(commonfate.authz.v1alpha1.read_only) = true;
+    option (commonfate.authz.v1alpha1.read_only) = true;
   }
 
   rpc QueryEntitlements(QueryEntitlementsRequest) returns (QueryEntitlementsResponse) {
-    option(commonfate.authz.v1alpha1.read_only) = true;
+    option (commonfate.authz.v1alpha1.read_only) = true;
+  }
+
+  rpc QueryApprovers(QueryApproversRequest) returns (QueryApproversResponse) {
+    option (commonfate.authz.v1alpha1.read_only) = true;
   }
 }
 
+message QueryApproversRequest {
+  commonfate.entity.v1alpha1.EID target = 1;
+  commonfate.entity.v1alpha1.EID role = 2;
+}
+
+message QueryApproversResponse {
+  repeated User approvers = 1;
+}
+
 message QueryAvailabilitiesRequest {
-   // The token for the next page.
-   string page_token = 10;
+  // The token for the next page.
+  string page_token = 10;
 }
 
 message QueryAvailabilitiesResponse {
@@ -53,19 +65,17 @@ message QueryEntitlementsRequest {
 }
 
 message QueryEntitlementsResponse {
- repeated Entitlement entitlements = 1;
- string next_page_token = 2;
+  repeated Entitlement entitlements = 1;
+  string next_page_token = 2;
 }
-
 
 message Entitlement {
-   // The particular resource which this entitlement gives access to
-   NamedEID target = 1;
+  // The particular resource which this entitlement gives access to
+  NamedEID target = 1;
 
-   // The particular role this entitlement gives access to
-   NamedEID role = 2;
+  // The particular role this entitlement gives access to
+  NamedEID role = 2;
 }
-
 
 message Availability {
   // ID is just used internally and isn't really shown to users except for debugging purposes.
@@ -87,7 +97,7 @@ message Availability {
   uint32 priority = 6;
 
   commonfate.entity.v1alpha1.EID reviewers = 7;
-  
+
   // the ID of the selector which was used to match the targets
   commonfate.entity.v1alpha1.EID target_selector = 8;
 }
@@ -118,10 +128,10 @@ message EntitlementInput {
   // If empty, the current caller will be used as the principal.
   Specifier principal = 1;
 
-   // The resource to grant the principal access to.
+  // The resource to grant the principal access to.
   Specifier target = 2;
 
-   // The role to grant the principal access to the resource with.
+  // The role to grant the principal access to the resource with.
   Specifier role = 3;
 
   optional google.protobuf.Duration duration = 4;
@@ -136,8 +146,6 @@ message BatchEnsureRequest {
 
   // If true, will return a preview of changes rather than actually provisioning access.
   bool dry_run = 3;
-
-  
 }
 
 message BatchEnsureResponse {
@@ -146,7 +154,7 @@ message BatchEnsureResponse {
   string trace_id = 1;
 
   repeated GrantState grants = 2;
- 
+
   // User-facing diagnostic warnings, for messages such as the user not having permissions
   // to request some of the entitlements they asked for.
   //
@@ -160,7 +168,6 @@ message GrantState {
   // Will be unspecified if the grant has not been changed.
   GrantChange change = 2;
 }
-
 
 enum GrantChange {
   GRANT_CHANGE_UNSPECIFIED = 0;
@@ -176,8 +183,4 @@ enum GrantChange {
 
   // The provisioning process failed for the Grant
   GRANT_CHANGE_PROVISIONING_FAILED = 4;
-
-
 }
-
-

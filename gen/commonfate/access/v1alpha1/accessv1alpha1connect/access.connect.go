@@ -42,6 +42,9 @@ const (
 	// AccessServiceQueryEntitlementsProcedure is the fully-qualified name of the AccessService's
 	// QueryEntitlements RPC.
 	AccessServiceQueryEntitlementsProcedure = "/commonfate.access.v1alpha1.AccessService/QueryEntitlements"
+	// AccessServiceQueryApproversProcedure is the fully-qualified name of the AccessService's
+	// QueryApprovers RPC.
+	AccessServiceQueryApproversProcedure = "/commonfate.access.v1alpha1.AccessService/QueryApprovers"
 )
 
 // These variables are the protoreflect.Descriptor objects for the RPCs defined in this package.
@@ -50,6 +53,7 @@ var (
 	accessServiceBatchEnsureMethodDescriptor         = accessServiceServiceDescriptor.Methods().ByName("BatchEnsure")
 	accessServiceQueryAvailabilitiesMethodDescriptor = accessServiceServiceDescriptor.Methods().ByName("QueryAvailabilities")
 	accessServiceQueryEntitlementsMethodDescriptor   = accessServiceServiceDescriptor.Methods().ByName("QueryEntitlements")
+	accessServiceQueryApproversMethodDescriptor      = accessServiceServiceDescriptor.Methods().ByName("QueryApprovers")
 )
 
 // AccessServiceClient is a client for the commonfate.access.v1alpha1.AccessService service.
@@ -65,6 +69,7 @@ type AccessServiceClient interface {
 	// Query for JIT availabilities.
 	QueryAvailabilities(context.Context, *connect.Request[v1alpha1.QueryAvailabilitiesRequest]) (*connect.Response[v1alpha1.QueryAvailabilitiesResponse], error)
 	QueryEntitlements(context.Context, *connect.Request[v1alpha1.QueryEntitlementsRequest]) (*connect.Response[v1alpha1.QueryEntitlementsResponse], error)
+	QueryApprovers(context.Context, *connect.Request[v1alpha1.QueryApproversRequest]) (*connect.Response[v1alpha1.QueryApproversResponse], error)
 }
 
 // NewAccessServiceClient constructs a client for the commonfate.access.v1alpha1.AccessService
@@ -95,6 +100,12 @@ func NewAccessServiceClient(httpClient connect.HTTPClient, baseURL string, opts 
 			connect.WithSchema(accessServiceQueryEntitlementsMethodDescriptor),
 			connect.WithClientOptions(opts...),
 		),
+		queryApprovers: connect.NewClient[v1alpha1.QueryApproversRequest, v1alpha1.QueryApproversResponse](
+			httpClient,
+			baseURL+AccessServiceQueryApproversProcedure,
+			connect.WithSchema(accessServiceQueryApproversMethodDescriptor),
+			connect.WithClientOptions(opts...),
+		),
 	}
 }
 
@@ -103,6 +114,7 @@ type accessServiceClient struct {
 	batchEnsure         *connect.Client[v1alpha1.BatchEnsureRequest, v1alpha1.BatchEnsureResponse]
 	queryAvailabilities *connect.Client[v1alpha1.QueryAvailabilitiesRequest, v1alpha1.QueryAvailabilitiesResponse]
 	queryEntitlements   *connect.Client[v1alpha1.QueryEntitlementsRequest, v1alpha1.QueryEntitlementsResponse]
+	queryApprovers      *connect.Client[v1alpha1.QueryApproversRequest, v1alpha1.QueryApproversResponse]
 }
 
 // BatchEnsure calls commonfate.access.v1alpha1.AccessService.BatchEnsure.
@@ -120,6 +132,11 @@ func (c *accessServiceClient) QueryEntitlements(ctx context.Context, req *connec
 	return c.queryEntitlements.CallUnary(ctx, req)
 }
 
+// QueryApprovers calls commonfate.access.v1alpha1.AccessService.QueryApprovers.
+func (c *accessServiceClient) QueryApprovers(ctx context.Context, req *connect.Request[v1alpha1.QueryApproversRequest]) (*connect.Response[v1alpha1.QueryApproversResponse], error) {
+	return c.queryApprovers.CallUnary(ctx, req)
+}
+
 // AccessServiceHandler is an implementation of the commonfate.access.v1alpha1.AccessService
 // service.
 type AccessServiceHandler interface {
@@ -134,6 +151,7 @@ type AccessServiceHandler interface {
 	// Query for JIT availabilities.
 	QueryAvailabilities(context.Context, *connect.Request[v1alpha1.QueryAvailabilitiesRequest]) (*connect.Response[v1alpha1.QueryAvailabilitiesResponse], error)
 	QueryEntitlements(context.Context, *connect.Request[v1alpha1.QueryEntitlementsRequest]) (*connect.Response[v1alpha1.QueryEntitlementsResponse], error)
+	QueryApprovers(context.Context, *connect.Request[v1alpha1.QueryApproversRequest]) (*connect.Response[v1alpha1.QueryApproversResponse], error)
 }
 
 // NewAccessServiceHandler builds an HTTP handler from the service implementation. It returns the
@@ -160,6 +178,12 @@ func NewAccessServiceHandler(svc AccessServiceHandler, opts ...connect.HandlerOp
 		connect.WithSchema(accessServiceQueryEntitlementsMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
+	accessServiceQueryApproversHandler := connect.NewUnaryHandler(
+		AccessServiceQueryApproversProcedure,
+		svc.QueryApprovers,
+		connect.WithSchema(accessServiceQueryApproversMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
+	)
 	return "/commonfate.access.v1alpha1.AccessService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
 		case AccessServiceBatchEnsureProcedure:
@@ -168,6 +192,8 @@ func NewAccessServiceHandler(svc AccessServiceHandler, opts ...connect.HandlerOp
 			accessServiceQueryAvailabilitiesHandler.ServeHTTP(w, r)
 		case AccessServiceQueryEntitlementsProcedure:
 			accessServiceQueryEntitlementsHandler.ServeHTTP(w, r)
+		case AccessServiceQueryApproversProcedure:
+			accessServiceQueryApproversHandler.ServeHTTP(w, r)
 		default:
 			http.NotFound(w, r)
 		}
@@ -187,4 +213,8 @@ func (UnimplementedAccessServiceHandler) QueryAvailabilities(context.Context, *c
 
 func (UnimplementedAccessServiceHandler) QueryEntitlements(context.Context, *connect.Request[v1alpha1.QueryEntitlementsRequest]) (*connect.Response[v1alpha1.QueryEntitlementsResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.access.v1alpha1.AccessService.QueryEntitlements is not implemented"))
+}
+
+func (UnimplementedAccessServiceHandler) QueryApprovers(context.Context, *connect.Request[v1alpha1.QueryApproversRequest]) (*connect.Response[v1alpha1.QueryApproversResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.access.v1alpha1.AccessService.QueryApprovers is not implemented"))
 }
