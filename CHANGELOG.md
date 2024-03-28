@@ -1,5 +1,18 @@
 # @common-fate/sdk
 
+## 1.15.0
+
+### Minor Changes
+
+- 4c10a20: Add RelinkEntraUsers RPC
+
+### Patch Changes
+
+- 06d4160: Adds Go clients for the ValidationService and SchemaService.
+- 06d4160: Fixes the namespace for the SchemaService to be 'commonfate.authz.v1alpha1', instead of 'commonfate.control.authz.v1alpha1'.
+- 0a2c0eb: Add opentelemetry spans to query methods
+- 60fcc88: Add SDK method inputs to opentelemetry span
+
 ## 1.14.0
 
 ### Minor Changes
