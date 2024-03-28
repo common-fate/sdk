@@ -6,14 +6,16 @@ import "commonfate/entity/v1alpha1/eid.proto";
 service ResetService {
   rpc ResetEntraUsers(ResetEntraUsersRequest) returns (ResetEntraUsersResponse) {}
 
+  rpc RelinkEntraUsers(RelinkEntraUsersRequest) returns (RelinkEntraUsersResponse) {}
+
   // Removes an OAuth2.0 token from an installed integration from Common Fate.
   rpc RemoveOAuthToken(RemoveOAuthTokenRequest) returns (RemoveOAuthTokenResponse) {}
 
   // Cancels all current background tasks for a given kind.
   rpc CancelBackgroundJob(CancelBackgroundJobRequest) returns (CancelBackgroundJobResponse) {}
 
-   // retries the given job ID is it is in the retryable state.
-   rpc RetryBackgroundJob(RetryBackgroundJobRequest) returns (RetryBackgroundJobResponse) {}
+  // retries the given job ID is it is in the retryable state.
+  rpc RetryBackgroundJob(RetryBackgroundJobRequest) returns (RetryBackgroundJobResponse) {}
 }
 
 message ResetEntraUsersRequest {
@@ -24,6 +26,10 @@ message ResetEntraUsersRequest {
 message ResetEntraUsersResponse {
   repeated commonfate.entity.v1alpha1.EID deleted_entities = 1;
 }
+
+message RelinkEntraUsersRequest {}
+
+message RelinkEntraUsersResponse {}
 
 message RemoveOAuthTokenRequest {
   // The ID of the token to remove.
