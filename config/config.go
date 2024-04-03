@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	"net/http"
-	"os"
 	"time"
 
 	"github.com/common-fate/clio/clierr"
@@ -23,6 +22,17 @@ type Config struct {
 	Contexts map[string]Context `toml:"context" json:"context"`
 }
 
+type Key string
+
+var (
+	APIURLKey           Key = "api_url"
+	AccessURLKey        Key = "access_url"
+	AuthzURLKey         Key = "authz_url"
+	OIDCIssuerKey       Key = "oidc_issuer"
+	OIDCClientIDKey     Key = "oidc_client_id"
+	OIDCClientSecretKey Key = "oidc_client_secret"
+)
+
 type Context struct {
 	// the name of the context is the key of the toml entry
 	name         string
@@ -32,7 +42,10 @@ type Context struct {
 	OIDCIssuer   string `toml:"oidc_issuer,omitempty" json:"oidc_issuer,omitempty"`
 	OIDCClientID string `toml:"oidc_client_id,omitempty" json:"oidc_client_id,omitempty"`
 	// OIDCClientSecret, if specified, will cause the client to use machine-to-machine OIDC authentication.
-	OIDCClientSecret *string `toml:"oidc_client_secret,omitempty" json:"oidc_client_secret,omitempty"`
+	OIDCClientSecret string `toml:"oidc_client_secret,omitempty" json:"oidc_client_secret,omitempty"`
+	// WHEN ADDING ANY NEW CONFIG VARIABLES BELOW YOU NEED TO UPDATE THE FOLLOWING:
+	// - Config Sources: config/file_source.go, config/env_source.go.
+	// - New() function: config/load.go
 
 	// HTTPClient is filled in by calling Initialize()
 	HTTPClient *http.Client
@@ -55,37 +68,6 @@ type InitializeOpts struct {
 }
 
 func (c *Context) Initialize(ctx context.Context, opts InitializeOpts) error {
-	// override variables from environment variables, if they are set
-	clientIdEnv := os.Getenv("CF_OIDC_CLIENT_ID")
-	if clientIdEnv != "" {
-		c.OIDCClientID = clientIdEnv
-	}
-
-	clientSecretEnv := os.Getenv("CF_OIDC_CLIENT_SECRET")
-	if clientSecretEnv != "" {
-		c.OIDCClientSecret = &clientSecretEnv
-	}
-
-	oidcIssuerEnv := os.Getenv("CF_OIDC_ISSUER")
-	if oidcIssuerEnv != "" {
-		c.OIDCIssuer = oidcIssuerEnv
-	}
-
-	apiURLEnv := os.Getenv("CF_API_URL")
-	if apiURLEnv != "" {
-		c.APIURL = apiURLEnv
-	}
-
-	accessURLEnv := os.Getenv("CF_ACCESS_URL")
-	if accessURLEnv != "" {
-		c.AccessURL = accessURLEnv
-	}
-
-	authzURLEnv := os.Getenv("CF_AUTHZ_URL")
-	if authzURLEnv != "" {
-		c.AuthzURL = authzURLEnv
-	}
-
 	emptyClientSecret := ""
 	scopes := []string{"openid", "email"}
 	redirectURI := "http://localhost:18900/auth/callback"
@@ -108,10 +90,10 @@ func (c *Context) Initialize(ctx context.Context, opts InitializeOpts) error {
 
 	oauthconf := p.OAuthConfig()
 
-	if c.OIDCClientSecret != nil {
+	if c.OIDCClientSecret != "" {
 		cfg := clientcredentials.Config{
 			ClientID:     c.OIDCClientID,
-			ClientSecret: *c.OIDCClientSecret,
+			ClientSecret: c.OIDCClientSecret,
 			TokenURL:     p.OAuthConfig().Endpoint.TokenURL,
 		}
 
@@ -142,7 +124,7 @@ func (c *Context) Initialize(ctx context.Context, opts InitializeOpts) error {
 }
 
 // Keys are all of the allowed keys in the Context section.
-var Keys = []string{"oidc_issuer", "oidc_client_id", "api_url"}
+var Keys = []string{"oidc_issuer", "oidc_client_id", "api_url", "authz_url", "access_url", "oidc_client_secret"}
 
 // Current loads the current context as specified in the 'current_context' field in the config file.
 // It returns an error if there are no contexts, or if the 'current_context' field doesn't match
