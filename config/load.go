@@ -19,6 +19,10 @@ import (
 // file for any config values which are not set.
 //
 // The file is ~/.cf/config by default, but this can be overridden with the CF_CONFIG_PATH environment variable.
+//
+// Environment variables follow the pattern 'CF_CONFIG_VARIABLE_NAME', where CONFIG_VARIABLE_NAME
+// is the name of the configuration value in upper snake-case.
+// For example, 'CF_API_URL'.
 func LoadDefault(ctx context.Context) (*Context, error) {
 	return New(ctx, Opts{})
 }
@@ -67,6 +71,36 @@ func loadFromSources(value *string, key Key, sources []configSource) {
 	}
 }
 
+// New creates an initialised SDK context to be used for creating SDK clients.
+// For example:
+//
+//	import "github.com/common-fate/sdk/config"
+//	import "github.com/common-fate/sdk/service/access"
+//
+//	cfg, err := config.New(ctx, opts{})
+//	if err != nil {
+//		return err
+//	}
+//	client := access.NewClient(cfg)
+//
+// Configuration values, such as the API URL and OIDC Client ID to use,
+// can be provided via the Opts{} argument.
+//
+// The New() method will look configuration values up from environment variables
+// and the config file (~/.cf/config by default) if they are not provided in Opts{}.
+// By default, the order of priority is:
+//
+// 1. Static value, set in Opts{}
+//
+// 2. Environment variable
+//
+// 3. Config file
+//
+// This behaviour can be customised by setting opts.ConfigSources.
+//
+// Environment variables follow the pattern 'CF_CONFIG_VARIABLE_NAME', where CONFIG_VARIABLE_NAME
+// is the name of the configuration value in upper snake-case.
+// For example, 'CF_API_URL'.
 func New(ctx context.Context, opts Opts) (*Context, error) {
 	// set up a default config
 	cfg := Context{
