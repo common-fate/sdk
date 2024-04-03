@@ -164,6 +164,8 @@ func (c Config) Current() (*Context, error) {
 func Default() *Config {
 	return &Config{
 		CurrentContext: "",
-		Contexts:       map[string]Context{},
+		Contexts: map[string]Context{
+			"": {},
+		},
 	}
 }
