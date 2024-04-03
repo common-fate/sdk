@@ -1,6 +1,7 @@
 package eid
 
 import (
+	"encoding/json"
 	"fmt"
 	"strings"
 
@@ -23,6 +24,28 @@ type EID struct {
 	// e.g. in GCP::Project::dev
 	// it is 'dev'
 	ID string `json:"id"`
+}
+type eidJson struct {
+	Entity struct {
+		Type string `json:"type"`
+		ID   string `json:"id"`
+	} `json:"__entity"`
+}
+
+func (e *EID) MarshalJSON() ([]byte, error) {
+	return json.Marshal(eidJson{
+		Entity: *e,
+	})
+}
+
+func (e *EID) UnmarshalJSON(data []byte) error {
+	var aux eidJson
+	if err := json.Unmarshal(data, &aux); err != nil {
+		return err
+	}
+	e.ID = aux.Entity.ID
+	e.Type = aux.Entity.Type
+	return nil
 }
 
 // New creates a EID from a provided entity type and ID.
