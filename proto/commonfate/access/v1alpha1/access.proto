@@ -49,6 +49,13 @@ service AccessService {
 }
 
 message QueryApproversRequest {
+  oneof query {
+    TargetRole target_role = 1;
+    commonfate.entity.v1alpha1.EID grant = 2;
+  }
+}
+
+message TargetRole {
   Specifier target = 1;
   Specifier role = 2;
 }
