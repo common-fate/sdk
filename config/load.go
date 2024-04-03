@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"io/fs"
 	"os"
 	"path/filepath"
 
@@ -134,14 +135,32 @@ func New(ctx context.Context, opts Opts) (*Context, error) {
 		}
 	}
 
-	loadFromSources(&cfg.APIURL, APIURLKey, sources)
-	loadFromSources(&cfg.AuthzURL, AuthzURLKey, sources)
-	loadFromSources(&cfg.AccessURL, AccessURLKey, sources)
-	loadFromSources(&cfg.OIDCClientID, OIDCClientIDKey, sources)
-	loadFromSources(&cfg.OIDCClientSecret, OIDCClientSecretKey, sources)
-	loadFromSources(&cfg.OIDCIssuer, OIDCIssuerKey, sources)
+	err := loadFromSources(&cfg.APIURL, APIURLKey, sources)
+	if err != nil {
+		return nil, err
+	}
+	err = loadFromSources(&cfg.AuthzURL, AuthzURLKey, sources)
+	if err != nil {
+		return nil, err
+	}
+	err = loadFromSources(&cfg.AccessURL, AccessURLKey, sources)
+	if err != nil {
+		return nil, err
+	}
+	err = loadFromSources(&cfg.OIDCClientID, OIDCClientIDKey, sources)
+	if err != nil {
+		return nil, err
+	}
+	err = loadFromSources(&cfg.OIDCClientSecret, OIDCClientSecretKey, sources)
+	if err != nil {
+		return nil, err
+	}
+	err = loadFromSources(&cfg.OIDCIssuer, OIDCIssuerKey, sources)
+	if err != nil {
+		return nil, err
+	}
 
-	err := cfg.Initialize(ctx, InitializeOpts{TokenStore: opts.TokenStore})
+	err = cfg.Initialize(ctx, InitializeOpts{TokenStore: opts.TokenStore})
 	if err != nil {
 		return nil, err
 	}
@@ -181,7 +200,7 @@ func load() (*Config, error) {
 
 	fp := filepath.Join(home, ".cf", "config")
 	cfg, err := openConfigFile(fp)
-	if os.IsNotExist(err) {
+	if errors.Is(err, fs.ErrNotExist) {
 		return nil, ErrConfigFileNotFound
 	}
 	if err != nil {
