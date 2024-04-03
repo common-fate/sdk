@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"net/http"
+	"os"
 	"time"
 
 	"github.com/common-fate/clio/clierr"
@@ -54,6 +55,37 @@ type InitializeOpts struct {
 }
 
 func (c *Context) Initialize(ctx context.Context, opts InitializeOpts) error {
+	// override variables from environment variables, if they are set
+	clientIdEnv := os.Getenv("CF_OIDC_CLIENT_ID")
+	if clientIdEnv != "" {
+		c.OIDCClientID = clientIdEnv
+	}
+
+	clientSecretEnv := os.Getenv("CF_OIDC_CLIENT_SECRET")
+	if clientSecretEnv != "" {
+		c.OIDCClientSecret = &clientSecretEnv
+	}
+
+	oidcIssuerEnv := os.Getenv("CF_OIDC_ISSUER")
+	if oidcIssuerEnv != "" {
+		c.OIDCIssuer = oidcIssuerEnv
+	}
+
+	apiURLEnv := os.Getenv("CF_API_URL")
+	if apiURLEnv != "" {
+		c.APIURL = apiURLEnv
+	}
+
+	accessURLEnv := os.Getenv("CF_ACCESS_URL")
+	if accessURLEnv != "" {
+		c.AccessURL = accessURLEnv
+	}
+
+	authzURLEnv := os.Getenv("CF_AUTHZ_URL")
+	if authzURLEnv != "" {
+		c.AuthzURL = authzURLEnv
+	}
+
 	emptyClientSecret := ""
 	scopes := []string{"openid", "email"}
 	redirectURI := "http://localhost:18900/auth/callback"
@@ -80,8 +112,7 @@ func (c *Context) Initialize(ctx context.Context, opts InitializeOpts) error {
 		cfg := clientcredentials.Config{
 			ClientID:     c.OIDCClientID,
 			ClientSecret: *c.OIDCClientSecret,
-			// Scopes:       []string{"cf.client/machine"},
-			TokenURL: p.OAuthConfig().Endpoint.TokenURL,
+			TokenURL:     p.OAuthConfig().Endpoint.TokenURL,
 		}
 
 		_, err := cfg.Token(ctx)
