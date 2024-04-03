@@ -1,5 +1,11 @@
 # @common-fate/sdk
 
+## 1.17.0
+
+### Minor Changes
+
+- b668ea6: Rename PreviewEntitlements RPC to PreviewUserAccess
+
 ## 1.16.0
 
 ### Minor Changes
