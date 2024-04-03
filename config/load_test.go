@@ -63,7 +63,10 @@ func Test_loadFromSources(t *testing.T) {
 
 			value := tt.args.value
 
-			loadFromSources(&value, tt.args.key, tt.args.sources)
+			err := loadFromSources(&value, tt.args.key, tt.args.sources)
+			if err != nil {
+				t.Fatal(err)
+			}
 
 			assert.Equal(t, tt.want, value)
 		})

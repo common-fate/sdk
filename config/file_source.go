@@ -1,9 +1,10 @@
 package config
 
-import (
-	"github.com/common-fate/clio"
-	"go.uber.org/zap"
-)
+import "errors"
+
+// ErrConfigFileNotFound is returned if the config file (~/.cf/config by default)
+// does not exist.
+var ErrConfigFileNotFound = errors.New("config file does not exist")
 
 type FileSource struct {
 	configFromFile Context
@@ -12,37 +13,35 @@ type FileSource struct {
 
 // Load config variables.
 // The function must not set config variables if they are already set.
-func (s *FileSource) Load(key Key) string {
+func (s *FileSource) Load(key Key) (string, error) {
 	if !s.loaded {
 		s.loaded = true
 		configFromFile, err := load()
 		if err != nil {
-			clio.Debugw("error loading config from file", zap.Error(err))
-			return ""
+			return "", err
 		}
 
 		current, err := configFromFile.Current()
 		if err != nil {
-			clio.Debugw("error loading current config context from file", zap.Error(err))
-			return ""
+			return "", err
 		}
 		s.configFromFile = *current
 	}
 
 	switch key {
 	case APIURLKey:
-		return s.configFromFile.APIURL
+		return s.configFromFile.APIURL, nil
 	case AuthzURLKey:
-		return s.configFromFile.AuthzURL
+		return s.configFromFile.AuthzURL, nil
 	case AccessURLKey:
-		return s.configFromFile.AccessURL
+		return s.configFromFile.AccessURL, nil
 	case OIDCIssuerKey:
-		return s.configFromFile.OIDCIssuer
+		return s.configFromFile.OIDCIssuer, nil
 	case OIDCClientIDKey:
-		return s.configFromFile.OIDCClientID
+		return s.configFromFile.OIDCClientID, nil
 	case OIDCClientSecretKey:
-		return s.configFromFile.OIDCClientSecret
+		return s.configFromFile.OIDCClientSecret, nil
 	}
 
-	return ""
+	return "", nil
 }

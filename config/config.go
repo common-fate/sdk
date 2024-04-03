@@ -2,6 +2,7 @@ package config
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"net/http"
 	"time"
@@ -68,6 +69,14 @@ type InitializeOpts struct {
 }
 
 func (c *Context) Initialize(ctx context.Context, opts InitializeOpts) error {
+	// the OIDC client ID and issuer are *always* required, so make sure they've
+	if c.OIDCClientID == "" {
+		return errors.New("OIDC Client ID must be set. You can configure this by setting the CF_OIDC_CLIENT_ID environment variable, or specifying 'oidc_client_id' in the Common Fate config file (~/.cf/config by default). If you're using the Common Fate CLI, use 'cf configure' to set your config file up")
+	}
+	if c.OIDCIssuer == "" {
+		return errors.New("OIDC Issuer must be set. You can configure this by setting the CF_OIDC_ISSUER environment variable, or specifying 'oidc_client_issuer' in the Common Fate config file (~/.cf/config by default). If you're using the Common Fate CLI, use 'cf configure' to set your config file up")
+	}
+
 	emptyClientSecret := ""
 	scopes := []string{"openid", "email"}
 	redirectURI := "http://localhost:18900/auth/callback"

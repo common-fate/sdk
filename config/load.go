@@ -50,25 +50,29 @@ type Opts struct {
 }
 
 type configSource interface {
-	Load(key Key) string
+	Load(key Key) (string, error)
 }
 
-func loadFromSources(value *string, key Key, sources []configSource) {
+func loadFromSources(value *string, key Key, sources []configSource) error {
 	if value == nil {
-		return
+		return nil
 	}
 
 	if *value != "" {
-		return
+		return nil
 	}
 
 	for _, source := range sources {
-		loadedValue := source.Load(key)
+		loadedValue, err := source.Load(key)
+		if err != nil {
+			return err
+		}
 		if loadedValue != "" {
 			*value = loadedValue
-			return
+			return nil
 		}
 	}
+	return nil
 }
 
 // New creates an initialised SDK context to be used for creating SDK clients.
@@ -178,8 +182,7 @@ func load() (*Config, error) {
 	fp := filepath.Join(home, ".cf", "config")
 	cfg, err := openConfigFile(fp)
 	if os.IsNotExist(err) {
-		// return an empty config if the file doesn't exist
-		return Default(), nil
+		return nil, ErrConfigFileNotFound
 	}
 	if err != nil {
 		// otherwise if we get an error, return it
