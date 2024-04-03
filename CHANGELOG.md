@@ -1,5 +1,11 @@
 # @common-fate/sdk
 
+## 1.16.0
+
+### Minor Changes
+
+- fb6e665: Add new APIs for listing approvers and simulating access
+
 ## 1.15.0
 
 ### Minor Changes
