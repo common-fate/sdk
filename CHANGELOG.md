@@ -1,5 +1,11 @@
 # @common-fate/sdk
 
+## 1.19.0
+
+### Minor Changes
+
+- 4becbd9: Adds support for specifying config sources via the CF_CONFIG_SOURCES environment variable.
+
 ## 1.18.0
 
 ### Minor Changes
