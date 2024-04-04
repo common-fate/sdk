@@ -3,37 +3,29 @@ package config
 import (
 	"context"
 	"errors"
+	"fmt"
+	"io/fs"
 	"os"
 	"path/filepath"
 
 	"github.com/BurntSushi/toml"
 	"github.com/common-fate/clio"
-	"github.com/common-fate/grab"
 	"github.com/common-fate/sdk/tokenstore"
 )
 
-// LoadDefault is a shorthand function which
-// calls Load() to load the configuration,
-// and then calls cfg.Current()
-// to get the current API context.
-// It returns an error if either method fails.
+// LoadDefault is a shorthand function which loads the default SDK configuration by calling New()
+// with default values.
+//
+// By default, config is loaded from environment variables, and then falling back to a TOML configuration
+// file for any config values which are not set.
+//
+// The file is ~/.cf/config by default, but this can be overridden with the CF_CONFIG_PATH environment variable.
+//
+// Environment variables follow the pattern 'CF_CONFIG_VARIABLE_NAME', where CONFIG_VARIABLE_NAME
+// is the name of the configuration value in upper snake-case.
+// For example, 'CF_API_URL'.
 func LoadDefault(ctx context.Context) (*Context, error) {
-	cfg, err := load()
-	if err != nil {
-		return nil, err
-	}
-
-	current, err := cfg.Current()
-	if err != nil {
-		return nil, err
-	}
-
-	err = current.Initialize(ctx, InitializeOpts{})
-	if err != nil {
-		return nil, err
-	}
-
-	return current, nil
+	return New(ctx, Opts{})
 }
 
 type Opts struct {
@@ -47,64 +39,149 @@ type Opts struct {
 	ClientID     string
 	ClientSecret string
 	OIDCIssuer   string
+
+	// The token storage backend to use for OIDC tokens.
+	// If not provided, will use the keychain backend.
+	TokenStore TokenStore
+
+	// the config sources to load config from.
+	// Must be either 'env' or 'file'.
+	// Defaults to ['env', 'file'] if not provided.
+	ConfigSources []string
 }
 
-// in order of precedence, select a source for the client ID or nil
-func clientSecret(contextSecret *string, opts Opts) *string {
-	clientSecret := grab.FirstNonZero(opts.ClientSecret, os.Getenv("CF_OIDC_CLIENT_SECRET"), grab.Value(contextSecret))
-	if clientSecret == "" {
+type configSource interface {
+	Load(key Key) (string, error)
+}
+
+func loadFromSources(value *string, key Key, sources []configSource) error {
+	if value == nil {
 		return nil
 	}
-	return &clientSecret
+
+	if *value != "" {
+		return nil
+	}
+
+	for _, source := range sources {
+		loadedValue, err := source.Load(key)
+		if err != nil {
+			return err
+		}
+		if loadedValue != "" {
+			*value = loadedValue
+			return nil
+		}
+	}
+	return nil
 }
+
+// New creates an initialised SDK context to be used for creating SDK clients.
+// For example:
+//
+//	import "github.com/common-fate/sdk/config"
+//	import "github.com/common-fate/sdk/service/access"
+//
+//	cfg, err := config.New(ctx, opts{})
+//	if err != nil {
+//		return err
+//	}
+//	client := access.NewClient(cfg)
+//
+// Configuration values, such as the API URL and OIDC Client ID to use,
+// can be provided via the Opts{} argument.
+//
+// The New() method will look configuration values up from environment variables
+// and the config file (~/.cf/config by default) if they are not provided in Opts{}.
+// By default, the order of priority is:
+//
+// 1. Static value, set in Opts{}
+//
+// 2. Environment variable
+//
+// 3. Config file
+//
+// This behaviour can be customised by setting opts.ConfigSources.
+//
+// Environment variables follow the pattern 'CF_CONFIG_VARIABLE_NAME', where CONFIG_VARIABLE_NAME
+// is the name of the configuration value in upper snake-case.
+// For example, 'CF_API_URL'.
 func New(ctx context.Context, opts Opts) (*Context, error) {
-	cfg, err := load()
+	// set up a default config
+	cfg := Context{
+		APIURL:           opts.APIURL,
+		AccessURL:        opts.AccessURL,
+		AuthzURL:         opts.AuthzURL,
+		OIDCClientID:     opts.ClientID,
+		OIDCIssuer:       opts.OIDCIssuer,
+		OIDCClientSecret: opts.ClientSecret,
+	}
+
+	if opts.ConfigSources == nil {
+		opts.ConfigSources = []string{"env", "file"}
+	}
+
+	var sources []configSource
+
+	for _, loaderType := range opts.ConfigSources {
+		switch loaderType {
+		case "env":
+			sources = append(sources, EnvSource{})
+		case "file":
+			sources = append(sources, &FileSource{})
+
+		default:
+			return nil, fmt.Errorf("invalid config loader: %s (valid types are 'env' and 'file')", loaderType)
+		}
+	}
+
+	err := loadFromSources(&cfg.APIURL, APIURLKey, sources)
+	if err != nil {
+		return nil, err
+	}
+	err = loadFromSources(&cfg.AuthzURL, AuthzURLKey, sources)
+	if err != nil {
+		return nil, err
+	}
+	err = loadFromSources(&cfg.AccessURL, AccessURLKey, sources)
+	if err != nil {
+		return nil, err
+	}
+	err = loadFromSources(&cfg.OIDCClientID, OIDCClientIDKey, sources)
+	if err != nil {
+		return nil, err
+	}
+	err = loadFromSources(&cfg.OIDCClientSecret, OIDCClientSecretKey, sources)
+	if err != nil {
+		return nil, err
+	}
+	err = loadFromSources(&cfg.OIDCIssuer, OIDCIssuerKey, sources)
 	if err != nil {
 		return nil, err
 	}
 
-	current, err := cfg.Current()
+	err = cfg.Initialize(ctx, InitializeOpts{TokenStore: opts.TokenStore})
 	if err != nil {
 		return nil, err
 	}
 
-	current.APIURL = opts.APIURL
-	current.AccessURL = opts.AccessURL
-	current.OIDCClientID = opts.ClientID
-
-	current.OIDCClientSecret = clientSecret(current.OIDCClientSecret, opts)
-
-	current.OIDCIssuer = opts.OIDCIssuer
-
-	err = current.Initialize(ctx, InitializeOpts{})
-	if err != nil {
-		return nil, err
-	}
-
-	return current, nil
+	return &cfg, nil
 }
 
 // NewServerContext requires all option to be passed and does not attempt to read from the local config file
 // it also uses an in memory token store to avoid keychain access
 func NewServerContext(ctx context.Context, opts Opts) (*Context, error) {
-
-	context := &Context{
-		APIURL:       opts.APIURL,
-		AccessURL:    opts.AccessURL,
-		AuthzURL:     opts.AuthzURL,
-		OIDCClientID: opts.ClientID,
-
-		OIDCIssuer: opts.OIDCIssuer,
-	}
-	context.OIDCClientSecret = clientSecret(context.OIDCClientSecret, opts)
-
-	// Initialise with an in memory token store to avoid keychain use
-	err := context.Initialize(ctx, InitializeOpts{TokenStore: tokenstore.NewInMemoryTokenStore()})
-	if err != nil {
-		return nil, err
+	if opts.ConfigSources == nil {
+		// don't source from from file
+		opts.ConfigSources = []string{"env"}
 	}
 
-	return context, nil
+	if opts.TokenStore == nil {
+		// default to an in-memory token store
+		opts.TokenStore = tokenstore.NewInMemoryTokenStore()
+	}
+
+	return New(ctx, opts)
 }
 
 func load() (*Config, error) {
@@ -123,9 +200,8 @@ func load() (*Config, error) {
 
 	fp := filepath.Join(home, ".cf", "config")
 	cfg, err := openConfigFile(fp)
-	if os.IsNotExist(err) {
-		// return an empty config if the file doesn't exist
-		return Default(), nil
+	if errors.Is(err, fs.ErrNotExist) {
+		return nil, ErrConfigFileNotFound
 	}
 	if err != nil {
 		// otherwise if we get an error, return it

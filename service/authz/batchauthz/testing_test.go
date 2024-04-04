@@ -34,7 +34,10 @@ func TestMockBatchWorks(t *testing.T) {
 
 	a.Mock(req, eval)
 
-	a.Authorize(context.Background())
+	err := a.Authorize(context.Background())
+	if err != nil {
+		t.Fatal(err)
+	}
 
 	got, err := a.IsPermitted(req)
 	if err != nil {
@@ -62,7 +65,10 @@ func TestMockAnnotations(t *testing.T) {
 
 	a.Allow(principal, resource, action).Annotations("foo", "bar", "other")
 
-	a.Authorize(context.Background())
+	err := a.Authorize(context.Background())
+	if err != nil {
+		t.Fatal(err)
+	}
 
 	got, err := a.IsPermitted(authz.Request{Principal: principal, Resource: resource, Action: action})
 	if err != nil {
