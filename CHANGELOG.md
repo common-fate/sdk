@@ -1,5 +1,11 @@
 # @common-fate/sdk
 
+## 1.18.0
+
+### Minor Changes
+
+- a8f9ffb: Allow configuring the SDK using environment variables like CF_API_URL, CF_OIDC_CLIENT_ID, and CF_OIDC_CLIENT_SECRET
+
 ## 1.17.0
 
 ### Minor Changes
