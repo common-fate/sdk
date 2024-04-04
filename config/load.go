@@ -7,6 +7,7 @@ import (
 	"io/fs"
 	"os"
 	"path/filepath"
+	"strings"
 
 	"github.com/BurntSushi/toml"
 	"github.com/common-fate/clio"
@@ -47,6 +48,9 @@ type Opts struct {
 	// the config sources to load config from.
 	// Must be either 'env' or 'file'.
 	// Defaults to ['env', 'file'] if not provided.
+	//
+	// Can be overridden by providing the 'CF_CONFIG_SOURCES' environment variable,
+	// for example: CF_CONFIG_SOURCES=file,env
 	ConfigSources []string
 }
 
@@ -97,11 +101,12 @@ func loadFromSources(value *string, key Key, sources []configSource) error {
 //
 // 1. Static value, set in Opts{}
 //
-// 2. Environment variable
+// 2. Environment variable ('env')
 //
-// 3. Config file
+// 3. Config file ('file')
 //
-// This behaviour can be customised by setting opts.ConfigSources.
+// This behaviour can be customised by setting opts.ConfigSources or by providing the
+// 'CF_CONFIG_SOURCES' environment variable, for example: CF_CONFIG_SOURCES=file,env
 //
 // Environment variables follow the pattern 'CF_CONFIG_VARIABLE_NAME', where CONFIG_VARIABLE_NAME
 // is the name of the configuration value in upper snake-case.
@@ -117,8 +122,22 @@ func New(ctx context.Context, opts Opts) (*Context, error) {
 		OIDCClientSecret: opts.ClientSecret,
 	}
 
-	if opts.ConfigSources == nil {
+	configSourcesFromEnv := os.Getenv("CF_CONFIG_SOURCES")
+
+	if opts.ConfigSources == nil && configSourcesFromEnv == "" {
 		opts.ConfigSources = []string{"env", "file"}
+	}
+
+	// if no static config sources were provided and CF_CONFIG_SOURCES is set,
+	// read the config sources from the environment.
+	if opts.ConfigSources == nil && configSourcesFromEnv != "" {
+		var newSources []string
+		sources := strings.Split(configSourcesFromEnv, ",")
+		for _, s := range sources {
+			newSources = append(newSources, strings.TrimSpace(s))
+		}
+
+		opts.ConfigSources = newSources
 	}
 
 	var sources []configSource
@@ -134,6 +153,8 @@ func New(ctx context.Context, opts Opts) (*Context, error) {
 			return nil, fmt.Errorf("invalid config loader: %s (valid types are 'env' and 'file')", loaderType)
 		}
 	}
+
+	clio.Debugw("configured config sources", "sources", opts.ConfigSources)
 
 	err := loadFromSources(&cfg.APIURL, APIURLKey, sources)
 	if err != nil {
