@@ -1,5 +1,11 @@
 # @common-fate/sdk
 
+## 1.19.1
+
+### Patch Changes
+
+- e7eae02: Fixes a regression in the Keychain when using file source for configuration, the context name was not set correctly when configuring the keychain access.
+
 ## 1.19.0
 
 ### Minor Changes
