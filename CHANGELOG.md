@@ -1,5 +1,11 @@
 # @common-fate/sdk
 
+## 1.20.0
+
+### Minor Changes
+
+- 3f34656: Add additional configuration to slack alerts to make the Approval action link to the web console to require SSO authentication.
+
 ## 1.19.1
 
 ### Patch Changes
