@@ -120,6 +120,7 @@ func New(ctx context.Context, opts Opts) (*Context, error) {
 		OIDCClientID:     opts.ClientID,
 		OIDCIssuer:       opts.OIDCIssuer,
 		OIDCClientSecret: opts.ClientSecret,
+		name:             "default",
 	}
 
 	configSourcesFromEnv := os.Getenv("CF_CONFIG_SOURCES")
@@ -177,6 +178,16 @@ func New(ctx context.Context, opts Opts) (*Context, error) {
 		return nil, err
 	}
 	err = loadFromSources(&cfg.OIDCIssuer, OIDCIssuerKey, sources)
+	if err != nil {
+		return nil, err
+	}
+
+	err = loadFromSources(&cfg.OIDCIssuer, OIDCIssuerKey, sources)
+	if err != nil {
+		return nil, err
+	}
+
+	err = loadFromSources(&cfg.name, NameKey, sources)
 	if err != nil {
 		return nil, err
 	}

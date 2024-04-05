@@ -32,6 +32,7 @@ var (
 	OIDCIssuerKey       Key = "oidc_issuer"
 	OIDCClientIDKey     Key = "oidc_client_id"
 	OIDCClientSecretKey Key = "oidc_client_secret"
+	NameKey             Key = "name"
 )
 
 type Context struct {
@@ -154,9 +155,9 @@ func (c Config) Current() (*Context, error) {
 // Default returns an empty config.
 func Default() *Config {
 	return &Config{
-		CurrentContext: "",
+		CurrentContext: "default",
 		Contexts: map[string]Context{
-			"": {},
+			"default": {},
 		},
 	}
 }
