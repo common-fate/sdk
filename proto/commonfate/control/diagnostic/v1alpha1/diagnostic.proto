@@ -15,6 +15,9 @@ service DiagnosticService {
   rpc ListBackgroundJobs(ListBackgroundJobsRequest) returns (ListBackgroundJobsResponse) {
     option(commonfate.authz.v1alpha1.read_only) = true;
   }
+  rpc ListBackgroundJobKinds(ListBackgroundJobKindsRequest) returns (ListBackgroundJobKindsResponse) {
+    option(commonfate.authz.v1alpha1.read_only) = true;
+  }
 }
 
 message GetOAuthTokenMetadataRequest {}
@@ -52,6 +55,15 @@ enum JobState {
 
 message ListBackgroundJobsResponse {
   repeated Job jobs = 1;
+}
+
+message ListBackgroundJobKindsRequest {
+  
+}
+
+
+message ListBackgroundJobKindsResponse {
+  repeated string kinds = 1;
 }
 
 message Job {
