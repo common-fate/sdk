@@ -120,7 +120,6 @@ func New(ctx context.Context, opts Opts) (*Context, error) {
 		OIDCClientID:     opts.ClientID,
 		OIDCIssuer:       opts.OIDCIssuer,
 		OIDCClientSecret: opts.ClientSecret,
-		name:             "default",
 	}
 
 	configSourcesFromEnv := os.Getenv("CF_CONFIG_SOURCES")
