@@ -1,56 +1,58 @@
 syntax = "proto3";
 package commonfate.control.config.v1alpha1;
+
 import "commonfate/authz/v1alpha1/read_only.proto";
 
-
 service SlackAlertService {
-    rpc CreateSlackAlert(CreateSlackAlertRequest) returns (CreateSlackAlertResponse) {}
-    rpc GetSlackAlert(GetSlackAlertRequest) returns (GetSlackAlertResponse)  {
-        option(commonfate.authz.v1alpha1.read_only) = true;
-    }
-    rpc UpdateSlackAlert(UpdateSlackAlertRequest) returns (UpdateSlackAlertResponse) {}
-    rpc DeleteSlackAlert(DeleteSlackAlertRequest) returns (DeleteSlackAlertResponse) {}
+  rpc CreateSlackAlert(CreateSlackAlertRequest) returns (CreateSlackAlertResponse) {}
+  rpc GetSlackAlert(GetSlackAlertRequest) returns (GetSlackAlertResponse) {
+    option (commonfate.authz.v1alpha1.read_only) = true;
+  }
+  rpc UpdateSlackAlert(UpdateSlackAlertRequest) returns (UpdateSlackAlertResponse) {}
+  rpc DeleteSlackAlert(DeleteSlackAlertRequest) returns (DeleteSlackAlertResponse) {}
 }
 
 message CreateSlackAlertRequest {
-    string workflow_id = 2;
-    string slack_channel_id = 3; 
-    string slack_workspace_id = 4; 
-    optional string integration_id = 5; 
+  string workflow_id = 2;
+  string slack_channel_id = 3;
+  string slack_workspace_id = 4;
+  optional string integration_id = 5;
+  optional bool use_web_console_for_review_actions = 6;
 }
 
 message SlackAlert {
-    string id = 1;
-    string workflow_id = 2;
-    string slack_channel_id = 3; 
-    string slack_workspace_id = 4; 
-    optional string integration_id = 5; 
+  string id = 1;
+  string workflow_id = 2;
+  string slack_channel_id = 3;
+  string slack_workspace_id = 4;
+  optional string integration_id = 5;
+  optional bool use_web_console_for_review_actions = 6;
 }
 
 message CreateSlackAlertResponse {
-    SlackAlert alert = 1;
+  SlackAlert alert = 1;
 }
 
 message GetSlackAlertRequest {
-    string id = 1;
+  string id = 1;
 }
 
 message GetSlackAlertResponse {
-    SlackAlert alert = 1;
+  SlackAlert alert = 1;
 }
 
 message UpdateSlackAlertRequest {
-    SlackAlert alert = 1;
+  SlackAlert alert = 1;
 }
 
 message UpdateSlackAlertResponse {
-    SlackAlert alert = 1;
+  SlackAlert alert = 1;
 }
 
 message DeleteSlackAlertRequest {
-    string id = 1;
+  string id = 1;
 }
 
 message DeleteSlackAlertResponse {
-    string id = 1;
+  string id = 1;
 }
