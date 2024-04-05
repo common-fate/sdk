@@ -181,11 +181,6 @@ func New(ctx context.Context, opts Opts) (*Context, error) {
 		return nil, err
 	}
 
-	err = loadFromSources(&cfg.OIDCIssuer, OIDCIssuerKey, sources)
-	if err != nil {
-		return nil, err
-	}
-
 	err = loadFromSources(&cfg.name, NameKey, sources)
 	if err != nil {
 		return nil, err
