@@ -167,6 +167,17 @@ func (lf LoginFlow) Login(ctx context.Context) error {
 			return err
 		}
 
+		// reset the OAuth2.0 token source
+		// NOTE(chrnorm): this should be moved to a method on the Context struct to avoid exposing internals
+		src := &tokenstore.NotifyRefreshTokenSource{
+			New:       lf.cfg.OIDCProvider.OAuthConfig().TokenSource(ctx, res.Token),
+			T:         res.Token,
+			SaveToken: lf.cfg.TokenStore.Save,
+		}
+		lf.cfg.TokenSource = src
+
+		lf.cfg.HTTPClient = oauth2.NewClient(ctx, src)
+
 		clio.Successf("Successfully logged in")
 
 		return nil
