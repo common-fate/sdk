@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"io/fs"
+	"net/url"
 	"os"
 	"path/filepath"
 	"strings"
@@ -46,11 +47,11 @@ type Opts struct {
 	TokenStore TokenStore
 
 	// the config sources to load config from.
-	// Must be either 'env' or 'file'.
+	// Must be 'env', 'file', or may be a URL to fetch remote config from.
 	// Defaults to ['env', 'file'] if not provided.
 	//
 	// Can be overridden by providing the 'CF_CONFIG_SOURCES' environment variable,
-	// for example: CF_CONFIG_SOURCES=file,env
+	// for example: CF_CONFIG_SOURCES=file,env,https://commonfate.example.com/config.json
 	ConfigSources []string
 }
 
@@ -150,7 +151,13 @@ func New(ctx context.Context, opts Opts) (*Context, error) {
 			sources = append(sources, &FileSource{})
 
 		default:
-			return nil, fmt.Errorf("invalid config loader: %s (valid types are 'env' and 'file')", loaderType)
+			// try and parse as a URL
+			loaderURL, err := url.Parse(loaderType)
+			if err == nil {
+				sources = append(sources, &URLSource{DeploymentURL: loaderURL})
+			} else {
+				return nil, fmt.Errorf("invalid config loader: %s (valid types are 'env', 'file', or a URL)", loaderType)
+			}
 		}
 	}
 

@@ -12,7 +12,6 @@ type FileSource struct {
 }
 
 // Load config variables.
-// The function must not set config variables if they are already set.
 func (s *FileSource) Load(key Key) (string, error) {
 	if !s.loaded {
 		s.loaded = true
