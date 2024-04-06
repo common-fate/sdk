@@ -26,7 +26,7 @@ func (s *NotifyRefreshTokenSource) Token() (*oauth2.Token, error) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 	if s.T.Valid() {
-		zap.S().Debug("returning cached in-memory token", "expiry", s.T.Expiry.String())
+		zap.S().Debugw("returning cached in-memory token", "expiry", s.T.Expiry.String())
 		return s.T, nil
 	}
 	t, err := s.New.Token()
