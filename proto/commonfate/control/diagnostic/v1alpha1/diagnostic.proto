@@ -15,7 +15,7 @@ service DiagnosticService {
   rpc ListBackgroundJobs(ListBackgroundJobsRequest) returns (ListBackgroundJobsResponse) {
     option(commonfate.authz.v1alpha1.read_only) = true;
   }
-  rpc ListBackgroundJobKinds(ListBackgroundJobKindsRequest) returns (ListBackgroundJobKindsResponse) {
+  rpc ListBackgroundJobKindSummary(ListBackgroundJobKindSummaryRequest) returns (ListBackgroundJobKindSummaryResponse) {
     option(commonfate.authz.v1alpha1.read_only) = true;
   }
 }
@@ -57,13 +57,25 @@ message ListBackgroundJobsResponse {
   repeated Job jobs = 1;
 }
 
-message ListBackgroundJobKindsRequest {
+message ListBackgroundJobKindSummaryRequest {
   
 }
 
+message JobSummary {
 
-message ListBackgroundJobKindsResponse {
-  repeated string kinds = 1;
+  string id = 1;
+  string kind = 2;
+  string errors = 3;
+  string state = 4;
+  string last_run = 5;
+  string time_elapsed = 6;
+
+
+}
+
+
+message ListBackgroundJobKindSummaryResponse {
+  repeated JobSummary jobs = 1;
 }
 
 message Job {
