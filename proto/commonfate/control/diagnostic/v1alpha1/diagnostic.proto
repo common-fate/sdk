@@ -63,16 +63,23 @@ message ListBackgroundJobKindSummaryRequest {
 }
 
 message JobSummary {
-
   string id = 1;
   string kind = 2;
-  string errors = 3;
+  repeated RiverError errors = 3;
   string state = 4;
   google.protobuf.Timestamp last_run = 5;
   google.protobuf.Duration time_elapsed = 6;
-
-
 }
+
+message RiverError {
+  google.protobuf.Timestamp occured_at = 1;
+  int64 attempt = 2;
+  string error = 3;
+  string trace = 4;
+  
+}
+
+
 
 
 message ListBackgroundJobKindSummaryResponse {
