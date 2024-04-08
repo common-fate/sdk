@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
+	"net/url"
 	"time"
 
 	"github.com/common-fate/clio/clierr"
@@ -90,11 +91,18 @@ func (c *Context) Initialize(ctx context.Context, opts InitializeOpts) error {
 		return err
 	}
 
+	// save the token in the keychain with the key OIDC Issuer + client ID.
+	issuerURL, err := url.Parse(c.OIDCIssuer)
+	if err != nil {
+		return fmt.Errorf("invalid OIDC issuer url: %w", err)
+	}
+	issuerURL = issuerURL.JoinPath(c.OIDCClientID)
+
 	c.OIDCProvider = p
 	c.TokenStore = opts.TokenStore
 	if c.TokenStore == nil {
 		c.TokenStore = grab.Ptr(tokenstore.New(tokenstore.Opts{
-			Name: c.name,
+			Name: issuerURL.String(),
 		}))
 	}
 
