@@ -4,6 +4,7 @@ package commonfate.control.diagnostic.v1alpha1;
 
 import "google/protobuf/timestamp.proto";
 import "commonfate/authz/v1alpha1/read_only.proto";
+import "google/protobuf/duration.proto";
 
 // The Diagnostics service contains APIs to query for read-only diagnostic
 // information associated with a Common Fate deployment.
@@ -68,7 +69,7 @@ message JobSummary {
   string errors = 3;
   string state = 4;
   google.protobuf.Timestamp last_run = 5;
-  int64 time_elapsed = 6;
+  google.protobuf.Duration time_elapsed = 6;
 
 
 }
