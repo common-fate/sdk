@@ -9,42 +9,52 @@ func TestParseEID(t *testing.T) {
 	tests := []struct {
 		input    string
 		expected EID
+		parser   *Parser
 		wantErr  bool
 	}{
 		// Test cases without spaces in the ID
-		{"AWS::Account::12345abc", EID{Type: "AWS::Account", ID: "12345abc"}, false},
-		{"GCP::Project::dev", EID{Type: "GCP::Project", ID: "dev"}, false},
-		{"MyNamespace::Nested::Nested::something", EID{Type: "MyNamespace::Nested::Nested", ID: "something"}, false},
+		{input: "AWS::Account::12345abc", expected: EID{Type: "AWS::Account", ID: "12345abc"}, wantErr: false},
+		{input: "GCP::Project::dev", expected: EID{Type: "GCP::Project", ID: "dev"}, wantErr: false},
+		{input: "MyNamespace::Nested::Nested::something", expected: EID{Type: "MyNamespace::Nested::Nested", ID: "something"}, wantErr: false},
 
 		// Test case with spaces in the ID and enclosed in quotes
-		{"ExampleWithSpaces::\"some ID here with spaces\"", EID{Type: "ExampleWithSpaces", ID: "some ID here with spaces"}, false},
+		{input: "ExampleWithSpaces::\"some ID here with spaces\"", expected: EID{Type: "ExampleWithSpaces", ID: "some ID here with spaces"}, wantErr: false},
 
 		// Test case with spaces in the ID but not enclosed in quotes (should be invalid)
-		{"ExampleWithSpaces::some ID here with spaces", EID{}, true},
+		{input: "ExampleWithSpaces::some ID here with spaces", expected: EID{}, wantErr: true},
 
 		// Test case with spaces in the type (should be invalid)
-		{"Type With Spaces::someID", EID{}, true},
+		{input: "Type With Spaces::someID", expected: EID{}, wantErr: true},
 
 		// Test case with invalid format (not enough parts)
-		{"InvalidFormat", EID{}, true},
+		{input: "InvalidFormat", expected: EID{}, wantErr: true},
 
 		// Test case with invalid format (empty input)
-		{"", EID{}, true},
+		{input: "", expected: EID{}, wantErr: true},
 
 		// custom parser correctly identifies that a lookup with colons is not an eid because a single colon preceeds a double
-		{"arn:aws:sso:::permissionSet/ssoins-1234eeee/ps-1234eee", EID{}, true},
+		{input: "arn:aws:sso:::permissionSet/ssoins-1234eeee/ps-1234eee", expected: EID{}, wantErr: true},
 
 		// don't split triple colons or more
-		{"Before::After:::Triple", EID{Type: "Before", ID: "After:::Triple"}, false},
+		{input: "Before::After:::Triple", expected: EID{Type: "Before", ID: "After:::Triple"}, wantErr: false},
 		// don't split triple+ colons
-		{"Before::After::::Triple", EID{Type: "Before", ID: "After::::Triple"}, false},
+		{input: "Before::After::::Triple", expected: EID{Type: "Before", ID: "After::::Triple"}, wantErr: false},
 		// don't split triple+ colons
-		{"Before:Hello::After::::Triple", EID{}, true},
+		{input: "Before:Hello::After::::Triple", expected: EID{}, wantErr: true},
+
+		{input: "AWS::Account::12345abc", expected: EID{}, wantErr: true, parser: &Parser{RequireQuotedID: true}},
+		{input: `AWS::Account::"12345abc"`, expected: EID{Type: "AWS::Account", ID: "12345abc"}, wantErr: false, parser: &Parser{RequireQuotedID: true}},
 	}
 
 	for _, test := range tests {
 		t.Run(test.input, func(t *testing.T) {
-			result, err := Parse(test.input)
+			var result EID
+			var err error
+			if test.parser != nil {
+				result, err = test.parser.Parse(test.input)
+			} else {
+				result, err = Parse(test.input)
+			}
 
 			// Check for error
 			if (err != nil) != test.wantErr {
