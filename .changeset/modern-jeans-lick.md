@@ -2,4 +2,4 @@
 "@common-fate/sdk": minor
 ---
 
-adds api endpoint for background job summaries
+adds API endpoint for background job summaries.
