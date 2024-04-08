@@ -8,7 +8,7 @@ import (
 )
 
 type Storage struct {
-	keyring cfKeyring
+	keyring Keyring
 	name    string
 }
 
@@ -35,7 +35,7 @@ func WithKeyring(k keyring.Keyring) func(o *Opts) {
 // separate Common Fate tenancies.
 func New(opts Opts) Storage {
 	return Storage{
-		keyring: cfKeyring{keyring: opts.Keyring},
+		keyring: Keyring{keyring: opts.Keyring},
 		name:    opts.Name,
 	}
 }
