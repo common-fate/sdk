@@ -1,5 +1,23 @@
 # @common-fate/sdk
 
+## 1.21.0
+
+### Minor Changes
+
+- 025eb53: Add support for remote configuration of Common Fate SDK by providing a configuration URL.
+
+### Patch Changes
+
+- 4b404d6: Makes the EID parser configurable with the option to enforce the ID component to be quoted.
+- 025eb53: The keychain now stores credentials with the key <Issuer URL/Client ID>, rather than the config file context key. This mitigates an issue where using the SDK without the file source would cause invalid credential issues, despite the user having valid credentials for a particular OIDC provider.
+- 025eb53: Fix an issue where the config OAuth2.0 token was not updated after the login flow is completed.
+
+## 1.20.0
+
+### Minor Changes
+
+- 3f34656: Add additional configuration to slack alerts to make the Approval action link to the web console to require SSO authentication.
+
 ## 1.19.1
 
 ### Patch Changes

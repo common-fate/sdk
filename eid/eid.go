@@ -146,7 +146,14 @@ func splitEID(s string) []string {
 	return components
 }
 
-// Parse extracts a EID from the input string.
+type Parser struct {
+	// Whether or not the parser should enforce that the ID component of the EID is wrapped with quotes
+	RequireQuotedID bool
+}
+
+var DefaultParser = Parser{}
+
+// Parse extracts a EID from the input string using the DefaultParser.
 // Unlike Cedar policies, we accept EIDs without mandatory double quotes
 // around the ID component.
 //
@@ -160,6 +167,10 @@ func splitEID(s string) []string {
 // If the ID component of the EID contains any whitespace it must be
 // enclosed in double quotes.
 func Parse(input string) (EID, error) {
+	return DefaultParser.Parse(input)
+}
+
+func (p Parser) Parse(input string) (EID, error) {
 	parts := splitEID(input)
 
 	// Check if there are at least two parts (type and ID)
@@ -179,9 +190,17 @@ func Parse(input string) (EID, error) {
 	// The last part is the ID
 	eidID := parts[len(parts)-1]
 
-	// Check if the ID has spaces but is not enclosed in quotes
-	if strings.Contains(eidID, " ") && !strings.HasPrefix(eidID, "\"") && !strings.HasSuffix(eidID, "\"") {
-		return EID{}, errors.New("spaces in ID must be enclosed in quotes")
+	quoted := strings.HasPrefix(eidID, "\"") && strings.HasSuffix(eidID, "\"")
+
+	if p.RequireQuotedID {
+		if !quoted {
+			return EID{}, errors.New("ID must be enclosed in quotes")
+		}
+	} else {
+		// Check if the ID has spaces but is not enclosed in quotes
+		if strings.Contains(eidID, " ") && !strings.HasPrefix(eidID, "\"") && !strings.HasSuffix(eidID, "\"") {
+			return EID{}, errors.New("spaces in ID must be enclosed in quotes")
+		}
 	}
 
 	// If the ID is enclosed in quotes, remove them
