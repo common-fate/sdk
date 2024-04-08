@@ -1,0 +1,71 @@
+syntax = "proto3";
+
+package commonfate.access.v1alpha1;
+
+import "commonfate/access/v1alpha1/access.proto";
+import "commonfate/access/v1alpha1/access_request.proto";
+import "commonfate/access/v1alpha1/diagnostic.proto";
+import "commonfate/access/v1alpha1/grant.proto";
+import "commonfate/access/v1alpha1/named_eid.proto";
+import "commonfate/access/v1alpha1/user.proto";
+import "commonfate/authz/v1alpha1/read_only.proto";
+import "commonfate/control/attest/v1alpha1/attestation.proto";
+import "commonfate/entity/v1alpha1/eid.proto";
+import "commonfate/entity/v1alpha1/entity.proto";
+import "google/protobuf/duration.proto";
+import "google/protobuf/timestamp.proto";
+
+service PreviewService {
+  rpc QueryApprovers(QueryApproversRequest) returns (QueryApproversResponse) {
+    option (commonfate.authz.v1alpha1.read_only) = true;
+  }
+
+  rpc PreviewUserAccess(PreviewUserAccessRequest) returns (PreviewUserAccessResponse) {
+    option (commonfate.authz.v1alpha1.read_only) = true;
+  }
+
+  rpc PreviewEntitlementAccess(PreviewEntitlementAccessRequest) returns (PreviewEntitlementAccessResponse) {
+    option (commonfate.authz.v1alpha1.read_only) = true;
+  }
+}
+
+message QueryApproversRequest {
+  oneof query {
+    TargetRole target_role = 1;
+    commonfate.entity.v1alpha1.EID grant = 2;
+  }
+}
+
+message TargetRole {
+  commonfate.access.v1alpha1.Specifier target = 1;
+  commonfate.access.v1alpha1.Specifier role = 2;
+}
+
+message QueryApproversResponse {
+  repeated User approvers = 1;
+}
+
+message PreviewUserAccessRequest {
+  Specifier principal = 1;
+  optional string target_type = 2;
+}
+
+message PreviewUserAccessResponse {
+  repeated Entitlement entitlements = 1;
+}
+
+message PreviewEntitlementAccessRequest {
+  Specifier target = 1;
+  Specifier role = 2;
+}
+
+message PreviewEntitlementAccessResponse {
+  // The principals which have access to request access and whether that access will be auto approved
+  repeated PrincipalAccess access = 1;
+}
+
+message PrincipalAccess {
+  User principal = 1;
+  // Whether or not it is auto approved
+  bool auto_approved = 2;
+}
