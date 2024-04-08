@@ -11,17 +11,17 @@ import (
 	"github.com/pkg/errors"
 )
 
-// cfKeyring is a wrapper around 99designs/keyring
+// Keyring is a wrapper around 99designs/keyring
 // that handles config via env vars and
 // marshalling/unmarshalling of items.
-type cfKeyring struct {
+type Keyring struct {
 	// keyring is an existing keyring to use.
 	// if nil, a new keyring is created using the openKeyring() method.
 	keyring keyring.Keyring
 }
 
 // returns false if the key is not found, true if it is found, or false and an error if there was a keyring related error
-func (s *cfKeyring) HasKey(key string) (bool, error) {
+func (s *Keyring) HasKey(key string) (bool, error) {
 	ring, err := s.openKeyring()
 	if err != nil {
 		return false, err
@@ -37,7 +37,7 @@ func (s *cfKeyring) HasKey(key string) (bool, error) {
 }
 
 // returns keyring.ErrKeyNotFound if not found
-func (s *cfKeyring) Retrieve(key string, target interface{}) error {
+func (s *Keyring) Retrieve(key string, target interface{}) error {
 	ring, err := s.openKeyring()
 	if err != nil {
 		return err
@@ -49,7 +49,7 @@ func (s *cfKeyring) Retrieve(key string, target interface{}) error {
 	return json.Unmarshal(keyringItem.Data, &target)
 }
 
-func (s *cfKeyring) Store(key string, payload interface{}) error {
+func (s *Keyring) Store(key string, payload interface{}) error {
 	ring, err := s.openKeyring()
 	if err != nil {
 		return err
@@ -65,7 +65,7 @@ func (s *cfKeyring) Store(key string, payload interface{}) error {
 	})
 }
 
-func (s *cfKeyring) Clear(key string) error {
+func (s *Keyring) Clear(key string) error {
 	ring, err := s.openKeyring()
 	if err != nil {
 		return err
@@ -73,7 +73,7 @@ func (s *cfKeyring) Clear(key string) error {
 	return ring.Remove(key)
 }
 
-func (s *cfKeyring) List() ([]keyring.Item, error) {
+func (s *Keyring) List() ([]keyring.Item, error) {
 	tokenList := []keyring.Item{}
 	ring, err := s.openKeyring()
 	if err != nil {
@@ -94,7 +94,7 @@ func (s *cfKeyring) List() ([]keyring.Item, error) {
 	return tokenList, nil
 }
 
-func (s *cfKeyring) ListKeys() ([]string, error) {
+func (s *Keyring) ListKeys() ([]string, error) {
 	ring, err := s.openKeyring()
 	if err != nil {
 		return nil, err
@@ -102,7 +102,7 @@ func (s *cfKeyring) ListKeys() ([]string, error) {
 	return ring.Keys()
 }
 
-func (s *cfKeyring) openKeyring() (keyring.Keyring, error) {
+func (s *Keyring) openKeyring() (keyring.Keyring, error) {
 	// return the existing keyring if there's one set.
 	if s.keyring != nil {
 		clio.Debug("existing keyring has been set: returning")
