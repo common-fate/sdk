@@ -40,7 +40,7 @@ message ListBackgroundJobsRequest {
   optional int64 count = 2;
 
   // The job state to filter for
-  JobState state = 3;
+  optional JobState state = 3;
 }
 
 enum JobState {
