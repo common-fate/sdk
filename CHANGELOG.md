@@ -1,5 +1,11 @@
 # @common-fate/sdk
 
+## 1.22.1
+
+### Patch Changes
+
+- 4053841: Fix EID parsing for LinkedIdentity type
+
 ## 1.22.0
 
 ### Minor Changes
