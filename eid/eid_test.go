@@ -44,6 +44,7 @@ func TestParseEID(t *testing.T) {
 
 		{input: "AWS::Account::12345abc", expected: EID{}, wantErr: true, parser: &Parser{RequireQuotedID: true}},
 		{input: `AWS::Account::"12345abc"`, expected: EID{Type: "AWS::Account", ID: "12345abc"}, wantErr: false, parser: &Parser{RequireQuotedID: true}},
+		{input: `Access::LinkedIdentity::"AWS::IDC::User::1234"`, expected: EID{Type: "Access::LinkedIdentity", ID: "AWS::IDC::User::1234"}, wantErr: false, parser: &Parser{RequireQuotedID: true}},
 	}
 
 	for _, test := range tests {

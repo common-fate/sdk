@@ -8,11 +8,8 @@ import "commonfate/access/v1alpha1/grant.proto";
 import "commonfate/access/v1alpha1/named_eid.proto";
 import "commonfate/access/v1alpha1/user.proto";
 import "commonfate/authz/v1alpha1/read_only.proto";
-import "commonfate/control/attest/v1alpha1/attestation.proto";
 import "commonfate/entity/v1alpha1/eid.proto";
-import "commonfate/entity/v1alpha1/entity.proto";
 import "google/protobuf/duration.proto";
-import "google/protobuf/timestamp.proto";
 
 // AccessService is the Access Handler's user-facing API.
 // Users call this API to ensure that they have access to entitlements.

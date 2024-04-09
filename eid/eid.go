@@ -113,6 +113,8 @@ func splitEID(s string) []string {
 	var foundDouble bool // Flag to track if a valid double colon "::" has been found
 
 	for i, char := range s {
+		// any double quote should end parsing
+
 		if char == ':' {
 			colons.WriteRune(char) // Accumulate colon characters
 		} else {
@@ -133,6 +135,10 @@ func splitEID(s string) []string {
 			}
 
 			colons.Reset() // Reset the colon accumulator for the next sequence
+
+			if char == '"' {
+				break
+			}
 		}
 	}
 
