@@ -23,6 +23,7 @@ service AccessService {
   // In future, this method may trigger an extension to any Access Requests which are due to expire.
   rpc BatchEnsure(BatchEnsureRequest) returns (BatchEnsureResponse) {}
 
+  // Query for JIT availabilities.
   rpc QueryAvailabilities(QueryAvailabilitiesRequest) returns (QueryAvailabilitiesResponse) {
     option (commonfate.authz.v1alpha1.read_only) = true;
   }
