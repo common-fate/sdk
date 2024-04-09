@@ -52,12 +52,33 @@ message QueryApproversRequest {
 }
 
 message TargetRole {
-  commonfate.access.v1alpha1.Specifier target = 1;
-  commonfate.access.v1alpha1.Specifier role = 2;
+  Specifier target = 1;
+  Specifier role = 2;
 }
 
 message QueryApproversResponse {
   repeated User approvers = 1;
+}
+
+message QueryAvailabilitiesRequest {
+  // The token for the next page.
+  string page_token = 10;
+}
+
+message QueryAvailabilitiesResponse {
+  repeated Availability availabilities = 1;
+  string next_page_token = 2;
+}
+
+message QueryEntitlementsRequest {
+  optional string target_type = 1;
+  // The token for the next page.
+  string page_token = 10;
+}
+
+message QueryEntitlementsResponse {
+  repeated Entitlement entitlements = 1;
+  string next_page_token = 2;
 }
 
 message PreviewUserAccessRequest {
@@ -83,27 +104,6 @@ message PrincipalAccess {
   User principal = 1;
   // Whether or not it is auto approved
   bool auto_approved = 2;
-}
-
-message QueryAvailabilitiesRequest {
-  // The token for the next page.
-  string page_token = 10;
-}
-
-message QueryAvailabilitiesResponse {
-  repeated Availability availabilities = 1;
-  string next_page_token = 2;
-}
-
-message QueryEntitlementsRequest {
-  optional string target_type = 1;
-  // The token for the next page.
-  string page_token = 10;
-}
-
-message QueryEntitlementsResponse {
-  repeated Entitlement entitlements = 1;
-  string next_page_token = 2;
 }
 
 message Entitlement {
