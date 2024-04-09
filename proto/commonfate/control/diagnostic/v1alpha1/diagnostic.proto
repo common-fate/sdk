@@ -4,6 +4,7 @@ package commonfate.control.diagnostic.v1alpha1;
 
 import "google/protobuf/timestamp.proto";
 import "commonfate/authz/v1alpha1/read_only.proto";
+import "google/protobuf/duration.proto";
 
 // The Diagnostics service contains APIs to query for read-only diagnostic
 // information associated with a Common Fate deployment.
@@ -13,6 +14,9 @@ service DiagnosticService {
     option(commonfate.authz.v1alpha1.read_only) = true;
   }
   rpc ListBackgroundJobs(ListBackgroundJobsRequest) returns (ListBackgroundJobsResponse) {
+    option(commonfate.authz.v1alpha1.read_only) = true;
+  }
+  rpc ListBackgroundJobKindSummary(ListBackgroundJobKindSummaryRequest) returns (ListBackgroundJobKindSummaryResponse) {
     option(commonfate.authz.v1alpha1.read_only) = true;
   }
 }
@@ -36,7 +40,7 @@ message ListBackgroundJobsRequest {
   optional int64 count = 2;
 
   // The job state to filter for
-  JobState state = 3;
+  optional JobState state = 3;
 }
 
 enum JobState {
@@ -52,6 +56,34 @@ enum JobState {
 
 message ListBackgroundJobsResponse {
   repeated Job jobs = 1;
+}
+
+message ListBackgroundJobKindSummaryRequest {
+  
+}
+
+message JobSummary {
+  string id = 1;
+  string kind = 2;
+  repeated RiverError errors = 3;
+  string state = 4;
+  google.protobuf.Timestamp last_run = 5;
+  google.protobuf.Duration time_elapsed = 6;
+}
+
+message RiverError {
+  google.protobuf.Timestamp occured_at = 1;
+  int64 attempt = 2;
+  string error = 3;
+  string trace = 4;
+  
+}
+
+
+
+
+message ListBackgroundJobKindSummaryResponse {
+  repeated JobSummary jobs = 1;
 }
 
 message Job {
