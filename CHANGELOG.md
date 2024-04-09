@@ -1,5 +1,12 @@
 # @common-fate/sdk
 
+## 1.22.0
+
+### Minor Changes
+
+- 20a28f1: adds API endpoint for background job summaries.
+- 0616f0b: Make tokenstore.Keyring public so that it can be used for listing tokens in the keychain (used for logging out of Common Fate)
+
 ## 1.21.0
 
 ### Minor Changes
