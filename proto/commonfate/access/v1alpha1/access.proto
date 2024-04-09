@@ -6,13 +6,9 @@ import "commonfate/access/v1alpha1/access_request.proto";
 import "commonfate/access/v1alpha1/diagnostic.proto";
 import "commonfate/access/v1alpha1/grant.proto";
 import "commonfate/access/v1alpha1/named_eid.proto";
-import "commonfate/access/v1alpha1/user.proto";
 import "commonfate/authz/v1alpha1/read_only.proto";
-import "commonfate/control/attest/v1alpha1/attestation.proto";
 import "commonfate/entity/v1alpha1/eid.proto";
-import "commonfate/entity/v1alpha1/entity.proto";
 import "google/protobuf/duration.proto";
-import "google/protobuf/timestamp.proto";
 
 // AccessService is the Access Handler's user-facing API.
 // Users call this API to ensure that they have access to entitlements.
@@ -25,6 +21,34 @@ service AccessService {
   //
   // In future, this method may trigger an extension to any Access Requests which are due to expire.
   rpc BatchEnsure(BatchEnsureRequest) returns (BatchEnsureResponse) {}
+
+  rpc QueryAvailabilities(QueryAvailabilitiesRequest) returns (QueryAvailabilitiesResponse) {
+    option (commonfate.authz.v1alpha1.read_only) = true;
+  }
+
+  rpc QueryEntitlements(QueryEntitlementsRequest) returns (QueryEntitlementsResponse) {
+    option (commonfate.authz.v1alpha1.read_only) = true;
+  }
+}
+message QueryAvailabilitiesRequest {
+  // The token for the next page.
+  string page_token = 10;
+}
+
+message QueryAvailabilitiesResponse {
+  repeated Availability availabilities = 1;
+  string next_page_token = 2;
+}
+
+message QueryEntitlementsRequest {
+  optional string target_type = 1;
+  // The token for the next page.
+  string page_token = 10;
+}
+
+message QueryEntitlementsResponse {
+  repeated Entitlement entitlements = 1;
+  string next_page_token = 2;
 }
 
 message Entitlement {
