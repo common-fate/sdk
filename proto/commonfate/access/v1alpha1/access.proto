@@ -116,6 +116,16 @@ message Entitlement {
 
   // Whether or not it is auto approved
   bool auto_approved = 3;
+
+  // target_path is the hierarchical path to the particular entitlement target.
+  // It is used in the Common Fate web console to display entitlements in a hierarchy view.
+  // For example, an AWS account entitlement will have a path of 
+  // `Root OU -> Parent OU -> Child OU.`
+  //
+  // target_path is in sorted order, from the root path node to the immediate parent of the target.
+  // 
+  // The target_path does not include the target itself.
+  repeated NamedEID target_path = 4;
 }
 
 message Availability {
