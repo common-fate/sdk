@@ -74,6 +74,7 @@ type AccessServiceClient interface {
 	//
 	// In future, this method may trigger an extension to any Access Requests which are due to expire.
 	BatchEnsure(context.Context, *connect.Request[v1alpha1.BatchEnsureRequest]) (*connect.Response[v1alpha1.BatchEnsureResponse], error)
+	// Query for JIT availabilities.
 	QueryAvailabilities(context.Context, *connect.Request[v1alpha1.QueryAvailabilitiesRequest]) (*connect.Response[v1alpha1.QueryAvailabilitiesResponse], error)
 	QueryEntitlements(context.Context, *connect.Request[v1alpha1.QueryEntitlementsRequest]) (*connect.Response[v1alpha1.QueryEntitlementsResponse], error)
 	QueryApprovers(context.Context, *connect.Request[v1alpha1.QueryApproversRequest]) (*connect.Response[v1alpha1.QueryApproversResponse], error)
@@ -181,6 +182,7 @@ type AccessServiceHandler interface {
 	//
 	// In future, this method may trigger an extension to any Access Requests which are due to expire.
 	BatchEnsure(context.Context, *connect.Request[v1alpha1.BatchEnsureRequest]) (*connect.Response[v1alpha1.BatchEnsureResponse], error)
+	// Query for JIT availabilities.
 	QueryAvailabilities(context.Context, *connect.Request[v1alpha1.QueryAvailabilitiesRequest]) (*connect.Response[v1alpha1.QueryAvailabilitiesResponse], error)
 	QueryEntitlements(context.Context, *connect.Request[v1alpha1.QueryEntitlementsRequest]) (*connect.Response[v1alpha1.QueryEntitlementsResponse], error)
 	QueryApprovers(context.Context, *connect.Request[v1alpha1.QueryApproversRequest]) (*connect.Response[v1alpha1.QueryApproversResponse], error)
