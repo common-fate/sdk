@@ -1,0 +1,49 @@
+syntax = "proto3";
+package commonfate.control.config.v1alpha1;
+import "commonfate/authz/v1alpha1/read_only.proto";
+
+service GCPRoleGroupService {
+  rpc CreateGCPRoleGroup(CreateGCPRoleGroupRequest) returns (CreateGCPRoleGroupResponse) {}
+  rpc GetGCPRoleGroup(GetGCPRoleGroupRequest) returns (GetGCPRoleGroupResponse) {
+    option (commonfate.authz.v1alpha1.read_only) = true;
+  }
+  rpc UpdateGCPRoleGroup(UpdateGCPRoleGroupRequest) returns (UpdateGCPRoleGroupResponse) {}
+  rpc DeleteGCPRoleGroup(DeleteGCPRoleGroupRequest) returns (DeleteGCPRoleGroupResponse) {}
+}
+
+message CreateGCPRoleGroupRequest {
+ repeated string role_ids = 2;
+}
+
+message GCPRoleGroup {
+  string id = 1;
+  repeated string role_ids = 2;
+}
+
+message CreateGCPRoleGroupResponse {
+  GCPRoleGroup alert = 1;
+}
+
+message GetGCPRoleGroupRequest {
+  string id = 1;
+}
+
+message GetGCPRoleGroupResponse {
+  GCPRoleGroup alert = 1;
+}
+
+message UpdateGCPRoleGroupRequest {
+  GCPRoleGroup alert = 1;
+}
+
+message UpdateGCPRoleGroupResponse {
+  GCPRoleGroup alert = 1;
+}
+
+message DeleteGCPRoleGroupRequest {
+  string id = 1;
+}
+
+message DeleteGCPRoleGroupResponse {
+  string id = 1;
+}
