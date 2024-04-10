@@ -1,5 +1,11 @@
 # @common-fate/sdk
 
+## 1.23.0
+
+### Minor Changes
+
+- c88b7f2: Adds 'target_path' attribute to entitlement.
+
 ## 1.22.1
 
 ### Patch Changes
