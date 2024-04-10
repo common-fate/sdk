@@ -1,4 +1,4 @@
-package gcpgrouprole
+package gcprolegroup
 
 import (
 	"github.com/common-fate/sdk/config"
