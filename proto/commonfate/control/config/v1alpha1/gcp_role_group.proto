@@ -21,7 +21,7 @@ message GCPRoleGroup {
 }
 
 message CreateGCPRoleGroupResponse {
-  GCPRoleGroup alert = 1;
+  GCPRoleGroup role_group = 1;
 }
 
 message GetGCPRoleGroupRequest {
@@ -29,15 +29,15 @@ message GetGCPRoleGroupRequest {
 }
 
 message GetGCPRoleGroupResponse {
-  GCPRoleGroup alert = 1;
+  GCPRoleGroup role_group = 1;
 }
 
 message UpdateGCPRoleGroupRequest {
-  GCPRoleGroup alert = 1;
+  GCPRoleGroup role_group = 1;
 }
 
 message UpdateGCPRoleGroupResponse {
-  GCPRoleGroup alert = 1;
+  GCPRoleGroup role_group = 1;
 }
 
 message DeleteGCPRoleGroupRequest {
