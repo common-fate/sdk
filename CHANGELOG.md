@@ -1,5 +1,11 @@
 # @common-fate/sdk
 
+## 1.23.1
+
+### Patch Changes
+
+- 381d165: Updates the generated Go SDK to match the protobuf spec.
+
 ## 1.23.0
 
 ### Minor Changes
