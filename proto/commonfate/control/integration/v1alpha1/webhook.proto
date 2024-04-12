@@ -1,0 +1,14 @@
+syntax = "proto3";
+package commonfate.control.integration.v1alpha1;
+
+message Webhook {
+  string url = 1;
+  EventFormat event_format = 2;
+}
+
+
+enum EventFormat {
+  EVENT_FORMAT_UNSPECIFIED = 0;
+  EVENT_FORMAT_EVENTBRIDGE = 1;
+  EVENT_FORMAT_RUNREVEAL = 2;
+}

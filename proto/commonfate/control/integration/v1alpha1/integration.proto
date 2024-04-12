@@ -11,6 +11,7 @@ import "commonfate/control/integration/v1alpha1/opsgenie.proto";
 import "commonfate/control/integration/v1alpha1/pagerduty.proto";
 import "commonfate/control/integration/v1alpha1/slack.proto";
 import "commonfate/control/integration/v1alpha1/datastax.proto";
+import "commonfate/control/integration/v1alpha1/webhook.proto";
 import "commonfate/authz/v1alpha1/read_only.proto";
 
 
@@ -50,6 +51,7 @@ message Config {
     AWSRDS aws_rds = 7;
     Okta okta = 8;
     DataStax datastax = 9;
+    Webhook webhook = 10;
   }
 }
 
