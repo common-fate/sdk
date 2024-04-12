@@ -5,5 +5,11 @@ message Webhook {
   string url = 1;
   bool send_audit_log_events = 2;
   bool send_authorization_events = 3;
+  // HTTP headers to include in the webhook request.
+  repeated Header headers = 4;
 }
 
+message Header {
+  string key = 1;
+  string value = 2;
+}
