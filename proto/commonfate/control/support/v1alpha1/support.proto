@@ -1,0 +1,53 @@
+syntax = "proto3";
+
+package commonfate.control.support.v1alpha1;
+
+
+// SupportService handles contact form submissions inside the Common Fate web console.
+service SupportService {
+    // Contact Common Fate support.
+    rpc Contact(ContactRequest) returns (ContactResponse) {}
+
+    rpc GetAttachmentUploadURL(GetAttachmentUploadURLRequest) returns (GetAttachmentUploadURLResponse) {} 
+}
+
+message Ticket {
+    string message = 1;
+    Type type = 2;
+    bool preventing_use = 3;
+    repeated string attachment_ids = 4;
+}
+
+message ContactRequest {
+    Ticket ticket = 1;
+}
+
+message ContactResponse {}
+
+enum Type {
+    TYPE_UNSPECIFIED = 0;    
+    TYPE_BUG = 1;
+    TYPE_QUESTION = 2;
+    TYPE_FEATURE_REQUEST = 3;
+}
+
+message FileInput {
+    string name = 1;
+    uint32 size_bytes = 2;
+}
+
+message GetAttachmentUploadURLRequest {
+    FileInput file = 1;
+}
+
+message GetAttachmentUploadURLResponse {
+    string url = 1;
+    string attachment_id = 2;
+    string file_name = 3;
+    repeated FormData form_data = 4;
+}
+
+message FormData {
+    string key = 1;
+    string value = 2;
+}

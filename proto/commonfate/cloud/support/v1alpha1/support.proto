@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package commonfate.cloud.support.v1alpha1;
+import "commonfate/control/support/v1alpha1/support.proto";
+import "commonfate/access/v1alpha1/user.proto";
+
+
+// SupportService handles contact form submissions inside the Common Fate web console.
+service SupportService {
+    // Contact Common Fate support.
+    rpc Contact(ContactRequest) returns (ContactResponse) {}
+
+    rpc GetAttachmentUploadURL(GetAttachmentUploadURLRequest) returns (GetAttachmentUploadURLResponse) {} 
+}
+
+message ContactRequest {
+    commonfate.control.support.v1alpha1.Ticket ticket = 1;
+    commonfate.access.v1alpha1.User user = 2;
+}
+
+message ContactResponse {}
+
+message GetAttachmentUploadURLRequest {
+    commonfate.control.support.v1alpha1.FileInput file_input = 1;
+    commonfate.access.v1alpha1.User user = 2;
+}
+
+message GetAttachmentUploadURLResponse {
+
+}
