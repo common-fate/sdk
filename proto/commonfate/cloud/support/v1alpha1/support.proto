@@ -18,7 +18,10 @@ message ContactRequest {
     commonfate.access.v1alpha1.User user = 2;
 }
 
-message ContactResponse {}
+message ContactResponse {
+    // An initial response indicating whether the support request has been received.
+    string message = 1;
+}
 
 message GetAttachmentUploadURLRequest {
     commonfate.control.support.v1alpha1.FileInput file_input = 1;

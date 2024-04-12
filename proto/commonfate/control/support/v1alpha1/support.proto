@@ -22,7 +22,11 @@ message ContactRequest {
     Ticket ticket = 1;
 }
 
-message ContactResponse {}
+
+message ContactResponse {
+    // An initial response indicating whether the support request has been received.
+    string message = 1;
+}
 
 enum Type {
     TYPE_UNSPECIFIED = 0;    
