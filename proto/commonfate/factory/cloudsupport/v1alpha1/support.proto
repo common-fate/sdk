@@ -1,12 +1,11 @@
 syntax = "proto3";
 
-package commonfate.cloud.support.v1alpha1;
+package commonfate.factory.cloudsupport.v1alpha1;
 import "commonfate/control/support/v1alpha1/support.proto";
 import "commonfate/access/v1alpha1/user.proto";
 
-
-// SupportService handles contact form submissions inside the Common Fate web console.
-service SupportService {
+// CloudSupportService is hosted centrally by Common Fate and routes support requests to the Common Fate team.
+service CloudSupportService {
     // Contact Common Fate support.
     rpc Contact(ContactRequest) returns (ContactResponse) {}
 
