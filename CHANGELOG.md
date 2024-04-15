@@ -1,5 +1,16 @@
 # @common-fate/sdk
 
+## 1.24.0
+
+### Minor Changes
+
+- df7756e: Add 'allowed' field to Evaluation to simplify audit log events
+- df7756e: Add Webhook integration.
+
+### Patch Changes
+
+- df7756e: Fixes a breaking change made in entity ID JSON marshalling behaviour.
+
 ## 1.23.1
 
 ### Patch Changes
