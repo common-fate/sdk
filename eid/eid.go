@@ -1,7 +1,6 @@
 package eid
 
 import (
-	"encoding/json"
 	"fmt"
 	"strings"
 
@@ -25,27 +24,31 @@ type EID struct {
 	// it is 'dev'
 	ID string `json:"id"`
 }
-type eidJson struct {
+
+func (e EID) JSON() EIDJSON {
+	return EIDJSON{
+		Entity: struct {
+			Type string "json:\"type\""
+			ID   string "json:\"id\""
+		}{
+			Type: e.Type,
+			ID:   e.ID,
+		},
+	}
+}
+
+type EIDJSON struct {
 	Entity struct {
 		Type string `json:"type"`
 		ID   string `json:"id"`
 	} `json:"__entity"`
 }
 
-func (e *EID) MarshalJSON() ([]byte, error) {
-	return json.Marshal(eidJson{
-		Entity: *e,
-	})
-}
-
-func (e *EID) UnmarshalJSON(data []byte) error {
-	var aux eidJson
-	if err := json.Unmarshal(data, &aux); err != nil {
-		return err
+func (e EIDJSON) EID() EID {
+	return EID{
+		Type: e.Entity.Type,
+		ID:   e.Entity.ID,
 	}
-	e.ID = aux.Entity.ID
-	e.Type = aux.Entity.Type
-	return nil
 }
 
 // New creates a EID from a provided entity type and ID.
