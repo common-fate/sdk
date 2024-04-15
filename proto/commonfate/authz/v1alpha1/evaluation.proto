@@ -41,6 +41,11 @@ message Evaluation {
 
     // the duration that it took to make the authorization decision
     google.protobuf.Duration evaluation_duration = 7;
+
+    // A boolean value indicating whether access is allowed or denied.
+    // This is emitted in addition to the 'decision' field to simplify interpreting
+    // audit log events, as 'decision' is serialized as an integer.
+    bool allowed = 8;
 }
 
 message Diagnostics {
