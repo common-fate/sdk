@@ -1,0 +1,69 @@
+syntax = "proto3";
+
+package granted.registry.aws.v1alpha1;
+
+service ProfileRegistryService {
+  // Looks up a profile based on a provided AWS account and role.
+  rpc GetProfileForAccountAndRole(GetProfileForAccountAndRoleRequest) returns (GetProfileForAccountAndRoleResponse) {}
+
+  // Lists all profiles available to the user.
+  rpc ListProfiles(ListProfilesRequest) returns (ListProfilesResponse) {}
+}
+
+message GetProfileForAccountAndRoleRequest {
+    // The ID of the AWS account, e.g. '123456789012'.
+    string account_id = 1;
+    // The name of the role, e.g. 'ViewOnlyAccess'.
+    string role_name = 2;
+}
+
+message GetProfileForAccountAndRoleResponse {
+    // The profile matching the requested account and role combination.
+    Profile profile = 1;
+}
+
+message ListProfilesRequest {
+    // A token to use for pagination.
+    // You can obtain a token from 'ListProfilesResponse'
+    // by taking the 'next_page_token'.
+    string page_token = 1;
+}
+
+message ListProfilesResponse {
+    // A list of available profiles.
+    repeated Profile profiles = 1;
+
+    // The token to use to fetch the next page.
+    // Will be empty if there is no next page.
+    string next_page_token = 2;
+}
+
+// An AWS profile. By default, these are stored in ~/.aws/config.
+//
+// For example:
+//
+// ```
+// [profile dev]
+// granted_sso_start_url      = https://d-12345abcdef.awsapps.com/start
+// granted_sso_region         = us-east-1
+// granted_sso_account_id     = 123456789012
+// granted_sso_role_name      = AWSAdministratorAccess
+// ```
+message Profile {
+    // The proposed name for the profile.
+    // If the name conflicts with an existing profile,
+    // a client may override this name or add a prefix to it.
+    string name = 1;
+
+    // Attributes associated with the profile.
+    repeated ProfileAttributes attributes = 2;
+}
+
+// Attributes on a profile. These are the individual key/value pairs,
+// such as 'granted_sso_region = us-east-1'
+message ProfileAttributes {
+    // The attribute key.
+    string key = 1;
+    // The attribute value.
+    string value = 2;
+}
