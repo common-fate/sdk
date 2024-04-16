@@ -105,6 +105,12 @@ message PrincipalAccess {
   User principal = 1;
   // Whether or not it is auto approved
   bool auto_approved = 2;
+
+  // The policy ids which contributed to this entitlement being available to request
+  repeated string request_action_policy_ids = 3;
+
+  // The policy ids which determine whether this entitlement would be auto_approved
+  repeated string activate_action_policy_ids = 4;
 }
 
 message Entitlement {
