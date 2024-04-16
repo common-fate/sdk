@@ -7,6 +7,7 @@ import "commonfate/access/v1alpha1/diagnostic.proto";
 import "commonfate/access/v1alpha1/grant.proto";
 import "commonfate/access/v1alpha1/named_eid.proto";
 import "commonfate/access/v1alpha1/user.proto";
+import "commonfate/authz/v1alpha1/evaluation.proto";
 import "commonfate/authz/v1alpha1/read_only.proto";
 import "commonfate/entity/v1alpha1/eid.proto";
 import "google/protobuf/duration.proto";
@@ -41,6 +42,10 @@ service AccessService {
   }
 
   rpc PreviewEntitlementAccess(PreviewEntitlementAccessRequest) returns (PreviewEntitlementAccessResponse) {
+    option (commonfate.authz.v1alpha1.read_only) = true;
+  }
+
+  rpc DebugAccess(DebugAccessRequest) returns (DebugAccessResponse) {
     option (commonfate.authz.v1alpha1.read_only) = true;
   }
 }
@@ -99,6 +104,16 @@ message PreviewEntitlementAccessRequest {
 message PreviewEntitlementAccessResponse {
   // The principals which have access to request access and whether that access will be auto approved
   repeated PrincipalAccess access = 1;
+}
+
+message DebugAccessRequest {
+  Specifier principal = 1;
+  Specifier target = 2;
+  Specifier role = 3;
+}
+
+message DebugAccessResponse {
+  commonfate.authz.v1alpha1.DebugInformation debug_access = 1;
 }
 
 message PrincipalAccess {
