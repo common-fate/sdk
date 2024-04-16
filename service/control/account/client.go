@@ -1,4 +1,4 @@
-package attest
+package account
 
 import (
 	"github.com/common-fate/sdk/config"
