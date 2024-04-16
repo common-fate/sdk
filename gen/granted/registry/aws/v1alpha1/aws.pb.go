@@ -304,7 +304,12 @@ func (x *Profile) GetAttributes() []*ProfileAttributes {
 }
 
 // Attributes on a profile. These are the individual key/value pairs,
-// such as 'granted_sso_region = us-east-1'
+// such as 'granted_sso_region = us-east-1'.
+//
+// Profile attributes are not authoritative and clients may override these
+// or add additional attributes as required. For example, a 'region' attribute
+// may be overridden by a user, or the 'credential_process' attribute
+// may be overridden to specify a particular credential process binary path.
 type ProfileAttributes struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
