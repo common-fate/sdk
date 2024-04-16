@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+package commonfate.factory.deployid.v1alpha1;
+
+import "google/protobuf/timestamp.proto";
+
+// MonitoringService allows Common Fate deployments to obtain
+// authentication tokens for our centralised OpenTelemetry collector.
+service MonitoringService {
+    rpc GetWriteToken(GetWriteTokenRequest) returns (GetWriteTokenResponse) {}
+}
+
+message AWSClaims {
+    string signature = 1;
+    google.protobuf.Timestamp timestamp = 2;
+    string security_token = 3;
+}
+
+
+message AuthenticateRequest {
+    // the Common Fate licence key.
+    string licence_key = 1;
+
+    // a name for the deployment, like 'prod'.
+    // used to differentiate deployments residing in the same AWS account.
+    string deployment_name = 2;
+
+    oneof claims {
+        AWSClaims aws = 3;
+    }
+}
+
+message AuthenticateResponse {
+    // A write token which gives access to write OpenTelemetry data to our collector.
+    string write_token = 1;
+}
