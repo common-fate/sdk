@@ -21,12 +21,12 @@ type Context struct {
 }
 
 // LoadDefault loads a client context with all defaults configured.
-func LoadDefault(ctx context.Context) (*Context, error) {
+func LoadDefault(ctx context.Context) *Context {
 	return Load(ctx, Opts{})
 }
 
 // Load a client context. You can override values by providing them in 'opts'.
-func Load(ctx context.Context, opts Opts) (*Context, error) {
+func Load(ctx context.Context, opts Opts) *Context {
 	if opts.BaseURL == "" {
 		opts.BaseURL = "https://factory.commonfate.io"
 	}
@@ -40,5 +40,5 @@ func Load(ctx context.Context, opts Opts) (*Context, error) {
 		HTTPClient: opts.HTTPClient,
 	}
 
-	return &c, nil
+	return &c
 }
