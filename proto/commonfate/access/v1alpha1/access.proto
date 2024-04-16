@@ -45,7 +45,7 @@ service AccessService {
     option (commonfate.authz.v1alpha1.read_only) = true;
   }
 
-  rpc DebugAccess(DebugAccessRequest) returns (DebugAccessResponse) {
+  rpc DebugEntitlementAccess(DebugEntitlementAccessRequest) returns (DebugEntitlementAccessResponse) {
     option (commonfate.authz.v1alpha1.read_only) = true;
   }
 }
@@ -106,14 +106,24 @@ message PreviewEntitlementAccessResponse {
   repeated PrincipalAccess access = 1;
 }
 
-message DebugAccessRequest {
+message DebugEntitlementAccessRequest {
   Specifier principal = 1;
   Specifier target = 2;
   Specifier role = 3;
 }
 
-message DebugAccessResponse {
-  commonfate.authz.v1alpha1.DebugInformation debug_access = 1;
+message DebugEntitlementAccessResponse {
+  // Whether or not the principal can request access to this entitlement
+  bool can_request = 1;
+
+  // Whether or not it is auto approved
+  bool auto_approved = 2;
+
+  // The detailed policy information relating to the request action
+  commonfate.authz.v1alpha1.DebugInformation request_action_debug_info = 3;
+
+  // The detailed policy information relating to the activate action
+  commonfate.authz.v1alpha1.DebugInformation activate_action_debug_info = 4;
 }
 
 message PrincipalAccess {
