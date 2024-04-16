@@ -8,20 +8,15 @@ import (
 	"net/http"
 )
 
-type Opts struct {
+type Opts = Context // held to avoid breaking changes here, in future the structs may become different.
+
+type Context struct {
 	// BaseURL of the Factory service to connect to.
 	// Defaults to "https://factory.commonfate.io"
 	// if not provided.
 	BaseURL string
 	// A custom HTTP Client. Defaults to http.DefaultClient
 	// if not provided.
-	HTTPClient *http.Client
-}
-
-type Context struct {
-	// BaseURL of the Factory service to connect to.
-	BaseURL string
-	// The HTTP client to use when making requests.
 	HTTPClient *http.Client
 }
 
