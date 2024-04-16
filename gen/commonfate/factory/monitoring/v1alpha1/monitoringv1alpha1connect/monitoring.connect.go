@@ -2,7 +2,7 @@
 //
 // Source: commonfate/factory/monitoring/v1alpha1/monitoring.proto
 
-package deployidv1alpha1connect
+package monitoringv1alpha1connect
 
 import (
 	connect "connectrpc.com/connect"
@@ -22,7 +22,7 @@ const _ = connect.IsAtLeastVersion1_13_0
 
 const (
 	// MonitoringServiceName is the fully-qualified name of the MonitoringService service.
-	MonitoringServiceName = "commonfate.factory.deployid.v1alpha1.MonitoringService"
+	MonitoringServiceName = "commonfate.factory.monitoring.v1alpha1.MonitoringService"
 )
 
 // These constants are the fully-qualified names of the RPCs defined in this package. They're
@@ -35,7 +35,7 @@ const (
 const (
 	// MonitoringServiceGetWriteTokenProcedure is the fully-qualified name of the MonitoringService's
 	// GetWriteToken RPC.
-	MonitoringServiceGetWriteTokenProcedure = "/commonfate.factory.deployid.v1alpha1.MonitoringService/GetWriteToken"
+	MonitoringServiceGetWriteTokenProcedure = "/commonfate.factory.monitoring.v1alpha1.MonitoringService/GetWriteToken"
 )
 
 // These variables are the protoreflect.Descriptor objects for the RPCs defined in this package.
@@ -45,14 +45,14 @@ var (
 )
 
 // MonitoringServiceClient is a client for the
-// commonfate.factory.deployid.v1alpha1.MonitoringService service.
+// commonfate.factory.monitoring.v1alpha1.MonitoringService service.
 type MonitoringServiceClient interface {
 	// Obtain a Write Token, used to authenticate to our OpenTelemetry collector.
 	GetWriteToken(context.Context, *connect.Request[v1alpha1.GetWriteTokenRequest]) (*connect.Response[v1alpha1.GetWriteTokenResponse], error)
 }
 
 // NewMonitoringServiceClient constructs a client for the
-// commonfate.factory.deployid.v1alpha1.MonitoringService service. By default, it uses the Connect
+// commonfate.factory.monitoring.v1alpha1.MonitoringService service. By default, it uses the Connect
 // protocol with the binary Protobuf Codec, asks for gzipped responses, and sends uncompressed
 // requests. To use the gRPC or gRPC-Web protocols, supply the connect.WithGRPC() or
 // connect.WithGRPCWeb() options.
@@ -76,13 +76,13 @@ type monitoringServiceClient struct {
 	getWriteToken *connect.Client[v1alpha1.GetWriteTokenRequest, v1alpha1.GetWriteTokenResponse]
 }
 
-// GetWriteToken calls commonfate.factory.deployid.v1alpha1.MonitoringService.GetWriteToken.
+// GetWriteToken calls commonfate.factory.monitoring.v1alpha1.MonitoringService.GetWriteToken.
 func (c *monitoringServiceClient) GetWriteToken(ctx context.Context, req *connect.Request[v1alpha1.GetWriteTokenRequest]) (*connect.Response[v1alpha1.GetWriteTokenResponse], error) {
 	return c.getWriteToken.CallUnary(ctx, req)
 }
 
 // MonitoringServiceHandler is an implementation of the
-// commonfate.factory.deployid.v1alpha1.MonitoringService service.
+// commonfate.factory.monitoring.v1alpha1.MonitoringService service.
 type MonitoringServiceHandler interface {
 	// Obtain a Write Token, used to authenticate to our OpenTelemetry collector.
 	GetWriteToken(context.Context, *connect.Request[v1alpha1.GetWriteTokenRequest]) (*connect.Response[v1alpha1.GetWriteTokenResponse], error)
@@ -100,7 +100,7 @@ func NewMonitoringServiceHandler(svc MonitoringServiceHandler, opts ...connect.H
 		connect.WithSchema(monitoringServiceGetWriteTokenMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
-	return "/commonfate.factory.deployid.v1alpha1.MonitoringService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	return "/commonfate.factory.monitoring.v1alpha1.MonitoringService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
 		case MonitoringServiceGetWriteTokenProcedure:
 			monitoringServiceGetWriteTokenHandler.ServeHTTP(w, r)
@@ -114,5 +114,5 @@ func NewMonitoringServiceHandler(svc MonitoringServiceHandler, opts ...connect.H
 type UnimplementedMonitoringServiceHandler struct{}
 
 func (UnimplementedMonitoringServiceHandler) GetWriteToken(context.Context, *connect.Request[v1alpha1.GetWriteTokenRequest]) (*connect.Response[v1alpha1.GetWriteTokenResponse], error) {
-	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.factory.deployid.v1alpha1.MonitoringService.GetWriteToken is not implemented"))
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.factory.monitoring.v1alpha1.MonitoringService.GetWriteToken is not implemented"))
 }
