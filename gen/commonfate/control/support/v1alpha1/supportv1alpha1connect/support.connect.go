@@ -35,16 +35,16 @@ const (
 const (
 	// SupportServiceContactProcedure is the fully-qualified name of the SupportService's Contact RPC.
 	SupportServiceContactProcedure = "/commonfate.control.support.v1alpha1.SupportService/Contact"
-	// SupportServiceGetAttachmentUploadURLProcedure is the fully-qualified name of the SupportService's
-	// GetAttachmentUploadURL RPC.
-	SupportServiceGetAttachmentUploadURLProcedure = "/commonfate.control.support.v1alpha1.SupportService/GetAttachmentUploadURL"
+	// SupportServiceCreateAttachmentProcedure is the fully-qualified name of the SupportService's
+	// CreateAttachment RPC.
+	SupportServiceCreateAttachmentProcedure = "/commonfate.control.support.v1alpha1.SupportService/CreateAttachment"
 )
 
 // These variables are the protoreflect.Descriptor objects for the RPCs defined in this package.
 var (
-	supportServiceServiceDescriptor                      = v1alpha1.File_commonfate_control_support_v1alpha1_support_proto.Services().ByName("SupportService")
-	supportServiceContactMethodDescriptor                = supportServiceServiceDescriptor.Methods().ByName("Contact")
-	supportServiceGetAttachmentUploadURLMethodDescriptor = supportServiceServiceDescriptor.Methods().ByName("GetAttachmentUploadURL")
+	supportServiceServiceDescriptor                = v1alpha1.File_commonfate_control_support_v1alpha1_support_proto.Services().ByName("SupportService")
+	supportServiceContactMethodDescriptor          = supportServiceServiceDescriptor.Methods().ByName("Contact")
+	supportServiceCreateAttachmentMethodDescriptor = supportServiceServiceDescriptor.Methods().ByName("CreateAttachment")
 )
 
 // SupportServiceClient is a client for the commonfate.control.support.v1alpha1.SupportService
@@ -52,7 +52,8 @@ var (
 type SupportServiceClient interface {
 	// Contact Common Fate support.
 	Contact(context.Context, *connect.Request[v1alpha1.ContactRequest]) (*connect.Response[v1alpha1.ContactResponse], error)
-	GetAttachmentUploadURL(context.Context, *connect.Request[v1alpha1.GetAttachmentUploadURLRequest]) (*connect.Response[v1alpha1.GetAttachmentUploadURLResponse], error)
+	// Create an attachment to add to a support ticket.
+	CreateAttachment(context.Context, *connect.Request[v1alpha1.CreateAttachmentRequest]) (*connect.Response[v1alpha1.CreateAttachmentResponse], error)
 }
 
 // NewSupportServiceClient constructs a client for the
@@ -72,10 +73,10 @@ func NewSupportServiceClient(httpClient connect.HTTPClient, baseURL string, opts
 			connect.WithSchema(supportServiceContactMethodDescriptor),
 			connect.WithClientOptions(opts...),
 		),
-		getAttachmentUploadURL: connect.NewClient[v1alpha1.GetAttachmentUploadURLRequest, v1alpha1.GetAttachmentUploadURLResponse](
+		createAttachment: connect.NewClient[v1alpha1.CreateAttachmentRequest, v1alpha1.CreateAttachmentResponse](
 			httpClient,
-			baseURL+SupportServiceGetAttachmentUploadURLProcedure,
-			connect.WithSchema(supportServiceGetAttachmentUploadURLMethodDescriptor),
+			baseURL+SupportServiceCreateAttachmentProcedure,
+			connect.WithSchema(supportServiceCreateAttachmentMethodDescriptor),
 			connect.WithClientOptions(opts...),
 		),
 	}
@@ -83,8 +84,8 @@ func NewSupportServiceClient(httpClient connect.HTTPClient, baseURL string, opts
 
 // supportServiceClient implements SupportServiceClient.
 type supportServiceClient struct {
-	contact                *connect.Client[v1alpha1.ContactRequest, v1alpha1.ContactResponse]
-	getAttachmentUploadURL *connect.Client[v1alpha1.GetAttachmentUploadURLRequest, v1alpha1.GetAttachmentUploadURLResponse]
+	contact          *connect.Client[v1alpha1.ContactRequest, v1alpha1.ContactResponse]
+	createAttachment *connect.Client[v1alpha1.CreateAttachmentRequest, v1alpha1.CreateAttachmentResponse]
 }
 
 // Contact calls commonfate.control.support.v1alpha1.SupportService.Contact.
@@ -92,10 +93,9 @@ func (c *supportServiceClient) Contact(ctx context.Context, req *connect.Request
 	return c.contact.CallUnary(ctx, req)
 }
 
-// GetAttachmentUploadURL calls
-// commonfate.control.support.v1alpha1.SupportService.GetAttachmentUploadURL.
-func (c *supportServiceClient) GetAttachmentUploadURL(ctx context.Context, req *connect.Request[v1alpha1.GetAttachmentUploadURLRequest]) (*connect.Response[v1alpha1.GetAttachmentUploadURLResponse], error) {
-	return c.getAttachmentUploadURL.CallUnary(ctx, req)
+// CreateAttachment calls commonfate.control.support.v1alpha1.SupportService.CreateAttachment.
+func (c *supportServiceClient) CreateAttachment(ctx context.Context, req *connect.Request[v1alpha1.CreateAttachmentRequest]) (*connect.Response[v1alpha1.CreateAttachmentResponse], error) {
+	return c.createAttachment.CallUnary(ctx, req)
 }
 
 // SupportServiceHandler is an implementation of the
@@ -103,7 +103,8 @@ func (c *supportServiceClient) GetAttachmentUploadURL(ctx context.Context, req *
 type SupportServiceHandler interface {
 	// Contact Common Fate support.
 	Contact(context.Context, *connect.Request[v1alpha1.ContactRequest]) (*connect.Response[v1alpha1.ContactResponse], error)
-	GetAttachmentUploadURL(context.Context, *connect.Request[v1alpha1.GetAttachmentUploadURLRequest]) (*connect.Response[v1alpha1.GetAttachmentUploadURLResponse], error)
+	// Create an attachment to add to a support ticket.
+	CreateAttachment(context.Context, *connect.Request[v1alpha1.CreateAttachmentRequest]) (*connect.Response[v1alpha1.CreateAttachmentResponse], error)
 }
 
 // NewSupportServiceHandler builds an HTTP handler from the service implementation. It returns the
@@ -118,18 +119,18 @@ func NewSupportServiceHandler(svc SupportServiceHandler, opts ...connect.Handler
 		connect.WithSchema(supportServiceContactMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
-	supportServiceGetAttachmentUploadURLHandler := connect.NewUnaryHandler(
-		SupportServiceGetAttachmentUploadURLProcedure,
-		svc.GetAttachmentUploadURL,
-		connect.WithSchema(supportServiceGetAttachmentUploadURLMethodDescriptor),
+	supportServiceCreateAttachmentHandler := connect.NewUnaryHandler(
+		SupportServiceCreateAttachmentProcedure,
+		svc.CreateAttachment,
+		connect.WithSchema(supportServiceCreateAttachmentMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
 	return "/commonfate.control.support.v1alpha1.SupportService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
 		case SupportServiceContactProcedure:
 			supportServiceContactHandler.ServeHTTP(w, r)
-		case SupportServiceGetAttachmentUploadURLProcedure:
-			supportServiceGetAttachmentUploadURLHandler.ServeHTTP(w, r)
+		case SupportServiceCreateAttachmentProcedure:
+			supportServiceCreateAttachmentHandler.ServeHTTP(w, r)
 		default:
 			http.NotFound(w, r)
 		}
@@ -143,6 +144,6 @@ func (UnimplementedSupportServiceHandler) Contact(context.Context, *connect.Requ
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.control.support.v1alpha1.SupportService.Contact is not implemented"))
 }
 
-func (UnimplementedSupportServiceHandler) GetAttachmentUploadURL(context.Context, *connect.Request[v1alpha1.GetAttachmentUploadURLRequest]) (*connect.Response[v1alpha1.GetAttachmentUploadURLResponse], error) {
-	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.control.support.v1alpha1.SupportService.GetAttachmentUploadURL is not implemented"))
+func (UnimplementedSupportServiceHandler) CreateAttachment(context.Context, *connect.Request[v1alpha1.CreateAttachmentRequest]) (*connect.Response[v1alpha1.CreateAttachmentResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.control.support.v1alpha1.SupportService.CreateAttachment is not implemented"))
 }

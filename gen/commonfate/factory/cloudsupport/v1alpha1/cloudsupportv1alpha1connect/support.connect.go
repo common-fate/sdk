@@ -36,16 +36,16 @@ const (
 	// CloudSupportServiceContactProcedure is the fully-qualified name of the CloudSupportService's
 	// Contact RPC.
 	CloudSupportServiceContactProcedure = "/commonfate.factory.cloudsupport.v1alpha1.CloudSupportService/Contact"
-	// CloudSupportServiceGetAttachmentUploadURLProcedure is the fully-qualified name of the
-	// CloudSupportService's GetAttachmentUploadURL RPC.
-	CloudSupportServiceGetAttachmentUploadURLProcedure = "/commonfate.factory.cloudsupport.v1alpha1.CloudSupportService/GetAttachmentUploadURL"
+	// CloudSupportServiceCreateAttachmentProcedure is the fully-qualified name of the
+	// CloudSupportService's CreateAttachment RPC.
+	CloudSupportServiceCreateAttachmentProcedure = "/commonfate.factory.cloudsupport.v1alpha1.CloudSupportService/CreateAttachment"
 )
 
 // These variables are the protoreflect.Descriptor objects for the RPCs defined in this package.
 var (
-	cloudSupportServiceServiceDescriptor                      = v1alpha1.File_commonfate_factory_cloudsupport_v1alpha1_support_proto.Services().ByName("CloudSupportService")
-	cloudSupportServiceContactMethodDescriptor                = cloudSupportServiceServiceDescriptor.Methods().ByName("Contact")
-	cloudSupportServiceGetAttachmentUploadURLMethodDescriptor = cloudSupportServiceServiceDescriptor.Methods().ByName("GetAttachmentUploadURL")
+	cloudSupportServiceServiceDescriptor                = v1alpha1.File_commonfate_factory_cloudsupport_v1alpha1_support_proto.Services().ByName("CloudSupportService")
+	cloudSupportServiceContactMethodDescriptor          = cloudSupportServiceServiceDescriptor.Methods().ByName("Contact")
+	cloudSupportServiceCreateAttachmentMethodDescriptor = cloudSupportServiceServiceDescriptor.Methods().ByName("CreateAttachment")
 )
 
 // CloudSupportServiceClient is a client for the
@@ -53,7 +53,8 @@ var (
 type CloudSupportServiceClient interface {
 	// Contact Common Fate support.
 	Contact(context.Context, *connect.Request[v1alpha1.ContactRequest]) (*connect.Response[v1alpha1.ContactResponse], error)
-	GetAttachmentUploadURL(context.Context, *connect.Request[v1alpha1.GetAttachmentUploadURLRequest]) (*connect.Response[v1alpha1.GetAttachmentUploadURLResponse], error)
+	// Create an attachment to add to a support ticket.
+	CreateAttachment(context.Context, *connect.Request[v1alpha1.CreateAttachmentRequest]) (*connect.Response[v1alpha1.CreateAttachmentResponse], error)
 }
 
 // NewCloudSupportServiceClient constructs a client for the
@@ -73,10 +74,10 @@ func NewCloudSupportServiceClient(httpClient connect.HTTPClient, baseURL string,
 			connect.WithSchema(cloudSupportServiceContactMethodDescriptor),
 			connect.WithClientOptions(opts...),
 		),
-		getAttachmentUploadURL: connect.NewClient[v1alpha1.GetAttachmentUploadURLRequest, v1alpha1.GetAttachmentUploadURLResponse](
+		createAttachment: connect.NewClient[v1alpha1.CreateAttachmentRequest, v1alpha1.CreateAttachmentResponse](
 			httpClient,
-			baseURL+CloudSupportServiceGetAttachmentUploadURLProcedure,
-			connect.WithSchema(cloudSupportServiceGetAttachmentUploadURLMethodDescriptor),
+			baseURL+CloudSupportServiceCreateAttachmentProcedure,
+			connect.WithSchema(cloudSupportServiceCreateAttachmentMethodDescriptor),
 			connect.WithClientOptions(opts...),
 		),
 	}
@@ -84,8 +85,8 @@ func NewCloudSupportServiceClient(httpClient connect.HTTPClient, baseURL string,
 
 // cloudSupportServiceClient implements CloudSupportServiceClient.
 type cloudSupportServiceClient struct {
-	contact                *connect.Client[v1alpha1.ContactRequest, v1alpha1.ContactResponse]
-	getAttachmentUploadURL *connect.Client[v1alpha1.GetAttachmentUploadURLRequest, v1alpha1.GetAttachmentUploadURLResponse]
+	contact          *connect.Client[v1alpha1.ContactRequest, v1alpha1.ContactResponse]
+	createAttachment *connect.Client[v1alpha1.CreateAttachmentRequest, v1alpha1.CreateAttachmentResponse]
 }
 
 // Contact calls commonfate.factory.cloudsupport.v1alpha1.CloudSupportService.Contact.
@@ -93,10 +94,10 @@ func (c *cloudSupportServiceClient) Contact(ctx context.Context, req *connect.Re
 	return c.contact.CallUnary(ctx, req)
 }
 
-// GetAttachmentUploadURL calls
-// commonfate.factory.cloudsupport.v1alpha1.CloudSupportService.GetAttachmentUploadURL.
-func (c *cloudSupportServiceClient) GetAttachmentUploadURL(ctx context.Context, req *connect.Request[v1alpha1.GetAttachmentUploadURLRequest]) (*connect.Response[v1alpha1.GetAttachmentUploadURLResponse], error) {
-	return c.getAttachmentUploadURL.CallUnary(ctx, req)
+// CreateAttachment calls
+// commonfate.factory.cloudsupport.v1alpha1.CloudSupportService.CreateAttachment.
+func (c *cloudSupportServiceClient) CreateAttachment(ctx context.Context, req *connect.Request[v1alpha1.CreateAttachmentRequest]) (*connect.Response[v1alpha1.CreateAttachmentResponse], error) {
+	return c.createAttachment.CallUnary(ctx, req)
 }
 
 // CloudSupportServiceHandler is an implementation of the
@@ -104,7 +105,8 @@ func (c *cloudSupportServiceClient) GetAttachmentUploadURL(ctx context.Context, 
 type CloudSupportServiceHandler interface {
 	// Contact Common Fate support.
 	Contact(context.Context, *connect.Request[v1alpha1.ContactRequest]) (*connect.Response[v1alpha1.ContactResponse], error)
-	GetAttachmentUploadURL(context.Context, *connect.Request[v1alpha1.GetAttachmentUploadURLRequest]) (*connect.Response[v1alpha1.GetAttachmentUploadURLResponse], error)
+	// Create an attachment to add to a support ticket.
+	CreateAttachment(context.Context, *connect.Request[v1alpha1.CreateAttachmentRequest]) (*connect.Response[v1alpha1.CreateAttachmentResponse], error)
 }
 
 // NewCloudSupportServiceHandler builds an HTTP handler from the service implementation. It returns
@@ -119,18 +121,18 @@ func NewCloudSupportServiceHandler(svc CloudSupportServiceHandler, opts ...conne
 		connect.WithSchema(cloudSupportServiceContactMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
-	cloudSupportServiceGetAttachmentUploadURLHandler := connect.NewUnaryHandler(
-		CloudSupportServiceGetAttachmentUploadURLProcedure,
-		svc.GetAttachmentUploadURL,
-		connect.WithSchema(cloudSupportServiceGetAttachmentUploadURLMethodDescriptor),
+	cloudSupportServiceCreateAttachmentHandler := connect.NewUnaryHandler(
+		CloudSupportServiceCreateAttachmentProcedure,
+		svc.CreateAttachment,
+		connect.WithSchema(cloudSupportServiceCreateAttachmentMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
 	return "/commonfate.factory.cloudsupport.v1alpha1.CloudSupportService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
 		case CloudSupportServiceContactProcedure:
 			cloudSupportServiceContactHandler.ServeHTTP(w, r)
-		case CloudSupportServiceGetAttachmentUploadURLProcedure:
-			cloudSupportServiceGetAttachmentUploadURLHandler.ServeHTTP(w, r)
+		case CloudSupportServiceCreateAttachmentProcedure:
+			cloudSupportServiceCreateAttachmentHandler.ServeHTTP(w, r)
 		default:
 			http.NotFound(w, r)
 		}
@@ -144,6 +146,6 @@ func (UnimplementedCloudSupportServiceHandler) Contact(context.Context, *connect
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.factory.cloudsupport.v1alpha1.CloudSupportService.Contact is not implemented"))
 }
 
-func (UnimplementedCloudSupportServiceHandler) GetAttachmentUploadURL(context.Context, *connect.Request[v1alpha1.GetAttachmentUploadURLRequest]) (*connect.Response[v1alpha1.GetAttachmentUploadURLResponse], error) {
-	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.factory.cloudsupport.v1alpha1.CloudSupportService.GetAttachmentUploadURL is not implemented"))
+func (UnimplementedCloudSupportServiceHandler) CreateAttachment(context.Context, *connect.Request[v1alpha1.CreateAttachmentRequest]) (*connect.Response[v1alpha1.CreateAttachmentResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.factory.cloudsupport.v1alpha1.CloudSupportService.CreateAttachment is not implemented"))
 }

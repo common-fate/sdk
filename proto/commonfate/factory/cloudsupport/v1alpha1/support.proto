@@ -9,7 +9,8 @@ service CloudSupportService {
     // Contact Common Fate support.
     rpc Contact(ContactRequest) returns (ContactResponse) {}
 
-    rpc GetAttachmentUploadURL(GetAttachmentUploadURLRequest) returns (GetAttachmentUploadURLResponse) {} 
+    // Create an attachment to add to a support ticket.
+    rpc CreateAttachment(CreateAttachmentRequest) returns (CreateAttachmentResponse) {}
 }
 
 message ContactRequest {
@@ -22,11 +23,11 @@ message ContactResponse {
     string message = 1;
 }
 
-message GetAttachmentUploadURLRequest {
-    commonfate.control.support.v1alpha1.FileInput file_input = 1;
+message CreateAttachmentRequest {
+    commonfate.control.support.v1alpha1.AttachmentInput attachment_input = 1;
     commonfate.access.v1alpha1.User user = 2;
 }
 
-message GetAttachmentUploadURLResponse {
-
+message CreateAttachmentResponse {
+    commonfate.control.support.v1alpha1.Attachment attachment = 1;
 }
