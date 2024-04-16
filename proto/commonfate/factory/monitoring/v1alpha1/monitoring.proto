@@ -7,6 +7,7 @@ import "google/protobuf/timestamp.proto";
 // MonitoringService allows Common Fate deployments to obtain
 // authentication tokens for our centralised OpenTelemetry collector.
 service MonitoringService {
+    // Obtain a Write Token, used to authenticate to our OpenTelemetry collector.
     rpc GetWriteToken(GetWriteTokenRequest) returns (GetWriteTokenResponse) {}
 }
 
@@ -17,7 +18,7 @@ message AWSClaims {
 }
 
 
-message AuthenticateRequest {
+message GetWriteTokenRequest {
     // the Common Fate licence key.
     string licence_key = 1;
 
@@ -30,7 +31,7 @@ message AuthenticateRequest {
     }
 }
 
-message AuthenticateResponse {
+message GetWriteTokenResponse {
     // A write token which gives access to write OpenTelemetry data to our collector.
     string write_token = 1;
 }
