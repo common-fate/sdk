@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package commonfate.access.v1alpha1;
+package commonfate.control.account.v1alpha1;
 
 service AccountService {
   rpc GetAWSAccountDetail(GetAWSAccountDetailRequest) returns (GetAWSAccountDetailResponse) {} 

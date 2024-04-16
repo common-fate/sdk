@@ -45,6 +45,7 @@ service AccessService {
   }
 }
 
+
 message QueryApproversRequest {
   oneof query {
     TargetRole target_role = 1;
