@@ -2,31 +2,28 @@ syntax = "proto3";
 
 package commonfate.access.v1alpha1;
 
-import "commonfate/control/attest/v1alpha1/attestation.proto";
-import "commonfate/access/v1alpha1/user.proto";
-import "commonfate/entity/v1alpha1/eid.proto";
-import "commonfate/access/v1alpha1/named_eid.proto";
 import "commonfate/access/v1alpha1/identity.proto";
-import "google/protobuf/duration.proto";
+import "commonfate/access/v1alpha1/user.proto";
+import "commonfate/authz/v1alpha1/read_only.proto";
+import "commonfate/entity/v1alpha1/eid.proto";
 import "google/protobuf/struct.proto";
 import "google/protobuf/timestamp.proto";
-import "commonfate/authz/v1alpha1/read_only.proto";
 
 service AuditLogService {
-    rpc QueryAuditLogs(QueryAuditLogsRequest) returns (QueryAuditLogsResponse)  {
-        option(commonfate.authz.v1alpha1.read_only) = true;
-    }
+  rpc QueryAuditLogs(QueryAuditLogsRequest) returns (QueryAuditLogsResponse) {
+    option (commonfate.authz.v1alpha1.read_only) = true;
+  }
 }
 
 message QueryAuditLogsRequest {
-    // Query for audit logs relating to a particular target
-    commonfate.entity.v1alpha1.EID target = 1;
+  // Query for audit logs relating to a particular target
+  commonfate.entity.v1alpha1.EID target = 1;
 
-    // Query for audit logs performed by a particular actor
-    // commonfate.entity.v1alpha1.EID actor = 2;
+  // Query for audit logs performed by a particular actor
+  // commonfate.entity.v1alpha1.EID actor = 2;
 
-    // The token for the next page.
-    string page_token = 10;
+  // The token for the next page.
+  string page_token = 10;
 }
 
 message QueryAuditLogsResponse {
@@ -35,36 +32,36 @@ message QueryAuditLogsResponse {
 }
 
 message AuditLogPreview {
-    repeated AuditLog logs = 1;
-    // An approximate count of activity events
-    uint32 log_count = 12;
+  repeated AuditLog logs = 1;
+  // An approximate count of activity events
+  uint32 log_count = 12;
 }
 
 message AuditLog {
-    // an ID of the audit log event
-    string id = 1;
+  // an ID of the audit log event
+  string id = 1;
 
-    // the action which occurred
-    string action = 2;
+  // the action which occurred
+  string action = 2;
 
-    // the actor which performed the action.
-    User actor = 3;
+  // the actor which performed the action.
+  User actor = 3;
 
-    // the timestamp the action occurred at.
-    google.protobuf.Timestamp occurred_at = 4;
+  // the timestamp the action occurred at.
+  google.protobuf.Timestamp occurred_at = 4;
 
-    // all related resources affected by the action.
-    repeated commonfate.entity.v1alpha1.EID targets = 5;
-    
-    // a human-friendly message describing the action.
-    string message = 6;
-    
-    // additional context (omitted in user-facing audit logs,
-    // as it contains sensitive information like IP addresses)
-    google.protobuf.Struct context = 7;
+  // all related resources affected by the action.
+  repeated commonfate.entity.v1alpha1.EID targets = 5;
 
-    // the caller identity details, including information 
-    // such as the particular authentication token ID used
-    // to perform the action.
-    repeated IdentityLink caller_identity_chain = 8;
+  // a human-friendly message describing the action.
+  string message = 6;
+
+  // additional context (omitted in user-facing audit logs,
+  // as it contains sensitive information like IP addresses)
+  google.protobuf.Struct context = 7;
+
+  // the caller identity details, including information
+  // such as the particular authentication token ID used
+  // to perform the action.
+  repeated IdentityLink caller_identity_chain = 8;
 }
