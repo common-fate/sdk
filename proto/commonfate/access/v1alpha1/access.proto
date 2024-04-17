@@ -7,9 +7,10 @@ import "commonfate/access/v1alpha1/diagnostic.proto";
 import "commonfate/access/v1alpha1/grant.proto";
 import "commonfate/access/v1alpha1/named_eid.proto";
 import "commonfate/access/v1alpha1/user.proto";
-import "commonfate/authz/v1alpha1/evaluation.proto";
+import "commonfate/authz/v1alpha1/policy.proto";
 import "commonfate/authz/v1alpha1/read_only.proto";
 import "commonfate/entity/v1alpha1/eid.proto";
+import "commonfate/entity/v1alpha1/entity.proto";
 import "google/protobuf/duration.proto";
 
 // AccessService is the Access Handler's user-facing API.
@@ -119,11 +120,22 @@ message DebugEntitlementAccessResponse {
   // Whether or not it is auto approved
   bool auto_approved = 2;
 
-  // The detailed policy information relating to the request action
-  commonfate.authz.v1alpha1.DebugInformation request_action_debug_info = 3;
+  // The Cedar Policys which contributed to the authorizations decisions
+  EntitlementAccessReason reason = 3;
 
-  // The detailed policy information relating to the activate action
-  commonfate.authz.v1alpha1.DebugInformation activate_action_debug_info = 4;
+  // Cedar PolicySets which contributed to the authorization decisions.
+  repeated commonfate.authz.v1alpha1.PolicySet policy_sets = 4;
+
+  // Entities which contributed to the authorization decisions.
+  repeated commonfate.entity.v1alpha1.Entity entities = 5;
+}
+
+message EntitlementAccessReason {
+  // Cedar Policy IDs which contributed to the can_request authorization decision.
+  repeated string can_request_reason = 1;
+
+  // Cedar Policy IDs which contributed to the auto_approved authorization decision.
+  repeated string auto_approved_reason = 2;
 }
 
 message PrincipalAccess {
@@ -131,11 +143,8 @@ message PrincipalAccess {
   // Whether or not it is auto approved
   bool auto_approved = 2;
 
-  // The policy ids which contributed to this entitlement being available to request
-  repeated string request_action_policy_ids = 3;
-
-  // The policy ids which determine whether this entitlement would be auto_approved
-  repeated string activate_action_policy_ids = 4;
+  // The Cedar Policys which contributed to the authorizations decisions
+  EntitlementAccessReason reason = 3;
 }
 
 message Entitlement {
@@ -158,11 +167,8 @@ message Entitlement {
   // The target_path does not include the target itself.
   repeated NamedEID target_path = 4;
 
-  // The policy ids which contributed to this entitlement being available to request
-  repeated string request_action_policy_ids = 5;
-
-  // The policy ids which determine whether this entitlement would be auto_approved
-  repeated string activate_action_policy_ids = 6;
+  // The Cedar Policys which contributed to the authorizations decisions
+  EntitlementAccessReason reason = 5;
 }
 
 message Availability {
