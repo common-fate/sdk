@@ -1,5 +1,16 @@
 # @common-fate/sdk
 
+## 1.25.0
+
+### Minor Changes
+
+- cc74bbb: Adds APIs for Common Fate in-app product support.
+- e0fa93a: adds activation expiry to access workflows
+
+### Patch Changes
+
+- 4841873: Add new RPC for DebugEntitlementAccess
+
 ## 1.24.0
 
 ### Minor Changes
