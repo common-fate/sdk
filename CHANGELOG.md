@@ -1,5 +1,11 @@
 # @common-fate/sdk
 
+## 1.26.0
+
+### Minor Changes
+
+- 07124e7: Adds the Granted Profile Registry API specification.
+
 ## 1.25.0
 
 ### Minor Changes
