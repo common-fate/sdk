@@ -1,5 +1,11 @@
 # @common-fate/sdk
 
+## 1.26.1
+
+### Patch Changes
+
+- 464a458: Fix an issue where an entity marshalled with an eid.EID field could not be unmarshalled to a regular struct.
+
 ## 1.26.0
 
 ### Minor Changes
