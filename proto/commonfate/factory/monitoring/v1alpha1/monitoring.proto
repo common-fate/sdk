@@ -9,29 +9,25 @@ import "google/protobuf/timestamp.proto";
 service MonitoringService {
     // Obtain a Write Token, used to authenticate to our OpenTelemetry collector.
     rpc GetWriteToken(GetWriteTokenRequest) returns (GetWriteTokenResponse) {}
+
+    // Check to see if an existing Write Token is valid.
+    rpc ValidateWriteToken(ValidateWriteTokenRequest) returns (ValidateWriteTokenResponse) {}
 }
 
-message AWSClaims {
-    string signature = 1;
-    google.protobuf.Timestamp timestamp = 2;
-    string security_token = 3;
-}
-
-
-message GetWriteTokenRequest {
-    // the Common Fate licence key.
-    string licence_key = 1;
-
-    // a name for the deployment, like 'prod'.
-    // used to differentiate deployments residing in the same AWS account.
-    string deployment_name = 2;
-
-    oneof claims {
-        AWSClaims aws = 3;
-    }
-}
+message GetWriteTokenRequest {}
 
 message GetWriteTokenResponse {
     // A write token which gives access to write OpenTelemetry data to our collector.
     string write_token = 1;
+}
+
+message ValidateWriteTokenRequest {
+    string write_token = 1;
+}
+
+message ValidateWriteTokenResponse {
+    // 'true' if the token is currently valid.
+    bool is_valid = 1;
+    // A user-facing reason as to why the token is invalid.
+    string invalid_reason = 2;
 }

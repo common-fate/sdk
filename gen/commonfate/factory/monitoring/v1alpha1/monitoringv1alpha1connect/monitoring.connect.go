@@ -36,12 +36,16 @@ const (
 	// MonitoringServiceGetWriteTokenProcedure is the fully-qualified name of the MonitoringService's
 	// GetWriteToken RPC.
 	MonitoringServiceGetWriteTokenProcedure = "/commonfate.factory.monitoring.v1alpha1.MonitoringService/GetWriteToken"
+	// MonitoringServiceValidateWriteTokenProcedure is the fully-qualified name of the
+	// MonitoringService's ValidateWriteToken RPC.
+	MonitoringServiceValidateWriteTokenProcedure = "/commonfate.factory.monitoring.v1alpha1.MonitoringService/ValidateWriteToken"
 )
 
 // These variables are the protoreflect.Descriptor objects for the RPCs defined in this package.
 var (
-	monitoringServiceServiceDescriptor             = v1alpha1.File_commonfate_factory_monitoring_v1alpha1_monitoring_proto.Services().ByName("MonitoringService")
-	monitoringServiceGetWriteTokenMethodDescriptor = monitoringServiceServiceDescriptor.Methods().ByName("GetWriteToken")
+	monitoringServiceServiceDescriptor                  = v1alpha1.File_commonfate_factory_monitoring_v1alpha1_monitoring_proto.Services().ByName("MonitoringService")
+	monitoringServiceGetWriteTokenMethodDescriptor      = monitoringServiceServiceDescriptor.Methods().ByName("GetWriteToken")
+	monitoringServiceValidateWriteTokenMethodDescriptor = monitoringServiceServiceDescriptor.Methods().ByName("ValidateWriteToken")
 )
 
 // MonitoringServiceClient is a client for the
@@ -49,6 +53,8 @@ var (
 type MonitoringServiceClient interface {
 	// Obtain a Write Token, used to authenticate to our OpenTelemetry collector.
 	GetWriteToken(context.Context, *connect.Request[v1alpha1.GetWriteTokenRequest]) (*connect.Response[v1alpha1.GetWriteTokenResponse], error)
+	// Check to see if an existing Write Token is valid.
+	ValidateWriteToken(context.Context, *connect.Request[v1alpha1.ValidateWriteTokenRequest]) (*connect.Response[v1alpha1.ValidateWriteTokenResponse], error)
 }
 
 // NewMonitoringServiceClient constructs a client for the
@@ -68,12 +74,19 @@ func NewMonitoringServiceClient(httpClient connect.HTTPClient, baseURL string, o
 			connect.WithSchema(monitoringServiceGetWriteTokenMethodDescriptor),
 			connect.WithClientOptions(opts...),
 		),
+		validateWriteToken: connect.NewClient[v1alpha1.ValidateWriteTokenRequest, v1alpha1.ValidateWriteTokenResponse](
+			httpClient,
+			baseURL+MonitoringServiceValidateWriteTokenProcedure,
+			connect.WithSchema(monitoringServiceValidateWriteTokenMethodDescriptor),
+			connect.WithClientOptions(opts...),
+		),
 	}
 }
 
 // monitoringServiceClient implements MonitoringServiceClient.
 type monitoringServiceClient struct {
-	getWriteToken *connect.Client[v1alpha1.GetWriteTokenRequest, v1alpha1.GetWriteTokenResponse]
+	getWriteToken      *connect.Client[v1alpha1.GetWriteTokenRequest, v1alpha1.GetWriteTokenResponse]
+	validateWriteToken *connect.Client[v1alpha1.ValidateWriteTokenRequest, v1alpha1.ValidateWriteTokenResponse]
 }
 
 // GetWriteToken calls commonfate.factory.monitoring.v1alpha1.MonitoringService.GetWriteToken.
@@ -81,11 +94,19 @@ func (c *monitoringServiceClient) GetWriteToken(ctx context.Context, req *connec
 	return c.getWriteToken.CallUnary(ctx, req)
 }
 
+// ValidateWriteToken calls
+// commonfate.factory.monitoring.v1alpha1.MonitoringService.ValidateWriteToken.
+func (c *monitoringServiceClient) ValidateWriteToken(ctx context.Context, req *connect.Request[v1alpha1.ValidateWriteTokenRequest]) (*connect.Response[v1alpha1.ValidateWriteTokenResponse], error) {
+	return c.validateWriteToken.CallUnary(ctx, req)
+}
+
 // MonitoringServiceHandler is an implementation of the
 // commonfate.factory.monitoring.v1alpha1.MonitoringService service.
 type MonitoringServiceHandler interface {
 	// Obtain a Write Token, used to authenticate to our OpenTelemetry collector.
 	GetWriteToken(context.Context, *connect.Request[v1alpha1.GetWriteTokenRequest]) (*connect.Response[v1alpha1.GetWriteTokenResponse], error)
+	// Check to see if an existing Write Token is valid.
+	ValidateWriteToken(context.Context, *connect.Request[v1alpha1.ValidateWriteTokenRequest]) (*connect.Response[v1alpha1.ValidateWriteTokenResponse], error)
 }
 
 // NewMonitoringServiceHandler builds an HTTP handler from the service implementation. It returns
@@ -100,10 +121,18 @@ func NewMonitoringServiceHandler(svc MonitoringServiceHandler, opts ...connect.H
 		connect.WithSchema(monitoringServiceGetWriteTokenMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
+	monitoringServiceValidateWriteTokenHandler := connect.NewUnaryHandler(
+		MonitoringServiceValidateWriteTokenProcedure,
+		svc.ValidateWriteToken,
+		connect.WithSchema(monitoringServiceValidateWriteTokenMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
+	)
 	return "/commonfate.factory.monitoring.v1alpha1.MonitoringService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
 		case MonitoringServiceGetWriteTokenProcedure:
 			monitoringServiceGetWriteTokenHandler.ServeHTTP(w, r)
+		case MonitoringServiceValidateWriteTokenProcedure:
+			monitoringServiceValidateWriteTokenHandler.ServeHTTP(w, r)
 		default:
 			http.NotFound(w, r)
 		}
@@ -115,4 +144,8 @@ type UnimplementedMonitoringServiceHandler struct{}
 
 func (UnimplementedMonitoringServiceHandler) GetWriteToken(context.Context, *connect.Request[v1alpha1.GetWriteTokenRequest]) (*connect.Response[v1alpha1.GetWriteTokenResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.factory.monitoring.v1alpha1.MonitoringService.GetWriteToken is not implemented"))
+}
+
+func (UnimplementedMonitoringServiceHandler) ValidateWriteToken(context.Context, *connect.Request[v1alpha1.ValidateWriteTokenRequest]) (*connect.Response[v1alpha1.ValidateWriteTokenResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.factory.monitoring.v1alpha1.MonitoringService.ValidateWriteToken is not implemented"))
 }
