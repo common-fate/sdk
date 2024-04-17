@@ -2,17 +2,11 @@ syntax = "proto3";
 
 package commonfate.access.v1alpha1;
 
-import "commonfate/control/attest/v1alpha1/attestation.proto";
-import "commonfate/access/v1alpha1/user.proto";
 import "commonfate/access/v1alpha1/diagnostic.proto";
-import "commonfate/entity/v1alpha1/entity.proto";
-import "commonfate/entity/v1alpha1/entity_service.proto";
-import "commonfate/entity/v1alpha1/eid.proto";
 import "commonfate/access/v1alpha1/grant.proto";
+import "commonfate/access/v1alpha1/user.proto";
 import "commonfate/authz/v1alpha1/read_only.proto";
-import "commonfate/access/v1alpha1/named_eid.proto";
-import "commonfate/access/v1alpha1/audit_logs.proto";
-import "google/protobuf/duration.proto";
+import "commonfate/entity/v1alpha1/entity_service.proto";
 import "google/protobuf/timestamp.proto";
 
 // The Access Request API.
@@ -20,31 +14,30 @@ import "google/protobuf/timestamp.proto";
 // When operating on Access Requests, Common Fate will automatically attempt to apply the action (Approve/Close/Revoke etc)
 // to each Grant associated with the Access Request. Warnings will be returned if the operation fails for any grants.
 service AccessRequestService {
-    rpc QueryAccessRequests(QueryAccessRequestsRequest) returns (QueryAccessRequestsResponse) {
-      option(commonfate.authz.v1alpha1.read_only) = true;
-    }
+  rpc QueryAccessRequests(QueryAccessRequestsRequest) returns (QueryAccessRequestsResponse) {
+    option (commonfate.authz.v1alpha1.read_only) = true;
+  }
 
-    rpc GetAccessRequest(GetAccessRequestRequest) returns (GetAccessRequestResponse) {
-      option(commonfate.authz.v1alpha1.read_only) = true;
-    }
+  rpc GetAccessRequest(GetAccessRequestRequest) returns (GetAccessRequestResponse) {
+    option (commonfate.authz.v1alpha1.read_only) = true;
+  }
 
-    // Approving an Access Request will attempt to approve all of the Grants associated with the request.
-    //
-    // If the caller is not permitted to approve particular grants, warnings will be returned.
-    rpc ApproveAccessRequest(ApproveAccessRequestRequest) returns (ApproveAccessRequestResponse) {}
+  // Approving an Access Request will attempt to approve all of the Grants associated with the request.
+  //
+  // If the caller is not permitted to approve particular grants, warnings will be returned.
+  rpc ApproveAccessRequest(ApproveAccessRequestRequest) returns (ApproveAccessRequestResponse) {}
 
-    rpc ActivateAccessRequest(ActivateAccessRequestRequest) returns (ActivateAccessRequestResponse) {}
+  rpc ActivateAccessRequest(ActivateAccessRequestRequest) returns (ActivateAccessRequestResponse) {}
 
-    // Closing an Access Request will make it no longer reviewable and will deactivate any Grants associated with the request.
-    rpc CloseAccessRequest(CloseAccessRequestRequest) returns (CloseAccessRequestResponse) {}
+  // Closing an Access Request will make it no longer reviewable and will deactivate any Grants associated with the request.
+  rpc CloseAccessRequest(CloseAccessRequestRequest) returns (CloseAccessRequestResponse) {}
 }
 
 message QueryAccessRequestsRequest {
-    // The token for the next page.
-    string page_token = 1;
-    bool archived = 2;
-    optional commonfate.entity.v1alpha1.Order order = 3;
-
+  // The token for the next page.
+  string page_token = 1;
+  bool archived = 2;
+  optional commonfate.entity.v1alpha1.Order order = 3;
 }
 
 message QueryAccessRequestsResponse {
@@ -61,41 +54,39 @@ message GetAccessRequestResponse {
   AccessRequest access_request = 1;
 }
 
-
 // A request to be given entitlements allowing <Action> to be performed on <Resource>.
 //
 // For example, if the action is 'Admin', and the resource is AWS::Account::123456789012,
 // This request is for entitlements allowing Admin access to the account 123456789012.
 message AccessRequest {
-    // The ID of the Access Request.
-    string id = 1;
+  // The ID of the Access Request.
+  string id = 1;
 
-    // Batch ID of the Access Request. Access Requests created in the same 
-    // API call have the same Batch ID.
-    string batch_id = 2;
+  // Batch ID of the Access Request. Access Requests created in the same
+  // API call have the same Batch ID.
+  string batch_id = 2;
 
-    // The grants under consideration for access.
-    repeated Grant grants = 3;
+  // The grants under consideration for access.
+  repeated Grant grants = 3;
 
-    // An access request is reviewable if one or more Grants in the request
-    // requires a manual review.
-    bool reviewable = 4;
+  // An access request is reviewable if one or more Grants in the request
+  // requires a manual review.
+  bool reviewable = 4;
 
-    // True if the Access Request already existed and wasn't created by the API call.
-    bool existing = 5;
+  // True if the Access Request already existed and wasn't created by the API call.
+  bool existing = 5;
 
-    // The timestamp that the request was created at.
-    google.protobuf.Timestamp created_at = 8;
+  // The timestamp that the request was created at.
+  google.protobuf.Timestamp created_at = 8;
 
-    // The justification supplied when the request was created
-    Justification justification = 9;
+  // The justification supplied when the request was created
+  Justification justification = 9;
 
-    // The user or service account that requested the access.
-    //
-    // If a service account requested access, the 'name' and 'email' may be empty.
-    User principal = 10;
+  // The user or service account that requested the access.
+  //
+  // If a service account requested access, the 'name' and 'email' may be empty.
+  User principal = 10;
 }
-
 
 message ApproveAccessRequestRequest {
   // The ID of the Access Request.
