@@ -134,8 +134,8 @@ message EntitlementAccessReason {
   // Cedar Policy IDs which contributed to the can_request authorization decision.
   repeated string can_request_reason = 1;
 
-  // Cedar Policy IDs which contributed to the auto_approved authorization decision.
-  repeated string auto_approved_reason = 2;
+  // Cedar Policy IDs which contributed to the auto_approval authorization decision.
+  repeated string auto_approval_reason = 2;
 }
 
 message PrincipalAccess {
