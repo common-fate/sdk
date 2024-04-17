@@ -1,5 +1,39 @@
 # @common-fate/sdk
 
+## 1.26.1
+
+### Patch Changes
+
+- 464a458: Fix an issue where an entity marshalled with an eid.EID field could not be unmarshalled to a regular struct.
+
+## 1.26.0
+
+### Minor Changes
+
+- 07124e7: Adds the Granted Profile Registry API specification.
+
+## 1.25.0
+
+### Minor Changes
+
+- cc74bbb: Adds APIs for Common Fate in-app product support.
+- e0fa93a: adds activation expiry to access workflows
+
+### Patch Changes
+
+- 4841873: Add new RPC for DebugEntitlementAccess
+
+## 1.24.0
+
+### Minor Changes
+
+- df7756e: Add 'allowed' field to Evaluation to simplify audit log events
+- df7756e: Add Webhook integration.
+
+### Patch Changes
+
+- df7756e: Fixes a breaking change made in entity ID JSON marshalling behaviour.
+
 ## 1.23.1
 
 ### Patch Changes
