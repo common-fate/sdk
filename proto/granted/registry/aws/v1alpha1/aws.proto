@@ -12,9 +12,29 @@ service ProfileRegistryService {
 
 message GetProfileForAccountAndRoleRequest {
     // The ID of the AWS account, e.g. '123456789012'.
+    //
+    // Clients may specify the account ID or the account name
+    // to indicate which account to obtain a profile for.
+    //
+    // If both fields are provided, the server should use the account ID.
     string account_id = 1;
+
+    // The name of the AWS account.
+    //
+    // Clients may specify the account ID or the account name
+    // to indicate which account to obtain a profile for.
+    //
+    // If both fields are provided, the server should use the account ID.
+    //
+    // A profile registry server MAY reject requests containing
+    // only the account name, if the server does not have the capability
+    // to look up accounts based on their name. In this case,
+    // Profile Registry clients should show an error to the user indicating
+    // that the ID must be specified instead.
+    string account_name = 2;
+
     // The name of the role, e.g. 'ViewOnlyAccess'.
-    string role_name = 2;
+    string role_name = 3;
 }
 
 message GetProfileForAccountAndRoleResponse {
