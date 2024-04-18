@@ -2,7 +2,7 @@ package registry
 
 import (
 	"github.com/common-fate/sdk/config"
-	"github.com/common-fate/sdk/gen/granted/registry/aws/v1alpha1/awsv1alpha1connect"
+	"github.com/common-fate/sdk/gen/commonfate/control/granted/registry/aws/v1alpha1/awsv1alpha1connect"
 )
 
 func NewFromConfig(cfg *config.Context) awsv1alpha1connect.ProfileRegistryServiceClient {
