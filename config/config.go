@@ -69,6 +69,10 @@ type TokenStore interface {
 	Token() (*oauth2.Token, error)
 }
 type InitializeOpts struct {
+	// BaseTransport allows a custom HTTP transport to be specified
+	// If left unspecified, http.DefaultTransport is used.
+	BaseTransport http.RoundTripper
+
 	TokenStore TokenStore
 }
 
@@ -122,7 +126,12 @@ func (c *Context) Initialize(ctx context.Context, opts InitializeOpts) error {
 			return err
 		}
 		c.TokenSource = cfg.TokenSource(ctx)
-		c.HTTPClient = cfg.Client(ctx)
+		c.HTTPClient = &http.Client{
+			Transport: &oauth2.Transport{
+				Base:   opts.BaseTransport,
+				Source: c.TokenSource,
+			},
+		}
 		return nil
 	}
 
@@ -138,7 +147,12 @@ func (c *Context) Initialize(ctx context.Context, opts InitializeOpts) error {
 	}
 	c.TokenSource = src
 
-	c.HTTPClient = oauth2.NewClient(ctx, src)
+	c.HTTPClient = &http.Client{
+		Transport: &oauth2.Transport{
+			Base:   opts.BaseTransport,
+			Source: src,
+		},
+	}
 
 	return nil
 }

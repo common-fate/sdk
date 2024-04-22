@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"io/fs"
+	"net/http"
 	"net/url"
 	"os"
 	"path/filepath"
@@ -46,6 +47,10 @@ type Opts struct {
 	// The token storage backend to use for OIDC tokens.
 	// If not provided, will use the keychain backend.
 	TokenStore TokenStore
+
+	// BaseTransport allows a custom HTTP transport to be specified
+	// If left unspecified, http.DefaultTransport is used.
+	BaseTransport http.RoundTripper
 
 	// the config sources to load config from.
 	// Must be 'env', 'file', or may be a URL to fetch remote config from.
@@ -199,7 +204,10 @@ func New(ctx context.Context, opts Opts) (*Context, error) {
 		return nil, err
 	}
 
-	err = cfg.Initialize(ctx, InitializeOpts{TokenStore: opts.TokenStore})
+	err = cfg.Initialize(ctx, InitializeOpts{
+		TokenStore:    opts.TokenStore,
+		BaseTransport: opts.BaseTransport,
+	})
 	if err != nil {
 		return nil, err
 	}
