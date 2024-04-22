@@ -40,6 +40,8 @@ func (s *FileSource) Load(key Key) (string, error) {
 		return s.configFromFile.OIDCClientID, nil
 	case OIDCClientSecretKey:
 		return s.configFromFile.OIDCClientSecret, nil
+	case LightwaveGatewayURLKey:
+		return s.configFromFile.LightwaveGatewayURL, nil
 	case NameKey:
 		return s.configFromFile.name, nil
 	}

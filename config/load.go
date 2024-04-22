@@ -37,10 +37,11 @@ type Opts struct {
 	AccessURL string
 	// AccessURL is the base URL of the authz service.
 	// If empty, the API URL is used.
-	AuthzURL     string
-	ClientID     string
-	ClientSecret string
-	OIDCIssuer   string
+	AuthzURL            string
+	ClientID            string
+	ClientSecret        string
+	OIDCIssuer          string
+	LightwaveGatewayURL string
 
 	// The token storage backend to use for OIDC tokens.
 	// If not provided, will use the keychain backend.
@@ -115,12 +116,13 @@ func loadFromSources(value *string, key Key, sources []configSource) error {
 func New(ctx context.Context, opts Opts) (*Context, error) {
 	// set up a default config
 	cfg := Context{
-		APIURL:           opts.APIURL,
-		AccessURL:        opts.AccessURL,
-		AuthzURL:         opts.AuthzURL,
-		OIDCClientID:     opts.ClientID,
-		OIDCIssuer:       opts.OIDCIssuer,
-		OIDCClientSecret: opts.ClientSecret,
+		APIURL:              opts.APIURL,
+		AccessURL:           opts.AccessURL,
+		AuthzURL:            opts.AuthzURL,
+		OIDCClientID:        opts.ClientID,
+		OIDCIssuer:          opts.OIDCIssuer,
+		OIDCClientSecret:    opts.ClientSecret,
+		LightwaveGatewayURL: opts.LightwaveGatewayURL,
 	}
 
 	configSourcesFromEnv := os.Getenv("CF_CONFIG_SOURCES")
@@ -184,6 +186,10 @@ func New(ctx context.Context, opts Opts) (*Context, error) {
 		return nil, err
 	}
 	err = loadFromSources(&cfg.OIDCIssuer, OIDCIssuerKey, sources)
+	if err != nil {
+		return nil, err
+	}
+	err = loadFromSources(&cfg.LightwaveGatewayURL, LightwaveGatewayURLKey, sources)
 	if err != nil {
 		return nil, err
 	}

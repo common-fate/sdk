@@ -27,23 +27,25 @@ type Config struct {
 type Key string
 
 var (
-	APIURLKey           Key = "api_url"
-	AccessURLKey        Key = "access_url"
-	AuthzURLKey         Key = "authz_url"
-	OIDCIssuerKey       Key = "oidc_issuer"
-	OIDCClientIDKey     Key = "oidc_client_id"
-	OIDCClientSecretKey Key = "oidc_client_secret"
-	NameKey             Key = "name"
+	LightwaveGatewayURLKey Key = "lightwave_gateway_url"
+	APIURLKey              Key = "api_url"
+	AccessURLKey           Key = "access_url"
+	AuthzURLKey            Key = "authz_url"
+	OIDCIssuerKey          Key = "oidc_issuer"
+	OIDCClientIDKey        Key = "oidc_client_id"
+	OIDCClientSecretKey    Key = "oidc_client_secret"
+	NameKey                Key = "name"
 )
 
 type Context struct {
 	// the name of the context is the key of the toml entry
-	name         string
-	APIURL       string `toml:"api_url,omitempty" json:"api_url,omitempty"`
-	AccessURL    string `toml:"access_url,omitempty" json:"access_url,omitempty"`
-	AuthzURL     string `toml:"authz_url,omitempty" json:"authz_url,omitempty"`
-	OIDCIssuer   string `toml:"oidc_issuer,omitempty" json:"oidc_issuer,omitempty"`
-	OIDCClientID string `toml:"oidc_client_id,omitempty" json:"oidc_client_id,omitempty"`
+	name                string
+	LightwaveGatewayURL string `toml:"lightwave_gateway_url,omitempty" json:"lightwave_gateway_url,omitempty"`
+	APIURL              string `toml:"api_url,omitempty" json:"api_url,omitempty"`
+	AccessURL           string `toml:"access_url,omitempty" json:"access_url,omitempty"`
+	AuthzURL            string `toml:"authz_url,omitempty" json:"authz_url,omitempty"`
+	OIDCIssuer          string `toml:"oidc_issuer,omitempty" json:"oidc_issuer,omitempty"`
+	OIDCClientID        string `toml:"oidc_client_id,omitempty" json:"oidc_client_id,omitempty"`
 	// OIDCClientSecret, if specified, will cause the client to use machine-to-machine OIDC authentication.
 	OIDCClientSecret string `toml:"oidc_client_secret,omitempty" json:"oidc_client_secret,omitempty"`
 	// WHEN ADDING ANY NEW CONFIG VARIABLES BELOW YOU NEED TO UPDATE THE FOLLOWING:
