@@ -1,5 +1,11 @@
 # @common-fate/sdk
 
+## 1.26.2
+
+### Patch Changes
+
+- 8d985d9: Fix an issue where users were prompted continuously to enter a password when accessing the fallback file keychain in Linux.
+
 ## 1.26.1
 
 ### Patch Changes
