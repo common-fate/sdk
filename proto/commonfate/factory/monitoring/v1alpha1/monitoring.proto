@@ -26,8 +26,6 @@ message ValidateWriteTokenRequest {
 }
 
 message ValidateWriteTokenResponse {
-    // 'true' if the token is currently valid.
-    bool is_valid = 1;
-    // A user-facing reason as to why the token is invalid.
-    string invalid_reason = 2;
+    // The deployment ID associated with the write token.
+    string deployment_id = 1;
 }
