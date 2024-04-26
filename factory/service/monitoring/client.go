@@ -13,10 +13,10 @@ func NewFromConfig(cfg *factoryconfig.Context) *Client {
 	return &Client{cfg: cfg}
 }
 
-func (c *Client) Tokens(cfg *factoryconfig.Context) monitoringv1alpha1connect.TokenServiceClient {
-	return monitoringv1alpha1connect.NewTokenServiceClient(cfg.HTTPClient, cfg.BaseURL)
+func (c *Client) Tokens() monitoringv1alpha1connect.TokenServiceClient {
+	return monitoringv1alpha1connect.NewTokenServiceClient(c.cfg.HTTPClient, c.cfg.BaseURL)
 }
 
-func (c *Client) Validation(cfg *factoryconfig.Context) monitoringv1alpha1connect.ValidationServiceClient {
-	return monitoringv1alpha1connect.NewValidationServiceClient(cfg.HTTPClient, cfg.BaseURL)
+func (c *Client) Validation() monitoringv1alpha1connect.ValidationServiceClient {
+	return monitoringv1alpha1connect.NewValidationServiceClient(c.cfg.HTTPClient, c.cfg.BaseURL)
 }
