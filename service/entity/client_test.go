@@ -708,6 +708,62 @@ func TestUnmarshalEntity_roundtrip(t *testing.T) {
 	}
 }
 
+func TestUnmarshalEntityToTypeAndID(t *testing.T) {
+	// tests that unmarshalling works for an entity to a struct
+	// that has a 'type' and 'id' field.
+	//
+	// handles the case where we are migrating FROM an entity resource
+	// to a regular struct.
+	//
+	// Related: https://app.incident.io/common-fate/incidents/62
+	a := ThingWithEID{
+		ID:        "123",
+		Name:      "test",
+		Reference: eid.New("Test", "123"),
+	}
+	ent, _, err := Marshal(a)
+	if err != nil {
+		t.Fatal(err)
+	}
+	var b ThingWithoutEID
+	err = Unmarshal(ent, &b)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	want := ThingWithoutEID{
+		ID:   "123",
+		Name: "test",
+		Reference: regularMap{
+			Type: "Test",
+			ID:   "123",
+		},
+	}
+
+	assert.Equal(t, want, b)
+}
+
+type ThingWithEID struct {
+	ID        string  `json:"id" authz:"id"`
+	Name      string  `json:"name" authz:"name"`
+	Reference eid.EID `json:"reference" authz:"reference"`
+}
+
+func (e ThingWithEID) EID() eid.EID { return eid.New(AccountType, e.ID) }
+
+type ThingWithoutEID struct {
+	ID        string     `json:"id" authz:"id"`
+	Name      string     `json:"name" authz:"name"`
+	Reference regularMap `json:"reference" authz:"reference"`
+}
+
+type regularMap struct {
+	Type string `json:"type" authz:"type"`
+	ID   string `json:"id" authz:"id"`
+}
+
+func (e ThingWithoutEID) EID() eid.EID { return eid.New(AccountType, e.ID) }
+
 func TestMarshal(t *testing.T) {
 	// tests that marshal and unmarshal works for a map[string]string
 	a := Account{

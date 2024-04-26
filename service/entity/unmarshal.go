@@ -68,7 +68,7 @@ func unmarshalSetValue(setValue *entityv1alpha1.Value, field reflect.Value) erro
 	}
 
 	// Check if the field is a pointer
-	if field.Kind() == reflect.Pointer && setValue != nil && setValue.Value != nil {
+	if field.Kind() == reflect.Pointer && setValue.Value != nil {
 		// If it's a pointer, create a new instance and set the value
 		if field.IsNil() {
 			field.Set(reflect.New(field.Type().Elem()))
@@ -94,6 +94,19 @@ func unmarshalSetValue(setValue *entityv1alpha1.Value, field reflect.Value) erro
 				ID:   val.Entity.Id,
 			}))
 			return nil
+		}
+
+		// if we're unmarshalling to a struct
+		if field.Kind() == reflect.Struct {
+			idField, hasID := getFieldByName(field, "id")
+			typeField, hasType := getFieldByName(field, "type")
+
+			if hasID && hasType {
+				idField.Set(reflect.ValueOf(val.Entity.Id))
+				typeField.Set(reflect.ValueOf(val.Entity.Type))
+				return nil
+			}
+
 		}
 
 	case *entityv1alpha1.Value_Bool:

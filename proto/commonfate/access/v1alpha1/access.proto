@@ -7,8 +7,10 @@ import "commonfate/access/v1alpha1/diagnostic.proto";
 import "commonfate/access/v1alpha1/grant.proto";
 import "commonfate/access/v1alpha1/named_eid.proto";
 import "commonfate/access/v1alpha1/user.proto";
+import "commonfate/authz/v1alpha1/policy.proto";
 import "commonfate/authz/v1alpha1/read_only.proto";
 import "commonfate/entity/v1alpha1/eid.proto";
+import "commonfate/entity/v1alpha1/entity.proto";
 import "google/protobuf/duration.proto";
 
 // AccessService is the Access Handler's user-facing API.
@@ -41,6 +43,10 @@ service AccessService {
   }
 
   rpc PreviewEntitlementAccess(PreviewEntitlementAccessRequest) returns (PreviewEntitlementAccessResponse) {
+    option (commonfate.authz.v1alpha1.read_only) = true;
+  }
+
+  rpc DebugEntitlementAccess(DebugEntitlementAccessRequest) returns (DebugEntitlementAccessResponse) {
     option (commonfate.authz.v1alpha1.read_only) = true;
   }
 }
@@ -101,10 +107,44 @@ message PreviewEntitlementAccessResponse {
   repeated PrincipalAccess access = 1;
 }
 
+message DebugEntitlementAccessRequest {
+  Specifier principal = 1;
+  Specifier target = 2;
+  Specifier role = 3;
+}
+
+message DebugEntitlementAccessResponse {
+  // Whether or not the principal can request access to this entitlement
+  bool can_request = 1;
+
+  // Whether or not it is auto approved
+  bool auto_approved = 2;
+
+  // The Cedar Policys which contributed to the authorizations decisions
+  EntitlementAccessReason reason = 3;
+
+  // Cedar PolicySets which contributed to the authorization decisions.
+  repeated commonfate.authz.v1alpha1.PolicySet policy_sets = 4;
+
+  // Entities which contributed to the authorization decisions.
+  repeated commonfate.entity.v1alpha1.Entity entities = 5;
+}
+
+message EntitlementAccessReason {
+  // Cedar Policy IDs which contributed to the can_request authorization decision.
+  repeated string can_request_reason = 1;
+
+  // Cedar Policy IDs which contributed to the auto_approval authorization decision.
+  repeated string auto_approval_reason = 2;
+}
+
 message PrincipalAccess {
   User principal = 1;
   // Whether or not it is auto approved
   bool auto_approved = 2;
+
+  // The Cedar Policys which contributed to the authorizations decisions
+  EntitlementAccessReason reason = 3;
 }
 
 message Entitlement {
@@ -119,13 +159,16 @@ message Entitlement {
 
   // target_path is the hierarchical path to the particular entitlement target.
   // It is used in the Common Fate web console to display entitlements in a hierarchy view.
-  // For example, an AWS account entitlement will have a path of 
+  // For example, an AWS account entitlement will have a path of
   // `Root OU -> Parent OU -> Child OU.`
   //
   // target_path is in sorted order, from the root path node to the immediate parent of the target.
-  // 
+  //
   // The target_path does not include the target itself.
   repeated NamedEID target_path = 4;
+
+  // The Cedar Policys which contributed to the authorizations decisions
+  EntitlementAccessReason reason = 5;
 }
 
 message Availability {

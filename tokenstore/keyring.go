@@ -146,7 +146,7 @@ func (s *Keyring) openKeyring() (keyring.Keyring, error) {
 
 		// Fallback encrypted file
 		FileDir:          dirname,
-		FilePasswordFunc: keyring.TerminalPrompt,
+		FilePasswordFunc: keyring.FixedStringPrompt(os.Getenv("CF_KEYRING_FILE_PASSWORD")),
 	}
 
 	kab := os.Getenv("CF_KEYRING_ALLOWED_BACKENDS")
