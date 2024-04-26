@@ -24,6 +24,10 @@ type Opts struct {
 	// Defaults to "https://factory.commonfate.io"
 	// if not provided.
 	OIDCIssuer string
+
+	// BaseClient is an optional base HTTP client to use when
+	// constructing the authenticated HTTP client.
+	BaseClient *http.Client
 }
 
 type Context struct {
@@ -60,7 +64,10 @@ func Load(ctx context.Context, opts Opts) (*Context, error) {
 	}
 
 	authClient, err := auth.NewClient(ctx, auth.Opts{
-		Issuer: c.BaseURL,
+		Issuer:         c.BaseURL,
+		LicenceKey:     opts.LicenceKey,
+		DeploymentName: opts.DeploymentName,
+		BaseClient:     opts.BaseClient,
 	})
 	if err != nil {
 		return nil, err
