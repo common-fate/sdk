@@ -37,8 +37,11 @@ type Context struct {
 	// if not provided.
 	OIDCIssuer string
 
-	// HTTPClient is filled in by calling Initialize()
+	// HTTPClient is filled in by calling Load()
 	HTTPClient *http.Client
+
+	// AuthClient is filled in by calling Load()
+	AuthClient *auth.AuthClient
 }
 
 // Load and initialize a client context. You can override values by providing them in 'opts'.
@@ -63,6 +66,7 @@ func Load(ctx context.Context, opts Opts) (*Context, error) {
 		return nil, err
 	}
 
+	c.AuthClient = authClient
 	c.HTTPClient = oauth2.NewClient(ctx, authClient)
 
 	return &c, nil
