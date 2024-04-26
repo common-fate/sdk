@@ -86,6 +86,8 @@ message AccessRequest {
   //
   // If a service account requested access, the 'name' and 'email' may be empty.
   User principal = 10;
+
+  string workflow_id = 11;
 }
 
 message ApproveAccessRequestRequest {
