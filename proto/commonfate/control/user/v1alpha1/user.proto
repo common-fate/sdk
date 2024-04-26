@@ -18,7 +18,7 @@ service UserService {
 message QueryUsersRequest {}
 
 message QueryUsersResponse {
-  repeated commonfate.access.v1alpha1.User resources = 1;
+  repeated commonfate.access.v1alpha1.User users = 1;
 }
 
 message GetUserRequest {
