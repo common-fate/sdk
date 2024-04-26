@@ -9,11 +9,31 @@ import "google/protobuf/timestamp.proto";
 service TokenService {
     // Obtain a Write Token, used to authenticate to our OpenTelemetry collector.
     rpc CreateWriteToken(CreateWriteTokenRequest) returns (CreateWriteTokenResponse) {}
+    rpc GetWriteToken(GetWriteTokenRequest) returns (GetWriteTokenResponse) {}
+    rpc DeleteWriteToken(DeleteWriteTokenRequest) returns (DeleteWriteTokenResponse) {}
 }
 
 message CreateWriteTokenRequest {}
 
 message CreateWriteTokenResponse {
+    string id = 1;
+
     // A write token which gives access to write OpenTelemetry data to our collector.
-    string write_token = 1;
+    string write_token = 2;
+}
+
+
+message GetWriteTokenRequest {}
+
+message GetWriteTokenResponse {
+    string id = 1;
+    bool is_valid = 2;
+}
+
+message DeleteWriteTokenRequest {
+    string id = 1;
+}
+
+message DeleteWriteTokenResponse {
+    string deleted_id = 1;
 }
