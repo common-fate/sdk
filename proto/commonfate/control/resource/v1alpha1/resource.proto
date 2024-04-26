@@ -19,6 +19,12 @@ service ResourceService {
   rpc GetResource(GetResourceRequest) returns (GetResourceResponse) {
     option (commonfate.authz.v1alpha1.read_only) = true;
   }
+  rpc ListChildren(ListChildrenRequest) returns (ListChildrenResponse) {
+    option (commonfate.authz.v1alpha1.read_only) = true;
+  }
+  rpc ListParents(ListParentsRequest) returns (ListParentsResponse) {
+    option (commonfate.authz.v1alpha1.read_only) = true;
+  }
 }
 
 message ListTypesRequest {}
@@ -40,6 +46,21 @@ message GetResourceRequest {
 
 message GetResourceResponse {
   commonfate.entity.v1alpha1.Entity resource = 1;
-  repeated commonfate.access.v1alpha1.NamedEID parents = 2;
-  repeated commonfate.access.v1alpha1.NamedEID children = 3;
+  string name = 2;
+}
+
+message ListChildrenRequest {
+  commonfate.entity.v1alpha1.EID eid = 1;
+}
+
+message ListChildrenResponse {
+  repeated commonfate.access.v1alpha1.NamedEID children = 1;
+}
+
+message ListParentsRequest {
+  commonfate.entity.v1alpha1.EID eid = 1;
+}
+
+message ListParentsResponse {
+  repeated commonfate.access.v1alpha1.NamedEID parents = 1;
 }

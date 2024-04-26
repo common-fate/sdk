@@ -42,6 +42,12 @@ const (
 	// ResourceServiceGetResourceProcedure is the fully-qualified name of the ResourceService's
 	// GetResource RPC.
 	ResourceServiceGetResourceProcedure = "/commonfate.control.resource.v1alpha1.ResourceService/GetResource"
+	// ResourceServiceListChildrenProcedure is the fully-qualified name of the ResourceService's
+	// ListChildren RPC.
+	ResourceServiceListChildrenProcedure = "/commonfate.control.resource.v1alpha1.ResourceService/ListChildren"
+	// ResourceServiceListParentsProcedure is the fully-qualified name of the ResourceService's
+	// ListParents RPC.
+	ResourceServiceListParentsProcedure = "/commonfate.control.resource.v1alpha1.ResourceService/ListParents"
 )
 
 // These variables are the protoreflect.Descriptor objects for the RPCs defined in this package.
@@ -50,6 +56,8 @@ var (
 	resourceServiceListTypesMethodDescriptor      = resourceServiceServiceDescriptor.Methods().ByName("ListTypes")
 	resourceServiceQueryResourcesMethodDescriptor = resourceServiceServiceDescriptor.Methods().ByName("QueryResources")
 	resourceServiceGetResourceMethodDescriptor    = resourceServiceServiceDescriptor.Methods().ByName("GetResource")
+	resourceServiceListChildrenMethodDescriptor   = resourceServiceServiceDescriptor.Methods().ByName("ListChildren")
+	resourceServiceListParentsMethodDescriptor    = resourceServiceServiceDescriptor.Methods().ByName("ListParents")
 )
 
 // ResourceServiceClient is a client for the commonfate.control.resource.v1alpha1.ResourceService
@@ -59,6 +67,8 @@ type ResourceServiceClient interface {
 	ListTypes(context.Context, *connect.Request[v1alpha1.ListTypesRequest]) (*connect.Response[v1alpha1.ListTypesResponse], error)
 	QueryResources(context.Context, *connect.Request[v1alpha1.QueryResourcesRequest]) (*connect.Response[v1alpha1.QueryResourcesResponse], error)
 	GetResource(context.Context, *connect.Request[v1alpha1.GetResourceRequest]) (*connect.Response[v1alpha1.GetResourceResponse], error)
+	ListChildren(context.Context, *connect.Request[v1alpha1.ListChildrenRequest]) (*connect.Response[v1alpha1.ListChildrenResponse], error)
+	ListParents(context.Context, *connect.Request[v1alpha1.ListParentsRequest]) (*connect.Response[v1alpha1.ListParentsResponse], error)
 }
 
 // NewResourceServiceClient constructs a client for the
@@ -90,6 +100,18 @@ func NewResourceServiceClient(httpClient connect.HTTPClient, baseURL string, opt
 			connect.WithSchema(resourceServiceGetResourceMethodDescriptor),
 			connect.WithClientOptions(opts...),
 		),
+		listChildren: connect.NewClient[v1alpha1.ListChildrenRequest, v1alpha1.ListChildrenResponse](
+			httpClient,
+			baseURL+ResourceServiceListChildrenProcedure,
+			connect.WithSchema(resourceServiceListChildrenMethodDescriptor),
+			connect.WithClientOptions(opts...),
+		),
+		listParents: connect.NewClient[v1alpha1.ListParentsRequest, v1alpha1.ListParentsResponse](
+			httpClient,
+			baseURL+ResourceServiceListParentsProcedure,
+			connect.WithSchema(resourceServiceListParentsMethodDescriptor),
+			connect.WithClientOptions(opts...),
+		),
 	}
 }
 
@@ -98,6 +120,8 @@ type resourceServiceClient struct {
 	listTypes      *connect.Client[v1alpha1.ListTypesRequest, v1alpha1.ListTypesResponse]
 	queryResources *connect.Client[v1alpha1.QueryResourcesRequest, v1alpha1.QueryResourcesResponse]
 	getResource    *connect.Client[v1alpha1.GetResourceRequest, v1alpha1.GetResourceResponse]
+	listChildren   *connect.Client[v1alpha1.ListChildrenRequest, v1alpha1.ListChildrenResponse]
+	listParents    *connect.Client[v1alpha1.ListParentsRequest, v1alpha1.ListParentsResponse]
 }
 
 // ListTypes calls commonfate.control.resource.v1alpha1.ResourceService.ListTypes.
@@ -115,6 +139,16 @@ func (c *resourceServiceClient) GetResource(ctx context.Context, req *connect.Re
 	return c.getResource.CallUnary(ctx, req)
 }
 
+// ListChildren calls commonfate.control.resource.v1alpha1.ResourceService.ListChildren.
+func (c *resourceServiceClient) ListChildren(ctx context.Context, req *connect.Request[v1alpha1.ListChildrenRequest]) (*connect.Response[v1alpha1.ListChildrenResponse], error) {
+	return c.listChildren.CallUnary(ctx, req)
+}
+
+// ListParents calls commonfate.control.resource.v1alpha1.ResourceService.ListParents.
+func (c *resourceServiceClient) ListParents(ctx context.Context, req *connect.Request[v1alpha1.ListParentsRequest]) (*connect.Response[v1alpha1.ListParentsResponse], error) {
+	return c.listParents.CallUnary(ctx, req)
+}
+
 // ResourceServiceHandler is an implementation of the
 // commonfate.control.resource.v1alpha1.ResourceService service.
 type ResourceServiceHandler interface {
@@ -122,6 +156,8 @@ type ResourceServiceHandler interface {
 	ListTypes(context.Context, *connect.Request[v1alpha1.ListTypesRequest]) (*connect.Response[v1alpha1.ListTypesResponse], error)
 	QueryResources(context.Context, *connect.Request[v1alpha1.QueryResourcesRequest]) (*connect.Response[v1alpha1.QueryResourcesResponse], error)
 	GetResource(context.Context, *connect.Request[v1alpha1.GetResourceRequest]) (*connect.Response[v1alpha1.GetResourceResponse], error)
+	ListChildren(context.Context, *connect.Request[v1alpha1.ListChildrenRequest]) (*connect.Response[v1alpha1.ListChildrenResponse], error)
+	ListParents(context.Context, *connect.Request[v1alpha1.ListParentsRequest]) (*connect.Response[v1alpha1.ListParentsResponse], error)
 }
 
 // NewResourceServiceHandler builds an HTTP handler from the service implementation. It returns the
@@ -148,6 +184,18 @@ func NewResourceServiceHandler(svc ResourceServiceHandler, opts ...connect.Handl
 		connect.WithSchema(resourceServiceGetResourceMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
+	resourceServiceListChildrenHandler := connect.NewUnaryHandler(
+		ResourceServiceListChildrenProcedure,
+		svc.ListChildren,
+		connect.WithSchema(resourceServiceListChildrenMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
+	)
+	resourceServiceListParentsHandler := connect.NewUnaryHandler(
+		ResourceServiceListParentsProcedure,
+		svc.ListParents,
+		connect.WithSchema(resourceServiceListParentsMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
+	)
 	return "/commonfate.control.resource.v1alpha1.ResourceService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
 		case ResourceServiceListTypesProcedure:
@@ -156,6 +204,10 @@ func NewResourceServiceHandler(svc ResourceServiceHandler, opts ...connect.Handl
 			resourceServiceQueryResourcesHandler.ServeHTTP(w, r)
 		case ResourceServiceGetResourceProcedure:
 			resourceServiceGetResourceHandler.ServeHTTP(w, r)
+		case ResourceServiceListChildrenProcedure:
+			resourceServiceListChildrenHandler.ServeHTTP(w, r)
+		case ResourceServiceListParentsProcedure:
+			resourceServiceListParentsHandler.ServeHTTP(w, r)
 		default:
 			http.NotFound(w, r)
 		}
@@ -175,4 +227,12 @@ func (UnimplementedResourceServiceHandler) QueryResources(context.Context, *conn
 
 func (UnimplementedResourceServiceHandler) GetResource(context.Context, *connect.Request[v1alpha1.GetResourceRequest]) (*connect.Response[v1alpha1.GetResourceResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.control.resource.v1alpha1.ResourceService.GetResource is not implemented"))
+}
+
+func (UnimplementedResourceServiceHandler) ListChildren(context.Context, *connect.Request[v1alpha1.ListChildrenRequest]) (*connect.Response[v1alpha1.ListChildrenResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.control.resource.v1alpha1.ResourceService.ListChildren is not implemented"))
+}
+
+func (UnimplementedResourceServiceHandler) ListParents(context.Context, *connect.Request[v1alpha1.ListParentsRequest]) (*connect.Response[v1alpha1.ListParentsResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.control.resource.v1alpha1.ResourceService.ListParents is not implemented"))
 }

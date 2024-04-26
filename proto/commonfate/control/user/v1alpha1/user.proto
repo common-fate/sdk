@@ -4,7 +4,6 @@ package commonfate.control.user.v1alpha1;
 
 import "commonfate/access/v1alpha1/user.proto";
 import "commonfate/authz/v1alpha1/read_only.proto";
-import "commonfate/entity/v1alpha1/eid.proto";
 
 // UserService
 service UserService {
@@ -23,7 +22,7 @@ message QueryUsersResponse {
 }
 
 message GetUserRequest {
-  commonfate.entity.v1alpha1.EID eid = 1;
+  string id = 1;
 }
 
 message GetUserResponse {
