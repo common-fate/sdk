@@ -23,7 +23,9 @@ message CreateWriteTokenResponse {
 }
 
 
-message GetWriteTokenRequest {}
+message GetWriteTokenRequest {
+    string id = 1;
+}
 
 message GetWriteTokenResponse {
     string id = 1;
