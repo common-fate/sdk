@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package commonfate.factory.monitoring.v1alpha1;
+
+import "google/protobuf/timestamp.proto";
+
+// TokenService allows Common Fate deployments to obtain
+// authentication tokens for our centralised monitoring service.
+service TokenService {
+    // Obtain a Write Token, used to authenticate to our OpenTelemetry collector.
+    rpc CreateWriteToken(CreateWriteTokenRequest) returns (CreateWriteTokenResponse) {}
+}
+
+message CreateWriteTokenRequest {}
+
+message CreateWriteTokenResponse {
+    // A write token which gives access to write OpenTelemetry data to our collector.
+    string write_token = 1;
+}

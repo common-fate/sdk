@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package commonfate.factory.monitoring.v1alpha1;
+
+import "google/protobuf/timestamp.proto";
+
+// ValidationService is used to check the validity of a monitoring write token.
+service ValidationService {
+    // Check to see if an existing Write Token is valid.
+    rpc ValidateWriteToken(ValidateWriteTokenRequest) returns (ValidateWriteTokenResponse) {}
+}
+
+message ValidateWriteTokenRequest {
+    string write_token = 1;
+}
+
+message ValidateWriteTokenResponse {
+    // The deployment ID associated with the write token.
+    string deployment_id = 1;
+    // The Common Fate customer ID associated with the write token.
+    string customer_id = 2;
+}
