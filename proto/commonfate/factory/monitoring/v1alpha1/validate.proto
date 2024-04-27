@@ -17,6 +17,6 @@ message ValidateWriteTokenRequest {
 message ValidateWriteTokenResponse {
     // The deployment ID associated with the write token.
     string deployment_id = 1;
-    // The Common Fate customer ID associated with the write token.
-    string customer_id = 2;
+    // The Common Fate account ID associated with the write token.
+    string account_id = 2;
 }
