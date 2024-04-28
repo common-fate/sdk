@@ -1,0 +1,66 @@
+syntax = "proto3";
+
+package commonfate.control.resource.v1alpha1;
+
+import "commonfate/access/v1alpha1/named_eid.proto";
+import "commonfate/authz/v1alpha1/read_only.proto";
+import "commonfate/entity/v1alpha1/eid.proto";
+import "commonfate/entity/v1alpha1/entity.proto";
+
+// ResourceService is used to explore resources
+service ResourceService {
+  // Returns a list of resource types.
+  rpc ListTypes(ListTypesRequest) returns (ListTypesResponse) {
+    option (commonfate.authz.v1alpha1.read_only) = true;
+  }
+  rpc QueryResources(QueryResourcesRequest) returns (QueryResourcesResponse) {
+    option (commonfate.authz.v1alpha1.read_only) = true;
+  }
+  rpc GetResource(GetResourceRequest) returns (GetResourceResponse) {
+    option (commonfate.authz.v1alpha1.read_only) = true;
+  }
+  rpc ListChildren(ListChildrenRequest) returns (ListChildrenResponse) {
+    option (commonfate.authz.v1alpha1.read_only) = true;
+  }
+  rpc ListParents(ListParentsRequest) returns (ListParentsResponse) {
+    option (commonfate.authz.v1alpha1.read_only) = true;
+  }
+}
+
+message ListTypesRequest {}
+
+message ListTypesResponse {
+  repeated string types = 1;
+}
+
+message QueryResourcesRequest {
+  string type = 1;
+}
+
+message QueryResourcesResponse {
+  repeated commonfate.access.v1alpha1.NamedEID resources = 1;
+}
+message GetResourceRequest {
+  commonfate.entity.v1alpha1.EID eid = 1;
+}
+
+message GetResourceResponse {
+  commonfate.entity.v1alpha1.Entity resource = 1;
+  string name = 2;
+}
+
+message ListChildrenRequest {
+  commonfate.entity.v1alpha1.EID eid = 1;
+}
+
+message ListChildrenResponse {
+  repeated commonfate.access.v1alpha1.NamedEID children = 1;
+}
+
+message ListParentsRequest {
+  commonfate.entity.v1alpha1.EID eid = 1;
+}
+
+message ListParentsResponse {
+  repeated commonfate.access.v1alpha1.NamedEID parents = 1;
+}
