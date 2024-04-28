@@ -36,20 +36,12 @@ const (
 	// TokenServiceCreateWriteTokenProcedure is the fully-qualified name of the TokenService's
 	// CreateWriteToken RPC.
 	TokenServiceCreateWriteTokenProcedure = "/commonfate.factory.monitoring.v1alpha1.TokenService/CreateWriteToken"
-	// TokenServiceGetWriteTokenProcedure is the fully-qualified name of the TokenService's
-	// GetWriteToken RPC.
-	TokenServiceGetWriteTokenProcedure = "/commonfate.factory.monitoring.v1alpha1.TokenService/GetWriteToken"
-	// TokenServiceDeleteWriteTokenProcedure is the fully-qualified name of the TokenService's
-	// DeleteWriteToken RPC.
-	TokenServiceDeleteWriteTokenProcedure = "/commonfate.factory.monitoring.v1alpha1.TokenService/DeleteWriteToken"
 )
 
 // These variables are the protoreflect.Descriptor objects for the RPCs defined in this package.
 var (
 	tokenServiceServiceDescriptor                = v1alpha1.File_commonfate_factory_monitoring_v1alpha1_token_proto.Services().ByName("TokenService")
 	tokenServiceCreateWriteTokenMethodDescriptor = tokenServiceServiceDescriptor.Methods().ByName("CreateWriteToken")
-	tokenServiceGetWriteTokenMethodDescriptor    = tokenServiceServiceDescriptor.Methods().ByName("GetWriteToken")
-	tokenServiceDeleteWriteTokenMethodDescriptor = tokenServiceServiceDescriptor.Methods().ByName("DeleteWriteToken")
 )
 
 // TokenServiceClient is a client for the commonfate.factory.monitoring.v1alpha1.TokenService
@@ -57,8 +49,6 @@ var (
 type TokenServiceClient interface {
 	// Obtain a Write Token, used to authenticate to our OpenTelemetry collector.
 	CreateWriteToken(context.Context, *connect.Request[v1alpha1.CreateWriteTokenRequest]) (*connect.Response[v1alpha1.CreateWriteTokenResponse], error)
-	GetWriteToken(context.Context, *connect.Request[v1alpha1.GetWriteTokenRequest]) (*connect.Response[v1alpha1.GetWriteTokenResponse], error)
-	DeleteWriteToken(context.Context, *connect.Request[v1alpha1.DeleteWriteTokenRequest]) (*connect.Response[v1alpha1.DeleteWriteTokenResponse], error)
 }
 
 // NewTokenServiceClient constructs a client for the
@@ -78,26 +68,12 @@ func NewTokenServiceClient(httpClient connect.HTTPClient, baseURL string, opts .
 			connect.WithSchema(tokenServiceCreateWriteTokenMethodDescriptor),
 			connect.WithClientOptions(opts...),
 		),
-		getWriteToken: connect.NewClient[v1alpha1.GetWriteTokenRequest, v1alpha1.GetWriteTokenResponse](
-			httpClient,
-			baseURL+TokenServiceGetWriteTokenProcedure,
-			connect.WithSchema(tokenServiceGetWriteTokenMethodDescriptor),
-			connect.WithClientOptions(opts...),
-		),
-		deleteWriteToken: connect.NewClient[v1alpha1.DeleteWriteTokenRequest, v1alpha1.DeleteWriteTokenResponse](
-			httpClient,
-			baseURL+TokenServiceDeleteWriteTokenProcedure,
-			connect.WithSchema(tokenServiceDeleteWriteTokenMethodDescriptor),
-			connect.WithClientOptions(opts...),
-		),
 	}
 }
 
 // tokenServiceClient implements TokenServiceClient.
 type tokenServiceClient struct {
 	createWriteToken *connect.Client[v1alpha1.CreateWriteTokenRequest, v1alpha1.CreateWriteTokenResponse]
-	getWriteToken    *connect.Client[v1alpha1.GetWriteTokenRequest, v1alpha1.GetWriteTokenResponse]
-	deleteWriteToken *connect.Client[v1alpha1.DeleteWriteTokenRequest, v1alpha1.DeleteWriteTokenResponse]
 }
 
 // CreateWriteToken calls commonfate.factory.monitoring.v1alpha1.TokenService.CreateWriteToken.
@@ -105,23 +81,11 @@ func (c *tokenServiceClient) CreateWriteToken(ctx context.Context, req *connect.
 	return c.createWriteToken.CallUnary(ctx, req)
 }
 
-// GetWriteToken calls commonfate.factory.monitoring.v1alpha1.TokenService.GetWriteToken.
-func (c *tokenServiceClient) GetWriteToken(ctx context.Context, req *connect.Request[v1alpha1.GetWriteTokenRequest]) (*connect.Response[v1alpha1.GetWriteTokenResponse], error) {
-	return c.getWriteToken.CallUnary(ctx, req)
-}
-
-// DeleteWriteToken calls commonfate.factory.monitoring.v1alpha1.TokenService.DeleteWriteToken.
-func (c *tokenServiceClient) DeleteWriteToken(ctx context.Context, req *connect.Request[v1alpha1.DeleteWriteTokenRequest]) (*connect.Response[v1alpha1.DeleteWriteTokenResponse], error) {
-	return c.deleteWriteToken.CallUnary(ctx, req)
-}
-
 // TokenServiceHandler is an implementation of the
 // commonfate.factory.monitoring.v1alpha1.TokenService service.
 type TokenServiceHandler interface {
 	// Obtain a Write Token, used to authenticate to our OpenTelemetry collector.
 	CreateWriteToken(context.Context, *connect.Request[v1alpha1.CreateWriteTokenRequest]) (*connect.Response[v1alpha1.CreateWriteTokenResponse], error)
-	GetWriteToken(context.Context, *connect.Request[v1alpha1.GetWriteTokenRequest]) (*connect.Response[v1alpha1.GetWriteTokenResponse], error)
-	DeleteWriteToken(context.Context, *connect.Request[v1alpha1.DeleteWriteTokenRequest]) (*connect.Response[v1alpha1.DeleteWriteTokenResponse], error)
 }
 
 // NewTokenServiceHandler builds an HTTP handler from the service implementation. It returns the
@@ -136,26 +100,10 @@ func NewTokenServiceHandler(svc TokenServiceHandler, opts ...connect.HandlerOpti
 		connect.WithSchema(tokenServiceCreateWriteTokenMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
-	tokenServiceGetWriteTokenHandler := connect.NewUnaryHandler(
-		TokenServiceGetWriteTokenProcedure,
-		svc.GetWriteToken,
-		connect.WithSchema(tokenServiceGetWriteTokenMethodDescriptor),
-		connect.WithHandlerOptions(opts...),
-	)
-	tokenServiceDeleteWriteTokenHandler := connect.NewUnaryHandler(
-		TokenServiceDeleteWriteTokenProcedure,
-		svc.DeleteWriteToken,
-		connect.WithSchema(tokenServiceDeleteWriteTokenMethodDescriptor),
-		connect.WithHandlerOptions(opts...),
-	)
 	return "/commonfate.factory.monitoring.v1alpha1.TokenService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
 		case TokenServiceCreateWriteTokenProcedure:
 			tokenServiceCreateWriteTokenHandler.ServeHTTP(w, r)
-		case TokenServiceGetWriteTokenProcedure:
-			tokenServiceGetWriteTokenHandler.ServeHTTP(w, r)
-		case TokenServiceDeleteWriteTokenProcedure:
-			tokenServiceDeleteWriteTokenHandler.ServeHTTP(w, r)
 		default:
 			http.NotFound(w, r)
 		}
@@ -167,12 +115,4 @@ type UnimplementedTokenServiceHandler struct{}
 
 func (UnimplementedTokenServiceHandler) CreateWriteToken(context.Context, *connect.Request[v1alpha1.CreateWriteTokenRequest]) (*connect.Response[v1alpha1.CreateWriteTokenResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.factory.monitoring.v1alpha1.TokenService.CreateWriteToken is not implemented"))
-}
-
-func (UnimplementedTokenServiceHandler) GetWriteToken(context.Context, *connect.Request[v1alpha1.GetWriteTokenRequest]) (*connect.Response[v1alpha1.GetWriteTokenResponse], error) {
-	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.factory.monitoring.v1alpha1.TokenService.GetWriteToken is not implemented"))
-}
-
-func (UnimplementedTokenServiceHandler) DeleteWriteToken(context.Context, *connect.Request[v1alpha1.DeleteWriteTokenRequest]) (*connect.Response[v1alpha1.DeleteWriteTokenResponse], error) {
-	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.factory.monitoring.v1alpha1.TokenService.DeleteWriteToken is not implemented"))
 }
