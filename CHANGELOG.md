@@ -1,5 +1,12 @@
 # @common-fate/sdk
 
+## 1.27.0
+
+### Minor Changes
+
+- e96e5d3: Adds ResourceService and UserService which together replace the functionality of the GraphQL API which was implemented by the Authz service.
+- 21585f0: Adds Managed Monitoring APIs.
+
 ## 1.26.2
 
 ### Patch Changes
