@@ -1,5 +1,12 @@
 # @common-fate/sdk
 
+## 1.28.0
+
+### Minor Changes
+
+- f417cc7: add workflow id to request detail
+- a41d9b8: add variable to slack notification resource to optionally send direct messages
+
 ## 1.27.0
 
 ### Minor Changes
