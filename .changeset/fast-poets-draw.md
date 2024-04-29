@@ -1,5 +1,5 @@
 ---
-"@common-fate/sdk": patch
+"@common-fate/sdk": minor
 ---
 
 add workflow id to request detail
