@@ -1,5 +1,25 @@
 # @common-fate/sdk
 
+## 1.28.0
+
+### Minor Changes
+
+- f417cc7: add workflow id to request detail
+- a41d9b8: add variable to slack notification resource to optionally send direct messages
+
+## 1.27.0
+
+### Minor Changes
+
+- e96e5d3: Adds ResourceService and UserService which together replace the functionality of the GraphQL API which was implemented by the Authz service.
+- 21585f0: Adds Managed Monitoring APIs.
+
+## 1.26.2
+
+### Patch Changes
+
+- 8d985d9: Fix an issue where users were prompted continuously to enter a password when accessing the fallback file keychain in Linux.
+
 ## 1.26.1
 
 ### Patch Changes
