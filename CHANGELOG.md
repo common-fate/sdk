@@ -1,5 +1,11 @@
 # @common-fate/sdk
 
+## 1.29.0
+
+### Minor Changes
+
+- 513a673: Add GCP Role Group Configuration API
+
 ## 1.28.0
 
 ### Minor Changes
