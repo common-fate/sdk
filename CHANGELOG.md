@@ -1,5 +1,11 @@
 # @common-fate/sdk
 
+## 1.30.0
+
+### Minor Changes
+
+- 83875f0: Adds Auth0 integration configuration.
+
 ## 1.29.0
 
 ### Minor Changes
