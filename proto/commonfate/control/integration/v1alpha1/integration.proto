@@ -12,6 +12,7 @@ import "commonfate/control/integration/v1alpha1/pagerduty.proto";
 import "commonfate/control/integration/v1alpha1/slack.proto";
 import "commonfate/control/integration/v1alpha1/datastax.proto";
 import "commonfate/control/integration/v1alpha1/webhook.proto";
+import "commonfate/control/integration/v1alpha1/auth0.proto";
 import "commonfate/authz/v1alpha1/read_only.proto";
 
 
@@ -52,6 +53,7 @@ message Config {
     Okta okta = 8;
     DataStax datastax = 9;
     Webhook webhook = 10;
+    Auth0 auth0 = 11;
   }
 }
 
