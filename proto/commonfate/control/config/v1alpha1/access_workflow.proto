@@ -23,6 +23,7 @@ message AccessWorkflow {
     google.protobuf.Duration try_extend_after = 4;
     int32 priority = 5;
     google.protobuf.Duration activation_expiry = 6;
+    google.protobuf.Duration default_duration = 7;
 
 }
 
@@ -32,6 +33,7 @@ message CreateAccessWorkflowRequest {
     google.protobuf.Duration try_extend_after = 4;
     int32 priority = 5;
     google.protobuf.Duration activation_expiry= 6;
+    google.protobuf.Duration default_duration = 7;
 
 }
 
