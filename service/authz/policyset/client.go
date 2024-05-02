@@ -33,10 +33,7 @@ func NewClient(opts Opts) Client {
 }
 
 func NewFromConfig(cfg *config.Context) Client {
-	url := cfg.AuthzURL
-	if url == "" {
-		url = cfg.APIURL
-	}
+	url := cfg.APIURL
 
 	connectOpts := []connect.ClientOption{connect.WithGRPC()}
 
