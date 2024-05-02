@@ -33,6 +33,10 @@ func NewClient(opts Opts) Client {
 }
 
 func NewFromConfig(cfg *config.Context) Client {
+	return Client{raw: authzv1alpha1connect.NewPolicyServiceClient(cfg.HTTPClient, cfg.APIURL)}
+}
+
+func NewAuthzFromConfig(cfg *config.Context) Client {
 	url := cfg.APIURL
 
 	connectOpts := []connect.ClientOption{connect.WithGRPC()}
