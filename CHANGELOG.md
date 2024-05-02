@@ -1,5 +1,11 @@
 # @common-fate/sdk
 
+## 1.31.0
+
+### Minor Changes
+
+- 15a264e: Add default duration to Access Workflow.
+
 ## 1.30.0
 
 ### Minor Changes
