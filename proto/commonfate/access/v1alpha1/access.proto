@@ -194,6 +194,9 @@ message Availability {
 
   // the ID of the selector which was used to match the targets
   commonfate.entity.v1alpha1.EID target_selector = 8;
+
+  // The default duration of the access.
+  google.protobuf.Duration default_duration = 9;
 }
 
 message Specifier {
