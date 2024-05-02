@@ -10,6 +10,10 @@ type Policy struct {
 	Text string `json:"text"`
 }
 
+func (p *Policy) ToAPI() *authzv1alpha1.Policy {
+	return &authzv1alpha1.Policy{Id: p.ID, Text: p.Text}
+}
+
 func PolicyFromAPI(input *authzv1alpha1.Policy) Policy {
 	if input == nil {
 		return Policy{}
@@ -46,4 +50,16 @@ func FromAPI(input *authzv1alpha1.PolicySet) PolicySet {
 	}
 
 	return ps
+}
+
+func (ps *PolicySet) ToAPI() *authzv1alpha1.PolicySet {
+	out := &authzv1alpha1.PolicySet{
+		Id:       ps.ID,
+		Policies: make([]*authzv1alpha1.Policy, len(ps.Policies)),
+		Text:     ps.Text,
+	}
+	for i, p := range ps.Policies {
+		out.Policies[i] = p.ToAPI()
+	}
+	return out
 }
