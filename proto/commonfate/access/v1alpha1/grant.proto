@@ -62,6 +62,9 @@ message Grant {
 
     google.protobuf.Duration duration = 16;
 
+    // The default duration shown for the grant.
+    google.protobuf.Duration default_duration = 17;
+
 }
 
 enum GrantStatus {
