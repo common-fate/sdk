@@ -23,6 +23,9 @@ type BatchPutJSONInput struct {
 }
 
 func (c *Client) BatchPutJSON(ctx context.Context, input BatchPutJSONInput) (*BatchUpdateOutput, error) {
+	ctx, span := tracer.Start(ctx, "BatchPutJSON")
+	defer span.End()
+
 	var req = &entityv1alpha1.BatchUpdateRequest{
 		Universe: "default",
 		Put:      []*entityv1alpha1.Entity{},
