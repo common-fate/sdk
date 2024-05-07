@@ -13,6 +13,9 @@ type PutInput struct {
 
 // PutEntity just currently calls the BatchUpdate API with a single entity.
 func (c *Client) Put(ctx context.Context, input PutInput) (*BatchUpdateOutput, error) {
+	ctx, span := tracer.Start(ctx, "Put")
+	defer span.End()
+
 	var req = &entityv1alpha1.BatchUpdateRequest{
 		Universe: "default",
 	}
