@@ -2,4 +2,4 @@
 "@common-fate/sdk": patch
 ---
 
-Implement the database Valuer and Scanner intefaces
+Drops unused IDP service
