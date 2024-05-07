@@ -1,5 +1,15 @@
 # @common-fate/sdk
 
+## 1.32.0
+
+### Minor Changes
+
+- ee2d9ee: Adds OpenTelemetry instrumentation to entity client writes.
+
+### Patch Changes
+
+- 2b39260: Add default duration to grant.
+
 ## 1.31.0
 
 ### Minor Changes
