@@ -12,6 +12,8 @@ import "commonfate/authz/v1alpha1/read_only.proto";
 import "commonfate/entity/v1alpha1/eid.proto";
 import "commonfate/entity/v1alpha1/entity.proto";
 import "google/protobuf/duration.proto";
+import "buf/validate/validate.proto";
+
 
 // AccessService is the Access Handler's user-facing API.
 // Users call this API to ensure that they have access to entitlements.
@@ -59,8 +61,8 @@ message QueryApproversRequest {
 }
 
 message TargetRole {
-  Specifier target = 1;
-  Specifier role = 2;
+  Specifier target = 1 [(buf.validate.field).string.min_len = 1];
+  Specifier role = 2 [(buf.validate.field).string.min_len = 1];
 }
 
 message QueryApproversResponse {
