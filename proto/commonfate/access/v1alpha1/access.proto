@@ -13,6 +13,8 @@ import "commonfate/entity/v1alpha1/eid.proto";
 import "commonfate/entity/v1alpha1/entity.proto";
 import "google/protobuf/duration.proto";
 
+
+
 // AccessService is the Access Handler's user-facing API.
 // Users call this API to ensure that they have access to entitlements.
 service AccessService {
