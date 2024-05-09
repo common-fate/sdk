@@ -7,6 +7,7 @@
 package accessv1alpha1
 
 import (
+	_ "github.com/common-fate/sdk/gen/buf/validate"
 	_ "github.com/common-fate/sdk/gen/commonfate/authz/v1alpha1"
 	v1alpha1 "github.com/common-fate/sdk/gen/commonfate/entity/v1alpha1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
