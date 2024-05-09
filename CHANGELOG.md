@@ -1,5 +1,11 @@
 # @common-fate/sdk
 
+## 1.32.1
+
+### Patch Changes
+
+- bb7b25b: Add support for validation with protovalidate
+
 ## 1.32.0
 
 ### Minor Changes
