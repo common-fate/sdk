@@ -1476,6 +1476,11 @@ type GrantState struct {
 	// The change to the grant.
 	// Will be unspecified if the grant has not been changed.
 	Change GrantChange `protobuf:"varint,2,opt,name=change,proto3,enum=commonfate.access.v1alpha1.GrantChange" json:"change,omitempty"`
+	// A hint to the client as to the required justification
+	// for access.
+	//
+	// Will be nil if no justification is needed.
+	NeedsJustification *NeedsJustification `protobuf:"bytes,3,opt,name=needs_justification,json=needsJustification,proto3" json:"needs_justification,omitempty"`
 }
 
 func (x *GrantState) Reset() {
@@ -1522,6 +1527,61 @@ func (x *GrantState) GetChange() GrantChange {
 		return x.Change
 	}
 	return GrantChange_GRANT_CHANGE_UNSPECIFIED
+}
+
+func (x *GrantState) GetNeedsJustification() *NeedsJustification {
+	if x != nil {
+		return x.NeedsJustification
+	}
+	return nil
+}
+
+type NeedsJustification struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// True if a reason is required for access.
+	RequiresReason bool `protobuf:"varint,1,opt,name=requires_reason,json=requiresReason,proto3" json:"requires_reason,omitempty"`
+}
+
+func (x *NeedsJustification) Reset() {
+	*x = NeedsJustification{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_commonfate_access_v1alpha1_access_proto_msgTypes[22]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *NeedsJustification) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*NeedsJustification) ProtoMessage() {}
+
+func (x *NeedsJustification) ProtoReflect() protoreflect.Message {
+	mi := &file_commonfate_access_v1alpha1_access_proto_msgTypes[22]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use NeedsJustification.ProtoReflect.Descriptor instead.
+func (*NeedsJustification) Descriptor() ([]byte, []int) {
+	return file_commonfate_access_v1alpha1_access_proto_rawDescGZIP(), []int{22}
+}
+
+func (x *NeedsJustification) GetRequiresReason() bool {
+	if x != nil {
+		return x.RequiresReason
+	}
+	return false
 }
 
 var File_commonfate_access_v1alpha1_access_proto protoreflect.FileDescriptor
@@ -1796,7 +1856,7 @@ var file_commonfate_access_v1alpha1_access_proto_rawDesc = []byte{
 	0x69, 0x63, 0x73, 0x18, 0x06, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x26, 0x2e, 0x63, 0x6f, 0x6d, 0x6d,
 	0x6f, 0x6e, 0x66, 0x61, 0x74, 0x65, 0x2e, 0x61, 0x63, 0x63, 0x65, 0x73, 0x73, 0x2e, 0x76, 0x31,
 	0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x2e, 0x44, 0x69, 0x61, 0x67, 0x6e, 0x6f, 0x73, 0x74, 0x69,
-	0x63, 0x52, 0x0b, 0x64, 0x69, 0x61, 0x67, 0x6e, 0x6f, 0x73, 0x74, 0x69, 0x63, 0x73, 0x22, 0x86,
+	0x63, 0x52, 0x0b, 0x64, 0x69, 0x61, 0x67, 0x6e, 0x6f, 0x73, 0x74, 0x69, 0x63, 0x73, 0x22, 0xe7,
 	0x01, 0x0a, 0x0a, 0x47, 0x72, 0x61, 0x6e, 0x74, 0x53, 0x74, 0x61, 0x74, 0x65, 0x12, 0x37, 0x0a,
 	0x05, 0x67, 0x72, 0x61, 0x6e, 0x74, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x21, 0x2e, 0x63,
 	0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x66, 0x61, 0x74, 0x65, 0x2e, 0x61, 0x63, 0x63, 0x65, 0x73, 0x73,
@@ -1805,7 +1865,17 @@ var file_commonfate_access_v1alpha1_access_proto_rawDesc = []byte{
 	0x18, 0x02, 0x20, 0x01, 0x28, 0x0e, 0x32, 0x27, 0x2e, 0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x66,
 	0x61, 0x74, 0x65, 0x2e, 0x61, 0x63, 0x63, 0x65, 0x73, 0x73, 0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70,
 	0x68, 0x61, 0x31, 0x2e, 0x47, 0x72, 0x61, 0x6e, 0x74, 0x43, 0x68, 0x61, 0x6e, 0x67, 0x65, 0x52,
-	0x06, 0x63, 0x68, 0x61, 0x6e, 0x67, 0x65, 0x2a, 0xa4, 0x01, 0x0a, 0x0b, 0x47, 0x72, 0x61, 0x6e,
+	0x06, 0x63, 0x68, 0x61, 0x6e, 0x67, 0x65, 0x12, 0x5f, 0x0a, 0x13, 0x6e, 0x65, 0x65, 0x64, 0x73,
+	0x5f, 0x6a, 0x75, 0x73, 0x74, 0x69, 0x66, 0x69, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x03,
+	0x20, 0x01, 0x28, 0x0b, 0x32, 0x2e, 0x2e, 0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x66, 0x61, 0x74,
+	0x65, 0x2e, 0x61, 0x63, 0x63, 0x65, 0x73, 0x73, 0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61,
+	0x31, 0x2e, 0x4e, 0x65, 0x65, 0x64, 0x73, 0x4a, 0x75, 0x73, 0x74, 0x69, 0x66, 0x69, 0x63, 0x61,
+	0x74, 0x69, 0x6f, 0x6e, 0x52, 0x12, 0x6e, 0x65, 0x65, 0x64, 0x73, 0x4a, 0x75, 0x73, 0x74, 0x69,
+	0x66, 0x69, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x22, 0x3d, 0x0a, 0x12, 0x4e, 0x65, 0x65, 0x64,
+	0x73, 0x4a, 0x75, 0x73, 0x74, 0x69, 0x66, 0x69, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x27,
+	0x0a, 0x0f, 0x72, 0x65, 0x71, 0x75, 0x69, 0x72, 0x65, 0x73, 0x5f, 0x72, 0x65, 0x61, 0x73, 0x6f,
+	0x6e, 0x18, 0x01, 0x20, 0x01, 0x28, 0x08, 0x52, 0x0e, 0x72, 0x65, 0x71, 0x75, 0x69, 0x72, 0x65,
+	0x73, 0x52, 0x65, 0x61, 0x73, 0x6f, 0x6e, 0x2a, 0xa4, 0x01, 0x0a, 0x0b, 0x47, 0x72, 0x61, 0x6e,
 	0x74, 0x43, 0x68, 0x61, 0x6e, 0x67, 0x65, 0x12, 0x1c, 0x0a, 0x18, 0x47, 0x52, 0x41, 0x4e, 0x54,
 	0x5f, 0x43, 0x48, 0x41, 0x4e, 0x47, 0x45, 0x5f, 0x55, 0x4e, 0x53, 0x50, 0x45, 0x43, 0x49, 0x46,
 	0x49, 0x45, 0x44, 0x10, 0x00, 0x12, 0x1a, 0x0a, 0x16, 0x47, 0x52, 0x41, 0x4e, 0x54, 0x5f, 0x43,
@@ -1910,7 +1980,7 @@ func file_commonfate_access_v1alpha1_access_proto_rawDescGZIP() []byte {
 }
 
 var file_commonfate_access_v1alpha1_access_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_commonfate_access_v1alpha1_access_proto_msgTypes = make([]protoimpl.MessageInfo, 22)
+var file_commonfate_access_v1alpha1_access_proto_msgTypes = make([]protoimpl.MessageInfo, 23)
 var file_commonfate_access_v1alpha1_access_proto_goTypes = []interface{}{
 	(GrantChange)(0),                         // 0: commonfate.access.v1alpha1.GrantChange
 	(*QueryApproversRequest)(nil),            // 1: commonfate.access.v1alpha1.QueryApproversRequest
@@ -1935,22 +2005,23 @@ var file_commonfate_access_v1alpha1_access_proto_goTypes = []interface{}{
 	(*BatchEnsureRequest)(nil),               // 20: commonfate.access.v1alpha1.BatchEnsureRequest
 	(*BatchEnsureResponse)(nil),              // 21: commonfate.access.v1alpha1.BatchEnsureResponse
 	(*GrantState)(nil),                       // 22: commonfate.access.v1alpha1.GrantState
-	(*v1alpha1.EID)(nil),                     // 23: commonfate.entity.v1alpha1.EID
-	(*User)(nil),                             // 24: commonfate.access.v1alpha1.User
-	(*v1alpha11.PolicySet)(nil),              // 25: commonfate.authz.v1alpha1.PolicySet
-	(*v1alpha1.Entity)(nil),                  // 26: commonfate.entity.v1alpha1.Entity
-	(*NamedEID)(nil),                         // 27: commonfate.access.v1alpha1.NamedEID
-	(*durationpb.Duration)(nil),              // 28: google.protobuf.Duration
-	(*Justification)(nil),                    // 29: commonfate.access.v1alpha1.Justification
-	(*Diagnostic)(nil),                       // 30: commonfate.access.v1alpha1.Diagnostic
-	(*Grant)(nil),                            // 31: commonfate.access.v1alpha1.Grant
+	(*NeedsJustification)(nil),               // 23: commonfate.access.v1alpha1.NeedsJustification
+	(*v1alpha1.EID)(nil),                     // 24: commonfate.entity.v1alpha1.EID
+	(*User)(nil),                             // 25: commonfate.access.v1alpha1.User
+	(*v1alpha11.PolicySet)(nil),              // 26: commonfate.authz.v1alpha1.PolicySet
+	(*v1alpha1.Entity)(nil),                  // 27: commonfate.entity.v1alpha1.Entity
+	(*NamedEID)(nil),                         // 28: commonfate.access.v1alpha1.NamedEID
+	(*durationpb.Duration)(nil),              // 29: google.protobuf.Duration
+	(*Justification)(nil),                    // 30: commonfate.access.v1alpha1.Justification
+	(*Diagnostic)(nil),                       // 31: commonfate.access.v1alpha1.Diagnostic
+	(*Grant)(nil),                            // 32: commonfate.access.v1alpha1.Grant
 }
 var file_commonfate_access_v1alpha1_access_proto_depIdxs = []int32{
 	2,  // 0: commonfate.access.v1alpha1.QueryApproversRequest.target_role:type_name -> commonfate.access.v1alpha1.TargetRole
-	23, // 1: commonfate.access.v1alpha1.QueryApproversRequest.grant:type_name -> commonfate.entity.v1alpha1.EID
+	24, // 1: commonfate.access.v1alpha1.QueryApproversRequest.grant:type_name -> commonfate.entity.v1alpha1.EID
 	18, // 2: commonfate.access.v1alpha1.TargetRole.target:type_name -> commonfate.access.v1alpha1.Specifier
 	18, // 3: commonfate.access.v1alpha1.TargetRole.role:type_name -> commonfate.access.v1alpha1.Specifier
-	24, // 4: commonfate.access.v1alpha1.QueryApproversResponse.approvers:type_name -> commonfate.access.v1alpha1.User
+	25, // 4: commonfate.access.v1alpha1.QueryApproversResponse.approvers:type_name -> commonfate.access.v1alpha1.User
 	17, // 5: commonfate.access.v1alpha1.QueryAvailabilitiesResponse.availabilities:type_name -> commonfate.access.v1alpha1.Availability
 	16, // 6: commonfate.access.v1alpha1.QueryEntitlementsResponse.entitlements:type_name -> commonfate.access.v1alpha1.Entitlement
 	18, // 7: commonfate.access.v1alpha1.PreviewUserAccessRequest.principal:type_name -> commonfate.access.v1alpha1.Specifier
@@ -1962,50 +2033,51 @@ var file_commonfate_access_v1alpha1_access_proto_depIdxs = []int32{
 	18, // 13: commonfate.access.v1alpha1.DebugEntitlementAccessRequest.target:type_name -> commonfate.access.v1alpha1.Specifier
 	18, // 14: commonfate.access.v1alpha1.DebugEntitlementAccessRequest.role:type_name -> commonfate.access.v1alpha1.Specifier
 	14, // 15: commonfate.access.v1alpha1.DebugEntitlementAccessResponse.reason:type_name -> commonfate.access.v1alpha1.EntitlementAccessReason
-	25, // 16: commonfate.access.v1alpha1.DebugEntitlementAccessResponse.policy_sets:type_name -> commonfate.authz.v1alpha1.PolicySet
-	26, // 17: commonfate.access.v1alpha1.DebugEntitlementAccessResponse.entities:type_name -> commonfate.entity.v1alpha1.Entity
-	24, // 18: commonfate.access.v1alpha1.PrincipalAccess.principal:type_name -> commonfate.access.v1alpha1.User
+	26, // 16: commonfate.access.v1alpha1.DebugEntitlementAccessResponse.policy_sets:type_name -> commonfate.authz.v1alpha1.PolicySet
+	27, // 17: commonfate.access.v1alpha1.DebugEntitlementAccessResponse.entities:type_name -> commonfate.entity.v1alpha1.Entity
+	25, // 18: commonfate.access.v1alpha1.PrincipalAccess.principal:type_name -> commonfate.access.v1alpha1.User
 	14, // 19: commonfate.access.v1alpha1.PrincipalAccess.reason:type_name -> commonfate.access.v1alpha1.EntitlementAccessReason
-	27, // 20: commonfate.access.v1alpha1.Entitlement.target:type_name -> commonfate.access.v1alpha1.NamedEID
-	27, // 21: commonfate.access.v1alpha1.Entitlement.role:type_name -> commonfate.access.v1alpha1.NamedEID
-	27, // 22: commonfate.access.v1alpha1.Entitlement.target_path:type_name -> commonfate.access.v1alpha1.NamedEID
+	28, // 20: commonfate.access.v1alpha1.Entitlement.target:type_name -> commonfate.access.v1alpha1.NamedEID
+	28, // 21: commonfate.access.v1alpha1.Entitlement.role:type_name -> commonfate.access.v1alpha1.NamedEID
+	28, // 22: commonfate.access.v1alpha1.Entitlement.target_path:type_name -> commonfate.access.v1alpha1.NamedEID
 	14, // 23: commonfate.access.v1alpha1.Entitlement.reason:type_name -> commonfate.access.v1alpha1.EntitlementAccessReason
-	27, // 24: commonfate.access.v1alpha1.Availability.target:type_name -> commonfate.access.v1alpha1.NamedEID
-	27, // 25: commonfate.access.v1alpha1.Availability.role:type_name -> commonfate.access.v1alpha1.NamedEID
-	28, // 26: commonfate.access.v1alpha1.Availability.duration:type_name -> google.protobuf.Duration
-	23, // 27: commonfate.access.v1alpha1.Availability.reviewers:type_name -> commonfate.entity.v1alpha1.EID
-	23, // 28: commonfate.access.v1alpha1.Availability.target_selector:type_name -> commonfate.entity.v1alpha1.EID
-	28, // 29: commonfate.access.v1alpha1.Availability.default_duration:type_name -> google.protobuf.Duration
-	23, // 30: commonfate.access.v1alpha1.Specifier.eid:type_name -> commonfate.entity.v1alpha1.EID
+	28, // 24: commonfate.access.v1alpha1.Availability.target:type_name -> commonfate.access.v1alpha1.NamedEID
+	28, // 25: commonfate.access.v1alpha1.Availability.role:type_name -> commonfate.access.v1alpha1.NamedEID
+	29, // 26: commonfate.access.v1alpha1.Availability.duration:type_name -> google.protobuf.Duration
+	24, // 27: commonfate.access.v1alpha1.Availability.reviewers:type_name -> commonfate.entity.v1alpha1.EID
+	24, // 28: commonfate.access.v1alpha1.Availability.target_selector:type_name -> commonfate.entity.v1alpha1.EID
+	29, // 29: commonfate.access.v1alpha1.Availability.default_duration:type_name -> google.protobuf.Duration
+	24, // 30: commonfate.access.v1alpha1.Specifier.eid:type_name -> commonfate.entity.v1alpha1.EID
 	18, // 31: commonfate.access.v1alpha1.EntitlementInput.principal:type_name -> commonfate.access.v1alpha1.Specifier
 	18, // 32: commonfate.access.v1alpha1.EntitlementInput.target:type_name -> commonfate.access.v1alpha1.Specifier
 	18, // 33: commonfate.access.v1alpha1.EntitlementInput.role:type_name -> commonfate.access.v1alpha1.Specifier
-	28, // 34: commonfate.access.v1alpha1.EntitlementInput.duration:type_name -> google.protobuf.Duration
+	29, // 34: commonfate.access.v1alpha1.EntitlementInput.duration:type_name -> google.protobuf.Duration
 	19, // 35: commonfate.access.v1alpha1.BatchEnsureRequest.entitlements:type_name -> commonfate.access.v1alpha1.EntitlementInput
-	29, // 36: commonfate.access.v1alpha1.BatchEnsureRequest.justification:type_name -> commonfate.access.v1alpha1.Justification
+	30, // 36: commonfate.access.v1alpha1.BatchEnsureRequest.justification:type_name -> commonfate.access.v1alpha1.Justification
 	22, // 37: commonfate.access.v1alpha1.BatchEnsureResponse.grants:type_name -> commonfate.access.v1alpha1.GrantState
-	30, // 38: commonfate.access.v1alpha1.BatchEnsureResponse.diagnostics:type_name -> commonfate.access.v1alpha1.Diagnostic
-	31, // 39: commonfate.access.v1alpha1.GrantState.grant:type_name -> commonfate.access.v1alpha1.Grant
+	31, // 38: commonfate.access.v1alpha1.BatchEnsureResponse.diagnostics:type_name -> commonfate.access.v1alpha1.Diagnostic
+	32, // 39: commonfate.access.v1alpha1.GrantState.grant:type_name -> commonfate.access.v1alpha1.Grant
 	0,  // 40: commonfate.access.v1alpha1.GrantState.change:type_name -> commonfate.access.v1alpha1.GrantChange
-	20, // 41: commonfate.access.v1alpha1.AccessService.BatchEnsure:input_type -> commonfate.access.v1alpha1.BatchEnsureRequest
-	4,  // 42: commonfate.access.v1alpha1.AccessService.QueryAvailabilities:input_type -> commonfate.access.v1alpha1.QueryAvailabilitiesRequest
-	6,  // 43: commonfate.access.v1alpha1.AccessService.QueryEntitlements:input_type -> commonfate.access.v1alpha1.QueryEntitlementsRequest
-	1,  // 44: commonfate.access.v1alpha1.AccessService.QueryApprovers:input_type -> commonfate.access.v1alpha1.QueryApproversRequest
-	8,  // 45: commonfate.access.v1alpha1.AccessService.PreviewUserAccess:input_type -> commonfate.access.v1alpha1.PreviewUserAccessRequest
-	10, // 46: commonfate.access.v1alpha1.AccessService.PreviewEntitlementAccess:input_type -> commonfate.access.v1alpha1.PreviewEntitlementAccessRequest
-	12, // 47: commonfate.access.v1alpha1.AccessService.DebugEntitlementAccess:input_type -> commonfate.access.v1alpha1.DebugEntitlementAccessRequest
-	21, // 48: commonfate.access.v1alpha1.AccessService.BatchEnsure:output_type -> commonfate.access.v1alpha1.BatchEnsureResponse
-	5,  // 49: commonfate.access.v1alpha1.AccessService.QueryAvailabilities:output_type -> commonfate.access.v1alpha1.QueryAvailabilitiesResponse
-	7,  // 50: commonfate.access.v1alpha1.AccessService.QueryEntitlements:output_type -> commonfate.access.v1alpha1.QueryEntitlementsResponse
-	3,  // 51: commonfate.access.v1alpha1.AccessService.QueryApprovers:output_type -> commonfate.access.v1alpha1.QueryApproversResponse
-	9,  // 52: commonfate.access.v1alpha1.AccessService.PreviewUserAccess:output_type -> commonfate.access.v1alpha1.PreviewUserAccessResponse
-	11, // 53: commonfate.access.v1alpha1.AccessService.PreviewEntitlementAccess:output_type -> commonfate.access.v1alpha1.PreviewEntitlementAccessResponse
-	13, // 54: commonfate.access.v1alpha1.AccessService.DebugEntitlementAccess:output_type -> commonfate.access.v1alpha1.DebugEntitlementAccessResponse
-	48, // [48:55] is the sub-list for method output_type
-	41, // [41:48] is the sub-list for method input_type
-	41, // [41:41] is the sub-list for extension type_name
-	41, // [41:41] is the sub-list for extension extendee
-	0,  // [0:41] is the sub-list for field type_name
+	23, // 41: commonfate.access.v1alpha1.GrantState.needs_justification:type_name -> commonfate.access.v1alpha1.NeedsJustification
+	20, // 42: commonfate.access.v1alpha1.AccessService.BatchEnsure:input_type -> commonfate.access.v1alpha1.BatchEnsureRequest
+	4,  // 43: commonfate.access.v1alpha1.AccessService.QueryAvailabilities:input_type -> commonfate.access.v1alpha1.QueryAvailabilitiesRequest
+	6,  // 44: commonfate.access.v1alpha1.AccessService.QueryEntitlements:input_type -> commonfate.access.v1alpha1.QueryEntitlementsRequest
+	1,  // 45: commonfate.access.v1alpha1.AccessService.QueryApprovers:input_type -> commonfate.access.v1alpha1.QueryApproversRequest
+	8,  // 46: commonfate.access.v1alpha1.AccessService.PreviewUserAccess:input_type -> commonfate.access.v1alpha1.PreviewUserAccessRequest
+	10, // 47: commonfate.access.v1alpha1.AccessService.PreviewEntitlementAccess:input_type -> commonfate.access.v1alpha1.PreviewEntitlementAccessRequest
+	12, // 48: commonfate.access.v1alpha1.AccessService.DebugEntitlementAccess:input_type -> commonfate.access.v1alpha1.DebugEntitlementAccessRequest
+	21, // 49: commonfate.access.v1alpha1.AccessService.BatchEnsure:output_type -> commonfate.access.v1alpha1.BatchEnsureResponse
+	5,  // 50: commonfate.access.v1alpha1.AccessService.QueryAvailabilities:output_type -> commonfate.access.v1alpha1.QueryAvailabilitiesResponse
+	7,  // 51: commonfate.access.v1alpha1.AccessService.QueryEntitlements:output_type -> commonfate.access.v1alpha1.QueryEntitlementsResponse
+	3,  // 52: commonfate.access.v1alpha1.AccessService.QueryApprovers:output_type -> commonfate.access.v1alpha1.QueryApproversResponse
+	9,  // 53: commonfate.access.v1alpha1.AccessService.PreviewUserAccess:output_type -> commonfate.access.v1alpha1.PreviewUserAccessResponse
+	11, // 54: commonfate.access.v1alpha1.AccessService.PreviewEntitlementAccess:output_type -> commonfate.access.v1alpha1.PreviewEntitlementAccessResponse
+	13, // 55: commonfate.access.v1alpha1.AccessService.DebugEntitlementAccess:output_type -> commonfate.access.v1alpha1.DebugEntitlementAccessResponse
+	49, // [49:56] is the sub-list for method output_type
+	42, // [42:49] is the sub-list for method input_type
+	42, // [42:42] is the sub-list for extension type_name
+	42, // [42:42] is the sub-list for extension extendee
+	0,  // [0:42] is the sub-list for field type_name
 }
 
 func init() { file_commonfate_access_v1alpha1_access_proto_init() }
@@ -2283,6 +2355,18 @@ func file_commonfate_access_v1alpha1_access_proto_init() {
 				return nil
 			}
 		}
+		file_commonfate_access_v1alpha1_access_proto_msgTypes[22].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*NeedsJustification); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	file_commonfate_access_v1alpha1_access_proto_msgTypes[0].OneofWrappers = []interface{}{
 		(*QueryApproversRequest_TargetRole)(nil),
@@ -2301,7 +2385,7 @@ func file_commonfate_access_v1alpha1_access_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_commonfate_access_v1alpha1_access_proto_rawDesc,
 			NumEnums:      1,
-			NumMessages:   22,
+			NumMessages:   23,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

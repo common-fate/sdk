@@ -266,6 +266,17 @@ message GrantState {
   // The change to the grant.
   // Will be unspecified if the grant has not been changed.
   GrantChange change = 2;
+
+  // A hint to the client as to the required justification
+  // for access.
+  //
+  // Will be nil if no justification is needed.
+  NeedsJustification needs_justification = 3;
+}
+
+message NeedsJustification {
+    // True if a reason is required for access.
+    bool requires_reason = 1;
 }
 
 enum GrantChange {
