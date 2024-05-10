@@ -180,11 +180,11 @@ func (m *AccessWorkflow) validate(all bool) error {
 	}
 
 	if all {
-		switch v := interface{}(m.GetJustification()).(type) {
+		switch v := interface{}(m.GetValidation()).(type) {
 		case interface{ ValidateAll() error }:
 			if err := v.ValidateAll(); err != nil {
 				errors = append(errors, AccessWorkflowValidationError{
-					field:  "Justification",
+					field:  "Validation",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
@@ -192,16 +192,16 @@ func (m *AccessWorkflow) validate(all bool) error {
 		case interface{ Validate() error }:
 			if err := v.Validate(); err != nil {
 				errors = append(errors, AccessWorkflowValidationError{
-					field:  "Justification",
+					field:  "Validation",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
 			}
 		}
-	} else if v, ok := interface{}(m.GetJustification()).(interface{ Validate() error }); ok {
+	} else if v, ok := interface{}(m.GetValidation()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
 			return AccessWorkflowValidationError{
-				field:  "Justification",
+				field:  "Validation",
 				reason: "embedded message failed validation",
 				cause:  err,
 			}
@@ -286,44 +286,44 @@ var _ interface {
 	ErrorName() string
 } = AccessWorkflowValidationError{}
 
-// Validate checks the field values on JustificationConfig with the rules
-// defined in the proto definition for this message. If any rules are
-// violated, the first error encountered is returned, or nil if there are no violations.
-func (m *JustificationConfig) Validate() error {
+// Validate checks the field values on ValidationConfig with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// first error encountered is returned, or nil if there are no violations.
+func (m *ValidationConfig) Validate() error {
 	return m.validate(false)
 }
 
-// ValidateAll checks the field values on JustificationConfig with the rules
+// ValidateAll checks the field values on ValidationConfig with the rules
 // defined in the proto definition for this message. If any rules are
 // violated, the result is a list of violation errors wrapped in
-// JustificationConfigMultiError, or nil if none found.
-func (m *JustificationConfig) ValidateAll() error {
+// ValidationConfigMultiError, or nil if none found.
+func (m *ValidationConfig) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *JustificationConfig) validate(all bool) error {
+func (m *ValidationConfig) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
 
 	var errors []error
 
-	// no validation rules for RequiresReason
+	// no validation rules for HasReason
 
 	if len(errors) > 0 {
-		return JustificationConfigMultiError(errors)
+		return ValidationConfigMultiError(errors)
 	}
 
 	return nil
 }
 
-// JustificationConfigMultiError is an error wrapping multiple validation
-// errors returned by JustificationConfig.ValidateAll() if the designated
-// constraints aren't met.
-type JustificationConfigMultiError []error
+// ValidationConfigMultiError is an error wrapping multiple validation errors
+// returned by ValidationConfig.ValidateAll() if the designated constraints
+// aren't met.
+type ValidationConfigMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m JustificationConfigMultiError) Error() string {
+func (m ValidationConfigMultiError) Error() string {
 	var msgs []string
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -332,11 +332,11 @@ func (m JustificationConfigMultiError) Error() string {
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m JustificationConfigMultiError) AllErrors() []error { return m }
+func (m ValidationConfigMultiError) AllErrors() []error { return m }
 
-// JustificationConfigValidationError is the validation error returned by
-// JustificationConfig.Validate if the designated constraints aren't met.
-type JustificationConfigValidationError struct {
+// ValidationConfigValidationError is the validation error returned by
+// ValidationConfig.Validate if the designated constraints aren't met.
+type ValidationConfigValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -344,24 +344,22 @@ type JustificationConfigValidationError struct {
 }
 
 // Field function returns field value.
-func (e JustificationConfigValidationError) Field() string { return e.field }
+func (e ValidationConfigValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e JustificationConfigValidationError) Reason() string { return e.reason }
+func (e ValidationConfigValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e JustificationConfigValidationError) Cause() error { return e.cause }
+func (e ValidationConfigValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e JustificationConfigValidationError) Key() bool { return e.key }
+func (e ValidationConfigValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e JustificationConfigValidationError) ErrorName() string {
-	return "JustificationConfigValidationError"
-}
+func (e ValidationConfigValidationError) ErrorName() string { return "ValidationConfigValidationError" }
 
 // Error satisfies the builtin error interface
-func (e JustificationConfigValidationError) Error() string {
+func (e ValidationConfigValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -373,14 +371,14 @@ func (e JustificationConfigValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sJustificationConfig.%s: %s%s",
+		"invalid %sValidationConfig.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = JustificationConfigValidationError{}
+var _ error = ValidationConfigValidationError{}
 
 var _ interface {
 	Field() string
@@ -388,7 +386,7 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = JustificationConfigValidationError{}
+} = ValidationConfigValidationError{}
 
 // Validate checks the field values on CreateAccessWorkflowRequest with the
 // rules defined in the proto definition for this message. If any rules are

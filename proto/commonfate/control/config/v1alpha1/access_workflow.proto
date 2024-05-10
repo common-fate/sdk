@@ -25,12 +25,12 @@ message AccessWorkflow {
     google.protobuf.Duration activation_expiry = 6;
     google.protobuf.Duration default_duration = 7;
 
-    JustificationConfig justification = 8;
+    ValidationConfig validation = 8;
 }
 
-message JustificationConfig {
-    // If 'true', a reason will be required for access.
-    bool requires_reason = 1;
+message ValidationConfig {
+    // If true, a reason is required for access.
+    bool has_reason = 1;
 }
 
 message CreateAccessWorkflowRequest {

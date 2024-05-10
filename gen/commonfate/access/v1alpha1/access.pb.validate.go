@@ -3504,11 +3504,11 @@ func (m *GrantState) validate(all bool) error {
 	// no validation rules for Change
 
 	if all {
-		switch v := interface{}(m.GetNeedsJustification()).(type) {
+		switch v := interface{}(m.GetValidation()).(type) {
 		case interface{ ValidateAll() error }:
 			if err := v.ValidateAll(); err != nil {
 				errors = append(errors, GrantStateValidationError{
-					field:  "NeedsJustification",
+					field:  "Validation",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
@@ -3516,16 +3516,16 @@ func (m *GrantState) validate(all bool) error {
 		case interface{ Validate() error }:
 			if err := v.Validate(); err != nil {
 				errors = append(errors, GrantStateValidationError{
-					field:  "NeedsJustification",
+					field:  "Validation",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
 			}
 		}
-	} else if v, ok := interface{}(m.GetNeedsJustification()).(interface{ Validate() error }); ok {
+	} else if v, ok := interface{}(m.GetValidation()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
 			return GrantStateValidationError{
-				field:  "NeedsJustification",
+				field:  "Validation",
 				reason: "embedded message failed validation",
 				cause:  err,
 			}
@@ -3609,44 +3609,43 @@ var _ interface {
 	ErrorName() string
 } = GrantStateValidationError{}
 
-// Validate checks the field values on NeedsJustification with the rules
-// defined in the proto definition for this message. If any rules are
-// violated, the first error encountered is returned, or nil if there are no violations.
-func (m *NeedsJustification) Validate() error {
+// Validate checks the field values on Validation with the rules defined in the
+// proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *Validation) Validate() error {
 	return m.validate(false)
 }
 
-// ValidateAll checks the field values on NeedsJustification with the rules
-// defined in the proto definition for this message. If any rules are
-// violated, the result is a list of violation errors wrapped in
-// NeedsJustificationMultiError, or nil if none found.
-func (m *NeedsJustification) ValidateAll() error {
+// ValidateAll checks the field values on Validation with the rules defined in
+// the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in ValidationMultiError, or
+// nil if none found.
+func (m *Validation) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *NeedsJustification) validate(all bool) error {
+func (m *Validation) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
 
 	var errors []error
 
-	// no validation rules for RequiresReason
+	// no validation rules for HasReason
 
 	if len(errors) > 0 {
-		return NeedsJustificationMultiError(errors)
+		return ValidationMultiError(errors)
 	}
 
 	return nil
 }
 
-// NeedsJustificationMultiError is an error wrapping multiple validation errors
-// returned by NeedsJustification.ValidateAll() if the designated constraints
-// aren't met.
-type NeedsJustificationMultiError []error
+// ValidationMultiError is an error wrapping multiple validation errors
+// returned by Validation.ValidateAll() if the designated constraints aren't met.
+type ValidationMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m NeedsJustificationMultiError) Error() string {
+func (m ValidationMultiError) Error() string {
 	var msgs []string
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -3655,11 +3654,11 @@ func (m NeedsJustificationMultiError) Error() string {
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m NeedsJustificationMultiError) AllErrors() []error { return m }
+func (m ValidationMultiError) AllErrors() []error { return m }
 
-// NeedsJustificationValidationError is the validation error returned by
-// NeedsJustification.Validate if the designated constraints aren't met.
-type NeedsJustificationValidationError struct {
+// ValidationValidationError is the validation error returned by
+// Validation.Validate if the designated constraints aren't met.
+type ValidationValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -3667,24 +3666,22 @@ type NeedsJustificationValidationError struct {
 }
 
 // Field function returns field value.
-func (e NeedsJustificationValidationError) Field() string { return e.field }
+func (e ValidationValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e NeedsJustificationValidationError) Reason() string { return e.reason }
+func (e ValidationValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e NeedsJustificationValidationError) Cause() error { return e.cause }
+func (e ValidationValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e NeedsJustificationValidationError) Key() bool { return e.key }
+func (e ValidationValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e NeedsJustificationValidationError) ErrorName() string {
-	return "NeedsJustificationValidationError"
-}
+func (e ValidationValidationError) ErrorName() string { return "ValidationValidationError" }
 
 // Error satisfies the builtin error interface
-func (e NeedsJustificationValidationError) Error() string {
+func (e ValidationValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -3696,14 +3693,14 @@ func (e NeedsJustificationValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sNeedsJustification.%s: %s%s",
+		"invalid %sValidation.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = NeedsJustificationValidationError{}
+var _ error = ValidationValidationError{}
 
 var _ interface {
 	Field() string
@@ -3711,4 +3708,4 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = NeedsJustificationValidationError{}
+} = ValidationValidationError{}
