@@ -7,10 +7,10 @@ service DeploymentService {
     rpc GetDeployment(GetDeploymentRequest) returns (GetDeploymentResponse) {}
 
     // Register nameservers for the default deployment domain.
-    rpc RegisterDeploymentNameservers(RegisterDeploymentNameserversRequest) returns (RegisterDeploymentNameserversResponse) {}
+    rpc RegisterNameservers(RegisterNameserversRequest) returns (RegisterNameserversResponse) {}
 
     // Get nameservers for the default deployment domain.
-    rpc GetDeploymentNameservers(GetDeploymentNameserversRequest) returns (GetDeploymentNameserversResponse) {}
+    rpc GetNameservers(GetNameserversRequest) returns (GetNameserversResponse) {}
 }
 
 message GetDeploymentRequest {}
@@ -24,15 +24,15 @@ message Deployment {
     string default_domain = 2;
 }
 
-message RegisterDeploymentNameserversRequest {
+message RegisterNameserversRequest {
     repeated string nameservers = 1;
 }
 
-message RegisterDeploymentNameserversResponse {}
+message RegisterNameserversResponse {}
 
 
-message GetDeploymentNameserversRequest {}
+message GetNameserversRequest {}
 
-message GetDeploymentNameserversResponse {
+message GetNameserversResponse {
     repeated string nameservers = 1;
 }
