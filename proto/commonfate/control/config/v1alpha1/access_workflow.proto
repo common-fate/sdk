@@ -40,6 +40,8 @@ message CreateAccessWorkflowRequest {
     int32 priority = 5;
     google.protobuf.Duration activation_expiry= 6;
     google.protobuf.Duration default_duration = 7;
+    ValidationConfig validation = 8;
+
 
 }
 
