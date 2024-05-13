@@ -39,6 +39,9 @@ const (
 	// DeploymentServiceRegisterDeploymentNameserversProcedure is the fully-qualified name of the
 	// DeploymentService's RegisterDeploymentNameservers RPC.
 	DeploymentServiceRegisterDeploymentNameserversProcedure = "/commonfate.factory.deployment.v1alpha1.DeploymentService/RegisterDeploymentNameservers"
+	// DeploymentServiceGetDeploymentNameserversProcedure is the fully-qualified name of the
+	// DeploymentService's GetDeploymentNameservers RPC.
+	DeploymentServiceGetDeploymentNameserversProcedure = "/commonfate.factory.deployment.v1alpha1.DeploymentService/GetDeploymentNameservers"
 )
 
 // These variables are the protoreflect.Descriptor objects for the RPCs defined in this package.
@@ -46,6 +49,7 @@ var (
 	deploymentServiceServiceDescriptor                             = v1alpha1.File_commonfate_factory_deployment_v1alpha1_deployment_proto.Services().ByName("DeploymentService")
 	deploymentServiceGetDeploymentMethodDescriptor                 = deploymentServiceServiceDescriptor.Methods().ByName("GetDeployment")
 	deploymentServiceRegisterDeploymentNameserversMethodDescriptor = deploymentServiceServiceDescriptor.Methods().ByName("RegisterDeploymentNameservers")
+	deploymentServiceGetDeploymentNameserversMethodDescriptor      = deploymentServiceServiceDescriptor.Methods().ByName("GetDeploymentNameservers")
 )
 
 // DeploymentServiceClient is a client for the
@@ -55,6 +59,8 @@ type DeploymentServiceClient interface {
 	GetDeployment(context.Context, *connect.Request[v1alpha1.GetDeploymentRequest]) (*connect.Response[v1alpha1.GetDeploymentResponse], error)
 	// Register nameservers for the default deployment domain.
 	RegisterDeploymentNameservers(context.Context, *connect.Request[v1alpha1.RegisterDeploymentNameserversRequest]) (*connect.Response[v1alpha1.RegisterDeploymentNameserversResponse], error)
+	// Get nameservers for the default deployment domain.
+	GetDeploymentNameservers(context.Context, *connect.Request[v1alpha1.GetDeploymentNameserversRequest]) (*connect.Response[v1alpha1.GetDeploymentNameserversResponse], error)
 }
 
 // NewDeploymentServiceClient constructs a client for the
@@ -80,6 +86,12 @@ func NewDeploymentServiceClient(httpClient connect.HTTPClient, baseURL string, o
 			connect.WithSchema(deploymentServiceRegisterDeploymentNameserversMethodDescriptor),
 			connect.WithClientOptions(opts...),
 		),
+		getDeploymentNameservers: connect.NewClient[v1alpha1.GetDeploymentNameserversRequest, v1alpha1.GetDeploymentNameserversResponse](
+			httpClient,
+			baseURL+DeploymentServiceGetDeploymentNameserversProcedure,
+			connect.WithSchema(deploymentServiceGetDeploymentNameserversMethodDescriptor),
+			connect.WithClientOptions(opts...),
+		),
 	}
 }
 
@@ -87,6 +99,7 @@ func NewDeploymentServiceClient(httpClient connect.HTTPClient, baseURL string, o
 type deploymentServiceClient struct {
 	getDeployment                 *connect.Client[v1alpha1.GetDeploymentRequest, v1alpha1.GetDeploymentResponse]
 	registerDeploymentNameservers *connect.Client[v1alpha1.RegisterDeploymentNameserversRequest, v1alpha1.RegisterDeploymentNameserversResponse]
+	getDeploymentNameservers      *connect.Client[v1alpha1.GetDeploymentNameserversRequest, v1alpha1.GetDeploymentNameserversResponse]
 }
 
 // GetDeployment calls commonfate.factory.deployment.v1alpha1.DeploymentService.GetDeployment.
@@ -100,6 +113,12 @@ func (c *deploymentServiceClient) RegisterDeploymentNameservers(ctx context.Cont
 	return c.registerDeploymentNameservers.CallUnary(ctx, req)
 }
 
+// GetDeploymentNameservers calls
+// commonfate.factory.deployment.v1alpha1.DeploymentService.GetDeploymentNameservers.
+func (c *deploymentServiceClient) GetDeploymentNameservers(ctx context.Context, req *connect.Request[v1alpha1.GetDeploymentNameserversRequest]) (*connect.Response[v1alpha1.GetDeploymentNameserversResponse], error) {
+	return c.getDeploymentNameservers.CallUnary(ctx, req)
+}
+
 // DeploymentServiceHandler is an implementation of the
 // commonfate.factory.deployment.v1alpha1.DeploymentService service.
 type DeploymentServiceHandler interface {
@@ -107,6 +126,8 @@ type DeploymentServiceHandler interface {
 	GetDeployment(context.Context, *connect.Request[v1alpha1.GetDeploymentRequest]) (*connect.Response[v1alpha1.GetDeploymentResponse], error)
 	// Register nameservers for the default deployment domain.
 	RegisterDeploymentNameservers(context.Context, *connect.Request[v1alpha1.RegisterDeploymentNameserversRequest]) (*connect.Response[v1alpha1.RegisterDeploymentNameserversResponse], error)
+	// Get nameservers for the default deployment domain.
+	GetDeploymentNameservers(context.Context, *connect.Request[v1alpha1.GetDeploymentNameserversRequest]) (*connect.Response[v1alpha1.GetDeploymentNameserversResponse], error)
 }
 
 // NewDeploymentServiceHandler builds an HTTP handler from the service implementation. It returns
@@ -127,12 +148,20 @@ func NewDeploymentServiceHandler(svc DeploymentServiceHandler, opts ...connect.H
 		connect.WithSchema(deploymentServiceRegisterDeploymentNameserversMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
+	deploymentServiceGetDeploymentNameserversHandler := connect.NewUnaryHandler(
+		DeploymentServiceGetDeploymentNameserversProcedure,
+		svc.GetDeploymentNameservers,
+		connect.WithSchema(deploymentServiceGetDeploymentNameserversMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
+	)
 	return "/commonfate.factory.deployment.v1alpha1.DeploymentService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
 		case DeploymentServiceGetDeploymentProcedure:
 			deploymentServiceGetDeploymentHandler.ServeHTTP(w, r)
 		case DeploymentServiceRegisterDeploymentNameserversProcedure:
 			deploymentServiceRegisterDeploymentNameserversHandler.ServeHTTP(w, r)
+		case DeploymentServiceGetDeploymentNameserversProcedure:
+			deploymentServiceGetDeploymentNameserversHandler.ServeHTTP(w, r)
 		default:
 			http.NotFound(w, r)
 		}
@@ -148,4 +177,8 @@ func (UnimplementedDeploymentServiceHandler) GetDeployment(context.Context, *con
 
 func (UnimplementedDeploymentServiceHandler) RegisterDeploymentNameservers(context.Context, *connect.Request[v1alpha1.RegisterDeploymentNameserversRequest]) (*connect.Response[v1alpha1.RegisterDeploymentNameserversResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.factory.deployment.v1alpha1.DeploymentService.RegisterDeploymentNameservers is not implemented"))
+}
+
+func (UnimplementedDeploymentServiceHandler) GetDeploymentNameservers(context.Context, *connect.Request[v1alpha1.GetDeploymentNameserversRequest]) (*connect.Response[v1alpha1.GetDeploymentNameserversResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.factory.deployment.v1alpha1.DeploymentService.GetDeploymentNameservers is not implemented"))
 }

@@ -580,3 +580,211 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = RegisterDeploymentNameserversResponseValidationError{}
+
+// Validate checks the field values on GetDeploymentNameserversRequest with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *GetDeploymentNameserversRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on GetDeploymentNameserversRequest with
+// the rules defined in the proto definition for this message. If any rules
+// are violated, the result is a list of violation errors wrapped in
+// GetDeploymentNameserversRequestMultiError, or nil if none found.
+func (m *GetDeploymentNameserversRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *GetDeploymentNameserversRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if len(errors) > 0 {
+		return GetDeploymentNameserversRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// GetDeploymentNameserversRequestMultiError is an error wrapping multiple
+// validation errors returned by GetDeploymentNameserversRequest.ValidateAll()
+// if the designated constraints aren't met.
+type GetDeploymentNameserversRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m GetDeploymentNameserversRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m GetDeploymentNameserversRequestMultiError) AllErrors() []error { return m }
+
+// GetDeploymentNameserversRequestValidationError is the validation error
+// returned by GetDeploymentNameserversRequest.Validate if the designated
+// constraints aren't met.
+type GetDeploymentNameserversRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e GetDeploymentNameserversRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e GetDeploymentNameserversRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e GetDeploymentNameserversRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e GetDeploymentNameserversRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e GetDeploymentNameserversRequestValidationError) ErrorName() string {
+	return "GetDeploymentNameserversRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e GetDeploymentNameserversRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sGetDeploymentNameserversRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = GetDeploymentNameserversRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = GetDeploymentNameserversRequestValidationError{}
+
+// Validate checks the field values on GetDeploymentNameserversResponse with
+// the rules defined in the proto definition for this message. If any rules
+// are violated, the first error encountered is returned, or nil if there are
+// no violations.
+func (m *GetDeploymentNameserversResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on GetDeploymentNameserversResponse with
+// the rules defined in the proto definition for this message. If any rules
+// are violated, the result is a list of violation errors wrapped in
+// GetDeploymentNameserversResponseMultiError, or nil if none found.
+func (m *GetDeploymentNameserversResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *GetDeploymentNameserversResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if len(errors) > 0 {
+		return GetDeploymentNameserversResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// GetDeploymentNameserversResponseMultiError is an error wrapping multiple
+// validation errors returned by
+// GetDeploymentNameserversResponse.ValidateAll() if the designated
+// constraints aren't met.
+type GetDeploymentNameserversResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m GetDeploymentNameserversResponseMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m GetDeploymentNameserversResponseMultiError) AllErrors() []error { return m }
+
+// GetDeploymentNameserversResponseValidationError is the validation error
+// returned by GetDeploymentNameserversResponse.Validate if the designated
+// constraints aren't met.
+type GetDeploymentNameserversResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e GetDeploymentNameserversResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e GetDeploymentNameserversResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e GetDeploymentNameserversResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e GetDeploymentNameserversResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e GetDeploymentNameserversResponseValidationError) ErrorName() string {
+	return "GetDeploymentNameserversResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e GetDeploymentNameserversResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sGetDeploymentNameserversResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = GetDeploymentNameserversResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = GetDeploymentNameserversResponseValidationError{}
