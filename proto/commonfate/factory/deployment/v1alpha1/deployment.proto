@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package commonfate.factory.deployment.v1alpha1;
+
+service DeploymentService {
+    // Get information about a deployment.
+    rpc GetDeployment(GetDeploymentRequest) returns (GetDeploymentResponse) {}
+
+    // Register nameservers for the default deployment domain.
+    rpc RegisterDeploymentNameservers(RegisterDeploymentNameserversRequest) returns (RegisterDeploymentNameserversResponse) {}
+}
+
+message GetDeploymentRequest {}
+
+message GetDeploymentResponse {
+    Deployment deployment = 1;
+}
+
+message Deployment {
+    string id = 1;
+    string default_domain = 2;
+}
+
+message RegisterDeploymentNameserversRequest {
+    repeated string nameservers = 1;
+}
+
+message RegisterDeploymentNameserversResponse {}
