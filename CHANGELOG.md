@@ -1,5 +1,15 @@
 # @common-fate/sdk
 
+## 1.33.0
+
+### Minor Changes
+
+- 6d98951: Add justification requirements configuration
+
+### Patch Changes
+
+- f0c0a65: Revert "add support for validation with protovalidate" - reverted for now because it is causing build issues.
+
 ## 1.32.1
 
 ### Patch Changes
