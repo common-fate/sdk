@@ -65,6 +65,9 @@ message Grant {
     // The default duration shown for the grant.
     google.protobuf.Duration default_duration = 17;
 
+    //The parent integration name for which this grant was made for (eg. aws = integration IdentityStoreId)
+    string parent_integration_id = 18;
+
 }
 
 enum GrantStatus {
