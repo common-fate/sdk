@@ -65,7 +65,7 @@ message Grant {
     // The default duration shown for the grant.
     google.protobuf.Duration default_duration = 17;
 
-    //The parent integration name for which this grant was made for (eg. aws = integration IdentityStoreId)
+    // A URL which can be used to access the requested entitlement.
     string external_url = 18;
 
 }

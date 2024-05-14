@@ -2,4 +2,4 @@
 "@common-fate/sdk": patch
 ---
 
-add field external url for deep linking to integrations
+add field external_url for deep linking to entitlement URLs
