@@ -60,7 +60,7 @@ message GetAccessRequestResponse {
 }
 
 message GetAccessRequestActionsRequest {
-  string id = 1;
+  string access_request_id = 1;
 }
 
 message GetAccessRequestActionsResponse {
