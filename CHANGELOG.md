@@ -1,5 +1,11 @@
 # @common-fate/sdk
 
+## 1.33.2
+
+### Patch Changes
+
+- 711849f: Adjust the suffix of the auth token on Windows.
+
 ## 1.33.0
 
 ### Minor Changes
