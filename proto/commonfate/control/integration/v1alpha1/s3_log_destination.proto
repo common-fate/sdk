@@ -1,0 +1,10 @@
+syntax = "proto3";
+package commonfate.control.integration.v1alpha1;
+
+// The S3 Log Destination integration
+// allows audit log events to be written to
+// an AWS S3 bucket.
+message S3LogDestination {
+  string bucket_name = 1;
+  string role_arn = 2;
+}

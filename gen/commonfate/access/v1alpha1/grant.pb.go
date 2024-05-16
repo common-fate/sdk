@@ -176,7 +176,7 @@ type Grant struct {
 	Duration           *durationpb.Duration `protobuf:"bytes,16,opt,name=duration,proto3" json:"duration,omitempty"`
 	// The default duration shown for the grant.
 	DefaultDuration *durationpb.Duration `protobuf:"bytes,17,opt,name=default_duration,json=defaultDuration,proto3" json:"default_duration,omitempty"`
-	// The parent integration name for which this grant was made for (eg. aws = integration IdentityStoreId)
+	// A URL which can be used to access the requested entitlement.
 	ExternalUrl string `protobuf:"bytes,18,opt,name=external_url,json=externalUrl,proto3" json:"external_url,omitempty"`
 }
 
