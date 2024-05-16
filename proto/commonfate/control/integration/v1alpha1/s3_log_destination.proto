@@ -11,7 +11,7 @@ message S3LogDestination {
   // The object key template to write audit log events
   // to in the bucket.
   //
-  // If not provided, defaults to: '{{ .Year }}/{{ .Month }}/{{ .Day }}/{{ .Hour }}_{{ .Minute }}_{{ .Second }}'
+  // If not provided, defaults to: '{{ .Year }}/{{ .Month }}/{{ .Day }}/{{ .Hour }}_{{ .Minute }}_{{ .Second }}_{{ .ID }}'
   //
   // Available template parameters are:
   //
@@ -26,6 +26,8 @@ message S3LogDestination {
   // Minute - the minute the events were written in MM format, e.g. 04
   //
   // Second - the second the events were written in SS format, e.g. 02
+  //
+  // ID - a randomly generated report batch ID.
   //
   // Time - the full timestamp the event report was generated. This can be used
   // if you'd like to customise the time beyond the Year / Month / Day / Hour / Minute / Second
@@ -44,4 +46,12 @@ message S3LogDestination {
   //
   // For example ["grant.requested", "grant.approved"]
   repeated string filter_for_actions = 5;
+
+  // The frequency in minutes to generate reports at.
+  // Must be greater or equal to 5.
+  uint32 report_frequency_minutes = 6;
+
+  // The maximum number of events to include in a batch.
+  // If set to zero, Common Fate will use a default automatic batch size.
+  uint32 maximum_batch_size = 7;
 }
