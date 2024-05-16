@@ -5,10 +5,12 @@ import (
 	"crypto/cipher"
 	"crypto/rand"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io"
 	"os"
 	"path/filepath"
+	"strings"
 
 	"github.com/99designs/keyring"
 	"github.com/common-fate/clio"
@@ -43,15 +45,59 @@ func NewWindows(opts Opts) WindowsStorage {
 
 // Token returns the token.
 func (s *WindowsStorage) Token() (*oauth2.Token, error) {
-	var t oauth2.Token
+	var key []byte
 	clio.Debugf("attempting to fetch token: %s", s.name)
-	err := s.keyring.Retrieve(s.name, &t)
+	err := s.keyring.Retrieve(s.name, &key)
 	if err != nil {
 		clio.Debugf("error fetching token: %s", err)
-		return &oauth2.Token{}, nil
+		return nil, err
 	}
 
-	return &t, nil
+	block, err := aes.NewCipher(key)
+	if err != nil {
+		clio.Debugf("could not create new cipher: %v", err)
+		return nil, err
+	}
+
+	aesGCM, err := cipher.NewGCM(block)
+	if err != nil {
+		return nil, err
+	}
+
+	cd, err := os.UserConfigDir()
+	if err != nil {
+		return nil, err
+	}
+	dir := filepath.Join(cd, "commonfate")
+	// Trim the URL components from the name but keep it readable
+	suffix := strings.TrimPrefix(s.name, "http://")
+	suffix = strings.TrimPrefix(suffix, "https://")
+	suffix = strings.ReplaceAll(suffix, "/", "_")
+	encryptedTokenFile := filepath.Join(dir, "common_fate_auth_token"+suffix)
+
+	ciphertext, err := os.ReadFile(encryptedTokenFile)
+	if err != nil {
+		return nil, err
+	}
+
+	nonceSize := aesGCM.NonceSize()
+	if len(ciphertext) < nonceSize {
+		return nil, errors.New("ciphertext too short")
+	}
+	nonce, ciphertext := ciphertext[:nonceSize], ciphertext[nonceSize:]
+
+	// Decrypt the data
+	plaintext, err := aesGCM.Open(nil, nonce, ciphertext, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	var token oauth2.Token
+	if err := json.Unmarshal(plaintext, &token); err != nil {
+		return nil, err
+	}
+
+	return &token, nil
 }
 
 // Save the token
@@ -96,7 +142,11 @@ func (s *WindowsStorage) Save(token *oauth2.Token) error {
 
 	ciphertext := aesGCM.Seal(nonce, nonce, tokenJSON, nil)
 
-	encryptedTokenFile := filepath.Join(dir, "common_fate_auth_token")
+	// Trim the URL components from the name but keep it readable
+	suffix := strings.TrimPrefix(s.name, "http://")
+	suffix = strings.TrimPrefix(suffix, "https://")
+	suffix = strings.ReplaceAll(suffix, "/", "_")
+	encryptedTokenFile := filepath.Join(dir, "common_fate_auth_token"+suffix)
 
 	err = os.WriteFile(encryptedTokenFile, ciphertext, 0400)
 	if err != nil {
