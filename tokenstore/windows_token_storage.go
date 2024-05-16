@@ -34,8 +34,8 @@ type WindowsOpts struct {
 // This is usually 'default' and in future can be
 // expanded to allow CLI users to switch between
 // separate Common Fate tenancies.
-func NewWindows(opts Opts) Storage {
-	return Storage{
+func NewWindows(opts Opts) WindowsStorage {
+	return WindowsStorage{
 		keyring: Keyring{keyring: opts.Keyring},
 		name:    opts.Name,
 	}
