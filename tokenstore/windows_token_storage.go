@@ -5,7 +5,6 @@ import (
 	"crypto/cipher"
 	"crypto/rand"
 	"encoding/json"
-	"errors"
 	"fmt"
 	"io"
 	"os"
@@ -56,17 +55,19 @@ func (s *WindowsStorage) Token() (*oauth2.Token, error) {
 	block, err := aes.NewCipher(key)
 	if err != nil {
 		clio.Debugf("could not create new cipher: %v", err)
-		return nil, err
+		return &oauth2.Token{}, nil
 	}
 
 	aesGCM, err := cipher.NewGCM(block)
 	if err != nil {
-		return nil, err
+		clio.Debugf("could not create new cipher: %v", err)
+		return &oauth2.Token{}, nil
 	}
 
 	cd, err := os.UserConfigDir()
 	if err != nil {
-		return nil, err
+		clio.Debugf("could not find user dir", err)
+		return &oauth2.Token{}, nil
 	}
 	dir := filepath.Join(cd, "commonfate")
 	// Trim the URL components from the name but keep it readable
@@ -77,24 +78,28 @@ func (s *WindowsStorage) Token() (*oauth2.Token, error) {
 
 	ciphertext, err := os.ReadFile(encryptedTokenFile)
 	if err != nil {
-		return nil, err
+		clio.Debugf("could not read encrypted Token File : %v", err)
+		return &oauth2.Token{}, nil
 	}
 
 	nonceSize := aesGCM.NonceSize()
 	if len(ciphertext) < nonceSize {
-		return nil, errors.New("ciphertext too short")
+		clio.Debugf("ciphertext too short : %v", err)
+		return &oauth2.Token{}, nil
 	}
 	nonce, ciphertext := ciphertext[:nonceSize], ciphertext[nonceSize:]
 
 	// Decrypt the data
 	plaintext, err := aesGCM.Open(nil, nonce, ciphertext, nil)
 	if err != nil {
-		return nil, err
+		clio.Debugf("could not decrypt file : %v", err)
+		return &oauth2.Token{}, nil
 	}
 
 	var token oauth2.Token
 	if err := json.Unmarshal(plaintext, &token); err != nil {
-		return nil, err
+		clio.Debugf("could not unmarshal token: %v", err)
+		return &oauth2.Token{}, nil
 	}
 
 	return &token, nil
