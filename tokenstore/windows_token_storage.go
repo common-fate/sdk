@@ -50,7 +50,7 @@ func (s *WindowsStorage) Token() (*oauth2.Token, error) {
 	err := s.keyring.Retrieve(s.name, &key)
 	if err != nil {
 		clio.Debugf("error fetching token: %s", err)
-		return nil, err
+		return &oauth2.Token{}, nil
 	}
 
 	block, err := aes.NewCipher(key)
