@@ -74,7 +74,7 @@ func (s *WindowsStorage) Token() (*oauth2.Token, error) {
 	suffix := strings.TrimPrefix(s.name, "http://")
 	suffix = strings.TrimPrefix(suffix, "https://")
 	suffix = strings.ReplaceAll(suffix, "/", "_")
-	encryptedTokenFile := filepath.Join(dir, "common_fate_auth_token"+suffix)
+	encryptedTokenFile := filepath.Join(dir, "auth_token_"+suffix)
 
 	ciphertext, err := os.ReadFile(encryptedTokenFile)
 	if err != nil {
@@ -151,7 +151,7 @@ func (s *WindowsStorage) Save(token *oauth2.Token) error {
 	suffix := strings.TrimPrefix(s.name, "http://")
 	suffix = strings.TrimPrefix(suffix, "https://")
 	suffix = strings.ReplaceAll(suffix, "/", "_")
-	encryptedTokenFile := filepath.Join(dir, "common_fate_auth_token"+suffix)
+	encryptedTokenFile := filepath.Join(dir, "auth_token_"+suffix)
 
 	err = os.WriteFile(encryptedTokenFile, ciphertext, 0600)
 	if err != nil {
