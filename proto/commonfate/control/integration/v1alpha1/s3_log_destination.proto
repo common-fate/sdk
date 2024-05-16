@@ -3,7 +3,7 @@ package commonfate.control.integration.v1alpha1;
 
 // The S3 Log Destination integration
 // allows audit log events to be written to
-// an AWS S3 bucket.
+// an AWS S3 bucket in [JSONL format](https://jsonlines.org/).
 message S3LogDestination {
   string bucket_name = 1;
   string role_arn = 2;
@@ -11,12 +11,32 @@ message S3LogDestination {
   // The object key template to write audit log events
   // to in the bucket.
   //
-  // For example: '{{ .Year }}/{{ .Month }}/{{ .Day }}/{{ .ID }}.json'
+  // If not provided, defaults to: '{{ .Year }}/{{ .Month }}/{{ .Day }}/{{ .Hour }}_{{ .Minute }}_{{ .Second }}'
   //
   // Available template parameters are:
-  // Year - the year the event occurred in YYYY format, e.g. 2024
-  // Month - the month the event occurred in MM format, e.g. 01
-  // Day - the calendar day the event in DD format, e.g. 15
-  // ID - the event ID, e.g. evt_2gWnmOeMcvy9qkqiztqVySw5OMf
+  //
+  // Year - the year the events were written in YYYY format, e.g. 2024
+  //
+  // Month - the month the events were written in MM format, e.g. 01
+  //
+  // Day - the calendar day the events were written in DD format, e.g. 15
+  //
+  // Hour - the hour the events were written in HH format (in UTC), e.g. 22
+  //
+  // Minute - the minute the events were written in MM format, e.g. 04
+  //
+  // Second - the second the events were written in SS format, e.g. 02
+  //
+  // Time - the full timestamp the event report was generated. This can be used
+  // if you'd like to customise the time beyond the Year / Month / Day / Hour / Minute / Second
+  // variables provided.
+  // You can use Go [text template](https://pkg.go.dev/text/template) functions to customise this,
+  // for example: {{ .Time.Format "Jan 02, 2006 15:04:05 UTC" }}
   string audit_log_key_template = 3;
+
+  // The compression algorithm to use on the log events.
+  // If empty, events will be written without compression.
+  //
+  // Specifying 'gzip' will use GZIP compression.
+  string compression = 4;
 }
