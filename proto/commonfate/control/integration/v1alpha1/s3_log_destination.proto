@@ -7,4 +7,16 @@ package commonfate.control.integration.v1alpha1;
 message S3LogDestination {
   string bucket_name = 1;
   string role_arn = 2;
+
+  // The object key template to write audit log events
+  // to in the bucket.
+  //
+  // For example: '{{ .Year }}/{{ .Month }}/{{ .Day }}/{{ .ID }}.json'
+  //
+  // Available template parameters are:
+  // Year - the year the event occurred in YYYY format, e.g. 2024
+  // Month - the month the event occurred in MM format, e.g. 01
+  // Day - the calendar day the event in DD format, e.g. 15
+  // ID - the event ID, e.g. evt_2gWnmOeMcvy9qkqiztqVySw5OMf
+  string audit_log_key_template = 3;
 }
