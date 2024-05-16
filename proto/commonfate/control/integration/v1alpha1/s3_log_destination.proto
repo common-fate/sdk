@@ -32,11 +32,16 @@ message S3LogDestination {
   // variables provided.
   // You can use Go [text template](https://pkg.go.dev/text/template) functions to customise this,
   // for example: {{ .Time.Format "Jan 02, 2006 15:04:05 UTC" }}
-  string audit_log_key_template = 3;
+  string key_template = 3;
 
   // The compression algorithm to use on the log events.
   // If empty, events will be written without compression.
   //
   // Specifying 'gzip' will use GZIP compression.
   string compression = 4;
+
+  // If provided, only the specified actions will be included.
+  //
+  // For example ["grant.requested", "grant.approved"]
+  repeated string filter_for_actions = 5;
 }
