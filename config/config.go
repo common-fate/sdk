@@ -108,7 +108,7 @@ func (c *Context) Initialize(ctx context.Context, opts InitializeOpts) error {
 	}
 	if c.TokenStore == nil && runtime.GOOS == "windows" {
 		ts := tokenstore.NewWindows(tokenstore.Opts{
-			Name: issuerURL.String(),
+			Name: "commonfate",
 		})
 
 		c.TokenStore = &ts
