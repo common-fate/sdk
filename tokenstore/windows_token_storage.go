@@ -148,7 +148,7 @@ func (s *WindowsStorage) Save(token *oauth2.Token) error {
 	suffix = strings.ReplaceAll(suffix, "/", "_")
 	encryptedTokenFile := filepath.Join(dir, "common_fate_auth_token"+suffix)
 
-	err = os.WriteFile(encryptedTokenFile, ciphertext, 0400)
+	err = os.WriteFile(encryptedTokenFile, ciphertext, 0600)
 	if err != nil {
 		return err
 	}
