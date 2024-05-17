@@ -1,5 +1,15 @@
 # @common-fate/sdk
 
+## 1.34.0
+
+### Minor Changes
+
+- ec19fbd: Add S3 Log Destination integration.
+
+### Patch Changes
+
+- ac6e044: Create GetAccessRequestActions API to return the list of actions that the current user is allowed to perform on the access request.
+
 ## 1.33.2
 
 ### Patch Changes
