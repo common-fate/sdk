@@ -863,9 +863,9 @@ func (m *Deployment) validate(all bool) error {
 
 	// no validation rules for Id
 
-	// no validation rules for DefaultDomain
+	// no validation rules for DefaultSubdomain
 
-	// no validation rules for DefaultSubdomainComponent
+	// no validation rules for DnsZoneName
 
 	if len(errors) > 0 {
 		return DeploymentMultiError(errors)
