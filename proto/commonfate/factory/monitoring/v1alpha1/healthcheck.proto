@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+package commonfate.factory.monitoring.v1alpha1;
+
+import "google/protobuf/duration.proto";
+
+// Common Fate tasks call HealthcheckService to indicate that they are healthy.
+service HealthcheckService {
+    // Obtain a Write Token, used to authenticate to our OpenTelemetry collector.
+    rpc Ping(PingRequest) returns (PingResponse) {}
+}
+
+message PingRequest {
+    string service_name = 1;
+    ECSTaskMetadata ecs_task_metadata = 2;
+}
+
+message ECSTaskMetadata {
+    string task_arn = 1;
+    string cluster_arn = 2;
+    string availability_zone = 3;
+    float cpu_limit = 4;
+    uint32 memory_limit = 5;
+    string launch_type = 6;
+}
+
+message PingResponse {
+    // An indication from the server as to when the
+    // service should next send a ping.
+    google.protobuf.Duration next_ping = 1;
+}
