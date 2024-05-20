@@ -18,22 +18,30 @@ service AccessWorkflowService {
 
 message AccessWorkflow {
     string id = 1;
-    string name = 2; 
+    string name = 2;
     google.protobuf.Duration access_duration = 3;
     google.protobuf.Duration try_extend_after = 4;
     int32 priority = 5;
     google.protobuf.Duration activation_expiry = 6;
     google.protobuf.Duration default_duration = 7;
 
+    ValidationConfig validation = 8;
+}
+
+message ValidationConfig {
+    // If true, a reason is required for access.
+    bool has_reason = 1;
 }
 
 message CreateAccessWorkflowRequest {
-    string name = 2; 
+    string name = 2;
     google.protobuf.Duration access_duration = 3;
     google.protobuf.Duration try_extend_after = 4;
     int32 priority = 5;
     google.protobuf.Duration activation_expiry= 6;
     google.protobuf.Duration default_duration = 7;
+    ValidationConfig validation = 8;
+
 
 }
 

@@ -13,8 +13,6 @@ import "commonfate/entity/v1alpha1/eid.proto";
 import "commonfate/entity/v1alpha1/entity.proto";
 import "google/protobuf/duration.proto";
 
-
-
 // AccessService is the Access Handler's user-facing API.
 // Users call this API to ensure that they have access to entitlements.
 service AccessService {
@@ -254,6 +252,12 @@ message BatchEnsureResponse {
 
   repeated GrantState grants = 2;
 
+  // A hint to the client as to the required validation rules
+  // for access.
+  //
+  // Will be nil if no justification is needed.
+  Validation validation = 3;
+
   // User-facing diagnostic warnings, for messages such as the user not having permissions
   // to request some of the entitlements they asked for.
   //
@@ -266,6 +270,11 @@ message GrantState {
   // The change to the grant.
   // Will be unspecified if the grant has not been changed.
   GrantChange change = 2;
+}
+
+message Validation {
+    // If true, a reason is required for access.
+    bool has_reason = 1;
 }
 
 enum GrantChange {

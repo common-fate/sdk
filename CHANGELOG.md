@@ -1,5 +1,31 @@
 # @common-fate/sdk
 
+## 1.34.0
+
+### Minor Changes
+
+- ec19fbd: Add S3 Log Destination integration.
+
+### Patch Changes
+
+- ac6e044: Create GetAccessRequestActions API to return the list of actions that the current user is allowed to perform on the access request.
+
+## 1.33.2
+
+### Patch Changes
+
+- 711849f: Adjust the suffix of the auth token on Windows.
+
+## 1.33.0
+
+### Minor Changes
+
+- 6d98951: Add justification requirements configuration
+
+### Patch Changes
+
+- f0c0a65: Revert "add support for validation with protovalidate" - reverted for now because it is causing build issues.
+
 ## 1.32.1
 
 ### Patch Changes

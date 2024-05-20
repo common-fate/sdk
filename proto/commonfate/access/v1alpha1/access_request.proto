@@ -8,7 +8,6 @@ import "commonfate/access/v1alpha1/user.proto";
 import "commonfate/authz/v1alpha1/read_only.proto";
 import "commonfate/entity/v1alpha1/entity_service.proto";
 import "google/protobuf/timestamp.proto";
-import "buf/validate/validate.proto";
 
 // The Access Request API.
 //
@@ -20,6 +19,11 @@ service AccessRequestService {
   }
 
   rpc GetAccessRequest(GetAccessRequestRequest) returns (GetAccessRequestResponse) {
+    option (commonfate.authz.v1alpha1.read_only) = true;
+  }
+
+  // Returns the actions that the current user is allowed to perform on the request
+  rpc GetAccessRequestActions(GetAccessRequestActionsRequest) returns (GetAccessRequestActionsResponse) {
     option (commonfate.authz.v1alpha1.read_only) = true;
   }
 
@@ -48,11 +52,19 @@ message QueryAccessRequestsResponse {
 
 message GetAccessRequestRequest {
   // The ID of the Access Request.
-  string id = 1 [(buf.validate.field).string.min_len = 1];
+  string id = 1;
 }
 
 message GetAccessRequestResponse {
   AccessRequest access_request = 1;
+}
+
+message GetAccessRequestActionsRequest {
+  string access_request_id = 1;
+}
+
+message GetAccessRequestActionsResponse {
+  AccessRequestActions access_request_actions = 1;
 }
 
 // A request to be given entitlements allowing <Action> to be performed on <Resource>.
@@ -90,6 +102,11 @@ message AccessRequest {
 
   string workflow_id = 11;
   string workflow_name = 12;
+}
+
+message AccessRequestActions {
+  // True if the current user is allowed to approve the access request
+  bool approve_allowed = 1;
 }
 
 message ApproveAccessRequestRequest {
