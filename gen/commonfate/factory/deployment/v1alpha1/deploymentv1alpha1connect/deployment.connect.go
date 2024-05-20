@@ -42,6 +42,12 @@ const (
 	// DeploymentServiceGetDNSRecordProcedure is the fully-qualified name of the DeploymentService's
 	// GetDNSRecord RPC.
 	DeploymentServiceGetDNSRecordProcedure = "/commonfate.factory.deployment.v1alpha1.DeploymentService/GetDNSRecord"
+	// DeploymentServiceUpdateDNSRecordProcedure is the fully-qualified name of the DeploymentService's
+	// UpdateDNSRecord RPC.
+	DeploymentServiceUpdateDNSRecordProcedure = "/commonfate.factory.deployment.v1alpha1.DeploymentService/UpdateDNSRecord"
+	// DeploymentServiceDeleteDNSRecordProcedure is the fully-qualified name of the DeploymentService's
+	// DeleteDNSRecord RPC.
+	DeploymentServiceDeleteDNSRecordProcedure = "/commonfate.factory.deployment.v1alpha1.DeploymentService/DeleteDNSRecord"
 )
 
 // These variables are the protoreflect.Descriptor objects for the RPCs defined in this package.
@@ -50,6 +56,8 @@ var (
 	deploymentServiceGetDeploymentMethodDescriptor   = deploymentServiceServiceDescriptor.Methods().ByName("GetDeployment")
 	deploymentServiceCreateDNSRecordMethodDescriptor = deploymentServiceServiceDescriptor.Methods().ByName("CreateDNSRecord")
 	deploymentServiceGetDNSRecordMethodDescriptor    = deploymentServiceServiceDescriptor.Methods().ByName("GetDNSRecord")
+	deploymentServiceUpdateDNSRecordMethodDescriptor = deploymentServiceServiceDescriptor.Methods().ByName("UpdateDNSRecord")
+	deploymentServiceDeleteDNSRecordMethodDescriptor = deploymentServiceServiceDescriptor.Methods().ByName("DeleteDNSRecord")
 )
 
 // DeploymentServiceClient is a client for the
@@ -62,6 +70,10 @@ type DeploymentServiceClient interface {
 	CreateDNSRecord(context.Context, *connect.Request[v1alpha1.CreateDNSRecordRequest]) (*connect.Response[v1alpha1.CreateDNSRecordResponse], error)
 	// Retrieves a DNS record associated with the deployment.
 	GetDNSRecord(context.Context, *connect.Request[v1alpha1.GetDNSRecordRequest]) (*connect.Response[v1alpha1.GetDNSRecordResponse], error)
+	// Updates a DNS record associated with the deployment.
+	UpdateDNSRecord(context.Context, *connect.Request[v1alpha1.UpdateDNSRecordRequest]) (*connect.Response[v1alpha1.UpdateDNSRecordResponse], error)
+	// Deletes a DNS record associated with the deployment.
+	DeleteDNSRecord(context.Context, *connect.Request[v1alpha1.DeleteDNSRecordRequest]) (*connect.Response[v1alpha1.DeleteDNSRecordResponse], error)
 }
 
 // NewDeploymentServiceClient constructs a client for the
@@ -93,6 +105,18 @@ func NewDeploymentServiceClient(httpClient connect.HTTPClient, baseURL string, o
 			connect.WithSchema(deploymentServiceGetDNSRecordMethodDescriptor),
 			connect.WithClientOptions(opts...),
 		),
+		updateDNSRecord: connect.NewClient[v1alpha1.UpdateDNSRecordRequest, v1alpha1.UpdateDNSRecordResponse](
+			httpClient,
+			baseURL+DeploymentServiceUpdateDNSRecordProcedure,
+			connect.WithSchema(deploymentServiceUpdateDNSRecordMethodDescriptor),
+			connect.WithClientOptions(opts...),
+		),
+		deleteDNSRecord: connect.NewClient[v1alpha1.DeleteDNSRecordRequest, v1alpha1.DeleteDNSRecordResponse](
+			httpClient,
+			baseURL+DeploymentServiceDeleteDNSRecordProcedure,
+			connect.WithSchema(deploymentServiceDeleteDNSRecordMethodDescriptor),
+			connect.WithClientOptions(opts...),
+		),
 	}
 }
 
@@ -101,6 +125,8 @@ type deploymentServiceClient struct {
 	getDeployment   *connect.Client[v1alpha1.GetDeploymentRequest, v1alpha1.GetDeploymentResponse]
 	createDNSRecord *connect.Client[v1alpha1.CreateDNSRecordRequest, v1alpha1.CreateDNSRecordResponse]
 	getDNSRecord    *connect.Client[v1alpha1.GetDNSRecordRequest, v1alpha1.GetDNSRecordResponse]
+	updateDNSRecord *connect.Client[v1alpha1.UpdateDNSRecordRequest, v1alpha1.UpdateDNSRecordResponse]
+	deleteDNSRecord *connect.Client[v1alpha1.DeleteDNSRecordRequest, v1alpha1.DeleteDNSRecordResponse]
 }
 
 // GetDeployment calls commonfate.factory.deployment.v1alpha1.DeploymentService.GetDeployment.
@@ -118,6 +144,16 @@ func (c *deploymentServiceClient) GetDNSRecord(ctx context.Context, req *connect
 	return c.getDNSRecord.CallUnary(ctx, req)
 }
 
+// UpdateDNSRecord calls commonfate.factory.deployment.v1alpha1.DeploymentService.UpdateDNSRecord.
+func (c *deploymentServiceClient) UpdateDNSRecord(ctx context.Context, req *connect.Request[v1alpha1.UpdateDNSRecordRequest]) (*connect.Response[v1alpha1.UpdateDNSRecordResponse], error) {
+	return c.updateDNSRecord.CallUnary(ctx, req)
+}
+
+// DeleteDNSRecord calls commonfate.factory.deployment.v1alpha1.DeploymentService.DeleteDNSRecord.
+func (c *deploymentServiceClient) DeleteDNSRecord(ctx context.Context, req *connect.Request[v1alpha1.DeleteDNSRecordRequest]) (*connect.Response[v1alpha1.DeleteDNSRecordResponse], error) {
+	return c.deleteDNSRecord.CallUnary(ctx, req)
+}
+
 // DeploymentServiceHandler is an implementation of the
 // commonfate.factory.deployment.v1alpha1.DeploymentService service.
 type DeploymentServiceHandler interface {
@@ -128,6 +164,10 @@ type DeploymentServiceHandler interface {
 	CreateDNSRecord(context.Context, *connect.Request[v1alpha1.CreateDNSRecordRequest]) (*connect.Response[v1alpha1.CreateDNSRecordResponse], error)
 	// Retrieves a DNS record associated with the deployment.
 	GetDNSRecord(context.Context, *connect.Request[v1alpha1.GetDNSRecordRequest]) (*connect.Response[v1alpha1.GetDNSRecordResponse], error)
+	// Updates a DNS record associated with the deployment.
+	UpdateDNSRecord(context.Context, *connect.Request[v1alpha1.UpdateDNSRecordRequest]) (*connect.Response[v1alpha1.UpdateDNSRecordResponse], error)
+	// Deletes a DNS record associated with the deployment.
+	DeleteDNSRecord(context.Context, *connect.Request[v1alpha1.DeleteDNSRecordRequest]) (*connect.Response[v1alpha1.DeleteDNSRecordResponse], error)
 }
 
 // NewDeploymentServiceHandler builds an HTTP handler from the service implementation. It returns
@@ -154,6 +194,18 @@ func NewDeploymentServiceHandler(svc DeploymentServiceHandler, opts ...connect.H
 		connect.WithSchema(deploymentServiceGetDNSRecordMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
+	deploymentServiceUpdateDNSRecordHandler := connect.NewUnaryHandler(
+		DeploymentServiceUpdateDNSRecordProcedure,
+		svc.UpdateDNSRecord,
+		connect.WithSchema(deploymentServiceUpdateDNSRecordMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
+	)
+	deploymentServiceDeleteDNSRecordHandler := connect.NewUnaryHandler(
+		DeploymentServiceDeleteDNSRecordProcedure,
+		svc.DeleteDNSRecord,
+		connect.WithSchema(deploymentServiceDeleteDNSRecordMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
+	)
 	return "/commonfate.factory.deployment.v1alpha1.DeploymentService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
 		case DeploymentServiceGetDeploymentProcedure:
@@ -162,6 +214,10 @@ func NewDeploymentServiceHandler(svc DeploymentServiceHandler, opts ...connect.H
 			deploymentServiceCreateDNSRecordHandler.ServeHTTP(w, r)
 		case DeploymentServiceGetDNSRecordProcedure:
 			deploymentServiceGetDNSRecordHandler.ServeHTTP(w, r)
+		case DeploymentServiceUpdateDNSRecordProcedure:
+			deploymentServiceUpdateDNSRecordHandler.ServeHTTP(w, r)
+		case DeploymentServiceDeleteDNSRecordProcedure:
+			deploymentServiceDeleteDNSRecordHandler.ServeHTTP(w, r)
 		default:
 			http.NotFound(w, r)
 		}
@@ -181,4 +237,12 @@ func (UnimplementedDeploymentServiceHandler) CreateDNSRecord(context.Context, *c
 
 func (UnimplementedDeploymentServiceHandler) GetDNSRecord(context.Context, *connect.Request[v1alpha1.GetDNSRecordRequest]) (*connect.Response[v1alpha1.GetDNSRecordResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.factory.deployment.v1alpha1.DeploymentService.GetDNSRecord is not implemented"))
+}
+
+func (UnimplementedDeploymentServiceHandler) UpdateDNSRecord(context.Context, *connect.Request[v1alpha1.UpdateDNSRecordRequest]) (*connect.Response[v1alpha1.UpdateDNSRecordResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.factory.deployment.v1alpha1.DeploymentService.UpdateDNSRecord is not implemented"))
+}
+
+func (UnimplementedDeploymentServiceHandler) DeleteDNSRecord(context.Context, *connect.Request[v1alpha1.DeleteDNSRecordRequest]) (*connect.Response[v1alpha1.DeleteDNSRecordResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.factory.deployment.v1alpha1.DeploymentService.DeleteDNSRecord is not implemented"))
 }

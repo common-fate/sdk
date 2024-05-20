@@ -12,6 +12,12 @@ service DeploymentService {
 
     // Retrieves a DNS record associated with the deployment.
     rpc GetDNSRecord(GetDNSRecordRequest) returns (GetDNSRecordResponse) {}
+
+    // Updates a DNS record associated with the deployment.
+    rpc UpdateDNSRecord(UpdateDNSRecordRequest) returns (UpdateDNSRecordResponse) {}
+
+    // Deletes a DNS record associated with the deployment.
+    rpc DeleteDNSRecord(DeleteDNSRecordRequest) returns (DeleteDNSRecordResponse) {}
 }
 
 enum DNSRecordType {
@@ -33,7 +39,28 @@ message CreateDNSRecordRequest {
     DNSRecord record = 1;
 }
 
-message CreateDNSRecordResponse {}
+message CreateDNSRecordResponse {
+    DNSRecord created = 1;
+}
+
+message UpdateDNSRecordRequest {
+    DNSRecord record = 1;
+}
+
+message UpdateDNSRecordResponse {
+    DNSRecord updated = 1;
+}
+
+message DeleteDNSRecordRequest {
+    string name = 1;
+    // The base DNS name associated with the deployment.
+    // e.g. 'commonfate.app'.
+    string dns_zone_name = 2;
+}
+
+message DeleteDNSRecordResponse {
+    DNSRecord deleted = 1;
+}
 
 message GetDNSRecordRequest {
     string name = 1;

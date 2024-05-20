@@ -293,6 +293,35 @@ func (m *CreateDNSRecordResponse) validate(all bool) error {
 
 	var errors []error
 
+	if all {
+		switch v := interface{}(m.GetCreated()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, CreateDNSRecordResponseValidationError{
+					field:  "Created",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, CreateDNSRecordResponseValidationError{
+					field:  "Created",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetCreated()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return CreateDNSRecordResponseValidationError{
+				field:  "Created",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
 	if len(errors) > 0 {
 		return CreateDNSRecordResponseMultiError(errors)
 	}
@@ -372,6 +401,505 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = CreateDNSRecordResponseValidationError{}
+
+// Validate checks the field values on UpdateDNSRecordRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *UpdateDNSRecordRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on UpdateDNSRecordRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// UpdateDNSRecordRequestMultiError, or nil if none found.
+func (m *UpdateDNSRecordRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *UpdateDNSRecordRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if all {
+		switch v := interface{}(m.GetRecord()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, UpdateDNSRecordRequestValidationError{
+					field:  "Record",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, UpdateDNSRecordRequestValidationError{
+					field:  "Record",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetRecord()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return UpdateDNSRecordRequestValidationError{
+				field:  "Record",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if len(errors) > 0 {
+		return UpdateDNSRecordRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// UpdateDNSRecordRequestMultiError is an error wrapping multiple validation
+// errors returned by UpdateDNSRecordRequest.ValidateAll() if the designated
+// constraints aren't met.
+type UpdateDNSRecordRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m UpdateDNSRecordRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m UpdateDNSRecordRequestMultiError) AllErrors() []error { return m }
+
+// UpdateDNSRecordRequestValidationError is the validation error returned by
+// UpdateDNSRecordRequest.Validate if the designated constraints aren't met.
+type UpdateDNSRecordRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e UpdateDNSRecordRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e UpdateDNSRecordRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e UpdateDNSRecordRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e UpdateDNSRecordRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e UpdateDNSRecordRequestValidationError) ErrorName() string {
+	return "UpdateDNSRecordRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e UpdateDNSRecordRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sUpdateDNSRecordRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = UpdateDNSRecordRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = UpdateDNSRecordRequestValidationError{}
+
+// Validate checks the field values on UpdateDNSRecordResponse with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *UpdateDNSRecordResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on UpdateDNSRecordResponse with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// UpdateDNSRecordResponseMultiError, or nil if none found.
+func (m *UpdateDNSRecordResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *UpdateDNSRecordResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if all {
+		switch v := interface{}(m.GetUpdated()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, UpdateDNSRecordResponseValidationError{
+					field:  "Updated",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, UpdateDNSRecordResponseValidationError{
+					field:  "Updated",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetUpdated()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return UpdateDNSRecordResponseValidationError{
+				field:  "Updated",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if len(errors) > 0 {
+		return UpdateDNSRecordResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// UpdateDNSRecordResponseMultiError is an error wrapping multiple validation
+// errors returned by UpdateDNSRecordResponse.ValidateAll() if the designated
+// constraints aren't met.
+type UpdateDNSRecordResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m UpdateDNSRecordResponseMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m UpdateDNSRecordResponseMultiError) AllErrors() []error { return m }
+
+// UpdateDNSRecordResponseValidationError is the validation error returned by
+// UpdateDNSRecordResponse.Validate if the designated constraints aren't met.
+type UpdateDNSRecordResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e UpdateDNSRecordResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e UpdateDNSRecordResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e UpdateDNSRecordResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e UpdateDNSRecordResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e UpdateDNSRecordResponseValidationError) ErrorName() string {
+	return "UpdateDNSRecordResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e UpdateDNSRecordResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sUpdateDNSRecordResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = UpdateDNSRecordResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = UpdateDNSRecordResponseValidationError{}
+
+// Validate checks the field values on DeleteDNSRecordRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *DeleteDNSRecordRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on DeleteDNSRecordRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// DeleteDNSRecordRequestMultiError, or nil if none found.
+func (m *DeleteDNSRecordRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *DeleteDNSRecordRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Name
+
+	// no validation rules for DnsZoneName
+
+	if len(errors) > 0 {
+		return DeleteDNSRecordRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// DeleteDNSRecordRequestMultiError is an error wrapping multiple validation
+// errors returned by DeleteDNSRecordRequest.ValidateAll() if the designated
+// constraints aren't met.
+type DeleteDNSRecordRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m DeleteDNSRecordRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m DeleteDNSRecordRequestMultiError) AllErrors() []error { return m }
+
+// DeleteDNSRecordRequestValidationError is the validation error returned by
+// DeleteDNSRecordRequest.Validate if the designated constraints aren't met.
+type DeleteDNSRecordRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e DeleteDNSRecordRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e DeleteDNSRecordRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e DeleteDNSRecordRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e DeleteDNSRecordRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e DeleteDNSRecordRequestValidationError) ErrorName() string {
+	return "DeleteDNSRecordRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e DeleteDNSRecordRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sDeleteDNSRecordRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = DeleteDNSRecordRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = DeleteDNSRecordRequestValidationError{}
+
+// Validate checks the field values on DeleteDNSRecordResponse with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *DeleteDNSRecordResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on DeleteDNSRecordResponse with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// DeleteDNSRecordResponseMultiError, or nil if none found.
+func (m *DeleteDNSRecordResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *DeleteDNSRecordResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if all {
+		switch v := interface{}(m.GetDeleted()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, DeleteDNSRecordResponseValidationError{
+					field:  "Deleted",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, DeleteDNSRecordResponseValidationError{
+					field:  "Deleted",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetDeleted()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return DeleteDNSRecordResponseValidationError{
+				field:  "Deleted",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if len(errors) > 0 {
+		return DeleteDNSRecordResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// DeleteDNSRecordResponseMultiError is an error wrapping multiple validation
+// errors returned by DeleteDNSRecordResponse.ValidateAll() if the designated
+// constraints aren't met.
+type DeleteDNSRecordResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m DeleteDNSRecordResponseMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m DeleteDNSRecordResponseMultiError) AllErrors() []error { return m }
+
+// DeleteDNSRecordResponseValidationError is the validation error returned by
+// DeleteDNSRecordResponse.Validate if the designated constraints aren't met.
+type DeleteDNSRecordResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e DeleteDNSRecordResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e DeleteDNSRecordResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e DeleteDNSRecordResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e DeleteDNSRecordResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e DeleteDNSRecordResponseValidationError) ErrorName() string {
+	return "DeleteDNSRecordResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e DeleteDNSRecordResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sDeleteDNSRecordResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = DeleteDNSRecordResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = DeleteDNSRecordResponseValidationError{}
 
 // Validate checks the field values on GetDNSRecordRequest with the rules
 // defined in the proto definition for this message. If any rules are
