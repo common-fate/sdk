@@ -57,6 +57,8 @@ func (m *DNSRecord) validate(all bool) error {
 
 	var errors []error
 
+	// no validation rules for Id
+
 	// no validation rules for Name
 
 	// no validation rules for Type
@@ -162,34 +164,11 @@ func (m *CreateDNSRecordRequest) validate(all bool) error {
 
 	var errors []error
 
-	if all {
-		switch v := interface{}(m.GetRecord()).(type) {
-		case interface{ ValidateAll() error }:
-			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, CreateDNSRecordRequestValidationError{
-					field:  "Record",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		case interface{ Validate() error }:
-			if err := v.Validate(); err != nil {
-				errors = append(errors, CreateDNSRecordRequestValidationError{
-					field:  "Record",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		}
-	} else if v, ok := interface{}(m.GetRecord()).(interface{ Validate() error }); ok {
-		if err := v.Validate(); err != nil {
-			return CreateDNSRecordRequestValidationError{
-				field:  "Record",
-				reason: "embedded message failed validation",
-				cause:  err,
-			}
-		}
-	}
+	// no validation rules for Name
+
+	// no validation rules for Type
+
+	// no validation rules for DnsZoneName
 
 	if len(errors) > 0 {
 		return CreateDNSRecordRequestMultiError(errors)
@@ -424,34 +403,7 @@ func (m *UpdateDNSRecordRequest) validate(all bool) error {
 
 	var errors []error
 
-	if all {
-		switch v := interface{}(m.GetRecord()).(type) {
-		case interface{ ValidateAll() error }:
-			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, UpdateDNSRecordRequestValidationError{
-					field:  "Record",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		case interface{ Validate() error }:
-			if err := v.Validate(); err != nil {
-				errors = append(errors, UpdateDNSRecordRequestValidationError{
-					field:  "Record",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		}
-	} else if v, ok := interface{}(m.GetRecord()).(interface{ Validate() error }); ok {
-		if err := v.Validate(); err != nil {
-			return UpdateDNSRecordRequestValidationError{
-				field:  "Record",
-				reason: "embedded message failed validation",
-				cause:  err,
-			}
-		}
-	}
+	// no validation rules for Id
 
 	if len(errors) > 0 {
 		return UpdateDNSRecordRequestMultiError(errors)
@@ -686,11 +638,7 @@ func (m *DeleteDNSRecordRequest) validate(all bool) error {
 
 	var errors []error
 
-	// no validation rules for Name
-
-	// no validation rules for Type
-
-	// no validation rules for DnsZoneName
+	// no validation rules for Id
 
 	if len(errors) > 0 {
 		return DeleteDNSRecordRequestMultiError(errors)
@@ -925,11 +873,7 @@ func (m *GetDNSRecordRequest) validate(all bool) error {
 
 	var errors []error
 
-	// no validation rules for Name
-
-	// no validation rules for Type
-
-	// no validation rules for DnsZoneName
+	// no validation rules for Id
 
 	if len(errors) > 0 {
 		return GetDNSRecordRequestMultiError(errors)
