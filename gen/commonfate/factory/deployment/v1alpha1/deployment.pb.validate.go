@@ -865,6 +865,8 @@ func (m *Deployment) validate(all bool) error {
 
 	// no validation rules for DefaultDomain
 
+	// no validation rules for DefaultSubdomainComponent
+
 	if len(errors) > 0 {
 		return DeploymentMultiError(errors)
 	}

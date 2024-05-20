@@ -48,6 +48,10 @@ message GetDeploymentResponse {
 
 message Deployment {
     string id = 1;
+    // The full default domain associated with the deployment,
+    // such as 'console.xyzabc.commonfate.app'.
     string default_domain = 2;
-    repeated string nameservers = 3;
+    // The subdomain associated with the deployment,
+    // such as 'console.xyzabc'.
+    string default_subdomain_component = 3;
 }
