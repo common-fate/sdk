@@ -688,6 +688,8 @@ func (m *DeleteDNSRecordRequest) validate(all bool) error {
 
 	// no validation rules for Name
 
+	// no validation rules for Type
+
 	// no validation rules for DnsZoneName
 
 	if len(errors) > 0 {
@@ -924,6 +926,8 @@ func (m *GetDNSRecordRequest) validate(all bool) error {
 	var errors []error
 
 	// no validation rules for Name
+
+	// no validation rules for Type
 
 	// no validation rules for DnsZoneName
 
