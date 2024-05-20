@@ -6,8 +6,38 @@ service DeploymentService {
     // Get information about a deployment.
     rpc GetDeployment(GetDeploymentRequest) returns (GetDeploymentResponse) {}
 
-    // Register nameservers for the default deployment domain.
-    rpc RegisterNameservers(RegisterNameserversRequest) returns (RegisterNameserversResponse) {}
+    // Create a DNS record associated with the deployment.
+    // Used to set up a default `commonfate.app` domain for the deployment.
+    rpc CreateDNSRecord(CreateDNSRecordRequest) returns (CreateDNSRecordResponse) {}
+
+    // Retrieves a DNS record associated with the deployment.
+    rpc GetDNSRecord(GetDNSRecordRequest) returns (GetDNSRecordResponse) {}
+}
+
+enum DNSRecordType {
+    DNS_RECORD_TYPE_UNSPECIFIED = 0;
+    DNS_RECORD_TYPE_TXT = 1;
+    DNS_RECORD_TYPE_CNAME = 2;
+}
+
+message DNSRecord {
+    string name = 1;
+    DNSRecordType type = 2;
+    repeated string values = 3;
+}
+
+message CreateDNSRecordRequest {
+    DNSRecord record = 1;
+}
+
+message CreateDNSRecordResponse {}
+
+message GetDNSRecordRequest {
+    string name = 1;
+}
+
+message GetDNSRecordResponse {
+    DNSRecord record = 1;
 }
 
 message GetDeploymentRequest {}
@@ -21,9 +51,3 @@ message Deployment {
     string default_domain = 2;
     repeated string nameservers = 3;
 }
-
-message RegisterNameserversRequest {
-    repeated string nameservers = 1;
-}
-
-message RegisterNameserversResponse {}

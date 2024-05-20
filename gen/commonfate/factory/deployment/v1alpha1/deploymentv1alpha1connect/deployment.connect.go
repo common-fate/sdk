@@ -36,16 +36,20 @@ const (
 	// DeploymentServiceGetDeploymentProcedure is the fully-qualified name of the DeploymentService's
 	// GetDeployment RPC.
 	DeploymentServiceGetDeploymentProcedure = "/commonfate.factory.deployment.v1alpha1.DeploymentService/GetDeployment"
-	// DeploymentServiceRegisterNameserversProcedure is the fully-qualified name of the
-	// DeploymentService's RegisterNameservers RPC.
-	DeploymentServiceRegisterNameserversProcedure = "/commonfate.factory.deployment.v1alpha1.DeploymentService/RegisterNameservers"
+	// DeploymentServiceCreateDNSRecordProcedure is the fully-qualified name of the DeploymentService's
+	// CreateDNSRecord RPC.
+	DeploymentServiceCreateDNSRecordProcedure = "/commonfate.factory.deployment.v1alpha1.DeploymentService/CreateDNSRecord"
+	// DeploymentServiceGetDNSRecordProcedure is the fully-qualified name of the DeploymentService's
+	// GetDNSRecord RPC.
+	DeploymentServiceGetDNSRecordProcedure = "/commonfate.factory.deployment.v1alpha1.DeploymentService/GetDNSRecord"
 )
 
 // These variables are the protoreflect.Descriptor objects for the RPCs defined in this package.
 var (
-	deploymentServiceServiceDescriptor                   = v1alpha1.File_commonfate_factory_deployment_v1alpha1_deployment_proto.Services().ByName("DeploymentService")
-	deploymentServiceGetDeploymentMethodDescriptor       = deploymentServiceServiceDescriptor.Methods().ByName("GetDeployment")
-	deploymentServiceRegisterNameserversMethodDescriptor = deploymentServiceServiceDescriptor.Methods().ByName("RegisterNameservers")
+	deploymentServiceServiceDescriptor               = v1alpha1.File_commonfate_factory_deployment_v1alpha1_deployment_proto.Services().ByName("DeploymentService")
+	deploymentServiceGetDeploymentMethodDescriptor   = deploymentServiceServiceDescriptor.Methods().ByName("GetDeployment")
+	deploymentServiceCreateDNSRecordMethodDescriptor = deploymentServiceServiceDescriptor.Methods().ByName("CreateDNSRecord")
+	deploymentServiceGetDNSRecordMethodDescriptor    = deploymentServiceServiceDescriptor.Methods().ByName("GetDNSRecord")
 )
 
 // DeploymentServiceClient is a client for the
@@ -53,8 +57,11 @@ var (
 type DeploymentServiceClient interface {
 	// Get information about a deployment.
 	GetDeployment(context.Context, *connect.Request[v1alpha1.GetDeploymentRequest]) (*connect.Response[v1alpha1.GetDeploymentResponse], error)
-	// Register nameservers for the default deployment domain.
-	RegisterNameservers(context.Context, *connect.Request[v1alpha1.RegisterNameserversRequest]) (*connect.Response[v1alpha1.RegisterNameserversResponse], error)
+	// Create a DNS record associated with the deployment.
+	// Used to set up a default `commonfate.app` domain for the deployment.
+	CreateDNSRecord(context.Context, *connect.Request[v1alpha1.CreateDNSRecordRequest]) (*connect.Response[v1alpha1.CreateDNSRecordResponse], error)
+	// Retrieves a DNS record associated with the deployment.
+	GetDNSRecord(context.Context, *connect.Request[v1alpha1.GetDNSRecordRequest]) (*connect.Response[v1alpha1.GetDNSRecordResponse], error)
 }
 
 // NewDeploymentServiceClient constructs a client for the
@@ -74,10 +81,16 @@ func NewDeploymentServiceClient(httpClient connect.HTTPClient, baseURL string, o
 			connect.WithSchema(deploymentServiceGetDeploymentMethodDescriptor),
 			connect.WithClientOptions(opts...),
 		),
-		registerNameservers: connect.NewClient[v1alpha1.RegisterNameserversRequest, v1alpha1.RegisterNameserversResponse](
+		createDNSRecord: connect.NewClient[v1alpha1.CreateDNSRecordRequest, v1alpha1.CreateDNSRecordResponse](
 			httpClient,
-			baseURL+DeploymentServiceRegisterNameserversProcedure,
-			connect.WithSchema(deploymentServiceRegisterNameserversMethodDescriptor),
+			baseURL+DeploymentServiceCreateDNSRecordProcedure,
+			connect.WithSchema(deploymentServiceCreateDNSRecordMethodDescriptor),
+			connect.WithClientOptions(opts...),
+		),
+		getDNSRecord: connect.NewClient[v1alpha1.GetDNSRecordRequest, v1alpha1.GetDNSRecordResponse](
+			httpClient,
+			baseURL+DeploymentServiceGetDNSRecordProcedure,
+			connect.WithSchema(deploymentServiceGetDNSRecordMethodDescriptor),
 			connect.WithClientOptions(opts...),
 		),
 	}
@@ -85,8 +98,9 @@ func NewDeploymentServiceClient(httpClient connect.HTTPClient, baseURL string, o
 
 // deploymentServiceClient implements DeploymentServiceClient.
 type deploymentServiceClient struct {
-	getDeployment       *connect.Client[v1alpha1.GetDeploymentRequest, v1alpha1.GetDeploymentResponse]
-	registerNameservers *connect.Client[v1alpha1.RegisterNameserversRequest, v1alpha1.RegisterNameserversResponse]
+	getDeployment   *connect.Client[v1alpha1.GetDeploymentRequest, v1alpha1.GetDeploymentResponse]
+	createDNSRecord *connect.Client[v1alpha1.CreateDNSRecordRequest, v1alpha1.CreateDNSRecordResponse]
+	getDNSRecord    *connect.Client[v1alpha1.GetDNSRecordRequest, v1alpha1.GetDNSRecordResponse]
 }
 
 // GetDeployment calls commonfate.factory.deployment.v1alpha1.DeploymentService.GetDeployment.
@@ -94,10 +108,14 @@ func (c *deploymentServiceClient) GetDeployment(ctx context.Context, req *connec
 	return c.getDeployment.CallUnary(ctx, req)
 }
 
-// RegisterNameservers calls
-// commonfate.factory.deployment.v1alpha1.DeploymentService.RegisterNameservers.
-func (c *deploymentServiceClient) RegisterNameservers(ctx context.Context, req *connect.Request[v1alpha1.RegisterNameserversRequest]) (*connect.Response[v1alpha1.RegisterNameserversResponse], error) {
-	return c.registerNameservers.CallUnary(ctx, req)
+// CreateDNSRecord calls commonfate.factory.deployment.v1alpha1.DeploymentService.CreateDNSRecord.
+func (c *deploymentServiceClient) CreateDNSRecord(ctx context.Context, req *connect.Request[v1alpha1.CreateDNSRecordRequest]) (*connect.Response[v1alpha1.CreateDNSRecordResponse], error) {
+	return c.createDNSRecord.CallUnary(ctx, req)
+}
+
+// GetDNSRecord calls commonfate.factory.deployment.v1alpha1.DeploymentService.GetDNSRecord.
+func (c *deploymentServiceClient) GetDNSRecord(ctx context.Context, req *connect.Request[v1alpha1.GetDNSRecordRequest]) (*connect.Response[v1alpha1.GetDNSRecordResponse], error) {
+	return c.getDNSRecord.CallUnary(ctx, req)
 }
 
 // DeploymentServiceHandler is an implementation of the
@@ -105,8 +123,11 @@ func (c *deploymentServiceClient) RegisterNameservers(ctx context.Context, req *
 type DeploymentServiceHandler interface {
 	// Get information about a deployment.
 	GetDeployment(context.Context, *connect.Request[v1alpha1.GetDeploymentRequest]) (*connect.Response[v1alpha1.GetDeploymentResponse], error)
-	// Register nameservers for the default deployment domain.
-	RegisterNameservers(context.Context, *connect.Request[v1alpha1.RegisterNameserversRequest]) (*connect.Response[v1alpha1.RegisterNameserversResponse], error)
+	// Create a DNS record associated with the deployment.
+	// Used to set up a default `commonfate.app` domain for the deployment.
+	CreateDNSRecord(context.Context, *connect.Request[v1alpha1.CreateDNSRecordRequest]) (*connect.Response[v1alpha1.CreateDNSRecordResponse], error)
+	// Retrieves a DNS record associated with the deployment.
+	GetDNSRecord(context.Context, *connect.Request[v1alpha1.GetDNSRecordRequest]) (*connect.Response[v1alpha1.GetDNSRecordResponse], error)
 }
 
 // NewDeploymentServiceHandler builds an HTTP handler from the service implementation. It returns
@@ -121,18 +142,26 @@ func NewDeploymentServiceHandler(svc DeploymentServiceHandler, opts ...connect.H
 		connect.WithSchema(deploymentServiceGetDeploymentMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
-	deploymentServiceRegisterNameserversHandler := connect.NewUnaryHandler(
-		DeploymentServiceRegisterNameserversProcedure,
-		svc.RegisterNameservers,
-		connect.WithSchema(deploymentServiceRegisterNameserversMethodDescriptor),
+	deploymentServiceCreateDNSRecordHandler := connect.NewUnaryHandler(
+		DeploymentServiceCreateDNSRecordProcedure,
+		svc.CreateDNSRecord,
+		connect.WithSchema(deploymentServiceCreateDNSRecordMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
+	)
+	deploymentServiceGetDNSRecordHandler := connect.NewUnaryHandler(
+		DeploymentServiceGetDNSRecordProcedure,
+		svc.GetDNSRecord,
+		connect.WithSchema(deploymentServiceGetDNSRecordMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
 	return "/commonfate.factory.deployment.v1alpha1.DeploymentService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
 		case DeploymentServiceGetDeploymentProcedure:
 			deploymentServiceGetDeploymentHandler.ServeHTTP(w, r)
-		case DeploymentServiceRegisterNameserversProcedure:
-			deploymentServiceRegisterNameserversHandler.ServeHTTP(w, r)
+		case DeploymentServiceCreateDNSRecordProcedure:
+			deploymentServiceCreateDNSRecordHandler.ServeHTTP(w, r)
+		case DeploymentServiceGetDNSRecordProcedure:
+			deploymentServiceGetDNSRecordHandler.ServeHTTP(w, r)
 		default:
 			http.NotFound(w, r)
 		}
@@ -146,6 +175,10 @@ func (UnimplementedDeploymentServiceHandler) GetDeployment(context.Context, *con
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.factory.deployment.v1alpha1.DeploymentService.GetDeployment is not implemented"))
 }
 
-func (UnimplementedDeploymentServiceHandler) RegisterNameservers(context.Context, *connect.Request[v1alpha1.RegisterNameserversRequest]) (*connect.Response[v1alpha1.RegisterNameserversResponse], error) {
-	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.factory.deployment.v1alpha1.DeploymentService.RegisterNameservers is not implemented"))
+func (UnimplementedDeploymentServiceHandler) CreateDNSRecord(context.Context, *connect.Request[v1alpha1.CreateDNSRecordRequest]) (*connect.Response[v1alpha1.CreateDNSRecordResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.factory.deployment.v1alpha1.DeploymentService.CreateDNSRecord is not implemented"))
+}
+
+func (UnimplementedDeploymentServiceHandler) GetDNSRecord(context.Context, *connect.Request[v1alpha1.GetDNSRecordRequest]) (*connect.Response[v1alpha1.GetDNSRecordResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.factory.deployment.v1alpha1.DeploymentService.GetDNSRecord is not implemented"))
 }
