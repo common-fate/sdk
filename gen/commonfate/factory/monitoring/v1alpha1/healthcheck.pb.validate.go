@@ -59,6 +59,10 @@ func (m *PingRequest) validate(all bool) error {
 
 	// no validation rules for ServiceName
 
+	// no validation rules for ApplicationVersion
+
+	// no validation rules for InfrastructureVersion
+
 	if all {
 		switch v := interface{}(m.GetEcsTaskMetadata()).(type) {
 		case interface{ ValidateAll() error }:
