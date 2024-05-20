@@ -24,6 +24,9 @@ message DNSRecord {
     string name = 1;
     DNSRecordType type = 2;
     repeated string values = 3;
+    // The base DNS name associated with the deployment.
+    // e.g. 'commonfate.app'.
+    string dns_zone_name = 4;
 }
 
 message CreateDNSRecordRequest {
@@ -34,6 +37,9 @@ message CreateDNSRecordResponse {}
 
 message GetDNSRecordRequest {
     string name = 1;
+    // The base DNS name associated with the deployment.
+    // e.g. 'commonfate.app'.
+    string dns_zone_name = 2;
 }
 
 message GetDNSRecordResponse {

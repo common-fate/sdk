@@ -61,6 +61,8 @@ func (m *DNSRecord) validate(all bool) error {
 
 	// no validation rules for Type
 
+	// no validation rules for DnsZoneName
+
 	if len(errors) > 0 {
 		return DNSRecordMultiError(errors)
 	}
@@ -394,6 +396,8 @@ func (m *GetDNSRecordRequest) validate(all bool) error {
 	var errors []error
 
 	// no validation rules for Name
+
+	// no validation rules for DnsZoneName
 
 	if len(errors) > 0 {
 		return GetDNSRecordRequestMultiError(errors)
