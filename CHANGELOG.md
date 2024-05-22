@@ -1,5 +1,12 @@
 # @common-fate/sdk
 
+## 1.35.0
+
+### Minor Changes
+
+- 796f5f3: Add support for configuring deployment DNS nameservers for the default deployment domain
+- 910dc31: Simplifies the ProvisionResponse type to return a single optional output entity
+
 ## 1.34.0
 
 ### Minor Changes
