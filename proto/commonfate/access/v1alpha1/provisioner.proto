@@ -35,5 +35,5 @@ message ProvisionRequest {
 }
 
 message ProvisionResponse {
-  optional commonfate.entity.v1alpha1.Entity output = 2;
+  optional commonfate.entity.v1alpha1.Entity output = 3;
 }
