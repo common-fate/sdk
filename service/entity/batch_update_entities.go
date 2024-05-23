@@ -6,6 +6,7 @@ import (
 	"connectrpc.com/connect"
 	"github.com/common-fate/sdk/eid"
 	entityv1alpha1 "github.com/common-fate/sdk/gen/commonfate/entity/v1alpha1"
+	"go.opentelemetry.io/otel/attribute"
 )
 
 type BatchUpdateInput struct {
@@ -27,6 +28,18 @@ type BatchUpdateInput struct {
 type BatchUpdateOutput = entityv1alpha1.BatchUpdateResponse
 
 func (c *Client) BatchUpdate(ctx context.Context, input BatchUpdateInput) (*BatchUpdateOutput, error) {
+	ctx, span := tracer.Start(ctx, "BatchUpdate")
+	defer span.End()
+
+	span.SetAttributes(
+		attribute.Int("put_count", len(input.Put)),
+		attribute.Int("put_children_count", len(input.PutChildren)),
+		attribute.Int("archive_count", len(input.Archive)),
+		attribute.Int("unarchive_count", len(input.Unarchive)),
+		attribute.Int("delete_count", len(input.Delete)),
+		attribute.Int("delete_children_count", len(input.DeleteChildren)),
+	)
+
 	var req = &entityv1alpha1.BatchUpdateRequest{
 		Universe: "default",
 		Put:      []*entityv1alpha1.Entity{},

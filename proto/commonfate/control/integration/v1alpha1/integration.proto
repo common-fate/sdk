@@ -13,6 +13,7 @@ import "commonfate/control/integration/v1alpha1/slack.proto";
 import "commonfate/control/integration/v1alpha1/datastax.proto";
 import "commonfate/control/integration/v1alpha1/webhook.proto";
 import "commonfate/control/integration/v1alpha1/auth0.proto";
+import "commonfate/control/integration/v1alpha1/s3_log_destination.proto";
 import "commonfate/authz/v1alpha1/read_only.proto";
 
 
@@ -54,6 +55,7 @@ message Config {
     DataStax datastax = 9;
     Webhook webhook = 10;
     Auth0 auth0 = 11;
+    S3LogDestination s3_log_destination = 12;
   }
 }
 

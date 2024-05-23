@@ -62,6 +62,12 @@ message Grant {
 
     google.protobuf.Duration duration = 16;
 
+    // The default duration shown for the grant.
+    google.protobuf.Duration default_duration = 17;
+
+    // A URL which can be used to access the requested entitlement.
+    string external_url = 18;
+
 }
 
 enum GrantStatus {

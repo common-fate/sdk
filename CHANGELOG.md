@@ -1,5 +1,60 @@
 # @common-fate/sdk
 
+## 1.35.0
+
+### Minor Changes
+
+- 796f5f3: Add support for configuring deployment DNS nameservers for the default deployment domain
+- 910dc31: Simplifies the ProvisionResponse type to return a single optional output entity
+
+## 1.34.0
+
+### Minor Changes
+
+- ec19fbd: Add S3 Log Destination integration.
+
+### Patch Changes
+
+- ac6e044: Create GetAccessRequestActions API to return the list of actions that the current user is allowed to perform on the access request.
+
+## 1.33.2
+
+### Patch Changes
+
+- 711849f: Adjust the suffix of the auth token on Windows.
+
+## 1.33.0
+
+### Minor Changes
+
+- 6d98951: Add justification requirements configuration
+
+### Patch Changes
+
+- f0c0a65: Revert "add support for validation with protovalidate" - reverted for now because it is causing build issues.
+
+## 1.32.1
+
+### Patch Changes
+
+- bb7b25b: Add support for validation with protovalidate
+
+## 1.32.0
+
+### Minor Changes
+
+- ee2d9ee: Adds OpenTelemetry instrumentation to entity client writes.
+
+### Patch Changes
+
+- 2b39260: Add default duration to grant.
+
+## 1.31.0
+
+### Minor Changes
+
+- 15a264e: Add default duration to Access Workflow.
+
 ## 1.30.0
 
 ### Minor Changes
