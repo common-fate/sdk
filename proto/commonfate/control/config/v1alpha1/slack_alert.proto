@@ -19,7 +19,8 @@ message CreateSlackAlertRequest {
   optional string integration_id = 5;
   bool use_web_console_for_approve_action = 6;
   bool send_direct_messages_to_approvers = 7;
-
+  bool use_web_console_for_activate_action = 8;
+  bool use_web_console_for_close_action = 9;
 }
 
 message SlackAlert {
@@ -30,6 +31,8 @@ message SlackAlert {
   optional string integration_id = 5;
   bool use_web_console_for_approve_action = 6;
   bool send_direct_messages_to_approvers = 7;
+  bool use_web_console_for_activate_action = 8;
+  bool use_web_console_for_close_action = 9;
 }
 
 message CreateSlackAlertResponse {
