@@ -1,5 +1,11 @@
 # @common-fate/sdk
 
+## 1.35.1
+
+### Patch Changes
+
+- 1a1eca4: Adds additional methods to the policyset client
+
 ## 1.35.0
 
 ### Minor Changes
