@@ -9,4 +9,10 @@ message AWSIDC {
     string reader_role_arn = 4;
     string audit_role_name = 5;
     repeated string resource_regions = 6;
+
+    // The SSO Access Portal URL can optionally be provided.
+    //
+    // If not provided, the access portal URL will
+    // default to 'https://<identity_store_id>.start.awsapps.com/start'.
+    string sso_access_portal_url = 7;
 }
