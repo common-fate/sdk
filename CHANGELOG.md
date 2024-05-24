@@ -1,5 +1,11 @@
 # @common-fate/sdk
 
+## 1.36.0
+
+### Minor Changes
+
+- 3857224: Add 'sso_access_portal_url' to allow the AWS SSO Start URL to be customised in the AWS IAM Identity Center integration.
+
 ## 1.35.1
 
 ### Patch Changes
