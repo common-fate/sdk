@@ -54,6 +54,9 @@ const (
 	// AccessServiceDebugEntitlementAccessProcedure is the fully-qualified name of the AccessService's
 	// DebugEntitlementAccess RPC.
 	AccessServiceDebugEntitlementAccessProcedure = "/commonfate.access.v1alpha1.AccessService/DebugEntitlementAccess"
+	// AccessServiceQueryEntitlementsTreeProcedure is the fully-qualified name of the AccessService's
+	// QueryEntitlementsTree RPC.
+	AccessServiceQueryEntitlementsTreeProcedure = "/commonfate.access.v1alpha1.AccessService/QueryEntitlementsTree"
 )
 
 // These variables are the protoreflect.Descriptor objects for the RPCs defined in this package.
@@ -66,6 +69,7 @@ var (
 	accessServicePreviewUserAccessMethodDescriptor        = accessServiceServiceDescriptor.Methods().ByName("PreviewUserAccess")
 	accessServicePreviewEntitlementAccessMethodDescriptor = accessServiceServiceDescriptor.Methods().ByName("PreviewEntitlementAccess")
 	accessServiceDebugEntitlementAccessMethodDescriptor   = accessServiceServiceDescriptor.Methods().ByName("DebugEntitlementAccess")
+	accessServiceQueryEntitlementsTreeMethodDescriptor    = accessServiceServiceDescriptor.Methods().ByName("QueryEntitlementsTree")
 )
 
 // AccessServiceClient is a client for the commonfate.access.v1alpha1.AccessService service.
@@ -85,6 +89,7 @@ type AccessServiceClient interface {
 	PreviewUserAccess(context.Context, *connect.Request[v1alpha1.PreviewUserAccessRequest]) (*connect.Response[v1alpha1.PreviewUserAccessResponse], error)
 	PreviewEntitlementAccess(context.Context, *connect.Request[v1alpha1.PreviewEntitlementAccessRequest]) (*connect.Response[v1alpha1.PreviewEntitlementAccessResponse], error)
 	DebugEntitlementAccess(context.Context, *connect.Request[v1alpha1.DebugEntitlementAccessRequest]) (*connect.Response[v1alpha1.DebugEntitlementAccessResponse], error)
+	QueryEntitlementsTree(context.Context, *connect.Request[v1alpha1.QueryEntitlementsTreeRequest]) (*connect.Response[v1alpha1.QueryEntitlementsTreeResponse], error)
 }
 
 // NewAccessServiceClient constructs a client for the commonfate.access.v1alpha1.AccessService
@@ -139,6 +144,12 @@ func NewAccessServiceClient(httpClient connect.HTTPClient, baseURL string, opts 
 			connect.WithSchema(accessServiceDebugEntitlementAccessMethodDescriptor),
 			connect.WithClientOptions(opts...),
 		),
+		queryEntitlementsTree: connect.NewClient[v1alpha1.QueryEntitlementsTreeRequest, v1alpha1.QueryEntitlementsTreeResponse](
+			httpClient,
+			baseURL+AccessServiceQueryEntitlementsTreeProcedure,
+			connect.WithSchema(accessServiceQueryEntitlementsTreeMethodDescriptor),
+			connect.WithClientOptions(opts...),
+		),
 	}
 }
 
@@ -151,6 +162,7 @@ type accessServiceClient struct {
 	previewUserAccess        *connect.Client[v1alpha1.PreviewUserAccessRequest, v1alpha1.PreviewUserAccessResponse]
 	previewEntitlementAccess *connect.Client[v1alpha1.PreviewEntitlementAccessRequest, v1alpha1.PreviewEntitlementAccessResponse]
 	debugEntitlementAccess   *connect.Client[v1alpha1.DebugEntitlementAccessRequest, v1alpha1.DebugEntitlementAccessResponse]
+	queryEntitlementsTree    *connect.Client[v1alpha1.QueryEntitlementsTreeRequest, v1alpha1.QueryEntitlementsTreeResponse]
 }
 
 // BatchEnsure calls commonfate.access.v1alpha1.AccessService.BatchEnsure.
@@ -188,6 +200,11 @@ func (c *accessServiceClient) DebugEntitlementAccess(ctx context.Context, req *c
 	return c.debugEntitlementAccess.CallUnary(ctx, req)
 }
 
+// QueryEntitlementsTree calls commonfate.access.v1alpha1.AccessService.QueryEntitlementsTree.
+func (c *accessServiceClient) QueryEntitlementsTree(ctx context.Context, req *connect.Request[v1alpha1.QueryEntitlementsTreeRequest]) (*connect.Response[v1alpha1.QueryEntitlementsTreeResponse], error) {
+	return c.queryEntitlementsTree.CallUnary(ctx, req)
+}
+
 // AccessServiceHandler is an implementation of the commonfate.access.v1alpha1.AccessService
 // service.
 type AccessServiceHandler interface {
@@ -206,6 +223,7 @@ type AccessServiceHandler interface {
 	PreviewUserAccess(context.Context, *connect.Request[v1alpha1.PreviewUserAccessRequest]) (*connect.Response[v1alpha1.PreviewUserAccessResponse], error)
 	PreviewEntitlementAccess(context.Context, *connect.Request[v1alpha1.PreviewEntitlementAccessRequest]) (*connect.Response[v1alpha1.PreviewEntitlementAccessResponse], error)
 	DebugEntitlementAccess(context.Context, *connect.Request[v1alpha1.DebugEntitlementAccessRequest]) (*connect.Response[v1alpha1.DebugEntitlementAccessResponse], error)
+	QueryEntitlementsTree(context.Context, *connect.Request[v1alpha1.QueryEntitlementsTreeRequest]) (*connect.Response[v1alpha1.QueryEntitlementsTreeResponse], error)
 }
 
 // NewAccessServiceHandler builds an HTTP handler from the service implementation. It returns the
@@ -256,6 +274,12 @@ func NewAccessServiceHandler(svc AccessServiceHandler, opts ...connect.HandlerOp
 		connect.WithSchema(accessServiceDebugEntitlementAccessMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
+	accessServiceQueryEntitlementsTreeHandler := connect.NewUnaryHandler(
+		AccessServiceQueryEntitlementsTreeProcedure,
+		svc.QueryEntitlementsTree,
+		connect.WithSchema(accessServiceQueryEntitlementsTreeMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
+	)
 	return "/commonfate.access.v1alpha1.AccessService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
 		case AccessServiceBatchEnsureProcedure:
@@ -272,6 +296,8 @@ func NewAccessServiceHandler(svc AccessServiceHandler, opts ...connect.HandlerOp
 			accessServicePreviewEntitlementAccessHandler.ServeHTTP(w, r)
 		case AccessServiceDebugEntitlementAccessProcedure:
 			accessServiceDebugEntitlementAccessHandler.ServeHTTP(w, r)
+		case AccessServiceQueryEntitlementsTreeProcedure:
+			accessServiceQueryEntitlementsTreeHandler.ServeHTTP(w, r)
 		default:
 			http.NotFound(w, r)
 		}
@@ -307,4 +333,8 @@ func (UnimplementedAccessServiceHandler) PreviewEntitlementAccess(context.Contex
 
 func (UnimplementedAccessServiceHandler) DebugEntitlementAccess(context.Context, *connect.Request[v1alpha1.DebugEntitlementAccessRequest]) (*connect.Response[v1alpha1.DebugEntitlementAccessResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.access.v1alpha1.AccessService.DebugEntitlementAccess is not implemented"))
+}
+
+func (UnimplementedAccessServiceHandler) QueryEntitlementsTree(context.Context, *connect.Request[v1alpha1.QueryEntitlementsTreeRequest]) (*connect.Response[v1alpha1.QueryEntitlementsTreeResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.access.v1alpha1.AccessService.QueryEntitlementsTree is not implemented"))
 }

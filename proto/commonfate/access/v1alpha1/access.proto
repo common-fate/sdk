@@ -12,6 +12,8 @@ import "commonfate/authz/v1alpha1/read_only.proto";
 import "commonfate/entity/v1alpha1/eid.proto";
 import "commonfate/entity/v1alpha1/entity.proto";
 import "google/protobuf/duration.proto";
+import "google/protobuf/timestamp.proto";
+
 
 // AccessService is the Access Handler's user-facing API.
 // Users call this API to ensure that they have access to entitlements.
@@ -47,6 +49,10 @@ service AccessService {
   }
 
   rpc DebugEntitlementAccess(DebugEntitlementAccessRequest) returns (DebugEntitlementAccessResponse) {
+    option (commonfate.authz.v1alpha1.read_only) = true;
+  }
+  
+  rpc QueryEntitlementsTree(QueryEntitlementsTreeRequest) returns (QueryEntitlementsTreeResponse) {
     option (commonfate.authz.v1alpha1.read_only) = true;
   }
 }
@@ -85,6 +91,17 @@ message QueryEntitlementsRequest {
 
 message QueryEntitlementsResponse {
   repeated Entitlement entitlements = 1;
+  string next_page_token = 2;
+}
+
+message QueryEntitlementsTreeRequest {
+
+  // The token for the next page.
+  string page_token = 1;
+}
+
+message QueryEntitlementsTreeResponse {
+  EntitlementNode entitlements = 1;
   string next_page_token = 2;
 }
 
@@ -291,4 +308,43 @@ enum GrantChange {
 
   // The provisioning process failed for the Grant
   GRANT_CHANGE_PROVISIONING_FAILED = 4;
+}
+
+
+
+message EntitlementNode {
+  string type = 1; 
+
+  string id = 2;
+
+  string name = 3; 
+
+  bool requestable = 4;
+  
+  repeated NamedEID roles = 5;
+
+  string url = 6;
+
+  optional google.protobuf.Timestamp expiresAt = 7;
+
+  // Whether or not it is auto approved
+  bool auto_approved = 8;
+
+  // target_path is the hierarchical path to the particular entitlement target.
+  // It is used in the Common Fate web console to display entitlements in a hierarchy view.
+  // For example, an AWS account entitlement will have a path of
+  // `Root OU -> Parent OU -> Child OU.`
+  //
+  // target_path is in sorted order, from the root path node to the immediate parent of the target.
+  //
+  // The target_path does not include the target itself.
+  repeated NamedEID target_path = 9;
+
+
+
+  // The Cedar Policys which contributed to the authorizations decisions
+  EntitlementAccessReason reason = 10;
+
+
+  repeated EntitlementNode children = 11;
 }
