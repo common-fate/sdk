@@ -19,7 +19,7 @@ message CreateSlackAlertRequest {
   optional string integration_id = 5;
   bool use_web_console_for_approve_action = 6;
   bool send_direct_messages_to_approvers = 7;
-
+  bool disable_interactivity_handlers = 8;
 }
 
 message SlackAlert {
@@ -30,6 +30,14 @@ message SlackAlert {
   optional string integration_id = 5;
   bool use_web_console_for_approve_action = 6;
   bool send_direct_messages_to_approvers = 7;
+  // Disables all webhook handlers for the Slack integration.
+  // All buttons in the Slack integration will link the user to Common Fate URLs
+  // rather than being directly interactive.
+  // This is useful when deploying Common Fate in a VPC
+  // with restricted network ingress.
+  //
+  // If set to true, this setting takes priority over 'use_web_console_for_activate_action'.
+  bool disable_interactivity_handlers = 8;
 }
 
 message CreateSlackAlertResponse {
