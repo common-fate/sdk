@@ -27,23 +27,19 @@ func NewClient(opts Opts) authzv1alpha1connect.SchemaServiceClient {
 }
 
 func NewFromConfig(cfg *config.Context) authzv1alpha1connect.SchemaServiceClient {
-	url := cfg.AuthzURL
-	if url == "" {
-		url = cfg.APIURL
-	}
 
 	connectOpts := []connect.ClientOption{connect.WithGRPC()}
 
 	// dereference the client to avoid mutating it for all services
 	// that share the config (this can cause HTTP2 issues in local dev)
 	httpclient := *cfg.HTTPClient
-	if strings.HasPrefix(url, "http://") {
+	if strings.HasPrefix(cfg.APIURL, "http://") {
 		httpclient.Transport = &oauth2.Transport{
 			Source: cfg.TokenSource,
 			Base:   insecureTransport,
 		}
 	}
-	return authzv1alpha1connect.NewSchemaServiceClient(&httpclient, url, connectOpts...)
+	return authzv1alpha1connect.NewSchemaServiceClient(&httpclient, cfg.APIURL, connectOpts...)
 }
 
 var insecureTransport = &http2.Transport{

@@ -1,5 +1,24 @@
 # @common-fate/sdk
 
+## 1.36.0
+
+### Minor Changes
+
+- 3857224: Add 'sso_access_portal_url' to allow the AWS SSO Start URL to be customised in the AWS IAM Identity Center integration.
+
+## 1.35.1
+
+### Patch Changes
+
+- 1a1eca4: Adds additional methods to the policyset client
+
+## 1.35.0
+
+### Minor Changes
+
+- 796f5f3: Add support for configuring deployment DNS nameservers for the default deployment domain
+- 910dc31: Simplifies the ProvisionResponse type to return a single optional output entity
+
 ## 1.34.0
 
 ### Minor Changes
