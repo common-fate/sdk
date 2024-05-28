@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package commonfate.access.v1alpha1;
+package commonfate.access.provisioner.v1alpha1;
 
 import "commonfate/control/integration/v1alpha1/integration.proto";
 import "commonfate/entity/v1alpha1/eid.proto";
