@@ -1,10 +1,11 @@
 syntax = "proto3";
 package commonfate.control.integration.v1alpha1;
 
-
 message GCP {
-    string reader_workload_identity_config = 1;
-    string reader_service_account_credentials_secret_path = 2;
-    string organization_id = 3;
-    string google_workspace_customer_id = 4;
+  string reader_workload_identity_config = 1;
+  string reader_service_account_credentials_secret_path = 2;
+  string organization_id = 3;
+  string google_workspace_customer_id = 4;
+  string provisioner_workload_identity_config = 5;
+  string provisioner_service_account_credentials_secret_path = 6;
 }
