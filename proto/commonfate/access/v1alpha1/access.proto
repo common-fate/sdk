@@ -325,7 +325,7 @@ message EntitlementNode {
 
   string url = 6;
 
-  optional google.protobuf.Timestamp expiresAt = 7;
+  optional google.protobuf.Timestamp expires_at = 7;
 
   // Whether or not it is auto approved
   bool auto_approved = 8;
@@ -342,9 +342,8 @@ message EntitlementNode {
 
 
 
-  // The Cedar Policys which contributed to the authorizations decisions
-  EntitlementAccessReason reason = 10;
+  
 
 
-  repeated EntitlementNode children = 11;
+  repeated EntitlementNode children = 10;
 }
