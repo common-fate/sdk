@@ -317,7 +317,6 @@ enum GrantChange {
 message EntitlementNode {
   NamedEID NamedEid = 1;
 
-
   bool requestable = 2;
 
   string url = 3;
@@ -325,4 +324,6 @@ message EntitlementNode {
   bool auto_approved = 4;
 
   repeated EntitlementNode children = 5;
+
+  optional NamedEID parent = 6;
 }
