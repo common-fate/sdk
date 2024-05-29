@@ -186,6 +186,8 @@ message Entitlement {
 
   // The Cedar Policys which contributed to the authorizations decisions
   EntitlementAccessReason reason = 5;
+
+
 }
 
 message Availability {
@@ -313,17 +315,14 @@ enum GrantChange {
 
 
 message EntitlementNode {
-  string type = 1; 
+  NamedEID NamedEid = 1;
 
-  string id = 2;
 
-  string name = 3; 
+  bool requestable = 2;
 
-  bool requestable = 4;
+  string url = 3;
 
-  string url = 5;
+  bool auto_approved = 4;
 
-  bool auto_approved = 6;
-
-  repeated EntitlementNode children = 7;
+  repeated EntitlementNode children = 5;
 }
