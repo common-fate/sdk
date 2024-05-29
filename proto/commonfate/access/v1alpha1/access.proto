@@ -101,7 +101,7 @@ message QueryEntitlementsTreeRequest {
 }
 
 message QueryEntitlementsTreeResponse {
-  EntitlementNode entitlements = 1;
+  repeated EntitlementNode entitlements = 1;
   string next_page_token = 2;
 }
 
