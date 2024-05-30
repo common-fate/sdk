@@ -1,5 +1,11 @@
 # @common-fate/sdk
 
+## 1.37.0
+
+### Minor Changes
+
+- 6d4f1cd: Adds additional fields to the Integration resources types
+
 ## 1.36.1
 
 ### Patch Changes
