@@ -326,4 +326,6 @@ message EntitlementNode {
   repeated EntitlementNode children = 5;
 
   optional NamedEID parent = 6;
+
+  optional NamedEID roles = 7;
 }
