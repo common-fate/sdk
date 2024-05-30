@@ -327,5 +327,5 @@ message EntitlementNode {
 
   optional NamedEID parent = 6;
 
-  optional NamedEID roles = 7;
+  repeated NamedEID roles = 7;
 }
