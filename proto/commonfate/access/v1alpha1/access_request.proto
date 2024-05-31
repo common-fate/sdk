@@ -127,6 +127,8 @@ message CloseAccessRequestRequest {
 
   // If provided, will only close the grants with the specified IDs
   repeated string close_grants = 2;
+
+  optional string reason = 3;
 }
 
 message CloseAccessRequestResponse {
