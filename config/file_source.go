@@ -4,7 +4,7 @@ import "errors"
 
 // ErrConfigFileNotFound is returned if the config file (~/.cf/config by default)
 // does not exist.
-var ErrConfigFileNotFound = errors.New("config file does not exist")
+var ErrConfigFileNotFound = errors.New("cf config file does not exist (~/.cf/config)")
 
 type FileSource struct {
 	configFromFile Context
