@@ -1,18 +1,18 @@
 syntax = "proto3";
 package commonfate.control.integration.v1alpha1;
 
-
 message AWSIDC {
-    string sso_instance_arn = 1;
-    string identity_store_id = 2;
-    string sso_region = 3;
-    string reader_role_arn = 4;
-    string audit_role_name = 5;
-    repeated string resource_regions = 6;
+  string sso_instance_arn = 1;
+  string identity_store_id = 2;
+  string sso_region = 3;
+  string reader_role_arn = 4;
+  string audit_role_name = 5;
+  repeated string resource_regions = 6;
 
-    // The SSO Access Portal URL can optionally be provided.
-    //
-    // If not provided, the access portal URL will
-    // default to 'https://<identity_store_id>.start.awsapps.com/start'.
-    string sso_access_portal_url = 7;
+  // The SSO Access Portal URL can optionally be provided.
+  //
+  // If not provided, the access portal URL will
+  // default to 'https://<identity_store_id>.start.awsapps.com/start'.
+  string sso_access_portal_url = 7;
+  string provisioner_role_arn = 8;
 }

@@ -1,5 +1,17 @@
 # @common-fate/sdk
 
+## 1.37.0
+
+### Minor Changes
+
+- 6d4f1cd: Adds additional fields to the Integration resources types
+
+## 1.36.1
+
+### Patch Changes
+
+- 61cc1f2: Support disabling all webhook handlers for Slack integration.
+
 ## 1.36.0
 
 ### Minor Changes
