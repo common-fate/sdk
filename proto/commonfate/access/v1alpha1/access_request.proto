@@ -107,6 +107,8 @@ message AccessRequest {
 message AccessRequestActions {
   // True if the current user is allowed to approve the access request
   bool approve_allowed = 1;
+  // True if the current user is allowed to activate the access request
+  bool activate_allowed = 2;
 }
 
 message ApproveAccessRequestRequest {
