@@ -28,10 +28,11 @@ func (rd *ErrorHandlingClient) Do(req *http.Request) (*http.Response, error) {
 	if errors.As(err, &ne) && ne.Err == tokenstore.ErrNotFound {
 		return nil, clierr.New(fmt.Sprintf("%s.\nTo get started with Common Fate, please run: '%s'", err, rd.LoginHint))
 	}
-	if err != nil && err.Error() == "oauth2: token expired and refresh token is not set" {
+
+	if err != nil && strings.Contains(err.Error(), "oauth2: token expired and refresh token is not set") {
 		err = rd.TokenStore.Clear()
 		if err != nil {
-			return res, fmt.Errorf("error clearing cached Common Fate token: %w", err)
+			clio.Debugf("error clearing cached Common Fate token: %w", err)
 		}
 		clio.Debugf("Cleared Common Fate cached token due to oauth2: token expired and refresh token is not set")
 		return res, clierr.New("expired token error", clierr.Infof("We have cleared the token from your keychain. To re-run the command, you'll need to authenticate again by running: '%s'", rd.LoginHint))
