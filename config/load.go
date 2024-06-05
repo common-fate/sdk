@@ -56,8 +56,10 @@ type Opts struct {
 
 	// Optionally wrap the default http client, can be used with cli.ErrorHandlingClient
 	// for example to intercept oauth errors and prompt to run a login command
-	HttpClientWrapper func(c Doer, t TokenStore) Doer
+	HttpClientWrapper HttpClientWrapper
 }
+
+type HttpClientWrapper func(c Doer, t TokenStore) Doer
 
 type configSource interface {
 	Load(key Key) (string, error)

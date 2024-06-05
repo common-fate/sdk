@@ -79,7 +79,7 @@ type TokenStore interface {
 
 type InitializeOpts struct {
 	TokenStore        TokenStore
-	HttpClientWrapper func(c Doer, t TokenStore) Doer
+	HttpClientWrapper HttpClientWrapper
 }
 
 func (c *Context) Initialize(ctx context.Context, opts InitializeOpts) error {
