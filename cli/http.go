@@ -19,7 +19,7 @@ import (
 type ErrorHandlingClient struct {
 	Client     config.Doer
 	LoginHint  string
-	TokenStore *tokenstore.Storage
+	TokenStore config.TokenStore
 }
 
 func (rd *ErrorHandlingClient) Do(req *http.Request) (*http.Response, error) {

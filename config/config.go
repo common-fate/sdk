@@ -70,17 +70,6 @@ type Context struct {
 type Doer interface {
 	Do(*http.Request) (*http.Response, error)
 }
-type HTTPClient struct {
-	client  *http.Client
-	wrapper func(c Doer) Doer
-}
-
-func (h *HTTPClient) Do(r *http.Request) (*http.Response, error) {
-	if h.wrapper != nil {
-		return h.wrapper(h.client).Do(r)
-	}
-	return h.client.Do(r)
-}
 
 type TokenStore interface {
 	Clear() error
@@ -90,7 +79,7 @@ type TokenStore interface {
 
 type InitializeOpts struct {
 	TokenStore        TokenStore
-	HttpClientWrapper func(c Doer) Doer
+	HttpClientWrapper func(c Doer, t TokenStore) Doer
 }
 
 func (c *Context) Initialize(ctx context.Context, opts InitializeOpts) error {
@@ -152,17 +141,17 @@ func (c *Context) Initialize(ctx context.Context, opts InitializeOpts) error {
 		}
 		c.TokenSource = cfg.TokenSource(ctx)
 
-		c.HTTPClient = &HTTPClient{
-			client:  cfg.Client(ctx),
-			wrapper: opts.HttpClientWrapper,
+		c.HTTPClient = cfg.Client(ctx)
+		if opts.HttpClientWrapper != nil {
+			c.HTTPClient = opts.HttpClientWrapper(c.HTTPClient, c.TokenStore)
 		}
 		c.HTTPClientBuilder = func(transport http.RoundTripper) connect.HTTPClient {
 			client := cfg.Client(ctx)
 			client.Transport = transport
-			return &HTTPClient{
-				client:  client,
-				wrapper: opts.HttpClientWrapper,
+			if opts.HttpClientWrapper != nil {
+				return opts.HttpClientWrapper(client, c.TokenStore)
 			}
+			return client
 		}
 		return nil
 	}
@@ -179,17 +168,18 @@ func (c *Context) Initialize(ctx context.Context, opts InitializeOpts) error {
 	}
 	c.TokenSource = src
 
-	c.HTTPClient = &HTTPClient{
-		client:  oauth2.NewClient(ctx, src),
-		wrapper: opts.HttpClientWrapper,
+	c.HTTPClient = oauth2.NewClient(ctx, src)
+	if opts.HttpClientWrapper != nil {
+		c.HTTPClient = opts.HttpClientWrapper(c.HTTPClient, c.TokenStore)
 	}
+
 	c.HTTPClientBuilder = func(transport http.RoundTripper) connect.HTTPClient {
 		client := oauth2.NewClient(ctx, src)
 		client.Transport = transport
-		return &HTTPClient{
-			client:  client,
-			wrapper: opts.HttpClientWrapper,
+		if opts.HttpClientWrapper != nil {
+			return opts.HttpClientWrapper(client, c.TokenStore)
 		}
+		return client
 	}
 	return nil
 }
