@@ -1,5 +1,11 @@
 # @common-fate/sdk
 
+## 1.38.0
+
+### Minor Changes
+
+- 0a542c6: Add activate_allowed to list of AccessRequestActions.
+
 ## 1.37.0
 
 ### Minor Changes
