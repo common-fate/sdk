@@ -9,8 +9,10 @@ import (
 	"runtime"
 	"time"
 
+	"connectrpc.com/connect"
 	"github.com/common-fate/clio/clierr"
 	"github.com/common-fate/sdk/tokenstore"
+
 	"github.com/zitadel/oidc/v2/pkg/client/rp"
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/clientcredentials"
@@ -51,7 +53,9 @@ type Context struct {
 	// - New() function: config/load.go
 
 	// HTTPClient is filled in by calling Initialize()
-	HTTPClient *http.Client
+	HTTPClient connect.HTTPClient
+	// HTTPClientBuilder is filled in by calling Initialize() and can be used when the transport needs to be modified
+	HTTPClientBuilder func(transport http.RoundTripper) connect.HTTPClient
 
 	// OIDCProvider is filled in by calling Initialize()
 	OIDCProvider rp.RelyingParty
@@ -61,13 +65,32 @@ type Context struct {
 	TokenStore TokenStore
 }
 
+// HTTPClient is the interface connect expects HTTP clients to implement. The
+// standard library's *http.Client implements HTTPClient.
+type Doer interface {
+	Do(*http.Request) (*http.Response, error)
+}
+type HTTPClient struct {
+	client  *http.Client
+	wrapper func(c Doer) Doer
+}
+
+func (h *HTTPClient) Do(r *http.Request) (*http.Response, error) {
+	if h.wrapper != nil {
+		return h.wrapper(h.client).Do(r)
+	}
+	return h.client.Do(r)
+}
+
 type TokenStore interface {
 	Clear() error
 	Save(token *oauth2.Token) error
 	Token() (*oauth2.Token, error)
 }
+
 type InitializeOpts struct {
-	TokenStore TokenStore
+	TokenStore        TokenStore
+	HttpClientWrapper func(c Doer) Doer
 }
 
 func (c *Context) Initialize(ctx context.Context, opts InitializeOpts) error {
@@ -128,7 +151,19 @@ func (c *Context) Initialize(ctx context.Context, opts InitializeOpts) error {
 			return err
 		}
 		c.TokenSource = cfg.TokenSource(ctx)
-		c.HTTPClient = cfg.Client(ctx)
+
+		c.HTTPClient = &HTTPClient{
+			client:  cfg.Client(ctx),
+			wrapper: opts.HttpClientWrapper,
+		}
+		c.HTTPClientBuilder = func(transport http.RoundTripper) connect.HTTPClient {
+			client := cfg.Client(ctx)
+			client.Transport = transport
+			return &HTTPClient{
+				client:  client,
+				wrapper: opts.HttpClientWrapper,
+			}
+		}
 		return nil
 	}
 
@@ -144,8 +179,18 @@ func (c *Context) Initialize(ctx context.Context, opts InitializeOpts) error {
 	}
 	c.TokenSource = src
 
-	c.HTTPClient = oauth2.NewClient(ctx, src)
-
+	c.HTTPClient = &HTTPClient{
+		client:  oauth2.NewClient(ctx, src),
+		wrapper: opts.HttpClientWrapper,
+	}
+	c.HTTPClientBuilder = func(transport http.RoundTripper) connect.HTTPClient {
+		client := oauth2.NewClient(ctx, src)
+		client.Transport = transport
+		return &HTTPClient{
+			client:  client,
+			wrapper: opts.HttpClientWrapper,
+		}
+	}
 	return nil
 }
 

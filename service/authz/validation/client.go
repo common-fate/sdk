@@ -36,14 +36,14 @@ func NewFromConfig(cfg *config.Context) authzv1alpha1connect.ValidationServiceCl
 
 	// dereference the client to avoid mutating it for all services
 	// that share the config (this can cause HTTP2 issues in local dev)
-	httpclient := *cfg.HTTPClient
-	if strings.HasPrefix(url, "http://") {
-		httpclient.Transport = &oauth2.Transport{
+	httpclient := cfg.HTTPClient
+	if strings.HasPrefix(cfg.APIURL, "http://") {
+		httpclient = cfg.HTTPClientBuilder(&oauth2.Transport{
 			Source: cfg.TokenSource,
 			Base:   insecureTransport,
-		}
+		})
 	}
-	return authzv1alpha1connect.NewValidationServiceClient(&httpclient, url, connectOpts...)
+	return authzv1alpha1connect.NewValidationServiceClient(httpclient, url, connectOpts...)
 }
 
 var insecureTransport = &http2.Transport{
