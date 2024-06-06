@@ -63,7 +63,7 @@ func (rd *ErrorHandlingClient) Do(req *http.Request) (*http.Response, error) {
 	if res.StatusCode == http.StatusBadRequest && strings.Contains(bodyString, "invalid_grant") {
 		err = rd.TokenStore.Clear()
 		if err != nil {
-			return res, fmt.Errorf("error clearing cached Common Fate token: %w", err)
+			clio.Debugf("error clearing cached Common Fate token: %w", err)
 		}
 		clio.Debugf("Cleared Common Fate cached token due to oauth2: cannot fetch token: 400, invalid_grant error")
 		e.Messages = append(e.Messages, clierr.Infof("It looks like the above error was caused by an invalid authentication token. We have cleared the token from your keychain. To re-run the command, you'll need to authenticate again by running: '%s'", rd.LoginHint))
