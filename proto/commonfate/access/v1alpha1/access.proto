@@ -12,6 +12,8 @@ import "commonfate/authz/v1alpha1/read_only.proto";
 import "commonfate/entity/v1alpha1/eid.proto";
 import "commonfate/entity/v1alpha1/entity.proto";
 import "google/protobuf/duration.proto";
+import "google/protobuf/timestamp.proto";
+
 
 // AccessService is the Access Handler's user-facing API.
 // Users call this API to ensure that they have access to entitlements.
@@ -47,6 +49,10 @@ service AccessService {
   }
 
   rpc DebugEntitlementAccess(DebugEntitlementAccessRequest) returns (DebugEntitlementAccessResponse) {
+    option (commonfate.authz.v1alpha1.read_only) = true;
+  }
+  
+  rpc QueryEntitlementsTree(QueryEntitlementsTreeRequest) returns (QueryEntitlementsTreeResponse) {
     option (commonfate.authz.v1alpha1.read_only) = true;
   }
 }
@@ -86,6 +92,15 @@ message QueryEntitlementsRequest {
 message QueryEntitlementsResponse {
   repeated Entitlement entitlements = 1;
   string next_page_token = 2;
+}
+
+message QueryEntitlementsTreeRequest {
+
+}
+
+message QueryEntitlementsTreeResponse {
+  repeated EntitlementNode entitlements = 1;
+
 }
 
 message PreviewUserAccessRequest {
@@ -169,6 +184,8 @@ message Entitlement {
 
   // The Cedar Policys which contributed to the authorizations decisions
   EntitlementAccessReason reason = 5;
+
+
 }
 
 message Availability {
@@ -291,4 +308,20 @@ enum GrantChange {
 
   // The provisioning process failed for the Grant
   GRANT_CHANGE_PROVISIONING_FAILED = 4;
+}
+
+
+
+message EntitlementNode {
+  NamedEID NamedEid = 1;
+
+  bool requestable = 2;
+
+  string url = 3;
+
+  repeated EntitlementNode children = 4;
+
+  optional NamedEID parent = 5;
+
+  repeated NamedEID roles = 6;
 }
