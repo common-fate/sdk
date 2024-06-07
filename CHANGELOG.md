@@ -1,5 +1,11 @@
 # @common-fate/sdk
 
+## 1.39.0
+
+### Minor Changes
+
+- 4156cf4: adds api for querying entitlement tree
+
 ## 1.38.0
 
 ### Minor Changes
