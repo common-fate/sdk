@@ -95,11 +95,13 @@ message QueryEntitlementsResponse {
 }
 
 message QueryEntitlementsTreeRequest {
+  string page_token = 1;
 
 }
 
 message QueryEntitlementsTreeResponse {
   repeated EntitlementNode entitlements = 1;
+  string next_page_token = 2;
 
 }
 
