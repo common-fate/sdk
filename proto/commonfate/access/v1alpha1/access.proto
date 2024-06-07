@@ -96,11 +96,13 @@ message QueryEntitlementsResponse {
 
 message QueryEntitlementsTreeRequest {
 
+  // The token for the next page.
+  string page_token = 1;
 }
 
 message QueryEntitlementsTreeResponse {
   repeated EntitlementNode entitlements = 1;
-
+  string next_page_token = 2;
 }
 
 message PreviewUserAccessRequest {
