@@ -96,13 +96,11 @@ message QueryEntitlementsResponse {
 
 message QueryEntitlementsTreeRequest {
 
-  // The token for the next page.
-  string page_token = 1;
 }
 
 message QueryEntitlementsTreeResponse {
   repeated EntitlementNode entitlements = 1;
-  string next_page_token = 2;
+
 }
 
 message PreviewUserAccessRequest {
@@ -321,11 +319,9 @@ message EntitlementNode {
 
   string url = 3;
 
-  bool auto_approved = 4;
+  repeated EntitlementNode children = 4;
 
-  repeated EntitlementNode children = 5;
+  optional NamedEID parent = 5;
 
-  optional NamedEID parent = 6;
-
-  repeated NamedEID roles = 7;
+  repeated NamedEID roles = 6;
 }
