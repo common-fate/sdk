@@ -1,5 +1,11 @@
 # @common-fate/sdk
 
+## 1.39.1
+
+### Patch Changes
+
+- 7b91b42: adds pagination fields onto entitlements tree api
+
 ## 1.39.0
 
 ### Minor Changes
