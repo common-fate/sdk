@@ -144,6 +144,10 @@ message ActivateAccessRequestRequest {
 
   // If provided, will only activate the grants with the specified IDs
   repeated string activate_grants = 2;
+
+  // If true, will attempt to activate if Access::Action::"BreakglassActivate" action is permitted for the user.
+  // When configured, using this action will trigger notifications.
+  bool breakglass = 3;
 }
 
 message ActivateAccessRequestResponse {
