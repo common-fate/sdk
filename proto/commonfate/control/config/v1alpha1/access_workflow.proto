@@ -24,8 +24,9 @@ message AccessWorkflow {
     int32 priority = 5;
     google.protobuf.Duration activation_expiry = 6;
     google.protobuf.Duration default_duration = 7;
-
     ValidationConfig validation = 8;
+    // if specified, it will notify the user the set time before the access expires
+    google.protobuf.Duration expiry_notification = 9;
 }
 
 message ValidationConfig {
@@ -41,7 +42,7 @@ message CreateAccessWorkflowRequest {
     google.protobuf.Duration activation_expiry= 6;
     google.protobuf.Duration default_duration = 7;
     ValidationConfig validation = 8;
-
+    google.protobuf.Duration expiry_notification = 9;
 
 }
 
