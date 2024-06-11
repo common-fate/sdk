@@ -523,6 +523,243 @@ var _ interface {
 	ErrorName() string
 } = GetAccessRequestResponseValidationError{}
 
+// Validate checks the field values on GetAccessRequestActionsRequest with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *GetAccessRequestActionsRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on GetAccessRequestActionsRequest with
+// the rules defined in the proto definition for this message. If any rules
+// are violated, the result is a list of violation errors wrapped in
+// GetAccessRequestActionsRequestMultiError, or nil if none found.
+func (m *GetAccessRequestActionsRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *GetAccessRequestActionsRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for AccessRequestId
+
+	if len(errors) > 0 {
+		return GetAccessRequestActionsRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// GetAccessRequestActionsRequestMultiError is an error wrapping multiple
+// validation errors returned by GetAccessRequestActionsRequest.ValidateAll()
+// if the designated constraints aren't met.
+type GetAccessRequestActionsRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m GetAccessRequestActionsRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m GetAccessRequestActionsRequestMultiError) AllErrors() []error { return m }
+
+// GetAccessRequestActionsRequestValidationError is the validation error
+// returned by GetAccessRequestActionsRequest.Validate if the designated
+// constraints aren't met.
+type GetAccessRequestActionsRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e GetAccessRequestActionsRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e GetAccessRequestActionsRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e GetAccessRequestActionsRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e GetAccessRequestActionsRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e GetAccessRequestActionsRequestValidationError) ErrorName() string {
+	return "GetAccessRequestActionsRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e GetAccessRequestActionsRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sGetAccessRequestActionsRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = GetAccessRequestActionsRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = GetAccessRequestActionsRequestValidationError{}
+
+// Validate checks the field values on GetAccessRequestActionsResponse with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *GetAccessRequestActionsResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on GetAccessRequestActionsResponse with
+// the rules defined in the proto definition for this message. If any rules
+// are violated, the result is a list of violation errors wrapped in
+// GetAccessRequestActionsResponseMultiError, or nil if none found.
+func (m *GetAccessRequestActionsResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *GetAccessRequestActionsResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if all {
+		switch v := interface{}(m.GetAccessRequestActions()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, GetAccessRequestActionsResponseValidationError{
+					field:  "AccessRequestActions",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, GetAccessRequestActionsResponseValidationError{
+					field:  "AccessRequestActions",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetAccessRequestActions()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return GetAccessRequestActionsResponseValidationError{
+				field:  "AccessRequestActions",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if len(errors) > 0 {
+		return GetAccessRequestActionsResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// GetAccessRequestActionsResponseMultiError is an error wrapping multiple
+// validation errors returned by GetAccessRequestActionsResponse.ValidateAll()
+// if the designated constraints aren't met.
+type GetAccessRequestActionsResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m GetAccessRequestActionsResponseMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m GetAccessRequestActionsResponseMultiError) AllErrors() []error { return m }
+
+// GetAccessRequestActionsResponseValidationError is the validation error
+// returned by GetAccessRequestActionsResponse.Validate if the designated
+// constraints aren't met.
+type GetAccessRequestActionsResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e GetAccessRequestActionsResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e GetAccessRequestActionsResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e GetAccessRequestActionsResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e GetAccessRequestActionsResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e GetAccessRequestActionsResponseValidationError) ErrorName() string {
+	return "GetAccessRequestActionsResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e GetAccessRequestActionsResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sGetAccessRequestActionsResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = GetAccessRequestActionsResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = GetAccessRequestActionsResponseValidationError{}
+
 // Validate checks the field values on AccessRequest with the rules defined in
 // the proto definition for this message. If any rules are violated, the first
 // error encountered is returned, or nil if there are no violations.
@@ -755,6 +992,112 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = AccessRequestValidationError{}
+
+// Validate checks the field values on AccessRequestActions with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *AccessRequestActions) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on AccessRequestActions with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// AccessRequestActionsMultiError, or nil if none found.
+func (m *AccessRequestActions) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *AccessRequestActions) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for ApproveAllowed
+
+	// no validation rules for ActivateAllowed
+
+	if len(errors) > 0 {
+		return AccessRequestActionsMultiError(errors)
+	}
+
+	return nil
+}
+
+// AccessRequestActionsMultiError is an error wrapping multiple validation
+// errors returned by AccessRequestActions.ValidateAll() if the designated
+// constraints aren't met.
+type AccessRequestActionsMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m AccessRequestActionsMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m AccessRequestActionsMultiError) AllErrors() []error { return m }
+
+// AccessRequestActionsValidationError is the validation error returned by
+// AccessRequestActions.Validate if the designated constraints aren't met.
+type AccessRequestActionsValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e AccessRequestActionsValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e AccessRequestActionsValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e AccessRequestActionsValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e AccessRequestActionsValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e AccessRequestActionsValidationError) ErrorName() string {
+	return "AccessRequestActionsValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e AccessRequestActionsValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sAccessRequestActions.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = AccessRequestActionsValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = AccessRequestActionsValidationError{}
 
 // Validate checks the field values on ApproveAccessRequestRequest with the
 // rules defined in the proto definition for this message. If any rules are

@@ -64,6 +64,10 @@ func (m *GCP) validate(all bool) error {
 
 	// no validation rules for GoogleWorkspaceCustomerId
 
+	// no validation rules for ProvisionerWorkloadIdentityConfig
+
+	// no validation rules for ProvisionerServiceAccountCredentialsSecretPath
+
 	if len(errors) > 0 {
 		return GCPMultiError(errors)
 	}

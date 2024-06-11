@@ -358,6 +358,8 @@ func (m *Grant) validate(all bool) error {
 		}
 	}
 
+	// no validation rules for ExternalUrl
+
 	if len(errors) > 0 {
 		return GrantMultiError(errors)
 	}

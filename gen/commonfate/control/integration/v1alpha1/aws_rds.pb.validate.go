@@ -56,6 +56,16 @@ func (m *AWSRDS) validate(all bool) error {
 
 	var errors []error
 
+	// no validation rules for IdcProvisionerRoleArn
+
+	// no validation rules for InfraProvisionerRoleArn
+
+	// no validation rules for ShouldProvisionSecurityGroups
+
+	// no validation rules for IdcInstanceArn
+
+	// no validation rules for IdcRegion
+
 	if len(errors) > 0 {
 		return AWSRDSMultiError(errors)
 	}

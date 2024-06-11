@@ -1006,6 +1006,250 @@ var _ interface {
 	ErrorName() string
 } = QueryEntitlementsResponseValidationError{}
 
+// Validate checks the field values on QueryEntitlementsTreeRequest with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *QueryEntitlementsTreeRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on QueryEntitlementsTreeRequest with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// QueryEntitlementsTreeRequestMultiError, or nil if none found.
+func (m *QueryEntitlementsTreeRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *QueryEntitlementsTreeRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for PageToken
+
+	if len(errors) > 0 {
+		return QueryEntitlementsTreeRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// QueryEntitlementsTreeRequestMultiError is an error wrapping multiple
+// validation errors returned by QueryEntitlementsTreeRequest.ValidateAll() if
+// the designated constraints aren't met.
+type QueryEntitlementsTreeRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m QueryEntitlementsTreeRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m QueryEntitlementsTreeRequestMultiError) AllErrors() []error { return m }
+
+// QueryEntitlementsTreeRequestValidationError is the validation error returned
+// by QueryEntitlementsTreeRequest.Validate if the designated constraints
+// aren't met.
+type QueryEntitlementsTreeRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e QueryEntitlementsTreeRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e QueryEntitlementsTreeRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e QueryEntitlementsTreeRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e QueryEntitlementsTreeRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e QueryEntitlementsTreeRequestValidationError) ErrorName() string {
+	return "QueryEntitlementsTreeRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e QueryEntitlementsTreeRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sQueryEntitlementsTreeRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = QueryEntitlementsTreeRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = QueryEntitlementsTreeRequestValidationError{}
+
+// Validate checks the field values on QueryEntitlementsTreeResponse with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *QueryEntitlementsTreeResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on QueryEntitlementsTreeResponse with
+// the rules defined in the proto definition for this message. If any rules
+// are violated, the result is a list of violation errors wrapped in
+// QueryEntitlementsTreeResponseMultiError, or nil if none found.
+func (m *QueryEntitlementsTreeResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *QueryEntitlementsTreeResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	for idx, item := range m.GetEntitlements() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, QueryEntitlementsTreeResponseValidationError{
+						field:  fmt.Sprintf("Entitlements[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, QueryEntitlementsTreeResponseValidationError{
+						field:  fmt.Sprintf("Entitlements[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return QueryEntitlementsTreeResponseValidationError{
+					field:  fmt.Sprintf("Entitlements[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	// no validation rules for NextPageToken
+
+	if len(errors) > 0 {
+		return QueryEntitlementsTreeResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// QueryEntitlementsTreeResponseMultiError is an error wrapping multiple
+// validation errors returned by QueryEntitlementsTreeResponse.ValidateAll()
+// if the designated constraints aren't met.
+type QueryEntitlementsTreeResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m QueryEntitlementsTreeResponseMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m QueryEntitlementsTreeResponseMultiError) AllErrors() []error { return m }
+
+// QueryEntitlementsTreeResponseValidationError is the validation error
+// returned by QueryEntitlementsTreeResponse.Validate if the designated
+// constraints aren't met.
+type QueryEntitlementsTreeResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e QueryEntitlementsTreeResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e QueryEntitlementsTreeResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e QueryEntitlementsTreeResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e QueryEntitlementsTreeResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e QueryEntitlementsTreeResponseValidationError) ErrorName() string {
+	return "QueryEntitlementsTreeResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e QueryEntitlementsTreeResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sQueryEntitlementsTreeResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = QueryEntitlementsTreeResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = QueryEntitlementsTreeResponseValidationError{}
+
 // Validate checks the field values on PreviewUserAccessRequest with the rules
 // defined in the proto definition for this message. If any rules are
 // violated, the first error encountered is returned, or nil if there are no violations.
@@ -3336,6 +3580,35 @@ func (m *BatchEnsureResponse) validate(all bool) error {
 
 	}
 
+	if all {
+		switch v := interface{}(m.GetValidation()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, BatchEnsureResponseValidationError{
+					field:  "Validation",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, BatchEnsureResponseValidationError{
+					field:  "Validation",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetValidation()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return BatchEnsureResponseValidationError{
+				field:  "Validation",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
 	for idx, item := range m.GetDiagnostics() {
 		_, _ = idx, item
 
@@ -3579,3 +3852,338 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = GrantStateValidationError{}
+
+// Validate checks the field values on Validation with the rules defined in the
+// proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *Validation) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on Validation with the rules defined in
+// the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in ValidationMultiError, or
+// nil if none found.
+func (m *Validation) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *Validation) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for HasReason
+
+	if len(errors) > 0 {
+		return ValidationMultiError(errors)
+	}
+
+	return nil
+}
+
+// ValidationMultiError is an error wrapping multiple validation errors
+// returned by Validation.ValidateAll() if the designated constraints aren't met.
+type ValidationMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m ValidationMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m ValidationMultiError) AllErrors() []error { return m }
+
+// ValidationValidationError is the validation error returned by
+// Validation.Validate if the designated constraints aren't met.
+type ValidationValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e ValidationValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e ValidationValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e ValidationValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e ValidationValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e ValidationValidationError) ErrorName() string { return "ValidationValidationError" }
+
+// Error satisfies the builtin error interface
+func (e ValidationValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sValidation.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = ValidationValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = ValidationValidationError{}
+
+// Validate checks the field values on EntitlementNode with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// first error encountered is returned, or nil if there are no violations.
+func (m *EntitlementNode) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on EntitlementNode with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// EntitlementNodeMultiError, or nil if none found.
+func (m *EntitlementNode) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *EntitlementNode) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if all {
+		switch v := interface{}(m.GetNamedEid()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, EntitlementNodeValidationError{
+					field:  "NamedEid",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, EntitlementNodeValidationError{
+					field:  "NamedEid",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetNamedEid()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return EntitlementNodeValidationError{
+				field:  "NamedEid",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	// no validation rules for Requestable
+
+	// no validation rules for Url
+
+	for idx, item := range m.GetChildren() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, EntitlementNodeValidationError{
+						field:  fmt.Sprintf("Children[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, EntitlementNodeValidationError{
+						field:  fmt.Sprintf("Children[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return EntitlementNodeValidationError{
+					field:  fmt.Sprintf("Children[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	for idx, item := range m.GetRoles() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, EntitlementNodeValidationError{
+						field:  fmt.Sprintf("Roles[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, EntitlementNodeValidationError{
+						field:  fmt.Sprintf("Roles[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return EntitlementNodeValidationError{
+					field:  fmt.Sprintf("Roles[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	if m.Parent != nil {
+
+		if all {
+			switch v := interface{}(m.GetParent()).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, EntitlementNodeValidationError{
+						field:  "Parent",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, EntitlementNodeValidationError{
+						field:  "Parent",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(m.GetParent()).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return EntitlementNodeValidationError{
+					field:  "Parent",
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	if len(errors) > 0 {
+		return EntitlementNodeMultiError(errors)
+	}
+
+	return nil
+}
+
+// EntitlementNodeMultiError is an error wrapping multiple validation errors
+// returned by EntitlementNode.ValidateAll() if the designated constraints
+// aren't met.
+type EntitlementNodeMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m EntitlementNodeMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m EntitlementNodeMultiError) AllErrors() []error { return m }
+
+// EntitlementNodeValidationError is the validation error returned by
+// EntitlementNode.Validate if the designated constraints aren't met.
+type EntitlementNodeValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e EntitlementNodeValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e EntitlementNodeValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e EntitlementNodeValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e EntitlementNodeValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e EntitlementNodeValidationError) ErrorName() string { return "EntitlementNodeValidationError" }
+
+// Error satisfies the builtin error interface
+func (e EntitlementNodeValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sEntitlementNode.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = EntitlementNodeValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = EntitlementNodeValidationError{}

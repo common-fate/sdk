@@ -66,6 +66,10 @@ func (m *AWSIDC) validate(all bool) error {
 
 	// no validation rules for AuditRoleName
 
+	// no validation rules for SsoAccessPortalUrl
+
+	// no validation rules for ProvisionerRoleArn
+
 	if len(errors) > 0 {
 		return AWSIDCMultiError(errors)
 	}
