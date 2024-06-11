@@ -23,6 +23,11 @@ service AccessRequestService {
     option (commonfate.authz.v1alpha1.read_only) = true;
   }
 
+  // Returns the actions that the current user is allowed to perform on the request
+  rpc GetAccessRequestActions(GetAccessRequestActionsRequest) returns (GetAccessRequestActionsResponse) {
+    option (commonfate.authz.v1alpha1.read_only) = true;
+  }
+
   // Approving an Access Request will attempt to approve all of the Grants associated with the request.
   //
   // If the caller is not permitted to approve particular grants, warnings will be returned.
@@ -53,6 +58,14 @@ message GetAccessRequestRequest {
 
 message GetAccessRequestResponse {
   AccessRequest access_request = 1;
+}
+
+message GetAccessRequestActionsRequest {
+  string access_request_id = 1;
+}
+
+message GetAccessRequestActionsResponse {
+  AccessRequestActions access_request_actions = 1;
 }
 
 // A request to be given entitlements allowing <Action> to be performed on <Resource>.
@@ -90,6 +103,13 @@ message AccessRequest {
 
   string workflow_id = 11;
   string workflow_name = 12;
+}
+
+message AccessRequestActions {
+  // True if the current user is allowed to approve the access request
+  bool approve_allowed = 1;
+  // True if the current user is allowed to activate the access request
+  bool activate_allowed = 2;
 }
 
 message ApproveAccessRequestRequest {

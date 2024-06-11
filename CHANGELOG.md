@@ -1,5 +1,70 @@
 # @common-fate/sdk
 
+## 1.39.1
+
+### Patch Changes
+
+- 7b91b42: adds pagination fields onto entitlements tree api
+
+## 1.39.0
+
+### Minor Changes
+
+- 4156cf4: adds api for querying entitlement tree
+
+## 1.38.0
+
+### Minor Changes
+
+- 0a542c6: Add activate_allowed to list of AccessRequestActions.
+
+## 1.37.0
+
+### Minor Changes
+
+- 6d4f1cd: Adds additional fields to the Integration resources types
+
+## 1.36.1
+
+### Patch Changes
+
+- 61cc1f2: Support disabling all webhook handlers for Slack integration.
+
+## 1.36.0
+
+### Minor Changes
+
+- 3857224: Add 'sso_access_portal_url' to allow the AWS SSO Start URL to be customised in the AWS IAM Identity Center integration.
+
+## 1.35.1
+
+### Patch Changes
+
+- 1a1eca4: Adds additional methods to the policyset client
+
+## 1.35.0
+
+### Minor Changes
+
+- 796f5f3: Add support for configuring deployment DNS nameservers for the default deployment domain
+- 910dc31: Simplifies the ProvisionResponse type to return a single optional output entity
+
+## 1.34.0
+
+### Minor Changes
+
+- ec19fbd: Add S3 Log Destination integration.
+
+### Patch Changes
+
+- ac6e044: Create GetAccessRequestActions API to return the list of actions that the current user is allowed to perform on the access request.
+
+## 1.33.2
+
+### Patch Changes
+
+- 711849f: Adjust the suffix of the auth token on Windows.
+
 ## 1.33.0
 
 ### Minor Changes

@@ -6,10 +6,10 @@ import (
 	"fmt"
 	"net/http"
 	"net/url"
+	"runtime"
 	"time"
 
 	"github.com/common-fate/clio/clierr"
-	"github.com/common-fate/grab"
 	"github.com/common-fate/sdk/tokenstore"
 	"github.com/zitadel/oidc/v2/pkg/client/rp"
 	"golang.org/x/oauth2"
@@ -100,10 +100,18 @@ func (c *Context) Initialize(ctx context.Context, opts InitializeOpts) error {
 
 	c.OIDCProvider = p
 	c.TokenStore = opts.TokenStore
-	if c.TokenStore == nil {
-		c.TokenStore = grab.Ptr(tokenstore.New(tokenstore.Opts{
+	if c.TokenStore == nil && runtime.GOOS != "windows" {
+		ts := tokenstore.New(tokenstore.Opts{
 			Name: issuerURL.String(),
-		}))
+		})
+		c.TokenStore = &ts
+	}
+	if c.TokenStore == nil && runtime.GOOS == "windows" {
+		ts := tokenstore.NewWindows(tokenstore.Opts{
+			Name: issuerURL.String(),
+		})
+
+		c.TokenStore = &ts
 	}
 
 	oauthconf := p.OAuthConfig()

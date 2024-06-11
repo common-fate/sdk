@@ -8,26 +8,15 @@ import (
 	"net/http"
 
 	"github.com/common-fate/sdk/factory/auth"
-	"golang.org/x/oauth2"
 )
 
 type Opts struct {
-	LicenceKey     string
-	DeploymentName string
+	LicenceKey string
 
 	// BaseURL of the Factory service to connect to.
 	// Defaults to "https://factory.commonfate.io"
 	// if not provided.
 	BaseURL string
-
-	// OIDCIssuer is the OIDC issuer to use.
-	// Defaults to "https://factory.commonfate.io"
-	// if not provided.
-	OIDCIssuer string
-
-	// BaseClient is an optional base HTTP client to use when
-	// constructing the authenticated HTTP client.
-	BaseClient *http.Client
 }
 
 type Context struct {
@@ -36,16 +25,8 @@ type Context struct {
 	// if not provided.
 	BaseURL string
 
-	// OIDCIssuer is the OIDC issuer to use.
-	// Defaults to "https://factory.commonfate.io"
-	// if not provided.
-	OIDCIssuer string
-
 	// HTTPClient is filled in by calling Load()
 	HTTPClient *http.Client
-
-	// AuthClient is filled in by calling Load()
-	AuthClient *auth.AuthClient
 }
 
 // Load and initialize a client context. You can override values by providing them in 'opts'.
@@ -54,27 +35,15 @@ func Load(ctx context.Context, opts Opts) (*Context, error) {
 		opts.BaseURL = "https://factory.commonfate.io"
 	}
 
-	if opts.OIDCIssuer == "" {
-		opts.OIDCIssuer = "https://factory.commonfate.io"
-	}
-
 	c := Context{
-		BaseURL:    opts.BaseURL,
-		OIDCIssuer: opts.OIDCIssuer,
+		BaseURL: opts.BaseURL,
 	}
 
-	authClient, err := auth.NewClient(ctx, auth.Opts{
-		Issuer:         c.BaseURL,
-		LicenceKey:     opts.LicenceKey,
-		DeploymentName: opts.DeploymentName,
-		BaseClient:     opts.BaseClient,
-	})
-	if err != nil {
-		return nil, err
+	c.HTTPClient = &http.Client{
+		Transport: &auth.Transport{
+			LicenceKey: opts.LicenceKey,
+		},
 	}
-
-	c.AuthClient = authClient
-	c.HTTPClient = oauth2.NewClient(ctx, authClient)
 
 	return &c, nil
 }

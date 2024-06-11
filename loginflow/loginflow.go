@@ -7,7 +7,6 @@ import (
 	"strings"
 	"time"
 
-	"github.com/99designs/keyring"
 	"github.com/common-fate/clio"
 	"github.com/common-fate/sdk/config"
 	"github.com/common-fate/sdk/tokenstore"
@@ -29,9 +28,6 @@ func NewFromConfig(cfg *config.Context) LoginFlow {
 
 type LoginFlow struct {
 	cfg *config.Context
-
-	// Keyring optionally overrides the keyring that auth tokens are saved to.
-	Keyring keyring.Keyring
 }
 
 type response struct {

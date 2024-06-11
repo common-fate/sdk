@@ -1,0 +1,91 @@
+syntax = "proto3";
+
+package commonfate.factory.deployment.v1alpha1;
+
+service DeploymentService {
+    // Get information about a deployment.
+    rpc GetDeployment(GetDeploymentRequest) returns (GetDeploymentResponse) {}
+
+    // Create a DNS record associated with the deployment.
+    // Used to set up a default `commonfate.app` domain for the deployment.
+    rpc CreateDNSRecord(CreateDNSRecordRequest) returns (CreateDNSRecordResponse) {}
+
+    // Retrieves a DNS record associated with the deployment.
+    rpc GetDNSRecord(GetDNSRecordRequest) returns (GetDNSRecordResponse) {}
+
+    // Updates a DNS record associated with the deployment.
+    rpc UpdateDNSRecord(UpdateDNSRecordRequest) returns (UpdateDNSRecordResponse) {}
+
+    // Deletes a DNS record associated with the deployment.
+    rpc DeleteDNSRecord(DeleteDNSRecordRequest) returns (DeleteDNSRecordResponse) {}
+}
+
+enum DNSRecordType {
+    DNS_RECORD_TYPE_UNSPECIFIED = 0;
+    DNS_RECORD_TYPE_TXT = 1;
+    DNS_RECORD_TYPE_CNAME = 2;
+}
+
+message DNSRecord {
+    string id = 1;
+    string name = 2;
+    DNSRecordType type = 3;
+    repeated string values = 4;
+    // The base DNS name associated with the deployment.
+    // e.g. 'commonfate.app'.
+    string dns_zone_name = 5;
+}
+
+message CreateDNSRecordRequest {
+    string name = 1;
+    DNSRecordType type = 2;
+    repeated string values = 3;
+    // The base DNS name associated with the deployment.
+    // e.g. 'commonfate.app'.
+    string dns_zone_name = 4;
+}
+
+message CreateDNSRecordResponse {
+    DNSRecord created = 1;
+}
+
+message UpdateDNSRecordRequest {
+    string id = 1;
+    repeated string values = 2;
+}
+
+message UpdateDNSRecordResponse {
+    DNSRecord updated = 1;
+}
+
+message DeleteDNSRecordRequest {
+    string id = 1;
+}
+
+message DeleteDNSRecordResponse {
+    DNSRecord deleted = 1;
+}
+
+message GetDNSRecordRequest {
+    string id = 1;
+}
+
+message GetDNSRecordResponse {
+    DNSRecord record = 1;
+}
+
+message GetDeploymentRequest {}
+
+message GetDeploymentResponse {
+    Deployment deployment = 1;
+}
+
+message Deployment {
+    string id = 1;
+    // The default DNS subdomain associated with the deployment.
+    // Currently this is the deployment ID.
+    string default_subdomain = 2;
+    // The base DNS name associated with the deployment.
+    // e.g. 'commonfate.app'.
+    string dns_zone_name = 3;
+}

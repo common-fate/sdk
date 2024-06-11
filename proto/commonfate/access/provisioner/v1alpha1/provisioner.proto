@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+package commonfate.access.provisioner.v1alpha1;
+
+import "commonfate/control/integration/v1alpha1/integration.proto";
+import "commonfate/entity/v1alpha1/eid.proto";
+import "commonfate/entity/v1alpha1/entity.proto";
+
+message ProvisionRequest {
+  // The ID of the Grant.
+  commonfate.entity.v1alpha1.EID grant = 1;
+
+  commonfate.entity.v1alpha1.Entity principal = 2;
+
+  // DomainPrincipal is the principal to grant access to,
+  // mapped to the identity domain of the system that we're provisioning in.
+  //
+  // For example, instead of sending a user's email address, we send the
+  // ID of the user in AWS IAM Identity Center.
+  //
+  // This field may be empty if Common Fate fails to map the principal.
+  // A well-designed provisioner should attempt to fall back on data from
+  // the core principal entity instead to provision access.
+  commonfate.entity.v1alpha1.Entity domain_principal = 3;
+
+  commonfate.entity.v1alpha1.Entity target = 4;
+
+  commonfate.entity.v1alpha1.Entity role = 5;
+
+  commonfate.control.integration.v1alpha1.Config integration_config = 6;
+}
+
+message ProvisionResponse {
+  optional commonfate.entity.v1alpha1.Entity output = 3;
+}
