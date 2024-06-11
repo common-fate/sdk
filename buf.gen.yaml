@@ -10,3 +10,6 @@ plugins:
   - plugin: buf.build/connectrpc/go:v1.14.0
     out: gen
     opt: paths=source_relative
+  - plugin: buf.build/bufbuild/validate-go
+    out: gen
+    opt: paths=source_relative

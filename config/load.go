@@ -268,6 +268,20 @@ func SwitchContext(contextName string) error {
 	return errors.New("context not found in config file")
 }
 
+func GetContextByURL(url string) (*Context, error) {
+	cfg, err := load()
+	if err != nil {
+		return nil, err
+	}
+	for _, ctx := range cfg.Contexts {
+		if ctx.APIURL == url {
+			return &ctx, nil
+		}
+	}
+	return nil, fmt.Errorf("context not found with matching url: %s", url)
+
+}
+
 func openConfigFile(filepath string) (*Config, error) {
 	clio.Debugw("loading config", "path", filepath)
 	file, err := os.Open(filepath)

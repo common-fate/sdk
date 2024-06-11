@@ -8,6 +8,7 @@ import "commonfate/access/v1alpha1/user.proto";
 import "commonfate/authz/v1alpha1/read_only.proto";
 import "commonfate/entity/v1alpha1/entity_service.proto";
 import "google/protobuf/timestamp.proto";
+import "buf/validate/validate.proto";
 
 // The Access Request API.
 //
@@ -52,7 +53,7 @@ message QueryAccessRequestsResponse {
 
 message GetAccessRequestRequest {
   // The ID of the Access Request.
-  string id = 1;
+  string id = 1 [(buf.validate.field).string.min_len = 1];
 }
 
 message GetAccessRequestResponse {
