@@ -7,6 +7,8 @@ message Webhook {
   bool send_authorization_events = 3;
   // HTTP headers to include in the webhook request.
   repeated Header headers = 4;
+  // provide a list of actions to filter for, e.g ["grant.requested", "grant.revoked"]
+  repeated string filter_for_actions = 5;
 }
 
 message Header {
