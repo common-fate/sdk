@@ -14,7 +14,6 @@ import "commonfate/entity/v1alpha1/entity.proto";
 import "google/protobuf/duration.proto";
 import "google/protobuf/timestamp.proto";
 
-
 // AccessService is the Access Handler's user-facing API.
 // Users call this API to ensure that they have access to entitlements.
 service AccessService {
@@ -51,7 +50,7 @@ service AccessService {
   rpc DebugEntitlementAccess(DebugEntitlementAccessRequest) returns (DebugEntitlementAccessResponse) {
     option (commonfate.authz.v1alpha1.read_only) = true;
   }
-  
+
   rpc QueryEntitlementsTree(QueryEntitlementsTreeRequest) returns (QueryEntitlementsTreeResponse) {
     option (commonfate.authz.v1alpha1.read_only) = true;
   }
@@ -96,13 +95,11 @@ message QueryEntitlementsResponse {
 
 message QueryEntitlementsTreeRequest {
   string page_token = 1;
-
 }
 
 message QueryEntitlementsTreeResponse {
   repeated EntitlementNode entitlements = 1;
   string next_page_token = 2;
-
 }
 
 message PreviewUserAccessRequest {
@@ -186,8 +183,6 @@ message Entitlement {
 
   // The Cedar Policys which contributed to the authorizations decisions
   EntitlementAccessReason reason = 5;
-
-
 }
 
 message Availability {
@@ -262,6 +257,10 @@ message BatchEnsureRequest {
 
   // If true, will return a preview of changes rather than actually provisioning access.
   bool dry_run = 3;
+
+  // If true, will attempt to activate if Access::Action::"BreakglassActivate" action is permitted for the user.
+  // When configured, using this action will trigger notifications.
+  bool breakglass = 4;
 }
 
 message BatchEnsureResponse {
@@ -292,8 +291,8 @@ message GrantState {
 }
 
 message Validation {
-    // If true, a reason is required for access.
-    bool has_reason = 1;
+  // If true, a reason is required for access.
+  bool has_reason = 1;
 }
 
 enum GrantChange {
@@ -311,8 +310,6 @@ enum GrantChange {
   // The provisioning process failed for the Grant
   GRANT_CHANGE_PROVISIONING_FAILED = 4;
 }
-
-
 
 message EntitlementNode {
   NamedEID NamedEid = 1;
