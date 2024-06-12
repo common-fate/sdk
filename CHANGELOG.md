@@ -1,5 +1,13 @@
 # @common-fate/sdk
 
+## 1.40.0
+
+### Minor Changes
+
+- f3854b7: Add notify_expiry_in_seconds to slack notification so that users can be notified at a preset time before their access expires.
+- 5bfbd2f: Add support for breakglass access on BatchEnsure and Activate
+- 7d93769: Add filtering for webhooks on specific actions
+
 ## 1.39.1
 
 ### Patch Changes
