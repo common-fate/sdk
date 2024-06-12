@@ -2,6 +2,7 @@ syntax = "proto3";
 package commonfate.control.config.v1alpha1;
 
 import "commonfate/authz/v1alpha1/read_only.proto";
+import "google/protobuf/duration.proto";
 
 service SlackAlertService {
   rpc CreateSlackAlert(CreateSlackAlertRequest) returns (CreateSlackAlertResponse) {}
@@ -20,6 +21,7 @@ message CreateSlackAlertRequest {
   bool use_web_console_for_approve_action = 6;
   bool send_direct_messages_to_approvers = 7;
   bool disable_interactivity_handlers = 8;
+  google.protobuf.Duration notify_expiry_in_seconds = 9;
 }
 
 message SlackAlert {
@@ -38,6 +40,8 @@ message SlackAlert {
   //
   // If set to true, this setting takes priority over 'use_web_console_for_activate_action'.
   bool disable_interactivity_handlers = 8;
+  // if specified, it will notify the user the set time before the access expires
+  google.protobuf.Duration notify_expiry_in_seconds = 9;
 }
 
 message CreateSlackAlertResponse {
