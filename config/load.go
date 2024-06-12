@@ -53,7 +53,13 @@ type Opts struct {
 	// Can be overridden by providing the 'CF_CONFIG_SOURCES' environment variable,
 	// for example: CF_CONFIG_SOURCES=file,env,https://commonfate.example.com/config.json
 	ConfigSources []string
+
+	// Optionally wrap the default http client, can be used with cli.ErrorHandlingClient
+	// for example to intercept oauth errors and prompt to run a login command
+	HttpClientWrapper HttpClientWrapper
 }
+
+type HttpClientWrapper func(c Doer, t TokenStore) Doer
 
 type configSource interface {
 	Load(key Key) (string, error)
@@ -193,7 +199,7 @@ func New(ctx context.Context, opts Opts) (*Context, error) {
 		return nil, err
 	}
 
-	err = cfg.Initialize(ctx, InitializeOpts{TokenStore: opts.TokenStore})
+	err = cfg.Initialize(ctx, InitializeOpts{TokenStore: opts.TokenStore, HttpClientWrapper: opts.HttpClientWrapper})
 	if err != nil {
 		return nil, err
 	}

@@ -82,14 +82,14 @@ func NewFromConfig(cfg *config.Context) Client {
 
 	// dereference the client to avoid mutating it for all services
 	// that share the config (this can cause HTTP2 issues in local dev)
-	httpclient := *cfg.HTTPClient
-	if strings.HasPrefix(url, "http://") {
-		httpclient.Transport = &oauth2.Transport{
+	httpclient := cfg.HTTPClient
+	if strings.HasPrefix(cfg.APIURL, "http://") {
+		httpclient = cfg.HTTPClientBuilder(&oauth2.Transport{
 			Source: cfg.TokenSource,
 			Base:   insecureTransport,
-		}
+		})
 	}
-	rawClient := entityv1alpha1connect.NewEntityServiceClient(&httpclient, url, connectOpts...)
+	rawClient := entityv1alpha1connect.NewEntityServiceClient(httpclient, url, connectOpts...)
 
 	c := cache.New(24*time.Hour, 48*time.Hour)
 
