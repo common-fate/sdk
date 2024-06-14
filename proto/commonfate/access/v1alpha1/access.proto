@@ -323,4 +323,6 @@ message EntitlementNode {
   optional NamedEID parent = 5;
 
   repeated NamedEID roles = 6;
+
+  NamedEID suggested_role = 7;
 }
