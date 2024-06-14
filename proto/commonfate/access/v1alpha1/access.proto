@@ -183,6 +183,8 @@ message Entitlement {
 
   // The Cedar Policys which contributed to the authorizations decisions
   EntitlementAccessReason reason = 5;
+
+  int64 priority = 6; 
 }
 
 message Availability {
