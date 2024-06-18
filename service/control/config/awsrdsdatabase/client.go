@@ -1,4 +1,4 @@
-package gcprolegroup
+package awsrdsdatabase
 
 import (
 	"github.com/common-fate/sdk/config"
