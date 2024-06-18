@@ -6,7 +6,6 @@ import "commonfate/authz/v1alpha1/read_only.proto";
 import "commonfate/control/integration/v1alpha1/auth0.proto";
 import "commonfate/control/integration/v1alpha1/aws_idc.proto";
 import "commonfate/control/integration/v1alpha1/aws_rds.proto";
-import "commonfate/control/integration/v1alpha1/aws_rds_v2.proto";
 import "commonfate/control/integration/v1alpha1/datastax.proto";
 import "commonfate/control/integration/v1alpha1/entra.proto";
 import "commonfate/control/integration/v1alpha1/gcp.proto";
@@ -56,7 +55,6 @@ message Config {
     Webhook webhook = 10;
     Auth0 auth0 = 11;
     S3LogDestination s3_log_destination = 12;
-    AWSRDSV2 aws_rds_v2 = 13;
   }
 }
 
