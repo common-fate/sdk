@@ -1,0 +1,52 @@
+syntax = "proto3";
+package commonfate.control.config.v1alpha1;
+
+import "commonfate/authz/v1alpha1/read_only.proto";
+
+service AWSRDSDatabaseUserService {
+  rpc CreateAWSRDSDatabaseUser(CreateAWSRDSDatabaseUserRequest) returns (CreateAWSRDSDatabaseUserResponse) {}
+  rpc GetAWSRDSDatabaseUser(GetAWSRDSDatabaseUserRequest) returns (GetAWSRDSDatabaseUserResponse) {
+    option (commonfate.authz.v1alpha1.read_only) = true;
+  }
+  rpc UpdateAWSRDSDatabaseUser(UpdateAWSRDSDatabaseUserRequest) returns (UpdateAWSRDSDatabaseUserResponse) {}
+  rpc DeleteAWSRDSDatabaseUser(DeleteAWSRDSDatabaseUserRequest) returns (DeleteAWSRDSDatabaseUserResponse) {}
+}
+
+message CreateAWSRDSDatabaseUserRequest {
+  string name = 1;
+  string database = 2;
+}
+
+message AWSRDSDatabaseUser {
+  string id = 1;
+  string name = 2;
+  string database = 3;
+}
+
+message CreateAWSRDSDatabaseUserResponse {
+  AWSRDSDatabaseUser aws_rds_database = 1;
+}
+
+message GetAWSRDSDatabaseUserRequest {
+  string id = 1;
+}
+
+message GetAWSRDSDatabaseUserResponse {
+  AWSRDSDatabaseUser aws_rds_database = 1;
+}
+
+message UpdateAWSRDSDatabaseUserRequest {
+  AWSRDSDatabaseUser aws_rds_database = 1;
+}
+
+message UpdateAWSRDSDatabaseUserResponse {
+  AWSRDSDatabaseUser aws_rds_database = 1;
+}
+
+message DeleteAWSRDSDatabaseUserRequest {
+  string id = 1;
+}
+
+message DeleteAWSRDSDatabaseUserResponse {
+  string id = 1;
+}
