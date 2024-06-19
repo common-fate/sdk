@@ -25,11 +25,17 @@ message AccessWorkflow {
     google.protobuf.Duration activation_expiry = 6;
     google.protobuf.Duration default_duration = 7;
     ValidationConfig validation = 8;
+    ExtendAccess extend_access = 9;
 }
 
 message ValidationConfig {
     // If true, a reason is required for access.
     bool has_reason = 1;
+}
+
+message ExtendAccess {
+    int32 max_extensions = 1;
+    google.protobuf.Duration extension_duration_seconds = 2;
 }
 
 message CreateAccessWorkflowRequest {
@@ -40,7 +46,7 @@ message CreateAccessWorkflowRequest {
     google.protobuf.Duration activation_expiry= 6;
     google.protobuf.Duration default_duration = 7;
     ValidationConfig validation = 8;
-
+    ExtendAccess extend_access = 9;
 }
 
 message CreateAccessWorkflowResponse {
