@@ -2,11 +2,15 @@ syntax = "proto3";
 
 package commonfate.access.databaseproxy.v1alpha1;
 
-import "commonfate/entity/v1alpha1/eid.proto";
+// The Database Proxy API
+service DatabaseProxyService {
+  // The Exchange service is used for exchanging a users token for temporary database connection credentials for the proxy
+  rpc Exchange(ExchangeRequest) returns (ExchangeResponse) {}
+}
 
 message ExchangeRequest {
   // The ID of the Grant.
-  commonfate.entity.v1alpha1.EID grant = 1;
+  string grant_id = 1;
 }
 
 message ExchangeResponse {
