@@ -72,7 +72,7 @@ message Grant {
     string maximum_number_of_extensions = 19;
 
     // Specifies the duration for each extension.
-    string extension_duration_seconds = 20;
+    string extension_duration = 20;
 
 }
 
