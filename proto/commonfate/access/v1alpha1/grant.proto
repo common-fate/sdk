@@ -69,10 +69,10 @@ message Grant {
     string external_url = 18;
 
     // The maximum number of allowed extensions.
-    string maximum_number_of_extensions = 19;
+    int32 maximum_number_of_extensions = 19;
 
     // Specifies the duration for each extension.
-    string extension_duration = 20;
+    google.protobuf.Duration extension_duration = 20;
 
 }
 
