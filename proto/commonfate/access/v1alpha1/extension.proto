@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package commonfate.access.v1alpha1;
+
+import "google/protobuf/duration.proto";
+
+message Extension {
+    int32 maximum_number_of_extensions = 1;
+    google.protobuf.Duration extension_duration_seconds = 2;
+}
