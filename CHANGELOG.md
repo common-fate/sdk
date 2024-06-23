@@ -1,5 +1,11 @@
 # @common-fate/sdk
 
+## 1.40.1
+
+### Patch Changes
+
+- 215cba4: Add support for suggesting a highest priority default role for availability specs
+
 ## 1.40.0
 
 ### Minor Changes
