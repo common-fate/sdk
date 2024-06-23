@@ -2,4 +2,4 @@
 "@common-fate/sdk": patch
 ---
 
-add priority to availability spec protos'
+Add support for suggesting a highest priority default role for availability specs
