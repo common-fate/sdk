@@ -21,6 +21,7 @@ message AvailabilitySpec {
     commonfate.entity.v1alpha1.EID role = 3;
     commonfate.entity.v1alpha1.EID target = 4;
     commonfate.entity.v1alpha1.EID identity_domain = 6;
+    optional int64 role_priority = 7;
 }
 
 message CreateAvailabilitySpecRequest {
@@ -28,6 +29,7 @@ message CreateAvailabilitySpecRequest {
     commonfate.entity.v1alpha1.EID role = 2;
     commonfate.entity.v1alpha1.EID target = 3;
     commonfate.entity.v1alpha1.EID identity_domain = 4;
+    optional int64 role_priority = 5; 
 }
 
 message CreateAvailabilitySpecResponse {
