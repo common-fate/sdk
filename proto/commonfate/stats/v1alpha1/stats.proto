@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+package commonfate.stats.v1alpha1;
+
+import "commonfate/authz/v1alpha1/read_only.proto";
+
+service StatsService {
+  // retrieves the latest least privilege report.
+  rpc GetStats(GetStatsRequest) returns (GetStatsResponse) {
+    option (commonfate.authz.v1alpha1.read_only) = true;
+  }
+}
+
+message GetStatsRequest {}
+
+message GetStatsResponse {
+  Stats stats = 1;
+}
+
+message Stats {
+  int32 protected_users = 1;
+  // from 0 - 100
+  float access_hours_reduction_percent = 2;
+  float access_hours_reduction_30_day_delta_percent = 3;
+  repeated AccessRequestDailyMetric access_requests_last_30_days = 4;
+}
+
+message AccessRequestDailyMetric {
+  string date = 1;
+  int32 count = 2;
+}
