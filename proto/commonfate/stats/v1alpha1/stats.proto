@@ -35,4 +35,5 @@ message EntitlementUsageMetric {
   commonfate.access.v1alpha1.NamedEID target = 1;
   commonfate.access.v1alpha1.NamedEID role = 2;
   int32 count = 3;
+  string date = 4;
 }
