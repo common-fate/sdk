@@ -24,16 +24,20 @@ message Stats {
   float access_hours_reduction_percent = 2;
   int32 access_hours_reduced = 3;
   repeated AccessRequestDailyMetric access_requests_last_90_days = 4;
-  repeated EntitlementUsageMetric entitlement_usage_last_90_days = 5;
+
+  repeated EntitlementsUsageDailyMetric entitlement_usage_last_90_days = 5;
 }
 
 message AccessRequestDailyMetric {
   string date = 1;
   int32 count = 2;
 }
+message EntitlementsUsageDailyMetric {
+  string date = 1;
+  repeated EntitlementUsageMetric entitlements = 2;
+}
 message EntitlementUsageMetric {
   commonfate.access.v1alpha1.NamedEID target = 1;
   commonfate.access.v1alpha1.NamedEID role = 2;
   int32 count = 3;
-  string date = 4;
 }
