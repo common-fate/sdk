@@ -1,24 +1,24 @@
 syntax = "proto3";
 
-package commonfate.metrics.v1alpha1;
+package commonfate.insight.v1alpha1;
 
 import "commonfate/access/v1alpha1/named_eid.proto";
 import "commonfate/authz/v1alpha1/read_only.proto";
 
-service MetricsService {
+service InsightsService {
   // retrieves the latest least privilege report.
-  rpc GetMetrics(GetMetricsRequest) returns (GetMetricsResponse) {
+  rpc GetInsights(GetInsightsRequest) returns (GetInsightsResponse) {
     option (commonfate.authz.v1alpha1.read_only) = true;
   }
 }
 
-message GetMetricsRequest {}
+message GetInsightsRequest {}
 
-message GetMetricsResponse {
-  Metrics metrics = 1;
+message GetInsightsResponse {
+  Insights insights = 1;
 }
 
-message Metrics {
+message Insights {
   int32 protected_users = 1;
   // from 0 - 100
   float access_hours_reduction_percent = 2;
