@@ -1,5 +1,11 @@
 # @common-fate/sdk
 
+## 1.41.0
+
+### Minor Changes
+
+- 12d766f: Add Insights service
+
 ## 1.40.1
 
 ### Patch Changes
