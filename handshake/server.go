@@ -6,27 +6,24 @@ import (
 
 	accessv1alpha1 "github.com/common-fate/sdk/gen/commonfate/access/v1alpha1"
 	entityv1alpha1 "github.com/common-fate/sdk/gen/commonfate/entity/v1alpha1"
-	_ "github.com/go-sql-driver/mysql"
-
-	"go.commonfate.io/entities/cf/grantoutput"
 )
 
-type Server struct {
+type Server[T any] struct {
 	conn           *Conn
 	tokenValidator TokenValidator
-	grantValidator GrantValidator
+	grantValidator GrantValidator[T]
 }
 
 type TokenValidator interface {
 	Validate(token string) (*accessv1alpha1.GetCallerIdentityResponse, error)
 }
 
-type GrantValidator interface {
-	Validate(principal *entityv1alpha1.EID, grantID string) (*accessv1alpha1.Grant, *grantoutput.AWSRDS, error)
+type GrantValidator[T any] interface {
+	Validate(principal *entityv1alpha1.EID, grantID string) (*accessv1alpha1.Grant, *T, error)
 }
 
-func NewHandshakeServer(conn net.Conn, connectionID uint32, tokenValidator TokenValidator, grantValidator GrantValidator) *Server {
-	return &Server{
+func NewHandshakeServer[T any](conn net.Conn, connectionID uint32, tokenValidator TokenValidator, grantValidator GrantValidator[T]) *Server[T] {
+	return &Server[T]{
 		tokenValidator: tokenValidator,
 		grantValidator: grantValidator,
 		conn: &Conn{
@@ -42,13 +39,13 @@ type Conn struct {
 	netConn      net.Conn
 }
 
-type HandshakeResponse struct {
+type HandshakeResponse[T any] struct {
 	CallerIdentity *accessv1alpha1.GetCallerIdentityResponse
 	Grant          *accessv1alpha1.Grant
-	GrantOutput    *grantoutput.AWSRDS
+	GrantOutput    *T
 }
 
-func (s *Server) Handshake() (*HandshakeResponse, error) {
+func (s *Server[T]) Handshake() (*HandshakeResponse[T], error) {
 	err := s.conn.writeHandshake(serverVersion)
 	if err != nil {
 		return nil, err
@@ -81,7 +78,7 @@ func (s *Server) Handshake() (*HandshakeResponse, error) {
 		return nil, err
 	}
 
-	return &HandshakeResponse{
+	return &HandshakeResponse[T]{
 		CallerIdentity: callerID,
 		Grant:          grant,
 		GrantOutput:    grantOutput,
