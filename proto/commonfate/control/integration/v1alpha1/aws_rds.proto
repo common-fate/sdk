@@ -1,12 +1,23 @@
 syntax = "proto3";
 package commonfate.control.integration.v1alpha1;
 
-message AWSRDS {
-  repeated string regions = 1;
-  repeated string read_role_arns = 2;
-  string idc_provisioner_role_arn = 3;
-  string infra_provisioner_role_arn = 4;
-  bool should_provision_security_groups = 5;
-  string idc_instance_arn = 6;
-  string idc_region = 7;
+message AWSRDSProxy {
+  string idc_provisioner_role_arn = 1;
+  string idc_instance_arn = 2;
+  string idc_region = 3;
+  string proxy_aws_account = 4;
+  string proxy_aws_region = 5;
+}
+message AWSRDSDatabase {
+  string name = 1;
+  string engine = 2;
+  string region = 3;
+  string account = 4;
+  string instance_id = 5;
+  string database = 6;
+  repeated AWSRDSDatabaseUser users = 7;
+}
+message AWSRDSDatabaseUser {
+  string name = 1;
+  string username = 2;
 }

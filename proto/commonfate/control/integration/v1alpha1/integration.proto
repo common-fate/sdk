@@ -15,7 +15,7 @@ import "commonfate/control/integration/v1alpha1/pagerduty.proto";
 import "commonfate/control/integration/v1alpha1/s3_log_destination.proto";
 import "commonfate/control/integration/v1alpha1/slack.proto";
 import "commonfate/control/integration/v1alpha1/webhook.proto";
-
+import "commonfate/entity/v1alpha1/eid.proto";
 service IntegrationService {
   rpc CreateIntegration(CreateIntegrationRequest) returns (CreateIntegrationResponse) {}
   rpc UpdateIntegration(UpdateIntegrationRequest) returns (UpdateIntegrationResponse) {}
@@ -24,6 +24,9 @@ service IntegrationService {
   }
   rpc DeleteIntegration(DeleteIntegrationRequest) returns (DeleteIntegrationResponse) {}
   rpc ListIntegrations(ListIntegrationsRequest) returns (ListIntegrationsResponse) {}
+  // RegisterIntegrationResources is used by integrations to self register their resources
+  // This operation will create new resources, update existing resources and delete orphaned resources.
+  rpc RegisterIntegrationResources(RegisterIntegrationResourcesRequest) returns (RegisterIntegrationResourcesResponse) {}
 }
 
 message ListIntegrationsRequest {
@@ -36,6 +39,18 @@ message ListIntegrationsResponse {
   string next_page_token = 2;
 }
 
+message RegisterIntegrationResourcesRequest {
+  commonfate.entity.v1alpha1.EID integration_id = 1;
+  repeated Resource resources = 2;
+}
+
+message RegisterIntegrationResourcesResponse {}
+
+message Resource {
+  oneof resource {
+    AWSRDSDatabase aws_rds_database = 1;
+  }
+}
 message CreateIntegrationRequest {
   string name = 1;
   Config config = 2;
@@ -49,7 +64,7 @@ message Config {
     PagerDuty pagerduty = 4;
     OpsGenie opsgenie = 5;
     Entra entra = 6;
-    AWSRDS aws_rds = 7;
+    AWSRDSProxy aws_rds_proxy = 7;
     Okta okta = 8;
     DataStax datastax = 9;
     Webhook webhook = 10;
