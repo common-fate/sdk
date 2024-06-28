@@ -14,6 +14,14 @@ type SessionValidator interface {
 	Validate(token string, grantID string) error
 }
 
+// The HandlerFunc type is an adapter to allow the use of
+// ordinary functions as SessionValidators
+type SessionValidatorFunc func(token string, grantID string) error
+
+func (f SessionValidatorFunc) Validate(token string, grantID string) error {
+	return f(token, grantID)
+}
+
 func NewHandshakeServer(conn net.Conn, connectionID uint32, sessionValidator SessionValidator) *Server {
 	return &Server{
 		sessionValidator: sessionValidator,
