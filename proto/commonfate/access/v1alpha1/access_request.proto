@@ -112,6 +112,8 @@ message AccessRequestActions {
   // True if the current user is allowed to perform a breakglass activate on the access request
   // potentially bypassing approval requirements
   bool breakglass_activate_allowed = 3;
+  // True if the current user is allowed to extend the access request
+  bool extend_allowed = 4;
 }
 
 message ApproveAccessRequestRequest {
