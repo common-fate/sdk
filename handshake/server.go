@@ -3,29 +3,20 @@ package handshake
 import (
 	"fmt"
 	"net"
-
-	accessv1alpha1 "github.com/common-fate/sdk/gen/commonfate/access/v1alpha1"
-	entityv1alpha1 "github.com/common-fate/sdk/gen/commonfate/entity/v1alpha1"
 )
 
-type Server[T any] struct {
-	conn           *Conn
-	tokenValidator TokenValidator
-	grantValidator GrantValidator[T]
+type Server struct {
+	conn             *Conn
+	sessionValidator SessionValidator
 }
 
-type TokenValidator interface {
-	Validate(token string) (*accessv1alpha1.GetCallerIdentityResponse, error)
+type SessionValidator interface {
+	Validate(token string, grantID string) error
 }
 
-type GrantValidator[T any] interface {
-	Validate(principal *entityv1alpha1.EID, grantID string) (*accessv1alpha1.Grant, *T, error)
-}
-
-func NewHandshakeServer[T any](conn net.Conn, connectionID uint32, tokenValidator TokenValidator, grantValidator GrantValidator[T]) *Server[T] {
-	return &Server[T]{
-		tokenValidator: tokenValidator,
-		grantValidator: grantValidator,
+func NewHandshakeServer(conn net.Conn, connectionID uint32, sessionValidator SessionValidator) *Server {
+	return &Server{
+		sessionValidator: sessionValidator,
 		conn: &Conn{
 			connectionID: connectionID,
 			netConn:      conn,
@@ -39,50 +30,38 @@ type Conn struct {
 	netConn      net.Conn
 }
 
-type HandshakeResponse[T any] struct {
-	CallerIdentity *accessv1alpha1.GetCallerIdentityResponse
-	Grant          *accessv1alpha1.Grant
-	GrantOutput    *T
-}
-
-func (s *Server[T]) Handshake() (*HandshakeResponse[T], error) {
+func (s *Server) Handshake() error {
 	err := s.conn.writeHandshake(serverVersion)
 	if err != nil {
-		return nil, err
+		return err
 	}
 	data, err := s.conn.readOnePacket()
 	if err != nil {
-		return nil, err
+		return err
 	}
 
 	handshakeResponse, err := parseClientHandshakePacket(data)
 	if err != nil {
-		return nil, err
+		return err
 	}
 
 	// validate the token
-	callerID, err := s.tokenValidator.Validate(handshakeResponse.token)
+	err = s.sessionValidator.Validate(handshakeResponse.token, handshakeResponse.grantID)
 	if err != nil {
-		return nil, s.conn.writeErrorPacketFromError(err)
-	}
-
-	// validate the grant
-	grant, grantOutput, err := s.grantValidator.Validate(callerID.Principal.Eid, handshakeResponse.grantID)
-	if err != nil {
-		return nil, s.conn.writeErrorPacketFromError(err)
+		wErr := s.conn.writeErrorPacketFromError(err)
+		if wErr != nil {
+			return wErr
+		}
+		return fmt.Errorf("session validation failed: %w", err)
 	}
 
 	// Negotiation worked, send OK packet.
 	err = s.conn.writePacket([]byte{ResponseOK})
 	if err != nil {
-		return nil, err
+		return err
 	}
 
-	return &HandshakeResponse[T]{
-		CallerIdentity: callerID,
-		Grant:          grant,
-		GrantOutput:    grantOutput,
-	}, nil
+	return nil
 }
 
 // writeHandshake writes the Initial Handshake Packet, server side
