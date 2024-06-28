@@ -15,7 +15,7 @@ import "commonfate/control/integration/v1alpha1/pagerduty.proto";
 import "commonfate/control/integration/v1alpha1/s3_log_destination.proto";
 import "commonfate/control/integration/v1alpha1/slack.proto";
 import "commonfate/control/integration/v1alpha1/webhook.proto";
-import "commonfate/entity/v1alpha1/eid.proto";
+
 service IntegrationService {
   rpc CreateIntegration(CreateIntegrationRequest) returns (CreateIntegrationResponse) {}
   rpc UpdateIntegration(UpdateIntegrationRequest) returns (UpdateIntegrationResponse) {}
@@ -40,7 +40,7 @@ message ListIntegrationsResponse {
 }
 
 message RegisterIntegrationResourcesRequest {
-  commonfate.entity.v1alpha1.EID integration_id = 1;
+  string integration_id = 1;
   repeated Resource resources = 2;
 }
 
