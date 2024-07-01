@@ -7,9 +7,9 @@ message AWSRDSProxy {
   string idc_region = 3;
 
   // The id of the AWS account where the proxy is deployed
-  string aws_account = 4;
+  string account = 4;
   // The AWS region where the proxy is deployed
-  string aws_region = 5;
+  string region = 5;
 
   // When deployed to ECS, the name of the cluster where the proxy is deployed
   string ecs_cluster_name = 6;
