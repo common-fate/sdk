@@ -17,6 +17,8 @@ message AWSRDSProxy {
   string ecs_task_definition_family = 7;
   // When deployed to ECS, the name of the container for the proxy
   string ecs_container_name = 8;
+  // When deployed to ECS, the ARN of the role which can be used to read the task ID and runtime ID of the proxy when provisioning access
+  string ecs_cluster_read_role_arn = 9;
 
   //@TODO Add EC2 deployment method
 }
