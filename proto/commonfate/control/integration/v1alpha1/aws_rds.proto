@@ -5,8 +5,20 @@ message AWSRDSProxy {
   string idc_provisioner_role_arn = 1;
   string idc_instance_arn = 2;
   string idc_region = 3;
-  string proxy_aws_account = 4;
-  string proxy_aws_region = 5;
+
+  // The id of the AWS account where the proxy is deployed
+  string aws_account = 4;
+  // The AWS region where the proxy is deployed
+  string aws_region = 5;
+
+  // When deployed to ECS, the name of the cluster where the proxy is deployed
+  string ecs_cluster_name = 6;
+  // When deployed to ECS, the name of the proxy task definition
+  string ecs_task_definition_family = 7;
+  // When deployed to ECS, the name of the container for the proxy
+  string ecs_container_name = 8;
+
+  //@TODO Add EC2 deployment method
 }
 message AWSRDSDatabase {
   string name = 1;
