@@ -2622,6 +2622,8 @@ func (m *Entitlement) validate(all bool) error {
 		}
 	}
 
+	// no validation rules for RolePriority
+
 	if len(errors) > 0 {
 		return EntitlementMultiError(errors)
 	}
@@ -3442,6 +3444,8 @@ func (m *BatchEnsureRequest) validate(all bool) error {
 
 	// no validation rules for DryRun
 
+	// no validation rules for Breakglass
+
 	if len(errors) > 0 {
 		return BatchEnsureRequestMultiError(errors)
 	}
@@ -4075,6 +4079,35 @@ func (m *EntitlementNode) validate(all bool) error {
 			}
 		}
 
+	}
+
+	if all {
+		switch v := interface{}(m.GetSuggestedRole()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, EntitlementNodeValidationError{
+					field:  "SuggestedRole",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, EntitlementNodeValidationError{
+					field:  "SuggestedRole",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetSuggestedRole()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return EntitlementNodeValidationError{
+				field:  "SuggestedRole",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
 	}
 
 	if m.Parent != nil {

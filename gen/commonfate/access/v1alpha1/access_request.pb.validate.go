@@ -1019,6 +1019,8 @@ func (m *AccessRequestActions) validate(all bool) error {
 
 	// no validation rules for ActivateAllowed
 
+	// no validation rules for BreakglassActivateAllowed
+
 	if len(errors) > 0 {
 		return AccessRequestActionsMultiError(errors)
 	}
@@ -1604,6 +1606,8 @@ func (m *ActivateAccessRequestRequest) validate(all bool) error {
 	var errors []error
 
 	// no validation rules for Id
+
+	// no validation rules for Breakglass
 
 	if len(errors) > 0 {
 		return ActivateAccessRequestRequestMultiError(errors)

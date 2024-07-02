@@ -148,6 +148,10 @@ func (m *AvailabilitySpec) validate(all bool) error {
 		}
 	}
 
+	if m.RolePriority != nil {
+		// no validation rules for RolePriority
+	}
+
 	if len(errors) > 0 {
 		return AvailabilitySpecMultiError(errors)
 	}
@@ -335,6 +339,10 @@ func (m *CreateAvailabilitySpecRequest) validate(all bool) error {
 				cause:  err,
 			}
 		}
+	}
+
+	if m.RolePriority != nil {
+		// no validation rules for RolePriority
 	}
 
 	if len(errors) > 0 {

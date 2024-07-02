@@ -69,6 +69,35 @@ func (m *CreateSlackAlertRequest) validate(all bool) error {
 
 	// no validation rules for DisableInteractivityHandlers
 
+	if all {
+		switch v := interface{}(m.GetNotifyExpiryInSeconds()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, CreateSlackAlertRequestValidationError{
+					field:  "NotifyExpiryInSeconds",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, CreateSlackAlertRequestValidationError{
+					field:  "NotifyExpiryInSeconds",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetNotifyExpiryInSeconds()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return CreateSlackAlertRequestValidationError{
+				field:  "NotifyExpiryInSeconds",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
 	if m.IntegrationId != nil {
 		// no validation rules for IntegrationId
 	}
@@ -188,6 +217,35 @@ func (m *SlackAlert) validate(all bool) error {
 	// no validation rules for SendDirectMessagesToApprovers
 
 	// no validation rules for DisableInteractivityHandlers
+
+	if all {
+		switch v := interface{}(m.GetNotifyExpiryInSeconds()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, SlackAlertValidationError{
+					field:  "NotifyExpiryInSeconds",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, SlackAlertValidationError{
+					field:  "NotifyExpiryInSeconds",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetNotifyExpiryInSeconds()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return SlackAlertValidationError{
+				field:  "NotifyExpiryInSeconds",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
 
 	if m.IntegrationId != nil {
 		// no validation rules for IntegrationId
