@@ -1,78 +1,84 @@
 package handshake
 
 import (
-	"context"
 	"fmt"
 	"net"
 
 	"github.com/common-fate/clio"
-	"github.com/common-fate/sdk/config"
+	"golang.org/x/oauth2"
 )
 
 type Client struct {
-	conn    *Conn
-	grantID string
+	conn        *Conn
+	grantID     string
+	tokenSource oauth2.TokenSource
 }
 
-func NewHandshakeClient(conn net.Conn, grantID string) *Client {
+func NewHandshakeClient(conn net.Conn, grantID string, tokenSource oauth2.TokenSource) *Client {
 	return &Client{
 		grantID: grantID,
 		conn: &Conn{
 			netConn: conn,
 		},
+		tokenSource: tokenSource,
 	}
 }
 
-func (c *Client) Handshake() error {
+type HandshakeResult struct {
+	ConnectionID       uint32
+	ServerCapabilities uint32
+	AuthMethod         string
+}
+
+func (c *Client) Handshake() (*HandshakeResult, error) {
+	clio.Debugw("beginning handshake for grant", "grantId", c.grantID)
 	data, err := c.conn.readOnePacket()
 	if err != nil {
-		return err
+		return nil, err
 	}
+	clio.Debugw("server handshake initial packet", "packet", data)
 
 	capabilities, authMethod, err := c.parseInitialHandshakePacket(data)
 	if err != nil {
-		return err
+		return nil, err
 	}
-	if capabilities&CapabilityServerMySQL > 0 {
-		clio.Info("server supports mysql database connections")
-	}
-	if capabilities&CapabilityServerPostgres > 0 {
-		clio.Info("server supports postgres database connections")
-	}
+
+	clio.Debugw("parsed initial handshake packet", "connectionId", c.conn.connectionID)
 
 	if authMethod != CFAuthToken {
-		return fmt.Errorf("only cf auth token is supported")
+		return nil, fmt.Errorf("only %s auth method is supported", CFAuthToken)
 	}
 
-	// get the auth token
-	cfg, err := config.LoadDefault(context.Background())
+	token, err := c.tokenSource.Token()
 	if err != nil {
-		return err
+		return nil, err
 	}
 
-	tok, err := cfg.TokenStore.Token()
-	if err != nil {
-		return err
-	}
-
+	clio.Debug("writing handshake response")
 	// send response
-	err = c.writeClientHandshakeResponse(tok.AccessToken, c.grantID)
+	err = c.writeClientHandshakeResponse(token.AccessToken, c.grantID)
 	if err != nil {
-		return err
+		return nil, err
 	}
 	// read ok
 	data, err = c.conn.readOnePacket()
 	if err != nil {
-		return err
+		return nil, err
 	}
+	clio.Debug("server handshake response packet", "packet", data)
 	switch data[0] {
 	case ResponseOK:
-		clio.Success("handshake success")
-		return nil
+		clio.Debug("handshake successful")
+		return &HandshakeResult{
+			ConnectionID:       c.conn.connectionID,
+			ServerCapabilities: capabilities,
+			AuthMethod:         authMethod,
+		}, nil
 	case ResponseERR:
-		return parseErrorPacket(data)
+		return nil, parseErrorPacket(data)
+	default:
+		return nil, fmt.Errorf("handshake failed: unexpected response from server")
 	}
-	return nil
 }
 
 // ParseErrorPacket parses the error packet and returns a SQLError.
