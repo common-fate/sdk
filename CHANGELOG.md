@@ -1,5 +1,11 @@
 # @common-fate/sdk
 
+## 1.41.1
+
+### Patch Changes
+
+- 1b9f2dc: Move the insight package to be inside the 'control' package
+
 ## 1.41.0
 
 ### Minor Changes
