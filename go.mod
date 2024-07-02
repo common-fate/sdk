@@ -8,7 +8,6 @@ require (
 	github.com/BurntSushi/toml v1.3.2
 	github.com/common-fate/apikit v0.3.0
 	github.com/common-fate/clio v1.2.3
-	github.com/common-fate/grab v1.1.0
 	github.com/fatih/structtag v1.2.0
 	github.com/go-chi/chi/v5 v5.0.10
 	github.com/google/uuid v1.4.0
@@ -39,7 +38,7 @@ require (
 	github.com/dvsekhvalnov/jose2go v1.6.0 // indirect
 	github.com/godbus/dbus v0.0.0-20190726142602-4481cbc300e2 // indirect
 	github.com/golang/protobuf v1.5.3 // indirect
-	github.com/gorilla/schema v1.2.0 // indirect
+	github.com/gorilla/schema v1.4.1 // indirect
 	github.com/gorilla/securecookie v1.1.1 // indirect
 	github.com/gsterjov/go-libsecret v0.0.0-20161001094733-a6f4afe4910c // indirect
 	github.com/hashicorp/errwrap v1.0.0 // indirect

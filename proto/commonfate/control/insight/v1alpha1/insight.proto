@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+package commonfate.control.insight.v1alpha1;
+
+import "commonfate/access/v1alpha1/named_eid.proto";
+import "commonfate/authz/v1alpha1/read_only.proto";
+
+service InsightService {
+  // retrieves the latest least privilege report.
+  rpc GetInsights(GetInsightsRequest) returns (GetInsightsResponse) {
+    option (commonfate.authz.v1alpha1.read_only) = true;
+  }
+}
+
+message GetInsightsRequest {}
+
+message GetInsightsResponse {
+  Insights insights = 1;
+}
+
+message Insights {
+  int32 protected_users = 1;
+  // from 0 - 100
+  float access_hours_reduction_percent = 2;
+  int32 access_hours_reduced = 3;
+  repeated AccessRequestDailyMetric access_requests_last_90_days = 4;
+
+  repeated EntitlementsUsageDailyMetric entitlement_usage_last_90_days = 5;
+}
+
+message AccessRequestDailyMetric {
+  string date = 1;
+  int32 count = 2;
+}
+message EntitlementsUsageDailyMetric {
+  string date = 1;
+  repeated EntitlementUsageMetric entitlements = 2;
+}
+message EntitlementUsageMetric {
+  commonfate.access.v1alpha1.NamedEID target = 1;
+  commonfate.access.v1alpha1.NamedEID role = 2;
+  int32 count = 3;
+}

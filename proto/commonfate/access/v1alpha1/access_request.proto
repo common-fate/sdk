@@ -110,6 +110,9 @@ message AccessRequestActions {
   bool approve_allowed = 1;
   // True if the current user is allowed to activate the access request
   bool activate_allowed = 2;
+  // True if the current user is allowed to perform a breakglass activate on the access request
+  // potentially bypassing approval requirements
+  bool breakglass_activate_allowed = 3;
 }
 
 message ApproveAccessRequestRequest {
@@ -142,6 +145,10 @@ message ActivateAccessRequestRequest {
 
   // If provided, will only activate the grants with the specified IDs
   repeated string activate_grants = 2;
+
+  // If true, will attempt to activate if Access::Action::"BreakglassActivate" action is permitted for the user.
+  // When configured, using this action will trigger notifications.
+  bool breakglass = 3;
 }
 
 message ActivateAccessRequestResponse {

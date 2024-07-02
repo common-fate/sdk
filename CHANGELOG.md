@@ -1,5 +1,31 @@
 # @common-fate/sdk
 
+## 1.41.1
+
+### Patch Changes
+
+- 1b9f2dc: Move the insight package to be inside the 'control' package
+
+## 1.41.0
+
+### Minor Changes
+
+- 12d766f: Add Insights service
+
+## 1.40.1
+
+### Patch Changes
+
+- 215cba4: Add support for suggesting a highest priority default role for availability specs
+
+## 1.40.0
+
+### Minor Changes
+
+- f3854b7: Add notify_expiry_in_seconds to slack notification so that users can be notified at a preset time before their access expires.
+- 5bfbd2f: Add support for breakglass access on BatchEnsure and Activate
+- 7d93769: Add filtering for webhooks on specific actions
+
 ## 1.39.1
 
 ### Patch Changes
