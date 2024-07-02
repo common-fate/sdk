@@ -110,12 +110,12 @@ func (c *Conn) writeHandshake(serverVersion string) error {
 	return c.writePacket(data)
 }
 
-type handshakeResponse struct {
+type ClientHandshake struct {
 	token   string
 	grantID string
 }
 
-func parseClientHandshakePacket(data []byte) (*handshakeResponse, error) {
+func parseClientHandshakePacket(data []byte) (*ClientHandshake, error) {
 	pos := 0
 
 	// Client flags, 4 bytes. not currently used for anything
@@ -134,7 +134,7 @@ func parseClientHandshakePacket(data []byte) (*handshakeResponse, error) {
 		return nil, fmt.Errorf("parseClientHandshakePacket: can't read grantID")
 	}
 
-	return &handshakeResponse{
+	return &ClientHandshake{
 		token:   token,
 		grantID: grantID,
 	}, nil

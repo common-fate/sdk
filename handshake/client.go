@@ -24,13 +24,15 @@ func NewHandshakeClient(conn net.Conn, grantID string, tokenSource oauth2.TokenS
 	}
 }
 
-type HandshakeResult struct {
+type ServerHandshake struct {
 	ConnectionID       uint32
 	ServerCapabilities uint32
 	AuthMethod         string
+	ServerVersion      string
+	ProtocolVersion    int
 }
 
-func (c *Client) Handshake() (*HandshakeResult, error) {
+func (c *Client) Handshake() (*ServerHandshake, error) {
 	clio.Debugw("beginning handshake for grant", "grantId", c.grantID)
 	data, err := c.conn.readOnePacket()
 	if err != nil {
@@ -38,14 +40,14 @@ func (c *Client) Handshake() (*HandshakeResult, error) {
 	}
 	clio.Debugw("server handshake initial packet", "packet", data)
 
-	capabilities, authMethod, err := c.parseInitialHandshakePacket(data)
+	handshake, err := c.parseInitialHandshakePacket(data)
 	if err != nil {
 		return nil, err
 	}
 
 	clio.Debugw("parsed initial handshake packet", "connectionId", c.conn.connectionID)
 
-	if authMethod != CFAuthToken {
+	if handshake.AuthMethod != CFAuthToken {
 		return nil, fmt.Errorf("only %s auth method is supported", CFAuthToken)
 	}
 
@@ -69,11 +71,7 @@ func (c *Client) Handshake() (*HandshakeResult, error) {
 	switch data[0] {
 	case ResponseOK:
 		clio.Debug("handshake successful")
-		return &HandshakeResult{
-			ConnectionID:       c.conn.connectionID,
-			ServerCapabilities: capabilities,
-			AuthMethod:         authMethod,
-		}, nil
+		return handshake, nil
 	case ResponseERR:
 		return nil, parseErrorPacket(data)
 	default:
@@ -127,13 +125,13 @@ func (c *Client) writeClientHandshakeResponse(authToken string, grantID string) 
 }
 
 // parseInitialHandshakePacket parses the initial handshake from the server.
-func (c *Client) parseInitialHandshakePacket(data []byte) (uint32, string, error) {
+func (c *Client) parseInitialHandshakePacket(data []byte) (*ServerHandshake, error) {
 	pos := 0
 
 	// Protocol version.
 	pver, pos, ok := readByte(data, pos)
 	if !ok {
-		return 0, "", fmt.Errorf("parseInitialHandshakePacket: packet has no protocol version")
+		return nil, fmt.Errorf("parseInitialHandshakePacket: packet has no protocol version")
 	}
 
 	// Server is allowed to immediately send ERR packet
@@ -142,35 +140,40 @@ func (c *Client) parseInitialHandshakePacket(data []byte) (uint32, string, error
 		// Normally there would be a 1-byte sql_state_marker field and a 5-byte
 		// sql_state field here, but docs say these will not be present in this case.
 		errorMsg, _, _ := readEOFString(data, pos)
-		return 0, "", fmt.Errorf("immediate error from server errorCode=%v errorMsg=%v", errorCode, errorMsg)
+		return nil, fmt.Errorf("immediate error from server errorCode=%v errorMsg=%v", errorCode, errorMsg)
 	}
 
 	if pver != protocolVersion {
-		return 0, "", fmt.Errorf("bad protocol version: %v", pver)
+		return nil, fmt.Errorf("bad protocol version: %v", pver)
 	}
 
 	// Read the server version.
 	serverVersion, pos, ok := readNullString(data, pos)
 	if !ok {
-		return 0, "", fmt.Errorf("parseInitialHandshakePacket: packet has no server version")
+		return nil, fmt.Errorf("parseInitialHandshakePacket: packet has no server version")
 	}
-	clio.Infof("server version %s", serverVersion)
 
 	// Read the connection id.
 	c.conn.connectionID, pos, ok = readUint32(data, pos)
 	if !ok {
-		return 0, "", fmt.Errorf("parseInitialHandshakePacket: packet has no connection id")
+		return nil, fmt.Errorf("parseInitialHandshakePacket: packet has no connection id")
 	}
 
 	// Lower 2 bytes of the capability flags.
 	capabilities, pos, ok := readUint32(data, pos)
 	if !ok {
-		return 0, "", fmt.Errorf("parseInitialHandshakePacket: packet has no capability flags ")
+		return nil, fmt.Errorf("parseInitialHandshakePacket: packet has no capability flags ")
 	}
 
 	authMethod, _, ok := readNullString(data, pos)
 	if !ok {
-		return 0, "", fmt.Errorf("parseInitialHandshakePacket: packet has no auth method")
+		return nil, fmt.Errorf("parseInitialHandshakePacket: packet has no auth method")
 	}
-	return capabilities, authMethod, nil
+	return &ServerHandshake{
+		ConnectionID:       c.conn.connectionID,
+		ServerCapabilities: capabilities,
+		AuthMethod:         authMethod,
+		ServerVersion:      serverVersion,
+		ProtocolVersion:    int(pver),
+	}, nil
 }
