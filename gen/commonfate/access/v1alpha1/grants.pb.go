@@ -103,7 +103,7 @@ func (x *QueryGrantsRequest) GetStatus() GrantStatus {
 	return GrantStatus_GRANT_STATUS_UNSPECIFIED
 }
 
-type GetGrantResponse struct {
+type GetGrantRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
@@ -111,57 +111,10 @@ type GetGrantResponse struct {
 	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 }
 
-func (x *GetGrantResponse) Reset() {
-	*x = GetGrantResponse{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_commonfate_access_v1alpha1_grants_proto_msgTypes[1]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *GetGrantResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*GetGrantResponse) ProtoMessage() {}
-
-func (x *GetGrantResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_commonfate_access_v1alpha1_grants_proto_msgTypes[1]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use GetGrantResponse.ProtoReflect.Descriptor instead.
-func (*GetGrantResponse) Descriptor() ([]byte, []int) {
-	return file_commonfate_access_v1alpha1_grants_proto_rawDescGZIP(), []int{1}
-}
-
-func (x *GetGrantResponse) GetId() string {
-	if x != nil {
-		return x.Id
-	}
-	return ""
-}
-
-type GetGrantRequest struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	Grant *Grant `protobuf:"bytes,1,opt,name=grant,proto3" json:"grant,omitempty"`
-}
-
 func (x *GetGrantRequest) Reset() {
 	*x = GetGrantRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_commonfate_access_v1alpha1_grants_proto_msgTypes[2]
+		mi := &file_commonfate_access_v1alpha1_grants_proto_msgTypes[1]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -174,7 +127,7 @@ func (x *GetGrantRequest) String() string {
 func (*GetGrantRequest) ProtoMessage() {}
 
 func (x *GetGrantRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_commonfate_access_v1alpha1_grants_proto_msgTypes[2]
+	mi := &file_commonfate_access_v1alpha1_grants_proto_msgTypes[1]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -187,10 +140,57 @@ func (x *GetGrantRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetGrantRequest.ProtoReflect.Descriptor instead.
 func (*GetGrantRequest) Descriptor() ([]byte, []int) {
+	return file_commonfate_access_v1alpha1_grants_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *GetGrantRequest) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+type GetGrantResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Grant *Grant `protobuf:"bytes,1,opt,name=grant,proto3" json:"grant,omitempty"`
+}
+
+func (x *GetGrantResponse) Reset() {
+	*x = GetGrantResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_commonfate_access_v1alpha1_grants_proto_msgTypes[2]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetGrantResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetGrantResponse) ProtoMessage() {}
+
+func (x *GetGrantResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_commonfate_access_v1alpha1_grants_proto_msgTypes[2]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetGrantResponse.ProtoReflect.Descriptor instead.
+func (*GetGrantResponse) Descriptor() ([]byte, []int) {
 	return file_commonfate_access_v1alpha1_grants_proto_rawDescGZIP(), []int{2}
 }
 
-func (x *GetGrantRequest) GetGrant() *Grant {
+func (x *GetGrantResponse) GetGrant() *Grant {
 	if x != nil {
 		return x.Grant
 	}
@@ -402,10 +402,10 @@ var file_commonfate_access_v1alpha1_grants_proto_rawDesc = []byte{
 	0x2e, 0x61, 0x63, 0x63, 0x65, 0x73, 0x73, 0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31,
 	0x2e, 0x47, 0x72, 0x61, 0x6e, 0x74, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x48, 0x00, 0x52, 0x06,
 	0x73, 0x74, 0x61, 0x74, 0x75, 0x73, 0x88, 0x01, 0x01, 0x42, 0x09, 0x0a, 0x07, 0x5f, 0x73, 0x74,
-	0x61, 0x74, 0x75, 0x73, 0x22, 0x22, 0x0a, 0x10, 0x47, 0x65, 0x74, 0x47, 0x72, 0x61, 0x6e, 0x74,
-	0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01,
-	0x20, 0x01, 0x28, 0x09, 0x52, 0x02, 0x69, 0x64, 0x22, 0x4a, 0x0a, 0x0f, 0x47, 0x65, 0x74, 0x47,
-	0x72, 0x61, 0x6e, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x37, 0x0a, 0x05, 0x67,
+	0x61, 0x74, 0x75, 0x73, 0x22, 0x21, 0x0a, 0x0f, 0x47, 0x65, 0x74, 0x47, 0x72, 0x61, 0x6e, 0x74,
+	0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20,
+	0x01, 0x28, 0x09, 0x52, 0x02, 0x69, 0x64, 0x22, 0x4b, 0x0a, 0x10, 0x47, 0x65, 0x74, 0x47, 0x72,
+	0x61, 0x6e, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x37, 0x0a, 0x05, 0x67,
 	0x72, 0x61, 0x6e, 0x74, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x21, 0x2e, 0x63, 0x6f, 0x6d,
 	0x6d, 0x6f, 0x6e, 0x66, 0x61, 0x74, 0x65, 0x2e, 0x61, 0x63, 0x63, 0x65, 0x73, 0x73, 0x2e, 0x76,
 	0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x2e, 0x47, 0x72, 0x61, 0x6e, 0x74, 0x52, 0x05, 0x67,
@@ -488,8 +488,8 @@ func file_commonfate_access_v1alpha1_grants_proto_rawDescGZIP() []byte {
 var file_commonfate_access_v1alpha1_grants_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
 var file_commonfate_access_v1alpha1_grants_proto_goTypes = []any{
 	(*QueryGrantsRequest)(nil),         // 0: commonfate.access.v1alpha1.QueryGrantsRequest
-	(*GetGrantResponse)(nil),           // 1: commonfate.access.v1alpha1.GetGrantResponse
-	(*GetGrantRequest)(nil),            // 2: commonfate.access.v1alpha1.GetGrantRequest
+	(*GetGrantRequest)(nil),            // 1: commonfate.access.v1alpha1.GetGrantRequest
+	(*GetGrantResponse)(nil),           // 2: commonfate.access.v1alpha1.GetGrantResponse
 	(*QueryGrantsResponse)(nil),        // 3: commonfate.access.v1alpha1.QueryGrantsResponse
 	(*QueryGrantChildrenRequest)(nil),  // 4: commonfate.access.v1alpha1.QueryGrantChildrenRequest
 	(*QueryGrantChildrenResponse)(nil), // 5: commonfate.access.v1alpha1.QueryGrantChildrenResponse
@@ -503,14 +503,14 @@ var file_commonfate_access_v1alpha1_grants_proto_depIdxs = []int32{
 	6,  // 1: commonfate.access.v1alpha1.QueryGrantsRequest.target:type_name -> commonfate.entity.v1alpha1.EID
 	6,  // 2: commonfate.access.v1alpha1.QueryGrantsRequest.role:type_name -> commonfate.entity.v1alpha1.EID
 	7,  // 3: commonfate.access.v1alpha1.QueryGrantsRequest.status:type_name -> commonfate.access.v1alpha1.GrantStatus
-	8,  // 4: commonfate.access.v1alpha1.GetGrantRequest.grant:type_name -> commonfate.access.v1alpha1.Grant
+	8,  // 4: commonfate.access.v1alpha1.GetGrantResponse.grant:type_name -> commonfate.access.v1alpha1.Grant
 	8,  // 5: commonfate.access.v1alpha1.QueryGrantsResponse.grants:type_name -> commonfate.access.v1alpha1.Grant
 	9,  // 6: commonfate.access.v1alpha1.QueryGrantChildrenResponse.entities:type_name -> commonfate.entity.v1alpha1.Entity
 	0,  // 7: commonfate.access.v1alpha1.GrantsService.QueryGrants:input_type -> commonfate.access.v1alpha1.QueryGrantsRequest
-	2,  // 8: commonfate.access.v1alpha1.GrantsService.GetGrant:input_type -> commonfate.access.v1alpha1.GetGrantRequest
+	1,  // 8: commonfate.access.v1alpha1.GrantsService.GetGrant:input_type -> commonfate.access.v1alpha1.GetGrantRequest
 	4,  // 9: commonfate.access.v1alpha1.GrantsService.QueryGrantChildren:input_type -> commonfate.access.v1alpha1.QueryGrantChildrenRequest
 	3,  // 10: commonfate.access.v1alpha1.GrantsService.QueryGrants:output_type -> commonfate.access.v1alpha1.QueryGrantsResponse
-	1,  // 11: commonfate.access.v1alpha1.GrantsService.GetGrant:output_type -> commonfate.access.v1alpha1.GetGrantResponse
+	2,  // 11: commonfate.access.v1alpha1.GrantsService.GetGrant:output_type -> commonfate.access.v1alpha1.GetGrantResponse
 	5,  // 12: commonfate.access.v1alpha1.GrantsService.QueryGrantChildren:output_type -> commonfate.access.v1alpha1.QueryGrantChildrenResponse
 	10, // [10:13] is the sub-list for method output_type
 	7,  // [7:10] is the sub-list for method input_type
@@ -540,7 +540,7 @@ func file_commonfate_access_v1alpha1_grants_proto_init() {
 			}
 		}
 		file_commonfate_access_v1alpha1_grants_proto_msgTypes[1].Exporter = func(v any, i int) any {
-			switch v := v.(*GetGrantResponse); i {
+			switch v := v.(*GetGrantRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -552,7 +552,7 @@ func file_commonfate_access_v1alpha1_grants_proto_init() {
 			}
 		}
 		file_commonfate_access_v1alpha1_grants_proto_msgTypes[2].Exporter = func(v any, i int) any {
-			switch v := v.(*GetGrantRequest); i {
+			switch v := v.(*GetGrantResponse); i {
 			case 0:
 				return &v.state
 			case 1:
