@@ -15,6 +15,10 @@ const (
 
 	// 1200 -  grant errors
 	ErrGrantInactiveError = 1200
+	ErrNoGrantOutputError = 1201
+
+	// 1300 -  grant errors
+	ErrUserIdentityError = 1300
 )
 
 // ServerError is a known error type
@@ -23,16 +27,30 @@ type ServerError struct {
 	Message string
 }
 
-func InternalServerError() ServerError {
-	return ServerError{
+func InternalServerError() *ServerError {
+	return &ServerError{
 		Num:     ErrInternalError,
 		Message: "internal server error",
 	}
 }
-func GrantInactiveError() ServerError {
-	return ServerError{
+func GrantInactiveError() *ServerError {
+	return &ServerError{
 		Num:     ErrGrantInactiveError,
 		Message: "The grant is inactive",
+	}
+}
+
+func NoGrantOutputError() *ServerError {
+	return &ServerError{
+		Num:     ErrNoGrantOutputError,
+		Message: "No grant output was found for this grant",
+	}
+}
+
+func CannotVerifyUserIdentityError() *ServerError {
+	return &ServerError{
+		Num:     ErrUserIdentityError,
+		Message: "Cannot verify the users identity",
 	}
 }
 
