@@ -6,11 +6,15 @@ import (
 )
 
 const (
+	// 1000 - 1199 server errors
 	// unknown
-	ErrUnknownError = 1111
+	ErrUnknownError = 1000
 
 	// internal
 	ErrInternalError = 1100
+
+	// 1200 -  grant errors
+	ErrGrantInactiveError = 1200
 )
 
 // ServerError is a known error type
@@ -23,6 +27,12 @@ func InternalServerError() ServerError {
 	return ServerError{
 		Num:     ErrInternalError,
 		Message: "internal server error",
+	}
+}
+func GrantInactiveError() ServerError {
+	return ServerError{
+		Num:     ErrGrantInactiveError,
+		Message: "The grant is inactive",
 	}
 }
 
