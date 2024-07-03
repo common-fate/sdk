@@ -2,37 +2,44 @@ syntax = "proto3";
 
 package commonfate.access.v1alpha1;
 
-
 import "commonfate/access/v1alpha1/access.proto";
 import "commonfate/access/v1alpha1/grant.proto";
-import "commonfate/entity/v1alpha1/entity.proto";
-import "commonfate/entity/v1alpha1/eid.proto";
 import "commonfate/authz/v1alpha1/read_only.proto";
-
+import "commonfate/entity/v1alpha1/eid.proto";
+import "commonfate/entity/v1alpha1/entity.proto";
 
 // The Grant API.
 service GrantsService {
-    rpc QueryGrants(QueryGrantsRequest) returns (QueryGrantsResponse) {
-        option(commonfate.authz.v1alpha1.read_only) = true;
-    }
-    rpc QueryGrantChildren(QueryGrantChildrenRequest) returns (QueryGrantChildrenResponse) {
-        option(commonfate.authz.v1alpha1.read_only) = true;
-    }
+  rpc QueryGrants(QueryGrantsRequest) returns (QueryGrantsResponse) {
+    option (commonfate.authz.v1alpha1.read_only) = true;
+  }
+  rpc GetGrant(GetGrantRequest) returns (GetGrantResponse) {
+    option (commonfate.authz.v1alpha1.read_only) = true;
+  }
+  rpc QueryGrantChildren(QueryGrantChildrenRequest) returns (QueryGrantChildrenResponse) {
+    option (commonfate.authz.v1alpha1.read_only) = true;
+  }
 }
 
-  
 message QueryGrantsRequest {
-    // The token for the next page.
-    string page_token = 1;
+  // The token for the next page.
+  string page_token = 1;
 
-    commonfate.entity.v1alpha1.EID principal = 2;
+  commonfate.entity.v1alpha1.EID principal = 2;
 
-    commonfate.entity.v1alpha1.EID target = 3;
+  commonfate.entity.v1alpha1.EID target = 3;
 
-    commonfate.entity.v1alpha1.EID role = 4;
-    // The status of the Grant.
-    optional GrantStatus status = 5;
+  commonfate.entity.v1alpha1.EID role = 4;
+  // The status of the Grant.
+  optional GrantStatus status = 5;
+}
 
+message GetGrantResponse {
+  string id = 1;
+}
+
+message GetGrantRequest {
+  Grant grant = 1;
 }
 
 message QueryGrantsResponse {
@@ -41,11 +48,9 @@ message QueryGrantsResponse {
 }
 
 message QueryGrantChildrenRequest {
-    string id = 1;
-    // The token for the next page.
-    string page_token = 2;
-
-
+  string id = 1;
+  // The token for the next page.
+  string page_token = 2;
 }
 
 message QueryGrantChildrenResponse {
