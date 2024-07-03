@@ -69,11 +69,11 @@ message Grant {
 
     // Conditions for extending access. 
     // If empty, extensions are not permitted.
-    ExtensionConditions extension_conditions = 19;
+    Extension extension = 19;
 
 }
 
-message ExtensionConditions {
+message Extension {
     // the number of allowed extensions remaining
     int32 remaining = 1;
     // the duration to extend by on each extension
