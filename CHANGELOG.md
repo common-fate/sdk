@@ -1,5 +1,16 @@
 # @common-fate/sdk
 
+## 1.42.0
+
+### Minor Changes
+
+- 704784c: Add support for extend access configuration with max extensions and extension duration in access workflows.
+- 4ba41f4: Adds validation to rpc messages
+
+### Patch Changes
+
+- 82a26d0: add duration configuration to batch ensure request
+
 ## 1.41.1
 
 ### Patch Changes
