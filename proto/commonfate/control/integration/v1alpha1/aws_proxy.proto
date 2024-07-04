@@ -19,13 +19,13 @@ message AWSECSProxyInstanceConfig {
   // The AWS region where the proxy is deployed
   string region = 2;
 
-  // When deployed to ECS, the name of the cluster where the proxy is deployed
+  // The name of the cluster where the proxy is deployed
   string ecs_cluster_name = 3;
-  // When deployed to ECS, the name of the proxy task definition
+  // The name of the proxy task definition
   string ecs_task_definition_family = 4;
-  // When deployed to ECS, the name of the container for the proxy
+  // The name of the container for the proxy
   string ecs_container_name = 5;
-  // When deployed to ECS, the ARN of the role which can be used to read the task ID and runtime ID of the proxy when provisioning access
+  // The ARN of the role which can be used to read the task ID and runtime ID of the proxy when provisioning access
   string ecs_cluster_reader_role_arn = 6;
 }
 
