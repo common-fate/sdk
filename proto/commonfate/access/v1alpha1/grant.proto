@@ -5,7 +5,6 @@ package commonfate.access.v1alpha1;
 import "commonfate/control/attest/v1alpha1/attestation.proto";
 import "commonfate/access/v1alpha1/user.proto";
 import "commonfate/entity/v1alpha1/entity.proto";
-
 import "commonfate/access/v1alpha1/named_eid.proto";
 import "commonfate/access/v1alpha1/audit_logs.proto";
 import "google/protobuf/duration.proto";
@@ -68,6 +67,17 @@ message Grant {
     // A URL which can be used to access the requested entitlement.
     string external_url = 18;
 
+    // Conditions for extending access. 
+    // If empty, extensions are not permitted.
+    Extension extension = 19;
+
+}
+
+message Extension {
+    // the number of allowed extensions remaining
+    int32 remaining = 1;
+    // the duration to extend by on each extension
+    google.protobuf.Duration extension_duration_seconds = 2;
 }
 
 enum GrantStatus {

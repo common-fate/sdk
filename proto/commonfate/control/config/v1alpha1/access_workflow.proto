@@ -2,6 +2,7 @@ syntax = "proto3";
 package commonfate.control.config.v1alpha1;
 
 import "google/protobuf/duration.proto";
+import "commonfate/access/v1alpha1/extension_conditions.proto";
 import "commonfate/entity/v1alpha1/eid.proto";
 import "commonfate/authz/v1alpha1/read_only.proto";
 
@@ -25,6 +26,7 @@ message AccessWorkflow {
     google.protobuf.Duration activation_expiry = 6;
     google.protobuf.Duration default_duration = 7;
     ValidationConfig validation = 8;
+    commonfate.access.v1alpha1.ExtensionConditions extension_conditions = 9;
 }
 
 message ValidationConfig {
@@ -40,7 +42,7 @@ message CreateAccessWorkflowRequest {
     google.protobuf.Duration activation_expiry= 6;
     google.protobuf.Duration default_duration = 7;
     ValidationConfig validation = 8;
-
+    commonfate.access.v1alpha1.ExtensionConditions extension_conditions = 9;
 }
 
 message CreateAccessWorkflowResponse {
