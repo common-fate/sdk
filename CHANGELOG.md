@@ -1,5 +1,11 @@
 # @common-fate/sdk
 
+## 1.42.1
+
+### Patch Changes
+
+- 0bcb38a: Fix an issue where Display methods had been removed for accessv1alpha1 types.
+
 ## 1.42.0
 
 ### Minor Changes
