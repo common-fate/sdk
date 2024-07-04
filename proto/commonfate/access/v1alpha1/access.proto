@@ -290,8 +290,6 @@ message BatchEnsureResponse {
 message DurationConfiguration {
   google.protobuf.Duration default_duration = 1;
   google.protobuf.Duration max_duration = 2;
-  
-
 }
 
 message GrantState {
