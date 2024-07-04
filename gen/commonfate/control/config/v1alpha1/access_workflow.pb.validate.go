@@ -208,6 +208,35 @@ func (m *AccessWorkflow) validate(all bool) error {
 		}
 	}
 
+	if all {
+		switch v := interface{}(m.GetExtensionConditions()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, AccessWorkflowValidationError{
+					field:  "ExtensionConditions",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, AccessWorkflowValidationError{
+					field:  "ExtensionConditions",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetExtensionConditions()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return AccessWorkflowValidationError{
+				field:  "ExtensionConditions",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
 	if len(errors) > 0 {
 		return AccessWorkflowMultiError(errors)
 	}
@@ -553,6 +582,35 @@ func (m *CreateAccessWorkflowRequest) validate(all bool) error {
 		if err := v.Validate(); err != nil {
 			return CreateAccessWorkflowRequestValidationError{
 				field:  "Validation",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if all {
+		switch v := interface{}(m.GetExtensionConditions()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, CreateAccessWorkflowRequestValidationError{
+					field:  "ExtensionConditions",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, CreateAccessWorkflowRequestValidationError{
+					field:  "ExtensionConditions",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetExtensionConditions()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return CreateAccessWorkflowRequestValidationError{
+				field:  "ExtensionConditions",
 				reason: "embedded message failed validation",
 				cause:  err,
 			}

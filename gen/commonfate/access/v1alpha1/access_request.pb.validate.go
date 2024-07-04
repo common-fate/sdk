@@ -1021,6 +1021,8 @@ func (m *AccessRequestActions) validate(all bool) error {
 
 	// no validation rules for BreakglassActivateAllowed
 
+	// no validation rules for ExtendAllowed
+
 	if len(errors) > 0 {
 		return AccessRequestActionsMultiError(errors)
 	}
