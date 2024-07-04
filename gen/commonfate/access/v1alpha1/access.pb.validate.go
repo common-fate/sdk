@@ -3676,6 +3676,35 @@ func (m *BatchEnsureResponse) validate(all bool) error {
 
 	}
 
+	if all {
+		switch v := interface{}(m.GetDurationConfiguration()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, BatchEnsureResponseValidationError{
+					field:  "DurationConfiguration",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, BatchEnsureResponseValidationError{
+					field:  "DurationConfiguration",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetDurationConfiguration()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return BatchEnsureResponseValidationError{
+				field:  "DurationConfiguration",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
 	if len(errors) > 0 {
 		return BatchEnsureResponseMultiError(errors)
 	}
@@ -3755,6 +3784,166 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = BatchEnsureResponseValidationError{}
+
+// Validate checks the field values on DurationConfiguration with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *DurationConfiguration) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on DurationConfiguration with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// DurationConfigurationMultiError, or nil if none found.
+func (m *DurationConfiguration) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *DurationConfiguration) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if all {
+		switch v := interface{}(m.GetDefaultDuration()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, DurationConfigurationValidationError{
+					field:  "DefaultDuration",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, DurationConfigurationValidationError{
+					field:  "DefaultDuration",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetDefaultDuration()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return DurationConfigurationValidationError{
+				field:  "DefaultDuration",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if all {
+		switch v := interface{}(m.GetMaxDuration()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, DurationConfigurationValidationError{
+					field:  "MaxDuration",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, DurationConfigurationValidationError{
+					field:  "MaxDuration",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetMaxDuration()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return DurationConfigurationValidationError{
+				field:  "MaxDuration",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if len(errors) > 0 {
+		return DurationConfigurationMultiError(errors)
+	}
+
+	return nil
+}
+
+// DurationConfigurationMultiError is an error wrapping multiple validation
+// errors returned by DurationConfiguration.ValidateAll() if the designated
+// constraints aren't met.
+type DurationConfigurationMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m DurationConfigurationMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m DurationConfigurationMultiError) AllErrors() []error { return m }
+
+// DurationConfigurationValidationError is the validation error returned by
+// DurationConfiguration.Validate if the designated constraints aren't met.
+type DurationConfigurationValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e DurationConfigurationValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e DurationConfigurationValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e DurationConfigurationValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e DurationConfigurationValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e DurationConfigurationValidationError) ErrorName() string {
+	return "DurationConfigurationValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e DurationConfigurationValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sDurationConfiguration.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = DurationConfigurationValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = DurationConfigurationValidationError{}
 
 // Validate checks the field values on GrantState with the rules defined in the
 // proto definition for this message. If any rules are violated, the first
