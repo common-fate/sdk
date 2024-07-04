@@ -1,27 +1,34 @@
 syntax = "proto3";
 package commonfate.control.integration.v1alpha1;
 
-message AWSRDSProxy {
+message AWSProxy {
   string idc_provisioner_role_arn = 1;
   string idc_instance_arn = 2;
   string idc_region = 3;
 
+  oneof instance_config {
+    AWSECSProxyInstanceConfig aws_ecs_proxy_instance_config = 4;
+    // @TODO consider adding support for running the proxy on ec2 here
+  }
+}
+
+// This config describes the deployment of the proxy instance, and is used when provisioning access to it
+message AWSECSProxyInstanceConfig {
   // The id of the AWS account where the proxy is deployed
-  string account = 4;
+  string account = 1;
   // The AWS region where the proxy is deployed
-  string region = 5;
+  string region = 2;
 
   // When deployed to ECS, the name of the cluster where the proxy is deployed
-  string ecs_cluster_name = 6;
+  string ecs_cluster_name = 3;
   // When deployed to ECS, the name of the proxy task definition
-  string ecs_task_definition_family = 7;
+  string ecs_task_definition_family = 4;
   // When deployed to ECS, the name of the container for the proxy
-  string ecs_container_name = 8;
+  string ecs_container_name = 5;
   // When deployed to ECS, the ARN of the role which can be used to read the task ID and runtime ID of the proxy when provisioning access
-  string ecs_cluster_reader_role_arn = 9;
-
-  //@TODO Add EC2 deployment method
+  string ecs_cluster_reader_role_arn = 6;
 }
+
 message AWSRDSDatabase {
   string name = 1;
   string engine = 2;

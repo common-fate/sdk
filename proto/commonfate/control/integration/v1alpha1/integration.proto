@@ -5,7 +5,7 @@ import "commonfate/access/v1alpha1/diagnostic.proto";
 import "commonfate/authz/v1alpha1/read_only.proto";
 import "commonfate/control/integration/v1alpha1/auth0.proto";
 import "commonfate/control/integration/v1alpha1/aws_idc.proto";
-import "commonfate/control/integration/v1alpha1/aws_rds.proto";
+import "commonfate/control/integration/v1alpha1/aws_proxy.proto";
 import "commonfate/control/integration/v1alpha1/datastax.proto";
 import "commonfate/control/integration/v1alpha1/entra.proto";
 import "commonfate/control/integration/v1alpha1/gcp.proto";
@@ -24,9 +24,9 @@ service IntegrationService {
   }
   rpc DeleteIntegration(DeleteIntegrationRequest) returns (DeleteIntegrationResponse) {}
   rpc ListIntegrations(ListIntegrationsRequest) returns (ListIntegrationsResponse) {}
-  // RegisterIntegrationResources is used by integrations to self register their resources
+  // RegisterProxy is used by the proxy integration to self register
   // This operation will create new resources, update existing resources and delete orphaned resources.
-  rpc RegisterIntegrationResources(RegisterIntegrationResourcesRequest) returns (RegisterIntegrationResourcesResponse) {}
+  rpc RegisterProxy(RegisterProxyRequest) returns (RegisterProxyResponse) {}
 }
 
 message ListIntegrationsRequest {
@@ -39,12 +39,15 @@ message ListIntegrationsResponse {
   string next_page_token = 2;
 }
 
-message RegisterIntegrationResourcesRequest {
+message RegisterProxyRequest {
   string integration_id = 1;
   repeated Resource resources = 2;
+  oneof instance_config {
+    AWSECSProxyInstanceConfig aws_ecs_proxy_instance_config = 3;
+  }
 }
 
-message RegisterIntegrationResourcesResponse {}
+message RegisterProxyResponse {}
 
 message Resource {
   oneof resource {
@@ -64,7 +67,7 @@ message Config {
     PagerDuty pagerduty = 4;
     OpsGenie opsgenie = 5;
     Entra entra = 6;
-    AWSRDSProxy aws_rds_proxy = 7;
+    AWSProxy aws_proxy = 7;
     Okta okta = 8;
     DataStax datastax = 9;
     Webhook webhook = 10;
