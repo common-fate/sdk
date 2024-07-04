@@ -1,5 +1,11 @@
 # @common-fate/sdk
 
+## 1.42.2
+
+### Patch Changes
+
+- 2851c82: Fix Display() method that was removed
+
 ## 1.42.1
 
 ### Patch Changes
