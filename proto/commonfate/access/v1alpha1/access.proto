@@ -9,6 +9,7 @@ import "commonfate/access/v1alpha1/named_eid.proto";
 import "commonfate/access/v1alpha1/user.proto";
 import "commonfate/authz/v1alpha1/policy.proto";
 import "commonfate/authz/v1alpha1/read_only.proto";
+import "commonfate/access/v1alpha1/extension_conditions.proto";
 import "commonfate/entity/v1alpha1/eid.proto";
 import "commonfate/entity/v1alpha1/entity.proto";
 import "google/protobuf/duration.proto";
@@ -213,6 +214,10 @@ message Availability {
 
   // The default duration of the access.
   google.protobuf.Duration default_duration = 9;
+
+  // Configuration for extending access. 
+  // If empty, extension is not permitted.
+  ExtensionConditions extension_conditions = 10;
 }
 
 message Specifier {
@@ -283,6 +288,13 @@ message BatchEnsureResponse {
   //
   // Rather than failing the entire operation the Access Handler returns warnings.
   repeated Diagnostic diagnostics = 6;
+
+  DurationConfiguration duration_configuration = 7;
+}
+
+message DurationConfiguration {
+  google.protobuf.Duration default_duration = 1;
+  google.protobuf.Duration max_duration = 2;
 }
 
 message GrantState {

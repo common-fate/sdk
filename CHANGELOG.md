@@ -1,5 +1,28 @@
 # @common-fate/sdk
 
+## 1.42.2
+
+### Patch Changes
+
+- 2851c82: Fix Display() method that was removed
+
+## 1.42.1
+
+### Patch Changes
+
+- 0bcb38a: Fix an issue where Display methods had been removed for accessv1alpha1 types.
+
+## 1.42.0
+
+### Minor Changes
+
+- 704784c: Add support for extend access configuration with max extensions and extension duration in access workflows.
+- 4ba41f4: Adds validation to rpc messages
+
+### Patch Changes
+
+- 82a26d0: add duration configuration to batch ensure request
+
 ## 1.41.1
 
 ### Patch Changes

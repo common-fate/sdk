@@ -121,13 +121,13 @@ type AWSECSProxyInstanceConfig struct {
 	Account string `protobuf:"bytes,1,opt,name=account,proto3" json:"account,omitempty"`
 	// The AWS region where the proxy is deployed
 	Region string `protobuf:"bytes,2,opt,name=region,proto3" json:"region,omitempty"`
-	// When deployed to ECS, the name of the cluster where the proxy is deployed
+	// The name of the cluster where the proxy is deployed
 	EcsClusterName string `protobuf:"bytes,3,opt,name=ecs_cluster_name,json=ecsClusterName,proto3" json:"ecs_cluster_name,omitempty"`
-	// When deployed to ECS, the name of the proxy task definition
+	// The name of the proxy task definition
 	EcsTaskDefinitionFamily string `protobuf:"bytes,4,opt,name=ecs_task_definition_family,json=ecsTaskDefinitionFamily,proto3" json:"ecs_task_definition_family,omitempty"`
-	// When deployed to ECS, the name of the container for the proxy
+	// The name of the container for the proxy
 	EcsContainerName string `protobuf:"bytes,5,opt,name=ecs_container_name,json=ecsContainerName,proto3" json:"ecs_container_name,omitempty"`
-	// When deployed to ECS, the ARN of the role which can be used to read the task ID and runtime ID of the proxy when provisioning access
+	// The ARN of the role which can be used to read the task ID and runtime ID of the proxy when provisioning access
 	EcsClusterReaderRoleArn string `protobuf:"bytes,6,opt,name=ecs_cluster_reader_role_arn,json=ecsClusterReaderRoleArn,proto3" json:"ecs_cluster_reader_role_arn,omitempty"`
 }
 
