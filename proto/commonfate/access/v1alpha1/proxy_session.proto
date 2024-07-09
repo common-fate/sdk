@@ -42,10 +42,12 @@ message PutSessionLogResponse {}
 
 message QuerySessionLogsRequest {
   string session_id = 1;
+  string page_token = 2;
 }
 
 message QuerySessionLogsResponse {
   repeated SessionLog session_logs = 1;
+  string next_page_token = 2;
 }
 
 message SessionLog {

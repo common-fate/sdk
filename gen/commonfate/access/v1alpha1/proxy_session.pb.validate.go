@@ -712,6 +712,8 @@ func (m *QuerySessionLogsRequest) validate(all bool) error {
 
 	// no validation rules for SessionId
 
+	// no validation rules for PageToken
+
 	if len(errors) > 0 {
 		return QuerySessionLogsRequestMultiError(errors)
 	}
@@ -847,6 +849,8 @@ func (m *QuerySessionLogsResponse) validate(all bool) error {
 		}
 
 	}
+
+	// no validation rules for NextPageToken
 
 	if len(errors) > 0 {
 		return QuerySessionLogsResponseMultiError(errors)
