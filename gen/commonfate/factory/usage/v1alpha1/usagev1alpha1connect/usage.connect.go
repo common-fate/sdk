@@ -2,7 +2,7 @@
 //
 // Source: commonfate/factory/usage/v1alpha1/usage.proto
 
-package monitoringv1alpha1connect
+package usagev1alpha1connect
 
 import (
 	connect "connectrpc.com/connect"
@@ -22,7 +22,7 @@ const _ = connect.IsAtLeastVersion1_13_0
 
 const (
 	// UsageServiceName is the fully-qualified name of the UsageService service.
-	UsageServiceName = "commonfate.factory.monitoring.v1alpha1.UsageService"
+	UsageServiceName = "commonfate.factory.usage.v1alpha1.UsageService"
 )
 
 // These constants are the fully-qualified names of the RPCs defined in this package. They're
@@ -35,7 +35,7 @@ const (
 const (
 	// UsageServiceReportUsageProcedure is the fully-qualified name of the UsageService's ReportUsage
 	// RPC.
-	UsageServiceReportUsageProcedure = "/commonfate.factory.monitoring.v1alpha1.UsageService/ReportUsage"
+	UsageServiceReportUsageProcedure = "/commonfate.factory.usage.v1alpha1.UsageService/ReportUsage"
 )
 
 // These variables are the protoreflect.Descriptor objects for the RPCs defined in this package.
@@ -44,18 +44,16 @@ var (
 	usageServiceReportUsageMethodDescriptor = usageServiceServiceDescriptor.Methods().ByName("ReportUsage")
 )
 
-// UsageServiceClient is a client for the commonfate.factory.monitoring.v1alpha1.UsageService
-// service.
+// UsageServiceClient is a client for the commonfate.factory.usage.v1alpha1.UsageService service.
 type UsageServiceClient interface {
 	// Report usage of the Common Fate deployment.
 	ReportUsage(context.Context, *connect.Request[v1alpha1.ReportUsageRequest]) (*connect.Response[v1alpha1.ReportUsageResponse], error)
 }
 
-// NewUsageServiceClient constructs a client for the
-// commonfate.factory.monitoring.v1alpha1.UsageService service. By default, it uses the Connect
-// protocol with the binary Protobuf Codec, asks for gzipped responses, and sends uncompressed
-// requests. To use the gRPC or gRPC-Web protocols, supply the connect.WithGRPC() or
-// connect.WithGRPCWeb() options.
+// NewUsageServiceClient constructs a client for the commonfate.factory.usage.v1alpha1.UsageService
+// service. By default, it uses the Connect protocol with the binary Protobuf Codec, asks for
+// gzipped responses, and sends uncompressed requests. To use the gRPC or gRPC-Web protocols, supply
+// the connect.WithGRPC() or connect.WithGRPCWeb() options.
 //
 // The URL supplied here should be the base URL for the Connect or gRPC server (for example,
 // http://api.acme.com or https://acme.com/grpc).
@@ -76,13 +74,13 @@ type usageServiceClient struct {
 	reportUsage *connect.Client[v1alpha1.ReportUsageRequest, v1alpha1.ReportUsageResponse]
 }
 
-// ReportUsage calls commonfate.factory.monitoring.v1alpha1.UsageService.ReportUsage.
+// ReportUsage calls commonfate.factory.usage.v1alpha1.UsageService.ReportUsage.
 func (c *usageServiceClient) ReportUsage(ctx context.Context, req *connect.Request[v1alpha1.ReportUsageRequest]) (*connect.Response[v1alpha1.ReportUsageResponse], error) {
 	return c.reportUsage.CallUnary(ctx, req)
 }
 
-// UsageServiceHandler is an implementation of the
-// commonfate.factory.monitoring.v1alpha1.UsageService service.
+// UsageServiceHandler is an implementation of the commonfate.factory.usage.v1alpha1.UsageService
+// service.
 type UsageServiceHandler interface {
 	// Report usage of the Common Fate deployment.
 	ReportUsage(context.Context, *connect.Request[v1alpha1.ReportUsageRequest]) (*connect.Response[v1alpha1.ReportUsageResponse], error)
@@ -100,7 +98,7 @@ func NewUsageServiceHandler(svc UsageServiceHandler, opts ...connect.HandlerOpti
 		connect.WithSchema(usageServiceReportUsageMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
-	return "/commonfate.factory.monitoring.v1alpha1.UsageService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	return "/commonfate.factory.usage.v1alpha1.UsageService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
 		case UsageServiceReportUsageProcedure:
 			usageServiceReportUsageHandler.ServeHTTP(w, r)
@@ -114,5 +112,5 @@ func NewUsageServiceHandler(svc UsageServiceHandler, opts ...connect.HandlerOpti
 type UnimplementedUsageServiceHandler struct{}
 
 func (UnimplementedUsageServiceHandler) ReportUsage(context.Context, *connect.Request[v1alpha1.ReportUsageRequest]) (*connect.Response[v1alpha1.ReportUsageResponse], error) {
-	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.factory.monitoring.v1alpha1.UsageService.ReportUsage is not implemented"))
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.factory.usage.v1alpha1.UsageService.ReportUsage is not implemented"))
 }
