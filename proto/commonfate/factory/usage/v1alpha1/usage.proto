@@ -27,7 +27,7 @@ message UserUsage {
 message AccessRequestUsage {
     int32 total_access_request_count = 1;
     int32 access_request_30d_count = 2;
-    int32 access_hours_reduction_percent_30d = 3;
+    float access_hours_reduction_percent_30d = 3;
     int32 access_hours_reduction_30d = 4;
     int32 manual_approval_30d_count = 5;
     Distribution request_duration_30d_distribution = 6;

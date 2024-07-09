@@ -170,7 +170,7 @@ type AccessRequestUsage struct {
 
 	TotalAccessRequestCount          int32         `protobuf:"varint,1,opt,name=total_access_request_count,json=totalAccessRequestCount,proto3" json:"total_access_request_count,omitempty"`
 	AccessRequest_30DCount           int32         `protobuf:"varint,2,opt,name=access_request_30d_count,json=accessRequest30dCount,proto3" json:"access_request_30d_count,omitempty"`
-	AccessHoursReductionPercent_30D  int32         `protobuf:"varint,3,opt,name=access_hours_reduction_percent_30d,json=accessHoursReductionPercent30d,proto3" json:"access_hours_reduction_percent_30d,omitempty"`
+	AccessHoursReductionPercent_30D  float32       `protobuf:"fixed32,3,opt,name=access_hours_reduction_percent_30d,json=accessHoursReductionPercent30d,proto3" json:"access_hours_reduction_percent_30d,omitempty"`
 	AccessHoursReduction_30D         int32         `protobuf:"varint,4,opt,name=access_hours_reduction_30d,json=accessHoursReduction30d,proto3" json:"access_hours_reduction_30d,omitempty"`
 	ManualApproval_30DCount          int32         `protobuf:"varint,5,opt,name=manual_approval_30d_count,json=manualApproval30dCount,proto3" json:"manual_approval_30d_count,omitempty"`
 	RequestDuration_30DDistribution  *Distribution `protobuf:"bytes,6,opt,name=request_duration_30d_distribution,json=requestDuration30dDistribution,proto3" json:"request_duration_30d_distribution,omitempty"`
@@ -223,7 +223,7 @@ func (x *AccessRequestUsage) GetAccessRequest_30DCount() int32 {
 	return 0
 }
 
-func (x *AccessRequestUsage) GetAccessHoursReductionPercent_30D() int32 {
+func (x *AccessRequestUsage) GetAccessHoursReductionPercent_30D() float32 {
 	if x != nil {
 		return x.AccessHoursReductionPercent_30D
 	}
@@ -598,7 +598,7 @@ var file_commonfate_factory_usage_v1alpha1_usage_proto_rawDesc = []byte{
 	0x75, 0x65, 0x73, 0x74, 0x33, 0x30, 0x64, 0x43, 0x6f, 0x75, 0x6e, 0x74, 0x12, 0x4a, 0x0a, 0x22,
 	0x61, 0x63, 0x63, 0x65, 0x73, 0x73, 0x5f, 0x68, 0x6f, 0x75, 0x72, 0x73, 0x5f, 0x72, 0x65, 0x64,
 	0x75, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x70, 0x65, 0x72, 0x63, 0x65, 0x6e, 0x74, 0x5f, 0x33,
-	0x30, 0x64, 0x18, 0x03, 0x20, 0x01, 0x28, 0x05, 0x52, 0x1e, 0x61, 0x63, 0x63, 0x65, 0x73, 0x73,
+	0x30, 0x64, 0x18, 0x03, 0x20, 0x01, 0x28, 0x02, 0x52, 0x1e, 0x61, 0x63, 0x63, 0x65, 0x73, 0x73,
 	0x48, 0x6f, 0x75, 0x72, 0x73, 0x52, 0x65, 0x64, 0x75, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x50, 0x65,
 	0x72, 0x63, 0x65, 0x6e, 0x74, 0x33, 0x30, 0x64, 0x12, 0x3b, 0x0a, 0x1a, 0x61, 0x63, 0x63, 0x65,
 	0x73, 0x73, 0x5f, 0x68, 0x6f, 0x75, 0x72, 0x73, 0x5f, 0x72, 0x65, 0x64, 0x75, 0x63, 0x74, 0x69,
