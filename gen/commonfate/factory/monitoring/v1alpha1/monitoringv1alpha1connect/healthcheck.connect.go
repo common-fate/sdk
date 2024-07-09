@@ -46,7 +46,7 @@ var (
 // HealthcheckServiceClient is a client for the
 // commonfate.factory.monitoring.v1alpha1.HealthcheckService service.
 type HealthcheckServiceClient interface {
-	// Obtain a Write Token, used to authenticate to our OpenTelemetry collector.
+	// Ping the healthcheck service.
 	Ping(context.Context, *connect.Request[v1alpha1.PingRequest]) (*connect.Response[v1alpha1.PingResponse], error)
 }
 
@@ -83,7 +83,7 @@ func (c *healthcheckServiceClient) Ping(ctx context.Context, req *connect.Reques
 // HealthcheckServiceHandler is an implementation of the
 // commonfate.factory.monitoring.v1alpha1.HealthcheckService service.
 type HealthcheckServiceHandler interface {
-	// Obtain a Write Token, used to authenticate to our OpenTelemetry collector.
+	// Ping the healthcheck service.
 	Ping(context.Context, *connect.Request[v1alpha1.PingRequest]) (*connect.Response[v1alpha1.PingResponse], error)
 }
 

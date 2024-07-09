@@ -6,7 +6,7 @@ import "google/protobuf/duration.proto";
 
 // Common Fate tasks call HealthcheckService to indicate that they are healthy.
 service HealthcheckService {
-    // Obtain a Write Token, used to authenticate to our OpenTelemetry collector.
+    // Ping the healthcheck service.
     rpc Ping(PingRequest) returns (PingResponse) {}
 }
 

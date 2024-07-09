@@ -1,0 +1,68 @@
+syntax = "proto3";
+
+package commonfate.factory.monitoring.v1alpha1;
+
+import "google/protobuf/duration.proto";
+
+// Measures usage of integrations for billing purposes.
+service UsageService {
+    // Report usage of the Common Fate deployment.
+    rpc ReportUsage(ReportUsageRequest) returns (ReportUsageResponse) {}
+}
+
+message ReportUsageRequest {
+    string application_version = 1;
+    string infrastructure_version = 2;
+    repeated IntegrationUsage integrations = 3;
+    UserUsage users = 4;
+    AccessRequestUsage access_requests = 5;
+    ConfigurationUsage configuration = 6;
+    repeated EntitlementUsage entitlements = 7;
+}
+
+message UserUsage {
+    int32 total_user_count = 1;
+    int32 active_user_count = 2;
+    int32 requestors_30d_count = 3;
+    int32 total_requestors_count = 4;
+}
+
+message AccessRequestUsage {
+    int32 total_access_request_count = 1;
+    int32 access_request_30d_count = 2;
+    int32 access_hours_reduction_percent_30d = 3;
+    int32 access_hours_reduction_30d = 4;
+    int32 manual_approval_30d_count = 5;
+    Distribution request_duration_30d_distribution = 6;
+    Distribution approval_wait_time_30d_distribution = 7;
+}
+
+message ConfigurationUsage {
+    int32 workflow_count = 1;
+    int32 availability_spec_count = 2;
+    int32 policy_count = 3;
+    int32 slack_alert_count = 4;
+}
+
+message IntegrationUsage {
+    string integration_id = 1;
+    string integration_type = 2;
+    int32 user_account_count = 3;
+    int32 group_count = 4;
+}
+
+message EntitlementUsage {
+    string target_type = 1;
+    int32 target_count = 2;
+}
+
+message Distribution {
+    int32 min = 1;
+    int32 p25 = 2;
+    int32 p50 = 3;
+    int32 p75 = 4;
+    int32 p95 = 5;
+    int32 max = 6;
+}
+
+message ReportUsageResponse {}
