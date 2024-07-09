@@ -18,7 +18,7 @@ message StartSessionResponse {
 }
 
 message EndSessionRequest {
-  string grant_id = 1;
+  string session_id = 1;
 }
 
 message EndSessionResponse {}

@@ -265,7 +265,7 @@ func (m *EndSessionRequest) validate(all bool) error {
 
 	var errors []error
 
-	// no validation rules for GrantId
+	// no validation rules for SessionId
 
 	if len(errors) > 0 {
 		return EndSessionRequestMultiError(errors)
