@@ -17,7 +17,6 @@ message ReportUsageRequest {
     UserUsage users = 4;
     AccessRequestUsage access_requests = 5;
     ConfigurationUsage configuration = 6;
-    repeated EntitlementUsage entitlements = 7;
 }
 
 message UserUsage {
@@ -49,11 +48,7 @@ message IntegrationUsage {
     string integration_type = 2;
     int32 user_account_count = 3;
     int32 group_count = 4;
-}
-
-message EntitlementUsage {
-    string target_type = 1;
-    int32 target_count = 2;
+    int32 target_count = 5;
 }
 
 message Distribution {
