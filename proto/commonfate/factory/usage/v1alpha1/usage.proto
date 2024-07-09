@@ -11,8 +11,6 @@ service UsageService {
 }
 
 message ReportUsageRequest {
-    string application_version = 1;
-    string infrastructure_version = 2;
     repeated IntegrationUsage integrations = 3;
     UserUsage users = 4;
     AccessRequestUsage access_requests = 5;

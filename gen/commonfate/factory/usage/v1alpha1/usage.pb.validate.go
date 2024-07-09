@@ -57,10 +57,6 @@ func (m *ReportUsageRequest) validate(all bool) error {
 
 	var errors []error
 
-	// no validation rules for ApplicationVersion
-
-	// no validation rules for InfrastructureVersion
-
 	for idx, item := range m.GetIntegrations() {
 		_, _ = idx, item
 
