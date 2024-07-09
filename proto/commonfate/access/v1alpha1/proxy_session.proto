@@ -1,0 +1,34 @@
+syntax = "proto3";
+package commonfate.access.v1alpha1;
+
+import "google/protobuf/timestamp.proto";
+
+service ProxySessionService {
+  rpc StartSession(StartSessionRequest) returns (StartSessionResponse) {}
+  rpc EndSession(EndSessionRequest) returns (EndSessionResponse) {}
+  rpc PutSessionLog(PutSessionLogRequest) returns (PutSessionLogResponse) {}
+}
+
+message StartSessionRequest {
+  string grant_id = 1;
+}
+
+message StartSessionResponse {
+  string session_id = 1;
+}
+
+message EndSessionRequest {
+  string grant_id = 1;
+}
+
+message EndSessionResponse {}
+
+message PutSessionLogRequest {
+  string grant_id = 1;
+  string session_id = 2;
+  string message = 3;
+  // the timestamp the action occurred at.
+  google.protobuf.Timestamp occurred_at = 4;
+}
+
+message PutSessionLogResponse {}
