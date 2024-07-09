@@ -565,6 +565,8 @@ func (m *ConfigurationUsage) validate(all bool) error {
 
 	// no validation rules for SlackAlertCount
 
+	// no validation rules for EntitlementCount
+
 	if len(errors) > 0 {
 		return ConfigurationUsageMultiError(errors)
 	}

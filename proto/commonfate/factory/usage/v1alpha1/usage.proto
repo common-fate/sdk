@@ -39,6 +39,7 @@ message ConfigurationUsage {
     int32 availability_spec_count = 2;
     int32 policy_count = 3;
     int32 slack_alert_count = 4;
+    int32 entitlement_count = 5;
 }
 
 message IntegrationUsage {
