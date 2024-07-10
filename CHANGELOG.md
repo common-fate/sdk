@@ -1,5 +1,13 @@
 # @common-fate/sdk
 
+## 1.43.0
+
+### Minor Changes
+
+- b1e889d: Add UsageService to report deployment usage.
+- c72f721: Add RDS integration resources
+- c72f721: Adds GetGrant Method to the Grants service
+
 ## 1.42.2
 
 ### Patch Changes
