@@ -1,0 +1,73 @@
+syntax = "proto3";
+package commonfate.access.v1alpha1;
+
+import "commonfate/authz/v1alpha1/read_only.proto";
+import "google/protobuf/timestamp.proto";
+
+service ProxySessionService {
+  rpc StartSession(StartSessionRequest) returns (StartSessionResponse) {}
+  rpc EndSession(EndSessionRequest) returns (EndSessionResponse) {}
+  rpc PutSessionLog(PutSessionLogRequest) returns (PutSessionLogResponse) {}
+  rpc QuerySessionLogs(QuerySessionLogsRequest) returns (QuerySessionLogsResponse) {
+    option (commonfate.authz.v1alpha1.read_only) = true;
+  }
+  rpc GetSession(GetSessionRequest) returns (GetSessionResponse) {
+    option (commonfate.authz.v1alpha1.read_only) = true;
+  }
+}
+
+message StartSessionRequest {
+  string grant_id = 1;
+}
+
+message StartSessionResponse {
+  string session_id = 1;
+}
+
+message EndSessionRequest {
+  string session_id = 1;
+}
+
+message EndSessionResponse {}
+
+message PutSessionLogRequest {
+  string grant_id = 1;
+  string session_id = 2;
+  string message = 3;
+  // the timestamp the action occurred at.
+  google.protobuf.Timestamp occurred_at = 4;
+}
+
+message PutSessionLogResponse {}
+
+message QuerySessionLogsRequest {
+  string session_id = 1;
+  string page_token = 2;
+}
+
+message QuerySessionLogsResponse {
+  repeated SessionLog session_logs = 1;
+  string next_page_token = 2;
+}
+
+message SessionLog {
+  string message = 1;
+  // the timestamp the action occurred at.
+  google.protobuf.Timestamp occurred_at = 2;
+}
+
+message GetSessionRequest {
+  string session_id = 1;
+}
+
+message GetSessionResponse {
+  Session session = 1;
+}
+
+message Session {
+  string id = 1;
+  string grant_id = 2;
+  string request_id = 3;
+  google.protobuf.Timestamp started_at = 4;
+  optional google.protobuf.Timestamp ended_at = 5;
+}
