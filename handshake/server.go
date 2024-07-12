@@ -91,10 +91,10 @@ func (c *Conn) writeOKPacket(sessionID string) error {
 }
 
 type ClientHandshake struct {
-	token   string
-	grantID string
+	Token   string
+	GrantID string
 	// Optional Session ID
-	sessionID string
+	SessionID string
 }
 
 // writeHandshake writes the Initial Handshake Packet, server side
@@ -159,8 +159,8 @@ func parseClientHandshakePacket(data []byte) (*ClientHandshake, error) {
 	}
 
 	return &ClientHandshake{
-		token:     token,
-		grantID:   grantID,
-		sessionID: sessionID,
+		Token:     token,
+		GrantID:   grantID,
+		SessionID: sessionID,
 	}, nil
 }
