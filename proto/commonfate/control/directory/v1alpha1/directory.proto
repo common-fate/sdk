@@ -44,6 +44,10 @@ message QueryUsersResponse {
   repeated User users = 1;
   // The token for the next page.
   string next_page_token = 2;
+
+  // The total number of users in
+  // this Common Fate instance.
+  int32 total_user_count = 3;
 }
 
 message GetUserRequest {

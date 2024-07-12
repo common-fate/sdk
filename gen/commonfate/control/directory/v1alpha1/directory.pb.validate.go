@@ -197,6 +197,8 @@ func (m *QueryUsersResponse) validate(all bool) error {
 
 	// no validation rules for NextPageToken
 
+	// no validation rules for TotalUserCount
+
 	if len(errors) > 0 {
 		return QueryUsersResponseMultiError(errors)
 	}
