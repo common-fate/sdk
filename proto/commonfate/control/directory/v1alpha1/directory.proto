@@ -41,6 +41,8 @@ message QueryUsersRequest {
 
 message QueryUsersResponse {
   repeated User users = 1;
+  // The token for the next page.
+  string next_page_token = 2;
 }
 
 message GetUserRequest {
@@ -82,6 +84,9 @@ message QueryGroupMembersRequest {
     // This is used to disambiguiate groups in the case
     // that two integrations provide a group with the same ID.
     string integration_id = 2;
+
+    // The token for the next page.
+    string next_page_token = 3;
 }
 
 message QueryGroupMembersResponse {
@@ -108,6 +113,9 @@ message QueryGroupsForUserResponse {
     repeated User members = 1;
     // Other groups which belong to this group.
     repeated Group child_groups = 2;
+
+    // The token for the next page.
+    string next_page_token = 3;
 }
 
 message LookupUserAccountRequest {

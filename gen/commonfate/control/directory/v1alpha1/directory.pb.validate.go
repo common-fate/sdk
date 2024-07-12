@@ -195,6 +195,8 @@ func (m *QueryUsersResponse) validate(all bool) error {
 
 	}
 
+	// no validation rules for NextPageToken
+
 	if len(errors) > 0 {
 		return QueryUsersResponseMultiError(errors)
 	}
@@ -1005,6 +1007,8 @@ func (m *QueryGroupMembersRequest) validate(all bool) error {
 
 	// no validation rules for IntegrationId
 
+	// no validation rules for NextPageToken
+
 	if len(errors) > 0 {
 		return QueryGroupMembersRequestMultiError(errors)
 	}
@@ -1452,6 +1456,8 @@ func (m *QueryGroupsForUserResponse) validate(all bool) error {
 		}
 
 	}
+
+	// no validation rules for NextPageToken
 
 	if len(errors) > 0 {
 		return QueryGroupsForUserResponseMultiError(errors)
