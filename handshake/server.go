@@ -19,9 +19,9 @@ type SessionValidator interface {
 
 // The HandlerFunc type is an adapter to allow the use of
 // ordinary functions as SessionValidators
-type SessionValidatorFunc func(handshake ClientHandshake) error
+type SessionValidatorFunc func(handshake ClientHandshake) (*ValidateResult, error)
 
-func (f SessionValidatorFunc) Validate(handshake ClientHandshake) error {
+func (f SessionValidatorFunc) Validate(handshake ClientHandshake) (*ValidateResult, error) {
 	return f(handshake)
 }
 
