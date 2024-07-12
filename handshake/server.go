@@ -10,8 +10,11 @@ type Server struct {
 	sessionValidator SessionValidator
 }
 
+type ValidateResult struct {
+	SessionID string
+}
 type SessionValidator interface {
-	Validate(token string, grantID string) error
+	Validate(handshake ClientHandshake) (*ValidateResult, error)
 }
 
 // The HandlerFunc type is an adapter to allow the use of
@@ -54,7 +57,7 @@ func (s *Server) Handshake() error {
 	}
 
 	// validate the token
-	err = s.sessionValidator.Validate(handshakeResponse.token, handshakeResponse.grantID)
+	result, err := s.sessionValidator.Validate(*handshakeResponse)
 	if err != nil {
 		wErr := s.conn.writeErrorPacketFromError(err)
 		if wErr != nil {
@@ -63,13 +66,35 @@ func (s *Server) Handshake() error {
 		return fmt.Errorf("session validation failed: %w", err)
 	}
 
-	// Negotiation worked, send OK packet.
-	err = s.conn.writePacket([]byte{ResponseOK})
+	// Negotiation worked, send OK packet with the session ID.
+	err = s.conn.writeOKPacket(result.SessionID)
 	if err != nil {
 		return err
 	}
 
 	return nil
+}
+
+func (c *Conn) writeOKPacket(sessionID string) error {
+	length := 1 + // message type
+		len(sessionID) // sessionID
+	data := make([]byte, length)
+	pos := 0
+	pos = writeByte(data, pos, ResponseOK)
+	pos = writeEOFString(data, pos, sessionID)
+	// Sanity check.
+	if pos != len(data) {
+		return fmt.Errorf("error building Handshake packet: got %v bytes expected %v", pos, len(data))
+	}
+
+	return c.writePacket(data)
+}
+
+type ClientHandshake struct {
+	token   string
+	grantID string
+	// Optional Session ID
+	sessionID string
 }
 
 // writeHandshake writes the Initial Handshake Packet, server side
@@ -110,11 +135,6 @@ func (c *Conn) writeHandshake(serverVersion string) error {
 	return c.writePacket(data)
 }
 
-type ClientHandshake struct {
-	token   string
-	grantID string
-}
-
 func parseClientHandshakePacket(data []byte) (*ClientHandshake, error) {
 	pos := 0
 
@@ -133,9 +153,14 @@ func parseClientHandshakePacket(data []byte) (*ClientHandshake, error) {
 	if !ok {
 		return nil, fmt.Errorf("parseClientHandshakePacket: can't read grantID")
 	}
+	sessionID, _, ok := readNullString(data, pos)
+	if !ok {
+		return nil, fmt.Errorf("parseClientHandshakePacket: can't read sessionID")
+	}
 
 	return &ClientHandshake{
-		token:   token,
-		grantID: grantID,
+		token:     token,
+		grantID:   grantID,
+		sessionID: sessionID,
 	}, nil
 }

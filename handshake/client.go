@@ -30,9 +30,25 @@ type ServerHandshake struct {
 	AuthMethod         string
 	ServerVersion      string
 	ProtocolVersion    int
+	SessionID          string
 }
 
-func (c *Client) Handshake() (*ServerHandshake, error) {
+type HandshakeOpts struct {
+	// A session ID can be provided to group new connections with an existing session
+	SessionID string
+}
+
+type HandshakeOptsFunc func(o *HandshakeOpts)
+
+func WithSessionID(sessionID string) HandshakeOptsFunc {
+	return func(o *HandshakeOpts) { o.SessionID = sessionID }
+}
+
+func (c *Client) Handshake(opts ...HandshakeOptsFunc) (*ServerHandshake, error) {
+	var o HandshakeOpts
+	for _, opt := range opts {
+		opt(&o)
+	}
 	clio.Debugw("beginning handshake for grant", "grantId", c.grantID)
 	data, err := c.conn.readOnePacket()
 	if err != nil {
@@ -58,7 +74,7 @@ func (c *Client) Handshake() (*ServerHandshake, error) {
 
 	clio.Debug("writing handshake response")
 	// send response
-	err = c.writeClientHandshakeResponse(token.AccessToken, c.grantID)
+	err = c.writeClientHandshakeResponse(token.AccessToken, c.grantID, o.SessionID)
 	if err != nil {
 		return nil, err
 	}
@@ -70,13 +86,27 @@ func (c *Client) Handshake() (*ServerHandshake, error) {
 	clio.Debug("server handshake response packet", "packet", data)
 	switch data[0] {
 	case ResponseOK:
-		clio.Debug("handshake successful")
+		sessionID, err := parseOKacket(data)
+		if err != nil {
+			return nil, err
+		}
+		handshake.SessionID = sessionID
 		return handshake, nil
 	case ResponseERR:
 		return nil, parseErrorPacket(data)
 	default:
 		return nil, fmt.Errorf("handshake failed: unexpected response from server")
 	}
+}
+
+// parseOKacket parses the error packet and returns a SQLError.
+func parseOKacket(data []byte) (string, error) {
+	// We already read the type.
+	pos := 1
+
+	// SessionID is the rest.
+	sessionID := string(data[pos:])
+	return sessionID, nil
 }
 
 // ParseErrorPacket parses the error packet and returns a SQLError.
@@ -96,13 +126,17 @@ func parseErrorPacket(data []byte) error {
 }
 
 // writeHandshake writes the Initial Handshake Packet, server side
-func (c *Client) writeClientHandshakeResponse(authToken string, grantID string) error {
+// the client may provide an existing sessionID to associate this connection with
+// the session ID is returned by a previous handshake
+// if it is empty and new log session will be created
+func (c *Client) writeClientHandshakeResponse(authToken string, grantID string, sessionID string) error {
 	var capabilities uint32 = 0 // not using this for anything yet
 
 	length :=
 		4 + // capability flags
 			lenNullString(authToken) + // auth token
-			lenNullString(grantID) // grant id
+			lenNullString(grantID) + // grant id
+			lenNullString(sessionID) // session id
 
 	data := make([]byte, length)
 	pos := 0
