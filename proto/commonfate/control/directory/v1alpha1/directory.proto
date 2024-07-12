@@ -5,6 +5,7 @@ package commonfate.control.directory.v1alpha1;
 import "commonfate/control/directory/v1alpha1/user.proto";
 import "commonfate/control/directory/v1alpha1/group.proto";
 import "commonfate/authz/v1alpha1/read_only.proto";
+import "buf/validate/validate.proto";
 
 // DirectoryService
 service DirectoryService {
@@ -46,7 +47,7 @@ message QueryUsersResponse {
 }
 
 message GetUserRequest {
-  string id = 1;
+  string id = 1 [(buf.validate.field).string.min_len = 1];
 }
 
 message GetUserResponse {
@@ -64,7 +65,7 @@ message QueryGroupsResponse {
 
 message GetGroupRequest {
     // The ID of the group.
-    string id = 1;
+    string id = 1 [(buf.validate.field).string.min_len = 1];
 
     // Optionally, an integration ID may be provided.
     // This is used to disambiguiate groups in the case
@@ -78,7 +79,7 @@ message GetGroupResponse {
 
 message QueryGroupMembersRequest {
     // The ID of the group.
-    string group_id = 1;
+    string group_id = 1 [(buf.validate.field).string.min_len = 1];
 
     // Optionally, an integration ID may be provided.
     // This is used to disambiguiate groups in the case
@@ -102,7 +103,7 @@ message QueryGroupMembersResponse {
 
 message QueryGroupsForUserRequest {
     // The ID of the user.
-    string user_id = 1;
+    string user_id = 1 [(buf.validate.field).string.min_len = 1];
 
     // The token for the next page.
     string page_token = 2;
