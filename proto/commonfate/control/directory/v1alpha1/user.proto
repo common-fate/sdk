@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+package commonfate.control.directory.v1alpha1;
+
+import "google/protobuf/timestamp.proto";
+import "commonfate/control/directory/v1alpha1/integration.proto";
+
+message User {
+    string id = 1;
+    string name = 2;
+    string email = 3;
+
+    // Accounts in external systems linked with the user.
+    repeated UserAccount accounts = 4;
+
+    // The timestamp of the user's last authentication
+    // to Common Fate.
+    //
+    // If nil, the user has never authenticated.
+    google.protobuf.Timestamp last_authenticated_at = 5;
+
+    // The number of groups the user belongs to.
+    int32 group_membership_count = 6;
+}
+
+message UserAccount {
+    // ID of the user account in the integration.
+    string id = 1;
+
+    // Type of the user account. This field
+    // adheres to a Cedar entity type format,
+    // such as "AWS::IDC::User" or "Okta::User".
+    string type = 2;
+
+    // Information about the integration that the
+    // user account was synced from.
+    Integration integration = 3;
+}
