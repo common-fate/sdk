@@ -65,6 +65,10 @@ message QueryGroupsRequest {
 
 message QueryGroupsResponse {
   repeated Group groups = 1;
+
+  // The total number of groups in
+  // this Common Fate instance.
+  int32 total_group_count = 3;
 }
 
 message GetGroupRequest {

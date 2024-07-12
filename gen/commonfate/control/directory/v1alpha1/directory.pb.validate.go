@@ -670,6 +670,8 @@ func (m *QueryGroupsResponse) validate(all bool) error {
 
 	}
 
+	// no validation rules for TotalGroupCount
+
 	if len(errors) > 0 {
 		return QueryGroupsResponseMultiError(errors)
 	}
