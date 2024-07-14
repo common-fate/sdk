@@ -118,13 +118,19 @@ message QueryGroupsForUserRequest {
 }
 
 message QueryGroupsForUserResponse {
-    // Users that are members of this group.
-    repeated User members = 1;
-    // Other groups which belong to this group.
-    repeated Group child_groups = 2;
+    // Groups that the user belongs to.
+    repeated UserGroupMembership memberships = 1;
 
     // The token for the next page.
-    string next_page_token = 3;
+    string next_page_token = 2;
+}
+
+
+message UserGroupMembership {
+    Group group = 1;
+
+    // additional information such as the user account ID the membership
+    // is associated with may be added here in future.
 }
 
 message LookupUserAccountRequest {
