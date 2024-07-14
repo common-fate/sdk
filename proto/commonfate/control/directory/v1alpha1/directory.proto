@@ -66,6 +66,9 @@ message QueryGroupsRequest {
 message QueryGroupsResponse {
   repeated Group groups = 1;
 
+  // The token for the next page.
+  string next_page_token = 2;
+
   // The total number of groups in
   // this Common Fate instance.
   int32 total_group_count = 3;
