@@ -1013,7 +1013,7 @@ func (m *QueryGroupMembersRequest) validate(all bool) error {
 
 	// no validation rules for IntegrationId
 
-	// no validation rules for NextPageToken
+	// no validation rules for PageToken
 
 	if len(errors) > 0 {
 		return QueryGroupMembersRequestMultiError(errors)

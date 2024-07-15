@@ -98,7 +98,7 @@ message QueryGroupMembersRequest {
     string integration_id = 2;
 
     // The token for the next page.
-    string next_page_token = 3;
+    string page_token = 3;
 }
 
 message QueryGroupMembersResponse {
