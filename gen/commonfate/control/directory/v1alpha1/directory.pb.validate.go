@@ -1151,40 +1151,6 @@ func (m *QueryGroupMembersResponse) validate(all bool) error {
 
 	}
 
-	for idx, item := range m.GetChildGroups() {
-		_, _ = idx, item
-
-		if all {
-			switch v := interface{}(item).(type) {
-			case interface{ ValidateAll() error }:
-				if err := v.ValidateAll(); err != nil {
-					errors = append(errors, QueryGroupMembersResponseValidationError{
-						field:  fmt.Sprintf("ChildGroups[%v]", idx),
-						reason: "embedded message failed validation",
-						cause:  err,
-					})
-				}
-			case interface{ Validate() error }:
-				if err := v.Validate(); err != nil {
-					errors = append(errors, QueryGroupMembersResponseValidationError{
-						field:  fmt.Sprintf("ChildGroups[%v]", idx),
-						reason: "embedded message failed validation",
-						cause:  err,
-					})
-				}
-			}
-		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
-			if err := v.Validate(); err != nil {
-				return QueryGroupMembersResponseValidationError{
-					field:  fmt.Sprintf("ChildGroups[%v]", idx),
-					reason: "embedded message failed validation",
-					cause:  err,
-				}
-			}
-		}
-
-	}
-
 	// no validation rules for NextPageToken
 
 	if len(errors) > 0 {
@@ -1266,6 +1232,252 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = QueryGroupMembersResponseValidationError{}
+
+// Validate checks the field values on QueryChildGroupsRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *QueryChildGroupsRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on QueryChildGroupsRequest with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// QueryChildGroupsRequestMultiError, or nil if none found.
+func (m *QueryChildGroupsRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *QueryChildGroupsRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for GroupId
+
+	// no validation rules for IntegrationId
+
+	// no validation rules for PageToken
+
+	if len(errors) > 0 {
+		return QueryChildGroupsRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// QueryChildGroupsRequestMultiError is an error wrapping multiple validation
+// errors returned by QueryChildGroupsRequest.ValidateAll() if the designated
+// constraints aren't met.
+type QueryChildGroupsRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m QueryChildGroupsRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m QueryChildGroupsRequestMultiError) AllErrors() []error { return m }
+
+// QueryChildGroupsRequestValidationError is the validation error returned by
+// QueryChildGroupsRequest.Validate if the designated constraints aren't met.
+type QueryChildGroupsRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e QueryChildGroupsRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e QueryChildGroupsRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e QueryChildGroupsRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e QueryChildGroupsRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e QueryChildGroupsRequestValidationError) ErrorName() string {
+	return "QueryChildGroupsRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e QueryChildGroupsRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sQueryChildGroupsRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = QueryChildGroupsRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = QueryChildGroupsRequestValidationError{}
+
+// Validate checks the field values on QueryChildGroupsResponse with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *QueryChildGroupsResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on QueryChildGroupsResponse with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// QueryChildGroupsResponseMultiError, or nil if none found.
+func (m *QueryChildGroupsResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *QueryChildGroupsResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	for idx, item := range m.GetChildGroups() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, QueryChildGroupsResponseValidationError{
+						field:  fmt.Sprintf("ChildGroups[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, QueryChildGroupsResponseValidationError{
+						field:  fmt.Sprintf("ChildGroups[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return QueryChildGroupsResponseValidationError{
+					field:  fmt.Sprintf("ChildGroups[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	// no validation rules for NextPageToken
+
+	if len(errors) > 0 {
+		return QueryChildGroupsResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// QueryChildGroupsResponseMultiError is an error wrapping multiple validation
+// errors returned by QueryChildGroupsResponse.ValidateAll() if the designated
+// constraints aren't met.
+type QueryChildGroupsResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m QueryChildGroupsResponseMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m QueryChildGroupsResponseMultiError) AllErrors() []error { return m }
+
+// QueryChildGroupsResponseValidationError is the validation error returned by
+// QueryChildGroupsResponse.Validate if the designated constraints aren't met.
+type QueryChildGroupsResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e QueryChildGroupsResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e QueryChildGroupsResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e QueryChildGroupsResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e QueryChildGroupsResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e QueryChildGroupsResponseValidationError) ErrorName() string {
+	return "QueryChildGroupsResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e QueryChildGroupsResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sQueryChildGroupsResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = QueryChildGroupsResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = QueryChildGroupsResponseValidationError{}
 
 // Validate checks the field values on QueryGroupsForUserRequest with the rules
 // defined in the proto definition for this message. If any rules are

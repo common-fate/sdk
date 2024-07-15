@@ -48,6 +48,9 @@ const (
 	// DirectoryServiceQueryGroupMembersProcedure is the fully-qualified name of the DirectoryService's
 	// QueryGroupMembers RPC.
 	DirectoryServiceQueryGroupMembersProcedure = "/commonfate.control.directory.v1alpha1.DirectoryService/QueryGroupMembers"
+	// DirectoryServiceQueryChildGroupsProcedure is the fully-qualified name of the DirectoryService's
+	// QueryChildGroups RPC.
+	DirectoryServiceQueryChildGroupsProcedure = "/commonfate.control.directory.v1alpha1.DirectoryService/QueryChildGroups"
 	// DirectoryServiceQueryGroupsForUserProcedure is the fully-qualified name of the DirectoryService's
 	// QueryGroupsForUser RPC.
 	DirectoryServiceQueryGroupsForUserProcedure = "/commonfate.control.directory.v1alpha1.DirectoryService/QueryGroupsForUser"
@@ -64,6 +67,7 @@ var (
 	directoryServiceQueryGroupsMethodDescriptor        = directoryServiceServiceDescriptor.Methods().ByName("QueryGroups")
 	directoryServiceGetGroupMethodDescriptor           = directoryServiceServiceDescriptor.Methods().ByName("GetGroup")
 	directoryServiceQueryGroupMembersMethodDescriptor  = directoryServiceServiceDescriptor.Methods().ByName("QueryGroupMembers")
+	directoryServiceQueryChildGroupsMethodDescriptor   = directoryServiceServiceDescriptor.Methods().ByName("QueryChildGroups")
 	directoryServiceQueryGroupsForUserMethodDescriptor = directoryServiceServiceDescriptor.Methods().ByName("QueryGroupsForUser")
 	directoryServiceLookupUserAccountMethodDescriptor  = directoryServiceServiceDescriptor.Methods().ByName("LookupUserAccount")
 )
@@ -76,6 +80,7 @@ type DirectoryServiceClient interface {
 	QueryGroups(context.Context, *connect.Request[v1alpha1.QueryGroupsRequest]) (*connect.Response[v1alpha1.QueryGroupsResponse], error)
 	GetGroup(context.Context, *connect.Request[v1alpha1.GetGroupRequest]) (*connect.Response[v1alpha1.GetGroupResponse], error)
 	QueryGroupMembers(context.Context, *connect.Request[v1alpha1.QueryGroupMembersRequest]) (*connect.Response[v1alpha1.QueryGroupMembersResponse], error)
+	QueryChildGroups(context.Context, *connect.Request[v1alpha1.QueryChildGroupsRequest]) (*connect.Response[v1alpha1.QueryChildGroupsResponse], error)
 	// Lists the groups that a user is a member of.
 	QueryGroupsForUser(context.Context, *connect.Request[v1alpha1.QueryGroupsForUserRequest]) (*connect.Response[v1alpha1.QueryGroupsForUserResponse], error)
 	// Looks up the matching User for a particular
@@ -124,6 +129,12 @@ func NewDirectoryServiceClient(httpClient connect.HTTPClient, baseURL string, op
 			connect.WithSchema(directoryServiceQueryGroupMembersMethodDescriptor),
 			connect.WithClientOptions(opts...),
 		),
+		queryChildGroups: connect.NewClient[v1alpha1.QueryChildGroupsRequest, v1alpha1.QueryChildGroupsResponse](
+			httpClient,
+			baseURL+DirectoryServiceQueryChildGroupsProcedure,
+			connect.WithSchema(directoryServiceQueryChildGroupsMethodDescriptor),
+			connect.WithClientOptions(opts...),
+		),
 		queryGroupsForUser: connect.NewClient[v1alpha1.QueryGroupsForUserRequest, v1alpha1.QueryGroupsForUserResponse](
 			httpClient,
 			baseURL+DirectoryServiceQueryGroupsForUserProcedure,
@@ -146,6 +157,7 @@ type directoryServiceClient struct {
 	queryGroups        *connect.Client[v1alpha1.QueryGroupsRequest, v1alpha1.QueryGroupsResponse]
 	getGroup           *connect.Client[v1alpha1.GetGroupRequest, v1alpha1.GetGroupResponse]
 	queryGroupMembers  *connect.Client[v1alpha1.QueryGroupMembersRequest, v1alpha1.QueryGroupMembersResponse]
+	queryChildGroups   *connect.Client[v1alpha1.QueryChildGroupsRequest, v1alpha1.QueryChildGroupsResponse]
 	queryGroupsForUser *connect.Client[v1alpha1.QueryGroupsForUserRequest, v1alpha1.QueryGroupsForUserResponse]
 	lookupUserAccount  *connect.Client[v1alpha1.LookupUserAccountRequest, v1alpha1.LookupUserAccountResponse]
 }
@@ -175,6 +187,11 @@ func (c *directoryServiceClient) QueryGroupMembers(ctx context.Context, req *con
 	return c.queryGroupMembers.CallUnary(ctx, req)
 }
 
+// QueryChildGroups calls commonfate.control.directory.v1alpha1.DirectoryService.QueryChildGroups.
+func (c *directoryServiceClient) QueryChildGroups(ctx context.Context, req *connect.Request[v1alpha1.QueryChildGroupsRequest]) (*connect.Response[v1alpha1.QueryChildGroupsResponse], error) {
+	return c.queryChildGroups.CallUnary(ctx, req)
+}
+
 // QueryGroupsForUser calls
 // commonfate.control.directory.v1alpha1.DirectoryService.QueryGroupsForUser.
 func (c *directoryServiceClient) QueryGroupsForUser(ctx context.Context, req *connect.Request[v1alpha1.QueryGroupsForUserRequest]) (*connect.Response[v1alpha1.QueryGroupsForUserResponse], error) {
@@ -194,6 +211,7 @@ type DirectoryServiceHandler interface {
 	QueryGroups(context.Context, *connect.Request[v1alpha1.QueryGroupsRequest]) (*connect.Response[v1alpha1.QueryGroupsResponse], error)
 	GetGroup(context.Context, *connect.Request[v1alpha1.GetGroupRequest]) (*connect.Response[v1alpha1.GetGroupResponse], error)
 	QueryGroupMembers(context.Context, *connect.Request[v1alpha1.QueryGroupMembersRequest]) (*connect.Response[v1alpha1.QueryGroupMembersResponse], error)
+	QueryChildGroups(context.Context, *connect.Request[v1alpha1.QueryChildGroupsRequest]) (*connect.Response[v1alpha1.QueryChildGroupsResponse], error)
 	// Lists the groups that a user is a member of.
 	QueryGroupsForUser(context.Context, *connect.Request[v1alpha1.QueryGroupsForUserRequest]) (*connect.Response[v1alpha1.QueryGroupsForUserResponse], error)
 	// Looks up the matching User for a particular
@@ -237,6 +255,12 @@ func NewDirectoryServiceHandler(svc DirectoryServiceHandler, opts ...connect.Han
 		connect.WithSchema(directoryServiceQueryGroupMembersMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
+	directoryServiceQueryChildGroupsHandler := connect.NewUnaryHandler(
+		DirectoryServiceQueryChildGroupsProcedure,
+		svc.QueryChildGroups,
+		connect.WithSchema(directoryServiceQueryChildGroupsMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
+	)
 	directoryServiceQueryGroupsForUserHandler := connect.NewUnaryHandler(
 		DirectoryServiceQueryGroupsForUserProcedure,
 		svc.QueryGroupsForUser,
@@ -261,6 +285,8 @@ func NewDirectoryServiceHandler(svc DirectoryServiceHandler, opts ...connect.Han
 			directoryServiceGetGroupHandler.ServeHTTP(w, r)
 		case DirectoryServiceQueryGroupMembersProcedure:
 			directoryServiceQueryGroupMembersHandler.ServeHTTP(w, r)
+		case DirectoryServiceQueryChildGroupsProcedure:
+			directoryServiceQueryChildGroupsHandler.ServeHTTP(w, r)
 		case DirectoryServiceQueryGroupsForUserProcedure:
 			directoryServiceQueryGroupsForUserHandler.ServeHTTP(w, r)
 		case DirectoryServiceLookupUserAccountProcedure:
@@ -292,6 +318,10 @@ func (UnimplementedDirectoryServiceHandler) GetGroup(context.Context, *connect.R
 
 func (UnimplementedDirectoryServiceHandler) QueryGroupMembers(context.Context, *connect.Request[v1alpha1.QueryGroupMembersRequest]) (*connect.Response[v1alpha1.QueryGroupMembersResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.control.directory.v1alpha1.DirectoryService.QueryGroupMembers is not implemented"))
+}
+
+func (UnimplementedDirectoryServiceHandler) QueryChildGroups(context.Context, *connect.Request[v1alpha1.QueryChildGroupsRequest]) (*connect.Response[v1alpha1.QueryChildGroupsResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.control.directory.v1alpha1.DirectoryService.QueryChildGroups is not implemented"))
 }
 
 func (UnimplementedDirectoryServiceHandler) QueryGroupsForUser(context.Context, *connect.Request[v1alpha1.QueryGroupsForUserRequest]) (*connect.Response[v1alpha1.QueryGroupsForUserResponse], error) {

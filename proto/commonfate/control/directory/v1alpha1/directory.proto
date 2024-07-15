@@ -24,6 +24,11 @@ service DirectoryService {
   rpc QueryGroupMembers(QueryGroupMembersRequest) returns (QueryGroupMembersResponse) {
     option (commonfate.authz.v1alpha1.read_only) = true;
   }
+
+  rpc QueryChildGroups(QueryChildGroupsRequest) returns (QueryChildGroupsResponse) {
+    option (commonfate.authz.v1alpha1.read_only) = true;
+  }
+
   // Lists the groups that a user is a member of.
   rpc QueryGroupsForUser(QueryGroupsForUserRequest) returns (QueryGroupsForUserResponse) {
     option (commonfate.authz.v1alpha1.read_only) = true;
@@ -104,13 +109,31 @@ message QueryGroupMembersRequest {
 message QueryGroupMembersResponse {
     // Users that are members of this group.
     repeated User members = 1;
-    // Other groups which belong to this group.
-    repeated Group child_groups = 2;
 
     // The token for the next page.
-    string next_page_token = 3;
+    string next_page_token = 2;
 }
 
+message QueryChildGroupsRequest {
+    // The ID of the group.
+    string group_id = 1 [(buf.validate.field).string.min_len = 1];
+
+    // Optionally, an integration ID may be provided.
+    // This is used to disambiguiate groups in the case
+    // that two integrations provide a group with the same ID.
+    string integration_id = 2;
+
+    // The token for the next page.
+    string page_token = 3;
+}
+
+message QueryChildGroupsResponse {
+    // Groups that are children of this group.
+    repeated Group child_groups = 1;
+
+    // The token for the next page.
+    string next_page_token = 2;
+}
 
 message QueryGroupsForUserRequest {
     // The ID of the user.
