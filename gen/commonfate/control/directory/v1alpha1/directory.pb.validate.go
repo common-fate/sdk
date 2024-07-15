@@ -1233,6 +1233,135 @@ var _ interface {
 	ErrorName() string
 } = QueryGroupMembersResponseValidationError{}
 
+// Validate checks the field values on GroupMembership with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// first error encountered is returned, or nil if there are no violations.
+func (m *GroupMembership) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on GroupMembership with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// GroupMembershipMultiError, or nil if none found.
+func (m *GroupMembership) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *GroupMembership) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if all {
+		switch v := interface{}(m.GetUser()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, GroupMembershipValidationError{
+					field:  "User",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, GroupMembershipValidationError{
+					field:  "User",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetUser()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return GroupMembershipValidationError{
+				field:  "User",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if len(errors) > 0 {
+		return GroupMembershipMultiError(errors)
+	}
+
+	return nil
+}
+
+// GroupMembershipMultiError is an error wrapping multiple validation errors
+// returned by GroupMembership.ValidateAll() if the designated constraints
+// aren't met.
+type GroupMembershipMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m GroupMembershipMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m GroupMembershipMultiError) AllErrors() []error { return m }
+
+// GroupMembershipValidationError is the validation error returned by
+// GroupMembership.Validate if the designated constraints aren't met.
+type GroupMembershipValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e GroupMembershipValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e GroupMembershipValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e GroupMembershipValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e GroupMembershipValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e GroupMembershipValidationError) ErrorName() string { return "GroupMembershipValidationError" }
+
+// Error satisfies the builtin error interface
+func (e GroupMembershipValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sGroupMembership.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = GroupMembershipValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = GroupMembershipValidationError{}
+
 // Validate checks the field values on QueryChildGroupsRequest with the rules
 // defined in the proto definition for this message. If any rules are
 // violated, the first error encountered is returned, or nil if there are no violations.
@@ -1478,6 +1607,137 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = QueryChildGroupsResponseValidationError{}
+
+// Validate checks the field values on ChildGroupMembership with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *ChildGroupMembership) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on ChildGroupMembership with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// ChildGroupMembershipMultiError, or nil if none found.
+func (m *ChildGroupMembership) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *ChildGroupMembership) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if all {
+		switch v := interface{}(m.GetGroup()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, ChildGroupMembershipValidationError{
+					field:  "Group",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, ChildGroupMembershipValidationError{
+					field:  "Group",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetGroup()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return ChildGroupMembershipValidationError{
+				field:  "Group",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if len(errors) > 0 {
+		return ChildGroupMembershipMultiError(errors)
+	}
+
+	return nil
+}
+
+// ChildGroupMembershipMultiError is an error wrapping multiple validation
+// errors returned by ChildGroupMembership.ValidateAll() if the designated
+// constraints aren't met.
+type ChildGroupMembershipMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m ChildGroupMembershipMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m ChildGroupMembershipMultiError) AllErrors() []error { return m }
+
+// ChildGroupMembershipValidationError is the validation error returned by
+// ChildGroupMembership.Validate if the designated constraints aren't met.
+type ChildGroupMembershipValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e ChildGroupMembershipValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e ChildGroupMembershipValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e ChildGroupMembershipValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e ChildGroupMembershipValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e ChildGroupMembershipValidationError) ErrorName() string {
+	return "ChildGroupMembershipValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e ChildGroupMembershipValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sChildGroupMembership.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = ChildGroupMembershipValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = ChildGroupMembershipValidationError{}
 
 // Validate checks the field values on QueryGroupsForUserRequest with the rules
 // defined in the proto definition for this message. If any rules are

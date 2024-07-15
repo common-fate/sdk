@@ -108,10 +108,17 @@ message QueryGroupMembersRequest {
 
 message QueryGroupMembersResponse {
     // Users that are members of this group.
-    repeated User members = 1;
+    repeated GroupMembership members = 1;
 
     // The token for the next page.
     string next_page_token = 2;
+}
+
+message GroupMembership {
+    User user = 1;
+
+    // additional information such as the user account ID the membership
+    // is associated with may be added here in future.
 }
 
 message QueryChildGroupsRequest {
@@ -129,10 +136,15 @@ message QueryChildGroupsRequest {
 
 message QueryChildGroupsResponse {
     // Groups that are children of this group.
-    repeated Group child_groups = 1;
+    repeated ChildGroupMembership child_groups = 1;
 
     // The token for the next page.
     string next_page_token = 2;
+}
+
+
+message ChildGroupMembership {
+    Group group = 1;
 }
 
 message QueryGroupsForUserRequest {
