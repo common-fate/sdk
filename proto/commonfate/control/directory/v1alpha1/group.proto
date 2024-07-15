@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package commonfate.control.directory.v1alpha1;
+
+import "commonfate/control/directory/v1alpha1/integration.proto";
+
+message Group {
+    string id = 1;
+    string name = 2;
+    string description = 3;
+
+    int32 member_count = 4;
+    int32 child_group_count = 5;
+
+    // Information about the integration that the
+    // group was synced from.
+    Integration integration = 6;
+
+    // Dynamic groups are calculated based on attributes
+    // in an integration, such as on-call membership.
+    bool is_dynamic = 7;
+}

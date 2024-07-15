@@ -1,0 +1,187 @@
+syntax = "proto3";
+
+package commonfate.control.directory.v1alpha1;
+
+import "commonfate/control/directory/v1alpha1/user.proto";
+import "commonfate/control/directory/v1alpha1/group.proto";
+import "commonfate/authz/v1alpha1/read_only.proto";
+import "buf/validate/validate.proto";
+
+// DirectoryService
+service DirectoryService {
+  rpc QueryUsers(QueryUsersRequest) returns (QueryUsersResponse) {
+    option (commonfate.authz.v1alpha1.read_only) = true;
+  }
+  rpc GetUser(GetUserRequest) returns (GetUserResponse) {
+    option (commonfate.authz.v1alpha1.read_only) = true;
+  }
+  rpc QueryGroups(QueryGroupsRequest) returns (QueryGroupsResponse) {
+    option (commonfate.authz.v1alpha1.read_only) = true;
+  }
+  rpc GetGroup(GetGroupRequest) returns (GetGroupResponse) {
+    option (commonfate.authz.v1alpha1.read_only) = true;
+  }
+  rpc QueryGroupMembers(QueryGroupMembersRequest) returns (QueryGroupMembersResponse) {
+    option (commonfate.authz.v1alpha1.read_only) = true;
+  }
+
+  rpc QueryChildGroups(QueryChildGroupsRequest) returns (QueryChildGroupsResponse) {
+    option (commonfate.authz.v1alpha1.read_only) = true;
+  }
+
+  // Lists the groups that a user is a member of.
+  rpc QueryGroupsForUser(QueryGroupsForUserRequest) returns (QueryGroupsForUserResponse) {
+    option (commonfate.authz.v1alpha1.read_only) = true;
+  }
+  // Looks up the matching User for a particular
+  // connected user account in an integration.
+  rpc LookupUserAccount(LookupUserAccountRequest) returns (LookupUserAccountResponse) {
+    option (commonfate.authz.v1alpha1.read_only) = true;
+  }
+}
+
+message QueryUsersRequest {
+    // The token for the next page.
+    string page_token = 1;
+}
+
+message QueryUsersResponse {
+  repeated User users = 1;
+  // The token for the next page.
+  string next_page_token = 2;
+
+  // The total number of users in
+  // this Common Fate instance.
+  int32 total_user_count = 3;
+}
+
+message GetUserRequest {
+  string id = 1 [(buf.validate.field).string.min_len = 1];
+}
+
+message GetUserResponse {
+  User user = 1;
+}
+
+message QueryGroupsRequest {
+    // The token for the next page.
+    string page_token = 1;
+}
+
+message QueryGroupsResponse {
+  repeated Group groups = 1;
+
+  // The token for the next page.
+  string next_page_token = 2;
+
+  // The total number of groups in
+  // this Common Fate instance.
+  int32 total_group_count = 3;
+}
+
+message GetGroupRequest {
+    // The ID of the group.
+    string id = 1 [(buf.validate.field).string.min_len = 1];
+
+    // Optionally, an integration ID may be provided.
+    // This is used to disambiguiate groups in the case
+    // that two integrations provide a group with the same ID.
+    string integration_id = 2;
+}
+
+message GetGroupResponse {
+    Group group = 1;
+}
+
+message QueryGroupMembersRequest {
+    // The ID of the group.
+    string group_id = 1 [(buf.validate.field).string.min_len = 1];
+
+    // Optionally, an integration ID may be provided.
+    // This is used to disambiguiate groups in the case
+    // that two integrations provide a group with the same ID.
+    string integration_id = 2;
+
+    // The token for the next page.
+    string page_token = 3;
+}
+
+message QueryGroupMembersResponse {
+    // Users that are members of this group.
+    repeated GroupMembership members = 1;
+
+    // The token for the next page.
+    string next_page_token = 2;
+}
+
+message GroupMembership {
+    User user = 1;
+
+    // additional information such as the user account ID the membership
+    // is associated with may be added here in future.
+}
+
+message QueryChildGroupsRequest {
+    // The ID of the group.
+    string group_id = 1 [(buf.validate.field).string.min_len = 1];
+
+    // Optionally, an integration ID may be provided.
+    // This is used to disambiguiate groups in the case
+    // that two integrations provide a group with the same ID.
+    string integration_id = 2;
+
+    // The token for the next page.
+    string page_token = 3;
+}
+
+message QueryChildGroupsResponse {
+    // Groups that are children of this group.
+    repeated ChildGroupMembership child_groups = 1;
+
+    // The token for the next page.
+    string next_page_token = 2;
+}
+
+
+message ChildGroupMembership {
+    Group group = 1;
+}
+
+message QueryGroupsForUserRequest {
+    // The ID of the user.
+    string user_id = 1 [(buf.validate.field).string.min_len = 1];
+
+    // The token for the next page.
+    string page_token = 2;
+}
+
+message QueryGroupsForUserResponse {
+    // Groups that the user belongs to.
+    repeated UserGroupMembership memberships = 1;
+
+    // The token for the next page.
+    string next_page_token = 2;
+}
+
+
+message UserGroupMembership {
+    Group group = 1;
+
+    // additional information such as the user account ID the membership
+    // is associated with may be added here in future.
+}
+
+message LookupUserAccountRequest {
+    // The ID of the user account.
+    string user_account_id = 1;
+
+    // Optionally, an integration ID may be provided.
+    // This is used to disambiguiate groups in the case
+    // that two integrations provide a user account with the same ID.
+    string integration_id = 2;
+}
+
+message LookupUserAccountResponse {
+    // The user associated with the user account.
+    User user = 1;
+}

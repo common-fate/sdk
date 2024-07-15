@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package commonfate.control.directory.v1alpha1;
+
+message Integration {
+    string id = 1;
+    string name = 2;
+    IntegrationType type = 3;
+}
+
+enum IntegrationType {
+  INTEGRATION_TYPE_UNSPECIFIED = 0;
+  INTEGRATION_TYPE_ENTRA = 1;
+  INTEGRATION_TYPE_AWS_IAM_IDENTITY_CENTER = 2;
+  INTEGRATION_TYPE_SLACK = 3;
+  INTEGRATION_TYPE_PAGERDUTY = 4;
+}
