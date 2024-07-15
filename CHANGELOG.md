@@ -1,5 +1,11 @@
 # @common-fate/sdk
 
+## 1.44.0
+
+### Minor Changes
+
+- 7da63c4: Add Directory API for user and group read access.
+
 ## 1.43.0
 
 ### Minor Changes
