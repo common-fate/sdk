@@ -1023,6 +1023,8 @@ func (m *AccessRequestActions) validate(all bool) error {
 
 	// no validation rules for ExtendAllowed
 
+	// no validation rules for ForceCloseAllowed
+
 	if len(errors) > 0 {
 		return AccessRequestActionsMultiError(errors)
 	}

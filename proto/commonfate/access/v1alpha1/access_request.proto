@@ -115,6 +115,7 @@ message AccessRequestActions {
   bool breakglass_activate_allowed = 3;
   // True if the current user is allowed to extend the access request
   bool extend_allowed = 4;
+  bool force_close_allowed = 5;
 }
 
 message ApproveAccessRequestRequest {
