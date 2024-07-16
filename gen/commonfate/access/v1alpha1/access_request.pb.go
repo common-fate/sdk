@@ -480,7 +480,10 @@ type AccessRequestActions struct {
 	// potentially bypassing approval requirements
 	BreakglassActivateAllowed bool `protobuf:"varint,3,opt,name=breakglass_activate_allowed,json=breakglassActivateAllowed,proto3" json:"breakglass_activate_allowed,omitempty"`
 	// True if the current user is allowed to extend the access request
-	ExtendAllowed     bool `protobuf:"varint,4,opt,name=extend_allowed,json=extendAllowed,proto3" json:"extend_allowed,omitempty"`
+	ExtendAllowed bool `protobuf:"varint,4,opt,name=extend_allowed,json=extendAllowed,proto3" json:"extend_allowed,omitempty"`
+	// True if the user is allowed to forcibly close an access request.
+	// When a request is force closed, the request is closed regardless
+	// if a deprovisioning error occurs.
 	ForceCloseAllowed bool `protobuf:"varint,5,opt,name=force_close_allowed,json=forceCloseAllowed,proto3" json:"force_close_allowed,omitempty"`
 }
 
@@ -664,7 +667,8 @@ type CloseAccessRequestRequest struct {
 	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	// If provided, will only close the grants with the specified IDs
 	CloseGrants []string `protobuf:"bytes,2,rep,name=close_grants,json=closeGrants,proto3" json:"close_grants,omitempty"`
-	// if force_close is specified it will attempt to force close the grants only if the user has the requirements
+	// Forcibly close the Access Request. When a request is force closed,
+	// the request is closed regardless if a deprovisioning error occurs.
 	ForceClose bool `protobuf:"varint,3,opt,name=force_close,json=forceClose,proto3" json:"force_close,omitempty"`
 }
 

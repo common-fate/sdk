@@ -115,6 +115,9 @@ message AccessRequestActions {
   bool breakglass_activate_allowed = 3;
   // True if the current user is allowed to extend the access request
   bool extend_allowed = 4;
+  // True if the user is allowed to forcibly close an access request.
+  // When a request is force closed, the request is closed regardless
+  // if a deprovisioning error occurs.
   bool force_close_allowed = 5;
 }
 
@@ -137,7 +140,8 @@ message CloseAccessRequestRequest {
   // If provided, will only close the grants with the specified IDs
   repeated string close_grants = 2;
 
-  //if force_close is specified it will attempt to force close the grants only if the user has the requirements 
+  // Forcibly close the Access Request. When a request is force closed,
+  // the request is closed regardless if a deprovisioning error occurs.
   bool force_close = 3;
 }
 
