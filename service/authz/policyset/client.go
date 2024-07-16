@@ -38,14 +38,14 @@ func NewFromConfig(cfg *config.Context) Client {
 
 	// dereference the client to avoid mutating it for all services
 	// that share the config (this can cause HTTP2 issues in local dev)
-	httpclient := *cfg.HTTPClient
+	httpclient := cfg.HTTPClient
 	if strings.HasPrefix(cfg.APIURL, "http://") {
-		httpclient.Transport = &oauth2.Transport{
+		httpclient = cfg.HTTPClientBuilder(&oauth2.Transport{
 			Source: cfg.TokenSource,
 			Base:   insecureTransport,
-		}
+		})
 	}
-	rawClient := authzv1alpha1connect.NewPolicyServiceClient(&httpclient, cfg.APIURL, connectOpts...)
+	rawClient := authzv1alpha1connect.NewPolicyServiceClient(httpclient, cfg.APIURL, connectOpts...)
 
 	return Client{raw: rawClient}
 }
