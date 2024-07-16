@@ -1,5 +1,11 @@
 # @common-fate/sdk
 
+## 1.45.0
+
+### Minor Changes
+
+- 6ad5170: Add force_close to forcibly close an Access Request, ignoring deprovisioning errors.
+
 ## 1.44.0
 
 ### Minor Changes
