@@ -136,6 +136,9 @@ message CloseAccessRequestRequest {
 
   // If provided, will only close the grants with the specified IDs
   repeated string close_grants = 2;
+
+  //if force_close is specified it will attempt to force close the grants only if the user has the requirements 
+  bool force_close = 3;
 }
 
 message CloseAccessRequestResponse {

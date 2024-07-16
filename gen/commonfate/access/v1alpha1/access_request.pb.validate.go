@@ -1371,6 +1371,8 @@ func (m *CloseAccessRequestRequest) validate(all bool) error {
 
 	// no validation rules for Id
 
+	// no validation rules for ForceClose
+
 	if len(errors) > 0 {
 		return CloseAccessRequestRequestMultiError(errors)
 	}
