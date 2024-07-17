@@ -1,5 +1,11 @@
 # @common-fate/sdk
 
+## 1.45.2
+
+### Patch Changes
+
+- a0cbe20: Package name and constructor fixes
+
 ## 1.45.1
 
 ### Patch Changes
