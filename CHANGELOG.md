@@ -1,5 +1,11 @@
 # @common-fate/sdk
 
+## 1.45.1
+
+### Patch Changes
+
+- e2bac27: Detect a possible bad environment configuration when an invalid_scope error is returned when loading the access token.
+
 ## 1.45.0
 
 ### Minor Changes
