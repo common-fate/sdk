@@ -35,6 +35,626 @@ var (
 	_ = sort.Sort
 )
 
+// Validate checks the field values on CedarScopeEntity with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// first error encountered is returned, or nil if there are no violations.
+func (m *CedarScopeEntity) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on CedarScopeEntity with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// CedarScopeEntityMultiError, or nil if none found.
+func (m *CedarScopeEntity) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *CedarScopeEntity) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Expression
+
+	if all {
+		switch v := interface{}(m.GetResource()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, CedarScopeEntityValidationError{
+					field:  "Resource",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, CedarScopeEntityValidationError{
+					field:  "Resource",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetResource()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return CedarScopeEntityValidationError{
+				field:  "Resource",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if len(errors) > 0 {
+		return CedarScopeEntityMultiError(errors)
+	}
+
+	return nil
+}
+
+// CedarScopeEntityMultiError is an error wrapping multiple validation errors
+// returned by CedarScopeEntity.ValidateAll() if the designated constraints
+// aren't met.
+type CedarScopeEntityMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m CedarScopeEntityMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m CedarScopeEntityMultiError) AllErrors() []error { return m }
+
+// CedarScopeEntityValidationError is the validation error returned by
+// CedarScopeEntity.Validate if the designated constraints aren't met.
+type CedarScopeEntityValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e CedarScopeEntityValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e CedarScopeEntityValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e CedarScopeEntityValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e CedarScopeEntityValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e CedarScopeEntityValidationError) ErrorName() string { return "CedarScopeEntityValidationError" }
+
+// Error satisfies the builtin error interface
+func (e CedarScopeEntityValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sCedarScopeEntity.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = CedarScopeEntityValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = CedarScopeEntityValidationError{}
+
+// Validate checks the field values on StructuredEmbeddedExpression with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *StructuredEmbeddedExpression) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on StructuredEmbeddedExpression with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// StructuredEmbeddedExpressionMultiError, or nil if none found.
+func (m *StructuredEmbeddedExpression) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *StructuredEmbeddedExpression) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Resource
+
+	// no validation rules for Expression
+
+	// no validation rules for Value
+
+	if len(errors) > 0 {
+		return StructuredEmbeddedExpressionMultiError(errors)
+	}
+
+	return nil
+}
+
+// StructuredEmbeddedExpressionMultiError is an error wrapping multiple
+// validation errors returned by StructuredEmbeddedExpression.ValidateAll() if
+// the designated constraints aren't met.
+type StructuredEmbeddedExpressionMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m StructuredEmbeddedExpressionMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m StructuredEmbeddedExpressionMultiError) AllErrors() []error { return m }
+
+// StructuredEmbeddedExpressionValidationError is the validation error returned
+// by StructuredEmbeddedExpression.Validate if the designated constraints
+// aren't met.
+type StructuredEmbeddedExpressionValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e StructuredEmbeddedExpressionValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e StructuredEmbeddedExpressionValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e StructuredEmbeddedExpressionValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e StructuredEmbeddedExpressionValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e StructuredEmbeddedExpressionValidationError) ErrorName() string {
+	return "StructuredEmbeddedExpressionValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e StructuredEmbeddedExpressionValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sStructuredEmbeddedExpression.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = StructuredEmbeddedExpressionValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = StructuredEmbeddedExpressionValidationError{}
+
+// Validate checks the field values on CedarConditionEntity with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *CedarConditionEntity) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on CedarConditionEntity with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// CedarConditionEntityMultiError, or nil if none found.
+func (m *CedarConditionEntity) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *CedarConditionEntity) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Text
+
+	if all {
+		switch v := interface{}(m.GetEmbeddedExpression()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, CedarConditionEntityValidationError{
+					field:  "EmbeddedExpression",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, CedarConditionEntityValidationError{
+					field:  "EmbeddedExpression",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetEmbeddedExpression()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return CedarConditionEntityValidationError{
+				field:  "EmbeddedExpression",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if len(errors) > 0 {
+		return CedarConditionEntityMultiError(errors)
+	}
+
+	return nil
+}
+
+// CedarConditionEntityMultiError is an error wrapping multiple validation
+// errors returned by CedarConditionEntity.ValidateAll() if the designated
+// constraints aren't met.
+type CedarConditionEntityMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m CedarConditionEntityMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m CedarConditionEntityMultiError) AllErrors() []error { return m }
+
+// CedarConditionEntityValidationError is the validation error returned by
+// CedarConditionEntity.Validate if the designated constraints aren't met.
+type CedarConditionEntityValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e CedarConditionEntityValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e CedarConditionEntityValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e CedarConditionEntityValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e CedarConditionEntityValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e CedarConditionEntityValidationError) ErrorName() string {
+	return "CedarConditionEntityValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e CedarConditionEntityValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sCedarConditionEntity.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = CedarConditionEntityValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = CedarConditionEntityValidationError{}
+
+// Validate checks the field values on StructuredPolicy with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// first error encountered is returned, or nil if there are no violations.
+func (m *StructuredPolicy) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on StructuredPolicy with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// StructuredPolicyMultiError, or nil if none found.
+func (m *StructuredPolicy) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *StructuredPolicy) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Effect
+
+	if all {
+		switch v := interface{}(m.GetPrincipal()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, StructuredPolicyValidationError{
+					field:  "Principal",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, StructuredPolicyValidationError{
+					field:  "Principal",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetPrincipal()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return StructuredPolicyValidationError{
+				field:  "Principal",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if all {
+		switch v := interface{}(m.GetAction()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, StructuredPolicyValidationError{
+					field:  "Action",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, StructuredPolicyValidationError{
+					field:  "Action",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetAction()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return StructuredPolicyValidationError{
+				field:  "Action",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if all {
+		switch v := interface{}(m.GetResource()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, StructuredPolicyValidationError{
+					field:  "Resource",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, StructuredPolicyValidationError{
+					field:  "Resource",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetResource()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return StructuredPolicyValidationError{
+				field:  "Resource",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if all {
+		switch v := interface{}(m.GetWhen()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, StructuredPolicyValidationError{
+					field:  "When",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, StructuredPolicyValidationError{
+					field:  "When",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetWhen()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return StructuredPolicyValidationError{
+				field:  "When",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if all {
+		switch v := interface{}(m.GetUnless()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, StructuredPolicyValidationError{
+					field:  "Unless",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, StructuredPolicyValidationError{
+					field:  "Unless",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetUnless()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return StructuredPolicyValidationError{
+				field:  "Unless",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if len(errors) > 0 {
+		return StructuredPolicyMultiError(errors)
+	}
+
+	return nil
+}
+
+// StructuredPolicyMultiError is an error wrapping multiple validation errors
+// returned by StructuredPolicy.ValidateAll() if the designated constraints
+// aren't met.
+type StructuredPolicyMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m StructuredPolicyMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m StructuredPolicyMultiError) AllErrors() []error { return m }
+
+// StructuredPolicyValidationError is the validation error returned by
+// StructuredPolicy.Validate if the designated constraints aren't met.
+type StructuredPolicyValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e StructuredPolicyValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e StructuredPolicyValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e StructuredPolicyValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e StructuredPolicyValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e StructuredPolicyValidationError) ErrorName() string { return "StructuredPolicyValidationError" }
+
+// Error satisfies the builtin error interface
+func (e StructuredPolicyValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sStructuredPolicy.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = StructuredPolicyValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = StructuredPolicyValidationError{}
+
 // Validate checks the field values on Policy with the rules defined in the
 // proto definition for this message. If any rules are violated, the first
 // error encountered is returned, or nil if there are no violations.
@@ -59,6 +679,35 @@ func (m *Policy) validate(all bool) error {
 	// no validation rules for Id
 
 	// no validation rules for Text
+
+	if all {
+		switch v := interface{}(m.GetPolicy()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, PolicyValidationError{
+					field:  "Policy",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, PolicyValidationError{
+					field:  "Policy",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetPolicy()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return PolicyValidationError{
+				field:  "Policy",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
 
 	if len(errors) > 0 {
 		return PolicyMultiError(errors)
@@ -299,6 +948,35 @@ func (m *PolicySetInput) validate(all bool) error {
 	// no validation rules for Id
 
 	// no validation rules for Text
+
+	if all {
+		switch v := interface{}(m.GetPolicy()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, PolicySetInputValidationError{
+					field:  "Policy",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, PolicySetInputValidationError{
+					field:  "Policy",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetPolicy()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return PolicySetInputValidationError{
+				field:  "Policy",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
 
 	if len(errors) > 0 {
 		return PolicySetInputMultiError(errors)
