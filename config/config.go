@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"net/http"
 	"net/url"
+	"os"
 	"runtime"
 	"time"
 
@@ -125,6 +126,11 @@ func (c *Context) Initialize(ctx context.Context, opts InitializeOpts) error {
 
 		_, err := cfg.Token(ctx)
 		if err != nil {
+			// help the user detect a misconfigured environment by checking for a common error scenario
+			_, envConfigured := os.LookupEnv("CF_OIDC_CLIENT_SECRET")
+			if re := (&oauth2.RetrieveError{}); errors.As(err, &re) && re.ErrorCode == "invalid_scope" && envConfigured {
+				return fmt.Errorf("received invalid_scope error when attempting to fetch Common Fate access token, CF_OIDC_CLIENT_SECRET was detected in your environment and may be set by mistake. If you were trying to login to Common Fate using a default configuration file or using the terraform provider rather than using environment variables, try running this command again in a new terminal or clear any environment variables prefixed with CF_OIDC")
+			}
 			return err
 		}
 		c.TokenSource = cfg.TokenSource(ctx)
