@@ -36,12 +36,16 @@ const (
 	// FeatureServiceGetFeaturesProcedure is the fully-qualified name of the FeatureService's
 	// GetFeatures RPC.
 	FeatureServiceGetFeaturesProcedure = "/commonfate.control.feature.v1alpha1.FeatureService/GetFeatures"
+	// FeatureServiceUpdateFeatureProcedure is the fully-qualified name of the FeatureService's
+	// UpdateFeature RPC.
+	FeatureServiceUpdateFeatureProcedure = "/commonfate.control.feature.v1alpha1.FeatureService/UpdateFeature"
 )
 
 // These variables are the protoreflect.Descriptor objects for the RPCs defined in this package.
 var (
-	featureServiceServiceDescriptor           = v1alpha1.File_commonfate_control_feature_v1alpha1_feature_proto.Services().ByName("FeatureService")
-	featureServiceGetFeaturesMethodDescriptor = featureServiceServiceDescriptor.Methods().ByName("GetFeatures")
+	featureServiceServiceDescriptor             = v1alpha1.File_commonfate_control_feature_v1alpha1_feature_proto.Services().ByName("FeatureService")
+	featureServiceGetFeaturesMethodDescriptor   = featureServiceServiceDescriptor.Methods().ByName("GetFeatures")
+	featureServiceUpdateFeatureMethodDescriptor = featureServiceServiceDescriptor.Methods().ByName("UpdateFeature")
 )
 
 // FeatureServiceClient is a client for the commonfate.control.feature.v1alpha1.FeatureService
@@ -49,6 +53,7 @@ var (
 type FeatureServiceClient interface {
 	// Returns a list of enabled features.
 	GetFeatures(context.Context, *connect.Request[v1alpha1.GetFeaturesRequest]) (*connect.Response[v1alpha1.GetFeaturesResponse], error)
+	UpdateFeature(context.Context, *connect.Request[v1alpha1.UpdateFeatureRequest]) (*connect.Response[v1alpha1.UpdateFeatureResponse], error)
 }
 
 // NewFeatureServiceClient constructs a client for the
@@ -68,12 +73,19 @@ func NewFeatureServiceClient(httpClient connect.HTTPClient, baseURL string, opts
 			connect.WithSchema(featureServiceGetFeaturesMethodDescriptor),
 			connect.WithClientOptions(opts...),
 		),
+		updateFeature: connect.NewClient[v1alpha1.UpdateFeatureRequest, v1alpha1.UpdateFeatureResponse](
+			httpClient,
+			baseURL+FeatureServiceUpdateFeatureProcedure,
+			connect.WithSchema(featureServiceUpdateFeatureMethodDescriptor),
+			connect.WithClientOptions(opts...),
+		),
 	}
 }
 
 // featureServiceClient implements FeatureServiceClient.
 type featureServiceClient struct {
-	getFeatures *connect.Client[v1alpha1.GetFeaturesRequest, v1alpha1.GetFeaturesResponse]
+	getFeatures   *connect.Client[v1alpha1.GetFeaturesRequest, v1alpha1.GetFeaturesResponse]
+	updateFeature *connect.Client[v1alpha1.UpdateFeatureRequest, v1alpha1.UpdateFeatureResponse]
 }
 
 // GetFeatures calls commonfate.control.feature.v1alpha1.FeatureService.GetFeatures.
@@ -81,11 +93,17 @@ func (c *featureServiceClient) GetFeatures(ctx context.Context, req *connect.Req
 	return c.getFeatures.CallUnary(ctx, req)
 }
 
+// UpdateFeature calls commonfate.control.feature.v1alpha1.FeatureService.UpdateFeature.
+func (c *featureServiceClient) UpdateFeature(ctx context.Context, req *connect.Request[v1alpha1.UpdateFeatureRequest]) (*connect.Response[v1alpha1.UpdateFeatureResponse], error) {
+	return c.updateFeature.CallUnary(ctx, req)
+}
+
 // FeatureServiceHandler is an implementation of the
 // commonfate.control.feature.v1alpha1.FeatureService service.
 type FeatureServiceHandler interface {
 	// Returns a list of enabled features.
 	GetFeatures(context.Context, *connect.Request[v1alpha1.GetFeaturesRequest]) (*connect.Response[v1alpha1.GetFeaturesResponse], error)
+	UpdateFeature(context.Context, *connect.Request[v1alpha1.UpdateFeatureRequest]) (*connect.Response[v1alpha1.UpdateFeatureResponse], error)
 }
 
 // NewFeatureServiceHandler builds an HTTP handler from the service implementation. It returns the
@@ -100,10 +118,18 @@ func NewFeatureServiceHandler(svc FeatureServiceHandler, opts ...connect.Handler
 		connect.WithSchema(featureServiceGetFeaturesMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
+	featureServiceUpdateFeatureHandler := connect.NewUnaryHandler(
+		FeatureServiceUpdateFeatureProcedure,
+		svc.UpdateFeature,
+		connect.WithSchema(featureServiceUpdateFeatureMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
+	)
 	return "/commonfate.control.feature.v1alpha1.FeatureService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
 		case FeatureServiceGetFeaturesProcedure:
 			featureServiceGetFeaturesHandler.ServeHTTP(w, r)
+		case FeatureServiceUpdateFeatureProcedure:
+			featureServiceUpdateFeatureHandler.ServeHTTP(w, r)
 		default:
 			http.NotFound(w, r)
 		}
@@ -115,4 +141,8 @@ type UnimplementedFeatureServiceHandler struct{}
 
 func (UnimplementedFeatureServiceHandler) GetFeatures(context.Context, *connect.Request[v1alpha1.GetFeaturesRequest]) (*connect.Response[v1alpha1.GetFeaturesResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.control.feature.v1alpha1.FeatureService.GetFeatures is not implemented"))
+}
+
+func (UnimplementedFeatureServiceHandler) UpdateFeature(context.Context, *connect.Request[v1alpha1.UpdateFeatureRequest]) (*connect.Response[v1alpha1.UpdateFeatureResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.control.feature.v1alpha1.FeatureService.UpdateFeature is not implemented"))
 }
