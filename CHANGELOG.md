@@ -1,5 +1,17 @@
 # @common-fate/sdk
 
+## 1.46.0
+
+### Minor Changes
+
+- 743ebd1: Add update feature API
+
+## 1.45.2
+
+### Patch Changes
+
+- a0cbe20: Package name and constructor fixes
+
 ## 1.45.1
 
 ### Patch Changes
