@@ -59,6 +59,8 @@ func (m *CreateAWSResourceScannerRequest) validate(all bool) error {
 
 	// no validation rules for IntegrationId
 
+	// no validation rules for RoleName
+
 	if len(errors) > 0 {
 		return CreateAWSResourceScannerRequestMultiError(errors)
 	}
@@ -165,6 +167,8 @@ func (m *AWSResourceScanner) validate(all bool) error {
 	// no validation rules for Id
 
 	// no validation rules for IntegrationId
+
+	// no validation rules for RoleName
 
 	if len(errors) > 0 {
 		return AWSResourceScannerMultiError(errors)
