@@ -28,3 +28,7 @@ func (c Client) AvailabilitySpec() configv1alpha1connect.AvailabilitySpecService
 func (c Client) WebhookProvisioner() configv1alpha1connect.WebhookProvisionerServiceClient {
 	return configv1alpha1connect.NewWebhookProvisionerServiceClient(c.cfg.HTTPClient, c.cfg.APIURL)
 }
+
+func (c Client) AWSResourceScanner() configv1alpha1connect.AWSResourceScannerServiceClient {
+	return configv1alpha1connect.NewAWSResourceScannerServiceClient(c.cfg.HTTPClient, c.cfg.APIURL)
+}
