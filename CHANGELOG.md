@@ -1,5 +1,12 @@
 # @common-fate/sdk
 
+## 1.47.0
+
+### Minor Changes
+
+- 1816d6c: Add Department attribute to User
+- 1816d6c: Directory: adds Okta integration type
+
 ## 1.46.0
 
 ### Minor Changes
