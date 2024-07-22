@@ -21,6 +21,8 @@ message User {
 
     // The number of groups the user belongs to.
     int32 group_membership_count = 6;
+
+    string department = 7;
 }
 
 message UserAccount {

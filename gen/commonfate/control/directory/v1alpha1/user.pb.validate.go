@@ -127,6 +127,8 @@ func (m *User) validate(all bool) error {
 
 	// no validation rules for GroupMembershipCount
 
+	// no validation rules for Department
+
 	if len(errors) > 0 {
 		return UserMultiError(errors)
 	}
