@@ -1,5 +1,15 @@
 # @common-fate/sdk
 
+## 1.48.0
+
+### Minor Changes
+
+- ef06a0d: Factory service: allow connect.ClientOptions to be passed to client constructor
+
+### Patch Changes
+
+- 6de9832: Update the OIDC provider library that we're using to the latest version to fix CVE-2024-28180
+
 ## 1.47.0
 
 ### Minor Changes
