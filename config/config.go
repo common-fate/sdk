@@ -12,7 +12,7 @@ import (
 
 	"github.com/common-fate/clio/clierr"
 	"github.com/common-fate/sdk/tokenstore"
-	"github.com/zitadel/oidc/v2/pkg/client/rp"
+	"github.com/zitadel/oidc/v3/pkg/client/rp"
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/clientcredentials"
 )
@@ -87,7 +87,7 @@ func (c *Context) Initialize(ctx context.Context, opts InitializeOpts) error {
 		rp.WithVerifierOpts(rp.WithIssuedAtOffset(5 * time.Second)),
 	}
 
-	p, err := rp.NewRelyingPartyOIDC(c.OIDCIssuer, c.OIDCClientID, emptyClientSecret, redirectURI, scopes, options...)
+	p, err := rp.NewRelyingPartyOIDC(ctx, c.OIDCIssuer, c.OIDCClientID, emptyClientSecret, redirectURI, scopes, options...)
 	if err != nil {
 		return err
 	}
