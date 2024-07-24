@@ -87,7 +87,7 @@ func (c *Context) Initialize(ctx context.Context, opts InitializeOpts) error {
 		rp.WithVerifierOpts(rp.WithIssuedAtOffset(5 * time.Second)),
 	}
 
-	p, err := rp.NewRelyingPartyOIDC(c.OIDCIssuer, c.OIDCClientID, emptyClientSecret, redirectURI, scopes, options...)
+	p, err := rp.NewRelyingPartyOIDC(ctx, c.OIDCIssuer, c.OIDCClientID, emptyClientSecret, redirectURI, scopes, options...)
 	if err != nil {
 		return err
 	}
