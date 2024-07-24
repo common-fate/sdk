@@ -12,7 +12,7 @@ import (
 
 	"github.com/common-fate/clio/clierr"
 	"github.com/common-fate/sdk/tokenstore"
-	"github.com/zitadel/oidc/v2/pkg/client/rp"
+	"github.com/zitadel/oidc/v3/pkg/client/rp"
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/clientcredentials"
 )
