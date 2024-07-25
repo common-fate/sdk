@@ -1,0 +1,83 @@
+syntax = "proto3";
+package commonfate.control.config.v1alpha1;
+import "commonfate/authz/v1alpha1/read_only.proto";
+import "buf/validate/validate.proto";
+
+service AWSResourceScannerService {
+  rpc CreateAWSResourceScanner(CreateAWSResourceScannerRequest) returns (CreateAWSResourceScannerResponse) {}
+  rpc GetAWSResourceScanner(GetAWSResourceScannerRequest) returns (GetAWSResourceScannerResponse) {
+    option (commonfate.authz.v1alpha1.read_only) = true;
+  }
+  rpc UpdateAWSResourceScanner(UpdateAWSResourceScannerRequest) returns (UpdateAWSResourceScannerResponse) {}
+  rpc DeleteAWSResourceScanner(DeleteAWSResourceScannerRequest) returns (DeleteAWSResourceScannerResponse) {}
+}
+
+message CreateAWSResourceScannerRequest {
+ string integration_id = 1 [(buf.validate.field).string.min_len = 1];
+
+ // AWS regions to scan for resources in.
+ repeated string regions = 2 [(buf.validate.field).repeated.min_items = 1];
+
+ // Resource types to scan for. If empty, Common Fate
+ // will attempt to scan for all supported AWS resource types.
+ //
+ // Resource types should adhere to the Cedar format,
+ // for example 'AWS::S3::Bucket'.
+ repeated string resource_types = 3;
+
+ // If provided, only resources in the specified account IDs will be scanned.
+ repeated string filter_for_account_ids = 4;
+
+ // The AWS role name to use for scanning resources. Defaults to 'common-fate-audit' if not provided.
+ string role_name = 5;
+}
+
+
+message AWSResourceScanner {
+  string id = 1;
+  string integration_id = 2;
+
+  // AWS regions to scan for resources in.
+  repeated string regions = 3;
+
+  // Resource types to scan for. If empty, Common Fate
+  // will attempt to scan for all supported AWS resource types.
+  //
+  // Resource types should adhere to the Cedar format,
+  // for example 'AWS::S3::Bucket'.
+  repeated string resource_types = 4;
+
+  // If provided, only resources in the specified account IDs will be scanned.
+  repeated string filter_for_account_ids = 5;
+
+  // The AWS role name to use for scanning resources. Defaults to 'common-fate-audit' if not provided.
+  string role_name = 6;
+}
+
+message CreateAWSResourceScannerResponse {
+  AWSResourceScanner resource_scanner = 1;
+}
+
+message GetAWSResourceScannerRequest {
+  string id = 1;
+}
+
+message GetAWSResourceScannerResponse {
+  AWSResourceScanner resource_scanner = 1;
+}
+
+message UpdateAWSResourceScannerRequest {
+  AWSResourceScanner resource_scanner = 1;
+}
+
+message UpdateAWSResourceScannerResponse {
+  AWSResourceScanner resource_scanner = 1;
+}
+
+message DeleteAWSResourceScannerRequest {
+  string id = 1;
+}
+
+message DeleteAWSResourceScannerResponse {
+  string id = 1;
+}
