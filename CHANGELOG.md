@@ -1,5 +1,11 @@
 # @common-fate/sdk
 
+## 1.49.0
+
+### Minor Changes
+
+- 5024170: Adds AWS Resource Scanner configuration service
+
 ## 1.48.0
 
 ### Minor Changes
