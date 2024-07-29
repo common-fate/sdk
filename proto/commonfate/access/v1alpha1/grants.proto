@@ -92,7 +92,7 @@ message AWSDynamicRoleOutput {
   string sso_role_name = 3;
   string sso_region = 4;
   string account_id = 5;
-  string permission_set_arn = 8;
+  string permission_set_arn = 6;
 }
 
 message QueryGrantsResponse {
