@@ -1,5 +1,11 @@
 # @common-fate/sdk
 
+## 1.50.0
+
+### Minor Changes
+
+- f6a98f1: Adds GetGRantOutput API which can be used to return the strongly typed grant output from provisioning if it exists for the grant.
+
 ## 1.49.0
 
 ### Minor Changes
