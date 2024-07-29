@@ -52,7 +52,47 @@ message GetGrantOutputRequest {
 }
 
 message GetGrantOutputResponse {
-  optional commonfate.entity.v1alpha1.Entity output = 1;
+  oneof output {
+    // generic entity type where specific typing is not implemented
+    commonfate.entity.v1alpha1.Entity output_entity = 1;
+    AWSRDSOutput output_aws_rds = 2;
+    AWSDynamicRoleOutput output_aws_dynamic_role = 3;
+  }
+}
+
+message AWSRDSOutput {
+  commonfate.entity.v1alpha1.EID grant = 1;
+  string sso_start_url = 2;
+  string sso_role_name = 3;
+  string sso_region = 4;
+  AWSRDSDatabase rds_database = 5;
+  AWSRDSUser user = 6;
+  string ssm_session_target = 7;
+  string permission_set_arn = 8;
+}
+
+message AWSRDSDatabase {
+  string id = 1;
+  string name = 2;
+  string engine = 3;
+  string region = 4;
+  string account_id = 5;
+  string instance_id = 6;
+  string database = 7;
+}
+message AWSRDSUser {
+  string id = 1;
+  string name = 2;
+  string username = 3;
+}
+
+message AWSDynamicRoleOutput {
+  string id = 1;
+  string sso_start_url = 2;
+  string sso_role_name = 3;
+  string sso_region = 4;
+  string account_id = 5;
+  string permission_set_arn = 8;
 }
 
 message QueryGrantsResponse {
