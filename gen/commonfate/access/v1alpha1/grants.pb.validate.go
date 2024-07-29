@@ -383,6 +383,39 @@ func (m *GetGrantResponse) validate(all bool) error {
 		}
 	}
 
+	if m.Output != nil {
+
+		if all {
+			switch v := interface{}(m.GetOutput()).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, GetGrantResponseValidationError{
+						field:  "Output",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, GetGrantResponseValidationError{
+						field:  "Output",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(m.GetOutput()).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return GetGrantResponseValidationError{
+					field:  "Output",
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
 	if len(errors) > 0 {
 		return GetGrantResponseMultiError(errors)
 	}
@@ -460,6 +493,245 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = GetGrantResponseValidationError{}
+
+// Validate checks the field values on GetGrantOutputRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *GetGrantOutputRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on GetGrantOutputRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// GetGrantOutputRequestMultiError, or nil if none found.
+func (m *GetGrantOutputRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *GetGrantOutputRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Id
+
+	if len(errors) > 0 {
+		return GetGrantOutputRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// GetGrantOutputRequestMultiError is an error wrapping multiple validation
+// errors returned by GetGrantOutputRequest.ValidateAll() if the designated
+// constraints aren't met.
+type GetGrantOutputRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m GetGrantOutputRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m GetGrantOutputRequestMultiError) AllErrors() []error { return m }
+
+// GetGrantOutputRequestValidationError is the validation error returned by
+// GetGrantOutputRequest.Validate if the designated constraints aren't met.
+type GetGrantOutputRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e GetGrantOutputRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e GetGrantOutputRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e GetGrantOutputRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e GetGrantOutputRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e GetGrantOutputRequestValidationError) ErrorName() string {
+	return "GetGrantOutputRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e GetGrantOutputRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sGetGrantOutputRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = GetGrantOutputRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = GetGrantOutputRequestValidationError{}
+
+// Validate checks the field values on GetGrantOutputResponse with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *GetGrantOutputResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on GetGrantOutputResponse with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// GetGrantOutputResponseMultiError, or nil if none found.
+func (m *GetGrantOutputResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *GetGrantOutputResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if m.Output != nil {
+
+		if all {
+			switch v := interface{}(m.GetOutput()).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, GetGrantOutputResponseValidationError{
+						field:  "Output",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, GetGrantOutputResponseValidationError{
+						field:  "Output",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(m.GetOutput()).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return GetGrantOutputResponseValidationError{
+					field:  "Output",
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	if len(errors) > 0 {
+		return GetGrantOutputResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// GetGrantOutputResponseMultiError is an error wrapping multiple validation
+// errors returned by GetGrantOutputResponse.ValidateAll() if the designated
+// constraints aren't met.
+type GetGrantOutputResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m GetGrantOutputResponseMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m GetGrantOutputResponseMultiError) AllErrors() []error { return m }
+
+// GetGrantOutputResponseValidationError is the validation error returned by
+// GetGrantOutputResponse.Validate if the designated constraints aren't met.
+type GetGrantOutputResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e GetGrantOutputResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e GetGrantOutputResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e GetGrantOutputResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e GetGrantOutputResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e GetGrantOutputResponseValidationError) ErrorName() string {
+	return "GetGrantOutputResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e GetGrantOutputResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sGetGrantOutputResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = GetGrantOutputResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = GetGrantOutputResponseValidationError{}
 
 // Validate checks the field values on QueryGrantsResponse with the rules
 // defined in the proto definition for this message. If any rules are
