@@ -383,6 +383,39 @@ func (m *GetGrantResponse) validate(all bool) error {
 		}
 	}
 
+	if m.Output != nil {
+
+		if all {
+			switch v := interface{}(m.GetOutput()).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, GetGrantResponseValidationError{
+						field:  "Output",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, GetGrantResponseValidationError{
+						field:  "Output",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(m.GetOutput()).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return GetGrantResponseValidationError{
+					field:  "Output",
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
 	if len(errors) > 0 {
 		return GetGrantResponseMultiError(errors)
 	}
@@ -460,6 +493,869 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = GetGrantResponseValidationError{}
+
+// Validate checks the field values on GetGrantOutputRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *GetGrantOutputRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on GetGrantOutputRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// GetGrantOutputRequestMultiError, or nil if none found.
+func (m *GetGrantOutputRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *GetGrantOutputRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Id
+
+	if len(errors) > 0 {
+		return GetGrantOutputRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// GetGrantOutputRequestMultiError is an error wrapping multiple validation
+// errors returned by GetGrantOutputRequest.ValidateAll() if the designated
+// constraints aren't met.
+type GetGrantOutputRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m GetGrantOutputRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m GetGrantOutputRequestMultiError) AllErrors() []error { return m }
+
+// GetGrantOutputRequestValidationError is the validation error returned by
+// GetGrantOutputRequest.Validate if the designated constraints aren't met.
+type GetGrantOutputRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e GetGrantOutputRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e GetGrantOutputRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e GetGrantOutputRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e GetGrantOutputRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e GetGrantOutputRequestValidationError) ErrorName() string {
+	return "GetGrantOutputRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e GetGrantOutputRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sGetGrantOutputRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = GetGrantOutputRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = GetGrantOutputRequestValidationError{}
+
+// Validate checks the field values on GetGrantOutputResponse with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *GetGrantOutputResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on GetGrantOutputResponse with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// GetGrantOutputResponseMultiError, or nil if none found.
+func (m *GetGrantOutputResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *GetGrantOutputResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	switch v := m.Output.(type) {
+	case *GetGrantOutputResponse_OutputEntity:
+		if v == nil {
+			err := GetGrantOutputResponseValidationError{
+				field:  "Output",
+				reason: "oneof value cannot be a typed-nil",
+			}
+			if !all {
+				return err
+			}
+			errors = append(errors, err)
+		}
+
+		if all {
+			switch v := interface{}(m.GetOutputEntity()).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, GetGrantOutputResponseValidationError{
+						field:  "OutputEntity",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, GetGrantOutputResponseValidationError{
+						field:  "OutputEntity",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(m.GetOutputEntity()).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return GetGrantOutputResponseValidationError{
+					field:  "OutputEntity",
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	case *GetGrantOutputResponse_OutputAwsRds:
+		if v == nil {
+			err := GetGrantOutputResponseValidationError{
+				field:  "Output",
+				reason: "oneof value cannot be a typed-nil",
+			}
+			if !all {
+				return err
+			}
+			errors = append(errors, err)
+		}
+
+		if all {
+			switch v := interface{}(m.GetOutputAwsRds()).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, GetGrantOutputResponseValidationError{
+						field:  "OutputAwsRds",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, GetGrantOutputResponseValidationError{
+						field:  "OutputAwsRds",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(m.GetOutputAwsRds()).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return GetGrantOutputResponseValidationError{
+					field:  "OutputAwsRds",
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	case *GetGrantOutputResponse_OutputAwsDynamicRole:
+		if v == nil {
+			err := GetGrantOutputResponseValidationError{
+				field:  "Output",
+				reason: "oneof value cannot be a typed-nil",
+			}
+			if !all {
+				return err
+			}
+			errors = append(errors, err)
+		}
+
+		if all {
+			switch v := interface{}(m.GetOutputAwsDynamicRole()).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, GetGrantOutputResponseValidationError{
+						field:  "OutputAwsDynamicRole",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, GetGrantOutputResponseValidationError{
+						field:  "OutputAwsDynamicRole",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(m.GetOutputAwsDynamicRole()).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return GetGrantOutputResponseValidationError{
+					field:  "OutputAwsDynamicRole",
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	default:
+		_ = v // ensures v is used
+	}
+
+	if len(errors) > 0 {
+		return GetGrantOutputResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// GetGrantOutputResponseMultiError is an error wrapping multiple validation
+// errors returned by GetGrantOutputResponse.ValidateAll() if the designated
+// constraints aren't met.
+type GetGrantOutputResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m GetGrantOutputResponseMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m GetGrantOutputResponseMultiError) AllErrors() []error { return m }
+
+// GetGrantOutputResponseValidationError is the validation error returned by
+// GetGrantOutputResponse.Validate if the designated constraints aren't met.
+type GetGrantOutputResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e GetGrantOutputResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e GetGrantOutputResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e GetGrantOutputResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e GetGrantOutputResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e GetGrantOutputResponseValidationError) ErrorName() string {
+	return "GetGrantOutputResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e GetGrantOutputResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sGetGrantOutputResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = GetGrantOutputResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = GetGrantOutputResponseValidationError{}
+
+// Validate checks the field values on AWSRDSOutput with the rules defined in
+// the proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *AWSRDSOutput) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on AWSRDSOutput with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in AWSRDSOutputMultiError, or
+// nil if none found.
+func (m *AWSRDSOutput) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *AWSRDSOutput) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if all {
+		switch v := interface{}(m.GetGrant()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, AWSRDSOutputValidationError{
+					field:  "Grant",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, AWSRDSOutputValidationError{
+					field:  "Grant",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetGrant()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return AWSRDSOutputValidationError{
+				field:  "Grant",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	// no validation rules for SsoStartUrl
+
+	// no validation rules for SsoRoleName
+
+	// no validation rules for SsoRegion
+
+	if all {
+		switch v := interface{}(m.GetRdsDatabase()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, AWSRDSOutputValidationError{
+					field:  "RdsDatabase",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, AWSRDSOutputValidationError{
+					field:  "RdsDatabase",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetRdsDatabase()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return AWSRDSOutputValidationError{
+				field:  "RdsDatabase",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if all {
+		switch v := interface{}(m.GetUser()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, AWSRDSOutputValidationError{
+					field:  "User",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, AWSRDSOutputValidationError{
+					field:  "User",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetUser()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return AWSRDSOutputValidationError{
+				field:  "User",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	// no validation rules for SsmSessionTarget
+
+	// no validation rules for PermissionSetArn
+
+	if len(errors) > 0 {
+		return AWSRDSOutputMultiError(errors)
+	}
+
+	return nil
+}
+
+// AWSRDSOutputMultiError is an error wrapping multiple validation errors
+// returned by AWSRDSOutput.ValidateAll() if the designated constraints aren't met.
+type AWSRDSOutputMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m AWSRDSOutputMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m AWSRDSOutputMultiError) AllErrors() []error { return m }
+
+// AWSRDSOutputValidationError is the validation error returned by
+// AWSRDSOutput.Validate if the designated constraints aren't met.
+type AWSRDSOutputValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e AWSRDSOutputValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e AWSRDSOutputValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e AWSRDSOutputValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e AWSRDSOutputValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e AWSRDSOutputValidationError) ErrorName() string { return "AWSRDSOutputValidationError" }
+
+// Error satisfies the builtin error interface
+func (e AWSRDSOutputValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sAWSRDSOutput.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = AWSRDSOutputValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = AWSRDSOutputValidationError{}
+
+// Validate checks the field values on AWSRDSDatabase with the rules defined in
+// the proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *AWSRDSDatabase) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on AWSRDSDatabase with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in AWSRDSDatabaseMultiError,
+// or nil if none found.
+func (m *AWSRDSDatabase) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *AWSRDSDatabase) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Id
+
+	// no validation rules for Name
+
+	// no validation rules for Engine
+
+	// no validation rules for Region
+
+	// no validation rules for AccountId
+
+	// no validation rules for InstanceId
+
+	// no validation rules for Database
+
+	if len(errors) > 0 {
+		return AWSRDSDatabaseMultiError(errors)
+	}
+
+	return nil
+}
+
+// AWSRDSDatabaseMultiError is an error wrapping multiple validation errors
+// returned by AWSRDSDatabase.ValidateAll() if the designated constraints
+// aren't met.
+type AWSRDSDatabaseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m AWSRDSDatabaseMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m AWSRDSDatabaseMultiError) AllErrors() []error { return m }
+
+// AWSRDSDatabaseValidationError is the validation error returned by
+// AWSRDSDatabase.Validate if the designated constraints aren't met.
+type AWSRDSDatabaseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e AWSRDSDatabaseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e AWSRDSDatabaseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e AWSRDSDatabaseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e AWSRDSDatabaseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e AWSRDSDatabaseValidationError) ErrorName() string { return "AWSRDSDatabaseValidationError" }
+
+// Error satisfies the builtin error interface
+func (e AWSRDSDatabaseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sAWSRDSDatabase.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = AWSRDSDatabaseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = AWSRDSDatabaseValidationError{}
+
+// Validate checks the field values on AWSRDSUser with the rules defined in the
+// proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *AWSRDSUser) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on AWSRDSUser with the rules defined in
+// the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in AWSRDSUserMultiError, or
+// nil if none found.
+func (m *AWSRDSUser) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *AWSRDSUser) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Id
+
+	// no validation rules for Name
+
+	// no validation rules for Username
+
+	if len(errors) > 0 {
+		return AWSRDSUserMultiError(errors)
+	}
+
+	return nil
+}
+
+// AWSRDSUserMultiError is an error wrapping multiple validation errors
+// returned by AWSRDSUser.ValidateAll() if the designated constraints aren't met.
+type AWSRDSUserMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m AWSRDSUserMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m AWSRDSUserMultiError) AllErrors() []error { return m }
+
+// AWSRDSUserValidationError is the validation error returned by
+// AWSRDSUser.Validate if the designated constraints aren't met.
+type AWSRDSUserValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e AWSRDSUserValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e AWSRDSUserValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e AWSRDSUserValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e AWSRDSUserValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e AWSRDSUserValidationError) ErrorName() string { return "AWSRDSUserValidationError" }
+
+// Error satisfies the builtin error interface
+func (e AWSRDSUserValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sAWSRDSUser.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = AWSRDSUserValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = AWSRDSUserValidationError{}
+
+// Validate checks the field values on AWSDynamicRoleOutput with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *AWSDynamicRoleOutput) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on AWSDynamicRoleOutput with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// AWSDynamicRoleOutputMultiError, or nil if none found.
+func (m *AWSDynamicRoleOutput) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *AWSDynamicRoleOutput) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Id
+
+	// no validation rules for SsoStartUrl
+
+	// no validation rules for SsoRoleName
+
+	// no validation rules for SsoRegion
+
+	// no validation rules for AccountId
+
+	// no validation rules for PermissionSetArn
+
+	if len(errors) > 0 {
+		return AWSDynamicRoleOutputMultiError(errors)
+	}
+
+	return nil
+}
+
+// AWSDynamicRoleOutputMultiError is an error wrapping multiple validation
+// errors returned by AWSDynamicRoleOutput.ValidateAll() if the designated
+// constraints aren't met.
+type AWSDynamicRoleOutputMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m AWSDynamicRoleOutputMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m AWSDynamicRoleOutputMultiError) AllErrors() []error { return m }
+
+// AWSDynamicRoleOutputValidationError is the validation error returned by
+// AWSDynamicRoleOutput.Validate if the designated constraints aren't met.
+type AWSDynamicRoleOutputValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e AWSDynamicRoleOutputValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e AWSDynamicRoleOutputValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e AWSDynamicRoleOutputValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e AWSDynamicRoleOutputValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e AWSDynamicRoleOutputValidationError) ErrorName() string {
+	return "AWSDynamicRoleOutputValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e AWSDynamicRoleOutputValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sAWSDynamicRoleOutput.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = AWSDynamicRoleOutputValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = AWSDynamicRoleOutputValidationError{}
 
 // Validate checks the field values on QueryGrantsResponse with the rules
 // defined in the proto definition for this message. If any rules are
