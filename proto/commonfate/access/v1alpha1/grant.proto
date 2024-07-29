@@ -67,10 +67,13 @@ message Grant {
     // A URL which can be used to access the requested entitlement.
     string external_url = 18;
 
-    // Conditions for extending access. 
+    // Conditions for extending access.
     // If empty, extensions are not permitted.
     Extension extension = 19;
 
+    // Instructions in Markdown format for accessing the entitlement
+    // using a CLI.
+    string cli_access_instructions = 20;
 }
 
 message Extension {
@@ -86,7 +89,7 @@ enum GrantStatus {
     // Awaiting a manual review.
     GRANT_STATUS_PENDING = 1;
 
-    // The grant to the entitlement is currently active. 
+    // The grant to the entitlement is currently active.
     GRANT_STATUS_ACTIVE = 3;
 
     // No longer active. Grants may be closed due to several reasons, such as:

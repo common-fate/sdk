@@ -389,6 +389,8 @@ func (m *Grant) validate(all bool) error {
 		}
 	}
 
+	// no validation rules for CliAccessInstructions
+
 	if len(errors) > 0 {
 		return GrantMultiError(errors)
 	}
