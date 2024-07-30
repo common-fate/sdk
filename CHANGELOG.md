@@ -1,5 +1,11 @@
 # @common-fate/sdk
 
+## 1.51.0
+
+### Minor Changes
+
+- 78b781e: Adds CLI Access Instructions to Grants.
+
 ## 1.50.0
 
 ### Minor Changes
