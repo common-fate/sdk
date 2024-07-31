@@ -1,5 +1,11 @@
 # @common-fate/sdk
 
+## 1.51.1
+
+### Patch Changes
+
+- f48f8a4: Add opsgenie and datastax integration to directory
+
 ## 1.51.0
 
 ### Minor Changes
