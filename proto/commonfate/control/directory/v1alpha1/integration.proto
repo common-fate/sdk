@@ -3,9 +3,9 @@ syntax = "proto3";
 package commonfate.control.directory.v1alpha1;
 
 message Integration {
-    string id = 1;
-    string name = 2;
-    IntegrationType type = 3;
+  string id = 1;
+  string name = 2;
+  IntegrationType type = 3;
 }
 
 enum IntegrationType {
@@ -15,4 +15,6 @@ enum IntegrationType {
   INTEGRATION_TYPE_SLACK = 3;
   INTEGRATION_TYPE_PAGERDUTY = 4;
   INTEGRATION_TYPE_OKTA = 5;
+  INTEGRATION_TYPE_OPSGENIE = 6;
+  INTEGRATION_TYPE_DATASTAX = 7;
 }
