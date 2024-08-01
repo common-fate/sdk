@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package commonfate.factory.signup.v1alpha1;
+
+import "commonfate/factory/deployment/v1alpha1/deployment.proto";
+
+service SignupService {
+  // Signup for a new deployment of Common Fate.
+  rpc Signup(SignupRequest) returns (SignupResponse) {}
+}
+
+message SignupRequest {
+  string name = 1;
+}
+
+message SignupResponse {
+  oneof result {
+    commonfate.factory.deployment.v1alpha1.Deployment deployment = 1;
+    DeploymentProvisioning deployment_provisioning = 2;
+  }
+}
+
+message DeploymentProvisioning {
+  string message = 1;
+}
