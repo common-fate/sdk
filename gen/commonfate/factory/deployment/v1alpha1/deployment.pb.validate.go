@@ -623,6 +623,1103 @@ var _ interface {
 	ErrorName() string
 } = SetTerraformOutputResponseValidationError{}
 
+// Validate checks the field values on AWSACMCertificate with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// first error encountered is returned, or nil if there are no violations.
+func (m *AWSACMCertificate) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on AWSACMCertificate with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// AWSACMCertificateMultiError, or nil if none found.
+func (m *AWSACMCertificate) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *AWSACMCertificate) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Id
+
+	// no validation rules for Arn
+
+	// no validation rules for ValidationCnameName
+
+	// no validation rules for ValidationCnameValue
+
+	if len(errors) > 0 {
+		return AWSACMCertificateMultiError(errors)
+	}
+
+	return nil
+}
+
+// AWSACMCertificateMultiError is an error wrapping multiple validation errors
+// returned by AWSACMCertificate.ValidateAll() if the designated constraints
+// aren't met.
+type AWSACMCertificateMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m AWSACMCertificateMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m AWSACMCertificateMultiError) AllErrors() []error { return m }
+
+// AWSACMCertificateValidationError is the validation error returned by
+// AWSACMCertificate.Validate if the designated constraints aren't met.
+type AWSACMCertificateValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e AWSACMCertificateValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e AWSACMCertificateValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e AWSACMCertificateValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e AWSACMCertificateValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e AWSACMCertificateValidationError) ErrorName() string {
+	return "AWSACMCertificateValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e AWSACMCertificateValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sAWSACMCertificate.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = AWSACMCertificateValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = AWSACMCertificateValidationError{}
+
+// Validate checks the field values on RegisterAWSACMCertificateRequest with
+// the rules defined in the proto definition for this message. If any rules
+// are violated, the first error encountered is returned, or nil if there are
+// no violations.
+func (m *RegisterAWSACMCertificateRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on RegisterAWSACMCertificateRequest with
+// the rules defined in the proto definition for this message. If any rules
+// are violated, the result is a list of violation errors wrapped in
+// RegisterAWSACMCertificateRequestMultiError, or nil if none found.
+func (m *RegisterAWSACMCertificateRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *RegisterAWSACMCertificateRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Arn
+
+	// no validation rules for ValidationCnameName
+
+	// no validation rules for ValidationCnameValue
+
+	if len(errors) > 0 {
+		return RegisterAWSACMCertificateRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// RegisterAWSACMCertificateRequestMultiError is an error wrapping multiple
+// validation errors returned by
+// RegisterAWSACMCertificateRequest.ValidateAll() if the designated
+// constraints aren't met.
+type RegisterAWSACMCertificateRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m RegisterAWSACMCertificateRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m RegisterAWSACMCertificateRequestMultiError) AllErrors() []error { return m }
+
+// RegisterAWSACMCertificateRequestValidationError is the validation error
+// returned by RegisterAWSACMCertificateRequest.Validate if the designated
+// constraints aren't met.
+type RegisterAWSACMCertificateRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e RegisterAWSACMCertificateRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e RegisterAWSACMCertificateRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e RegisterAWSACMCertificateRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e RegisterAWSACMCertificateRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e RegisterAWSACMCertificateRequestValidationError) ErrorName() string {
+	return "RegisterAWSACMCertificateRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e RegisterAWSACMCertificateRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sRegisterAWSACMCertificateRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = RegisterAWSACMCertificateRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = RegisterAWSACMCertificateRequestValidationError{}
+
+// Validate checks the field values on RegisterAWSACMCertificateResponse with
+// the rules defined in the proto definition for this message. If any rules
+// are violated, the first error encountered is returned, or nil if there are
+// no violations.
+func (m *RegisterAWSACMCertificateResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on RegisterAWSACMCertificateResponse
+// with the rules defined in the proto definition for this message. If any
+// rules are violated, the result is a list of violation errors wrapped in
+// RegisterAWSACMCertificateResponseMultiError, or nil if none found.
+func (m *RegisterAWSACMCertificateResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *RegisterAWSACMCertificateResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if all {
+		switch v := interface{}(m.GetCertificate()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, RegisterAWSACMCertificateResponseValidationError{
+					field:  "Certificate",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, RegisterAWSACMCertificateResponseValidationError{
+					field:  "Certificate",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetCertificate()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return RegisterAWSACMCertificateResponseValidationError{
+				field:  "Certificate",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if len(errors) > 0 {
+		return RegisterAWSACMCertificateResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// RegisterAWSACMCertificateResponseMultiError is an error wrapping multiple
+// validation errors returned by
+// RegisterAWSACMCertificateResponse.ValidateAll() if the designated
+// constraints aren't met.
+type RegisterAWSACMCertificateResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m RegisterAWSACMCertificateResponseMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m RegisterAWSACMCertificateResponseMultiError) AllErrors() []error { return m }
+
+// RegisterAWSACMCertificateResponseValidationError is the validation error
+// returned by RegisterAWSACMCertificateResponse.Validate if the designated
+// constraints aren't met.
+type RegisterAWSACMCertificateResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e RegisterAWSACMCertificateResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e RegisterAWSACMCertificateResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e RegisterAWSACMCertificateResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e RegisterAWSACMCertificateResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e RegisterAWSACMCertificateResponseValidationError) ErrorName() string {
+	return "RegisterAWSACMCertificateResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e RegisterAWSACMCertificateResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sRegisterAWSACMCertificateResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = RegisterAWSACMCertificateResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = RegisterAWSACMCertificateResponseValidationError{}
+
+// Validate checks the field values on GetAWSACMCertificateRequest with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *GetAWSACMCertificateRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on GetAWSACMCertificateRequest with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// GetAWSACMCertificateRequestMultiError, or nil if none found.
+func (m *GetAWSACMCertificateRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *GetAWSACMCertificateRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Id
+
+	if len(errors) > 0 {
+		return GetAWSACMCertificateRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// GetAWSACMCertificateRequestMultiError is an error wrapping multiple
+// validation errors returned by GetAWSACMCertificateRequest.ValidateAll() if
+// the designated constraints aren't met.
+type GetAWSACMCertificateRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m GetAWSACMCertificateRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m GetAWSACMCertificateRequestMultiError) AllErrors() []error { return m }
+
+// GetAWSACMCertificateRequestValidationError is the validation error returned
+// by GetAWSACMCertificateRequest.Validate if the designated constraints
+// aren't met.
+type GetAWSACMCertificateRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e GetAWSACMCertificateRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e GetAWSACMCertificateRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e GetAWSACMCertificateRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e GetAWSACMCertificateRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e GetAWSACMCertificateRequestValidationError) ErrorName() string {
+	return "GetAWSACMCertificateRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e GetAWSACMCertificateRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sGetAWSACMCertificateRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = GetAWSACMCertificateRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = GetAWSACMCertificateRequestValidationError{}
+
+// Validate checks the field values on GetAWSACMCertificateResponse with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *GetAWSACMCertificateResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on GetAWSACMCertificateResponse with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// GetAWSACMCertificateResponseMultiError, or nil if none found.
+func (m *GetAWSACMCertificateResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *GetAWSACMCertificateResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if all {
+		switch v := interface{}(m.GetCertificate()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, GetAWSACMCertificateResponseValidationError{
+					field:  "Certificate",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, GetAWSACMCertificateResponseValidationError{
+					field:  "Certificate",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetCertificate()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return GetAWSACMCertificateResponseValidationError{
+				field:  "Certificate",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if len(errors) > 0 {
+		return GetAWSACMCertificateResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// GetAWSACMCertificateResponseMultiError is an error wrapping multiple
+// validation errors returned by GetAWSACMCertificateResponse.ValidateAll() if
+// the designated constraints aren't met.
+type GetAWSACMCertificateResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m GetAWSACMCertificateResponseMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m GetAWSACMCertificateResponseMultiError) AllErrors() []error { return m }
+
+// GetAWSACMCertificateResponseValidationError is the validation error returned
+// by GetAWSACMCertificateResponse.Validate if the designated constraints
+// aren't met.
+type GetAWSACMCertificateResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e GetAWSACMCertificateResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e GetAWSACMCertificateResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e GetAWSACMCertificateResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e GetAWSACMCertificateResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e GetAWSACMCertificateResponseValidationError) ErrorName() string {
+	return "GetAWSACMCertificateResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e GetAWSACMCertificateResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sGetAWSACMCertificateResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = GetAWSACMCertificateResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = GetAWSACMCertificateResponseValidationError{}
+
+// Validate checks the field values on UpdateAWSACMCertificateRequest with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *UpdateAWSACMCertificateRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on UpdateAWSACMCertificateRequest with
+// the rules defined in the proto definition for this message. If any rules
+// are violated, the result is a list of violation errors wrapped in
+// UpdateAWSACMCertificateRequestMultiError, or nil if none found.
+func (m *UpdateAWSACMCertificateRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *UpdateAWSACMCertificateRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if all {
+		switch v := interface{}(m.GetCertificate()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, UpdateAWSACMCertificateRequestValidationError{
+					field:  "Certificate",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, UpdateAWSACMCertificateRequestValidationError{
+					field:  "Certificate",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetCertificate()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return UpdateAWSACMCertificateRequestValidationError{
+				field:  "Certificate",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if len(errors) > 0 {
+		return UpdateAWSACMCertificateRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// UpdateAWSACMCertificateRequestMultiError is an error wrapping multiple
+// validation errors returned by UpdateAWSACMCertificateRequest.ValidateAll()
+// if the designated constraints aren't met.
+type UpdateAWSACMCertificateRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m UpdateAWSACMCertificateRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m UpdateAWSACMCertificateRequestMultiError) AllErrors() []error { return m }
+
+// UpdateAWSACMCertificateRequestValidationError is the validation error
+// returned by UpdateAWSACMCertificateRequest.Validate if the designated
+// constraints aren't met.
+type UpdateAWSACMCertificateRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e UpdateAWSACMCertificateRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e UpdateAWSACMCertificateRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e UpdateAWSACMCertificateRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e UpdateAWSACMCertificateRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e UpdateAWSACMCertificateRequestValidationError) ErrorName() string {
+	return "UpdateAWSACMCertificateRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e UpdateAWSACMCertificateRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sUpdateAWSACMCertificateRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = UpdateAWSACMCertificateRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = UpdateAWSACMCertificateRequestValidationError{}
+
+// Validate checks the field values on UpdateAWSACMCertificateResponse with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *UpdateAWSACMCertificateResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on UpdateAWSACMCertificateResponse with
+// the rules defined in the proto definition for this message. If any rules
+// are violated, the result is a list of violation errors wrapped in
+// UpdateAWSACMCertificateResponseMultiError, or nil if none found.
+func (m *UpdateAWSACMCertificateResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *UpdateAWSACMCertificateResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if all {
+		switch v := interface{}(m.GetCertificate()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, UpdateAWSACMCertificateResponseValidationError{
+					field:  "Certificate",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, UpdateAWSACMCertificateResponseValidationError{
+					field:  "Certificate",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetCertificate()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return UpdateAWSACMCertificateResponseValidationError{
+				field:  "Certificate",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if len(errors) > 0 {
+		return UpdateAWSACMCertificateResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// UpdateAWSACMCertificateResponseMultiError is an error wrapping multiple
+// validation errors returned by UpdateAWSACMCertificateResponse.ValidateAll()
+// if the designated constraints aren't met.
+type UpdateAWSACMCertificateResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m UpdateAWSACMCertificateResponseMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m UpdateAWSACMCertificateResponseMultiError) AllErrors() []error { return m }
+
+// UpdateAWSACMCertificateResponseValidationError is the validation error
+// returned by UpdateAWSACMCertificateResponse.Validate if the designated
+// constraints aren't met.
+type UpdateAWSACMCertificateResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e UpdateAWSACMCertificateResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e UpdateAWSACMCertificateResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e UpdateAWSACMCertificateResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e UpdateAWSACMCertificateResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e UpdateAWSACMCertificateResponseValidationError) ErrorName() string {
+	return "UpdateAWSACMCertificateResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e UpdateAWSACMCertificateResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sUpdateAWSACMCertificateResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = UpdateAWSACMCertificateResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = UpdateAWSACMCertificateResponseValidationError{}
+
+// Validate checks the field values on DeregisterAWSACMCertificateRequest with
+// the rules defined in the proto definition for this message. If any rules
+// are violated, the first error encountered is returned, or nil if there are
+// no violations.
+func (m *DeregisterAWSACMCertificateRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on DeregisterAWSACMCertificateRequest
+// with the rules defined in the proto definition for this message. If any
+// rules are violated, the result is a list of violation errors wrapped in
+// DeregisterAWSACMCertificateRequestMultiError, or nil if none found.
+func (m *DeregisterAWSACMCertificateRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *DeregisterAWSACMCertificateRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Id
+
+	if len(errors) > 0 {
+		return DeregisterAWSACMCertificateRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// DeregisterAWSACMCertificateRequestMultiError is an error wrapping multiple
+// validation errors returned by
+// DeregisterAWSACMCertificateRequest.ValidateAll() if the designated
+// constraints aren't met.
+type DeregisterAWSACMCertificateRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m DeregisterAWSACMCertificateRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m DeregisterAWSACMCertificateRequestMultiError) AllErrors() []error { return m }
+
+// DeregisterAWSACMCertificateRequestValidationError is the validation error
+// returned by DeregisterAWSACMCertificateRequest.Validate if the designated
+// constraints aren't met.
+type DeregisterAWSACMCertificateRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e DeregisterAWSACMCertificateRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e DeregisterAWSACMCertificateRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e DeregisterAWSACMCertificateRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e DeregisterAWSACMCertificateRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e DeregisterAWSACMCertificateRequestValidationError) ErrorName() string {
+	return "DeregisterAWSACMCertificateRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e DeregisterAWSACMCertificateRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sDeregisterAWSACMCertificateRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = DeregisterAWSACMCertificateRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = DeregisterAWSACMCertificateRequestValidationError{}
+
+// Validate checks the field values on DeregisterAWSACMCertificateResponse with
+// the rules defined in the proto definition for this message. If any rules
+// are violated, the first error encountered is returned, or nil if there are
+// no violations.
+func (m *DeregisterAWSACMCertificateResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on DeregisterAWSACMCertificateResponse
+// with the rules defined in the proto definition for this message. If any
+// rules are violated, the result is a list of violation errors wrapped in
+// DeregisterAWSACMCertificateResponseMultiError, or nil if none found.
+func (m *DeregisterAWSACMCertificateResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *DeregisterAWSACMCertificateResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if all {
+		switch v := interface{}(m.GetDeregistered()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, DeregisterAWSACMCertificateResponseValidationError{
+					field:  "Deregistered",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, DeregisterAWSACMCertificateResponseValidationError{
+					field:  "Deregistered",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetDeregistered()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return DeregisterAWSACMCertificateResponseValidationError{
+				field:  "Deregistered",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if len(errors) > 0 {
+		return DeregisterAWSACMCertificateResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// DeregisterAWSACMCertificateResponseMultiError is an error wrapping multiple
+// validation errors returned by
+// DeregisterAWSACMCertificateResponse.ValidateAll() if the designated
+// constraints aren't met.
+type DeregisterAWSACMCertificateResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m DeregisterAWSACMCertificateResponseMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m DeregisterAWSACMCertificateResponseMultiError) AllErrors() []error { return m }
+
+// DeregisterAWSACMCertificateResponseValidationError is the validation error
+// returned by DeregisterAWSACMCertificateResponse.Validate if the designated
+// constraints aren't met.
+type DeregisterAWSACMCertificateResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e DeregisterAWSACMCertificateResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e DeregisterAWSACMCertificateResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e DeregisterAWSACMCertificateResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e DeregisterAWSACMCertificateResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e DeregisterAWSACMCertificateResponseValidationError) ErrorName() string {
+	return "DeregisterAWSACMCertificateResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e DeregisterAWSACMCertificateResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sDeregisterAWSACMCertificateResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = DeregisterAWSACMCertificateResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = DeregisterAWSACMCertificateResponseValidationError{}
+
 // Validate checks the field values on DNSRecord with the rules defined in the
 // proto definition for this message. If any rules are violated, the first
 // error encountered is returned, or nil if there are no violations.
@@ -1934,6 +3031,8 @@ func (m *Deployment) validate(all bool) error {
 	// no validation rules for DefaultSubdomain
 
 	// no validation rules for DnsZoneName
+
+	// no validation rules for DefaultAppDomain
 
 	if len(errors) > 0 {
 		return DeploymentMultiError(errors)

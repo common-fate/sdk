@@ -42,6 +42,18 @@ const (
 	// DeploymentServiceGetDNSRecordProcedure is the fully-qualified name of the DeploymentService's
 	// GetDNSRecord RPC.
 	DeploymentServiceGetDNSRecordProcedure = "/commonfate.factory.deployment.v1alpha1.DeploymentService/GetDNSRecord"
+	// DeploymentServiceRegisterAWSACMCertificateProcedure is the fully-qualified name of the
+	// DeploymentService's RegisterAWSACMCertificate RPC.
+	DeploymentServiceRegisterAWSACMCertificateProcedure = "/commonfate.factory.deployment.v1alpha1.DeploymentService/RegisterAWSACMCertificate"
+	// DeploymentServiceGetAWSACMCertificateProcedure is the fully-qualified name of the
+	// DeploymentService's GetAWSACMCertificate RPC.
+	DeploymentServiceGetAWSACMCertificateProcedure = "/commonfate.factory.deployment.v1alpha1.DeploymentService/GetAWSACMCertificate"
+	// DeploymentServiceUpdateAWSACMCertificateProcedure is the fully-qualified name of the
+	// DeploymentService's UpdateAWSACMCertificate RPC.
+	DeploymentServiceUpdateAWSACMCertificateProcedure = "/commonfate.factory.deployment.v1alpha1.DeploymentService/UpdateAWSACMCertificate"
+	// DeploymentServiceDeregisterAWSACMCertificateProcedure is the fully-qualified name of the
+	// DeploymentService's DeregisterAWSACMCertificate RPC.
+	DeploymentServiceDeregisterAWSACMCertificateProcedure = "/commonfate.factory.deployment.v1alpha1.DeploymentService/DeregisterAWSACMCertificate"
 	// DeploymentServiceUpdateDNSRecordProcedure is the fully-qualified name of the DeploymentService's
 	// UpdateDNSRecord RPC.
 	DeploymentServiceUpdateDNSRecordProcedure = "/commonfate.factory.deployment.v1alpha1.DeploymentService/UpdateDNSRecord"
@@ -58,14 +70,18 @@ const (
 
 // These variables are the protoreflect.Descriptor objects for the RPCs defined in this package.
 var (
-	deploymentServiceServiceDescriptor                  = v1alpha1.File_commonfate_factory_deployment_v1alpha1_deployment_proto.Services().ByName("DeploymentService")
-	deploymentServiceGetDeploymentMethodDescriptor      = deploymentServiceServiceDescriptor.Methods().ByName("GetDeployment")
-	deploymentServiceCreateDNSRecordMethodDescriptor    = deploymentServiceServiceDescriptor.Methods().ByName("CreateDNSRecord")
-	deploymentServiceGetDNSRecordMethodDescriptor       = deploymentServiceServiceDescriptor.Methods().ByName("GetDNSRecord")
-	deploymentServiceUpdateDNSRecordMethodDescriptor    = deploymentServiceServiceDescriptor.Methods().ByName("UpdateDNSRecord")
-	deploymentServiceDeleteDNSRecordMethodDescriptor    = deploymentServiceServiceDescriptor.Methods().ByName("DeleteDNSRecord")
-	deploymentServiceGetTerraformOutputMethodDescriptor = deploymentServiceServiceDescriptor.Methods().ByName("GetTerraformOutput")
-	deploymentServiceSetTerraformOutputMethodDescriptor = deploymentServiceServiceDescriptor.Methods().ByName("SetTerraformOutput")
+	deploymentServiceServiceDescriptor                           = v1alpha1.File_commonfate_factory_deployment_v1alpha1_deployment_proto.Services().ByName("DeploymentService")
+	deploymentServiceGetDeploymentMethodDescriptor               = deploymentServiceServiceDescriptor.Methods().ByName("GetDeployment")
+	deploymentServiceCreateDNSRecordMethodDescriptor             = deploymentServiceServiceDescriptor.Methods().ByName("CreateDNSRecord")
+	deploymentServiceGetDNSRecordMethodDescriptor                = deploymentServiceServiceDescriptor.Methods().ByName("GetDNSRecord")
+	deploymentServiceRegisterAWSACMCertificateMethodDescriptor   = deploymentServiceServiceDescriptor.Methods().ByName("RegisterAWSACMCertificate")
+	deploymentServiceGetAWSACMCertificateMethodDescriptor        = deploymentServiceServiceDescriptor.Methods().ByName("GetAWSACMCertificate")
+	deploymentServiceUpdateAWSACMCertificateMethodDescriptor     = deploymentServiceServiceDescriptor.Methods().ByName("UpdateAWSACMCertificate")
+	deploymentServiceDeregisterAWSACMCertificateMethodDescriptor = deploymentServiceServiceDescriptor.Methods().ByName("DeregisterAWSACMCertificate")
+	deploymentServiceUpdateDNSRecordMethodDescriptor             = deploymentServiceServiceDescriptor.Methods().ByName("UpdateDNSRecord")
+	deploymentServiceDeleteDNSRecordMethodDescriptor             = deploymentServiceServiceDescriptor.Methods().ByName("DeleteDNSRecord")
+	deploymentServiceGetTerraformOutputMethodDescriptor          = deploymentServiceServiceDescriptor.Methods().ByName("GetTerraformOutput")
+	deploymentServiceSetTerraformOutputMethodDescriptor          = deploymentServiceServiceDescriptor.Methods().ByName("SetTerraformOutput")
 )
 
 // DeploymentServiceClient is a client for the
@@ -78,6 +94,15 @@ type DeploymentServiceClient interface {
 	CreateDNSRecord(context.Context, *connect.Request[v1alpha1.CreateDNSRecordRequest]) (*connect.Response[v1alpha1.CreateDNSRecordResponse], error)
 	// Retrieves a DNS record associated with the deployment.
 	GetDNSRecord(context.Context, *connect.Request[v1alpha1.GetDNSRecordRequest]) (*connect.Response[v1alpha1.GetDNSRecordResponse], error)
+	// Registers an AWS ACM certificate to be associated with the deployment
+	RegisterAWSACMCertificate(context.Context, *connect.Request[v1alpha1.RegisterAWSACMCertificateRequest]) (*connect.Response[v1alpha1.RegisterAWSACMCertificateResponse], error)
+	// Retrieves an AWS ACM certificate to be associated with the deployment
+	GetAWSACMCertificate(context.Context, *connect.Request[v1alpha1.GetAWSACMCertificateRequest]) (*connect.Response[v1alpha1.GetAWSACMCertificateResponse], error)
+	// Updates an AWS ACM certificate to be associated with the deployment
+	UpdateAWSACMCertificate(context.Context, *connect.Request[v1alpha1.UpdateAWSACMCertificateRequest]) (*connect.Response[v1alpha1.UpdateAWSACMCertificateResponse], error)
+	// Deregisters an AWS ACM certificate to be associated with the deployment.
+	// This method doesn't delete the actual ACM cert, it just removes the reference to it.
+	DeregisterAWSACMCertificate(context.Context, *connect.Request[v1alpha1.DeregisterAWSACMCertificateRequest]) (*connect.Response[v1alpha1.DeregisterAWSACMCertificateResponse], error)
 	// Updates a DNS record associated with the deployment.
 	UpdateDNSRecord(context.Context, *connect.Request[v1alpha1.UpdateDNSRecordRequest]) (*connect.Response[v1alpha1.UpdateDNSRecordResponse], error)
 	// Deletes a DNS record associated with the deployment.
@@ -117,6 +142,30 @@ func NewDeploymentServiceClient(httpClient connect.HTTPClient, baseURL string, o
 			connect.WithSchema(deploymentServiceGetDNSRecordMethodDescriptor),
 			connect.WithClientOptions(opts...),
 		),
+		registerAWSACMCertificate: connect.NewClient[v1alpha1.RegisterAWSACMCertificateRequest, v1alpha1.RegisterAWSACMCertificateResponse](
+			httpClient,
+			baseURL+DeploymentServiceRegisterAWSACMCertificateProcedure,
+			connect.WithSchema(deploymentServiceRegisterAWSACMCertificateMethodDescriptor),
+			connect.WithClientOptions(opts...),
+		),
+		getAWSACMCertificate: connect.NewClient[v1alpha1.GetAWSACMCertificateRequest, v1alpha1.GetAWSACMCertificateResponse](
+			httpClient,
+			baseURL+DeploymentServiceGetAWSACMCertificateProcedure,
+			connect.WithSchema(deploymentServiceGetAWSACMCertificateMethodDescriptor),
+			connect.WithClientOptions(opts...),
+		),
+		updateAWSACMCertificate: connect.NewClient[v1alpha1.UpdateAWSACMCertificateRequest, v1alpha1.UpdateAWSACMCertificateResponse](
+			httpClient,
+			baseURL+DeploymentServiceUpdateAWSACMCertificateProcedure,
+			connect.WithSchema(deploymentServiceUpdateAWSACMCertificateMethodDescriptor),
+			connect.WithClientOptions(opts...),
+		),
+		deregisterAWSACMCertificate: connect.NewClient[v1alpha1.DeregisterAWSACMCertificateRequest, v1alpha1.DeregisterAWSACMCertificateResponse](
+			httpClient,
+			baseURL+DeploymentServiceDeregisterAWSACMCertificateProcedure,
+			connect.WithSchema(deploymentServiceDeregisterAWSACMCertificateMethodDescriptor),
+			connect.WithClientOptions(opts...),
+		),
 		updateDNSRecord: connect.NewClient[v1alpha1.UpdateDNSRecordRequest, v1alpha1.UpdateDNSRecordResponse](
 			httpClient,
 			baseURL+DeploymentServiceUpdateDNSRecordProcedure,
@@ -146,13 +195,17 @@ func NewDeploymentServiceClient(httpClient connect.HTTPClient, baseURL string, o
 
 // deploymentServiceClient implements DeploymentServiceClient.
 type deploymentServiceClient struct {
-	getDeployment      *connect.Client[v1alpha1.GetDeploymentRequest, v1alpha1.GetDeploymentResponse]
-	createDNSRecord    *connect.Client[v1alpha1.CreateDNSRecordRequest, v1alpha1.CreateDNSRecordResponse]
-	getDNSRecord       *connect.Client[v1alpha1.GetDNSRecordRequest, v1alpha1.GetDNSRecordResponse]
-	updateDNSRecord    *connect.Client[v1alpha1.UpdateDNSRecordRequest, v1alpha1.UpdateDNSRecordResponse]
-	deleteDNSRecord    *connect.Client[v1alpha1.DeleteDNSRecordRequest, v1alpha1.DeleteDNSRecordResponse]
-	getTerraformOutput *connect.Client[v1alpha1.GetTerraformOutputRequest, v1alpha1.GetTerraformOutputResponse]
-	setTerraformOutput *connect.Client[v1alpha1.SetTerraformOutputRequest, v1alpha1.SetTerraformOutputResponse]
+	getDeployment               *connect.Client[v1alpha1.GetDeploymentRequest, v1alpha1.GetDeploymentResponse]
+	createDNSRecord             *connect.Client[v1alpha1.CreateDNSRecordRequest, v1alpha1.CreateDNSRecordResponse]
+	getDNSRecord                *connect.Client[v1alpha1.GetDNSRecordRequest, v1alpha1.GetDNSRecordResponse]
+	registerAWSACMCertificate   *connect.Client[v1alpha1.RegisterAWSACMCertificateRequest, v1alpha1.RegisterAWSACMCertificateResponse]
+	getAWSACMCertificate        *connect.Client[v1alpha1.GetAWSACMCertificateRequest, v1alpha1.GetAWSACMCertificateResponse]
+	updateAWSACMCertificate     *connect.Client[v1alpha1.UpdateAWSACMCertificateRequest, v1alpha1.UpdateAWSACMCertificateResponse]
+	deregisterAWSACMCertificate *connect.Client[v1alpha1.DeregisterAWSACMCertificateRequest, v1alpha1.DeregisterAWSACMCertificateResponse]
+	updateDNSRecord             *connect.Client[v1alpha1.UpdateDNSRecordRequest, v1alpha1.UpdateDNSRecordResponse]
+	deleteDNSRecord             *connect.Client[v1alpha1.DeleteDNSRecordRequest, v1alpha1.DeleteDNSRecordResponse]
+	getTerraformOutput          *connect.Client[v1alpha1.GetTerraformOutputRequest, v1alpha1.GetTerraformOutputResponse]
+	setTerraformOutput          *connect.Client[v1alpha1.SetTerraformOutputRequest, v1alpha1.SetTerraformOutputResponse]
 }
 
 // GetDeployment calls commonfate.factory.deployment.v1alpha1.DeploymentService.GetDeployment.
@@ -168,6 +221,30 @@ func (c *deploymentServiceClient) CreateDNSRecord(ctx context.Context, req *conn
 // GetDNSRecord calls commonfate.factory.deployment.v1alpha1.DeploymentService.GetDNSRecord.
 func (c *deploymentServiceClient) GetDNSRecord(ctx context.Context, req *connect.Request[v1alpha1.GetDNSRecordRequest]) (*connect.Response[v1alpha1.GetDNSRecordResponse], error) {
 	return c.getDNSRecord.CallUnary(ctx, req)
+}
+
+// RegisterAWSACMCertificate calls
+// commonfate.factory.deployment.v1alpha1.DeploymentService.RegisterAWSACMCertificate.
+func (c *deploymentServiceClient) RegisterAWSACMCertificate(ctx context.Context, req *connect.Request[v1alpha1.RegisterAWSACMCertificateRequest]) (*connect.Response[v1alpha1.RegisterAWSACMCertificateResponse], error) {
+	return c.registerAWSACMCertificate.CallUnary(ctx, req)
+}
+
+// GetAWSACMCertificate calls
+// commonfate.factory.deployment.v1alpha1.DeploymentService.GetAWSACMCertificate.
+func (c *deploymentServiceClient) GetAWSACMCertificate(ctx context.Context, req *connect.Request[v1alpha1.GetAWSACMCertificateRequest]) (*connect.Response[v1alpha1.GetAWSACMCertificateResponse], error) {
+	return c.getAWSACMCertificate.CallUnary(ctx, req)
+}
+
+// UpdateAWSACMCertificate calls
+// commonfate.factory.deployment.v1alpha1.DeploymentService.UpdateAWSACMCertificate.
+func (c *deploymentServiceClient) UpdateAWSACMCertificate(ctx context.Context, req *connect.Request[v1alpha1.UpdateAWSACMCertificateRequest]) (*connect.Response[v1alpha1.UpdateAWSACMCertificateResponse], error) {
+	return c.updateAWSACMCertificate.CallUnary(ctx, req)
+}
+
+// DeregisterAWSACMCertificate calls
+// commonfate.factory.deployment.v1alpha1.DeploymentService.DeregisterAWSACMCertificate.
+func (c *deploymentServiceClient) DeregisterAWSACMCertificate(ctx context.Context, req *connect.Request[v1alpha1.DeregisterAWSACMCertificateRequest]) (*connect.Response[v1alpha1.DeregisterAWSACMCertificateResponse], error) {
+	return c.deregisterAWSACMCertificate.CallUnary(ctx, req)
 }
 
 // UpdateDNSRecord calls commonfate.factory.deployment.v1alpha1.DeploymentService.UpdateDNSRecord.
@@ -202,6 +279,15 @@ type DeploymentServiceHandler interface {
 	CreateDNSRecord(context.Context, *connect.Request[v1alpha1.CreateDNSRecordRequest]) (*connect.Response[v1alpha1.CreateDNSRecordResponse], error)
 	// Retrieves a DNS record associated with the deployment.
 	GetDNSRecord(context.Context, *connect.Request[v1alpha1.GetDNSRecordRequest]) (*connect.Response[v1alpha1.GetDNSRecordResponse], error)
+	// Registers an AWS ACM certificate to be associated with the deployment
+	RegisterAWSACMCertificate(context.Context, *connect.Request[v1alpha1.RegisterAWSACMCertificateRequest]) (*connect.Response[v1alpha1.RegisterAWSACMCertificateResponse], error)
+	// Retrieves an AWS ACM certificate to be associated with the deployment
+	GetAWSACMCertificate(context.Context, *connect.Request[v1alpha1.GetAWSACMCertificateRequest]) (*connect.Response[v1alpha1.GetAWSACMCertificateResponse], error)
+	// Updates an AWS ACM certificate to be associated with the deployment
+	UpdateAWSACMCertificate(context.Context, *connect.Request[v1alpha1.UpdateAWSACMCertificateRequest]) (*connect.Response[v1alpha1.UpdateAWSACMCertificateResponse], error)
+	// Deregisters an AWS ACM certificate to be associated with the deployment.
+	// This method doesn't delete the actual ACM cert, it just removes the reference to it.
+	DeregisterAWSACMCertificate(context.Context, *connect.Request[v1alpha1.DeregisterAWSACMCertificateRequest]) (*connect.Response[v1alpha1.DeregisterAWSACMCertificateResponse], error)
 	// Updates a DNS record associated with the deployment.
 	UpdateDNSRecord(context.Context, *connect.Request[v1alpha1.UpdateDNSRecordRequest]) (*connect.Response[v1alpha1.UpdateDNSRecordResponse], error)
 	// Deletes a DNS record associated with the deployment.
@@ -236,6 +322,30 @@ func NewDeploymentServiceHandler(svc DeploymentServiceHandler, opts ...connect.H
 		connect.WithSchema(deploymentServiceGetDNSRecordMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
+	deploymentServiceRegisterAWSACMCertificateHandler := connect.NewUnaryHandler(
+		DeploymentServiceRegisterAWSACMCertificateProcedure,
+		svc.RegisterAWSACMCertificate,
+		connect.WithSchema(deploymentServiceRegisterAWSACMCertificateMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
+	)
+	deploymentServiceGetAWSACMCertificateHandler := connect.NewUnaryHandler(
+		DeploymentServiceGetAWSACMCertificateProcedure,
+		svc.GetAWSACMCertificate,
+		connect.WithSchema(deploymentServiceGetAWSACMCertificateMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
+	)
+	deploymentServiceUpdateAWSACMCertificateHandler := connect.NewUnaryHandler(
+		DeploymentServiceUpdateAWSACMCertificateProcedure,
+		svc.UpdateAWSACMCertificate,
+		connect.WithSchema(deploymentServiceUpdateAWSACMCertificateMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
+	)
+	deploymentServiceDeregisterAWSACMCertificateHandler := connect.NewUnaryHandler(
+		DeploymentServiceDeregisterAWSACMCertificateProcedure,
+		svc.DeregisterAWSACMCertificate,
+		connect.WithSchema(deploymentServiceDeregisterAWSACMCertificateMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
+	)
 	deploymentServiceUpdateDNSRecordHandler := connect.NewUnaryHandler(
 		DeploymentServiceUpdateDNSRecordProcedure,
 		svc.UpdateDNSRecord,
@@ -268,6 +378,14 @@ func NewDeploymentServiceHandler(svc DeploymentServiceHandler, opts ...connect.H
 			deploymentServiceCreateDNSRecordHandler.ServeHTTP(w, r)
 		case DeploymentServiceGetDNSRecordProcedure:
 			deploymentServiceGetDNSRecordHandler.ServeHTTP(w, r)
+		case DeploymentServiceRegisterAWSACMCertificateProcedure:
+			deploymentServiceRegisterAWSACMCertificateHandler.ServeHTTP(w, r)
+		case DeploymentServiceGetAWSACMCertificateProcedure:
+			deploymentServiceGetAWSACMCertificateHandler.ServeHTTP(w, r)
+		case DeploymentServiceUpdateAWSACMCertificateProcedure:
+			deploymentServiceUpdateAWSACMCertificateHandler.ServeHTTP(w, r)
+		case DeploymentServiceDeregisterAWSACMCertificateProcedure:
+			deploymentServiceDeregisterAWSACMCertificateHandler.ServeHTTP(w, r)
 		case DeploymentServiceUpdateDNSRecordProcedure:
 			deploymentServiceUpdateDNSRecordHandler.ServeHTTP(w, r)
 		case DeploymentServiceDeleteDNSRecordProcedure:
@@ -295,6 +413,22 @@ func (UnimplementedDeploymentServiceHandler) CreateDNSRecord(context.Context, *c
 
 func (UnimplementedDeploymentServiceHandler) GetDNSRecord(context.Context, *connect.Request[v1alpha1.GetDNSRecordRequest]) (*connect.Response[v1alpha1.GetDNSRecordResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.factory.deployment.v1alpha1.DeploymentService.GetDNSRecord is not implemented"))
+}
+
+func (UnimplementedDeploymentServiceHandler) RegisterAWSACMCertificate(context.Context, *connect.Request[v1alpha1.RegisterAWSACMCertificateRequest]) (*connect.Response[v1alpha1.RegisterAWSACMCertificateResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.factory.deployment.v1alpha1.DeploymentService.RegisterAWSACMCertificate is not implemented"))
+}
+
+func (UnimplementedDeploymentServiceHandler) GetAWSACMCertificate(context.Context, *connect.Request[v1alpha1.GetAWSACMCertificateRequest]) (*connect.Response[v1alpha1.GetAWSACMCertificateResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.factory.deployment.v1alpha1.DeploymentService.GetAWSACMCertificate is not implemented"))
+}
+
+func (UnimplementedDeploymentServiceHandler) UpdateAWSACMCertificate(context.Context, *connect.Request[v1alpha1.UpdateAWSACMCertificateRequest]) (*connect.Response[v1alpha1.UpdateAWSACMCertificateResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.factory.deployment.v1alpha1.DeploymentService.UpdateAWSACMCertificate is not implemented"))
+}
+
+func (UnimplementedDeploymentServiceHandler) DeregisterAWSACMCertificate(context.Context, *connect.Request[v1alpha1.DeregisterAWSACMCertificateRequest]) (*connect.Response[v1alpha1.DeregisterAWSACMCertificateResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.factory.deployment.v1alpha1.DeploymentService.DeregisterAWSACMCertificate is not implemented"))
 }
 
 func (UnimplementedDeploymentServiceHandler) UpdateDNSRecord(context.Context, *connect.Request[v1alpha1.UpdateDNSRecordRequest]) (*connect.Response[v1alpha1.UpdateDNSRecordResponse], error) {

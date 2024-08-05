@@ -13,6 +13,19 @@ service DeploymentService {
   // Retrieves a DNS record associated with the deployment.
   rpc GetDNSRecord(GetDNSRecordRequest) returns (GetDNSRecordResponse) {}
 
+  // Registers an AWS ACM certificate to be associated with the deployment
+  rpc RegisterAWSACMCertificate(RegisterAWSACMCertificateRequest) returns (RegisterAWSACMCertificateResponse) {}
+
+  // Retrieves an AWS ACM certificate to be associated with the deployment
+  rpc GetAWSACMCertificate(GetAWSACMCertificateRequest) returns (GetAWSACMCertificateResponse) {}
+
+  // Updates an AWS ACM certificate to be associated with the deployment
+  rpc UpdateAWSACMCertificate(UpdateAWSACMCertificateRequest) returns (UpdateAWSACMCertificateResponse) {}
+
+  // Deregisters an AWS ACM certificate to be associated with the deployment.
+  // This method doesn't delete the actual ACM cert, it just removes the reference to it.
+  rpc DeregisterAWSACMCertificate(DeregisterAWSACMCertificateRequest) returns (DeregisterAWSACMCertificateResponse) {}
+
   // Updates a DNS record associated with the deployment.
   rpc UpdateDNSRecord(UpdateDNSRecordRequest) returns (UpdateDNSRecordResponse) {}
 
@@ -56,6 +69,47 @@ enum DNSRecordType {
   DNS_RECORD_TYPE_UNSPECIFIED = 0;
   DNS_RECORD_TYPE_TXT = 1;
   DNS_RECORD_TYPE_CNAME = 2;
+}
+
+message AWSACMCertificate {
+  string id = 1;
+  string arn = 2;
+  string validation_cname_name = 3;
+  string validation_cname_value = 4;
+}
+
+message RegisterAWSACMCertificateRequest {
+  string arn = 1;
+  string validation_cname_name = 2;
+  string validation_cname_value = 3;
+}
+
+message RegisterAWSACMCertificateResponse {
+  AWSACMCertificate certificate = 1;
+}
+
+message GetAWSACMCertificateRequest {
+  string id = 1;
+}
+
+message GetAWSACMCertificateResponse {
+  AWSACMCertificate certificate = 1;
+}
+
+message UpdateAWSACMCertificateRequest {
+  AWSACMCertificate certificate = 1;
+}
+
+message UpdateAWSACMCertificateResponse {
+  AWSACMCertificate certificate = 1;
+}
+
+message DeregisterAWSACMCertificateRequest {
+  string id = 1;
+}
+
+message DeregisterAWSACMCertificateResponse {
+  AWSACMCertificate deregistered = 1;
 }
 
 message DNSRecord {
@@ -120,4 +174,9 @@ message Deployment {
   // The base DNS name associated with the deployment.
   // e.g. 'commonfate.app'.
   string dns_zone_name = 3;
+
+  // The default app URL associated with the deployment.
+  // Will be in the form 'console.abc123.commonfate.app'.
+  // Does not include the URL scheme.
+  string default_app_domain = 4;
 }
