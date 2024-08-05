@@ -1,5 +1,11 @@
 # @common-fate/sdk
 
+## 1.52.0
+
+### Minor Changes
+
+- 690de7d: Adds new deployment config service
+
 ## 1.51.1
 
 ### Patch Changes
