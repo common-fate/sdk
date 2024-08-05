@@ -48,16 +48,24 @@ const (
 	// DeploymentServiceDeleteDNSRecordProcedure is the fully-qualified name of the DeploymentService's
 	// DeleteDNSRecord RPC.
 	DeploymentServiceDeleteDNSRecordProcedure = "/commonfate.factory.deployment.v1alpha1.DeploymentService/DeleteDNSRecord"
+	// DeploymentServiceGetTerraformOutputProcedure is the fully-qualified name of the
+	// DeploymentService's GetTerraformOutput RPC.
+	DeploymentServiceGetTerraformOutputProcedure = "/commonfate.factory.deployment.v1alpha1.DeploymentService/GetTerraformOutput"
+	// DeploymentServiceSetTerraformOutputProcedure is the fully-qualified name of the
+	// DeploymentService's SetTerraformOutput RPC.
+	DeploymentServiceSetTerraformOutputProcedure = "/commonfate.factory.deployment.v1alpha1.DeploymentService/SetTerraformOutput"
 )
 
 // These variables are the protoreflect.Descriptor objects for the RPCs defined in this package.
 var (
-	deploymentServiceServiceDescriptor               = v1alpha1.File_commonfate_factory_deployment_v1alpha1_deployment_proto.Services().ByName("DeploymentService")
-	deploymentServiceGetDeploymentMethodDescriptor   = deploymentServiceServiceDescriptor.Methods().ByName("GetDeployment")
-	deploymentServiceCreateDNSRecordMethodDescriptor = deploymentServiceServiceDescriptor.Methods().ByName("CreateDNSRecord")
-	deploymentServiceGetDNSRecordMethodDescriptor    = deploymentServiceServiceDescriptor.Methods().ByName("GetDNSRecord")
-	deploymentServiceUpdateDNSRecordMethodDescriptor = deploymentServiceServiceDescriptor.Methods().ByName("UpdateDNSRecord")
-	deploymentServiceDeleteDNSRecordMethodDescriptor = deploymentServiceServiceDescriptor.Methods().ByName("DeleteDNSRecord")
+	deploymentServiceServiceDescriptor                  = v1alpha1.File_commonfate_factory_deployment_v1alpha1_deployment_proto.Services().ByName("DeploymentService")
+	deploymentServiceGetDeploymentMethodDescriptor      = deploymentServiceServiceDescriptor.Methods().ByName("GetDeployment")
+	deploymentServiceCreateDNSRecordMethodDescriptor    = deploymentServiceServiceDescriptor.Methods().ByName("CreateDNSRecord")
+	deploymentServiceGetDNSRecordMethodDescriptor       = deploymentServiceServiceDescriptor.Methods().ByName("GetDNSRecord")
+	deploymentServiceUpdateDNSRecordMethodDescriptor    = deploymentServiceServiceDescriptor.Methods().ByName("UpdateDNSRecord")
+	deploymentServiceDeleteDNSRecordMethodDescriptor    = deploymentServiceServiceDescriptor.Methods().ByName("DeleteDNSRecord")
+	deploymentServiceGetTerraformOutputMethodDescriptor = deploymentServiceServiceDescriptor.Methods().ByName("GetTerraformOutput")
+	deploymentServiceSetTerraformOutputMethodDescriptor = deploymentServiceServiceDescriptor.Methods().ByName("SetTerraformOutput")
 )
 
 // DeploymentServiceClient is a client for the
@@ -74,6 +82,10 @@ type DeploymentServiceClient interface {
 	UpdateDNSRecord(context.Context, *connect.Request[v1alpha1.UpdateDNSRecordRequest]) (*connect.Response[v1alpha1.UpdateDNSRecordResponse], error)
 	// Deletes a DNS record associated with the deployment.
 	DeleteDNSRecord(context.Context, *connect.Request[v1alpha1.DeleteDNSRecordRequest]) (*connect.Response[v1alpha1.DeleteDNSRecordResponse], error)
+	// Retrieves Terraform outputs for the deployment.
+	GetTerraformOutput(context.Context, *connect.Request[v1alpha1.GetTerraformOutputRequest]) (*connect.Response[v1alpha1.GetTerraformOutputResponse], error)
+	// Sets Terraform outputs for the deployment.
+	SetTerraformOutput(context.Context, *connect.Request[v1alpha1.SetTerraformOutputRequest]) (*connect.Response[v1alpha1.SetTerraformOutputResponse], error)
 }
 
 // NewDeploymentServiceClient constructs a client for the
@@ -117,16 +129,30 @@ func NewDeploymentServiceClient(httpClient connect.HTTPClient, baseURL string, o
 			connect.WithSchema(deploymentServiceDeleteDNSRecordMethodDescriptor),
 			connect.WithClientOptions(opts...),
 		),
+		getTerraformOutput: connect.NewClient[v1alpha1.GetTerraformOutputRequest, v1alpha1.GetTerraformOutputResponse](
+			httpClient,
+			baseURL+DeploymentServiceGetTerraformOutputProcedure,
+			connect.WithSchema(deploymentServiceGetTerraformOutputMethodDescriptor),
+			connect.WithClientOptions(opts...),
+		),
+		setTerraformOutput: connect.NewClient[v1alpha1.SetTerraformOutputRequest, v1alpha1.SetTerraformOutputResponse](
+			httpClient,
+			baseURL+DeploymentServiceSetTerraformOutputProcedure,
+			connect.WithSchema(deploymentServiceSetTerraformOutputMethodDescriptor),
+			connect.WithClientOptions(opts...),
+		),
 	}
 }
 
 // deploymentServiceClient implements DeploymentServiceClient.
 type deploymentServiceClient struct {
-	getDeployment   *connect.Client[v1alpha1.GetDeploymentRequest, v1alpha1.GetDeploymentResponse]
-	createDNSRecord *connect.Client[v1alpha1.CreateDNSRecordRequest, v1alpha1.CreateDNSRecordResponse]
-	getDNSRecord    *connect.Client[v1alpha1.GetDNSRecordRequest, v1alpha1.GetDNSRecordResponse]
-	updateDNSRecord *connect.Client[v1alpha1.UpdateDNSRecordRequest, v1alpha1.UpdateDNSRecordResponse]
-	deleteDNSRecord *connect.Client[v1alpha1.DeleteDNSRecordRequest, v1alpha1.DeleteDNSRecordResponse]
+	getDeployment      *connect.Client[v1alpha1.GetDeploymentRequest, v1alpha1.GetDeploymentResponse]
+	createDNSRecord    *connect.Client[v1alpha1.CreateDNSRecordRequest, v1alpha1.CreateDNSRecordResponse]
+	getDNSRecord       *connect.Client[v1alpha1.GetDNSRecordRequest, v1alpha1.GetDNSRecordResponse]
+	updateDNSRecord    *connect.Client[v1alpha1.UpdateDNSRecordRequest, v1alpha1.UpdateDNSRecordResponse]
+	deleteDNSRecord    *connect.Client[v1alpha1.DeleteDNSRecordRequest, v1alpha1.DeleteDNSRecordResponse]
+	getTerraformOutput *connect.Client[v1alpha1.GetTerraformOutputRequest, v1alpha1.GetTerraformOutputResponse]
+	setTerraformOutput *connect.Client[v1alpha1.SetTerraformOutputRequest, v1alpha1.SetTerraformOutputResponse]
 }
 
 // GetDeployment calls commonfate.factory.deployment.v1alpha1.DeploymentService.GetDeployment.
@@ -154,6 +180,18 @@ func (c *deploymentServiceClient) DeleteDNSRecord(ctx context.Context, req *conn
 	return c.deleteDNSRecord.CallUnary(ctx, req)
 }
 
+// GetTerraformOutput calls
+// commonfate.factory.deployment.v1alpha1.DeploymentService.GetTerraformOutput.
+func (c *deploymentServiceClient) GetTerraformOutput(ctx context.Context, req *connect.Request[v1alpha1.GetTerraformOutputRequest]) (*connect.Response[v1alpha1.GetTerraformOutputResponse], error) {
+	return c.getTerraformOutput.CallUnary(ctx, req)
+}
+
+// SetTerraformOutput calls
+// commonfate.factory.deployment.v1alpha1.DeploymentService.SetTerraformOutput.
+func (c *deploymentServiceClient) SetTerraformOutput(ctx context.Context, req *connect.Request[v1alpha1.SetTerraformOutputRequest]) (*connect.Response[v1alpha1.SetTerraformOutputResponse], error) {
+	return c.setTerraformOutput.CallUnary(ctx, req)
+}
+
 // DeploymentServiceHandler is an implementation of the
 // commonfate.factory.deployment.v1alpha1.DeploymentService service.
 type DeploymentServiceHandler interface {
@@ -168,6 +206,10 @@ type DeploymentServiceHandler interface {
 	UpdateDNSRecord(context.Context, *connect.Request[v1alpha1.UpdateDNSRecordRequest]) (*connect.Response[v1alpha1.UpdateDNSRecordResponse], error)
 	// Deletes a DNS record associated with the deployment.
 	DeleteDNSRecord(context.Context, *connect.Request[v1alpha1.DeleteDNSRecordRequest]) (*connect.Response[v1alpha1.DeleteDNSRecordResponse], error)
+	// Retrieves Terraform outputs for the deployment.
+	GetTerraformOutput(context.Context, *connect.Request[v1alpha1.GetTerraformOutputRequest]) (*connect.Response[v1alpha1.GetTerraformOutputResponse], error)
+	// Sets Terraform outputs for the deployment.
+	SetTerraformOutput(context.Context, *connect.Request[v1alpha1.SetTerraformOutputRequest]) (*connect.Response[v1alpha1.SetTerraformOutputResponse], error)
 }
 
 // NewDeploymentServiceHandler builds an HTTP handler from the service implementation. It returns
@@ -206,6 +248,18 @@ func NewDeploymentServiceHandler(svc DeploymentServiceHandler, opts ...connect.H
 		connect.WithSchema(deploymentServiceDeleteDNSRecordMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
+	deploymentServiceGetTerraformOutputHandler := connect.NewUnaryHandler(
+		DeploymentServiceGetTerraformOutputProcedure,
+		svc.GetTerraformOutput,
+		connect.WithSchema(deploymentServiceGetTerraformOutputMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
+	)
+	deploymentServiceSetTerraformOutputHandler := connect.NewUnaryHandler(
+		DeploymentServiceSetTerraformOutputProcedure,
+		svc.SetTerraformOutput,
+		connect.WithSchema(deploymentServiceSetTerraformOutputMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
+	)
 	return "/commonfate.factory.deployment.v1alpha1.DeploymentService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
 		case DeploymentServiceGetDeploymentProcedure:
@@ -218,6 +272,10 @@ func NewDeploymentServiceHandler(svc DeploymentServiceHandler, opts ...connect.H
 			deploymentServiceUpdateDNSRecordHandler.ServeHTTP(w, r)
 		case DeploymentServiceDeleteDNSRecordProcedure:
 			deploymentServiceDeleteDNSRecordHandler.ServeHTTP(w, r)
+		case DeploymentServiceGetTerraformOutputProcedure:
+			deploymentServiceGetTerraformOutputHandler.ServeHTTP(w, r)
+		case DeploymentServiceSetTerraformOutputProcedure:
+			deploymentServiceSetTerraformOutputHandler.ServeHTTP(w, r)
 		default:
 			http.NotFound(w, r)
 		}
@@ -245,4 +303,12 @@ func (UnimplementedDeploymentServiceHandler) UpdateDNSRecord(context.Context, *c
 
 func (UnimplementedDeploymentServiceHandler) DeleteDNSRecord(context.Context, *connect.Request[v1alpha1.DeleteDNSRecordRequest]) (*connect.Response[v1alpha1.DeleteDNSRecordResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.factory.deployment.v1alpha1.DeploymentService.DeleteDNSRecord is not implemented"))
+}
+
+func (UnimplementedDeploymentServiceHandler) GetTerraformOutput(context.Context, *connect.Request[v1alpha1.GetTerraformOutputRequest]) (*connect.Response[v1alpha1.GetTerraformOutputResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.factory.deployment.v1alpha1.DeploymentService.GetTerraformOutput is not implemented"))
+}
+
+func (UnimplementedDeploymentServiceHandler) SetTerraformOutput(context.Context, *connect.Request[v1alpha1.SetTerraformOutputRequest]) (*connect.Response[v1alpha1.SetTerraformOutputResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.factory.deployment.v1alpha1.DeploymentService.SetTerraformOutput is not implemented"))
 }

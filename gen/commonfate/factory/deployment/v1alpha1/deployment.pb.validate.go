@@ -35,6 +35,594 @@ var (
 	_ = sort.Sort
 )
 
+// Validate checks the field values on TerraformOutput with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// first error encountered is returned, or nil if there are no violations.
+func (m *TerraformOutput) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on TerraformOutput with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// TerraformOutputMultiError, or nil if none found.
+func (m *TerraformOutput) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *TerraformOutput) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for SamlSsoAcsUrl
+
+	// no validation rules for SamlSsoEntityId
+
+	// no validation rules for CognitoUserPoolId
+
+	// no validation rules for DnsCnameRecordForAppDomain
+
+	// no validation rules for DnsCnameRecordForAuthDomain
+
+	// no validation rules for WebClientId
+
+	// no validation rules for CliClientId
+
+	// no validation rules for TerraformClientId
+
+	// no validation rules for ReadOnlyClientId
+
+	// no validation rules for ProvisionerClientId
+
+	// no validation rules for VpcId
+
+	if len(errors) > 0 {
+		return TerraformOutputMultiError(errors)
+	}
+
+	return nil
+}
+
+// TerraformOutputMultiError is an error wrapping multiple validation errors
+// returned by TerraformOutput.ValidateAll() if the designated constraints
+// aren't met.
+type TerraformOutputMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m TerraformOutputMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m TerraformOutputMultiError) AllErrors() []error { return m }
+
+// TerraformOutputValidationError is the validation error returned by
+// TerraformOutput.Validate if the designated constraints aren't met.
+type TerraformOutputValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e TerraformOutputValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e TerraformOutputValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e TerraformOutputValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e TerraformOutputValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e TerraformOutputValidationError) ErrorName() string { return "TerraformOutputValidationError" }
+
+// Error satisfies the builtin error interface
+func (e TerraformOutputValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sTerraformOutput.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = TerraformOutputValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = TerraformOutputValidationError{}
+
+// Validate checks the field values on GetTerraformOutputRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *GetTerraformOutputRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on GetTerraformOutputRequest with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// GetTerraformOutputRequestMultiError, or nil if none found.
+func (m *GetTerraformOutputRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *GetTerraformOutputRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if len(errors) > 0 {
+		return GetTerraformOutputRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// GetTerraformOutputRequestMultiError is an error wrapping multiple validation
+// errors returned by GetTerraformOutputRequest.ValidateAll() if the
+// designated constraints aren't met.
+type GetTerraformOutputRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m GetTerraformOutputRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m GetTerraformOutputRequestMultiError) AllErrors() []error { return m }
+
+// GetTerraformOutputRequestValidationError is the validation error returned by
+// GetTerraformOutputRequest.Validate if the designated constraints aren't met.
+type GetTerraformOutputRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e GetTerraformOutputRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e GetTerraformOutputRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e GetTerraformOutputRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e GetTerraformOutputRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e GetTerraformOutputRequestValidationError) ErrorName() string {
+	return "GetTerraformOutputRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e GetTerraformOutputRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sGetTerraformOutputRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = GetTerraformOutputRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = GetTerraformOutputRequestValidationError{}
+
+// Validate checks the field values on GetTerraformOutputResponse with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *GetTerraformOutputResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on GetTerraformOutputResponse with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// GetTerraformOutputResponseMultiError, or nil if none found.
+func (m *GetTerraformOutputResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *GetTerraformOutputResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if all {
+		switch v := interface{}(m.GetOutput()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, GetTerraformOutputResponseValidationError{
+					field:  "Output",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, GetTerraformOutputResponseValidationError{
+					field:  "Output",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetOutput()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return GetTerraformOutputResponseValidationError{
+				field:  "Output",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if len(errors) > 0 {
+		return GetTerraformOutputResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// GetTerraformOutputResponseMultiError is an error wrapping multiple
+// validation errors returned by GetTerraformOutputResponse.ValidateAll() if
+// the designated constraints aren't met.
+type GetTerraformOutputResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m GetTerraformOutputResponseMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m GetTerraformOutputResponseMultiError) AllErrors() []error { return m }
+
+// GetTerraformOutputResponseValidationError is the validation error returned
+// by GetTerraformOutputResponse.Validate if the designated constraints aren't met.
+type GetTerraformOutputResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e GetTerraformOutputResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e GetTerraformOutputResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e GetTerraformOutputResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e GetTerraformOutputResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e GetTerraformOutputResponseValidationError) ErrorName() string {
+	return "GetTerraformOutputResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e GetTerraformOutputResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sGetTerraformOutputResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = GetTerraformOutputResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = GetTerraformOutputResponseValidationError{}
+
+// Validate checks the field values on SetTerraformOutputRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *SetTerraformOutputRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on SetTerraformOutputRequest with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// SetTerraformOutputRequestMultiError, or nil if none found.
+func (m *SetTerraformOutputRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *SetTerraformOutputRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if all {
+		switch v := interface{}(m.GetOutput()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, SetTerraformOutputRequestValidationError{
+					field:  "Output",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, SetTerraformOutputRequestValidationError{
+					field:  "Output",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetOutput()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return SetTerraformOutputRequestValidationError{
+				field:  "Output",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if len(errors) > 0 {
+		return SetTerraformOutputRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// SetTerraformOutputRequestMultiError is an error wrapping multiple validation
+// errors returned by SetTerraformOutputRequest.ValidateAll() if the
+// designated constraints aren't met.
+type SetTerraformOutputRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m SetTerraformOutputRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m SetTerraformOutputRequestMultiError) AllErrors() []error { return m }
+
+// SetTerraformOutputRequestValidationError is the validation error returned by
+// SetTerraformOutputRequest.Validate if the designated constraints aren't met.
+type SetTerraformOutputRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e SetTerraformOutputRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e SetTerraformOutputRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e SetTerraformOutputRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e SetTerraformOutputRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e SetTerraformOutputRequestValidationError) ErrorName() string {
+	return "SetTerraformOutputRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e SetTerraformOutputRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sSetTerraformOutputRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = SetTerraformOutputRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = SetTerraformOutputRequestValidationError{}
+
+// Validate checks the field values on SetTerraformOutputResponse with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *SetTerraformOutputResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on SetTerraformOutputResponse with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// SetTerraformOutputResponseMultiError, or nil if none found.
+func (m *SetTerraformOutputResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *SetTerraformOutputResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if len(errors) > 0 {
+		return SetTerraformOutputResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// SetTerraformOutputResponseMultiError is an error wrapping multiple
+// validation errors returned by SetTerraformOutputResponse.ValidateAll() if
+// the designated constraints aren't met.
+type SetTerraformOutputResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m SetTerraformOutputResponseMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m SetTerraformOutputResponseMultiError) AllErrors() []error { return m }
+
+// SetTerraformOutputResponseValidationError is the validation error returned
+// by SetTerraformOutputResponse.Validate if the designated constraints aren't met.
+type SetTerraformOutputResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e SetTerraformOutputResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e SetTerraformOutputResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e SetTerraformOutputResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e SetTerraformOutputResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e SetTerraformOutputResponseValidationError) ErrorName() string {
+	return "SetTerraformOutputResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e SetTerraformOutputResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sSetTerraformOutputResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = SetTerraformOutputResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = SetTerraformOutputResponseValidationError{}
+
 // Validate checks the field values on DNSRecord with the rules defined in the
 // proto definition for this message. If any rules are violated, the first
 // error encountered is returned, or nil if there are no violations.
