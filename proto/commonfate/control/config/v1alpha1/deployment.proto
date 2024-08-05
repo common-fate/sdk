@@ -1,0 +1,20 @@
+syntax = "proto3";
+package commonfate.control.config.v1alpha1;
+
+import "commonfate/authz/v1alpha1/read_only.proto";
+
+service DeploymentService {
+  rpc GetDeploymentConfig(GetDeploymentConfigRequest) returns (GetDeploymentConfigResponse) {
+    option (commonfate.authz.v1alpha1.read_only) = true;
+  }
+}
+
+message GetDeploymentConfigRequest {}
+
+message GetDeploymentConfigResponse {
+  DeploymentConfig deployment_config = 1;
+}
+message DeploymentConfig {
+  string saml_sso_acs_url = 1;
+  string saml_sso_entity_id = 2;
+}
