@@ -649,6 +649,8 @@ func (m *AWSACMCertificate) validate(all bool) error {
 
 	// no validation rules for Arn
 
+	// no validation rules for DomainName
+
 	// no validation rules for ValidationCnameName
 
 	// no validation rules for ValidationCnameValue
@@ -757,6 +759,8 @@ func (m *RegisterAWSACMCertificateRequest) validate(all bool) error {
 	var errors []error
 
 	// no validation rules for Arn
+
+	// no validation rules for DomainName
 
 	// no validation rules for ValidationCnameName
 

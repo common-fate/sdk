@@ -74,14 +74,18 @@ enum DNSRecordType {
 message AWSACMCertificate {
   string id = 1;
   string arn = 2;
-  string validation_cname_name = 3;
-  string validation_cname_value = 4;
+  // The domain name for the certificate, for example: 'www.example.com'
+  string domain_name = 3;
+  string validation_cname_name = 4;
+  string validation_cname_value = 5;
 }
 
 message RegisterAWSACMCertificateRequest {
   string arn = 1;
-  string validation_cname_name = 2;
-  string validation_cname_value = 3;
+  // The domain name for the certificate, for example: 'www.example.com'
+  string domain_name = 2;
+  string validation_cname_name = 3;
+  string validation_cname_value = 4;
 }
 
 message RegisterAWSACMCertificateResponse {
