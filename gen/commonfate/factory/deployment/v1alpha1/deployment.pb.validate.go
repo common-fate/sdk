@@ -655,6 +655,8 @@ func (m *AWSACMCertificate) validate(all bool) error {
 
 	// no validation rules for ValidationCnameValue
 
+	// no validation rules for Status
+
 	if len(errors) > 0 {
 		return AWSACMCertificateMultiError(errors)
 	}
@@ -765,6 +767,8 @@ func (m *RegisterAWSACMCertificateRequest) validate(all bool) error {
 	// no validation rules for ValidationCnameName
 
 	// no validation rules for ValidationCnameValue
+
+	// no validation rules for Status
 
 	if len(errors) > 0 {
 		return RegisterAWSACMCertificateRequestMultiError(errors)

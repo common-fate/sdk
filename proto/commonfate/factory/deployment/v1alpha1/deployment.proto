@@ -78,6 +78,7 @@ message AWSACMCertificate {
   string domain_name = 3;
   string validation_cname_name = 4;
   string validation_cname_value = 5;
+  string status = 6;
 }
 
 message RegisterAWSACMCertificateRequest {
@@ -86,6 +87,7 @@ message RegisterAWSACMCertificateRequest {
   string domain_name = 2;
   string validation_cname_name = 3;
   string validation_cname_value = 4;
+  string status = 5;
 }
 
 message RegisterAWSACMCertificateResponse {
