@@ -81,6 +81,8 @@ message Extension {
     int32 remaining = 1;
     // the duration to extend by on each extension
     google.protobuf.Duration extension_duration_seconds = 2;
+    // the maximum number of extensions originally
+    int32 maximum_number_of_extensions = 3;
 }
 
 enum GrantStatus {

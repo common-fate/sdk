@@ -521,6 +521,8 @@ func (m *Extension) validate(all bool) error {
 		}
 	}
 
+	// no validation rules for MaximumNumberOfExtensions
+
 	if len(errors) > 0 {
 		return ExtensionMultiError(errors)
 	}
