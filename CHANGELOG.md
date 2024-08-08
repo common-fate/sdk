@@ -1,5 +1,11 @@
 # @common-fate/sdk
 
+## 1.53.0
+
+### Minor Changes
+
+- 94bc67f: Add SDK methods to get and set Terraform Output for deployments
+
 ## 1.52.0
 
 ### Minor Changes
