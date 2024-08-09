@@ -10,8 +10,15 @@ service HealthcheckService {
     rpc Ping(PingRequest) returns (PingResponse) {}
 }
 
+enum ServiceName {
+    SERVICE_NAME_CONTROL_PLANE = 0;
+    SERVICE_NAME_ACCESS_HANDLER = 1;
+    SERVICE_NAME_WORKER = 2;
+    SERVICE_NAME_PROVISIONER = 3;
+  }
+
 message PingRequest {
-    string service_name = 1;
+    ServiceName service_name = 1;
     string application_version = 2;
     string infrastructure_version = 3;
     ECSTaskMetadata ecs_task_metadata = 4;

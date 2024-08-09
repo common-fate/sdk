@@ -22,3 +22,6 @@ func (c *Client) Tokens() monitoringv1alpha1connect.TokenServiceClient {
 func (c *Client) Validation() monitoringv1alpha1connect.ValidationServiceClient {
 	return monitoringv1alpha1connect.NewValidationServiceClient(c.cfg.HTTPClient, c.cfg.BaseURL, c.opts...)
 }
+func (c *Client) Healthcheck() monitoringv1alpha1connect.HealthcheckServiceClient {
+	return monitoringv1alpha1connect.NewHealthcheckServiceClient(c.cfg.HTTPClient, c.cfg.BaseURL, c.opts...)
+}
