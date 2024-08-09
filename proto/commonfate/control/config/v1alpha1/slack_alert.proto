@@ -22,6 +22,7 @@ message CreateSlackAlertRequest {
   bool send_direct_messages_to_approvers = 7;
   bool disable_interactivity_handlers = 8;
   google.protobuf.Duration notify_expiry_in_seconds = 9;
+  UserNotificationSettings user_notification_settings = 10;
 }
 
 message SlackAlert {
@@ -42,6 +43,8 @@ message SlackAlert {
   bool disable_interactivity_handlers = 8;
   // if specified, it will notify the user the set time before the access expires
   google.protobuf.Duration notify_expiry_in_seconds = 9;
+  // Configuration for user notifications, allowing opt-in and opt-out for specific DMs
+  UserNotificationSettings user_notification_settings = 10;
 }
 
 message CreateSlackAlertResponse {
@@ -70,4 +73,19 @@ message DeleteSlackAlertRequest {
 
 message DeleteSlackAlertResponse {
   string id = 1;
+}
+
+message UserNotificationSettings {
+  // True if the user opts in for Initial Request DM notification
+  bool initial_request = 1;
+  // True if the user opts in for Approve DM notification
+  bool approve = 2;
+  // True if the user opts in for Activate DM notification
+  bool activate = 3;
+  // True if the user opts in for Extend DM notification
+  bool extend = 4;
+  // True if the user opts in for Revoke DM notification
+  bool revoke = 5;
+  // True if the user opts in for Deprovision DM notification
+  bool deprovision = 6;
 }
