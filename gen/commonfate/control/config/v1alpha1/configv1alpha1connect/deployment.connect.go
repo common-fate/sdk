@@ -36,18 +36,23 @@ const (
 	// DeploymentServiceGetDeploymentConfigProcedure is the fully-qualified name of the
 	// DeploymentService's GetDeploymentConfig RPC.
 	DeploymentServiceGetDeploymentConfigProcedure = "/commonfate.control.config.v1alpha1.DeploymentService/GetDeploymentConfig"
+	// DeploymentServiceGetDeploymentSecretProcedure is the fully-qualified name of the
+	// DeploymentService's GetDeploymentSecret RPC.
+	DeploymentServiceGetDeploymentSecretProcedure = "/commonfate.control.config.v1alpha1.DeploymentService/GetDeploymentSecret"
 )
 
 // These variables are the protoreflect.Descriptor objects for the RPCs defined in this package.
 var (
 	deploymentServiceServiceDescriptor                   = v1alpha1.File_commonfate_control_config_v1alpha1_deployment_proto.Services().ByName("DeploymentService")
 	deploymentServiceGetDeploymentConfigMethodDescriptor = deploymentServiceServiceDescriptor.Methods().ByName("GetDeploymentConfig")
+	deploymentServiceGetDeploymentSecretMethodDescriptor = deploymentServiceServiceDescriptor.Methods().ByName("GetDeploymentSecret")
 )
 
 // DeploymentServiceClient is a client for the commonfate.control.config.v1alpha1.DeploymentService
 // service.
 type DeploymentServiceClient interface {
 	GetDeploymentConfig(context.Context, *connect.Request[v1alpha1.GetDeploymentConfigRequest]) (*connect.Response[v1alpha1.GetDeploymentConfigResponse], error)
+	GetDeploymentSecret(context.Context, *connect.Request[v1alpha1.GetDeploymentSecretRequest]) (*connect.Response[v1alpha1.GetDeploymentSecretResponse], error)
 }
 
 // NewDeploymentServiceClient constructs a client for the
@@ -67,12 +72,19 @@ func NewDeploymentServiceClient(httpClient connect.HTTPClient, baseURL string, o
 			connect.WithSchema(deploymentServiceGetDeploymentConfigMethodDescriptor),
 			connect.WithClientOptions(opts...),
 		),
+		getDeploymentSecret: connect.NewClient[v1alpha1.GetDeploymentSecretRequest, v1alpha1.GetDeploymentSecretResponse](
+			httpClient,
+			baseURL+DeploymentServiceGetDeploymentSecretProcedure,
+			connect.WithSchema(deploymentServiceGetDeploymentSecretMethodDescriptor),
+			connect.WithClientOptions(opts...),
+		),
 	}
 }
 
 // deploymentServiceClient implements DeploymentServiceClient.
 type deploymentServiceClient struct {
 	getDeploymentConfig *connect.Client[v1alpha1.GetDeploymentConfigRequest, v1alpha1.GetDeploymentConfigResponse]
+	getDeploymentSecret *connect.Client[v1alpha1.GetDeploymentSecretRequest, v1alpha1.GetDeploymentSecretResponse]
 }
 
 // GetDeploymentConfig calls
@@ -81,10 +93,17 @@ func (c *deploymentServiceClient) GetDeploymentConfig(ctx context.Context, req *
 	return c.getDeploymentConfig.CallUnary(ctx, req)
 }
 
+// GetDeploymentSecret calls
+// commonfate.control.config.v1alpha1.DeploymentService.GetDeploymentSecret.
+func (c *deploymentServiceClient) GetDeploymentSecret(ctx context.Context, req *connect.Request[v1alpha1.GetDeploymentSecretRequest]) (*connect.Response[v1alpha1.GetDeploymentSecretResponse], error) {
+	return c.getDeploymentSecret.CallUnary(ctx, req)
+}
+
 // DeploymentServiceHandler is an implementation of the
 // commonfate.control.config.v1alpha1.DeploymentService service.
 type DeploymentServiceHandler interface {
 	GetDeploymentConfig(context.Context, *connect.Request[v1alpha1.GetDeploymentConfigRequest]) (*connect.Response[v1alpha1.GetDeploymentConfigResponse], error)
+	GetDeploymentSecret(context.Context, *connect.Request[v1alpha1.GetDeploymentSecretRequest]) (*connect.Response[v1alpha1.GetDeploymentSecretResponse], error)
 }
 
 // NewDeploymentServiceHandler builds an HTTP handler from the service implementation. It returns
@@ -99,10 +118,18 @@ func NewDeploymentServiceHandler(svc DeploymentServiceHandler, opts ...connect.H
 		connect.WithSchema(deploymentServiceGetDeploymentConfigMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
+	deploymentServiceGetDeploymentSecretHandler := connect.NewUnaryHandler(
+		DeploymentServiceGetDeploymentSecretProcedure,
+		svc.GetDeploymentSecret,
+		connect.WithSchema(deploymentServiceGetDeploymentSecretMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
+	)
 	return "/commonfate.control.config.v1alpha1.DeploymentService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
 		case DeploymentServiceGetDeploymentConfigProcedure:
 			deploymentServiceGetDeploymentConfigHandler.ServeHTTP(w, r)
+		case DeploymentServiceGetDeploymentSecretProcedure:
+			deploymentServiceGetDeploymentSecretHandler.ServeHTTP(w, r)
 		default:
 			http.NotFound(w, r)
 		}
@@ -114,4 +141,8 @@ type UnimplementedDeploymentServiceHandler struct{}
 
 func (UnimplementedDeploymentServiceHandler) GetDeploymentConfig(context.Context, *connect.Request[v1alpha1.GetDeploymentConfigRequest]) (*connect.Response[v1alpha1.GetDeploymentConfigResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.control.config.v1alpha1.DeploymentService.GetDeploymentConfig is not implemented"))
+}
+
+func (UnimplementedDeploymentServiceHandler) GetDeploymentSecret(context.Context, *connect.Request[v1alpha1.GetDeploymentSecretRequest]) (*connect.Response[v1alpha1.GetDeploymentSecretResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.control.config.v1alpha1.DeploymentService.GetDeploymentSecret is not implemented"))
 }
