@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package granted.ingest.aws.v1alpha1;
+package granted.ingest.v1alpha1;
 
 import "google/protobuf/timestamp.proto";
 
@@ -19,19 +19,19 @@ message Event {
     google.protobuf.Timestamp timestamp = 1;
 
     oneof details {
-        AssumeRoleEvent assume_role = 2;
-        APICallAttemptEvent api_call_attempt = 3;
-        APICallEvent api_call = 4;
+        AWSAssumeRoleEvent aws_assume_role = 2;
+        AWSAPICallAttemptEvent aws_api_call_attempt = 3;
+        AWSAPICallEvent aws_api_call = 4;
     }
 }
 
-message AssumeRoleEvent {
+message AWSAssumeRoleEvent {
     string account_id = 1;
     string role_name = 2;
     string access_key_id = 3;
 }
 
-message APICallAttemptEvent {
+message AWSAPICallAttemptEvent {
     string client_id = 1;
     string service = 2;
     string api = 3;
@@ -45,7 +45,7 @@ message APICallAttemptEvent {
     string x_amz_id_2 = 11;
 }
 
-message APICallEvent {
+message AWSAPICallEvent {
     string client_id = 1;
     string service = 2;
     string api = 3;
