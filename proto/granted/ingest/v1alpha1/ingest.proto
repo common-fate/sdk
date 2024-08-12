@@ -43,6 +43,8 @@ message AWSAPICallAttemptEvent {
     uint32 http_status_code = 9;
     string x_amz_request_id = 10;
     string x_amz_id_2 = 11;
+    repeated Parameter parameters = 12;
+    repeated Parameter uri_parameters = 13;
 }
 
 message AWSAPICallEvent {
@@ -55,4 +57,11 @@ message AWSAPICallEvent {
     uint32 final_http_status_code = 7;
     uint32 attempt_latency = 8;
     uint32 max_retries_exceeded = 9;
+    repeated Parameter parameters = 10;
+    repeated Parameter uri_parameters = 11;
+}
+
+message Parameter {
+    string key = 1;
+    repeated string value = 2;
 }

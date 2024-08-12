@@ -680,6 +680,74 @@ func (m *AWSAPICallAttemptEvent) validate(all bool) error {
 
 	// no validation rules for XAmzId_2
 
+	for idx, item := range m.GetParameters() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, AWSAPICallAttemptEventValidationError{
+						field:  fmt.Sprintf("Parameters[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, AWSAPICallAttemptEventValidationError{
+						field:  fmt.Sprintf("Parameters[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return AWSAPICallAttemptEventValidationError{
+					field:  fmt.Sprintf("Parameters[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	for idx, item := range m.GetUriParameters() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, AWSAPICallAttemptEventValidationError{
+						field:  fmt.Sprintf("UriParameters[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, AWSAPICallAttemptEventValidationError{
+						field:  fmt.Sprintf("UriParameters[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return AWSAPICallAttemptEventValidationError{
+					field:  fmt.Sprintf("UriParameters[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
 	if len(errors) > 0 {
 		return AWSAPICallAttemptEventMultiError(errors)
 	}
@@ -800,6 +868,74 @@ func (m *AWSAPICallEvent) validate(all bool) error {
 
 	// no validation rules for MaxRetriesExceeded
 
+	for idx, item := range m.GetParameters() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, AWSAPICallEventValidationError{
+						field:  fmt.Sprintf("Parameters[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, AWSAPICallEventValidationError{
+						field:  fmt.Sprintf("Parameters[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return AWSAPICallEventValidationError{
+					field:  fmt.Sprintf("Parameters[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	for idx, item := range m.GetUriParameters() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, AWSAPICallEventValidationError{
+						field:  fmt.Sprintf("UriParameters[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, AWSAPICallEventValidationError{
+						field:  fmt.Sprintf("UriParameters[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return AWSAPICallEventValidationError{
+					field:  fmt.Sprintf("UriParameters[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
 	if len(errors) > 0 {
 		return AWSAPICallEventMultiError(errors)
 	}
@@ -877,3 +1013,104 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = AWSAPICallEventValidationError{}
+
+// Validate checks the field values on Parameter with the rules defined in the
+// proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *Parameter) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on Parameter with the rules defined in
+// the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in ParameterMultiError, or nil
+// if none found.
+func (m *Parameter) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *Parameter) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Key
+
+	if len(errors) > 0 {
+		return ParameterMultiError(errors)
+	}
+
+	return nil
+}
+
+// ParameterMultiError is an error wrapping multiple validation errors returned
+// by Parameter.ValidateAll() if the designated constraints aren't met.
+type ParameterMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m ParameterMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m ParameterMultiError) AllErrors() []error { return m }
+
+// ParameterValidationError is the validation error returned by
+// Parameter.Validate if the designated constraints aren't met.
+type ParameterValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e ParameterValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e ParameterValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e ParameterValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e ParameterValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e ParameterValidationError) ErrorName() string { return "ParameterValidationError" }
+
+// Error satisfies the builtin error interface
+func (e ParameterValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sParameter.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = ParameterValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = ParameterValidationError{}
