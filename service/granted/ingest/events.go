@@ -30,6 +30,8 @@ type AWSAPICallAttemptEvent struct {
 	XAmzRequestID  string
 	XAmzID2        string
 	Timestamp      time.Time
+	Parameters     map[string][]string
+	URIParameters  map[string][]string
 }
 
 func (AWSAPICallAttemptEvent) EventType() string {
@@ -47,6 +49,8 @@ type AWSAPICallEvent struct {
 	AttemptLatency      uint32
 	MaxRetriesExceeded  uint32
 	Timestamp           time.Time
+	Parameters          map[string][]string
+	URIParameters       map[string][]string
 }
 
 func (AWSAPICallEvent) EventType() string {
