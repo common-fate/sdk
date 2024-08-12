@@ -1,0 +1,58 @@
+syntax = "proto3";
+
+package granted.ingest.aws.v1alpha1;
+
+import "google/protobuf/timestamp.proto";
+
+service IngestService {
+  // Writes a batch of IAM observability events.
+  rpc BatchWriteEvents(BatchWriteEventsRequest) returns (BatchWriteEventsResponse) {}
+}
+
+message BatchWriteEventsRequest {
+    repeated Event events = 1;
+}
+
+message BatchWriteEventsResponse {}
+
+message Event {
+    google.protobuf.Timestamp timestamp = 1;
+
+    oneof details {
+        AssumeRoleEvent assume_role = 2;
+        APICallAttemptEvent api_call_attempt = 3;
+        APICallEvent api_call = 4;
+    }
+}
+
+message AssumeRoleEvent {
+    string account_id = 1;
+    string role_name = 2;
+    string access_key_id = 3;
+}
+
+message APICallAttemptEvent {
+    string client_id = 1;
+    string service = 2;
+    string api = 3;
+    uint32 attempt_latency = 4;
+    string fqdn = 5;
+    string user_agent = 6;
+    string access_key = 7;
+    string region = 8;
+    uint32 http_status_code = 9;
+    string x_amz_request_id = 10;
+    string x_amz_id_2 = 11;
+}
+
+message APICallEvent {
+    string client_id = 1;
+    string service = 2;
+    string api = 3;
+    uint32 attempt_count = 4;
+    string region = 5;
+    string user_agent = 6;
+    uint32 final_http_status_code = 7;
+    uint32 attempt_latency = 8;
+    uint32 max_retries_exceeded = 9;
+}
