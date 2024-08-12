@@ -210,7 +210,7 @@ func (c *Client) send(msgs []Event) {
 						Service:        t.Service,
 						Api:            t.API,
 						Parameters:     convertParams(t.Parameters),
-						UriParameters:  convertParams(t.URIParameters),
+						UriParameters:  convertURIParams(t.URIParameters),
 					},
 				},
 			}
@@ -229,7 +229,7 @@ func (c *Client) send(msgs []Event) {
 						FinalHttpStatusCode: t.FinalHTTPStatusCode,
 						MaxRetriesExceeded:  t.MaxRetriesExceeded,
 						Parameters:          convertParams(t.Parameters),
-						UriParameters:       convertParams(t.URIParameters),
+						UriParameters:       convertURIParams(t.URIParameters),
 					},
 				},
 			}
@@ -251,6 +251,18 @@ func convertParams(input map[string][]string) []*ingestv1alpha1.Parameter {
 		params = append(params, &ingestv1alpha1.Parameter{
 			Key:   k,
 			Value: v,
+		})
+	}
+
+	return params
+}
+
+func convertURIParams(input map[string]string) []*ingestv1alpha1.Parameter {
+	params := make([]*ingestv1alpha1.Parameter, 0, len(input))
+	for k, v := range input {
+		params = append(params, &ingestv1alpha1.Parameter{
+			Key:   k,
+			Value: []string{v},
 		})
 	}
 
