@@ -7,6 +7,9 @@ service DeploymentService {
   rpc GetDeploymentConfig(GetDeploymentConfigRequest) returns (GetDeploymentConfigResponse) {
     option (commonfate.authz.v1alpha1.read_only) = true;
   }
+  rpc GetDeploymentSecret(GetDeploymentSecretRequest) returns (GetDeploymentSecretResponse) {
+    option (commonfate.authz.v1alpha1.read_only) = true;
+  }
 }
 
 message GetDeploymentConfigRequest {}
@@ -17,4 +20,21 @@ message GetDeploymentConfigResponse {
 message DeploymentConfig {
   string saml_sso_acs_url = 1;
   string saml_sso_entity_id = 2;
+  string terraform_oidc_client_id = 3;
+  string read_only_oidc_client_id = 4;
+  string provisioner_oidc_client_id = 5;
+  string oidc_issuer = 6;
+}
+enum DeploymentSecret {
+  DEPLOYMENT_SECRET_UNSPECIFIED = 0;
+  DEPLOYMENT_SECRET_TERRAFORM_OIDC_CLIENT_SECRET = 1;
+  DEPLOYMENT_SECRET_READONLY_OIDC_CLIENT_SECRET = 2;
+  DEPLOYMENT_SECRET_PROVISIONER_OIDC_CLIENT_SECRET = 3;
+}
+message GetDeploymentSecretRequest {
+  DeploymentSecret secret = 1;
+}
+
+message GetDeploymentSecretResponse {
+  string secret = 1;
 }

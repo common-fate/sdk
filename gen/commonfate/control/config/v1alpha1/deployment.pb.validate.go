@@ -295,6 +295,14 @@ func (m *DeploymentConfig) validate(all bool) error {
 
 	// no validation rules for SamlSsoEntityId
 
+	// no validation rules for TerraformOidcClientId
+
+	// no validation rules for ReadOnlyOidcClientId
+
+	// no validation rules for ProvisionerOidcClientId
+
+	// no validation rules for OidcIssuer
+
 	if len(errors) > 0 {
 		return DeploymentConfigMultiError(errors)
 	}
@@ -372,3 +380,212 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = DeploymentConfigValidationError{}
+
+// Validate checks the field values on GetDeploymentSecretRequest with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *GetDeploymentSecretRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on GetDeploymentSecretRequest with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// GetDeploymentSecretRequestMultiError, or nil if none found.
+func (m *GetDeploymentSecretRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *GetDeploymentSecretRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Secret
+
+	if len(errors) > 0 {
+		return GetDeploymentSecretRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// GetDeploymentSecretRequestMultiError is an error wrapping multiple
+// validation errors returned by GetDeploymentSecretRequest.ValidateAll() if
+// the designated constraints aren't met.
+type GetDeploymentSecretRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m GetDeploymentSecretRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m GetDeploymentSecretRequestMultiError) AllErrors() []error { return m }
+
+// GetDeploymentSecretRequestValidationError is the validation error returned
+// by GetDeploymentSecretRequest.Validate if the designated constraints aren't met.
+type GetDeploymentSecretRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e GetDeploymentSecretRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e GetDeploymentSecretRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e GetDeploymentSecretRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e GetDeploymentSecretRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e GetDeploymentSecretRequestValidationError) ErrorName() string {
+	return "GetDeploymentSecretRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e GetDeploymentSecretRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sGetDeploymentSecretRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = GetDeploymentSecretRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = GetDeploymentSecretRequestValidationError{}
+
+// Validate checks the field values on GetDeploymentSecretResponse with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *GetDeploymentSecretResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on GetDeploymentSecretResponse with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// GetDeploymentSecretResponseMultiError, or nil if none found.
+func (m *GetDeploymentSecretResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *GetDeploymentSecretResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Secret
+
+	if len(errors) > 0 {
+		return GetDeploymentSecretResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// GetDeploymentSecretResponseMultiError is an error wrapping multiple
+// validation errors returned by GetDeploymentSecretResponse.ValidateAll() if
+// the designated constraints aren't met.
+type GetDeploymentSecretResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m GetDeploymentSecretResponseMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m GetDeploymentSecretResponseMultiError) AllErrors() []error { return m }
+
+// GetDeploymentSecretResponseValidationError is the validation error returned
+// by GetDeploymentSecretResponse.Validate if the designated constraints
+// aren't met.
+type GetDeploymentSecretResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e GetDeploymentSecretResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e GetDeploymentSecretResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e GetDeploymentSecretResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e GetDeploymentSecretResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e GetDeploymentSecretResponseValidationError) ErrorName() string {
+	return "GetDeploymentSecretResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e GetDeploymentSecretResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sGetDeploymentSecretResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = GetDeploymentSecretResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = GetDeploymentSecretResponseValidationError{}
