@@ -84,7 +84,7 @@ message Extension {
     // whether or not an extension has been used
     bool extension_used = 3;
     // ExtensionAllowed is true if the grant is ever allowed to be extended.
-	// This is different from it being allowed to extend under certain conditions(e.g. after a certain amount of time has passed)
+    // This is different from it being allowed to extend under certain conditions(e.g. after a certain amount of time has passed)
     bool extension_allowed = 4;
     // ExtendableAfter is the time after which the grant is allowed to be extended.
     google.protobuf.Timestamp extendable_after = 5;
