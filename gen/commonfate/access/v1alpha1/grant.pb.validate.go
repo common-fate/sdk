@@ -523,33 +523,37 @@ func (m *Extension) validate(all bool) error {
 
 	// no validation rules for ExtensionUsed
 
-	if all {
-		switch v := interface{}(m.GetExtendableAfter()).(type) {
-		case interface{ ValidateAll() error }:
-			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, ExtensionValidationError{
-					field:  "ExtendableAfter",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
+	if m.ExtendableAfter != nil {
+
+		if all {
+			switch v := interface{}(m.GetExtendableAfter()).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, ExtensionValidationError{
+						field:  "ExtendableAfter",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, ExtensionValidationError{
+						field:  "ExtendableAfter",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
 			}
-		case interface{ Validate() error }:
+		} else if v, ok := interface{}(m.GetExtendableAfter()).(interface{ Validate() error }); ok {
 			if err := v.Validate(); err != nil {
-				errors = append(errors, ExtensionValidationError{
+				return ExtensionValidationError{
 					field:  "ExtendableAfter",
 					reason: "embedded message failed validation",
 					cause:  err,
-				})
+				}
 			}
 		}
-	} else if v, ok := interface{}(m.GetExtendableAfter()).(interface{ Validate() error }); ok {
-		if err := v.Validate(); err != nil {
-			return ExtensionValidationError{
-				field:  "ExtendableAfter",
-				reason: "embedded message failed validation",
-				cause:  err,
-			}
-		}
+
 	}
 
 	if len(errors) > 0 {

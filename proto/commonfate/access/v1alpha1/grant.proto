@@ -84,7 +84,7 @@ message Extension {
     // whether or not an extension has been used
     bool extension_used = 3;
     // ExtendableAfter is the time after which the grant is allowed to be extended.
-    google.protobuf.Timestamp extendable_after = 4;
+    optional google.protobuf.Timestamp extendable_after = 4;
 }
 
 enum GrantStatus {
