@@ -182,12 +182,8 @@ type RegisterProxyRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	IntegrationId string      `protobuf:"bytes,1,opt,name=integration_id,json=integrationId,proto3" json:"integration_id,omitempty"`
-	Resources     []*Resource `protobuf:"bytes,2,rep,name=resources,proto3" json:"resources,omitempty"`
-	// Types that are assignable to InstanceConfig:
-	//
-	//	*RegisterProxyRequest_AwsEcsProxyInstanceConfig
-	InstanceConfig isRegisterProxyRequest_InstanceConfig `protobuf_oneof:"instance_config"`
+	IntegrationId string    `protobuf:"bytes,1,opt,name=integration_id,json=integrationId,proto3" json:"integration_id,omitempty"`
+	Resource      *Resource `protobuf:"bytes,2,opt,name=resource,proto3" json:"resource,omitempty"`
 }
 
 func (x *RegisterProxyRequest) Reset() {
@@ -229,36 +225,12 @@ func (x *RegisterProxyRequest) GetIntegrationId() string {
 	return ""
 }
 
-func (x *RegisterProxyRequest) GetResources() []*Resource {
+func (x *RegisterProxyRequest) GetResource() *Resource {
 	if x != nil {
-		return x.Resources
+		return x.Resource
 	}
 	return nil
 }
-
-func (m *RegisterProxyRequest) GetInstanceConfig() isRegisterProxyRequest_InstanceConfig {
-	if m != nil {
-		return m.InstanceConfig
-	}
-	return nil
-}
-
-func (x *RegisterProxyRequest) GetAwsEcsProxyInstanceConfig() *AWSECSProxyInstanceConfig {
-	if x, ok := x.GetInstanceConfig().(*RegisterProxyRequest_AwsEcsProxyInstanceConfig); ok {
-		return x.AwsEcsProxyInstanceConfig
-	}
-	return nil
-}
-
-type isRegisterProxyRequest_InstanceConfig interface {
-	isRegisterProxyRequest_InstanceConfig()
-}
-
-type RegisterProxyRequest_AwsEcsProxyInstanceConfig struct {
-	AwsEcsProxyInstanceConfig *AWSECSProxyInstanceConfig `protobuf:"bytes,3,opt,name=aws_ecs_proxy_instance_config,json=awsEcsProxyInstanceConfig,proto3,oneof"`
-}
-
-func (*RegisterProxyRequest_AwsEcsProxyInstanceConfig) isRegisterProxyRequest_InstanceConfig() {}
 
 type RegisterProxyResponse struct {
 	state         protoimpl.MessageState
@@ -365,6 +337,251 @@ type Resource_AwsRdsDatabase struct {
 
 func (*Resource_AwsRdsDatabase) isResource_Resource() {}
 
+type RegisterProxyResourceRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	IntegrationId string      `protobuf:"bytes,1,opt,name=integration_id,json=integrationId,proto3" json:"integration_id,omitempty"`
+	Resources     []*Resource `protobuf:"bytes,2,rep,name=resources,proto3" json:"resources,omitempty"`
+	// Types that are assignable to InstanceConfig:
+	//
+	//	*RegisterProxyResourceRequest_AwsEcsProxyInstanceConfig
+	InstanceConfig isRegisterProxyResourceRequest_InstanceConfig `protobuf_oneof:"instance_config"`
+}
+
+func (x *RegisterProxyResourceRequest) Reset() {
+	*x = RegisterProxyResourceRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_commonfate_control_integration_v1alpha1_integration_proto_msgTypes[5]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *RegisterProxyResourceRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RegisterProxyResourceRequest) ProtoMessage() {}
+
+func (x *RegisterProxyResourceRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_commonfate_control_integration_v1alpha1_integration_proto_msgTypes[5]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RegisterProxyResourceRequest.ProtoReflect.Descriptor instead.
+func (*RegisterProxyResourceRequest) Descriptor() ([]byte, []int) {
+	return file_commonfate_control_integration_v1alpha1_integration_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *RegisterProxyResourceRequest) GetIntegrationId() string {
+	if x != nil {
+		return x.IntegrationId
+	}
+	return ""
+}
+
+func (x *RegisterProxyResourceRequest) GetResources() []*Resource {
+	if x != nil {
+		return x.Resources
+	}
+	return nil
+}
+
+func (m *RegisterProxyResourceRequest) GetInstanceConfig() isRegisterProxyResourceRequest_InstanceConfig {
+	if m != nil {
+		return m.InstanceConfig
+	}
+	return nil
+}
+
+func (x *RegisterProxyResourceRequest) GetAwsEcsProxyInstanceConfig() *AWSECSProxyInstanceConfig {
+	if x, ok := x.GetInstanceConfig().(*RegisterProxyResourceRequest_AwsEcsProxyInstanceConfig); ok {
+		return x.AwsEcsProxyInstanceConfig
+	}
+	return nil
+}
+
+type isRegisterProxyResourceRequest_InstanceConfig interface {
+	isRegisterProxyResourceRequest_InstanceConfig()
+}
+
+type RegisterProxyResourceRequest_AwsEcsProxyInstanceConfig struct {
+	AwsEcsProxyInstanceConfig *AWSECSProxyInstanceConfig `protobuf:"bytes,3,opt,name=aws_ecs_proxy_instance_config,json=awsEcsProxyInstanceConfig,proto3,oneof"`
+}
+
+func (*RegisterProxyResourceRequest_AwsEcsProxyInstanceConfig) isRegisterProxyResourceRequest_InstanceConfig() {
+}
+
+type RegisterProxyResourceResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+}
+
+func (x *RegisterProxyResourceResponse) Reset() {
+	*x = RegisterProxyResourceResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_commonfate_control_integration_v1alpha1_integration_proto_msgTypes[6]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *RegisterProxyResourceResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RegisterProxyResourceResponse) ProtoMessage() {}
+
+func (x *RegisterProxyResourceResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_commonfate_control_integration_v1alpha1_integration_proto_msgTypes[6]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RegisterProxyResourceResponse.ProtoReflect.Descriptor instead.
+func (*RegisterProxyResourceResponse) Descriptor() ([]byte, []int) {
+	return file_commonfate_control_integration_v1alpha1_integration_proto_rawDescGZIP(), []int{6}
+}
+
+type DescribeProxyResourcesRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	IntegrationId string `protobuf:"bytes,1,opt,name=integration_id,json=integrationId,proto3" json:"integration_id,omitempty"`
+}
+
+func (x *DescribeProxyResourcesRequest) Reset() {
+	*x = DescribeProxyResourcesRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_commonfate_control_integration_v1alpha1_integration_proto_msgTypes[7]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *DescribeProxyResourcesRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DescribeProxyResourcesRequest) ProtoMessage() {}
+
+func (x *DescribeProxyResourcesRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_commonfate_control_integration_v1alpha1_integration_proto_msgTypes[7]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DescribeProxyResourcesRequest.ProtoReflect.Descriptor instead.
+func (*DescribeProxyResourcesRequest) Descriptor() ([]byte, []int) {
+	return file_commonfate_control_integration_v1alpha1_integration_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *DescribeProxyResourcesRequest) GetIntegrationId() string {
+	if x != nil {
+		return x.IntegrationId
+	}
+	return ""
+}
+
+type DescribeProxyResourcesResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Resources []*Resource `protobuf:"bytes,1,rep,name=resources,proto3" json:"resources,omitempty"`
+	// Types that are assignable to InstanceConfig:
+	//
+	//	*DescribeProxyResourcesResponse_AwsEcsProxyInstanceConfig
+	InstanceConfig isDescribeProxyResourcesResponse_InstanceConfig `protobuf_oneof:"instance_config"`
+}
+
+func (x *DescribeProxyResourcesResponse) Reset() {
+	*x = DescribeProxyResourcesResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_commonfate_control_integration_v1alpha1_integration_proto_msgTypes[8]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *DescribeProxyResourcesResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DescribeProxyResourcesResponse) ProtoMessage() {}
+
+func (x *DescribeProxyResourcesResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_commonfate_control_integration_v1alpha1_integration_proto_msgTypes[8]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DescribeProxyResourcesResponse.ProtoReflect.Descriptor instead.
+func (*DescribeProxyResourcesResponse) Descriptor() ([]byte, []int) {
+	return file_commonfate_control_integration_v1alpha1_integration_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *DescribeProxyResourcesResponse) GetResources() []*Resource {
+	if x != nil {
+		return x.Resources
+	}
+	return nil
+}
+
+func (m *DescribeProxyResourcesResponse) GetInstanceConfig() isDescribeProxyResourcesResponse_InstanceConfig {
+	if m != nil {
+		return m.InstanceConfig
+	}
+	return nil
+}
+
+func (x *DescribeProxyResourcesResponse) GetAwsEcsProxyInstanceConfig() *AWSECSProxyInstanceConfig {
+	if x, ok := x.GetInstanceConfig().(*DescribeProxyResourcesResponse_AwsEcsProxyInstanceConfig); ok {
+		return x.AwsEcsProxyInstanceConfig
+	}
+	return nil
+}
+
+type isDescribeProxyResourcesResponse_InstanceConfig interface {
+	isDescribeProxyResourcesResponse_InstanceConfig()
+}
+
+type DescribeProxyResourcesResponse_AwsEcsProxyInstanceConfig struct {
+	AwsEcsProxyInstanceConfig *AWSECSProxyInstanceConfig `protobuf:"bytes,2,opt,name=aws_ecs_proxy_instance_config,json=awsEcsProxyInstanceConfig,proto3,oneof"`
+}
+
+func (*DescribeProxyResourcesResponse_AwsEcsProxyInstanceConfig) isDescribeProxyResourcesResponse_InstanceConfig() {
+}
+
 type CreateIntegrationRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -377,7 +594,7 @@ type CreateIntegrationRequest struct {
 func (x *CreateIntegrationRequest) Reset() {
 	*x = CreateIntegrationRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_commonfate_control_integration_v1alpha1_integration_proto_msgTypes[5]
+		mi := &file_commonfate_control_integration_v1alpha1_integration_proto_msgTypes[9]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -390,7 +607,7 @@ func (x *CreateIntegrationRequest) String() string {
 func (*CreateIntegrationRequest) ProtoMessage() {}
 
 func (x *CreateIntegrationRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_commonfate_control_integration_v1alpha1_integration_proto_msgTypes[5]
+	mi := &file_commonfate_control_integration_v1alpha1_integration_proto_msgTypes[9]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -403,7 +620,7 @@ func (x *CreateIntegrationRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateIntegrationRequest.ProtoReflect.Descriptor instead.
 func (*CreateIntegrationRequest) Descriptor() ([]byte, []int) {
-	return file_commonfate_control_integration_v1alpha1_integration_proto_rawDescGZIP(), []int{5}
+	return file_commonfate_control_integration_v1alpha1_integration_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *CreateIntegrationRequest) GetName() string {
@@ -445,7 +662,7 @@ type Config struct {
 func (x *Config) Reset() {
 	*x = Config{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_commonfate_control_integration_v1alpha1_integration_proto_msgTypes[6]
+		mi := &file_commonfate_control_integration_v1alpha1_integration_proto_msgTypes[10]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -458,7 +675,7 @@ func (x *Config) String() string {
 func (*Config) ProtoMessage() {}
 
 func (x *Config) ProtoReflect() protoreflect.Message {
-	mi := &file_commonfate_control_integration_v1alpha1_integration_proto_msgTypes[6]
+	mi := &file_commonfate_control_integration_v1alpha1_integration_proto_msgTypes[10]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -471,7 +688,7 @@ func (x *Config) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Config.ProtoReflect.Descriptor instead.
 func (*Config) Descriptor() ([]byte, []int) {
-	return file_commonfate_control_integration_v1alpha1_integration_proto_rawDescGZIP(), []int{6}
+	return file_commonfate_control_integration_v1alpha1_integration_proto_rawDescGZIP(), []int{10}
 }
 
 func (m *Config) GetConfig() isConfig_Config {
@@ -657,7 +874,7 @@ type Integration struct {
 func (x *Integration) Reset() {
 	*x = Integration{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_commonfate_control_integration_v1alpha1_integration_proto_msgTypes[7]
+		mi := &file_commonfate_control_integration_v1alpha1_integration_proto_msgTypes[11]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -670,7 +887,7 @@ func (x *Integration) String() string {
 func (*Integration) ProtoMessage() {}
 
 func (x *Integration) ProtoReflect() protoreflect.Message {
-	mi := &file_commonfate_control_integration_v1alpha1_integration_proto_msgTypes[7]
+	mi := &file_commonfate_control_integration_v1alpha1_integration_proto_msgTypes[11]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -683,7 +900,7 @@ func (x *Integration) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Integration.ProtoReflect.Descriptor instead.
 func (*Integration) Descriptor() ([]byte, []int) {
-	return file_commonfate_control_integration_v1alpha1_integration_proto_rawDescGZIP(), []int{7}
+	return file_commonfate_control_integration_v1alpha1_integration_proto_rawDescGZIP(), []int{11}
 }
 
 func (x *Integration) GetId() string {
@@ -739,7 +956,7 @@ type CreateIntegrationResponse struct {
 func (x *CreateIntegrationResponse) Reset() {
 	*x = CreateIntegrationResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_commonfate_control_integration_v1alpha1_integration_proto_msgTypes[8]
+		mi := &file_commonfate_control_integration_v1alpha1_integration_proto_msgTypes[12]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -752,7 +969,7 @@ func (x *CreateIntegrationResponse) String() string {
 func (*CreateIntegrationResponse) ProtoMessage() {}
 
 func (x *CreateIntegrationResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_commonfate_control_integration_v1alpha1_integration_proto_msgTypes[8]
+	mi := &file_commonfate_control_integration_v1alpha1_integration_proto_msgTypes[12]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -765,7 +982,7 @@ func (x *CreateIntegrationResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateIntegrationResponse.ProtoReflect.Descriptor instead.
 func (*CreateIntegrationResponse) Descriptor() ([]byte, []int) {
-	return file_commonfate_control_integration_v1alpha1_integration_proto_rawDescGZIP(), []int{8}
+	return file_commonfate_control_integration_v1alpha1_integration_proto_rawDescGZIP(), []int{12}
 }
 
 func (x *CreateIntegrationResponse) GetIntegration() *Integration {
@@ -786,7 +1003,7 @@ type GetIntegrationRequest struct {
 func (x *GetIntegrationRequest) Reset() {
 	*x = GetIntegrationRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_commonfate_control_integration_v1alpha1_integration_proto_msgTypes[9]
+		mi := &file_commonfate_control_integration_v1alpha1_integration_proto_msgTypes[13]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -799,7 +1016,7 @@ func (x *GetIntegrationRequest) String() string {
 func (*GetIntegrationRequest) ProtoMessage() {}
 
 func (x *GetIntegrationRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_commonfate_control_integration_v1alpha1_integration_proto_msgTypes[9]
+	mi := &file_commonfate_control_integration_v1alpha1_integration_proto_msgTypes[13]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -812,7 +1029,7 @@ func (x *GetIntegrationRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetIntegrationRequest.ProtoReflect.Descriptor instead.
 func (*GetIntegrationRequest) Descriptor() ([]byte, []int) {
-	return file_commonfate_control_integration_v1alpha1_integration_proto_rawDescGZIP(), []int{9}
+	return file_commonfate_control_integration_v1alpha1_integration_proto_rawDescGZIP(), []int{13}
 }
 
 func (x *GetIntegrationRequest) GetId() string {
@@ -833,7 +1050,7 @@ type GetIntegrationResponse struct {
 func (x *GetIntegrationResponse) Reset() {
 	*x = GetIntegrationResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_commonfate_control_integration_v1alpha1_integration_proto_msgTypes[10]
+		mi := &file_commonfate_control_integration_v1alpha1_integration_proto_msgTypes[14]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -846,7 +1063,7 @@ func (x *GetIntegrationResponse) String() string {
 func (*GetIntegrationResponse) ProtoMessage() {}
 
 func (x *GetIntegrationResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_commonfate_control_integration_v1alpha1_integration_proto_msgTypes[10]
+	mi := &file_commonfate_control_integration_v1alpha1_integration_proto_msgTypes[14]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -859,7 +1076,7 @@ func (x *GetIntegrationResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetIntegrationResponse.ProtoReflect.Descriptor instead.
 func (*GetIntegrationResponse) Descriptor() ([]byte, []int) {
-	return file_commonfate_control_integration_v1alpha1_integration_proto_rawDescGZIP(), []int{10}
+	return file_commonfate_control_integration_v1alpha1_integration_proto_rawDescGZIP(), []int{14}
 }
 
 func (x *GetIntegrationResponse) GetIntegration() *Integration {
@@ -880,7 +1097,7 @@ type UpdateIntegrationRequest struct {
 func (x *UpdateIntegrationRequest) Reset() {
 	*x = UpdateIntegrationRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_commonfate_control_integration_v1alpha1_integration_proto_msgTypes[11]
+		mi := &file_commonfate_control_integration_v1alpha1_integration_proto_msgTypes[15]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -893,7 +1110,7 @@ func (x *UpdateIntegrationRequest) String() string {
 func (*UpdateIntegrationRequest) ProtoMessage() {}
 
 func (x *UpdateIntegrationRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_commonfate_control_integration_v1alpha1_integration_proto_msgTypes[11]
+	mi := &file_commonfate_control_integration_v1alpha1_integration_proto_msgTypes[15]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -906,7 +1123,7 @@ func (x *UpdateIntegrationRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateIntegrationRequest.ProtoReflect.Descriptor instead.
 func (*UpdateIntegrationRequest) Descriptor() ([]byte, []int) {
-	return file_commonfate_control_integration_v1alpha1_integration_proto_rawDescGZIP(), []int{11}
+	return file_commonfate_control_integration_v1alpha1_integration_proto_rawDescGZIP(), []int{15}
 }
 
 func (x *UpdateIntegrationRequest) GetIntegration() *Integration {
@@ -927,7 +1144,7 @@ type UpdateIntegrationResponse struct {
 func (x *UpdateIntegrationResponse) Reset() {
 	*x = UpdateIntegrationResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_commonfate_control_integration_v1alpha1_integration_proto_msgTypes[12]
+		mi := &file_commonfate_control_integration_v1alpha1_integration_proto_msgTypes[16]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -940,7 +1157,7 @@ func (x *UpdateIntegrationResponse) String() string {
 func (*UpdateIntegrationResponse) ProtoMessage() {}
 
 func (x *UpdateIntegrationResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_commonfate_control_integration_v1alpha1_integration_proto_msgTypes[12]
+	mi := &file_commonfate_control_integration_v1alpha1_integration_proto_msgTypes[16]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -953,7 +1170,7 @@ func (x *UpdateIntegrationResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateIntegrationResponse.ProtoReflect.Descriptor instead.
 func (*UpdateIntegrationResponse) Descriptor() ([]byte, []int) {
-	return file_commonfate_control_integration_v1alpha1_integration_proto_rawDescGZIP(), []int{12}
+	return file_commonfate_control_integration_v1alpha1_integration_proto_rawDescGZIP(), []int{16}
 }
 
 func (x *UpdateIntegrationResponse) GetIntegration() *Integration {
@@ -974,7 +1191,7 @@ type DeleteIntegrationRequest struct {
 func (x *DeleteIntegrationRequest) Reset() {
 	*x = DeleteIntegrationRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_commonfate_control_integration_v1alpha1_integration_proto_msgTypes[13]
+		mi := &file_commonfate_control_integration_v1alpha1_integration_proto_msgTypes[17]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -987,7 +1204,7 @@ func (x *DeleteIntegrationRequest) String() string {
 func (*DeleteIntegrationRequest) ProtoMessage() {}
 
 func (x *DeleteIntegrationRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_commonfate_control_integration_v1alpha1_integration_proto_msgTypes[13]
+	mi := &file_commonfate_control_integration_v1alpha1_integration_proto_msgTypes[17]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1000,7 +1217,7 @@ func (x *DeleteIntegrationRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteIntegrationRequest.ProtoReflect.Descriptor instead.
 func (*DeleteIntegrationRequest) Descriptor() ([]byte, []int) {
-	return file_commonfate_control_integration_v1alpha1_integration_proto_rawDescGZIP(), []int{13}
+	return file_commonfate_control_integration_v1alpha1_integration_proto_rawDescGZIP(), []int{17}
 }
 
 func (x *DeleteIntegrationRequest) GetId() string {
@@ -1021,7 +1238,7 @@ type DeleteIntegrationResponse struct {
 func (x *DeleteIntegrationResponse) Reset() {
 	*x = DeleteIntegrationResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_commonfate_control_integration_v1alpha1_integration_proto_msgTypes[14]
+		mi := &file_commonfate_control_integration_v1alpha1_integration_proto_msgTypes[18]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1034,7 +1251,7 @@ func (x *DeleteIntegrationResponse) String() string {
 func (*DeleteIntegrationResponse) ProtoMessage() {}
 
 func (x *DeleteIntegrationResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_commonfate_control_integration_v1alpha1_integration_proto_msgTypes[14]
+	mi := &file_commonfate_control_integration_v1alpha1_integration_proto_msgTypes[18]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1047,7 +1264,7 @@ func (x *DeleteIntegrationResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteIntegrationResponse.ProtoReflect.Descriptor instead.
 func (*DeleteIntegrationResponse) Descriptor() ([]byte, []int) {
-	return file_commonfate_control_integration_v1alpha1_integration_proto_rawDescGZIP(), []int{14}
+	return file_commonfate_control_integration_v1alpha1_integration_proto_rawDescGZIP(), []int{18}
 }
 
 func (x *DeleteIntegrationResponse) GetId() string {
@@ -1126,35 +1343,68 @@ var file_commonfate_control_integration_v1alpha1_integration_proto_rawDesc = []b
 	0x67, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x0c, 0x69, 0x6e, 0x74, 0x65, 0x67, 0x72, 0x61,
 	0x74, 0x69, 0x6f, 0x6e, 0x73, 0x12, 0x26, 0x0a, 0x0f, 0x6e, 0x65, 0x78, 0x74, 0x5f, 0x70, 0x61,
 	0x67, 0x65, 0x5f, 0x74, 0x6f, 0x6b, 0x65, 0x6e, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0d,
-	0x6e, 0x65, 0x78, 0x74, 0x50, 0x61, 0x67, 0x65, 0x54, 0x6f, 0x6b, 0x65, 0x6e, 0x22, 0xaa, 0x02,
+	0x6e, 0x65, 0x78, 0x74, 0x50, 0x61, 0x67, 0x65, 0x54, 0x6f, 0x6b, 0x65, 0x6e, 0x22, 0x8c, 0x01,
 	0x0a, 0x14, 0x52, 0x65, 0x67, 0x69, 0x73, 0x74, 0x65, 0x72, 0x50, 0x72, 0x6f, 0x78, 0x79, 0x52,
 	0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x25, 0x0a, 0x0e, 0x69, 0x6e, 0x74, 0x65, 0x67, 0x72,
 	0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0d,
-	0x69, 0x6e, 0x74, 0x65, 0x67, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x49, 0x64, 0x12, 0x4f, 0x0a,
-	0x09, 0x72, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x73, 0x18, 0x02, 0x20, 0x03, 0x28, 0x0b,
-	0x32, 0x31, 0x2e, 0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x66, 0x61, 0x74, 0x65, 0x2e, 0x63, 0x6f,
-	0x6e, 0x74, 0x72, 0x6f, 0x6c, 0x2e, 0x69, 0x6e, 0x74, 0x65, 0x67, 0x72, 0x61, 0x74, 0x69, 0x6f,
-	0x6e, 0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x2e, 0x52, 0x65, 0x73, 0x6f, 0x75,
-	0x72, 0x63, 0x65, 0x52, 0x09, 0x72, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x73, 0x12, 0x86,
-	0x01, 0x0a, 0x1d, 0x61, 0x77, 0x73, 0x5f, 0x65, 0x63, 0x73, 0x5f, 0x70, 0x72, 0x6f, 0x78, 0x79,
-	0x5f, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x5f, 0x63, 0x6f, 0x6e, 0x66, 0x69, 0x67,
-	0x18, 0x03, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x42, 0x2e, 0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x66,
+	0x69, 0x6e, 0x74, 0x65, 0x67, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x49, 0x64, 0x12, 0x4d, 0x0a,
+	0x08, 0x72, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32,
+	0x31, 0x2e, 0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x66, 0x61, 0x74, 0x65, 0x2e, 0x63, 0x6f, 0x6e,
+	0x74, 0x72, 0x6f, 0x6c, 0x2e, 0x69, 0x6e, 0x74, 0x65, 0x67, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e,
+	0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x2e, 0x52, 0x65, 0x73, 0x6f, 0x75, 0x72,
+	0x63, 0x65, 0x52, 0x08, 0x72, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x22, 0x17, 0x0a, 0x15,
+	0x52, 0x65, 0x67, 0x69, 0x73, 0x74, 0x65, 0x72, 0x50, 0x72, 0x6f, 0x78, 0x79, 0x52, 0x65, 0x73,
+	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x7b, 0x0a, 0x08, 0x52, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63,
+	0x65, 0x12, 0x63, 0x0a, 0x10, 0x61, 0x77, 0x73, 0x5f, 0x72, 0x64, 0x73, 0x5f, 0x64, 0x61, 0x74,
+	0x61, 0x62, 0x61, 0x73, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x37, 0x2e, 0x63, 0x6f,
+	0x6d, 0x6d, 0x6f, 0x6e, 0x66, 0x61, 0x74, 0x65, 0x2e, 0x63, 0x6f, 0x6e, 0x74, 0x72, 0x6f, 0x6c,
+	0x2e, 0x69, 0x6e, 0x74, 0x65, 0x67, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x2e, 0x76, 0x31, 0x61,
+	0x6c, 0x70, 0x68, 0x61, 0x31, 0x2e, 0x41, 0x57, 0x53, 0x52, 0x44, 0x53, 0x44, 0x61, 0x74, 0x61,
+	0x62, 0x61, 0x73, 0x65, 0x48, 0x00, 0x52, 0x0e, 0x61, 0x77, 0x73, 0x52, 0x64, 0x73, 0x44, 0x61,
+	0x74, 0x61, 0x62, 0x61, 0x73, 0x65, 0x42, 0x0a, 0x0a, 0x08, 0x72, 0x65, 0x73, 0x6f, 0x75, 0x72,
+	0x63, 0x65, 0x22, 0xb2, 0x02, 0x0a, 0x1c, 0x52, 0x65, 0x67, 0x69, 0x73, 0x74, 0x65, 0x72, 0x50,
+	0x72, 0x6f, 0x78, 0x79, 0x52, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x52, 0x65, 0x71, 0x75,
+	0x65, 0x73, 0x74, 0x12, 0x25, 0x0a, 0x0e, 0x69, 0x6e, 0x74, 0x65, 0x67, 0x72, 0x61, 0x74, 0x69,
+	0x6f, 0x6e, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0d, 0x69, 0x6e, 0x74,
+	0x65, 0x67, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x49, 0x64, 0x12, 0x4f, 0x0a, 0x09, 0x72, 0x65,
+	0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x73, 0x18, 0x02, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x31, 0x2e,
+	0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x66, 0x61, 0x74, 0x65, 0x2e, 0x63, 0x6f, 0x6e, 0x74, 0x72,
+	0x6f, 0x6c, 0x2e, 0x69, 0x6e, 0x74, 0x65, 0x67, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x2e, 0x76,
+	0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x2e, 0x52, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65,
+	0x52, 0x09, 0x72, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x73, 0x12, 0x86, 0x01, 0x0a, 0x1d,
+	0x61, 0x77, 0x73, 0x5f, 0x65, 0x63, 0x73, 0x5f, 0x70, 0x72, 0x6f, 0x78, 0x79, 0x5f, 0x69, 0x6e,
+	0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x5f, 0x63, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x18, 0x03, 0x20,
+	0x01, 0x28, 0x0b, 0x32, 0x42, 0x2e, 0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x66, 0x61, 0x74, 0x65,
+	0x2e, 0x63, 0x6f, 0x6e, 0x74, 0x72, 0x6f, 0x6c, 0x2e, 0x69, 0x6e, 0x74, 0x65, 0x67, 0x72, 0x61,
+	0x74, 0x69, 0x6f, 0x6e, 0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x2e, 0x41, 0x57,
+	0x53, 0x45, 0x43, 0x53, 0x50, 0x72, 0x6f, 0x78, 0x79, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63,
+	0x65, 0x43, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x48, 0x00, 0x52, 0x19, 0x61, 0x77, 0x73, 0x45, 0x63,
+	0x73, 0x50, 0x72, 0x6f, 0x78, 0x79, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x43, 0x6f,
+	0x6e, 0x66, 0x69, 0x67, 0x42, 0x11, 0x0a, 0x0f, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65,
+	0x5f, 0x63, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x22, 0x1f, 0x0a, 0x1d, 0x52, 0x65, 0x67, 0x69, 0x73,
+	0x74, 0x65, 0x72, 0x50, 0x72, 0x6f, 0x78, 0x79, 0x52, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65,
+	0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x46, 0x0a, 0x1d, 0x44, 0x65, 0x73, 0x63,
+	0x72, 0x69, 0x62, 0x65, 0x50, 0x72, 0x6f, 0x78, 0x79, 0x52, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63,
+	0x65, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x25, 0x0a, 0x0e, 0x69, 0x6e, 0x74,
+	0x65, 0x67, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28,
+	0x09, 0x52, 0x0d, 0x69, 0x6e, 0x74, 0x65, 0x67, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x49, 0x64,
+	0x22, 0x8d, 0x02, 0x0a, 0x1e, 0x44, 0x65, 0x73, 0x63, 0x72, 0x69, 0x62, 0x65, 0x50, 0x72, 0x6f,
+	0x78, 0x79, 0x52, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f,
+	0x6e, 0x73, 0x65, 0x12, 0x4f, 0x0a, 0x09, 0x72, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x73,
+	0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x31, 0x2e, 0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x66,
 	0x61, 0x74, 0x65, 0x2e, 0x63, 0x6f, 0x6e, 0x74, 0x72, 0x6f, 0x6c, 0x2e, 0x69, 0x6e, 0x74, 0x65,
 	0x67, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31,
-	0x2e, 0x41, 0x57, 0x53, 0x45, 0x43, 0x53, 0x50, 0x72, 0x6f, 0x78, 0x79, 0x49, 0x6e, 0x73, 0x74,
-	0x61, 0x6e, 0x63, 0x65, 0x43, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x48, 0x00, 0x52, 0x19, 0x61, 0x77,
-	0x73, 0x45, 0x63, 0x73, 0x50, 0x72, 0x6f, 0x78, 0x79, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63,
-	0x65, 0x43, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x42, 0x11, 0x0a, 0x0f, 0x69, 0x6e, 0x73, 0x74, 0x61,
-	0x6e, 0x63, 0x65, 0x5f, 0x63, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x22, 0x17, 0x0a, 0x15, 0x52, 0x65,
-	0x67, 0x69, 0x73, 0x74, 0x65, 0x72, 0x50, 0x72, 0x6f, 0x78, 0x79, 0x52, 0x65, 0x73, 0x70, 0x6f,
-	0x6e, 0x73, 0x65, 0x22, 0x7b, 0x0a, 0x08, 0x52, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x12,
-	0x63, 0x0a, 0x10, 0x61, 0x77, 0x73, 0x5f, 0x72, 0x64, 0x73, 0x5f, 0x64, 0x61, 0x74, 0x61, 0x62,
-	0x61, 0x73, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x37, 0x2e, 0x63, 0x6f, 0x6d, 0x6d,
-	0x6f, 0x6e, 0x66, 0x61, 0x74, 0x65, 0x2e, 0x63, 0x6f, 0x6e, 0x74, 0x72, 0x6f, 0x6c, 0x2e, 0x69,
-	0x6e, 0x74, 0x65, 0x67, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70,
-	0x68, 0x61, 0x31, 0x2e, 0x41, 0x57, 0x53, 0x52, 0x44, 0x53, 0x44, 0x61, 0x74, 0x61, 0x62, 0x61,
-	0x73, 0x65, 0x48, 0x00, 0x52, 0x0e, 0x61, 0x77, 0x73, 0x52, 0x64, 0x73, 0x44, 0x61, 0x74, 0x61,
-	0x62, 0x61, 0x73, 0x65, 0x42, 0x0a, 0x0a, 0x08, 0x72, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65,
+	0x2e, 0x52, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x52, 0x09, 0x72, 0x65, 0x73, 0x6f, 0x75,
+	0x72, 0x63, 0x65, 0x73, 0x12, 0x86, 0x01, 0x0a, 0x1d, 0x61, 0x77, 0x73, 0x5f, 0x65, 0x63, 0x73,
+	0x5f, 0x70, 0x72, 0x6f, 0x78, 0x79, 0x5f, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x5f,
+	0x63, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x42, 0x2e, 0x63,
+	0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x66, 0x61, 0x74, 0x65, 0x2e, 0x63, 0x6f, 0x6e, 0x74, 0x72, 0x6f,
+	0x6c, 0x2e, 0x69, 0x6e, 0x74, 0x65, 0x67, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x2e, 0x76, 0x31,
+	0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x2e, 0x41, 0x57, 0x53, 0x45, 0x43, 0x53, 0x50, 0x72, 0x6f,
+	0x78, 0x79, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x43, 0x6f, 0x6e, 0x66, 0x69, 0x67,
+	0x48, 0x00, 0x52, 0x19, 0x61, 0x77, 0x73, 0x45, 0x63, 0x73, 0x50, 0x72, 0x6f, 0x78, 0x79, 0x49,
+	0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x43, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x42, 0x11, 0x0a,
+	0x0f, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x5f, 0x63, 0x6f, 0x6e, 0x66, 0x69, 0x67,
 	0x22, 0x77, 0x0a, 0x18, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x49, 0x6e, 0x74, 0x65, 0x67, 0x72,
 	0x61, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x12, 0x0a, 0x04,
 	0x6e, 0x61, 0x6d, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x6e, 0x61, 0x6d, 0x65,
@@ -1285,7 +1535,7 @@ var file_commonfate_control_integration_v1alpha1_integration_proto_rawDesc = []b
 	0x53, 0x5f, 0x50, 0x45, 0x4e, 0x44, 0x49, 0x4e, 0x47, 0x5f, 0x53, 0x45, 0x54, 0x55, 0x50, 0x10,
 	0x01, 0x12, 0x12, 0x0a, 0x0e, 0x53, 0x54, 0x41, 0x54, 0x55, 0x53, 0x5f, 0x48, 0x45, 0x41, 0x4c,
 	0x54, 0x48, 0x59, 0x10, 0x02, 0x12, 0x14, 0x0a, 0x10, 0x53, 0x54, 0x41, 0x54, 0x55, 0x53, 0x5f,
-	0x55, 0x4e, 0x48, 0x45, 0x41, 0x4c, 0x54, 0x48, 0x59, 0x10, 0x03, 0x32, 0xba, 0x07, 0x0a, 0x12,
+	0x55, 0x4e, 0x48, 0x45, 0x41, 0x4c, 0x54, 0x48, 0x59, 0x10, 0x03, 0x32, 0x93, 0x0a, 0x0a, 0x12,
 	0x49, 0x6e, 0x74, 0x65, 0x67, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x53, 0x65, 0x72, 0x76, 0x69,
 	0x63, 0x65, 0x12, 0x9c, 0x01, 0x0a, 0x11, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x49, 0x6e, 0x74,
 	0x65, 0x67, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x41, 0x2e, 0x63, 0x6f, 0x6d, 0x6d, 0x6f,
@@ -1345,29 +1595,51 @@ var file_commonfate_control_integration_v1alpha1_integration_proto_rawDesc = []b
 	0x61, 0x74, 0x65, 0x2e, 0x63, 0x6f, 0x6e, 0x74, 0x72, 0x6f, 0x6c, 0x2e, 0x69, 0x6e, 0x74, 0x65,
 	0x67, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31,
 	0x2e, 0x52, 0x65, 0x67, 0x69, 0x73, 0x74, 0x65, 0x72, 0x50, 0x72, 0x6f, 0x78, 0x79, 0x52, 0x65,
-	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x42, 0xda, 0x02, 0x0a, 0x2b, 0x63, 0x6f, 0x6d,
+	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x12, 0xa8, 0x01, 0x0a, 0x15, 0x52, 0x65, 0x67,
+	0x69, 0x73, 0x74, 0x65, 0x72, 0x50, 0x72, 0x6f, 0x78, 0x79, 0x52, 0x65, 0x73, 0x6f, 0x75, 0x72,
+	0x63, 0x65, 0x12, 0x45, 0x2e, 0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x66, 0x61, 0x74, 0x65, 0x2e,
+	0x63, 0x6f, 0x6e, 0x74, 0x72, 0x6f, 0x6c, 0x2e, 0x69, 0x6e, 0x74, 0x65, 0x67, 0x72, 0x61, 0x74,
+	0x69, 0x6f, 0x6e, 0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x2e, 0x52, 0x65, 0x67,
+	0x69, 0x73, 0x74, 0x65, 0x72, 0x50, 0x72, 0x6f, 0x78, 0x79, 0x52, 0x65, 0x73, 0x6f, 0x75, 0x72,
+	0x63, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x46, 0x2e, 0x63, 0x6f, 0x6d, 0x6d,
+	0x6f, 0x6e, 0x66, 0x61, 0x74, 0x65, 0x2e, 0x63, 0x6f, 0x6e, 0x74, 0x72, 0x6f, 0x6c, 0x2e, 0x69,
+	0x6e, 0x74, 0x65, 0x67, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70,
+	0x68, 0x61, 0x31, 0x2e, 0x52, 0x65, 0x67, 0x69, 0x73, 0x74, 0x65, 0x72, 0x50, 0x72, 0x6f, 0x78,
+	0x79, 0x52, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73,
+	0x65, 0x22, 0x00, 0x12, 0xab, 0x01, 0x0a, 0x16, 0x44, 0x65, 0x73, 0x63, 0x72, 0x69, 0x62, 0x65,
+	0x50, 0x72, 0x6f, 0x78, 0x79, 0x52, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x73, 0x12, 0x46,
 	0x2e, 0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x66, 0x61, 0x74, 0x65, 0x2e, 0x63, 0x6f, 0x6e, 0x74,
 	0x72, 0x6f, 0x6c, 0x2e, 0x69, 0x6e, 0x74, 0x65, 0x67, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x2e,
-	0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x42, 0x10, 0x49, 0x6e, 0x74, 0x65, 0x67, 0x72,
-	0x61, 0x74, 0x69, 0x6f, 0x6e, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50, 0x01, 0x5a, 0x5a, 0x67, 0x69,
-	0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x2d,
-	0x66, 0x61, 0x74, 0x65, 0x2f, 0x73, 0x64, 0x6b, 0x2f, 0x67, 0x65, 0x6e, 0x2f, 0x63, 0x6f, 0x6d,
-	0x6d, 0x6f, 0x6e, 0x66, 0x61, 0x74, 0x65, 0x2f, 0x63, 0x6f, 0x6e, 0x74, 0x72, 0x6f, 0x6c, 0x2f,
-	0x69, 0x6e, 0x74, 0x65, 0x67, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x2f, 0x76, 0x31, 0x61, 0x6c,
-	0x70, 0x68, 0x61, 0x31, 0x3b, 0x69, 0x6e, 0x74, 0x65, 0x67, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e,
-	0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0xa2, 0x02, 0x03, 0x43, 0x43, 0x49, 0xaa, 0x02,
-	0x27, 0x43, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x66, 0x61, 0x74, 0x65, 0x2e, 0x43, 0x6f, 0x6e, 0x74,
-	0x72, 0x6f, 0x6c, 0x2e, 0x49, 0x6e, 0x74, 0x65, 0x67, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x2e,
-	0x56, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0xca, 0x02, 0x27, 0x43, 0x6f, 0x6d, 0x6d, 0x6f,
-	0x6e, 0x66, 0x61, 0x74, 0x65, 0x5c, 0x43, 0x6f, 0x6e, 0x74, 0x72, 0x6f, 0x6c, 0x5c, 0x49, 0x6e,
-	0x74, 0x65, 0x67, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5c, 0x56, 0x31, 0x61, 0x6c, 0x70, 0x68,
-	0x61, 0x31, 0xe2, 0x02, 0x33, 0x43, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x66, 0x61, 0x74, 0x65, 0x5c,
-	0x43, 0x6f, 0x6e, 0x74, 0x72, 0x6f, 0x6c, 0x5c, 0x49, 0x6e, 0x74, 0x65, 0x67, 0x72, 0x61, 0x74,
-	0x69, 0x6f, 0x6e, 0x5c, 0x56, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x5c, 0x47, 0x50, 0x42,
-	0x4d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0xea, 0x02, 0x2a, 0x43, 0x6f, 0x6d, 0x6d, 0x6f,
-	0x6e, 0x66, 0x61, 0x74, 0x65, 0x3a, 0x3a, 0x43, 0x6f, 0x6e, 0x74, 0x72, 0x6f, 0x6c, 0x3a, 0x3a,
-	0x49, 0x6e, 0x74, 0x65, 0x67, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x3a, 0x3a, 0x56, 0x31, 0x61,
-	0x6c, 0x70, 0x68, 0x61, 0x31, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x2e, 0x44, 0x65, 0x73, 0x63, 0x72, 0x69, 0x62,
+	0x65, 0x50, 0x72, 0x6f, 0x78, 0x79, 0x52, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x73, 0x52,
+	0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x47, 0x2e, 0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x66,
+	0x61, 0x74, 0x65, 0x2e, 0x63, 0x6f, 0x6e, 0x74, 0x72, 0x6f, 0x6c, 0x2e, 0x69, 0x6e, 0x74, 0x65,
+	0x67, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31,
+	0x2e, 0x44, 0x65, 0x73, 0x63, 0x72, 0x69, 0x62, 0x65, 0x50, 0x72, 0x6f, 0x78, 0x79, 0x52, 0x65,
+	0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22,
+	0x00, 0x42, 0xda, 0x02, 0x0a, 0x2b, 0x63, 0x6f, 0x6d, 0x2e, 0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e,
+	0x66, 0x61, 0x74, 0x65, 0x2e, 0x63, 0x6f, 0x6e, 0x74, 0x72, 0x6f, 0x6c, 0x2e, 0x69, 0x6e, 0x74,
+	0x65, 0x67, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61,
+	0x31, 0x42, 0x10, 0x49, 0x6e, 0x74, 0x65, 0x67, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x50, 0x72,
+	0x6f, 0x74, 0x6f, 0x50, 0x01, 0x5a, 0x5a, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f,
+	0x6d, 0x2f, 0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x2d, 0x66, 0x61, 0x74, 0x65, 0x2f, 0x73, 0x64,
+	0x6b, 0x2f, 0x67, 0x65, 0x6e, 0x2f, 0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x66, 0x61, 0x74, 0x65,
+	0x2f, 0x63, 0x6f, 0x6e, 0x74, 0x72, 0x6f, 0x6c, 0x2f, 0x69, 0x6e, 0x74, 0x65, 0x67, 0x72, 0x61,
+	0x74, 0x69, 0x6f, 0x6e, 0x2f, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x3b, 0x69, 0x6e,
+	0x74, 0x65, 0x67, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61,
+	0x31, 0xa2, 0x02, 0x03, 0x43, 0x43, 0x49, 0xaa, 0x02, 0x27, 0x43, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e,
+	0x66, 0x61, 0x74, 0x65, 0x2e, 0x43, 0x6f, 0x6e, 0x74, 0x72, 0x6f, 0x6c, 0x2e, 0x49, 0x6e, 0x74,
+	0x65, 0x67, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x2e, 0x56, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61,
+	0x31, 0xca, 0x02, 0x27, 0x43, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x66, 0x61, 0x74, 0x65, 0x5c, 0x43,
+	0x6f, 0x6e, 0x74, 0x72, 0x6f, 0x6c, 0x5c, 0x49, 0x6e, 0x74, 0x65, 0x67, 0x72, 0x61, 0x74, 0x69,
+	0x6f, 0x6e, 0x5c, 0x56, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0xe2, 0x02, 0x33, 0x43, 0x6f,
+	0x6d, 0x6d, 0x6f, 0x6e, 0x66, 0x61, 0x74, 0x65, 0x5c, 0x43, 0x6f, 0x6e, 0x74, 0x72, 0x6f, 0x6c,
+	0x5c, 0x49, 0x6e, 0x74, 0x65, 0x67, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5c, 0x56, 0x31, 0x61,
+	0x6c, 0x70, 0x68, 0x61, 0x31, 0x5c, 0x47, 0x50, 0x42, 0x4d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74,
+	0x61, 0xea, 0x02, 0x2a, 0x43, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x66, 0x61, 0x74, 0x65, 0x3a, 0x3a,
+	0x43, 0x6f, 0x6e, 0x74, 0x72, 0x6f, 0x6c, 0x3a, 0x3a, 0x49, 0x6e, 0x74, 0x65, 0x67, 0x72, 0x61,
+	0x74, 0x69, 0x6f, 0x6e, 0x3a, 0x3a, 0x56, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x62, 0x06,
+	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -1383,82 +1655,93 @@ func file_commonfate_control_integration_v1alpha1_integration_proto_rawDescGZIP(
 }
 
 var file_commonfate_control_integration_v1alpha1_integration_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_commonfate_control_integration_v1alpha1_integration_proto_msgTypes = make([]protoimpl.MessageInfo, 15)
+var file_commonfate_control_integration_v1alpha1_integration_proto_msgTypes = make([]protoimpl.MessageInfo, 19)
 var file_commonfate_control_integration_v1alpha1_integration_proto_goTypes = []any{
-	(Status)(0),                       // 0: commonfate.control.integration.v1alpha1.Status
-	(*ListIntegrationsRequest)(nil),   // 1: commonfate.control.integration.v1alpha1.ListIntegrationsRequest
-	(*ListIntegrationsResponse)(nil),  // 2: commonfate.control.integration.v1alpha1.ListIntegrationsResponse
-	(*RegisterProxyRequest)(nil),      // 3: commonfate.control.integration.v1alpha1.RegisterProxyRequest
-	(*RegisterProxyResponse)(nil),     // 4: commonfate.control.integration.v1alpha1.RegisterProxyResponse
-	(*Resource)(nil),                  // 5: commonfate.control.integration.v1alpha1.Resource
-	(*CreateIntegrationRequest)(nil),  // 6: commonfate.control.integration.v1alpha1.CreateIntegrationRequest
-	(*Config)(nil),                    // 7: commonfate.control.integration.v1alpha1.Config
-	(*Integration)(nil),               // 8: commonfate.control.integration.v1alpha1.Integration
-	(*CreateIntegrationResponse)(nil), // 9: commonfate.control.integration.v1alpha1.CreateIntegrationResponse
-	(*GetIntegrationRequest)(nil),     // 10: commonfate.control.integration.v1alpha1.GetIntegrationRequest
-	(*GetIntegrationResponse)(nil),    // 11: commonfate.control.integration.v1alpha1.GetIntegrationResponse
-	(*UpdateIntegrationRequest)(nil),  // 12: commonfate.control.integration.v1alpha1.UpdateIntegrationRequest
-	(*UpdateIntegrationResponse)(nil), // 13: commonfate.control.integration.v1alpha1.UpdateIntegrationResponse
-	(*DeleteIntegrationRequest)(nil),  // 14: commonfate.control.integration.v1alpha1.DeleteIntegrationRequest
-	(*DeleteIntegrationResponse)(nil), // 15: commonfate.control.integration.v1alpha1.DeleteIntegrationResponse
-	(*AWSECSProxyInstanceConfig)(nil), // 16: commonfate.control.integration.v1alpha1.AWSECSProxyInstanceConfig
-	(*AWSRDSDatabase)(nil),            // 17: commonfate.control.integration.v1alpha1.AWSRDSDatabase
-	(*GCP)(nil),                       // 18: commonfate.control.integration.v1alpha1.GCP
-	(*AWSIDC)(nil),                    // 19: commonfate.control.integration.v1alpha1.AWSIDC
-	(*Slack)(nil),                     // 20: commonfate.control.integration.v1alpha1.Slack
-	(*PagerDuty)(nil),                 // 21: commonfate.control.integration.v1alpha1.PagerDuty
-	(*OpsGenie)(nil),                  // 22: commonfate.control.integration.v1alpha1.OpsGenie
-	(*Entra)(nil),                     // 23: commonfate.control.integration.v1alpha1.Entra
-	(*Okta)(nil),                      // 24: commonfate.control.integration.v1alpha1.Okta
-	(*DataStax)(nil),                  // 25: commonfate.control.integration.v1alpha1.DataStax
-	(*Webhook)(nil),                   // 26: commonfate.control.integration.v1alpha1.Webhook
-	(*Auth0)(nil),                     // 27: commonfate.control.integration.v1alpha1.Auth0
-	(*S3LogDestination)(nil),          // 28: commonfate.control.integration.v1alpha1.S3LogDestination
-	(*AWSProxy)(nil),                  // 29: commonfate.control.integration.v1alpha1.AWSProxy
-	(*v1alpha1.Diagnostic)(nil),       // 30: commonfate.access.v1alpha1.Diagnostic
+	(Status)(0),                            // 0: commonfate.control.integration.v1alpha1.Status
+	(*ListIntegrationsRequest)(nil),        // 1: commonfate.control.integration.v1alpha1.ListIntegrationsRequest
+	(*ListIntegrationsResponse)(nil),       // 2: commonfate.control.integration.v1alpha1.ListIntegrationsResponse
+	(*RegisterProxyRequest)(nil),           // 3: commonfate.control.integration.v1alpha1.RegisterProxyRequest
+	(*RegisterProxyResponse)(nil),          // 4: commonfate.control.integration.v1alpha1.RegisterProxyResponse
+	(*Resource)(nil),                       // 5: commonfate.control.integration.v1alpha1.Resource
+	(*RegisterProxyResourceRequest)(nil),   // 6: commonfate.control.integration.v1alpha1.RegisterProxyResourceRequest
+	(*RegisterProxyResourceResponse)(nil),  // 7: commonfate.control.integration.v1alpha1.RegisterProxyResourceResponse
+	(*DescribeProxyResourcesRequest)(nil),  // 8: commonfate.control.integration.v1alpha1.DescribeProxyResourcesRequest
+	(*DescribeProxyResourcesResponse)(nil), // 9: commonfate.control.integration.v1alpha1.DescribeProxyResourcesResponse
+	(*CreateIntegrationRequest)(nil),       // 10: commonfate.control.integration.v1alpha1.CreateIntegrationRequest
+	(*Config)(nil),                         // 11: commonfate.control.integration.v1alpha1.Config
+	(*Integration)(nil),                    // 12: commonfate.control.integration.v1alpha1.Integration
+	(*CreateIntegrationResponse)(nil),      // 13: commonfate.control.integration.v1alpha1.CreateIntegrationResponse
+	(*GetIntegrationRequest)(nil),          // 14: commonfate.control.integration.v1alpha1.GetIntegrationRequest
+	(*GetIntegrationResponse)(nil),         // 15: commonfate.control.integration.v1alpha1.GetIntegrationResponse
+	(*UpdateIntegrationRequest)(nil),       // 16: commonfate.control.integration.v1alpha1.UpdateIntegrationRequest
+	(*UpdateIntegrationResponse)(nil),      // 17: commonfate.control.integration.v1alpha1.UpdateIntegrationResponse
+	(*DeleteIntegrationRequest)(nil),       // 18: commonfate.control.integration.v1alpha1.DeleteIntegrationRequest
+	(*DeleteIntegrationResponse)(nil),      // 19: commonfate.control.integration.v1alpha1.DeleteIntegrationResponse
+	(*AWSRDSDatabase)(nil),                 // 20: commonfate.control.integration.v1alpha1.AWSRDSDatabase
+	(*AWSECSProxyInstanceConfig)(nil),      // 21: commonfate.control.integration.v1alpha1.AWSECSProxyInstanceConfig
+	(*GCP)(nil),                            // 22: commonfate.control.integration.v1alpha1.GCP
+	(*AWSIDC)(nil),                         // 23: commonfate.control.integration.v1alpha1.AWSIDC
+	(*Slack)(nil),                          // 24: commonfate.control.integration.v1alpha1.Slack
+	(*PagerDuty)(nil),                      // 25: commonfate.control.integration.v1alpha1.PagerDuty
+	(*OpsGenie)(nil),                       // 26: commonfate.control.integration.v1alpha1.OpsGenie
+	(*Entra)(nil),                          // 27: commonfate.control.integration.v1alpha1.Entra
+	(*Okta)(nil),                           // 28: commonfate.control.integration.v1alpha1.Okta
+	(*DataStax)(nil),                       // 29: commonfate.control.integration.v1alpha1.DataStax
+	(*Webhook)(nil),                        // 30: commonfate.control.integration.v1alpha1.Webhook
+	(*Auth0)(nil),                          // 31: commonfate.control.integration.v1alpha1.Auth0
+	(*S3LogDestination)(nil),               // 32: commonfate.control.integration.v1alpha1.S3LogDestination
+	(*AWSProxy)(nil),                       // 33: commonfate.control.integration.v1alpha1.AWSProxy
+	(*v1alpha1.Diagnostic)(nil),            // 34: commonfate.access.v1alpha1.Diagnostic
 }
 var file_commonfate_control_integration_v1alpha1_integration_proto_depIdxs = []int32{
-	8,  // 0: commonfate.control.integration.v1alpha1.ListIntegrationsResponse.integrations:type_name -> commonfate.control.integration.v1alpha1.Integration
-	5,  // 1: commonfate.control.integration.v1alpha1.RegisterProxyRequest.resources:type_name -> commonfate.control.integration.v1alpha1.Resource
-	16, // 2: commonfate.control.integration.v1alpha1.RegisterProxyRequest.aws_ecs_proxy_instance_config:type_name -> commonfate.control.integration.v1alpha1.AWSECSProxyInstanceConfig
-	17, // 3: commonfate.control.integration.v1alpha1.Resource.aws_rds_database:type_name -> commonfate.control.integration.v1alpha1.AWSRDSDatabase
-	7,  // 4: commonfate.control.integration.v1alpha1.CreateIntegrationRequest.config:type_name -> commonfate.control.integration.v1alpha1.Config
-	18, // 5: commonfate.control.integration.v1alpha1.Config.gcp:type_name -> commonfate.control.integration.v1alpha1.GCP
-	19, // 6: commonfate.control.integration.v1alpha1.Config.aws_idc:type_name -> commonfate.control.integration.v1alpha1.AWSIDC
-	20, // 7: commonfate.control.integration.v1alpha1.Config.slack:type_name -> commonfate.control.integration.v1alpha1.Slack
-	21, // 8: commonfate.control.integration.v1alpha1.Config.pagerduty:type_name -> commonfate.control.integration.v1alpha1.PagerDuty
-	22, // 9: commonfate.control.integration.v1alpha1.Config.opsgenie:type_name -> commonfate.control.integration.v1alpha1.OpsGenie
-	23, // 10: commonfate.control.integration.v1alpha1.Config.entra:type_name -> commonfate.control.integration.v1alpha1.Entra
-	24, // 11: commonfate.control.integration.v1alpha1.Config.okta:type_name -> commonfate.control.integration.v1alpha1.Okta
-	25, // 12: commonfate.control.integration.v1alpha1.Config.datastax:type_name -> commonfate.control.integration.v1alpha1.DataStax
-	26, // 13: commonfate.control.integration.v1alpha1.Config.webhook:type_name -> commonfate.control.integration.v1alpha1.Webhook
-	27, // 14: commonfate.control.integration.v1alpha1.Config.auth0:type_name -> commonfate.control.integration.v1alpha1.Auth0
-	28, // 15: commonfate.control.integration.v1alpha1.Config.s3_log_destination:type_name -> commonfate.control.integration.v1alpha1.S3LogDestination
-	29, // 16: commonfate.control.integration.v1alpha1.Config.aws_proxy:type_name -> commonfate.control.integration.v1alpha1.AWSProxy
-	0,  // 17: commonfate.control.integration.v1alpha1.Integration.status:type_name -> commonfate.control.integration.v1alpha1.Status
-	30, // 18: commonfate.control.integration.v1alpha1.Integration.diagnostics:type_name -> commonfate.access.v1alpha1.Diagnostic
-	7,  // 19: commonfate.control.integration.v1alpha1.Integration.config:type_name -> commonfate.control.integration.v1alpha1.Config
-	8,  // 20: commonfate.control.integration.v1alpha1.CreateIntegrationResponse.integration:type_name -> commonfate.control.integration.v1alpha1.Integration
-	8,  // 21: commonfate.control.integration.v1alpha1.GetIntegrationResponse.integration:type_name -> commonfate.control.integration.v1alpha1.Integration
-	8,  // 22: commonfate.control.integration.v1alpha1.UpdateIntegrationRequest.integration:type_name -> commonfate.control.integration.v1alpha1.Integration
-	8,  // 23: commonfate.control.integration.v1alpha1.UpdateIntegrationResponse.integration:type_name -> commonfate.control.integration.v1alpha1.Integration
-	6,  // 24: commonfate.control.integration.v1alpha1.IntegrationService.CreateIntegration:input_type -> commonfate.control.integration.v1alpha1.CreateIntegrationRequest
-	12, // 25: commonfate.control.integration.v1alpha1.IntegrationService.UpdateIntegration:input_type -> commonfate.control.integration.v1alpha1.UpdateIntegrationRequest
-	10, // 26: commonfate.control.integration.v1alpha1.IntegrationService.GetIntegration:input_type -> commonfate.control.integration.v1alpha1.GetIntegrationRequest
-	14, // 27: commonfate.control.integration.v1alpha1.IntegrationService.DeleteIntegration:input_type -> commonfate.control.integration.v1alpha1.DeleteIntegrationRequest
-	1,  // 28: commonfate.control.integration.v1alpha1.IntegrationService.ListIntegrations:input_type -> commonfate.control.integration.v1alpha1.ListIntegrationsRequest
-	3,  // 29: commonfate.control.integration.v1alpha1.IntegrationService.RegisterProxy:input_type -> commonfate.control.integration.v1alpha1.RegisterProxyRequest
-	9,  // 30: commonfate.control.integration.v1alpha1.IntegrationService.CreateIntegration:output_type -> commonfate.control.integration.v1alpha1.CreateIntegrationResponse
-	13, // 31: commonfate.control.integration.v1alpha1.IntegrationService.UpdateIntegration:output_type -> commonfate.control.integration.v1alpha1.UpdateIntegrationResponse
-	11, // 32: commonfate.control.integration.v1alpha1.IntegrationService.GetIntegration:output_type -> commonfate.control.integration.v1alpha1.GetIntegrationResponse
-	15, // 33: commonfate.control.integration.v1alpha1.IntegrationService.DeleteIntegration:output_type -> commonfate.control.integration.v1alpha1.DeleteIntegrationResponse
-	2,  // 34: commonfate.control.integration.v1alpha1.IntegrationService.ListIntegrations:output_type -> commonfate.control.integration.v1alpha1.ListIntegrationsResponse
-	4,  // 35: commonfate.control.integration.v1alpha1.IntegrationService.RegisterProxy:output_type -> commonfate.control.integration.v1alpha1.RegisterProxyResponse
-	30, // [30:36] is the sub-list for method output_type
-	24, // [24:30] is the sub-list for method input_type
-	24, // [24:24] is the sub-list for extension type_name
-	24, // [24:24] is the sub-list for extension extendee
-	0,  // [0:24] is the sub-list for field type_name
+	12, // 0: commonfate.control.integration.v1alpha1.ListIntegrationsResponse.integrations:type_name -> commonfate.control.integration.v1alpha1.Integration
+	5,  // 1: commonfate.control.integration.v1alpha1.RegisterProxyRequest.resource:type_name -> commonfate.control.integration.v1alpha1.Resource
+	20, // 2: commonfate.control.integration.v1alpha1.Resource.aws_rds_database:type_name -> commonfate.control.integration.v1alpha1.AWSRDSDatabase
+	5,  // 3: commonfate.control.integration.v1alpha1.RegisterProxyResourceRequest.resources:type_name -> commonfate.control.integration.v1alpha1.Resource
+	21, // 4: commonfate.control.integration.v1alpha1.RegisterProxyResourceRequest.aws_ecs_proxy_instance_config:type_name -> commonfate.control.integration.v1alpha1.AWSECSProxyInstanceConfig
+	5,  // 5: commonfate.control.integration.v1alpha1.DescribeProxyResourcesResponse.resources:type_name -> commonfate.control.integration.v1alpha1.Resource
+	21, // 6: commonfate.control.integration.v1alpha1.DescribeProxyResourcesResponse.aws_ecs_proxy_instance_config:type_name -> commonfate.control.integration.v1alpha1.AWSECSProxyInstanceConfig
+	11, // 7: commonfate.control.integration.v1alpha1.CreateIntegrationRequest.config:type_name -> commonfate.control.integration.v1alpha1.Config
+	22, // 8: commonfate.control.integration.v1alpha1.Config.gcp:type_name -> commonfate.control.integration.v1alpha1.GCP
+	23, // 9: commonfate.control.integration.v1alpha1.Config.aws_idc:type_name -> commonfate.control.integration.v1alpha1.AWSIDC
+	24, // 10: commonfate.control.integration.v1alpha1.Config.slack:type_name -> commonfate.control.integration.v1alpha1.Slack
+	25, // 11: commonfate.control.integration.v1alpha1.Config.pagerduty:type_name -> commonfate.control.integration.v1alpha1.PagerDuty
+	26, // 12: commonfate.control.integration.v1alpha1.Config.opsgenie:type_name -> commonfate.control.integration.v1alpha1.OpsGenie
+	27, // 13: commonfate.control.integration.v1alpha1.Config.entra:type_name -> commonfate.control.integration.v1alpha1.Entra
+	28, // 14: commonfate.control.integration.v1alpha1.Config.okta:type_name -> commonfate.control.integration.v1alpha1.Okta
+	29, // 15: commonfate.control.integration.v1alpha1.Config.datastax:type_name -> commonfate.control.integration.v1alpha1.DataStax
+	30, // 16: commonfate.control.integration.v1alpha1.Config.webhook:type_name -> commonfate.control.integration.v1alpha1.Webhook
+	31, // 17: commonfate.control.integration.v1alpha1.Config.auth0:type_name -> commonfate.control.integration.v1alpha1.Auth0
+	32, // 18: commonfate.control.integration.v1alpha1.Config.s3_log_destination:type_name -> commonfate.control.integration.v1alpha1.S3LogDestination
+	33, // 19: commonfate.control.integration.v1alpha1.Config.aws_proxy:type_name -> commonfate.control.integration.v1alpha1.AWSProxy
+	0,  // 20: commonfate.control.integration.v1alpha1.Integration.status:type_name -> commonfate.control.integration.v1alpha1.Status
+	34, // 21: commonfate.control.integration.v1alpha1.Integration.diagnostics:type_name -> commonfate.access.v1alpha1.Diagnostic
+	11, // 22: commonfate.control.integration.v1alpha1.Integration.config:type_name -> commonfate.control.integration.v1alpha1.Config
+	12, // 23: commonfate.control.integration.v1alpha1.CreateIntegrationResponse.integration:type_name -> commonfate.control.integration.v1alpha1.Integration
+	12, // 24: commonfate.control.integration.v1alpha1.GetIntegrationResponse.integration:type_name -> commonfate.control.integration.v1alpha1.Integration
+	12, // 25: commonfate.control.integration.v1alpha1.UpdateIntegrationRequest.integration:type_name -> commonfate.control.integration.v1alpha1.Integration
+	12, // 26: commonfate.control.integration.v1alpha1.UpdateIntegrationResponse.integration:type_name -> commonfate.control.integration.v1alpha1.Integration
+	10, // 27: commonfate.control.integration.v1alpha1.IntegrationService.CreateIntegration:input_type -> commonfate.control.integration.v1alpha1.CreateIntegrationRequest
+	16, // 28: commonfate.control.integration.v1alpha1.IntegrationService.UpdateIntegration:input_type -> commonfate.control.integration.v1alpha1.UpdateIntegrationRequest
+	14, // 29: commonfate.control.integration.v1alpha1.IntegrationService.GetIntegration:input_type -> commonfate.control.integration.v1alpha1.GetIntegrationRequest
+	18, // 30: commonfate.control.integration.v1alpha1.IntegrationService.DeleteIntegration:input_type -> commonfate.control.integration.v1alpha1.DeleteIntegrationRequest
+	1,  // 31: commonfate.control.integration.v1alpha1.IntegrationService.ListIntegrations:input_type -> commonfate.control.integration.v1alpha1.ListIntegrationsRequest
+	3,  // 32: commonfate.control.integration.v1alpha1.IntegrationService.RegisterProxy:input_type -> commonfate.control.integration.v1alpha1.RegisterProxyRequest
+	6,  // 33: commonfate.control.integration.v1alpha1.IntegrationService.RegisterProxyResource:input_type -> commonfate.control.integration.v1alpha1.RegisterProxyResourceRequest
+	8,  // 34: commonfate.control.integration.v1alpha1.IntegrationService.DescribeProxyResources:input_type -> commonfate.control.integration.v1alpha1.DescribeProxyResourcesRequest
+	13, // 35: commonfate.control.integration.v1alpha1.IntegrationService.CreateIntegration:output_type -> commonfate.control.integration.v1alpha1.CreateIntegrationResponse
+	17, // 36: commonfate.control.integration.v1alpha1.IntegrationService.UpdateIntegration:output_type -> commonfate.control.integration.v1alpha1.UpdateIntegrationResponse
+	15, // 37: commonfate.control.integration.v1alpha1.IntegrationService.GetIntegration:output_type -> commonfate.control.integration.v1alpha1.GetIntegrationResponse
+	19, // 38: commonfate.control.integration.v1alpha1.IntegrationService.DeleteIntegration:output_type -> commonfate.control.integration.v1alpha1.DeleteIntegrationResponse
+	2,  // 39: commonfate.control.integration.v1alpha1.IntegrationService.ListIntegrations:output_type -> commonfate.control.integration.v1alpha1.ListIntegrationsResponse
+	4,  // 40: commonfate.control.integration.v1alpha1.IntegrationService.RegisterProxy:output_type -> commonfate.control.integration.v1alpha1.RegisterProxyResponse
+	7,  // 41: commonfate.control.integration.v1alpha1.IntegrationService.RegisterProxyResource:output_type -> commonfate.control.integration.v1alpha1.RegisterProxyResourceResponse
+	9,  // 42: commonfate.control.integration.v1alpha1.IntegrationService.DescribeProxyResources:output_type -> commonfate.control.integration.v1alpha1.DescribeProxyResourcesResponse
+	35, // [35:43] is the sub-list for method output_type
+	27, // [27:35] is the sub-list for method input_type
+	27, // [27:27] is the sub-list for extension type_name
+	27, // [27:27] is the sub-list for extension extendee
+	0,  // [0:27] is the sub-list for field type_name
 }
 
 func init() { file_commonfate_control_integration_v1alpha1_integration_proto_init() }
@@ -1540,7 +1823,7 @@ func file_commonfate_control_integration_v1alpha1_integration_proto_init() {
 			}
 		}
 		file_commonfate_control_integration_v1alpha1_integration_proto_msgTypes[5].Exporter = func(v any, i int) any {
-			switch v := v.(*CreateIntegrationRequest); i {
+			switch v := v.(*RegisterProxyResourceRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1552,7 +1835,7 @@ func file_commonfate_control_integration_v1alpha1_integration_proto_init() {
 			}
 		}
 		file_commonfate_control_integration_v1alpha1_integration_proto_msgTypes[6].Exporter = func(v any, i int) any {
-			switch v := v.(*Config); i {
+			switch v := v.(*RegisterProxyResourceResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1564,7 +1847,7 @@ func file_commonfate_control_integration_v1alpha1_integration_proto_init() {
 			}
 		}
 		file_commonfate_control_integration_v1alpha1_integration_proto_msgTypes[7].Exporter = func(v any, i int) any {
-			switch v := v.(*Integration); i {
+			switch v := v.(*DescribeProxyResourcesRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1576,7 +1859,7 @@ func file_commonfate_control_integration_v1alpha1_integration_proto_init() {
 			}
 		}
 		file_commonfate_control_integration_v1alpha1_integration_proto_msgTypes[8].Exporter = func(v any, i int) any {
-			switch v := v.(*CreateIntegrationResponse); i {
+			switch v := v.(*DescribeProxyResourcesResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1588,7 +1871,7 @@ func file_commonfate_control_integration_v1alpha1_integration_proto_init() {
 			}
 		}
 		file_commonfate_control_integration_v1alpha1_integration_proto_msgTypes[9].Exporter = func(v any, i int) any {
-			switch v := v.(*GetIntegrationRequest); i {
+			switch v := v.(*CreateIntegrationRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1600,7 +1883,7 @@ func file_commonfate_control_integration_v1alpha1_integration_proto_init() {
 			}
 		}
 		file_commonfate_control_integration_v1alpha1_integration_proto_msgTypes[10].Exporter = func(v any, i int) any {
-			switch v := v.(*GetIntegrationResponse); i {
+			switch v := v.(*Config); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1612,7 +1895,7 @@ func file_commonfate_control_integration_v1alpha1_integration_proto_init() {
 			}
 		}
 		file_commonfate_control_integration_v1alpha1_integration_proto_msgTypes[11].Exporter = func(v any, i int) any {
-			switch v := v.(*UpdateIntegrationRequest); i {
+			switch v := v.(*Integration); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1624,7 +1907,7 @@ func file_commonfate_control_integration_v1alpha1_integration_proto_init() {
 			}
 		}
 		file_commonfate_control_integration_v1alpha1_integration_proto_msgTypes[12].Exporter = func(v any, i int) any {
-			switch v := v.(*UpdateIntegrationResponse); i {
+			switch v := v.(*CreateIntegrationResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1636,7 +1919,7 @@ func file_commonfate_control_integration_v1alpha1_integration_proto_init() {
 			}
 		}
 		file_commonfate_control_integration_v1alpha1_integration_proto_msgTypes[13].Exporter = func(v any, i int) any {
-			switch v := v.(*DeleteIntegrationRequest); i {
+			switch v := v.(*GetIntegrationRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1648,6 +1931,54 @@ func file_commonfate_control_integration_v1alpha1_integration_proto_init() {
 			}
 		}
 		file_commonfate_control_integration_v1alpha1_integration_proto_msgTypes[14].Exporter = func(v any, i int) any {
+			switch v := v.(*GetIntegrationResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_commonfate_control_integration_v1alpha1_integration_proto_msgTypes[15].Exporter = func(v any, i int) any {
+			switch v := v.(*UpdateIntegrationRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_commonfate_control_integration_v1alpha1_integration_proto_msgTypes[16].Exporter = func(v any, i int) any {
+			switch v := v.(*UpdateIntegrationResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_commonfate_control_integration_v1alpha1_integration_proto_msgTypes[17].Exporter = func(v any, i int) any {
+			switch v := v.(*DeleteIntegrationRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_commonfate_control_integration_v1alpha1_integration_proto_msgTypes[18].Exporter = func(v any, i int) any {
 			switch v := v.(*DeleteIntegrationResponse); i {
 			case 0:
 				return &v.state
@@ -1660,13 +1991,16 @@ func file_commonfate_control_integration_v1alpha1_integration_proto_init() {
 			}
 		}
 	}
-	file_commonfate_control_integration_v1alpha1_integration_proto_msgTypes[2].OneofWrappers = []any{
-		(*RegisterProxyRequest_AwsEcsProxyInstanceConfig)(nil),
-	}
 	file_commonfate_control_integration_v1alpha1_integration_proto_msgTypes[4].OneofWrappers = []any{
 		(*Resource_AwsRdsDatabase)(nil),
 	}
-	file_commonfate_control_integration_v1alpha1_integration_proto_msgTypes[6].OneofWrappers = []any{
+	file_commonfate_control_integration_v1alpha1_integration_proto_msgTypes[5].OneofWrappers = []any{
+		(*RegisterProxyResourceRequest_AwsEcsProxyInstanceConfig)(nil),
+	}
+	file_commonfate_control_integration_v1alpha1_integration_proto_msgTypes[8].OneofWrappers = []any{
+		(*DescribeProxyResourcesResponse_AwsEcsProxyInstanceConfig)(nil),
+	}
+	file_commonfate_control_integration_v1alpha1_integration_proto_msgTypes[10].OneofWrappers = []any{
 		(*Config_Gcp)(nil),
 		(*Config_AwsIdc)(nil),
 		(*Config_Slack)(nil),
@@ -1686,7 +2020,7 @@ func file_commonfate_control_integration_v1alpha1_integration_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_commonfate_control_integration_v1alpha1_integration_proto_rawDesc,
 			NumEnums:      1,
-			NumMessages:   15,
+			NumMessages:   19,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

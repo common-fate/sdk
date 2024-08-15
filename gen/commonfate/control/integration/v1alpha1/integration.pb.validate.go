@@ -301,84 +301,33 @@ func (m *RegisterProxyRequest) validate(all bool) error {
 
 	// no validation rules for IntegrationId
 
-	for idx, item := range m.GetResources() {
-		_, _ = idx, item
-
-		if all {
-			switch v := interface{}(item).(type) {
-			case interface{ ValidateAll() error }:
-				if err := v.ValidateAll(); err != nil {
-					errors = append(errors, RegisterProxyRequestValidationError{
-						field:  fmt.Sprintf("Resources[%v]", idx),
-						reason: "embedded message failed validation",
-						cause:  err,
-					})
-				}
-			case interface{ Validate() error }:
-				if err := v.Validate(); err != nil {
-					errors = append(errors, RegisterProxyRequestValidationError{
-						field:  fmt.Sprintf("Resources[%v]", idx),
-						reason: "embedded message failed validation",
-						cause:  err,
-					})
-				}
-			}
-		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
-			if err := v.Validate(); err != nil {
-				return RegisterProxyRequestValidationError{
-					field:  fmt.Sprintf("Resources[%v]", idx),
+	if all {
+		switch v := interface{}(m.GetResource()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, RegisterProxyRequestValidationError{
+					field:  "Resource",
 					reason: "embedded message failed validation",
 					cause:  err,
-				}
+				})
 			}
-		}
-
-	}
-
-	switch v := m.InstanceConfig.(type) {
-	case *RegisterProxyRequest_AwsEcsProxyInstanceConfig:
-		if v == nil {
-			err := RegisterProxyRequestValidationError{
-				field:  "InstanceConfig",
-				reason: "oneof value cannot be a typed-nil",
-			}
-			if !all {
-				return err
-			}
-			errors = append(errors, err)
-		}
-
-		if all {
-			switch v := interface{}(m.GetAwsEcsProxyInstanceConfig()).(type) {
-			case interface{ ValidateAll() error }:
-				if err := v.ValidateAll(); err != nil {
-					errors = append(errors, RegisterProxyRequestValidationError{
-						field:  "AwsEcsProxyInstanceConfig",
-						reason: "embedded message failed validation",
-						cause:  err,
-					})
-				}
-			case interface{ Validate() error }:
-				if err := v.Validate(); err != nil {
-					errors = append(errors, RegisterProxyRequestValidationError{
-						field:  "AwsEcsProxyInstanceConfig",
-						reason: "embedded message failed validation",
-						cause:  err,
-					})
-				}
-			}
-		} else if v, ok := interface{}(m.GetAwsEcsProxyInstanceConfig()).(interface{ Validate() error }); ok {
+		case interface{ Validate() error }:
 			if err := v.Validate(); err != nil {
-				return RegisterProxyRequestValidationError{
-					field:  "AwsEcsProxyInstanceConfig",
+				errors = append(errors, RegisterProxyRequestValidationError{
+					field:  "Resource",
 					reason: "embedded message failed validation",
 					cause:  err,
-				}
+				})
 			}
 		}
-
-	default:
-		_ = v // ensures v is used
+	} else if v, ok := interface{}(m.GetResource()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return RegisterProxyRequestValidationError{
+				field:  "Resource",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
 	}
 
 	if len(errors) > 0 {
@@ -707,6 +656,582 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = ResourceValidationError{}
+
+// Validate checks the field values on RegisterProxyResourceRequest with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *RegisterProxyResourceRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on RegisterProxyResourceRequest with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// RegisterProxyResourceRequestMultiError, or nil if none found.
+func (m *RegisterProxyResourceRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *RegisterProxyResourceRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for IntegrationId
+
+	for idx, item := range m.GetResources() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, RegisterProxyResourceRequestValidationError{
+						field:  fmt.Sprintf("Resources[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, RegisterProxyResourceRequestValidationError{
+						field:  fmt.Sprintf("Resources[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return RegisterProxyResourceRequestValidationError{
+					field:  fmt.Sprintf("Resources[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	switch v := m.InstanceConfig.(type) {
+	case *RegisterProxyResourceRequest_AwsEcsProxyInstanceConfig:
+		if v == nil {
+			err := RegisterProxyResourceRequestValidationError{
+				field:  "InstanceConfig",
+				reason: "oneof value cannot be a typed-nil",
+			}
+			if !all {
+				return err
+			}
+			errors = append(errors, err)
+		}
+
+		if all {
+			switch v := interface{}(m.GetAwsEcsProxyInstanceConfig()).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, RegisterProxyResourceRequestValidationError{
+						field:  "AwsEcsProxyInstanceConfig",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, RegisterProxyResourceRequestValidationError{
+						field:  "AwsEcsProxyInstanceConfig",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(m.GetAwsEcsProxyInstanceConfig()).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return RegisterProxyResourceRequestValidationError{
+					field:  "AwsEcsProxyInstanceConfig",
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	default:
+		_ = v // ensures v is used
+	}
+
+	if len(errors) > 0 {
+		return RegisterProxyResourceRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// RegisterProxyResourceRequestMultiError is an error wrapping multiple
+// validation errors returned by RegisterProxyResourceRequest.ValidateAll() if
+// the designated constraints aren't met.
+type RegisterProxyResourceRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m RegisterProxyResourceRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m RegisterProxyResourceRequestMultiError) AllErrors() []error { return m }
+
+// RegisterProxyResourceRequestValidationError is the validation error returned
+// by RegisterProxyResourceRequest.Validate if the designated constraints
+// aren't met.
+type RegisterProxyResourceRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e RegisterProxyResourceRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e RegisterProxyResourceRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e RegisterProxyResourceRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e RegisterProxyResourceRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e RegisterProxyResourceRequestValidationError) ErrorName() string {
+	return "RegisterProxyResourceRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e RegisterProxyResourceRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sRegisterProxyResourceRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = RegisterProxyResourceRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = RegisterProxyResourceRequestValidationError{}
+
+// Validate checks the field values on RegisterProxyResourceResponse with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *RegisterProxyResourceResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on RegisterProxyResourceResponse with
+// the rules defined in the proto definition for this message. If any rules
+// are violated, the result is a list of violation errors wrapped in
+// RegisterProxyResourceResponseMultiError, or nil if none found.
+func (m *RegisterProxyResourceResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *RegisterProxyResourceResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if len(errors) > 0 {
+		return RegisterProxyResourceResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// RegisterProxyResourceResponseMultiError is an error wrapping multiple
+// validation errors returned by RegisterProxyResourceResponse.ValidateAll()
+// if the designated constraints aren't met.
+type RegisterProxyResourceResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m RegisterProxyResourceResponseMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m RegisterProxyResourceResponseMultiError) AllErrors() []error { return m }
+
+// RegisterProxyResourceResponseValidationError is the validation error
+// returned by RegisterProxyResourceResponse.Validate if the designated
+// constraints aren't met.
+type RegisterProxyResourceResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e RegisterProxyResourceResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e RegisterProxyResourceResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e RegisterProxyResourceResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e RegisterProxyResourceResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e RegisterProxyResourceResponseValidationError) ErrorName() string {
+	return "RegisterProxyResourceResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e RegisterProxyResourceResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sRegisterProxyResourceResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = RegisterProxyResourceResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = RegisterProxyResourceResponseValidationError{}
+
+// Validate checks the field values on DescribeProxyResourcesRequest with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *DescribeProxyResourcesRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on DescribeProxyResourcesRequest with
+// the rules defined in the proto definition for this message. If any rules
+// are violated, the result is a list of violation errors wrapped in
+// DescribeProxyResourcesRequestMultiError, or nil if none found.
+func (m *DescribeProxyResourcesRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *DescribeProxyResourcesRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for IntegrationId
+
+	if len(errors) > 0 {
+		return DescribeProxyResourcesRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// DescribeProxyResourcesRequestMultiError is an error wrapping multiple
+// validation errors returned by DescribeProxyResourcesRequest.ValidateAll()
+// if the designated constraints aren't met.
+type DescribeProxyResourcesRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m DescribeProxyResourcesRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m DescribeProxyResourcesRequestMultiError) AllErrors() []error { return m }
+
+// DescribeProxyResourcesRequestValidationError is the validation error
+// returned by DescribeProxyResourcesRequest.Validate if the designated
+// constraints aren't met.
+type DescribeProxyResourcesRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e DescribeProxyResourcesRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e DescribeProxyResourcesRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e DescribeProxyResourcesRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e DescribeProxyResourcesRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e DescribeProxyResourcesRequestValidationError) ErrorName() string {
+	return "DescribeProxyResourcesRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e DescribeProxyResourcesRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sDescribeProxyResourcesRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = DescribeProxyResourcesRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = DescribeProxyResourcesRequestValidationError{}
+
+// Validate checks the field values on DescribeProxyResourcesResponse with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *DescribeProxyResourcesResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on DescribeProxyResourcesResponse with
+// the rules defined in the proto definition for this message. If any rules
+// are violated, the result is a list of violation errors wrapped in
+// DescribeProxyResourcesResponseMultiError, or nil if none found.
+func (m *DescribeProxyResourcesResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *DescribeProxyResourcesResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	for idx, item := range m.GetResources() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, DescribeProxyResourcesResponseValidationError{
+						field:  fmt.Sprintf("Resources[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, DescribeProxyResourcesResponseValidationError{
+						field:  fmt.Sprintf("Resources[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return DescribeProxyResourcesResponseValidationError{
+					field:  fmt.Sprintf("Resources[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	switch v := m.InstanceConfig.(type) {
+	case *DescribeProxyResourcesResponse_AwsEcsProxyInstanceConfig:
+		if v == nil {
+			err := DescribeProxyResourcesResponseValidationError{
+				field:  "InstanceConfig",
+				reason: "oneof value cannot be a typed-nil",
+			}
+			if !all {
+				return err
+			}
+			errors = append(errors, err)
+		}
+
+		if all {
+			switch v := interface{}(m.GetAwsEcsProxyInstanceConfig()).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, DescribeProxyResourcesResponseValidationError{
+						field:  "AwsEcsProxyInstanceConfig",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, DescribeProxyResourcesResponseValidationError{
+						field:  "AwsEcsProxyInstanceConfig",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(m.GetAwsEcsProxyInstanceConfig()).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return DescribeProxyResourcesResponseValidationError{
+					field:  "AwsEcsProxyInstanceConfig",
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	default:
+		_ = v // ensures v is used
+	}
+
+	if len(errors) > 0 {
+		return DescribeProxyResourcesResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// DescribeProxyResourcesResponseMultiError is an error wrapping multiple
+// validation errors returned by DescribeProxyResourcesResponse.ValidateAll()
+// if the designated constraints aren't met.
+type DescribeProxyResourcesResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m DescribeProxyResourcesResponseMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m DescribeProxyResourcesResponseMultiError) AllErrors() []error { return m }
+
+// DescribeProxyResourcesResponseValidationError is the validation error
+// returned by DescribeProxyResourcesResponse.Validate if the designated
+// constraints aren't met.
+type DescribeProxyResourcesResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e DescribeProxyResourcesResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e DescribeProxyResourcesResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e DescribeProxyResourcesResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e DescribeProxyResourcesResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e DescribeProxyResourcesResponseValidationError) ErrorName() string {
+	return "DescribeProxyResourcesResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e DescribeProxyResourcesResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sDescribeProxyResourcesResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = DescribeProxyResourcesResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = DescribeProxyResourcesResponseValidationError{}
 
 // Validate checks the field values on CreateIntegrationRequest with the rules
 // defined in the proto definition for this message. If any rules are

@@ -27,6 +27,8 @@ service IntegrationService {
   // RegisterProxy is used by the proxy integration to self register
   // This operation will create new resources, update existing resources and delete orphaned resources.
   rpc RegisterProxy(RegisterProxyRequest) returns (RegisterProxyResponse) {}
+  rpc RegisterProxyResource(RegisterProxyResourceRequest) returns (RegisterProxyResourceResponse) {}
+  rpc DescribeProxyResources(DescribeProxyResourcesRequest) returns (DescribeProxyResourcesResponse) {}
 }
 
 message ListIntegrationsRequest {
@@ -41,10 +43,7 @@ message ListIntegrationsResponse {
 
 message RegisterProxyRequest {
   string integration_id = 1;
-  repeated Resource resources = 2;
-  oneof instance_config {
-    AWSECSProxyInstanceConfig aws_ecs_proxy_instance_config = 3;
-  }
+  Resource resource = 2;
 }
 
 message RegisterProxyResponse {}
@@ -54,6 +53,30 @@ message Resource {
     AWSRDSDatabase aws_rds_database = 1;
   }
 }
+
+
+message RegisterProxyResourceRequest {
+  string integration_id = 1;
+  repeated Resource resources = 2;
+  oneof instance_config {
+    AWSECSProxyInstanceConfig aws_ecs_proxy_instance_config = 3;
+  }
+}
+
+message RegisterProxyResourceResponse {}
+
+message DescribeProxyResourcesRequest {
+  string integration_id = 1;
+  
+}
+
+message DescribeProxyResourcesResponse {
+  repeated Resource resources = 1;
+  oneof instance_config {
+    AWSECSProxyInstanceConfig aws_ecs_proxy_instance_config = 2;
+  }
+}
+
 message CreateIntegrationRequest {
   string name = 1;
   Config config = 2;
