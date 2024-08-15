@@ -27,7 +27,6 @@ service IntegrationService {
   // RegisterProxy is used by the proxy integration to self register
   // This operation will create new resources, update existing resources and delete orphaned resources.
   rpc RegisterProxy(RegisterProxyRequest) returns (RegisterProxyResponse) {}
-  rpc RegisterProxyResource(RegisterProxyRequest) returns (RegisterProxyResponse) {}
 }
 
 message ListIntegrationsRequest {

@@ -51,21 +51,17 @@ const (
 	// IntegrationServiceRegisterProxyProcedure is the fully-qualified name of the IntegrationService's
 	// RegisterProxy RPC.
 	IntegrationServiceRegisterProxyProcedure = "/commonfate.control.integration.v1alpha1.IntegrationService/RegisterProxy"
-	// IntegrationServiceRegisterProxyResourceProcedure is the fully-qualified name of the
-	// IntegrationService's RegisterProxyResource RPC.
-	IntegrationServiceRegisterProxyResourceProcedure = "/commonfate.control.integration.v1alpha1.IntegrationService/RegisterProxyResource"
 )
 
 // These variables are the protoreflect.Descriptor objects for the RPCs defined in this package.
 var (
-	integrationServiceServiceDescriptor                     = v1alpha1.File_commonfate_control_integration_v1alpha1_integration_proto.Services().ByName("IntegrationService")
-	integrationServiceCreateIntegrationMethodDescriptor     = integrationServiceServiceDescriptor.Methods().ByName("CreateIntegration")
-	integrationServiceUpdateIntegrationMethodDescriptor     = integrationServiceServiceDescriptor.Methods().ByName("UpdateIntegration")
-	integrationServiceGetIntegrationMethodDescriptor        = integrationServiceServiceDescriptor.Methods().ByName("GetIntegration")
-	integrationServiceDeleteIntegrationMethodDescriptor     = integrationServiceServiceDescriptor.Methods().ByName("DeleteIntegration")
-	integrationServiceListIntegrationsMethodDescriptor      = integrationServiceServiceDescriptor.Methods().ByName("ListIntegrations")
-	integrationServiceRegisterProxyMethodDescriptor         = integrationServiceServiceDescriptor.Methods().ByName("RegisterProxy")
-	integrationServiceRegisterProxyResourceMethodDescriptor = integrationServiceServiceDescriptor.Methods().ByName("RegisterProxyResource")
+	integrationServiceServiceDescriptor                 = v1alpha1.File_commonfate_control_integration_v1alpha1_integration_proto.Services().ByName("IntegrationService")
+	integrationServiceCreateIntegrationMethodDescriptor = integrationServiceServiceDescriptor.Methods().ByName("CreateIntegration")
+	integrationServiceUpdateIntegrationMethodDescriptor = integrationServiceServiceDescriptor.Methods().ByName("UpdateIntegration")
+	integrationServiceGetIntegrationMethodDescriptor    = integrationServiceServiceDescriptor.Methods().ByName("GetIntegration")
+	integrationServiceDeleteIntegrationMethodDescriptor = integrationServiceServiceDescriptor.Methods().ByName("DeleteIntegration")
+	integrationServiceListIntegrationsMethodDescriptor  = integrationServiceServiceDescriptor.Methods().ByName("ListIntegrations")
+	integrationServiceRegisterProxyMethodDescriptor     = integrationServiceServiceDescriptor.Methods().ByName("RegisterProxy")
 )
 
 // IntegrationServiceClient is a client for the
@@ -79,7 +75,6 @@ type IntegrationServiceClient interface {
 	// RegisterProxy is used by the proxy integration to self register
 	// This operation will create new resources, update existing resources and delete orphaned resources.
 	RegisterProxy(context.Context, *connect.Request[v1alpha1.RegisterProxyRequest]) (*connect.Response[v1alpha1.RegisterProxyResponse], error)
-	RegisterProxyResource(context.Context, *connect.Request[v1alpha1.RegisterProxyRequest]) (*connect.Response[v1alpha1.RegisterProxyResponse], error)
 }
 
 // NewIntegrationServiceClient constructs a client for the
@@ -129,24 +124,17 @@ func NewIntegrationServiceClient(httpClient connect.HTTPClient, baseURL string, 
 			connect.WithSchema(integrationServiceRegisterProxyMethodDescriptor),
 			connect.WithClientOptions(opts...),
 		),
-		registerProxyResource: connect.NewClient[v1alpha1.RegisterProxyRequest, v1alpha1.RegisterProxyResponse](
-			httpClient,
-			baseURL+IntegrationServiceRegisterProxyResourceProcedure,
-			connect.WithSchema(integrationServiceRegisterProxyResourceMethodDescriptor),
-			connect.WithClientOptions(opts...),
-		),
 	}
 }
 
 // integrationServiceClient implements IntegrationServiceClient.
 type integrationServiceClient struct {
-	createIntegration     *connect.Client[v1alpha1.CreateIntegrationRequest, v1alpha1.CreateIntegrationResponse]
-	updateIntegration     *connect.Client[v1alpha1.UpdateIntegrationRequest, v1alpha1.UpdateIntegrationResponse]
-	getIntegration        *connect.Client[v1alpha1.GetIntegrationRequest, v1alpha1.GetIntegrationResponse]
-	deleteIntegration     *connect.Client[v1alpha1.DeleteIntegrationRequest, v1alpha1.DeleteIntegrationResponse]
-	listIntegrations      *connect.Client[v1alpha1.ListIntegrationsRequest, v1alpha1.ListIntegrationsResponse]
-	registerProxy         *connect.Client[v1alpha1.RegisterProxyRequest, v1alpha1.RegisterProxyResponse]
-	registerProxyResource *connect.Client[v1alpha1.RegisterProxyRequest, v1alpha1.RegisterProxyResponse]
+	createIntegration *connect.Client[v1alpha1.CreateIntegrationRequest, v1alpha1.CreateIntegrationResponse]
+	updateIntegration *connect.Client[v1alpha1.UpdateIntegrationRequest, v1alpha1.UpdateIntegrationResponse]
+	getIntegration    *connect.Client[v1alpha1.GetIntegrationRequest, v1alpha1.GetIntegrationResponse]
+	deleteIntegration *connect.Client[v1alpha1.DeleteIntegrationRequest, v1alpha1.DeleteIntegrationResponse]
+	listIntegrations  *connect.Client[v1alpha1.ListIntegrationsRequest, v1alpha1.ListIntegrationsResponse]
+	registerProxy     *connect.Client[v1alpha1.RegisterProxyRequest, v1alpha1.RegisterProxyResponse]
 }
 
 // CreateIntegration calls
@@ -183,12 +171,6 @@ func (c *integrationServiceClient) RegisterProxy(ctx context.Context, req *conne
 	return c.registerProxy.CallUnary(ctx, req)
 }
 
-// RegisterProxyResource calls
-// commonfate.control.integration.v1alpha1.IntegrationService.RegisterProxyResource.
-func (c *integrationServiceClient) RegisterProxyResource(ctx context.Context, req *connect.Request[v1alpha1.RegisterProxyRequest]) (*connect.Response[v1alpha1.RegisterProxyResponse], error) {
-	return c.registerProxyResource.CallUnary(ctx, req)
-}
-
 // IntegrationServiceHandler is an implementation of the
 // commonfate.control.integration.v1alpha1.IntegrationService service.
 type IntegrationServiceHandler interface {
@@ -200,7 +182,6 @@ type IntegrationServiceHandler interface {
 	// RegisterProxy is used by the proxy integration to self register
 	// This operation will create new resources, update existing resources and delete orphaned resources.
 	RegisterProxy(context.Context, *connect.Request[v1alpha1.RegisterProxyRequest]) (*connect.Response[v1alpha1.RegisterProxyResponse], error)
-	RegisterProxyResource(context.Context, *connect.Request[v1alpha1.RegisterProxyRequest]) (*connect.Response[v1alpha1.RegisterProxyResponse], error)
 }
 
 // NewIntegrationServiceHandler builds an HTTP handler from the service implementation. It returns
@@ -245,12 +226,6 @@ func NewIntegrationServiceHandler(svc IntegrationServiceHandler, opts ...connect
 		connect.WithSchema(integrationServiceRegisterProxyMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
-	integrationServiceRegisterProxyResourceHandler := connect.NewUnaryHandler(
-		IntegrationServiceRegisterProxyResourceProcedure,
-		svc.RegisterProxyResource,
-		connect.WithSchema(integrationServiceRegisterProxyResourceMethodDescriptor),
-		connect.WithHandlerOptions(opts...),
-	)
 	return "/commonfate.control.integration.v1alpha1.IntegrationService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
 		case IntegrationServiceCreateIntegrationProcedure:
@@ -265,8 +240,6 @@ func NewIntegrationServiceHandler(svc IntegrationServiceHandler, opts ...connect
 			integrationServiceListIntegrationsHandler.ServeHTTP(w, r)
 		case IntegrationServiceRegisterProxyProcedure:
 			integrationServiceRegisterProxyHandler.ServeHTTP(w, r)
-		case IntegrationServiceRegisterProxyResourceProcedure:
-			integrationServiceRegisterProxyResourceHandler.ServeHTTP(w, r)
 		default:
 			http.NotFound(w, r)
 		}
@@ -298,8 +271,4 @@ func (UnimplementedIntegrationServiceHandler) ListIntegrations(context.Context, 
 
 func (UnimplementedIntegrationServiceHandler) RegisterProxy(context.Context, *connect.Request[v1alpha1.RegisterProxyRequest]) (*connect.Response[v1alpha1.RegisterProxyResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.control.integration.v1alpha1.IntegrationService.RegisterProxy is not implemented"))
-}
-
-func (UnimplementedIntegrationServiceHandler) RegisterProxyResource(context.Context, *connect.Request[v1alpha1.RegisterProxyRequest]) (*connect.Response[v1alpha1.RegisterProxyResponse], error) {
-	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.control.integration.v1alpha1.IntegrationService.RegisterProxyResource is not implemented"))
 }
