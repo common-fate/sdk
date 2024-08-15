@@ -43,7 +43,7 @@ message ListIntegrationsResponse {
 
 message RegisterProxyRequest {
   string integration_id = 1;
-  Resource resource = 2;
+  repeated Resource resources = 2;
   oneof instance_config {
     AWSECSProxyInstanceConfig aws_ecs_proxy_instance_config = 3;
   }

@@ -301,33 +301,38 @@ func (m *RegisterProxyRequest) validate(all bool) error {
 
 	// no validation rules for IntegrationId
 
-	if all {
-		switch v := interface{}(m.GetResource()).(type) {
-		case interface{ ValidateAll() error }:
-			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, RegisterProxyRequestValidationError{
-					field:  "Resource",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
+	for idx, item := range m.GetResources() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, RegisterProxyRequestValidationError{
+						field:  fmt.Sprintf("Resources[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, RegisterProxyRequestValidationError{
+						field:  fmt.Sprintf("Resources[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
 			}
-		case interface{ Validate() error }:
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
 			if err := v.Validate(); err != nil {
-				errors = append(errors, RegisterProxyRequestValidationError{
-					field:  "Resource",
+				return RegisterProxyRequestValidationError{
+					field:  fmt.Sprintf("Resources[%v]", idx),
 					reason: "embedded message failed validation",
 					cause:  err,
-				})
+				}
 			}
 		}
-	} else if v, ok := interface{}(m.GetResource()).(interface{ Validate() error }); ok {
-		if err := v.Validate(); err != nil {
-			return RegisterProxyRequestValidationError{
-				field:  "Resource",
-				reason: "embedded message failed validation",
-				cause:  err,
-			}
-		}
+
 	}
 
 	switch v := m.InstanceConfig.(type) {
