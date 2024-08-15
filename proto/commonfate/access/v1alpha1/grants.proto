@@ -23,6 +23,10 @@ service GrantsService {
   rpc QueryGrantChildren(QueryGrantChildrenRequest) returns (QueryGrantChildrenResponse) {
     option (commonfate.authz.v1alpha1.read_only) = true;
   }
+
+  rpc GetGrantConnectionConfig(GetGrantConnectionConfigRequest) returns (GetGrantConnectionConfigResponse) {
+    option (commonfate.authz.v1alpha1.read_only) = true;
+  }
 }
 
 message QueryGrantsRequest {
@@ -109,4 +113,23 @@ message QueryGrantChildrenRequest {
 message QueryGrantChildrenResponse {
   repeated commonfate.entity.v1alpha1.Entity entities = 1;
   string next_page_token = 2;
+}
+
+message GetGrantConnectionConfigRequest {
+  string id = 1;
+}
+
+message EmptyConnectionConfig {}
+
+message AWSRDSConnectionConfig {
+  string ssm_session_target = 7;
+}
+
+message GetGrantConnectionConfigResponse {
+  oneof output {
+    // when a grant does not implement a connection config response
+    EmptyConnectionConfig empty = 1;
+    // for AWS RDS grants
+    AWSRDSConnectionConfig aws_rds = 2;
+  }
 }

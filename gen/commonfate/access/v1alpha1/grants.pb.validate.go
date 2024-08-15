@@ -1738,3 +1738,506 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = QueryGrantChildrenResponseValidationError{}
+
+// Validate checks the field values on GetGrantConnectionConfigRequest with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *GetGrantConnectionConfigRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on GetGrantConnectionConfigRequest with
+// the rules defined in the proto definition for this message. If any rules
+// are violated, the result is a list of violation errors wrapped in
+// GetGrantConnectionConfigRequestMultiError, or nil if none found.
+func (m *GetGrantConnectionConfigRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *GetGrantConnectionConfigRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Id
+
+	if len(errors) > 0 {
+		return GetGrantConnectionConfigRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// GetGrantConnectionConfigRequestMultiError is an error wrapping multiple
+// validation errors returned by GetGrantConnectionConfigRequest.ValidateAll()
+// if the designated constraints aren't met.
+type GetGrantConnectionConfigRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m GetGrantConnectionConfigRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m GetGrantConnectionConfigRequestMultiError) AllErrors() []error { return m }
+
+// GetGrantConnectionConfigRequestValidationError is the validation error
+// returned by GetGrantConnectionConfigRequest.Validate if the designated
+// constraints aren't met.
+type GetGrantConnectionConfigRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e GetGrantConnectionConfigRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e GetGrantConnectionConfigRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e GetGrantConnectionConfigRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e GetGrantConnectionConfigRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e GetGrantConnectionConfigRequestValidationError) ErrorName() string {
+	return "GetGrantConnectionConfigRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e GetGrantConnectionConfigRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sGetGrantConnectionConfigRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = GetGrantConnectionConfigRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = GetGrantConnectionConfigRequestValidationError{}
+
+// Validate checks the field values on EmptyConnectionConfig with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *EmptyConnectionConfig) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on EmptyConnectionConfig with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// EmptyConnectionConfigMultiError, or nil if none found.
+func (m *EmptyConnectionConfig) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *EmptyConnectionConfig) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if len(errors) > 0 {
+		return EmptyConnectionConfigMultiError(errors)
+	}
+
+	return nil
+}
+
+// EmptyConnectionConfigMultiError is an error wrapping multiple validation
+// errors returned by EmptyConnectionConfig.ValidateAll() if the designated
+// constraints aren't met.
+type EmptyConnectionConfigMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m EmptyConnectionConfigMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m EmptyConnectionConfigMultiError) AllErrors() []error { return m }
+
+// EmptyConnectionConfigValidationError is the validation error returned by
+// EmptyConnectionConfig.Validate if the designated constraints aren't met.
+type EmptyConnectionConfigValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e EmptyConnectionConfigValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e EmptyConnectionConfigValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e EmptyConnectionConfigValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e EmptyConnectionConfigValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e EmptyConnectionConfigValidationError) ErrorName() string {
+	return "EmptyConnectionConfigValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e EmptyConnectionConfigValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sEmptyConnectionConfig.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = EmptyConnectionConfigValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = EmptyConnectionConfigValidationError{}
+
+// Validate checks the field values on AWSRDSConnectionConfig with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *AWSRDSConnectionConfig) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on AWSRDSConnectionConfig with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// AWSRDSConnectionConfigMultiError, or nil if none found.
+func (m *AWSRDSConnectionConfig) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *AWSRDSConnectionConfig) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for SsmSessionTarget
+
+	if len(errors) > 0 {
+		return AWSRDSConnectionConfigMultiError(errors)
+	}
+
+	return nil
+}
+
+// AWSRDSConnectionConfigMultiError is an error wrapping multiple validation
+// errors returned by AWSRDSConnectionConfig.ValidateAll() if the designated
+// constraints aren't met.
+type AWSRDSConnectionConfigMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m AWSRDSConnectionConfigMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m AWSRDSConnectionConfigMultiError) AllErrors() []error { return m }
+
+// AWSRDSConnectionConfigValidationError is the validation error returned by
+// AWSRDSConnectionConfig.Validate if the designated constraints aren't met.
+type AWSRDSConnectionConfigValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e AWSRDSConnectionConfigValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e AWSRDSConnectionConfigValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e AWSRDSConnectionConfigValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e AWSRDSConnectionConfigValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e AWSRDSConnectionConfigValidationError) ErrorName() string {
+	return "AWSRDSConnectionConfigValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e AWSRDSConnectionConfigValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sAWSRDSConnectionConfig.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = AWSRDSConnectionConfigValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = AWSRDSConnectionConfigValidationError{}
+
+// Validate checks the field values on GetGrantConnectionConfigResponse with
+// the rules defined in the proto definition for this message. If any rules
+// are violated, the first error encountered is returned, or nil if there are
+// no violations.
+func (m *GetGrantConnectionConfigResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on GetGrantConnectionConfigResponse with
+// the rules defined in the proto definition for this message. If any rules
+// are violated, the result is a list of violation errors wrapped in
+// GetGrantConnectionConfigResponseMultiError, or nil if none found.
+func (m *GetGrantConnectionConfigResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *GetGrantConnectionConfigResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	switch v := m.Output.(type) {
+	case *GetGrantConnectionConfigResponse_Empty:
+		if v == nil {
+			err := GetGrantConnectionConfigResponseValidationError{
+				field:  "Output",
+				reason: "oneof value cannot be a typed-nil",
+			}
+			if !all {
+				return err
+			}
+			errors = append(errors, err)
+		}
+
+		if all {
+			switch v := interface{}(m.GetEmpty()).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, GetGrantConnectionConfigResponseValidationError{
+						field:  "Empty",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, GetGrantConnectionConfigResponseValidationError{
+						field:  "Empty",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(m.GetEmpty()).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return GetGrantConnectionConfigResponseValidationError{
+					field:  "Empty",
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	case *GetGrantConnectionConfigResponse_AwsRds:
+		if v == nil {
+			err := GetGrantConnectionConfigResponseValidationError{
+				field:  "Output",
+				reason: "oneof value cannot be a typed-nil",
+			}
+			if !all {
+				return err
+			}
+			errors = append(errors, err)
+		}
+
+		if all {
+			switch v := interface{}(m.GetAwsRds()).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, GetGrantConnectionConfigResponseValidationError{
+						field:  "AwsRds",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, GetGrantConnectionConfigResponseValidationError{
+						field:  "AwsRds",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(m.GetAwsRds()).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return GetGrantConnectionConfigResponseValidationError{
+					field:  "AwsRds",
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	default:
+		_ = v // ensures v is used
+	}
+
+	if len(errors) > 0 {
+		return GetGrantConnectionConfigResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// GetGrantConnectionConfigResponseMultiError is an error wrapping multiple
+// validation errors returned by
+// GetGrantConnectionConfigResponse.ValidateAll() if the designated
+// constraints aren't met.
+type GetGrantConnectionConfigResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m GetGrantConnectionConfigResponseMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m GetGrantConnectionConfigResponseMultiError) AllErrors() []error { return m }
+
+// GetGrantConnectionConfigResponseValidationError is the validation error
+// returned by GetGrantConnectionConfigResponse.Validate if the designated
+// constraints aren't met.
+type GetGrantConnectionConfigResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e GetGrantConnectionConfigResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e GetGrantConnectionConfigResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e GetGrantConnectionConfigResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e GetGrantConnectionConfigResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e GetGrantConnectionConfigResponseValidationError) ErrorName() string {
+	return "GetGrantConnectionConfigResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e GetGrantConnectionConfigResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sGetGrantConnectionConfigResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = GetGrantConnectionConfigResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = GetGrantConnectionConfigResponseValidationError{}
