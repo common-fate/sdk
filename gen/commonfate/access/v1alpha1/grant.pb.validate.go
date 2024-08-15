@@ -523,8 +523,6 @@ func (m *Extension) validate(all bool) error {
 
 	// no validation rules for ExtensionUsed
 
-	// no validation rules for ExtensionAllowed
-
 	if all {
 		switch v := interface{}(m.GetExtendableAfter()).(type) {
 		case interface{ ValidateAll() error }:
