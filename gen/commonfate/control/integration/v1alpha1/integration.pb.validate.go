@@ -330,6 +330,52 @@ func (m *RegisterProxyRequest) validate(all bool) error {
 		}
 	}
 
+	switch v := m.InstanceConfig.(type) {
+	case *RegisterProxyRequest_AwsEcsProxyInstanceConfig:
+		if v == nil {
+			err := RegisterProxyRequestValidationError{
+				field:  "InstanceConfig",
+				reason: "oneof value cannot be a typed-nil",
+			}
+			if !all {
+				return err
+			}
+			errors = append(errors, err)
+		}
+
+		if all {
+			switch v := interface{}(m.GetAwsEcsProxyInstanceConfig()).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, RegisterProxyRequestValidationError{
+						field:  "AwsEcsProxyInstanceConfig",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, RegisterProxyRequestValidationError{
+						field:  "AwsEcsProxyInstanceConfig",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(m.GetAwsEcsProxyInstanceConfig()).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return RegisterProxyRequestValidationError{
+					field:  "AwsEcsProxyInstanceConfig",
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	default:
+		_ = v // ensures v is used
+	}
+
 	if len(errors) > 0 {
 		return RegisterProxyRequestMultiError(errors)
 	}
@@ -713,52 +759,6 @@ func (m *RegisterProxyResourceRequest) validate(all bool) error {
 			}
 		}
 
-	}
-
-	switch v := m.InstanceConfig.(type) {
-	case *RegisterProxyResourceRequest_AwsEcsProxyInstanceConfig:
-		if v == nil {
-			err := RegisterProxyResourceRequestValidationError{
-				field:  "InstanceConfig",
-				reason: "oneof value cannot be a typed-nil",
-			}
-			if !all {
-				return err
-			}
-			errors = append(errors, err)
-		}
-
-		if all {
-			switch v := interface{}(m.GetAwsEcsProxyInstanceConfig()).(type) {
-			case interface{ ValidateAll() error }:
-				if err := v.ValidateAll(); err != nil {
-					errors = append(errors, RegisterProxyResourceRequestValidationError{
-						field:  "AwsEcsProxyInstanceConfig",
-						reason: "embedded message failed validation",
-						cause:  err,
-					})
-				}
-			case interface{ Validate() error }:
-				if err := v.Validate(); err != nil {
-					errors = append(errors, RegisterProxyResourceRequestValidationError{
-						field:  "AwsEcsProxyInstanceConfig",
-						reason: "embedded message failed validation",
-						cause:  err,
-					})
-				}
-			}
-		} else if v, ok := interface{}(m.GetAwsEcsProxyInstanceConfig()).(interface{ Validate() error }); ok {
-			if err := v.Validate(); err != nil {
-				return RegisterProxyResourceRequestValidationError{
-					field:  "AwsEcsProxyInstanceConfig",
-					reason: "embedded message failed validation",
-					cause:  err,
-				}
-			}
-		}
-
-	default:
-		_ = v // ensures v is used
 	}
 
 	if len(errors) > 0 {
