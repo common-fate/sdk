@@ -44,15 +44,19 @@ const (
 	// GrantsServiceQueryGrantChildrenProcedure is the fully-qualified name of the GrantsService's
 	// QueryGrantChildren RPC.
 	GrantsServiceQueryGrantChildrenProcedure = "/commonfate.access.v1alpha1.GrantsService/QueryGrantChildren"
+	// GrantsServiceGetGrantConnectionConfigProcedure is the fully-qualified name of the GrantsService's
+	// GetGrantConnectionConfig RPC.
+	GrantsServiceGetGrantConnectionConfigProcedure = "/commonfate.access.v1alpha1.GrantsService/GetGrantConnectionConfig"
 )
 
 // These variables are the protoreflect.Descriptor objects for the RPCs defined in this package.
 var (
-	grantsServiceServiceDescriptor                  = v1alpha1.File_commonfate_access_v1alpha1_grants_proto.Services().ByName("GrantsService")
-	grantsServiceQueryGrantsMethodDescriptor        = grantsServiceServiceDescriptor.Methods().ByName("QueryGrants")
-	grantsServiceGetGrantMethodDescriptor           = grantsServiceServiceDescriptor.Methods().ByName("GetGrant")
-	grantsServiceGetGrantOutputMethodDescriptor     = grantsServiceServiceDescriptor.Methods().ByName("GetGrantOutput")
-	grantsServiceQueryGrantChildrenMethodDescriptor = grantsServiceServiceDescriptor.Methods().ByName("QueryGrantChildren")
+	grantsServiceServiceDescriptor                        = v1alpha1.File_commonfate_access_v1alpha1_grants_proto.Services().ByName("GrantsService")
+	grantsServiceQueryGrantsMethodDescriptor              = grantsServiceServiceDescriptor.Methods().ByName("QueryGrants")
+	grantsServiceGetGrantMethodDescriptor                 = grantsServiceServiceDescriptor.Methods().ByName("GetGrant")
+	grantsServiceGetGrantOutputMethodDescriptor           = grantsServiceServiceDescriptor.Methods().ByName("GetGrantOutput")
+	grantsServiceQueryGrantChildrenMethodDescriptor       = grantsServiceServiceDescriptor.Methods().ByName("QueryGrantChildren")
+	grantsServiceGetGrantConnectionConfigMethodDescriptor = grantsServiceServiceDescriptor.Methods().ByName("GetGrantConnectionConfig")
 )
 
 // GrantsServiceClient is a client for the commonfate.access.v1alpha1.GrantsService service.
@@ -61,6 +65,7 @@ type GrantsServiceClient interface {
 	GetGrant(context.Context, *connect.Request[v1alpha1.GetGrantRequest]) (*connect.Response[v1alpha1.GetGrantResponse], error)
 	GetGrantOutput(context.Context, *connect.Request[v1alpha1.GetGrantOutputRequest]) (*connect.Response[v1alpha1.GetGrantOutputResponse], error)
 	QueryGrantChildren(context.Context, *connect.Request[v1alpha1.QueryGrantChildrenRequest]) (*connect.Response[v1alpha1.QueryGrantChildrenResponse], error)
+	GetGrantConnectionConfig(context.Context, *connect.Request[v1alpha1.GetGrantConnectionConfigRequest]) (*connect.Response[v1alpha1.GetGrantConnectionConfigResponse], error)
 }
 
 // NewGrantsServiceClient constructs a client for the commonfate.access.v1alpha1.GrantsService
@@ -97,15 +102,22 @@ func NewGrantsServiceClient(httpClient connect.HTTPClient, baseURL string, opts 
 			connect.WithSchema(grantsServiceQueryGrantChildrenMethodDescriptor),
 			connect.WithClientOptions(opts...),
 		),
+		getGrantConnectionConfig: connect.NewClient[v1alpha1.GetGrantConnectionConfigRequest, v1alpha1.GetGrantConnectionConfigResponse](
+			httpClient,
+			baseURL+GrantsServiceGetGrantConnectionConfigProcedure,
+			connect.WithSchema(grantsServiceGetGrantConnectionConfigMethodDescriptor),
+			connect.WithClientOptions(opts...),
+		),
 	}
 }
 
 // grantsServiceClient implements GrantsServiceClient.
 type grantsServiceClient struct {
-	queryGrants        *connect.Client[v1alpha1.QueryGrantsRequest, v1alpha1.QueryGrantsResponse]
-	getGrant           *connect.Client[v1alpha1.GetGrantRequest, v1alpha1.GetGrantResponse]
-	getGrantOutput     *connect.Client[v1alpha1.GetGrantOutputRequest, v1alpha1.GetGrantOutputResponse]
-	queryGrantChildren *connect.Client[v1alpha1.QueryGrantChildrenRequest, v1alpha1.QueryGrantChildrenResponse]
+	queryGrants              *connect.Client[v1alpha1.QueryGrantsRequest, v1alpha1.QueryGrantsResponse]
+	getGrant                 *connect.Client[v1alpha1.GetGrantRequest, v1alpha1.GetGrantResponse]
+	getGrantOutput           *connect.Client[v1alpha1.GetGrantOutputRequest, v1alpha1.GetGrantOutputResponse]
+	queryGrantChildren       *connect.Client[v1alpha1.QueryGrantChildrenRequest, v1alpha1.QueryGrantChildrenResponse]
+	getGrantConnectionConfig *connect.Client[v1alpha1.GetGrantConnectionConfigRequest, v1alpha1.GetGrantConnectionConfigResponse]
 }
 
 // QueryGrants calls commonfate.access.v1alpha1.GrantsService.QueryGrants.
@@ -128,6 +140,11 @@ func (c *grantsServiceClient) QueryGrantChildren(ctx context.Context, req *conne
 	return c.queryGrantChildren.CallUnary(ctx, req)
 }
 
+// GetGrantConnectionConfig calls commonfate.access.v1alpha1.GrantsService.GetGrantConnectionConfig.
+func (c *grantsServiceClient) GetGrantConnectionConfig(ctx context.Context, req *connect.Request[v1alpha1.GetGrantConnectionConfigRequest]) (*connect.Response[v1alpha1.GetGrantConnectionConfigResponse], error) {
+	return c.getGrantConnectionConfig.CallUnary(ctx, req)
+}
+
 // GrantsServiceHandler is an implementation of the commonfate.access.v1alpha1.GrantsService
 // service.
 type GrantsServiceHandler interface {
@@ -135,6 +152,7 @@ type GrantsServiceHandler interface {
 	GetGrant(context.Context, *connect.Request[v1alpha1.GetGrantRequest]) (*connect.Response[v1alpha1.GetGrantResponse], error)
 	GetGrantOutput(context.Context, *connect.Request[v1alpha1.GetGrantOutputRequest]) (*connect.Response[v1alpha1.GetGrantOutputResponse], error)
 	QueryGrantChildren(context.Context, *connect.Request[v1alpha1.QueryGrantChildrenRequest]) (*connect.Response[v1alpha1.QueryGrantChildrenResponse], error)
+	GetGrantConnectionConfig(context.Context, *connect.Request[v1alpha1.GetGrantConnectionConfigRequest]) (*connect.Response[v1alpha1.GetGrantConnectionConfigResponse], error)
 }
 
 // NewGrantsServiceHandler builds an HTTP handler from the service implementation. It returns the
@@ -167,6 +185,12 @@ func NewGrantsServiceHandler(svc GrantsServiceHandler, opts ...connect.HandlerOp
 		connect.WithSchema(grantsServiceQueryGrantChildrenMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
+	grantsServiceGetGrantConnectionConfigHandler := connect.NewUnaryHandler(
+		GrantsServiceGetGrantConnectionConfigProcedure,
+		svc.GetGrantConnectionConfig,
+		connect.WithSchema(grantsServiceGetGrantConnectionConfigMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
+	)
 	return "/commonfate.access.v1alpha1.GrantsService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
 		case GrantsServiceQueryGrantsProcedure:
@@ -177,6 +201,8 @@ func NewGrantsServiceHandler(svc GrantsServiceHandler, opts ...connect.HandlerOp
 			grantsServiceGetGrantOutputHandler.ServeHTTP(w, r)
 		case GrantsServiceQueryGrantChildrenProcedure:
 			grantsServiceQueryGrantChildrenHandler.ServeHTTP(w, r)
+		case GrantsServiceGetGrantConnectionConfigProcedure:
+			grantsServiceGetGrantConnectionConfigHandler.ServeHTTP(w, r)
 		default:
 			http.NotFound(w, r)
 		}
@@ -200,4 +226,8 @@ func (UnimplementedGrantsServiceHandler) GetGrantOutput(context.Context, *connec
 
 func (UnimplementedGrantsServiceHandler) QueryGrantChildren(context.Context, *connect.Request[v1alpha1.QueryGrantChildrenRequest]) (*connect.Response[v1alpha1.QueryGrantChildrenResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.access.v1alpha1.GrantsService.QueryGrantChildren is not implemented"))
+}
+
+func (UnimplementedGrantsServiceHandler) GetGrantConnectionConfig(context.Context, *connect.Request[v1alpha1.GetGrantConnectionConfigRequest]) (*connect.Response[v1alpha1.GetGrantConnectionConfigResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.access.v1alpha1.GrantsService.GetGrantConnectionConfig is not implemented"))
 }
