@@ -48,9 +48,6 @@ const (
 	// IntegrationServiceListIntegrationsProcedure is the fully-qualified name of the
 	// IntegrationService's ListIntegrations RPC.
 	IntegrationServiceListIntegrationsProcedure = "/commonfate.control.integration.v1alpha1.IntegrationService/ListIntegrations"
-	// IntegrationServiceRegisterProxyProcedure is the fully-qualified name of the IntegrationService's
-	// RegisterProxy RPC.
-	IntegrationServiceRegisterProxyProcedure = "/commonfate.control.integration.v1alpha1.IntegrationService/RegisterProxy"
 	// IntegrationServiceRegisterProxyResourceProcedure is the fully-qualified name of the
 	// IntegrationService's RegisterProxyResource RPC.
 	IntegrationServiceRegisterProxyResourceProcedure = "/commonfate.control.integration.v1alpha1.IntegrationService/RegisterProxyResource"
@@ -63,6 +60,18 @@ const (
 	// IntegrationServiceGetProxyResourceProcedure is the fully-qualified name of the
 	// IntegrationService's GetProxyResource RPC.
 	IntegrationServiceGetProxyResourceProcedure = "/commonfate.control.integration.v1alpha1.IntegrationService/GetProxyResource"
+	// IntegrationServiceRegisterProxyProcedure is the fully-qualified name of the IntegrationService's
+	// RegisterProxy RPC.
+	IntegrationServiceRegisterProxyProcedure = "/commonfate.control.integration.v1alpha1.IntegrationService/RegisterProxy"
+	// IntegrationServiceUpdateProxyProcedure is the fully-qualified name of the IntegrationService's
+	// UpdateProxy RPC.
+	IntegrationServiceUpdateProxyProcedure = "/commonfate.control.integration.v1alpha1.IntegrationService/UpdateProxy"
+	// IntegrationServiceDeleteProxyProcedure is the fully-qualified name of the IntegrationService's
+	// DeleteProxy RPC.
+	IntegrationServiceDeleteProxyProcedure = "/commonfate.control.integration.v1alpha1.IntegrationService/DeleteProxy"
+	// IntegrationServiceGetProxyProcedure is the fully-qualified name of the IntegrationService's
+	// GetProxy RPC.
+	IntegrationServiceGetProxyProcedure = "/commonfate.control.integration.v1alpha1.IntegrationService/GetProxy"
 	// IntegrationServiceDescribeProxyResourcesProcedure is the fully-qualified name of the
 	// IntegrationService's DescribeProxyResources RPC.
 	IntegrationServiceDescribeProxyResourcesProcedure = "/commonfate.control.integration.v1alpha1.IntegrationService/DescribeProxyResources"
@@ -76,11 +85,14 @@ var (
 	integrationServiceGetIntegrationMethodDescriptor         = integrationServiceServiceDescriptor.Methods().ByName("GetIntegration")
 	integrationServiceDeleteIntegrationMethodDescriptor      = integrationServiceServiceDescriptor.Methods().ByName("DeleteIntegration")
 	integrationServiceListIntegrationsMethodDescriptor       = integrationServiceServiceDescriptor.Methods().ByName("ListIntegrations")
-	integrationServiceRegisterProxyMethodDescriptor          = integrationServiceServiceDescriptor.Methods().ByName("RegisterProxy")
 	integrationServiceRegisterProxyResourceMethodDescriptor  = integrationServiceServiceDescriptor.Methods().ByName("RegisterProxyResource")
 	integrationServiceUpdateProxyResourceMethodDescriptor    = integrationServiceServiceDescriptor.Methods().ByName("UpdateProxyResource")
 	integrationServiceDeleteProxyResourceMethodDescriptor    = integrationServiceServiceDescriptor.Methods().ByName("DeleteProxyResource")
 	integrationServiceGetProxyResourceMethodDescriptor       = integrationServiceServiceDescriptor.Methods().ByName("GetProxyResource")
+	integrationServiceRegisterProxyMethodDescriptor          = integrationServiceServiceDescriptor.Methods().ByName("RegisterProxy")
+	integrationServiceUpdateProxyMethodDescriptor            = integrationServiceServiceDescriptor.Methods().ByName("UpdateProxy")
+	integrationServiceDeleteProxyMethodDescriptor            = integrationServiceServiceDescriptor.Methods().ByName("DeleteProxy")
+	integrationServiceGetProxyMethodDescriptor               = integrationServiceServiceDescriptor.Methods().ByName("GetProxy")
 	integrationServiceDescribeProxyResourcesMethodDescriptor = integrationServiceServiceDescriptor.Methods().ByName("DescribeProxyResources")
 )
 
@@ -92,14 +104,16 @@ type IntegrationServiceClient interface {
 	GetIntegration(context.Context, *connect.Request[v1alpha1.GetIntegrationRequest]) (*connect.Response[v1alpha1.GetIntegrationResponse], error)
 	DeleteIntegration(context.Context, *connect.Request[v1alpha1.DeleteIntegrationRequest]) (*connect.Response[v1alpha1.DeleteIntegrationResponse], error)
 	ListIntegrations(context.Context, *connect.Request[v1alpha1.ListIntegrationsRequest]) (*connect.Response[v1alpha1.ListIntegrationsResponse], error)
-	// RegisterProxy is used by the proxy integration to self register
-	// This operation will create new resources, update existing resources and delete orphaned resources.
-	RegisterProxy(context.Context, *connect.Request[v1alpha1.RegisterProxyRequest]) (*connect.Response[v1alpha1.RegisterProxyResponse], error)
 	// CRUD operations for proxy resource terraform provider resource
 	RegisterProxyResource(context.Context, *connect.Request[v1alpha1.RegisterProxyResourceRequest]) (*connect.Response[v1alpha1.RegisterProxyResourceResponse], error)
 	UpdateProxyResource(context.Context, *connect.Request[v1alpha1.UpdateProxyResourceRequest]) (*connect.Response[v1alpha1.UpdateProxyResourceResponse], error)
 	DeleteProxyResource(context.Context, *connect.Request[v1alpha1.DeleteProxyResourceRequest]) (*connect.Response[v1alpha1.DeleteProxyResourceResponse], error)
 	GetProxyResource(context.Context, *connect.Request[v1alpha1.GetProxyResourceRequest]) (*connect.Response[v1alpha1.GetProxyResourceResponse], error)
+	// CRUD operations for proxy terraform provider resource
+	RegisterProxy(context.Context, *connect.Request[v1alpha1.RegisterProxyRequest]) (*connect.Response[v1alpha1.RegisterProxyResponse], error)
+	UpdateProxy(context.Context, *connect.Request[v1alpha1.UpdateProxyRequest]) (*connect.Response[v1alpha1.UpdateProxyResponse], error)
+	DeleteProxy(context.Context, *connect.Request[v1alpha1.DeleteProxyRequest]) (*connect.Response[v1alpha1.DeleteProxyResponse], error)
+	GetProxy(context.Context, *connect.Request[v1alpha1.GetProxyRequest]) (*connect.Response[v1alpha1.GetProxyResponse], error)
 	// Used by the proxy to get resources
 	DescribeProxyResources(context.Context, *connect.Request[v1alpha1.DescribeProxyResourcesRequest]) (*connect.Response[v1alpha1.DescribeProxyResourcesResponse], error)
 }
@@ -145,12 +159,6 @@ func NewIntegrationServiceClient(httpClient connect.HTTPClient, baseURL string, 
 			connect.WithSchema(integrationServiceListIntegrationsMethodDescriptor),
 			connect.WithClientOptions(opts...),
 		),
-		registerProxy: connect.NewClient[v1alpha1.RegisterProxyRequest, v1alpha1.RegisterProxyResponse](
-			httpClient,
-			baseURL+IntegrationServiceRegisterProxyProcedure,
-			connect.WithSchema(integrationServiceRegisterProxyMethodDescriptor),
-			connect.WithClientOptions(opts...),
-		),
 		registerProxyResource: connect.NewClient[v1alpha1.RegisterProxyResourceRequest, v1alpha1.RegisterProxyResourceResponse](
 			httpClient,
 			baseURL+IntegrationServiceRegisterProxyResourceProcedure,
@@ -175,6 +183,30 @@ func NewIntegrationServiceClient(httpClient connect.HTTPClient, baseURL string, 
 			connect.WithSchema(integrationServiceGetProxyResourceMethodDescriptor),
 			connect.WithClientOptions(opts...),
 		),
+		registerProxy: connect.NewClient[v1alpha1.RegisterProxyRequest, v1alpha1.RegisterProxyResponse](
+			httpClient,
+			baseURL+IntegrationServiceRegisterProxyProcedure,
+			connect.WithSchema(integrationServiceRegisterProxyMethodDescriptor),
+			connect.WithClientOptions(opts...),
+		),
+		updateProxy: connect.NewClient[v1alpha1.UpdateProxyRequest, v1alpha1.UpdateProxyResponse](
+			httpClient,
+			baseURL+IntegrationServiceUpdateProxyProcedure,
+			connect.WithSchema(integrationServiceUpdateProxyMethodDescriptor),
+			connect.WithClientOptions(opts...),
+		),
+		deleteProxy: connect.NewClient[v1alpha1.DeleteProxyRequest, v1alpha1.DeleteProxyResponse](
+			httpClient,
+			baseURL+IntegrationServiceDeleteProxyProcedure,
+			connect.WithSchema(integrationServiceDeleteProxyMethodDescriptor),
+			connect.WithClientOptions(opts...),
+		),
+		getProxy: connect.NewClient[v1alpha1.GetProxyRequest, v1alpha1.GetProxyResponse](
+			httpClient,
+			baseURL+IntegrationServiceGetProxyProcedure,
+			connect.WithSchema(integrationServiceGetProxyMethodDescriptor),
+			connect.WithClientOptions(opts...),
+		),
 		describeProxyResources: connect.NewClient[v1alpha1.DescribeProxyResourcesRequest, v1alpha1.DescribeProxyResourcesResponse](
 			httpClient,
 			baseURL+IntegrationServiceDescribeProxyResourcesProcedure,
@@ -191,11 +223,14 @@ type integrationServiceClient struct {
 	getIntegration         *connect.Client[v1alpha1.GetIntegrationRequest, v1alpha1.GetIntegrationResponse]
 	deleteIntegration      *connect.Client[v1alpha1.DeleteIntegrationRequest, v1alpha1.DeleteIntegrationResponse]
 	listIntegrations       *connect.Client[v1alpha1.ListIntegrationsRequest, v1alpha1.ListIntegrationsResponse]
-	registerProxy          *connect.Client[v1alpha1.RegisterProxyRequest, v1alpha1.RegisterProxyResponse]
 	registerProxyResource  *connect.Client[v1alpha1.RegisterProxyResourceRequest, v1alpha1.RegisterProxyResourceResponse]
 	updateProxyResource    *connect.Client[v1alpha1.UpdateProxyResourceRequest, v1alpha1.UpdateProxyResourceResponse]
 	deleteProxyResource    *connect.Client[v1alpha1.DeleteProxyResourceRequest, v1alpha1.DeleteProxyResourceResponse]
 	getProxyResource       *connect.Client[v1alpha1.GetProxyResourceRequest, v1alpha1.GetProxyResourceResponse]
+	registerProxy          *connect.Client[v1alpha1.RegisterProxyRequest, v1alpha1.RegisterProxyResponse]
+	updateProxy            *connect.Client[v1alpha1.UpdateProxyRequest, v1alpha1.UpdateProxyResponse]
+	deleteProxy            *connect.Client[v1alpha1.DeleteProxyRequest, v1alpha1.DeleteProxyResponse]
+	getProxy               *connect.Client[v1alpha1.GetProxyRequest, v1alpha1.GetProxyResponse]
 	describeProxyResources *connect.Client[v1alpha1.DescribeProxyResourcesRequest, v1alpha1.DescribeProxyResourcesResponse]
 }
 
@@ -228,11 +263,6 @@ func (c *integrationServiceClient) ListIntegrations(ctx context.Context, req *co
 	return c.listIntegrations.CallUnary(ctx, req)
 }
 
-// RegisterProxy calls commonfate.control.integration.v1alpha1.IntegrationService.RegisterProxy.
-func (c *integrationServiceClient) RegisterProxy(ctx context.Context, req *connect.Request[v1alpha1.RegisterProxyRequest]) (*connect.Response[v1alpha1.RegisterProxyResponse], error) {
-	return c.registerProxy.CallUnary(ctx, req)
-}
-
 // RegisterProxyResource calls
 // commonfate.control.integration.v1alpha1.IntegrationService.RegisterProxyResource.
 func (c *integrationServiceClient) RegisterProxyResource(ctx context.Context, req *connect.Request[v1alpha1.RegisterProxyResourceRequest]) (*connect.Response[v1alpha1.RegisterProxyResourceResponse], error) {
@@ -257,6 +287,26 @@ func (c *integrationServiceClient) GetProxyResource(ctx context.Context, req *co
 	return c.getProxyResource.CallUnary(ctx, req)
 }
 
+// RegisterProxy calls commonfate.control.integration.v1alpha1.IntegrationService.RegisterProxy.
+func (c *integrationServiceClient) RegisterProxy(ctx context.Context, req *connect.Request[v1alpha1.RegisterProxyRequest]) (*connect.Response[v1alpha1.RegisterProxyResponse], error) {
+	return c.registerProxy.CallUnary(ctx, req)
+}
+
+// UpdateProxy calls commonfate.control.integration.v1alpha1.IntegrationService.UpdateProxy.
+func (c *integrationServiceClient) UpdateProxy(ctx context.Context, req *connect.Request[v1alpha1.UpdateProxyRequest]) (*connect.Response[v1alpha1.UpdateProxyResponse], error) {
+	return c.updateProxy.CallUnary(ctx, req)
+}
+
+// DeleteProxy calls commonfate.control.integration.v1alpha1.IntegrationService.DeleteProxy.
+func (c *integrationServiceClient) DeleteProxy(ctx context.Context, req *connect.Request[v1alpha1.DeleteProxyRequest]) (*connect.Response[v1alpha1.DeleteProxyResponse], error) {
+	return c.deleteProxy.CallUnary(ctx, req)
+}
+
+// GetProxy calls commonfate.control.integration.v1alpha1.IntegrationService.GetProxy.
+func (c *integrationServiceClient) GetProxy(ctx context.Context, req *connect.Request[v1alpha1.GetProxyRequest]) (*connect.Response[v1alpha1.GetProxyResponse], error) {
+	return c.getProxy.CallUnary(ctx, req)
+}
+
 // DescribeProxyResources calls
 // commonfate.control.integration.v1alpha1.IntegrationService.DescribeProxyResources.
 func (c *integrationServiceClient) DescribeProxyResources(ctx context.Context, req *connect.Request[v1alpha1.DescribeProxyResourcesRequest]) (*connect.Response[v1alpha1.DescribeProxyResourcesResponse], error) {
@@ -271,14 +321,16 @@ type IntegrationServiceHandler interface {
 	GetIntegration(context.Context, *connect.Request[v1alpha1.GetIntegrationRequest]) (*connect.Response[v1alpha1.GetIntegrationResponse], error)
 	DeleteIntegration(context.Context, *connect.Request[v1alpha1.DeleteIntegrationRequest]) (*connect.Response[v1alpha1.DeleteIntegrationResponse], error)
 	ListIntegrations(context.Context, *connect.Request[v1alpha1.ListIntegrationsRequest]) (*connect.Response[v1alpha1.ListIntegrationsResponse], error)
-	// RegisterProxy is used by the proxy integration to self register
-	// This operation will create new resources, update existing resources and delete orphaned resources.
-	RegisterProxy(context.Context, *connect.Request[v1alpha1.RegisterProxyRequest]) (*connect.Response[v1alpha1.RegisterProxyResponse], error)
 	// CRUD operations for proxy resource terraform provider resource
 	RegisterProxyResource(context.Context, *connect.Request[v1alpha1.RegisterProxyResourceRequest]) (*connect.Response[v1alpha1.RegisterProxyResourceResponse], error)
 	UpdateProxyResource(context.Context, *connect.Request[v1alpha1.UpdateProxyResourceRequest]) (*connect.Response[v1alpha1.UpdateProxyResourceResponse], error)
 	DeleteProxyResource(context.Context, *connect.Request[v1alpha1.DeleteProxyResourceRequest]) (*connect.Response[v1alpha1.DeleteProxyResourceResponse], error)
 	GetProxyResource(context.Context, *connect.Request[v1alpha1.GetProxyResourceRequest]) (*connect.Response[v1alpha1.GetProxyResourceResponse], error)
+	// CRUD operations for proxy terraform provider resource
+	RegisterProxy(context.Context, *connect.Request[v1alpha1.RegisterProxyRequest]) (*connect.Response[v1alpha1.RegisterProxyResponse], error)
+	UpdateProxy(context.Context, *connect.Request[v1alpha1.UpdateProxyRequest]) (*connect.Response[v1alpha1.UpdateProxyResponse], error)
+	DeleteProxy(context.Context, *connect.Request[v1alpha1.DeleteProxyRequest]) (*connect.Response[v1alpha1.DeleteProxyResponse], error)
+	GetProxy(context.Context, *connect.Request[v1alpha1.GetProxyRequest]) (*connect.Response[v1alpha1.GetProxyResponse], error)
 	// Used by the proxy to get resources
 	DescribeProxyResources(context.Context, *connect.Request[v1alpha1.DescribeProxyResourcesRequest]) (*connect.Response[v1alpha1.DescribeProxyResourcesResponse], error)
 }
@@ -319,12 +371,6 @@ func NewIntegrationServiceHandler(svc IntegrationServiceHandler, opts ...connect
 		connect.WithSchema(integrationServiceListIntegrationsMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
-	integrationServiceRegisterProxyHandler := connect.NewUnaryHandler(
-		IntegrationServiceRegisterProxyProcedure,
-		svc.RegisterProxy,
-		connect.WithSchema(integrationServiceRegisterProxyMethodDescriptor),
-		connect.WithHandlerOptions(opts...),
-	)
 	integrationServiceRegisterProxyResourceHandler := connect.NewUnaryHandler(
 		IntegrationServiceRegisterProxyResourceProcedure,
 		svc.RegisterProxyResource,
@@ -349,6 +395,30 @@ func NewIntegrationServiceHandler(svc IntegrationServiceHandler, opts ...connect
 		connect.WithSchema(integrationServiceGetProxyResourceMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
+	integrationServiceRegisterProxyHandler := connect.NewUnaryHandler(
+		IntegrationServiceRegisterProxyProcedure,
+		svc.RegisterProxy,
+		connect.WithSchema(integrationServiceRegisterProxyMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
+	)
+	integrationServiceUpdateProxyHandler := connect.NewUnaryHandler(
+		IntegrationServiceUpdateProxyProcedure,
+		svc.UpdateProxy,
+		connect.WithSchema(integrationServiceUpdateProxyMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
+	)
+	integrationServiceDeleteProxyHandler := connect.NewUnaryHandler(
+		IntegrationServiceDeleteProxyProcedure,
+		svc.DeleteProxy,
+		connect.WithSchema(integrationServiceDeleteProxyMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
+	)
+	integrationServiceGetProxyHandler := connect.NewUnaryHandler(
+		IntegrationServiceGetProxyProcedure,
+		svc.GetProxy,
+		connect.WithSchema(integrationServiceGetProxyMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
+	)
 	integrationServiceDescribeProxyResourcesHandler := connect.NewUnaryHandler(
 		IntegrationServiceDescribeProxyResourcesProcedure,
 		svc.DescribeProxyResources,
@@ -367,8 +437,6 @@ func NewIntegrationServiceHandler(svc IntegrationServiceHandler, opts ...connect
 			integrationServiceDeleteIntegrationHandler.ServeHTTP(w, r)
 		case IntegrationServiceListIntegrationsProcedure:
 			integrationServiceListIntegrationsHandler.ServeHTTP(w, r)
-		case IntegrationServiceRegisterProxyProcedure:
-			integrationServiceRegisterProxyHandler.ServeHTTP(w, r)
 		case IntegrationServiceRegisterProxyResourceProcedure:
 			integrationServiceRegisterProxyResourceHandler.ServeHTTP(w, r)
 		case IntegrationServiceUpdateProxyResourceProcedure:
@@ -377,6 +445,14 @@ func NewIntegrationServiceHandler(svc IntegrationServiceHandler, opts ...connect
 			integrationServiceDeleteProxyResourceHandler.ServeHTTP(w, r)
 		case IntegrationServiceGetProxyResourceProcedure:
 			integrationServiceGetProxyResourceHandler.ServeHTTP(w, r)
+		case IntegrationServiceRegisterProxyProcedure:
+			integrationServiceRegisterProxyHandler.ServeHTTP(w, r)
+		case IntegrationServiceUpdateProxyProcedure:
+			integrationServiceUpdateProxyHandler.ServeHTTP(w, r)
+		case IntegrationServiceDeleteProxyProcedure:
+			integrationServiceDeleteProxyHandler.ServeHTTP(w, r)
+		case IntegrationServiceGetProxyProcedure:
+			integrationServiceGetProxyHandler.ServeHTTP(w, r)
 		case IntegrationServiceDescribeProxyResourcesProcedure:
 			integrationServiceDescribeProxyResourcesHandler.ServeHTTP(w, r)
 		default:
@@ -408,10 +484,6 @@ func (UnimplementedIntegrationServiceHandler) ListIntegrations(context.Context, 
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.control.integration.v1alpha1.IntegrationService.ListIntegrations is not implemented"))
 }
 
-func (UnimplementedIntegrationServiceHandler) RegisterProxy(context.Context, *connect.Request[v1alpha1.RegisterProxyRequest]) (*connect.Response[v1alpha1.RegisterProxyResponse], error) {
-	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.control.integration.v1alpha1.IntegrationService.RegisterProxy is not implemented"))
-}
-
 func (UnimplementedIntegrationServiceHandler) RegisterProxyResource(context.Context, *connect.Request[v1alpha1.RegisterProxyResourceRequest]) (*connect.Response[v1alpha1.RegisterProxyResourceResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.control.integration.v1alpha1.IntegrationService.RegisterProxyResource is not implemented"))
 }
@@ -426,6 +498,22 @@ func (UnimplementedIntegrationServiceHandler) DeleteProxyResource(context.Contex
 
 func (UnimplementedIntegrationServiceHandler) GetProxyResource(context.Context, *connect.Request[v1alpha1.GetProxyResourceRequest]) (*connect.Response[v1alpha1.GetProxyResourceResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.control.integration.v1alpha1.IntegrationService.GetProxyResource is not implemented"))
+}
+
+func (UnimplementedIntegrationServiceHandler) RegisterProxy(context.Context, *connect.Request[v1alpha1.RegisterProxyRequest]) (*connect.Response[v1alpha1.RegisterProxyResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.control.integration.v1alpha1.IntegrationService.RegisterProxy is not implemented"))
+}
+
+func (UnimplementedIntegrationServiceHandler) UpdateProxy(context.Context, *connect.Request[v1alpha1.UpdateProxyRequest]) (*connect.Response[v1alpha1.UpdateProxyResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.control.integration.v1alpha1.IntegrationService.UpdateProxy is not implemented"))
+}
+
+func (UnimplementedIntegrationServiceHandler) DeleteProxy(context.Context, *connect.Request[v1alpha1.DeleteProxyRequest]) (*connect.Response[v1alpha1.DeleteProxyResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.control.integration.v1alpha1.IntegrationService.DeleteProxy is not implemented"))
+}
+
+func (UnimplementedIntegrationServiceHandler) GetProxy(context.Context, *connect.Request[v1alpha1.GetProxyRequest]) (*connect.Response[v1alpha1.GetProxyResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.control.integration.v1alpha1.IntegrationService.GetProxy is not implemented"))
 }
 
 func (UnimplementedIntegrationServiceHandler) DescribeProxyResources(context.Context, *connect.Request[v1alpha1.DescribeProxyResourcesRequest]) (*connect.Response[v1alpha1.DescribeProxyResourcesResponse], error) {

@@ -22,17 +22,7 @@ message Resource {
     }
   }
 
-message RegisterProxyRequest {
-    string integration_id = 1;
-    repeated Resource resources = 2;
-    oneof instance_config {
-      AWSECSProxyInstanceConfig aws_ecs_proxy_instance_config = 3;
-    }
-  }
-  
-  message RegisterProxyResponse {}
-  
-  
+ 
   message RegisterProxyResourceRequest {
     string integration_id = 1;
     Resource resource = 2;

@@ -16,6 +16,7 @@ import "commonfate/control/integration/v1alpha1/s3_log_destination.proto";
 import "commonfate/control/integration/v1alpha1/slack.proto";
 import "commonfate/control/integration/v1alpha1/webhook.proto";
 import "commonfate/control/integration/v1alpha1/proxy_resource.proto";
+import "commonfate/control/integration/v1alpha1/proxy.proto";
 
 service IntegrationService {
   rpc CreateIntegration(CreateIntegrationRequest) returns (CreateIntegrationResponse) {}
@@ -26,15 +27,18 @@ service IntegrationService {
   rpc DeleteIntegration(DeleteIntegrationRequest) returns (DeleteIntegrationResponse) {}
   rpc ListIntegrations(ListIntegrationsRequest) returns (ListIntegrationsResponse) {}
   
-  // RegisterProxy is used by the proxy integration to self register
-  // This operation will create new resources, update existing resources and delete orphaned resources.
-  rpc RegisterProxy(RegisterProxyRequest) returns (RegisterProxyResponse) {}
 
   //CRUD operations for proxy resource terraform provider resource
   rpc RegisterProxyResource(RegisterProxyResourceRequest) returns (RegisterProxyResourceResponse) {}
   rpc UpdateProxyResource(UpdateProxyResourceRequest) returns (UpdateProxyResourceResponse) {}
   rpc DeleteProxyResource(DeleteProxyResourceRequest) returns (DeleteProxyResourceResponse) {}
   rpc GetProxyResource(GetProxyResourceRequest) returns (GetProxyResourceResponse) {}
+
+  //CRUD operations for proxy terraform provider resource
+  rpc RegisterProxy(RegisterProxyRequest) returns (RegisterProxyResponse) {}
+  rpc UpdateProxy(UpdateProxyRequest) returns (UpdateProxyResponse) {}
+  rpc DeleteProxy(DeleteProxyRequest) returns (DeleteProxyResponse) {}
+  rpc GetProxy(GetProxyRequest) returns (GetProxyResponse) {}
 
   //Used by the proxy to get resources
   rpc DescribeProxyResources(DescribeProxyResourcesRequest) returns (DescribeProxyResourcesResponse) {}

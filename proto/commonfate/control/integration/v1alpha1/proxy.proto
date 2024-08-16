@@ -1,0 +1,103 @@
+syntax = "proto3";
+package commonfate.control.integration.v1alpha1;
+
+import "commonfate/access/v1alpha1/diagnostic.proto";
+import "commonfate/authz/v1alpha1/read_only.proto";
+import "commonfate/control/integration/v1alpha1/auth0.proto";
+import "commonfate/control/integration/v1alpha1/aws_idc.proto";
+import "commonfate/control/integration/v1alpha1/aws_proxy.proto";
+import "commonfate/control/integration/v1alpha1/datastax.proto";
+import "commonfate/control/integration/v1alpha1/entra.proto";
+import "commonfate/control/integration/v1alpha1/gcp.proto";
+import "commonfate/control/integration/v1alpha1/okta.proto";
+import "commonfate/control/integration/v1alpha1/opsgenie.proto";
+import "commonfate/control/integration/v1alpha1/pagerduty.proto";
+import "commonfate/control/integration/v1alpha1/s3_log_destination.proto";
+import "commonfate/control/integration/v1alpha1/slack.proto";
+import "commonfate/control/integration/v1alpha1/webhook.proto";
+
+
+message RegisterProxyRequest {
+    string id = 1;
+    string aws_region = 2;
+    string aws_account_id = 3;
+    string common_fate_aws_account_id = 4; 
+    string aws_partition = 5;             
+    string subnet_ids = 6;          
+    string vpc_id = 7;                
+    string ecs_cluster_id = 8; 
+    string ecs_cluster_name = 9;      
+    string auth_issuer = 10;
+  
+    string proxy_service_client_id = 11;
+    string proxy_service_client_secret = 12;
+  
+  }
+  
+  message RegisterProxyResponse {}
+  
+  
+  message GetProxyRequest {
+    string id = 1;
+    
+  }
+  
+  message GetProxyResponse {
+    string id = 1;
+    string aws_region = 2;
+    string aws_account_id = 3;
+    string common_fate_aws_account_id = 4; 
+    string aws_partition = 5;             
+    string subnet_ids = 6;          
+    string vpc_id = 7;                
+    string ecs_cluster_id = 8; 
+    string ecs_cluster_name = 9;      
+    string auth_issuer = 10;
+  
+    string proxy_service_client_id = 11;
+    string proxy_service_client_secret = 12;
+  }
+
+  message UpdateProxyRequest {
+    string id = 1;
+    string aws_region = 2;
+    string aws_account_id = 3;
+    string common_fate_aws_account_id = 4; 
+    string aws_partition = 5;             
+    string subnet_ids = 6;          
+    string vpc_id = 7;                
+    string ecs_cluster_id = 8; 
+    string ecs_cluster_name = 9;      
+    string auth_issuer = 10;
+  
+    string proxy_service_client_id = 11;
+    string proxy_service_client_secret = 12;
+  
+  }
+  
+  message UpdateProxyResponse {
+    string id = 1;
+    string aws_region = 2;
+    string aws_account_id = 3;
+    string common_fate_aws_account_id = 4; 
+    string aws_partition = 5;             
+    string subnet_ids = 6;          
+    string vpc_id = 7;                
+    string ecs_cluster_id = 8; 
+    string ecs_cluster_name = 9;      
+    string auth_issuer = 10;
+  
+    string proxy_service_client_id = 11;
+    string proxy_service_client_secret = 12;
+  }
+  
+  message DeleteProxyRequest {
+    string id = 1;  
+  }
+  
+  message DeleteProxyResponse {
+    string id = 1;
+  
+  }
+
+ 
