@@ -28,6 +28,7 @@ service IntegrationService {
   // This operation will create new resources, update existing resources and delete orphaned resources.
   rpc RegisterProxy(RegisterProxyRequest) returns (RegisterProxyResponse) {}
   rpc RegisterProxyResource(RegisterProxyResourceRequest) returns (RegisterProxyResourceResponse) {}
+  rpc GetProxyResource(GetProxyResourceRequest) returns (GetProxyResourceResponse) {}
   rpc DescribeProxyResources(DescribeProxyResourcesRequest) returns (DescribeProxyResourcesResponse) {}
 }
 
@@ -60,7 +61,7 @@ message Resource {
 
 message RegisterProxyResourceRequest {
   string integration_id = 1;
-  repeated Resource resources = 2;
+  Resource resource = 2;
 
 }
 
@@ -80,6 +81,17 @@ message DescribeProxyResourcesResponse {
   repeated Resource resources = 2;
   string proxy_role_arn = 3;
   string proxy_security_group_arn = 4;
+}
+
+message GetProxyResourceRequest {
+  string id = 1;
+  
+}
+
+message GetProxyResourceResponse {
+  string id = 1;
+  Resource resource = 2;
+  
 }
 
 message CreateIntegrationRequest {
