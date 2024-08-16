@@ -91,7 +91,8 @@ message GetProxyResourceRequest {
 message GetProxyResourceResponse {
   string id = 1;
   Resource resource = 2;
-  
+  string proxy_role_arn = 3;
+  string proxy_security_group_arn = 4;
 }
 
 message CreateIntegrationRequest {

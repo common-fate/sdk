@@ -1356,6 +1356,10 @@ func (m *GetProxyResourceResponse) validate(all bool) error {
 		}
 	}
 
+	// no validation rules for ProxyRoleArn
+
+	// no validation rules for ProxySecurityGroupArn
+
 	if len(errors) > 0 {
 		return GetProxyResourceResponseMultiError(errors)
 	}
