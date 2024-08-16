@@ -869,6 +869,12 @@ func (m *RegisterProxyResourceResponse) validate(all bool) error {
 
 	var errors []error
 
+	// no validation rules for Id
+
+	// no validation rules for ProxyRoleArn
+
+	// no validation rules for ProxySecurityGroupArn
+
 	if len(errors) > 0 {
 		return RegisterProxyResourceResponseMultiError(errors)
 	}
@@ -1077,6 +1083,8 @@ func (m *DescribeProxyResourcesResponse) validate(all bool) error {
 
 	var errors []error
 
+	// no validation rules for Id
+
 	for idx, item := range m.GetResources() {
 		_, _ = idx, item
 
@@ -1111,51 +1119,9 @@ func (m *DescribeProxyResourcesResponse) validate(all bool) error {
 
 	}
 
-	switch v := m.InstanceConfig.(type) {
-	case *DescribeProxyResourcesResponse_AwsEcsProxyInstanceConfig:
-		if v == nil {
-			err := DescribeProxyResourcesResponseValidationError{
-				field:  "InstanceConfig",
-				reason: "oneof value cannot be a typed-nil",
-			}
-			if !all {
-				return err
-			}
-			errors = append(errors, err)
-		}
+	// no validation rules for ProxyRoleArn
 
-		if all {
-			switch v := interface{}(m.GetAwsEcsProxyInstanceConfig()).(type) {
-			case interface{ ValidateAll() error }:
-				if err := v.ValidateAll(); err != nil {
-					errors = append(errors, DescribeProxyResourcesResponseValidationError{
-						field:  "AwsEcsProxyInstanceConfig",
-						reason: "embedded message failed validation",
-						cause:  err,
-					})
-				}
-			case interface{ Validate() error }:
-				if err := v.Validate(); err != nil {
-					errors = append(errors, DescribeProxyResourcesResponseValidationError{
-						field:  "AwsEcsProxyInstanceConfig",
-						reason: "embedded message failed validation",
-						cause:  err,
-					})
-				}
-			}
-		} else if v, ok := interface{}(m.GetAwsEcsProxyInstanceConfig()).(interface{ Validate() error }); ok {
-			if err := v.Validate(); err != nil {
-				return DescribeProxyResourcesResponseValidationError{
-					field:  "AwsEcsProxyInstanceConfig",
-					reason: "embedded message failed validation",
-					cause:  err,
-				}
-			}
-		}
-
-	default:
-		_ = v // ensures v is used
-	}
+	// no validation rules for ProxySecurityGroupArn
 
 	if len(errors) > 0 {
 		return DescribeProxyResourcesResponseMultiError(errors)

@@ -64,7 +64,11 @@ message RegisterProxyResourceRequest {
 
 }
 
-message RegisterProxyResourceResponse {}
+message RegisterProxyResourceResponse {
+  string id = 1;
+  string proxy_role_arn = 2;
+  string proxy_security_group_arn = 3;
+}
 
 message DescribeProxyResourcesRequest {
   string integration_id = 1;
@@ -72,10 +76,10 @@ message DescribeProxyResourcesRequest {
 }
 
 message DescribeProxyResourcesResponse {
-  repeated Resource resources = 1;
-  oneof instance_config {
-    AWSECSProxyInstanceConfig aws_ecs_proxy_instance_config = 2;
-  }
+  string id = 1;
+  repeated Resource resources = 2;
+  string proxy_role_arn = 3;
+  string proxy_security_group_arn = 4;
 }
 
 message CreateIntegrationRequest {
