@@ -1,0 +1,98 @@
+syntax = "proto3";
+package commonfate.control.integration.v1alpha1;
+
+import "commonfate/access/v1alpha1/diagnostic.proto";
+import "commonfate/authz/v1alpha1/read_only.proto";
+import "commonfate/control/integration/v1alpha1/auth0.proto";
+import "commonfate/control/integration/v1alpha1/aws_idc.proto";
+import "commonfate/control/integration/v1alpha1/aws_proxy.proto";
+import "commonfate/control/integration/v1alpha1/datastax.proto";
+import "commonfate/control/integration/v1alpha1/entra.proto";
+import "commonfate/control/integration/v1alpha1/gcp.proto";
+import "commonfate/control/integration/v1alpha1/okta.proto";
+import "commonfate/control/integration/v1alpha1/opsgenie.proto";
+import "commonfate/control/integration/v1alpha1/pagerduty.proto";
+import "commonfate/control/integration/v1alpha1/s3_log_destination.proto";
+import "commonfate/control/integration/v1alpha1/slack.proto";
+import "commonfate/control/integration/v1alpha1/webhook.proto";
+
+message Resource {
+    oneof resource {
+      AWSRDSDatabase aws_rds_database = 1;
+    }
+  }
+
+message RegisterProxyRequest {
+    string integration_id = 1;
+    repeated Resource resources = 2;
+    oneof instance_config {
+      AWSECSProxyInstanceConfig aws_ecs_proxy_instance_config = 3;
+    }
+  }
+  
+  message RegisterProxyResponse {}
+  
+  
+  message RegisterProxyResourceRequest {
+    string integration_id = 1;
+    Resource resource = 2;
+  
+  }
+  
+  message RegisterProxyResourceResponse {
+    string id = 1;
+    string proxy_role_arn = 2;
+    string proxy_security_group_arn = 3;
+  }
+
+  message GetProxyResourceRequest {
+    string id = 1;
+    
+  }
+  
+  message GetProxyResourceResponse {
+    string id = 1;
+    Resource resource = 2;
+    string proxy_role_arn = 3;
+    string proxy_security_group_arn = 4;
+  }
+
+  message UpdateProxyResourceRequest {
+    string id = 1;
+    string integration_id = 2;
+    Resource resource = 3;
+  
+  }
+  
+  message UpdateProxyResourceResponse {
+    string id = 1;
+    string integration_id = 2;
+    Resource resource = 3;
+    string proxy_role_arn = 4;
+    string proxy_security_group_arn = 5;
+  }
+  
+  message DeleteProxyResourceRequest {
+    string id = 1;  
+  }
+  
+  message DeleteProxyResourceResponse {
+    string id = 1;
+  
+  }
+
+  message DescribeProxyResourcesRequest {
+    string integration_id = 1;
+    
+  }
+
+  
+  
+  message DescribeProxyResourcesResponse {
+    string id = 1;
+    repeated Resource resources = 2;
+    string proxy_role_arn = 3;
+    string proxy_security_group_arn = 4;
+  }
+  
+ 

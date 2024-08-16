@@ -15,6 +15,7 @@ import "commonfate/control/integration/v1alpha1/pagerduty.proto";
 import "commonfate/control/integration/v1alpha1/s3_log_destination.proto";
 import "commonfate/control/integration/v1alpha1/slack.proto";
 import "commonfate/control/integration/v1alpha1/webhook.proto";
+import "commonfate/control/integration/v1alpha1/proxy_resource.proto";
 
 service IntegrationService {
   rpc CreateIntegration(CreateIntegrationRequest) returns (CreateIntegrationResponse) {}
@@ -24,11 +25,18 @@ service IntegrationService {
   }
   rpc DeleteIntegration(DeleteIntegrationRequest) returns (DeleteIntegrationResponse) {}
   rpc ListIntegrations(ListIntegrationsRequest) returns (ListIntegrationsResponse) {}
+  
   // RegisterProxy is used by the proxy integration to self register
   // This operation will create new resources, update existing resources and delete orphaned resources.
   rpc RegisterProxy(RegisterProxyRequest) returns (RegisterProxyResponse) {}
+
+  //CRUD operations for proxy resource terraform provider resource
   rpc RegisterProxyResource(RegisterProxyResourceRequest) returns (RegisterProxyResourceResponse) {}
+  rpc UpdateProxyResource(UpdateProxyResourceRequest) returns (UpdateProxyResourceResponse) {}
+  rpc DeleteProxyResource(DeleteProxyResourceRequest) returns (DeleteProxyResourceResponse) {}
   rpc GetProxyResource(GetProxyResourceRequest) returns (GetProxyResourceResponse) {}
+
+  //Used by the proxy to get resources
   rpc DescribeProxyResources(DescribeProxyResourcesRequest) returns (DescribeProxyResourcesResponse) {}
 }
 
@@ -42,58 +50,7 @@ message ListIntegrationsResponse {
   string next_page_token = 2;
 }
 
-message RegisterProxyRequest {
-  string integration_id = 1;
-  repeated Resource resources = 2;
-  oneof instance_config {
-    AWSECSProxyInstanceConfig aws_ecs_proxy_instance_config = 3;
-  }
-}
 
-message RegisterProxyResponse {}
-
-message Resource {
-  oneof resource {
-    AWSRDSDatabase aws_rds_database = 1;
-  }
-}
-
-
-message RegisterProxyResourceRequest {
-  string integration_id = 1;
-  Resource resource = 2;
-
-}
-
-message RegisterProxyResourceResponse {
-  string id = 1;
-  string proxy_role_arn = 2;
-  string proxy_security_group_arn = 3;
-}
-
-message DescribeProxyResourcesRequest {
-  string integration_id = 1;
-  
-}
-
-message DescribeProxyResourcesResponse {
-  string id = 1;
-  repeated Resource resources = 2;
-  string proxy_role_arn = 3;
-  string proxy_security_group_arn = 4;
-}
-
-message GetProxyResourceRequest {
-  string id = 1;
-  
-}
-
-message GetProxyResourceResponse {
-  string id = 1;
-  Resource resource = 2;
-  string proxy_role_arn = 3;
-  string proxy_security_group_arn = 4;
-}
 
 message CreateIntegrationRequest {
   string name = 1;
