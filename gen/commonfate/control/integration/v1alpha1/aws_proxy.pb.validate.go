@@ -472,6 +472,8 @@ func (m *AWSRDSDatabaseUser) validate(all bool) error {
 
 	// no validation rules for Username
 
+	// no validation rules for PasswordSecretsManagerArn
+
 	if len(errors) > 0 {
 		return AWSRDSDatabaseUserMultiError(errors)
 	}
