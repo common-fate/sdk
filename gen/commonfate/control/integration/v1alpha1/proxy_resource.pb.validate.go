@@ -336,6 +336,8 @@ func (m *RegisterProxyResourceResponse) validate(all bool) error {
 
 	var errors []error
 
+	// no validation rules for Id
+
 	// no validation rules for ProxyRoleArn
 
 	// no validation rules for ProxySecurityGroupArn

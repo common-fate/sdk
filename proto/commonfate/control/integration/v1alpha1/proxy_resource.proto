@@ -30,7 +30,7 @@ message Resource {
   }
   
   message RegisterProxyResourceResponse {
-
+    string id = 1;
     string proxy_role_arn = 2;
     string proxy_security_group_arn = 3;
   }

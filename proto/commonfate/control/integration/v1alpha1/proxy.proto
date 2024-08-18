@@ -19,18 +19,18 @@ import "commonfate/control/integration/v1alpha1/webhook.proto";
 
 message RegisterProxyRequest {
 
-    string aws_region = 2;
-    string aws_account_id = 3;
-    string common_fate_aws_account_id = 4; 
-    string aws_partition = 5;             
-    string subnet_ids = 6;          
-    string vpc_id = 7;                
-    string ecs_cluster_id = 8; 
-    string ecs_cluster_name = 9;      
-    string auth_issuer = 10;
+    string aws_region = 1;
+    string aws_account_id = 2;
+    string common_fate_aws_account_id = 3; 
+    string aws_partition = 4;             
+    string subnet_ids = 5;          
+    string vpc_id = 6;                
+    string ecs_cluster_id = 7; 
+    string ecs_cluster_name = 8;      
+    string auth_issuer = 9;
   
-    string proxy_service_client_id = 11;
-    string proxy_service_client_secret = 12;
+    string proxy_service_client_id = 10;
+    string proxy_service_client_secret = 11;
   
   }
   
