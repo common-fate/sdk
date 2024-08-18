@@ -57,8 +57,6 @@ func (m *RegisterProxyRequest) validate(all bool) error {
 
 	var errors []error
 
-	// no validation rules for Id
-
 	// no validation rules for AwsRegion
 
 	// no validation rules for AwsAccountId

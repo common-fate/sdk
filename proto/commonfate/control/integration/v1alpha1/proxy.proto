@@ -18,7 +18,7 @@ import "commonfate/control/integration/v1alpha1/webhook.proto";
 
 
 message RegisterProxyRequest {
-    string id = 1;
+
     string aws_region = 2;
     string aws_account_id = 3;
     string common_fate_aws_account_id = 4; 
