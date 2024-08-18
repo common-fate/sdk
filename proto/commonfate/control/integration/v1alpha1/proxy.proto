@@ -34,7 +34,9 @@ message RegisterProxyRequest {
   
   }
   
-  message RegisterProxyResponse {}
+  message RegisterProxyResponse {
+    string id = 1;
+  }
   
   
   message GetProxyRequest {
