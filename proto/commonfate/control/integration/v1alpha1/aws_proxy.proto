@@ -27,6 +27,8 @@ message AWSECSProxyInstanceConfig {
   string ecs_container_name = 5;
   // The ARN of the role which can be used to read the task ID and runtime ID of the proxy when provisioning access
   string ecs_cluster_reader_role_arn = 6;
+
+  string ecs_cluster_security_group_id = 7; 
 }
 
 message AWSRDSDatabase {
