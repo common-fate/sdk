@@ -74,7 +74,6 @@ message RegisterProxyRequest {
   message UpdateProxyResponse {
     string id  =1;
     string integration_id = 2;
-    repeated Resource resources = 3;
     oneof instance_config {
       AWSECSProxyInstanceConfig aws_ecs_proxy_instance_config = 4;
     }
