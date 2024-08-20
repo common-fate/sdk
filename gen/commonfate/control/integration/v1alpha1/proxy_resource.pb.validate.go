@@ -478,6 +478,8 @@ func (m *GetProxyResourceRequest) validate(all bool) error {
 
 	// no validation rules for Id
 
+	// no validation rules for ProxyId
+
 	if len(errors) > 0 {
 		return GetProxyResourceRequestMultiError(errors)
 	}

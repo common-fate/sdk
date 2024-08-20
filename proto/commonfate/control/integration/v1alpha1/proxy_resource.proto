@@ -39,6 +39,8 @@ message Resource {
 
   message GetProxyResourceRequest {
     string id = 1;
+    string proxy_id = 2;
+
     
   }
   
