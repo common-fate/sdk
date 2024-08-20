@@ -449,27 +449,87 @@ func (m *GetProxyResponse) validate(all bool) error {
 
 	// no validation rules for Id
 
-	// no validation rules for AwsRegion
+	// no validation rules for IntegrationId
 
-	// no validation rules for AwsAccountId
+	for idx, item := range m.GetResources() {
+		_, _ = idx, item
 
-	// no validation rules for CommonFateAwsAccountId
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, GetProxyResponseValidationError{
+						field:  fmt.Sprintf("Resources[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, GetProxyResponseValidationError{
+						field:  fmt.Sprintf("Resources[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return GetProxyResponseValidationError{
+					field:  fmt.Sprintf("Resources[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
 
-	// no validation rules for AwsPartition
+	}
 
-	// no validation rules for SubnetIds
+	switch v := m.InstanceConfig.(type) {
+	case *GetProxyResponse_AwsEcsProxyInstanceConfig:
+		if v == nil {
+			err := GetProxyResponseValidationError{
+				field:  "InstanceConfig",
+				reason: "oneof value cannot be a typed-nil",
+			}
+			if !all {
+				return err
+			}
+			errors = append(errors, err)
+		}
 
-	// no validation rules for VpcId
+		if all {
+			switch v := interface{}(m.GetAwsEcsProxyInstanceConfig()).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, GetProxyResponseValidationError{
+						field:  "AwsEcsProxyInstanceConfig",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, GetProxyResponseValidationError{
+						field:  "AwsEcsProxyInstanceConfig",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(m.GetAwsEcsProxyInstanceConfig()).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return GetProxyResponseValidationError{
+					field:  "AwsEcsProxyInstanceConfig",
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
 
-	// no validation rules for EcsClusterId
-
-	// no validation rules for EcsClusterName
-
-	// no validation rules for AuthIssuer
-
-	// no validation rules for ProxyServiceClientId
-
-	// no validation rules for ProxyServiceClientSecret
+	default:
+		_ = v // ensures v is used
+	}
 
 	if len(errors) > 0 {
 		return GetProxyResponseMultiError(errors)
