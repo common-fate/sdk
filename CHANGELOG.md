@@ -1,5 +1,23 @@
 # @common-fate/sdk
 
+## 1.53.0
+
+### Minor Changes
+
+- f30b35a: Adds GetDeploymentSecret API and exposes additional deployment configuration
+- 94bc67f: Add SDK methods to get and set Terraform Output for deployments
+
+### Patch Changes
+
+- 56551d7: Add extension_used, extendable_after to Extension.
+- 4ef6933: adds healthcheck client for factory service
+
+## 1.52.0
+
+### Minor Changes
+
+- 690de7d: Adds new deployment config service
+
 ## 1.51.1
 
 ### Patch Changes
