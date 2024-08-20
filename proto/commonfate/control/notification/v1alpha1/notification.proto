@@ -1,0 +1,44 @@
+syntax = "proto3";
+
+package commonfate.control.notification.v1alpha1;
+
+import "commonfate/authz/v1alpha1/read_only.proto";
+
+// NotificationService is used to inform clients of which notifications are enabled
+// based on notification flags, so that the client can choose whether or not to send 
+// notifications based on the user settings
+//
+// Used in the Common Fate web console to determine which notification settings are enabled
+service NotificationService {
+  // Returns a list of enabled notifications.
+  rpc GetNotifications(GetNotificationsRequest) returns (GetNotificationsResponse) {
+    option (commonfate.authz.v1alpha1.read_only) = true;
+  }
+  rpc UpdateNotification(UpdateNotificationRequest) returns (UpdateNotificationResponse) {}
+}
+
+message GetNotificationsRequest {}
+
+message GetNotificationsResponse {
+  repeated Notification notifications = 1;
+}
+
+message Notification {
+  // Configurable list of notifications enabled by the user
+  bool first_request = 1;
+  bool approve = 2;
+  bool activate = 3;
+  bool extend = 4;
+  bool revoke = 5;
+  bool deprovision = 6;
+
+}
+
+message UpdateNotificationRequest {
+  string name = 1;
+  bool enabled = 2;
+}
+
+message UpdateNotificationResponse {
+  Notification notification = 1;
+}
