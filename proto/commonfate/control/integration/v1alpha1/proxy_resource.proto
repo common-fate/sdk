@@ -24,14 +24,14 @@ message Resource {
 
  
   message RegisterProxyResourceRequest {
-    string integration_id = 1;
+    string proxy_id = 1;
     Resource resource = 2;
   
   }
   
   message RegisterProxyResourceResponse {
     string id = 1;
-    string integration_id = 2;
+    string proxy_id = 2;
     Resource resource = 3;
     string proxy_role_arn = 4;
     string proxy_security_group_arn = 5;
@@ -44,7 +44,7 @@ message Resource {
   
   message GetProxyResourceResponse {
     string id = 1;
-    string integration_id = 2;
+    string proxy_id = 2;
     Resource resource = 3;
     string proxy_role_arn = 4;
     string proxy_security_group_arn = 5;
@@ -52,14 +52,14 @@ message Resource {
 
   message UpdateProxyResourceRequest {
     string id = 1;
-    string integration_id = 2;
+    string proxy_id = 2;
     Resource resource = 3;
   
   }
   
   message UpdateProxyResourceResponse {
     string id = 1;
-    string integration_id = 2;
+    string proxy_id = 2;
     Resource resource = 3;
     string proxy_role_arn = 4;
     string proxy_security_group_arn = 5;
@@ -75,7 +75,7 @@ message Resource {
   }
 
   message DescribeProxyResourcesRequest {
-    string integration_id = 1;
+    string proxy_id = 1;
     
   }
 
@@ -83,9 +83,10 @@ message Resource {
   
   message DescribeProxyResourcesResponse {
     string id = 1;
-    repeated Resource resources = 2;
-    string proxy_role_arn = 3;
-    string proxy_security_group_arn = 4;
+    string proxy_id = 2;
+    repeated Resource resources = 3;
+    string proxy_role_arn = 4;
+    string proxy_security_group_arn = 5;
   }
   
  

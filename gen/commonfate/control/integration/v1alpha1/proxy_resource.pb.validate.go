@@ -202,7 +202,7 @@ func (m *RegisterProxyResourceRequest) validate(all bool) error {
 
 	var errors []error
 
-	// no validation rules for IntegrationId
+	// no validation rules for ProxyId
 
 	if all {
 		switch v := interface{}(m.GetResource()).(type) {
@@ -338,7 +338,7 @@ func (m *RegisterProxyResourceResponse) validate(all bool) error {
 
 	// no validation rules for Id
 
-	// no validation rules for IntegrationId
+	// no validation rules for ProxyId
 
 	if all {
 		switch v := interface{}(m.GetResource()).(type) {
@@ -582,7 +582,7 @@ func (m *GetProxyResourceResponse) validate(all bool) error {
 
 	// no validation rules for Id
 
-	// no validation rules for IntegrationId
+	// no validation rules for ProxyId
 
 	if all {
 		switch v := interface{}(m.GetResource()).(type) {
@@ -721,7 +721,7 @@ func (m *UpdateProxyResourceRequest) validate(all bool) error {
 
 	// no validation rules for Id
 
-	// no validation rules for IntegrationId
+	// no validation rules for ProxyId
 
 	if all {
 		switch v := interface{}(m.GetResource()).(type) {
@@ -856,7 +856,7 @@ func (m *UpdateProxyResourceResponse) validate(all bool) error {
 
 	// no validation rules for Id
 
-	// no validation rules for IntegrationId
+	// no validation rules for ProxyId
 
 	if all {
 		switch v := interface{}(m.GetResource()).(type) {
@@ -1203,7 +1203,7 @@ func (m *DescribeProxyResourcesRequest) validate(all bool) error {
 
 	var errors []error
 
-	// no validation rules for IntegrationId
+	// no validation rules for ProxyId
 
 	if len(errors) > 0 {
 		return DescribeProxyResourcesRequestMultiError(errors)
@@ -1309,6 +1309,8 @@ func (m *DescribeProxyResourcesResponse) validate(all bool) error {
 	var errors []error
 
 	// no validation rules for Id
+
+	// no validation rules for ProxyId
 
 	for idx, item := range m.GetResources() {
 		_, _ = idx, item
