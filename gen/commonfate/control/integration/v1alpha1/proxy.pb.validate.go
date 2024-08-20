@@ -241,6 +241,8 @@ func (m *RegisterProxyResponse) validate(all bool) error {
 
 	var errors []error
 
+	// no validation rules for Id
+
 	// no validation rules for IntegrationId
 
 	for idx, item := range m.GetResources() {
