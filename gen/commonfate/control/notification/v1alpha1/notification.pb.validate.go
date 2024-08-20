@@ -35,24 +35,23 @@ var (
 	_ = sort.Sort
 )
 
-// Validate checks the field values on GetUserUserNotificationSettingsRequest
-// with the rules defined in the proto definition for this message. If any
-// rules are violated, the first error encountered is returned, or nil if
-// there are no violations.
-func (m *GetUserUserNotificationSettingsRequest) Validate() error {
+// Validate checks the field values on GetUserNotificationSettingsRequest with
+// the rules defined in the proto definition for this message. If any rules
+// are violated, the first error encountered is returned, or nil if there are
+// no violations.
+func (m *GetUserNotificationSettingsRequest) Validate() error {
 	return m.validate(false)
 }
 
-// ValidateAll checks the field values on
-// GetUserUserNotificationSettingsRequest with the rules defined in the proto
-// definition for this message. If any rules are violated, the result is a
-// list of violation errors wrapped in
-// GetUserUserNotificationSettingsRequestMultiError, or nil if none found.
-func (m *GetUserUserNotificationSettingsRequest) ValidateAll() error {
+// ValidateAll checks the field values on GetUserNotificationSettingsRequest
+// with the rules defined in the proto definition for this message. If any
+// rules are violated, the result is a list of violation errors wrapped in
+// GetUserNotificationSettingsRequestMultiError, or nil if none found.
+func (m *GetUserNotificationSettingsRequest) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *GetUserUserNotificationSettingsRequest) validate(all bool) error {
+func (m *GetUserNotificationSettingsRequest) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
@@ -60,20 +59,20 @@ func (m *GetUserUserNotificationSettingsRequest) validate(all bool) error {
 	var errors []error
 
 	if len(errors) > 0 {
-		return GetUserUserNotificationSettingsRequestMultiError(errors)
+		return GetUserNotificationSettingsRequestMultiError(errors)
 	}
 
 	return nil
 }
 
-// GetUserUserNotificationSettingsRequestMultiError is an error wrapping
-// multiple validation errors returned by
-// GetUserUserNotificationSettingsRequest.ValidateAll() if the designated
+// GetUserNotificationSettingsRequestMultiError is an error wrapping multiple
+// validation errors returned by
+// GetUserNotificationSettingsRequest.ValidateAll() if the designated
 // constraints aren't met.
-type GetUserUserNotificationSettingsRequestMultiError []error
+type GetUserNotificationSettingsRequestMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m GetUserUserNotificationSettingsRequestMultiError) Error() string {
+func (m GetUserNotificationSettingsRequestMultiError) Error() string {
 	var msgs []string
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -82,12 +81,12 @@ func (m GetUserUserNotificationSettingsRequestMultiError) Error() string {
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m GetUserUserNotificationSettingsRequestMultiError) AllErrors() []error { return m }
+func (m GetUserNotificationSettingsRequestMultiError) AllErrors() []error { return m }
 
-// GetUserUserNotificationSettingsRequestValidationError is the validation
-// error returned by GetUserUserNotificationSettingsRequest.Validate if the
-// designated constraints aren't met.
-type GetUserUserNotificationSettingsRequestValidationError struct {
+// GetUserNotificationSettingsRequestValidationError is the validation error
+// returned by GetUserNotificationSettingsRequest.Validate if the designated
+// constraints aren't met.
+type GetUserNotificationSettingsRequestValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -95,24 +94,24 @@ type GetUserUserNotificationSettingsRequestValidationError struct {
 }
 
 // Field function returns field value.
-func (e GetUserUserNotificationSettingsRequestValidationError) Field() string { return e.field }
+func (e GetUserNotificationSettingsRequestValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e GetUserUserNotificationSettingsRequestValidationError) Reason() string { return e.reason }
+func (e GetUserNotificationSettingsRequestValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e GetUserUserNotificationSettingsRequestValidationError) Cause() error { return e.cause }
+func (e GetUserNotificationSettingsRequestValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e GetUserUserNotificationSettingsRequestValidationError) Key() bool { return e.key }
+func (e GetUserNotificationSettingsRequestValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e GetUserUserNotificationSettingsRequestValidationError) ErrorName() string {
-	return "GetUserUserNotificationSettingsRequestValidationError"
+func (e GetUserNotificationSettingsRequestValidationError) ErrorName() string {
+	return "GetUserNotificationSettingsRequestValidationError"
 }
 
 // Error satisfies the builtin error interface
-func (e GetUserUserNotificationSettingsRequestValidationError) Error() string {
+func (e GetUserNotificationSettingsRequestValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -124,14 +123,14 @@ func (e GetUserUserNotificationSettingsRequestValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sGetUserUserNotificationSettingsRequest.%s: %s%s",
+		"invalid %sGetUserNotificationSettingsRequest.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = GetUserUserNotificationSettingsRequestValidationError{}
+var _ error = GetUserNotificationSettingsRequestValidationError{}
 
 var _ interface {
 	Field() string
@@ -139,26 +138,25 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = GetUserUserNotificationSettingsRequestValidationError{}
+} = GetUserNotificationSettingsRequestValidationError{}
 
-// Validate checks the field values on GetUserUserNotificationSettingsResponse
-// with the rules defined in the proto definition for this message. If any
-// rules are violated, the first error encountered is returned, or nil if
-// there are no violations.
-func (m *GetUserUserNotificationSettingsResponse) Validate() error {
+// Validate checks the field values on GetUserNotificationSettingsResponse with
+// the rules defined in the proto definition for this message. If any rules
+// are violated, the first error encountered is returned, or nil if there are
+// no violations.
+func (m *GetUserNotificationSettingsResponse) Validate() error {
 	return m.validate(false)
 }
 
-// ValidateAll checks the field values on
-// GetUserUserNotificationSettingsResponse with the rules defined in the proto
-// definition for this message. If any rules are violated, the result is a
-// list of violation errors wrapped in
-// GetUserUserNotificationSettingsResponseMultiError, or nil if none found.
-func (m *GetUserUserNotificationSettingsResponse) ValidateAll() error {
+// ValidateAll checks the field values on GetUserNotificationSettingsResponse
+// with the rules defined in the proto definition for this message. If any
+// rules are violated, the result is a list of violation errors wrapped in
+// GetUserNotificationSettingsResponseMultiError, or nil if none found.
+func (m *GetUserNotificationSettingsResponse) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *GetUserUserNotificationSettingsResponse) validate(all bool) error {
+func (m *GetUserNotificationSettingsResponse) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
@@ -169,7 +167,7 @@ func (m *GetUserUserNotificationSettingsResponse) validate(all bool) error {
 		switch v := interface{}(m.GetUserNotificationSettings()).(type) {
 		case interface{ ValidateAll() error }:
 			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, GetUserUserNotificationSettingsResponseValidationError{
+				errors = append(errors, GetUserNotificationSettingsResponseValidationError{
 					field:  "UserNotificationSettings",
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -177,7 +175,7 @@ func (m *GetUserUserNotificationSettingsResponse) validate(all bool) error {
 			}
 		case interface{ Validate() error }:
 			if err := v.Validate(); err != nil {
-				errors = append(errors, GetUserUserNotificationSettingsResponseValidationError{
+				errors = append(errors, GetUserNotificationSettingsResponseValidationError{
 					field:  "UserNotificationSettings",
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -186,7 +184,7 @@ func (m *GetUserUserNotificationSettingsResponse) validate(all bool) error {
 		}
 	} else if v, ok := interface{}(m.GetUserNotificationSettings()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
-			return GetUserUserNotificationSettingsResponseValidationError{
+			return GetUserNotificationSettingsResponseValidationError{
 				field:  "UserNotificationSettings",
 				reason: "embedded message failed validation",
 				cause:  err,
@@ -195,20 +193,20 @@ func (m *GetUserUserNotificationSettingsResponse) validate(all bool) error {
 	}
 
 	if len(errors) > 0 {
-		return GetUserUserNotificationSettingsResponseMultiError(errors)
+		return GetUserNotificationSettingsResponseMultiError(errors)
 	}
 
 	return nil
 }
 
-// GetUserUserNotificationSettingsResponseMultiError is an error wrapping
-// multiple validation errors returned by
-// GetUserUserNotificationSettingsResponse.ValidateAll() if the designated
+// GetUserNotificationSettingsResponseMultiError is an error wrapping multiple
+// validation errors returned by
+// GetUserNotificationSettingsResponse.ValidateAll() if the designated
 // constraints aren't met.
-type GetUserUserNotificationSettingsResponseMultiError []error
+type GetUserNotificationSettingsResponseMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m GetUserUserNotificationSettingsResponseMultiError) Error() string {
+func (m GetUserNotificationSettingsResponseMultiError) Error() string {
 	var msgs []string
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -217,12 +215,12 @@ func (m GetUserUserNotificationSettingsResponseMultiError) Error() string {
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m GetUserUserNotificationSettingsResponseMultiError) AllErrors() []error { return m }
+func (m GetUserNotificationSettingsResponseMultiError) AllErrors() []error { return m }
 
-// GetUserUserNotificationSettingsResponseValidationError is the validation
-// error returned by GetUserUserNotificationSettingsResponse.Validate if the
-// designated constraints aren't met.
-type GetUserUserNotificationSettingsResponseValidationError struct {
+// GetUserNotificationSettingsResponseValidationError is the validation error
+// returned by GetUserNotificationSettingsResponse.Validate if the designated
+// constraints aren't met.
+type GetUserNotificationSettingsResponseValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -230,24 +228,24 @@ type GetUserUserNotificationSettingsResponseValidationError struct {
 }
 
 // Field function returns field value.
-func (e GetUserUserNotificationSettingsResponseValidationError) Field() string { return e.field }
+func (e GetUserNotificationSettingsResponseValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e GetUserUserNotificationSettingsResponseValidationError) Reason() string { return e.reason }
+func (e GetUserNotificationSettingsResponseValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e GetUserUserNotificationSettingsResponseValidationError) Cause() error { return e.cause }
+func (e GetUserNotificationSettingsResponseValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e GetUserUserNotificationSettingsResponseValidationError) Key() bool { return e.key }
+func (e GetUserNotificationSettingsResponseValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e GetUserUserNotificationSettingsResponseValidationError) ErrorName() string {
-	return "GetUserUserNotificationSettingsResponseValidationError"
+func (e GetUserNotificationSettingsResponseValidationError) ErrorName() string {
+	return "GetUserNotificationSettingsResponseValidationError"
 }
 
 // Error satisfies the builtin error interface
-func (e GetUserUserNotificationSettingsResponseValidationError) Error() string {
+func (e GetUserNotificationSettingsResponseValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -259,14 +257,14 @@ func (e GetUserUserNotificationSettingsResponseValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sGetUserUserNotificationSettingsResponse.%s: %s%s",
+		"invalid %sGetUserNotificationSettingsResponse.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = GetUserUserNotificationSettingsResponseValidationError{}
+var _ error = GetUserNotificationSettingsResponseValidationError{}
 
 var _ interface {
 	Field() string
@@ -274,7 +272,7 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = GetUserUserNotificationSettingsResponseValidationError{}
+} = GetUserNotificationSettingsResponseValidationError{}
 
 // Validate checks the field values on UserNotificationSettings with the rules
 // defined in the proto definition for this message. If any rules are

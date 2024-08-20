@@ -11,15 +11,15 @@ import "commonfate/authz/v1alpha1/read_only.proto";
 // Used in the Common Fate web console to determine which notification settings are enabled
 service UserNotificationSettingsService {
   // Returns a list of enabled user_notification_settings.
-  rpc GetUserUserNotificationSettings(GetUserUserNotificationSettingsRequest) returns (GetUserUserNotificationSettingsResponse) {
+  rpc GetUserNotificationSettings(GetUserNotificationSettingsRequest) returns (GetUserNotificationSettingsResponse) {
     option (commonfate.authz.v1alpha1.read_only) = true;
   }
   rpc UpdateUserNotificationSettings(UpdateUserNotificationSettingsRequest) returns (UpdateUserNotificationSettingsResponse) {}
 }
 
-message GetUserUserNotificationSettingsRequest {}
+message GetUserNotificationSettingsRequest {}
 
-message GetUserUserNotificationSettingsResponse {
+message GetUserNotificationSettingsResponse {
   UserNotificationSettings user_notification_settings = 1;
 }
 

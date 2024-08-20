@@ -34,9 +34,9 @@ const (
 // reflection-formatted method names, remove the leading slash and convert the remaining slash to a
 // period.
 const (
-	// UserNotificationSettingsServiceGetUserUserNotificationSettingsProcedure is the fully-qualified
-	// name of the UserNotificationSettingsService's GetUserUserNotificationSettings RPC.
-	UserNotificationSettingsServiceGetUserUserNotificationSettingsProcedure = "/commonfate.control.notification.v1alpha1.UserNotificationSettingsService/GetUserUserNotificationSettings"
+	// UserNotificationSettingsServiceGetUserNotificationSettingsProcedure is the fully-qualified name
+	// of the UserNotificationSettingsService's GetUserNotificationSettings RPC.
+	UserNotificationSettingsServiceGetUserNotificationSettingsProcedure = "/commonfate.control.notification.v1alpha1.UserNotificationSettingsService/GetUserNotificationSettings"
 	// UserNotificationSettingsServiceUpdateUserNotificationSettingsProcedure is the fully-qualified
 	// name of the UserNotificationSettingsService's UpdateUserNotificationSettings RPC.
 	UserNotificationSettingsServiceUpdateUserNotificationSettingsProcedure = "/commonfate.control.notification.v1alpha1.UserNotificationSettingsService/UpdateUserNotificationSettings"
@@ -44,16 +44,16 @@ const (
 
 // These variables are the protoreflect.Descriptor objects for the RPCs defined in this package.
 var (
-	userNotificationSettingsServiceServiceDescriptor                               = v1alpha1.File_commonfate_control_notification_v1alpha1_notification_proto.Services().ByName("UserNotificationSettingsService")
-	userNotificationSettingsServiceGetUserUserNotificationSettingsMethodDescriptor = userNotificationSettingsServiceServiceDescriptor.Methods().ByName("GetUserUserNotificationSettings")
-	userNotificationSettingsServiceUpdateUserNotificationSettingsMethodDescriptor  = userNotificationSettingsServiceServiceDescriptor.Methods().ByName("UpdateUserNotificationSettings")
+	userNotificationSettingsServiceServiceDescriptor                              = v1alpha1.File_commonfate_control_notification_v1alpha1_notification_proto.Services().ByName("UserNotificationSettingsService")
+	userNotificationSettingsServiceGetUserNotificationSettingsMethodDescriptor    = userNotificationSettingsServiceServiceDescriptor.Methods().ByName("GetUserNotificationSettings")
+	userNotificationSettingsServiceUpdateUserNotificationSettingsMethodDescriptor = userNotificationSettingsServiceServiceDescriptor.Methods().ByName("UpdateUserNotificationSettings")
 )
 
 // UserNotificationSettingsServiceClient is a client for the
 // commonfate.control.notification.v1alpha1.UserNotificationSettingsService service.
 type UserNotificationSettingsServiceClient interface {
 	// Returns a list of enabled user_notification_settings.
-	GetUserUserNotificationSettings(context.Context, *connect.Request[v1alpha1.GetUserUserNotificationSettingsRequest]) (*connect.Response[v1alpha1.GetUserUserNotificationSettingsResponse], error)
+	GetUserNotificationSettings(context.Context, *connect.Request[v1alpha1.GetUserNotificationSettingsRequest]) (*connect.Response[v1alpha1.GetUserNotificationSettingsResponse], error)
 	UpdateUserNotificationSettings(context.Context, *connect.Request[v1alpha1.UpdateUserNotificationSettingsRequest]) (*connect.Response[v1alpha1.UpdateUserNotificationSettingsResponse], error)
 }
 
@@ -68,10 +68,10 @@ type UserNotificationSettingsServiceClient interface {
 func NewUserNotificationSettingsServiceClient(httpClient connect.HTTPClient, baseURL string, opts ...connect.ClientOption) UserNotificationSettingsServiceClient {
 	baseURL = strings.TrimRight(baseURL, "/")
 	return &userNotificationSettingsServiceClient{
-		getUserUserNotificationSettings: connect.NewClient[v1alpha1.GetUserUserNotificationSettingsRequest, v1alpha1.GetUserUserNotificationSettingsResponse](
+		getUserNotificationSettings: connect.NewClient[v1alpha1.GetUserNotificationSettingsRequest, v1alpha1.GetUserNotificationSettingsResponse](
 			httpClient,
-			baseURL+UserNotificationSettingsServiceGetUserUserNotificationSettingsProcedure,
-			connect.WithSchema(userNotificationSettingsServiceGetUserUserNotificationSettingsMethodDescriptor),
+			baseURL+UserNotificationSettingsServiceGetUserNotificationSettingsProcedure,
+			connect.WithSchema(userNotificationSettingsServiceGetUserNotificationSettingsMethodDescriptor),
 			connect.WithClientOptions(opts...),
 		),
 		updateUserNotificationSettings: connect.NewClient[v1alpha1.UpdateUserNotificationSettingsRequest, v1alpha1.UpdateUserNotificationSettingsResponse](
@@ -85,14 +85,14 @@ func NewUserNotificationSettingsServiceClient(httpClient connect.HTTPClient, bas
 
 // userNotificationSettingsServiceClient implements UserNotificationSettingsServiceClient.
 type userNotificationSettingsServiceClient struct {
-	getUserUserNotificationSettings *connect.Client[v1alpha1.GetUserUserNotificationSettingsRequest, v1alpha1.GetUserUserNotificationSettingsResponse]
-	updateUserNotificationSettings  *connect.Client[v1alpha1.UpdateUserNotificationSettingsRequest, v1alpha1.UpdateUserNotificationSettingsResponse]
+	getUserNotificationSettings    *connect.Client[v1alpha1.GetUserNotificationSettingsRequest, v1alpha1.GetUserNotificationSettingsResponse]
+	updateUserNotificationSettings *connect.Client[v1alpha1.UpdateUserNotificationSettingsRequest, v1alpha1.UpdateUserNotificationSettingsResponse]
 }
 
-// GetUserUserNotificationSettings calls
-// commonfate.control.notification.v1alpha1.UserNotificationSettingsService.GetUserUserNotificationSettings.
-func (c *userNotificationSettingsServiceClient) GetUserUserNotificationSettings(ctx context.Context, req *connect.Request[v1alpha1.GetUserUserNotificationSettingsRequest]) (*connect.Response[v1alpha1.GetUserUserNotificationSettingsResponse], error) {
-	return c.getUserUserNotificationSettings.CallUnary(ctx, req)
+// GetUserNotificationSettings calls
+// commonfate.control.notification.v1alpha1.UserNotificationSettingsService.GetUserNotificationSettings.
+func (c *userNotificationSettingsServiceClient) GetUserNotificationSettings(ctx context.Context, req *connect.Request[v1alpha1.GetUserNotificationSettingsRequest]) (*connect.Response[v1alpha1.GetUserNotificationSettingsResponse], error) {
+	return c.getUserNotificationSettings.CallUnary(ctx, req)
 }
 
 // UpdateUserNotificationSettings calls
@@ -105,7 +105,7 @@ func (c *userNotificationSettingsServiceClient) UpdateUserNotificationSettings(c
 // commonfate.control.notification.v1alpha1.UserNotificationSettingsService service.
 type UserNotificationSettingsServiceHandler interface {
 	// Returns a list of enabled user_notification_settings.
-	GetUserUserNotificationSettings(context.Context, *connect.Request[v1alpha1.GetUserUserNotificationSettingsRequest]) (*connect.Response[v1alpha1.GetUserUserNotificationSettingsResponse], error)
+	GetUserNotificationSettings(context.Context, *connect.Request[v1alpha1.GetUserNotificationSettingsRequest]) (*connect.Response[v1alpha1.GetUserNotificationSettingsResponse], error)
 	UpdateUserNotificationSettings(context.Context, *connect.Request[v1alpha1.UpdateUserNotificationSettingsRequest]) (*connect.Response[v1alpha1.UpdateUserNotificationSettingsResponse], error)
 }
 
@@ -115,10 +115,10 @@ type UserNotificationSettingsServiceHandler interface {
 // By default, handlers support the Connect, gRPC, and gRPC-Web protocols with the binary Protobuf
 // and JSON codecs. They also support gzip compression.
 func NewUserNotificationSettingsServiceHandler(svc UserNotificationSettingsServiceHandler, opts ...connect.HandlerOption) (string, http.Handler) {
-	userNotificationSettingsServiceGetUserUserNotificationSettingsHandler := connect.NewUnaryHandler(
-		UserNotificationSettingsServiceGetUserUserNotificationSettingsProcedure,
-		svc.GetUserUserNotificationSettings,
-		connect.WithSchema(userNotificationSettingsServiceGetUserUserNotificationSettingsMethodDescriptor),
+	userNotificationSettingsServiceGetUserNotificationSettingsHandler := connect.NewUnaryHandler(
+		UserNotificationSettingsServiceGetUserNotificationSettingsProcedure,
+		svc.GetUserNotificationSettings,
+		connect.WithSchema(userNotificationSettingsServiceGetUserNotificationSettingsMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
 	userNotificationSettingsServiceUpdateUserNotificationSettingsHandler := connect.NewUnaryHandler(
@@ -129,8 +129,8 @@ func NewUserNotificationSettingsServiceHandler(svc UserNotificationSettingsServi
 	)
 	return "/commonfate.control.notification.v1alpha1.UserNotificationSettingsService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
-		case UserNotificationSettingsServiceGetUserUserNotificationSettingsProcedure:
-			userNotificationSettingsServiceGetUserUserNotificationSettingsHandler.ServeHTTP(w, r)
+		case UserNotificationSettingsServiceGetUserNotificationSettingsProcedure:
+			userNotificationSettingsServiceGetUserNotificationSettingsHandler.ServeHTTP(w, r)
 		case UserNotificationSettingsServiceUpdateUserNotificationSettingsProcedure:
 			userNotificationSettingsServiceUpdateUserNotificationSettingsHandler.ServeHTTP(w, r)
 		default:
@@ -142,8 +142,8 @@ func NewUserNotificationSettingsServiceHandler(svc UserNotificationSettingsServi
 // UnimplementedUserNotificationSettingsServiceHandler returns CodeUnimplemented from all methods.
 type UnimplementedUserNotificationSettingsServiceHandler struct{}
 
-func (UnimplementedUserNotificationSettingsServiceHandler) GetUserUserNotificationSettings(context.Context, *connect.Request[v1alpha1.GetUserUserNotificationSettingsRequest]) (*connect.Response[v1alpha1.GetUserUserNotificationSettingsResponse], error) {
-	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.control.notification.v1alpha1.UserNotificationSettingsService.GetUserUserNotificationSettings is not implemented"))
+func (UnimplementedUserNotificationSettingsServiceHandler) GetUserNotificationSettings(context.Context, *connect.Request[v1alpha1.GetUserNotificationSettingsRequest]) (*connect.Response[v1alpha1.GetUserNotificationSettingsResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.control.notification.v1alpha1.UserNotificationSettingsService.GetUserNotificationSettings is not implemented"))
 }
 
 func (UnimplementedUserNotificationSettingsServiceHandler) UpdateUserNotificationSettings(context.Context, *connect.Request[v1alpha1.UpdateUserNotificationSettingsRequest]) (*connect.Response[v1alpha1.UpdateUserNotificationSettingsResponse], error) {
