@@ -52,7 +52,7 @@ var (
 // UserNotificationSettingsServiceClient is a client for the
 // commonfate.control.notification.v1alpha1.UserNotificationSettingsService service.
 type UserNotificationSettingsServiceClient interface {
-	// Returns a list of enabled notifications.
+	// Returns a list of enabled user_notification_settings.
 	GetUserUserNotificationSettings(context.Context, *connect.Request[v1alpha1.GetUserUserNotificationSettingsRequest]) (*connect.Response[v1alpha1.GetUserUserNotificationSettingsResponse], error)
 	UpdateUserNotificationSettings(context.Context, *connect.Request[v1alpha1.UpdateUserNotificationSettingsRequest]) (*connect.Response[v1alpha1.UpdateUserNotificationSettingsResponse], error)
 }
@@ -104,7 +104,7 @@ func (c *userNotificationSettingsServiceClient) UpdateUserNotificationSettings(c
 // UserNotificationSettingsServiceHandler is an implementation of the
 // commonfate.control.notification.v1alpha1.UserNotificationSettingsService service.
 type UserNotificationSettingsServiceHandler interface {
-	// Returns a list of enabled notifications.
+	// Returns a list of enabled user_notification_settings.
 	GetUserUserNotificationSettings(context.Context, *connect.Request[v1alpha1.GetUserUserNotificationSettingsRequest]) (*connect.Response[v1alpha1.GetUserUserNotificationSettingsResponse], error)
 	UpdateUserNotificationSettings(context.Context, *connect.Request[v1alpha1.UpdateUserNotificationSettingsRequest]) (*connect.Response[v1alpha1.UpdateUserNotificationSettingsResponse], error)
 }
