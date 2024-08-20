@@ -241,43 +241,7 @@ func (m *RegisterProxyResponse) validate(all bool) error {
 
 	var errors []error
 
-	// no validation rules for Id
-
 	// no validation rules for IntegrationId
-
-	for idx, item := range m.GetResources() {
-		_, _ = idx, item
-
-		if all {
-			switch v := interface{}(item).(type) {
-			case interface{ ValidateAll() error }:
-				if err := v.ValidateAll(); err != nil {
-					errors = append(errors, RegisterProxyResponseValidationError{
-						field:  fmt.Sprintf("Resources[%v]", idx),
-						reason: "embedded message failed validation",
-						cause:  err,
-					})
-				}
-			case interface{ Validate() error }:
-				if err := v.Validate(); err != nil {
-					errors = append(errors, RegisterProxyResponseValidationError{
-						field:  fmt.Sprintf("Resources[%v]", idx),
-						reason: "embedded message failed validation",
-						cause:  err,
-					})
-				}
-			}
-		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
-			if err := v.Validate(); err != nil {
-				return RegisterProxyResponseValidationError{
-					field:  fmt.Sprintf("Resources[%v]", idx),
-					reason: "embedded message failed validation",
-					cause:  err,
-				}
-			}
-		}
-
-	}
 
 	switch v := m.InstanceConfig.(type) {
 	case *RegisterProxyResponse_AwsEcsProxyInstanceConfig:
@@ -531,42 +495,6 @@ func (m *GetProxyResponse) validate(all bool) error {
 
 	// no validation rules for Id
 
-	// no validation rules for IntegrationId
-
-	for idx, item := range m.GetResources() {
-		_, _ = idx, item
-
-		if all {
-			switch v := interface{}(item).(type) {
-			case interface{ ValidateAll() error }:
-				if err := v.ValidateAll(); err != nil {
-					errors = append(errors, GetProxyResponseValidationError{
-						field:  fmt.Sprintf("Resources[%v]", idx),
-						reason: "embedded message failed validation",
-						cause:  err,
-					})
-				}
-			case interface{ Validate() error }:
-				if err := v.Validate(); err != nil {
-					errors = append(errors, GetProxyResponseValidationError{
-						field:  fmt.Sprintf("Resources[%v]", idx),
-						reason: "embedded message failed validation",
-						cause:  err,
-					})
-				}
-			}
-		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
-			if err := v.Validate(); err != nil {
-				return GetProxyResponseValidationError{
-					field:  fmt.Sprintf("Resources[%v]", idx),
-					reason: "embedded message failed validation",
-					cause:  err,
-				}
-			}
-		}
-
-	}
-
 	switch v := m.InstanceConfig.(type) {
 	case *GetProxyResponse_AwsEcsProxyInstanceConfig:
 		if v == nil {
@@ -714,8 +642,6 @@ func (m *UpdateProxyRequest) validate(all bool) error {
 	var errors []error
 
 	// no validation rules for Id
-
-	// no validation rules for IntegrationId
 
 	switch v := m.InstanceConfig.(type) {
 	case *UpdateProxyRequest_AwsEcsProxyInstanceConfig:
@@ -866,8 +792,6 @@ func (m *UpdateProxyResponse) validate(all bool) error {
 	var errors []error
 
 	// no validation rules for Id
-
-	// no validation rules for IntegrationId
 
 	switch v := m.InstanceConfig.(type) {
 	case *UpdateProxyResponse_AwsEcsProxyInstanceConfig:
