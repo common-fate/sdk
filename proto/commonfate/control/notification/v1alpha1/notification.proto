@@ -20,7 +20,7 @@ service UserNotificationSettingsService {
 message GetUserUserNotificationSettingsRequest {}
 
 message GetUserUserNotificationSettingsResponse {
-  repeated UserNotificationSettings user_notification_settings = 1;
+  UserNotificationSettings user_notification_settings = 1;
 }
 
 message UserNotificationSettings {
