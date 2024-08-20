@@ -241,7 +241,87 @@ func (m *RegisterProxyResponse) validate(all bool) error {
 
 	var errors []error
 
-	// no validation rules for Id
+	// no validation rules for IntegrationId
+
+	for idx, item := range m.GetResources() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, RegisterProxyResponseValidationError{
+						field:  fmt.Sprintf("Resources[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, RegisterProxyResponseValidationError{
+						field:  fmt.Sprintf("Resources[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return RegisterProxyResponseValidationError{
+					field:  fmt.Sprintf("Resources[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	switch v := m.InstanceConfig.(type) {
+	case *RegisterProxyResponse_AwsEcsProxyInstanceConfig:
+		if v == nil {
+			err := RegisterProxyResponseValidationError{
+				field:  "InstanceConfig",
+				reason: "oneof value cannot be a typed-nil",
+			}
+			if !all {
+				return err
+			}
+			errors = append(errors, err)
+		}
+
+		if all {
+			switch v := interface{}(m.GetAwsEcsProxyInstanceConfig()).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, RegisterProxyResponseValidationError{
+						field:  "AwsEcsProxyInstanceConfig",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, RegisterProxyResponseValidationError{
+						field:  "AwsEcsProxyInstanceConfig",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(m.GetAwsEcsProxyInstanceConfig()).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return RegisterProxyResponseValidationError{
+					field:  "AwsEcsProxyInstanceConfig",
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	default:
+		_ = v // ensures v is used
+	}
 
 	if len(errors) > 0 {
 		return RegisterProxyResponseMultiError(errors)
@@ -784,6 +864,54 @@ func (m *UpdateProxyResponse) validate(all bool) error {
 	var errors []error
 
 	// no validation rules for Id
+
+	// no validation rules for IntegrationId
+
+	switch v := m.InstanceConfig.(type) {
+	case *UpdateProxyResponse_AwsEcsProxyInstanceConfig:
+		if v == nil {
+			err := UpdateProxyResponseValidationError{
+				field:  "InstanceConfig",
+				reason: "oneof value cannot be a typed-nil",
+			}
+			if !all {
+				return err
+			}
+			errors = append(errors, err)
+		}
+
+		if all {
+			switch v := interface{}(m.GetAwsEcsProxyInstanceConfig()).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, UpdateProxyResponseValidationError{
+						field:  "AwsEcsProxyInstanceConfig",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, UpdateProxyResponseValidationError{
+						field:  "AwsEcsProxyInstanceConfig",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(m.GetAwsEcsProxyInstanceConfig()).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return UpdateProxyResponseValidationError{
+					field:  "AwsEcsProxyInstanceConfig",
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	default:
+		_ = v // ensures v is used
+	}
 
 	if len(errors) > 0 {
 		return UpdateProxyResponseMultiError(errors)

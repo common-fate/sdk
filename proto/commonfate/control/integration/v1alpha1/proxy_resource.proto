@@ -31,8 +31,10 @@ message Resource {
   
   message RegisterProxyResourceResponse {
     string id = 1;
-    string proxy_role_arn = 2;
-    string proxy_security_group_arn = 3;
+    string integration_id = 2;
+    Resource resource = 3;
+    string proxy_role_arn = 4;
+    string proxy_security_group_arn = 5;
   }
 
   message GetProxyResourceRequest {
@@ -42,9 +44,10 @@ message Resource {
   
   message GetProxyResourceResponse {
     string id = 1;
-    Resource resource = 2;
-    string proxy_role_arn = 3;
-    string proxy_security_group_arn = 4;
+    string integration_id = 2;
+    Resource resource = 3;
+    string proxy_role_arn = 4;
+    string proxy_security_group_arn = 5;
   }
 
   message UpdateProxyResourceRequest {

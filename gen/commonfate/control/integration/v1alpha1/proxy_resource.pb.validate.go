@@ -338,6 +338,37 @@ func (m *RegisterProxyResourceResponse) validate(all bool) error {
 
 	// no validation rules for Id
 
+	// no validation rules for IntegrationId
+
+	if all {
+		switch v := interface{}(m.GetResource()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, RegisterProxyResourceResponseValidationError{
+					field:  "Resource",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, RegisterProxyResourceResponseValidationError{
+					field:  "Resource",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetResource()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return RegisterProxyResourceResponseValidationError{
+				field:  "Resource",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
 	// no validation rules for ProxyRoleArn
 
 	// no validation rules for ProxySecurityGroupArn
@@ -550,6 +581,8 @@ func (m *GetProxyResourceResponse) validate(all bool) error {
 	var errors []error
 
 	// no validation rules for Id
+
+	// no validation rules for IntegrationId
 
 	if all {
 		switch v := interface{}(m.GetResource()).(type) {

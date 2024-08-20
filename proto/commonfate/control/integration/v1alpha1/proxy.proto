@@ -29,7 +29,11 @@ message RegisterProxyRequest {
   }
   
   message RegisterProxyResponse {
-    string id = 1;
+    string integration_id = 1;
+    repeated Resource resources = 2;
+    oneof instance_config {
+      AWSECSProxyInstanceConfig aws_ecs_proxy_instance_config = 3;
+    }
   }
   
   
@@ -58,6 +62,10 @@ message RegisterProxyRequest {
   
   message UpdateProxyResponse {
     string id  =1;
+    string integration_id = 2;
+    oneof instance_config {
+      AWSECSProxyInstanceConfig aws_ecs_proxy_instance_config = 4;
+    }
     
   }
   
