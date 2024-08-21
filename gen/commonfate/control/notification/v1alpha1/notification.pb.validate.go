@@ -296,17 +296,9 @@ func (m *UserNotificationSettings) validate(all bool) error {
 
 	var errors []error
 
-	// no validation rules for FirstRequest
+	// no validation rules for Name
 
-	// no validation rules for Approve
-
-	// no validation rules for Activate
-
-	// no validation rules for Extend
-
-	// no validation rules for Revoke
-
-	// no validation rules for Deprovision
+	// no validation rules for Enabled
 
 	if len(errors) > 0 {
 		return UserNotificationSettingsMultiError(errors)

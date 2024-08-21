@@ -24,13 +24,8 @@ message GetUserNotificationSettingsResponse {
 }
 
 message UserNotificationSettings {
-  // Configurable list of user_notification_settings enabled by the user
-  bool first_request = 1;
-  bool approve = 2;
-  bool activate = 3;
-  bool extend = 4;
-  bool revoke = 5;
-  bool deprovision = 6;
+  string name = 1;
+  bool enabled = 2;
 
 }
 
