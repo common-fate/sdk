@@ -1298,8 +1298,6 @@ func (m *DescribeProxyResourcesResponse) validate(all bool) error {
 
 	var errors []error
 
-	// no validation rules for Id
-
 	// no validation rules for ProxyId
 
 	for idx, item := range m.GetResources() {

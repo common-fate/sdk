@@ -80,8 +80,7 @@ message Resource {
 
 
   message DescribeProxyResourcesResponse {
-    string id = 1;
-    string proxy_id = 2;
-    repeated Resource resources = 3;
+    string proxy_id = 1;
+    repeated Resource resources = 2;
 
   }
