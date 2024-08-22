@@ -369,10 +369,6 @@ func (m *RegisterProxyResourceResponse) validate(all bool) error {
 		}
 	}
 
-	// no validation rules for ProxyRoleArn
-
-	// no validation rules for ProxySecurityGroupArn
-
 	if len(errors) > 0 {
 		return RegisterProxyResourceResponseMultiError(errors)
 	}
@@ -614,10 +610,6 @@ func (m *GetProxyResourceResponse) validate(all bool) error {
 			}
 		}
 	}
-
-	// no validation rules for ProxyRoleArn
-
-	// no validation rules for ProxySecurityGroupArn
 
 	if len(errors) > 0 {
 		return GetProxyResourceResponseMultiError(errors)
@@ -888,10 +880,6 @@ func (m *UpdateProxyResourceResponse) validate(all bool) error {
 			}
 		}
 	}
-
-	// no validation rules for ProxyRoleArn
-
-	// no validation rules for ProxySecurityGroupArn
 
 	if len(errors) > 0 {
 		return UpdateProxyResourceResponseMultiError(errors)
@@ -1347,10 +1335,6 @@ func (m *DescribeProxyResourcesResponse) validate(all bool) error {
 		}
 
 	}
-
-	// no validation rules for ProxyRoleArn
-
-	// no validation rules for ProxySecurityGroupArn
 
 	if len(errors) > 0 {
 		return DescribeProxyResourcesResponseMultiError(errors)

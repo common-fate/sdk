@@ -22,73 +22,66 @@ message Resource {
     }
   }
 
- 
+
   message RegisterProxyResourceRequest {
     string proxy_id = 1;
     Resource resource = 2;
-  
+
   }
-  
+
   message RegisterProxyResourceResponse {
     string id = 1;
     string proxy_id = 2;
     Resource resource = 3;
-    string proxy_role_arn = 4;
-    string proxy_security_group_arn = 5;
   }
 
   message GetProxyResourceRequest {
     string id = 1;
     string proxy_id = 2;
 
-    
+
   }
-  
+
   message GetProxyResourceResponse {
     string id = 1;
     string proxy_id = 2;
     Resource resource = 3;
-    string proxy_role_arn = 4;
-    string proxy_security_group_arn = 5;
+
   }
 
   message UpdateProxyResourceRequest {
     string id = 1;
     string proxy_id = 2;
     Resource resource = 3;
-  
+
   }
-  
+
   message UpdateProxyResourceResponse {
     string id = 1;
     string proxy_id = 2;
     Resource resource = 3;
-    string proxy_role_arn = 4;
-    string proxy_security_group_arn = 5;
+
   }
-  
+
   message DeleteProxyResourceRequest {
-    string id = 1;  
+    string id = 1;
   }
-  
+
   message DeleteProxyResourceResponse {
     string id = 1;
-  
+
   }
 
   message DescribeProxyResourcesRequest {
     string proxy_id = 1;
-    
+
   }
 
-  
-  
+
+
   message DescribeProxyResourcesResponse {
     string id = 1;
     string proxy_id = 2;
     repeated Resource resources = 3;
-    string proxy_role_arn = 4;
-    string proxy_security_group_arn = 5;
+
   }
-  
- 
