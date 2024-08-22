@@ -25,23 +25,25 @@ message RegisterProxyRequest {
     oneof instance_config {
       AWSECSProxyInstanceConfig aws_ecs_proxy_instance_config = 3;
     }
-  
+    string id = 4;
+
   }
-  
+
   message RegisterProxyResponse {
+    string id = 4;
 
     string integration_id = 1;
     oneof instance_config {
       AWSECSProxyInstanceConfig aws_ecs_proxy_instance_config = 3;
     }
   }
-  
-  
+
+
   message GetProxyRequest {
     string id = 1;
-    
+
   }
-  
+
   message GetProxyResponse {
     string id = 1;
     oneof instance_config {
@@ -54,24 +56,22 @@ message RegisterProxyRequest {
     oneof instance_config {
       AWSECSProxyInstanceConfig aws_ecs_proxy_instance_config = 4;
     }
-  
+
   }
-  
+
   message UpdateProxyResponse {
     string id = 1;
     oneof instance_config {
       AWSECSProxyInstanceConfig aws_ecs_proxy_instance_config = 4;
     }
-    
-  }
-  
-  message DeleteProxyRequest {
-    string id = 1;  
-  }
-  
-  message DeleteProxyResponse {
-    string id = 1;
-  
+
   }
 
- 
+  message DeleteProxyRequest {
+    string id = 1;
+  }
+
+  message DeleteProxyResponse {
+    string id = 1;
+
+  }

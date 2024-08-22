@@ -93,6 +93,8 @@ func (m *RegisterProxyRequest) validate(all bool) error {
 
 	}
 
+	// no validation rules for Id
+
 	switch v := m.InstanceConfig.(type) {
 	case *RegisterProxyRequest_AwsEcsProxyInstanceConfig:
 		if v == nil {
@@ -240,6 +242,8 @@ func (m *RegisterProxyResponse) validate(all bool) error {
 	}
 
 	var errors []error
+
+	// no validation rules for Id
 
 	// no validation rules for IntegrationId
 
