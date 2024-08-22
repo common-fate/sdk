@@ -163,38 +163,33 @@ func (m *GetUserNotificationSettingsResponse) validate(all bool) error {
 
 	var errors []error
 
-	for idx, item := range m.GetUserNotificationSettings() {
-		_, _ = idx, item
-
-		if all {
-			switch v := interface{}(item).(type) {
-			case interface{ ValidateAll() error }:
-				if err := v.ValidateAll(); err != nil {
-					errors = append(errors, GetUserNotificationSettingsResponseValidationError{
-						field:  fmt.Sprintf("UserNotificationSettings[%v]", idx),
-						reason: "embedded message failed validation",
-						cause:  err,
-					})
-				}
-			case interface{ Validate() error }:
-				if err := v.Validate(); err != nil {
-					errors = append(errors, GetUserNotificationSettingsResponseValidationError{
-						field:  fmt.Sprintf("UserNotificationSettings[%v]", idx),
-						reason: "embedded message failed validation",
-						cause:  err,
-					})
-				}
-			}
-		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
-			if err := v.Validate(); err != nil {
-				return GetUserNotificationSettingsResponseValidationError{
-					field:  fmt.Sprintf("UserNotificationSettings[%v]", idx),
+	if all {
+		switch v := interface{}(m.GetUserNotificationSettings()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, GetUserNotificationSettingsResponseValidationError{
+					field:  "UserNotificationSettings",
 					reason: "embedded message failed validation",
 					cause:  err,
-				}
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, GetUserNotificationSettingsResponseValidationError{
+					field:  "UserNotificationSettings",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
 			}
 		}
-
+	} else if v, ok := interface{}(m.GetUserNotificationSettings()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return GetUserNotificationSettingsResponseValidationError{
+				field:  "UserNotificationSettings",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
 	}
 
 	if len(errors) > 0 {
@@ -301,9 +296,17 @@ func (m *UserNotificationSettings) validate(all bool) error {
 
 	var errors []error
 
-	// no validation rules for Name
+	// no validation rules for GrantRequested
 
-	// no validation rules for Enabled
+	// no validation rules for GrantApproved
+
+	// no validation rules for GrantActivated
+
+	// no validation rules for GrantExtended
+
+	// no validation rules for GrantRevoked
+
+	// no validation rules for GrantDeprovisioned
 
 	if len(errors) > 0 {
 		return UserNotificationSettingsMultiError(errors)
@@ -408,9 +411,34 @@ func (m *UpdateUserNotificationSettingsRequest) validate(all bool) error {
 
 	var errors []error
 
-	// no validation rules for Name
-
-	// no validation rules for Enabled
+	if all {
+		switch v := interface{}(m.GetUserNotificationSettings()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, UpdateUserNotificationSettingsRequestValidationError{
+					field:  "UserNotificationSettings",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, UpdateUserNotificationSettingsRequestValidationError{
+					field:  "UserNotificationSettings",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetUserNotificationSettings()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return UpdateUserNotificationSettingsRequestValidationError{
+				field:  "UserNotificationSettings",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
 
 	if len(errors) > 0 {
 		return UpdateUserNotificationSettingsRequestMultiError(errors)

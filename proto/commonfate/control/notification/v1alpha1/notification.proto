@@ -20,18 +20,21 @@ service UserNotificationSettingsService {
 message GetUserNotificationSettingsRequest {}
 
 message GetUserNotificationSettingsResponse {
-  repeated UserNotificationSettings user_notification_settings = 1;
+  UserNotificationSettings user_notification_settings = 1;
 }
 
 message UserNotificationSettings {
-  string name = 1;
-  bool enabled = 2;
+  bool grant_requested = 1;
+  bool grant_approved = 2;
+  bool grant_activated = 3;
+  bool grant_extended = 4;
+  bool grant_revoked = 5;
+  bool grant_deprovisioned = 6;
 
 }
 
 message UpdateUserNotificationSettingsRequest {
-  string name = 1;
-  bool enabled = 2;
+  UserNotificationSettings user_notification_settings = 1;
 }
 
 message UpdateUserNotificationSettingsResponse {
