@@ -26,7 +26,7 @@ service IntegrationService {
   }
   rpc DeleteIntegration(DeleteIntegrationRequest) returns (DeleteIntegrationResponse) {}
   rpc ListIntegrations(ListIntegrationsRequest) returns (ListIntegrationsResponse) {}
-  
+
 
   //CRUD operations for proxy resource terraform provider resource
   rpc RegisterProxyResource(RegisterProxyResourceRequest) returns (RegisterProxyResourceResponse) {}
@@ -39,6 +39,10 @@ service IntegrationService {
   rpc UpdateProxy(UpdateProxyRequest) returns (UpdateProxyResponse) {}
   rpc DeleteProxy(DeleteProxyRequest) returns (DeleteProxyResponse) {}
   rpc GetProxy(GetProxyRequest) returns (GetProxyResponse) {}
+
+  //used by the datasource to pull information about the proxy
+  rpc DescribeProxy(DescribeProxyRequest) returns (DescribeProxyResponse) {}
+
 
   //Used by the proxy to get resources
   rpc DescribeProxyResources(DescribeProxyResourcesRequest) returns (DescribeProxyResourcesResponse) {}

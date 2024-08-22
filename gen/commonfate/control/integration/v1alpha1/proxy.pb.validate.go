@@ -1130,3 +1130,257 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = DeleteProxyResponseValidationError{}
+
+// Validate checks the field values on DescribeProxyRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *DescribeProxyRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on DescribeProxyRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// DescribeProxyRequestMultiError, or nil if none found.
+func (m *DescribeProxyRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *DescribeProxyRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for ProxyId
+
+	if len(errors) > 0 {
+		return DescribeProxyRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// DescribeProxyRequestMultiError is an error wrapping multiple validation
+// errors returned by DescribeProxyRequest.ValidateAll() if the designated
+// constraints aren't met.
+type DescribeProxyRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m DescribeProxyRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m DescribeProxyRequestMultiError) AllErrors() []error { return m }
+
+// DescribeProxyRequestValidationError is the validation error returned by
+// DescribeProxyRequest.Validate if the designated constraints aren't met.
+type DescribeProxyRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e DescribeProxyRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e DescribeProxyRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e DescribeProxyRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e DescribeProxyRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e DescribeProxyRequestValidationError) ErrorName() string {
+	return "DescribeProxyRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e DescribeProxyRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sDescribeProxyRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = DescribeProxyRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = DescribeProxyRequestValidationError{}
+
+// Validate checks the field values on DescribeProxyResponse with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *DescribeProxyResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on DescribeProxyResponse with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// DescribeProxyResponseMultiError, or nil if none found.
+func (m *DescribeProxyResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *DescribeProxyResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for ProxyId
+
+	for idx, item := range m.GetResources() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, DescribeProxyResponseValidationError{
+						field:  fmt.Sprintf("Resources[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, DescribeProxyResponseValidationError{
+						field:  fmt.Sprintf("Resources[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return DescribeProxyResponseValidationError{
+					field:  fmt.Sprintf("Resources[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	// no validation rules for EcsClusterName
+
+	// no validation rules for EcsTaskDefinitionFamily
+
+	// no validation rules for EcsContainerName
+
+	// no validation rules for EcsClusterReaderRoleArn
+
+	// no validation rules for EcsClusterSecurityGroupId
+
+	// no validation rules for EcsClusterTaskRoleName
+
+	if len(errors) > 0 {
+		return DescribeProxyResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// DescribeProxyResponseMultiError is an error wrapping multiple validation
+// errors returned by DescribeProxyResponse.ValidateAll() if the designated
+// constraints aren't met.
+type DescribeProxyResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m DescribeProxyResponseMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m DescribeProxyResponseMultiError) AllErrors() []error { return m }
+
+// DescribeProxyResponseValidationError is the validation error returned by
+// DescribeProxyResponse.Validate if the designated constraints aren't met.
+type DescribeProxyResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e DescribeProxyResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e DescribeProxyResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e DescribeProxyResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e DescribeProxyResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e DescribeProxyResponseValidationError) ErrorName() string {
+	return "DescribeProxyResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e DescribeProxyResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sDescribeProxyResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = DescribeProxyResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = DescribeProxyResponseValidationError{}

@@ -75,3 +75,27 @@ message RegisterProxyRequest {
     string id = 1;
 
   }
+
+
+  message DescribeProxyRequest {
+    string proxy_id = 1;
+
+  }
+
+
+
+  message DescribeProxyResponse {
+    string proxy_id = 1;
+    repeated Resource resources = 2;
+
+    string ecs_cluster_name = 3;
+    // The name of the proxy task definition
+    string ecs_task_definition_family = 4;
+    // The name of the container for the proxy
+    string ecs_container_name = 5;
+    // The ARN of the role which can be used to read the task ID and runtime ID of the proxy when provisioning access
+    string ecs_cluster_reader_role_arn = 6;
+
+    string ecs_cluster_security_group_id = 7;
+    string ecs_cluster_task_role_name = 8;
+  }
