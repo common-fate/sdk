@@ -40,8 +40,7 @@ service IntegrationService {
   rpc DeleteProxy(DeleteProxyRequest) returns (DeleteProxyResponse) {}
   rpc GetProxy(GetProxyRequest) returns (GetProxyResponse) {}
 
-  //used by the datasource to pull information about the proxy
-  rpc DescribeProxy(DescribeProxyRequest) returns (DescribeProxyResponse) {}
+
 
 
   //Used by the proxy to get resources
