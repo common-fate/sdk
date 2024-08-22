@@ -29,6 +29,8 @@ message AWSECSProxyInstanceConfig {
   string ecs_cluster_reader_role_arn = 6;
 
   string ecs_cluster_security_group_id = 7;
+  string ecs_cluster_task_role_name = 8;
+
 }
 
 message AWSRDSDatabase {

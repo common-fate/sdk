@@ -222,6 +222,8 @@ func (m *AWSECSProxyInstanceConfig) validate(all bool) error {
 
 	// no validation rules for EcsClusterSecurityGroupId
 
+	// no validation rules for EcsClusterTaskRoleName
+
 	if len(errors) > 0 {
 		return AWSECSProxyInstanceConfigMultiError(errors)
 	}
