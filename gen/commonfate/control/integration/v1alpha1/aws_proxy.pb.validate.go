@@ -370,8 +370,6 @@ func (m *AWSRDSDatabase) validate(all bool) error {
 
 	}
 
-	// no validation rules for SecretReadRole
-
 	if len(errors) > 0 {
 		return AWSRDSDatabaseMultiError(errors)
 	}

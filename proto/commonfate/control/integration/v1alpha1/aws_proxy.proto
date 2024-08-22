@@ -39,7 +39,7 @@ message AWSRDSDatabase {
   string instance_id = 5;
   string database = 6;
   repeated AWSRDSDatabaseUser users = 7;
-  string secret_read_role = 8;
+
 }
 message AWSRDSDatabaseUser {
   string name = 1;
