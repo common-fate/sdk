@@ -28,6 +28,9 @@ message ProvisionRequest {
   commonfate.entity.v1alpha1.Entity role = 5;
 
   commonfate.control.integration.v1alpha1.Config integration_config = 6;
+
+  // The ID of the request.
+  commonfate.entity.v1alpha1.EID request_id = 7;
 }
 
 message ProvisionResponse {
