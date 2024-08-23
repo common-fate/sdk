@@ -1,5 +1,11 @@
 # @common-fate/sdk
 
+## 1.54.1
+
+### Patch Changes
+
+- 98e4102: Add access request id to ProvisionRequest.
+
 ## 1.54.0
 
 ### Minor Changes
