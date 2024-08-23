@@ -1,5 +1,11 @@
 # @common-fate/sdk
 
+## 1.54.0
+
+### Minor Changes
+
+- 9cc9766: Add configuration for slack user notifications, allowing opt in and opt out for specific DMs.
+
 ## 1.53.0
 
 ### Minor Changes
