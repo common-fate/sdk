@@ -232,11 +232,11 @@ func (m *ProvisionRequest) validate(all bool) error {
 	}
 
 	if all {
-		switch v := interface{}(m.GetRequestId()).(type) {
+		switch v := interface{}(m.GetAccessRequestId()).(type) {
 		case interface{ ValidateAll() error }:
 			if err := v.ValidateAll(); err != nil {
 				errors = append(errors, ProvisionRequestValidationError{
-					field:  "RequestId",
+					field:  "AccessRequestId",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
@@ -244,16 +244,16 @@ func (m *ProvisionRequest) validate(all bool) error {
 		case interface{ Validate() error }:
 			if err := v.Validate(); err != nil {
 				errors = append(errors, ProvisionRequestValidationError{
-					field:  "RequestId",
+					field:  "AccessRequestId",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
 			}
 		}
-	} else if v, ok := interface{}(m.GetRequestId()).(interface{ Validate() error }); ok {
+	} else if v, ok := interface{}(m.GetAccessRequestId()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
 			return ProvisionRequestValidationError{
-				field:  "RequestId",
+				field:  "AccessRequestId",
 				reason: "embedded message failed validation",
 				cause:  err,
 			}

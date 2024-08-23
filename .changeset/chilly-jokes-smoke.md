@@ -2,4 +2,4 @@
 "@common-fate/sdk": patch
 ---
 
-Add request id to ProvisionRequest.
+Add access request id to ProvisionRequest.
