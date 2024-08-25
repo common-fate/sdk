@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+package commonfate.control.notification.v1alpha1;
+
+import "commonfate/authz/v1alpha1/read_only.proto";
+
+// UserNotificationSettingsService is used to inform clients of which user_notification_settings are enabled
+// based on notification flags, so that the client can choose whether or not to send 
+// user_notification_settings based on the user settings
+//
+// Used in the Common Fate web console to determine which notification settings are enabled
+service UserNotificationSettingsService {
+  // Returns a list of enabled user_notification_settings.
+  rpc GetUserNotificationSettings(GetUserNotificationSettingsRequest) returns (GetUserNotificationSettingsResponse) {
+    option (commonfate.authz.v1alpha1.read_only) = true;
+  }
+  rpc UpdateUserNotificationSettings(UpdateUserNotificationSettingsRequest) returns (UpdateUserNotificationSettingsResponse) {}
+}
+
+message GetUserNotificationSettingsRequest {}
+
+message GetUserNotificationSettingsResponse {
+  UserNotificationSettings user_notification_settings = 1;
+}
+
+message UserNotificationSettings {
+  bool grant_requested = 1;
+  bool grant_approved = 2;
+  bool grant_activated = 3;
+  bool grant_extended = 4;
+  bool grant_revoked = 5;
+  bool grant_deprovisioned = 6;
+
+}
+
+message UpdateUserNotificationSettingsRequest {
+  UserNotificationSettings user_notification_settings = 1;
+}
+
+message UpdateUserNotificationSettingsResponse {
+  UserNotificationSettings user_notification_settings = 1;
+}
