@@ -1170,22 +1170,22 @@ var _ interface {
 	ErrorName() string
 } = DeleteProxyResourceResponseValidationError{}
 
-// Validate checks the field values on DescribeProxyResourcesRequest with the
-// rules defined in the proto definition for this message. If any rules are
+// Validate checks the field values on ListProxyResourcesRequest with the rules
+// defined in the proto definition for this message. If any rules are
 // violated, the first error encountered is returned, or nil if there are no violations.
-func (m *DescribeProxyResourcesRequest) Validate() error {
+func (m *ListProxyResourcesRequest) Validate() error {
 	return m.validate(false)
 }
 
-// ValidateAll checks the field values on DescribeProxyResourcesRequest with
-// the rules defined in the proto definition for this message. If any rules
-// are violated, the result is a list of violation errors wrapped in
-// DescribeProxyResourcesRequestMultiError, or nil if none found.
-func (m *DescribeProxyResourcesRequest) ValidateAll() error {
+// ValidateAll checks the field values on ListProxyResourcesRequest with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// ListProxyResourcesRequestMultiError, or nil if none found.
+func (m *ListProxyResourcesRequest) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *DescribeProxyResourcesRequest) validate(all bool) error {
+func (m *ListProxyResourcesRequest) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
@@ -1195,19 +1195,19 @@ func (m *DescribeProxyResourcesRequest) validate(all bool) error {
 	// no validation rules for ProxyId
 
 	if len(errors) > 0 {
-		return DescribeProxyResourcesRequestMultiError(errors)
+		return ListProxyResourcesRequestMultiError(errors)
 	}
 
 	return nil
 }
 
-// DescribeProxyResourcesRequestMultiError is an error wrapping multiple
-// validation errors returned by DescribeProxyResourcesRequest.ValidateAll()
-// if the designated constraints aren't met.
-type DescribeProxyResourcesRequestMultiError []error
+// ListProxyResourcesRequestMultiError is an error wrapping multiple validation
+// errors returned by ListProxyResourcesRequest.ValidateAll() if the
+// designated constraints aren't met.
+type ListProxyResourcesRequestMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m DescribeProxyResourcesRequestMultiError) Error() string {
+func (m ListProxyResourcesRequestMultiError) Error() string {
 	var msgs []string
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -1216,12 +1216,11 @@ func (m DescribeProxyResourcesRequestMultiError) Error() string {
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m DescribeProxyResourcesRequestMultiError) AllErrors() []error { return m }
+func (m ListProxyResourcesRequestMultiError) AllErrors() []error { return m }
 
-// DescribeProxyResourcesRequestValidationError is the validation error
-// returned by DescribeProxyResourcesRequest.Validate if the designated
-// constraints aren't met.
-type DescribeProxyResourcesRequestValidationError struct {
+// ListProxyResourcesRequestValidationError is the validation error returned by
+// ListProxyResourcesRequest.Validate if the designated constraints aren't met.
+type ListProxyResourcesRequestValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -1229,24 +1228,24 @@ type DescribeProxyResourcesRequestValidationError struct {
 }
 
 // Field function returns field value.
-func (e DescribeProxyResourcesRequestValidationError) Field() string { return e.field }
+func (e ListProxyResourcesRequestValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e DescribeProxyResourcesRequestValidationError) Reason() string { return e.reason }
+func (e ListProxyResourcesRequestValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e DescribeProxyResourcesRequestValidationError) Cause() error { return e.cause }
+func (e ListProxyResourcesRequestValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e DescribeProxyResourcesRequestValidationError) Key() bool { return e.key }
+func (e ListProxyResourcesRequestValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e DescribeProxyResourcesRequestValidationError) ErrorName() string {
-	return "DescribeProxyResourcesRequestValidationError"
+func (e ListProxyResourcesRequestValidationError) ErrorName() string {
+	return "ListProxyResourcesRequestValidationError"
 }
 
 // Error satisfies the builtin error interface
-func (e DescribeProxyResourcesRequestValidationError) Error() string {
+func (e ListProxyResourcesRequestValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -1258,14 +1257,14 @@ func (e DescribeProxyResourcesRequestValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sDescribeProxyResourcesRequest.%s: %s%s",
+		"invalid %sListProxyResourcesRequest.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = DescribeProxyResourcesRequestValidationError{}
+var _ error = ListProxyResourcesRequestValidationError{}
 
 var _ interface {
 	Field() string
@@ -1273,24 +1272,24 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = DescribeProxyResourcesRequestValidationError{}
+} = ListProxyResourcesRequestValidationError{}
 
-// Validate checks the field values on DescribeProxyResourcesResponse with the
+// Validate checks the field values on ListProxyResourcesResponse with the
 // rules defined in the proto definition for this message. If any rules are
 // violated, the first error encountered is returned, or nil if there are no violations.
-func (m *DescribeProxyResourcesResponse) Validate() error {
+func (m *ListProxyResourcesResponse) Validate() error {
 	return m.validate(false)
 }
 
-// ValidateAll checks the field values on DescribeProxyResourcesResponse with
-// the rules defined in the proto definition for this message. If any rules
-// are violated, the result is a list of violation errors wrapped in
-// DescribeProxyResourcesResponseMultiError, or nil if none found.
-func (m *DescribeProxyResourcesResponse) ValidateAll() error {
+// ValidateAll checks the field values on ListProxyResourcesResponse with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// ListProxyResourcesResponseMultiError, or nil if none found.
+func (m *ListProxyResourcesResponse) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *DescribeProxyResourcesResponse) validate(all bool) error {
+func (m *ListProxyResourcesResponse) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
@@ -1306,7 +1305,7 @@ func (m *DescribeProxyResourcesResponse) validate(all bool) error {
 			switch v := interface{}(item).(type) {
 			case interface{ ValidateAll() error }:
 				if err := v.ValidateAll(); err != nil {
-					errors = append(errors, DescribeProxyResourcesResponseValidationError{
+					errors = append(errors, ListProxyResourcesResponseValidationError{
 						field:  fmt.Sprintf("Resources[%v]", idx),
 						reason: "embedded message failed validation",
 						cause:  err,
@@ -1314,7 +1313,7 @@ func (m *DescribeProxyResourcesResponse) validate(all bool) error {
 				}
 			case interface{ Validate() error }:
 				if err := v.Validate(); err != nil {
-					errors = append(errors, DescribeProxyResourcesResponseValidationError{
+					errors = append(errors, ListProxyResourcesResponseValidationError{
 						field:  fmt.Sprintf("Resources[%v]", idx),
 						reason: "embedded message failed validation",
 						cause:  err,
@@ -1323,7 +1322,7 @@ func (m *DescribeProxyResourcesResponse) validate(all bool) error {
 			}
 		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
 			if err := v.Validate(); err != nil {
-				return DescribeProxyResourcesResponseValidationError{
+				return ListProxyResourcesResponseValidationError{
 					field:  fmt.Sprintf("Resources[%v]", idx),
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -1334,19 +1333,19 @@ func (m *DescribeProxyResourcesResponse) validate(all bool) error {
 	}
 
 	if len(errors) > 0 {
-		return DescribeProxyResourcesResponseMultiError(errors)
+		return ListProxyResourcesResponseMultiError(errors)
 	}
 
 	return nil
 }
 
-// DescribeProxyResourcesResponseMultiError is an error wrapping multiple
-// validation errors returned by DescribeProxyResourcesResponse.ValidateAll()
-// if the designated constraints aren't met.
-type DescribeProxyResourcesResponseMultiError []error
+// ListProxyResourcesResponseMultiError is an error wrapping multiple
+// validation errors returned by ListProxyResourcesResponse.ValidateAll() if
+// the designated constraints aren't met.
+type ListProxyResourcesResponseMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m DescribeProxyResourcesResponseMultiError) Error() string {
+func (m ListProxyResourcesResponseMultiError) Error() string {
 	var msgs []string
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -1355,12 +1354,11 @@ func (m DescribeProxyResourcesResponseMultiError) Error() string {
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m DescribeProxyResourcesResponseMultiError) AllErrors() []error { return m }
+func (m ListProxyResourcesResponseMultiError) AllErrors() []error { return m }
 
-// DescribeProxyResourcesResponseValidationError is the validation error
-// returned by DescribeProxyResourcesResponse.Validate if the designated
-// constraints aren't met.
-type DescribeProxyResourcesResponseValidationError struct {
+// ListProxyResourcesResponseValidationError is the validation error returned
+// by ListProxyResourcesResponse.Validate if the designated constraints aren't met.
+type ListProxyResourcesResponseValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -1368,24 +1366,24 @@ type DescribeProxyResourcesResponseValidationError struct {
 }
 
 // Field function returns field value.
-func (e DescribeProxyResourcesResponseValidationError) Field() string { return e.field }
+func (e ListProxyResourcesResponseValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e DescribeProxyResourcesResponseValidationError) Reason() string { return e.reason }
+func (e ListProxyResourcesResponseValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e DescribeProxyResourcesResponseValidationError) Cause() error { return e.cause }
+func (e ListProxyResourcesResponseValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e DescribeProxyResourcesResponseValidationError) Key() bool { return e.key }
+func (e ListProxyResourcesResponseValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e DescribeProxyResourcesResponseValidationError) ErrorName() string {
-	return "DescribeProxyResourcesResponseValidationError"
+func (e ListProxyResourcesResponseValidationError) ErrorName() string {
+	return "ListProxyResourcesResponseValidationError"
 }
 
 // Error satisfies the builtin error interface
-func (e DescribeProxyResourcesResponseValidationError) Error() string {
+func (e ListProxyResourcesResponseValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -1397,14 +1395,14 @@ func (e DescribeProxyResourcesResponseValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sDescribeProxyResourcesResponse.%s: %s%s",
+		"invalid %sListProxyResourcesResponse.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = DescribeProxyResourcesResponseValidationError{}
+var _ error = ListProxyResourcesResponseValidationError{}
 
 var _ interface {
 	Field() string
@@ -1412,4 +1410,4 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = DescribeProxyResourcesResponseValidationError{}
+} = ListProxyResourcesResponseValidationError{}

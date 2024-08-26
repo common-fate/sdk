@@ -72,14 +72,14 @@ message Resource {
 
   }
 
-  message DescribeProxyResourcesRequest {
+  message ListProxyResourcesRequest {
     string proxy_id = 1;
 
   }
 
 
 
-  message DescribeProxyResourcesResponse {
+  message ListProxyResourcesResponse {
     string proxy_id = 1;
     repeated Resource resources = 2;
 

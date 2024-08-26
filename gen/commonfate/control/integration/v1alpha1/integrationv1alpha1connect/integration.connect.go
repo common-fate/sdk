@@ -115,7 +115,7 @@ type IntegrationServiceClient interface {
 	DeleteProxy(context.Context, *connect.Request[v1alpha1.DeleteProxyRequest]) (*connect.Response[v1alpha1.DeleteProxyResponse], error)
 	GetProxy(context.Context, *connect.Request[v1alpha1.GetProxyRequest]) (*connect.Response[v1alpha1.GetProxyResponse], error)
 	// Used by the proxy to get resources
-	ListProxyResources(context.Context, *connect.Request[v1alpha1.DescribeProxyResourcesRequest]) (*connect.Response[v1alpha1.DescribeProxyResourcesResponse], error)
+	ListProxyResources(context.Context, *connect.Request[v1alpha1.ListProxyResourcesRequest]) (*connect.Response[v1alpha1.ListProxyResourcesResponse], error)
 }
 
 // NewIntegrationServiceClient constructs a client for the
@@ -207,7 +207,7 @@ func NewIntegrationServiceClient(httpClient connect.HTTPClient, baseURL string, 
 			connect.WithSchema(integrationServiceGetProxyMethodDescriptor),
 			connect.WithClientOptions(opts...),
 		),
-		listProxyResources: connect.NewClient[v1alpha1.DescribeProxyResourcesRequest, v1alpha1.DescribeProxyResourcesResponse](
+		listProxyResources: connect.NewClient[v1alpha1.ListProxyResourcesRequest, v1alpha1.ListProxyResourcesResponse](
 			httpClient,
 			baseURL+IntegrationServiceListProxyResourcesProcedure,
 			connect.WithSchema(integrationServiceListProxyResourcesMethodDescriptor),
@@ -231,7 +231,7 @@ type integrationServiceClient struct {
 	updateProxy         *connect.Client[v1alpha1.UpdateProxyRequest, v1alpha1.UpdateProxyResponse]
 	deleteProxy         *connect.Client[v1alpha1.DeleteProxyRequest, v1alpha1.DeleteProxyResponse]
 	getProxy            *connect.Client[v1alpha1.GetProxyRequest, v1alpha1.GetProxyResponse]
-	listProxyResources  *connect.Client[v1alpha1.DescribeProxyResourcesRequest, v1alpha1.DescribeProxyResourcesResponse]
+	listProxyResources  *connect.Client[v1alpha1.ListProxyResourcesRequest, v1alpha1.ListProxyResourcesResponse]
 }
 
 // CreateIntegration calls
@@ -309,7 +309,7 @@ func (c *integrationServiceClient) GetProxy(ctx context.Context, req *connect.Re
 
 // ListProxyResources calls
 // commonfate.control.integration.v1alpha1.IntegrationService.ListProxyResources.
-func (c *integrationServiceClient) ListProxyResources(ctx context.Context, req *connect.Request[v1alpha1.DescribeProxyResourcesRequest]) (*connect.Response[v1alpha1.DescribeProxyResourcesResponse], error) {
+func (c *integrationServiceClient) ListProxyResources(ctx context.Context, req *connect.Request[v1alpha1.ListProxyResourcesRequest]) (*connect.Response[v1alpha1.ListProxyResourcesResponse], error) {
 	return c.listProxyResources.CallUnary(ctx, req)
 }
 
@@ -332,7 +332,7 @@ type IntegrationServiceHandler interface {
 	DeleteProxy(context.Context, *connect.Request[v1alpha1.DeleteProxyRequest]) (*connect.Response[v1alpha1.DeleteProxyResponse], error)
 	GetProxy(context.Context, *connect.Request[v1alpha1.GetProxyRequest]) (*connect.Response[v1alpha1.GetProxyResponse], error)
 	// Used by the proxy to get resources
-	ListProxyResources(context.Context, *connect.Request[v1alpha1.DescribeProxyResourcesRequest]) (*connect.Response[v1alpha1.DescribeProxyResourcesResponse], error)
+	ListProxyResources(context.Context, *connect.Request[v1alpha1.ListProxyResourcesRequest]) (*connect.Response[v1alpha1.ListProxyResourcesResponse], error)
 }
 
 // NewIntegrationServiceHandler builds an HTTP handler from the service implementation. It returns
@@ -516,6 +516,6 @@ func (UnimplementedIntegrationServiceHandler) GetProxy(context.Context, *connect
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.control.integration.v1alpha1.IntegrationService.GetProxy is not implemented"))
 }
 
-func (UnimplementedIntegrationServiceHandler) ListProxyResources(context.Context, *connect.Request[v1alpha1.DescribeProxyResourcesRequest]) (*connect.Response[v1alpha1.DescribeProxyResourcesResponse], error) {
+func (UnimplementedIntegrationServiceHandler) ListProxyResources(context.Context, *connect.Request[v1alpha1.ListProxyResourcesRequest]) (*connect.Response[v1alpha1.ListProxyResourcesResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.control.integration.v1alpha1.IntegrationService.ListProxyResources is not implemented"))
 }

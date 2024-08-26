@@ -44,7 +44,7 @@ service IntegrationService {
 
 
   //Used by the proxy to get resources
-  rpc ListProxyResources(DescribeProxyResourcesRequest) returns (DescribeProxyResourcesResponse) {}
+  rpc ListProxyResources(ListProxyResourcesRequest) returns (ListProxyResourcesResponse) {}
 }
 
 message ListIntegrationsRequest {
