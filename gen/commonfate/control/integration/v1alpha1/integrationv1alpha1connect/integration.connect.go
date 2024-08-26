@@ -51,6 +51,15 @@ const (
 	// IntegrationServiceRegisterProxyProcedure is the fully-qualified name of the IntegrationService's
 	// RegisterProxy RPC.
 	IntegrationServiceRegisterProxyProcedure = "/commonfate.control.integration.v1alpha1.IntegrationService/RegisterProxy"
+	// IntegrationServiceCreateSecretProcedure is the fully-qualified name of the IntegrationService's
+	// CreateSecret RPC.
+	IntegrationServiceCreateSecretProcedure = "/commonfate.control.integration.v1alpha1.IntegrationService/CreateSecret"
+	// IntegrationServiceDeleteSecretProcedure is the fully-qualified name of the IntegrationService's
+	// DeleteSecret RPC.
+	IntegrationServiceDeleteSecretProcedure = "/commonfate.control.integration.v1alpha1.IntegrationService/DeleteSecret"
+	// IntegrationServiceListSecretsProcedure is the fully-qualified name of the IntegrationService's
+	// ListSecrets RPC.
+	IntegrationServiceListSecretsProcedure = "/commonfate.control.integration.v1alpha1.IntegrationService/ListSecrets"
 )
 
 // These variables are the protoreflect.Descriptor objects for the RPCs defined in this package.
@@ -62,6 +71,9 @@ var (
 	integrationServiceDeleteIntegrationMethodDescriptor = integrationServiceServiceDescriptor.Methods().ByName("DeleteIntegration")
 	integrationServiceListIntegrationsMethodDescriptor  = integrationServiceServiceDescriptor.Methods().ByName("ListIntegrations")
 	integrationServiceRegisterProxyMethodDescriptor     = integrationServiceServiceDescriptor.Methods().ByName("RegisterProxy")
+	integrationServiceCreateSecretMethodDescriptor      = integrationServiceServiceDescriptor.Methods().ByName("CreateSecret")
+	integrationServiceDeleteSecretMethodDescriptor      = integrationServiceServiceDescriptor.Methods().ByName("DeleteSecret")
+	integrationServiceListSecretsMethodDescriptor       = integrationServiceServiceDescriptor.Methods().ByName("ListSecrets")
 )
 
 // IntegrationServiceClient is a client for the
@@ -75,6 +87,9 @@ type IntegrationServiceClient interface {
 	// RegisterProxy is used by the proxy integration to self register
 	// This operation will create new resources, update existing resources and delete orphaned resources.
 	RegisterProxy(context.Context, *connect.Request[v1alpha1.RegisterProxyRequest]) (*connect.Response[v1alpha1.RegisterProxyResponse], error)
+	CreateSecret(context.Context, *connect.Request[v1alpha1.CreateSecretRequest]) (*connect.Response[v1alpha1.CreateSecretResponse], error)
+	DeleteSecret(context.Context, *connect.Request[v1alpha1.DeleteSecretRequest]) (*connect.Response[v1alpha1.DeleteSecretResponse], error)
+	ListSecrets(context.Context, *connect.Request[v1alpha1.ListSecretsRequest]) (*connect.Response[v1alpha1.ListSecretsResponse], error)
 }
 
 // NewIntegrationServiceClient constructs a client for the
@@ -124,6 +139,24 @@ func NewIntegrationServiceClient(httpClient connect.HTTPClient, baseURL string, 
 			connect.WithSchema(integrationServiceRegisterProxyMethodDescriptor),
 			connect.WithClientOptions(opts...),
 		),
+		createSecret: connect.NewClient[v1alpha1.CreateSecretRequest, v1alpha1.CreateSecretResponse](
+			httpClient,
+			baseURL+IntegrationServiceCreateSecretProcedure,
+			connect.WithSchema(integrationServiceCreateSecretMethodDescriptor),
+			connect.WithClientOptions(opts...),
+		),
+		deleteSecret: connect.NewClient[v1alpha1.DeleteSecretRequest, v1alpha1.DeleteSecretResponse](
+			httpClient,
+			baseURL+IntegrationServiceDeleteSecretProcedure,
+			connect.WithSchema(integrationServiceDeleteSecretMethodDescriptor),
+			connect.WithClientOptions(opts...),
+		),
+		listSecrets: connect.NewClient[v1alpha1.ListSecretsRequest, v1alpha1.ListSecretsResponse](
+			httpClient,
+			baseURL+IntegrationServiceListSecretsProcedure,
+			connect.WithSchema(integrationServiceListSecretsMethodDescriptor),
+			connect.WithClientOptions(opts...),
+		),
 	}
 }
 
@@ -135,6 +168,9 @@ type integrationServiceClient struct {
 	deleteIntegration *connect.Client[v1alpha1.DeleteIntegrationRequest, v1alpha1.DeleteIntegrationResponse]
 	listIntegrations  *connect.Client[v1alpha1.ListIntegrationsRequest, v1alpha1.ListIntegrationsResponse]
 	registerProxy     *connect.Client[v1alpha1.RegisterProxyRequest, v1alpha1.RegisterProxyResponse]
+	createSecret      *connect.Client[v1alpha1.CreateSecretRequest, v1alpha1.CreateSecretResponse]
+	deleteSecret      *connect.Client[v1alpha1.DeleteSecretRequest, v1alpha1.DeleteSecretResponse]
+	listSecrets       *connect.Client[v1alpha1.ListSecretsRequest, v1alpha1.ListSecretsResponse]
 }
 
 // CreateIntegration calls
@@ -171,6 +207,21 @@ func (c *integrationServiceClient) RegisterProxy(ctx context.Context, req *conne
 	return c.registerProxy.CallUnary(ctx, req)
 }
 
+// CreateSecret calls commonfate.control.integration.v1alpha1.IntegrationService.CreateSecret.
+func (c *integrationServiceClient) CreateSecret(ctx context.Context, req *connect.Request[v1alpha1.CreateSecretRequest]) (*connect.Response[v1alpha1.CreateSecretResponse], error) {
+	return c.createSecret.CallUnary(ctx, req)
+}
+
+// DeleteSecret calls commonfate.control.integration.v1alpha1.IntegrationService.DeleteSecret.
+func (c *integrationServiceClient) DeleteSecret(ctx context.Context, req *connect.Request[v1alpha1.DeleteSecretRequest]) (*connect.Response[v1alpha1.DeleteSecretResponse], error) {
+	return c.deleteSecret.CallUnary(ctx, req)
+}
+
+// ListSecrets calls commonfate.control.integration.v1alpha1.IntegrationService.ListSecrets.
+func (c *integrationServiceClient) ListSecrets(ctx context.Context, req *connect.Request[v1alpha1.ListSecretsRequest]) (*connect.Response[v1alpha1.ListSecretsResponse], error) {
+	return c.listSecrets.CallUnary(ctx, req)
+}
+
 // IntegrationServiceHandler is an implementation of the
 // commonfate.control.integration.v1alpha1.IntegrationService service.
 type IntegrationServiceHandler interface {
@@ -182,6 +233,9 @@ type IntegrationServiceHandler interface {
 	// RegisterProxy is used by the proxy integration to self register
 	// This operation will create new resources, update existing resources and delete orphaned resources.
 	RegisterProxy(context.Context, *connect.Request[v1alpha1.RegisterProxyRequest]) (*connect.Response[v1alpha1.RegisterProxyResponse], error)
+	CreateSecret(context.Context, *connect.Request[v1alpha1.CreateSecretRequest]) (*connect.Response[v1alpha1.CreateSecretResponse], error)
+	DeleteSecret(context.Context, *connect.Request[v1alpha1.DeleteSecretRequest]) (*connect.Response[v1alpha1.DeleteSecretResponse], error)
+	ListSecrets(context.Context, *connect.Request[v1alpha1.ListSecretsRequest]) (*connect.Response[v1alpha1.ListSecretsResponse], error)
 }
 
 // NewIntegrationServiceHandler builds an HTTP handler from the service implementation. It returns
@@ -226,6 +280,24 @@ func NewIntegrationServiceHandler(svc IntegrationServiceHandler, opts ...connect
 		connect.WithSchema(integrationServiceRegisterProxyMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
+	integrationServiceCreateSecretHandler := connect.NewUnaryHandler(
+		IntegrationServiceCreateSecretProcedure,
+		svc.CreateSecret,
+		connect.WithSchema(integrationServiceCreateSecretMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
+	)
+	integrationServiceDeleteSecretHandler := connect.NewUnaryHandler(
+		IntegrationServiceDeleteSecretProcedure,
+		svc.DeleteSecret,
+		connect.WithSchema(integrationServiceDeleteSecretMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
+	)
+	integrationServiceListSecretsHandler := connect.NewUnaryHandler(
+		IntegrationServiceListSecretsProcedure,
+		svc.ListSecrets,
+		connect.WithSchema(integrationServiceListSecretsMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
+	)
 	return "/commonfate.control.integration.v1alpha1.IntegrationService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
 		case IntegrationServiceCreateIntegrationProcedure:
@@ -240,6 +312,12 @@ func NewIntegrationServiceHandler(svc IntegrationServiceHandler, opts ...connect
 			integrationServiceListIntegrationsHandler.ServeHTTP(w, r)
 		case IntegrationServiceRegisterProxyProcedure:
 			integrationServiceRegisterProxyHandler.ServeHTTP(w, r)
+		case IntegrationServiceCreateSecretProcedure:
+			integrationServiceCreateSecretHandler.ServeHTTP(w, r)
+		case IntegrationServiceDeleteSecretProcedure:
+			integrationServiceDeleteSecretHandler.ServeHTTP(w, r)
+		case IntegrationServiceListSecretsProcedure:
+			integrationServiceListSecretsHandler.ServeHTTP(w, r)
 		default:
 			http.NotFound(w, r)
 		}
@@ -271,4 +349,16 @@ func (UnimplementedIntegrationServiceHandler) ListIntegrations(context.Context, 
 
 func (UnimplementedIntegrationServiceHandler) RegisterProxy(context.Context, *connect.Request[v1alpha1.RegisterProxyRequest]) (*connect.Response[v1alpha1.RegisterProxyResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.control.integration.v1alpha1.IntegrationService.RegisterProxy is not implemented"))
+}
+
+func (UnimplementedIntegrationServiceHandler) CreateSecret(context.Context, *connect.Request[v1alpha1.CreateSecretRequest]) (*connect.Response[v1alpha1.CreateSecretResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.control.integration.v1alpha1.IntegrationService.CreateSecret is not implemented"))
+}
+
+func (UnimplementedIntegrationServiceHandler) DeleteSecret(context.Context, *connect.Request[v1alpha1.DeleteSecretRequest]) (*connect.Response[v1alpha1.DeleteSecretResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.control.integration.v1alpha1.IntegrationService.DeleteSecret is not implemented"))
+}
+
+func (UnimplementedIntegrationServiceHandler) ListSecrets(context.Context, *connect.Request[v1alpha1.ListSecretsRequest]) (*connect.Response[v1alpha1.ListSecretsResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.control.integration.v1alpha1.IntegrationService.ListSecrets is not implemented"))
 }
