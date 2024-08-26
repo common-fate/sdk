@@ -23,13 +23,13 @@ message Resource {
   }
 
 
-  message RegisterProxyResourceRequest {
+  message CreateProxyResourceRequest {
     string proxy_id = 1;
     Resource resource = 2;
 
   }
 
-  message RegisterProxyResourceResponse {
+  message CreateProxyResourceResponse {
     string id = 1;
     string proxy_id = 2;
     Resource resource = 3;

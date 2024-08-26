@@ -18,7 +18,7 @@ import "commonfate/control/integration/v1alpha1/webhook.proto";
 import "commonfate/control/integration/v1alpha1/proxy_resource.proto";
 
 
-message RegisterProxyRequest {
+message CreateProxyRequest {
 
     string integration_id = 1;
     repeated Resource resources = 2;
@@ -29,7 +29,7 @@ message RegisterProxyRequest {
 
   }
 
-  message RegisterProxyResponse {
+  message CreateProxyResponse {
     string id = 4;
 
     string integration_id = 1;

@@ -35,22 +35,22 @@ var (
 	_ = sort.Sort
 )
 
-// Validate checks the field values on RegisterProxyRequest with the rules
+// Validate checks the field values on CreateProxyRequest with the rules
 // defined in the proto definition for this message. If any rules are
 // violated, the first error encountered is returned, or nil if there are no violations.
-func (m *RegisterProxyRequest) Validate() error {
+func (m *CreateProxyRequest) Validate() error {
 	return m.validate(false)
 }
 
-// ValidateAll checks the field values on RegisterProxyRequest with the rules
+// ValidateAll checks the field values on CreateProxyRequest with the rules
 // defined in the proto definition for this message. If any rules are
 // violated, the result is a list of violation errors wrapped in
-// RegisterProxyRequestMultiError, or nil if none found.
-func (m *RegisterProxyRequest) ValidateAll() error {
+// CreateProxyRequestMultiError, or nil if none found.
+func (m *CreateProxyRequest) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *RegisterProxyRequest) validate(all bool) error {
+func (m *CreateProxyRequest) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
@@ -66,7 +66,7 @@ func (m *RegisterProxyRequest) validate(all bool) error {
 			switch v := interface{}(item).(type) {
 			case interface{ ValidateAll() error }:
 				if err := v.ValidateAll(); err != nil {
-					errors = append(errors, RegisterProxyRequestValidationError{
+					errors = append(errors, CreateProxyRequestValidationError{
 						field:  fmt.Sprintf("Resources[%v]", idx),
 						reason: "embedded message failed validation",
 						cause:  err,
@@ -74,7 +74,7 @@ func (m *RegisterProxyRequest) validate(all bool) error {
 				}
 			case interface{ Validate() error }:
 				if err := v.Validate(); err != nil {
-					errors = append(errors, RegisterProxyRequestValidationError{
+					errors = append(errors, CreateProxyRequestValidationError{
 						field:  fmt.Sprintf("Resources[%v]", idx),
 						reason: "embedded message failed validation",
 						cause:  err,
@@ -83,7 +83,7 @@ func (m *RegisterProxyRequest) validate(all bool) error {
 			}
 		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
 			if err := v.Validate(); err != nil {
-				return RegisterProxyRequestValidationError{
+				return CreateProxyRequestValidationError{
 					field:  fmt.Sprintf("Resources[%v]", idx),
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -96,9 +96,9 @@ func (m *RegisterProxyRequest) validate(all bool) error {
 	// no validation rules for Id
 
 	switch v := m.InstanceConfig.(type) {
-	case *RegisterProxyRequest_AwsEcsProxyInstanceConfig:
+	case *CreateProxyRequest_AwsEcsProxyInstanceConfig:
 		if v == nil {
-			err := RegisterProxyRequestValidationError{
+			err := CreateProxyRequestValidationError{
 				field:  "InstanceConfig",
 				reason: "oneof value cannot be a typed-nil",
 			}
@@ -112,7 +112,7 @@ func (m *RegisterProxyRequest) validate(all bool) error {
 			switch v := interface{}(m.GetAwsEcsProxyInstanceConfig()).(type) {
 			case interface{ ValidateAll() error }:
 				if err := v.ValidateAll(); err != nil {
-					errors = append(errors, RegisterProxyRequestValidationError{
+					errors = append(errors, CreateProxyRequestValidationError{
 						field:  "AwsEcsProxyInstanceConfig",
 						reason: "embedded message failed validation",
 						cause:  err,
@@ -120,7 +120,7 @@ func (m *RegisterProxyRequest) validate(all bool) error {
 				}
 			case interface{ Validate() error }:
 				if err := v.Validate(); err != nil {
-					errors = append(errors, RegisterProxyRequestValidationError{
+					errors = append(errors, CreateProxyRequestValidationError{
 						field:  "AwsEcsProxyInstanceConfig",
 						reason: "embedded message failed validation",
 						cause:  err,
@@ -129,7 +129,7 @@ func (m *RegisterProxyRequest) validate(all bool) error {
 			}
 		} else if v, ok := interface{}(m.GetAwsEcsProxyInstanceConfig()).(interface{ Validate() error }); ok {
 			if err := v.Validate(); err != nil {
-				return RegisterProxyRequestValidationError{
+				return CreateProxyRequestValidationError{
 					field:  "AwsEcsProxyInstanceConfig",
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -142,19 +142,19 @@ func (m *RegisterProxyRequest) validate(all bool) error {
 	}
 
 	if len(errors) > 0 {
-		return RegisterProxyRequestMultiError(errors)
+		return CreateProxyRequestMultiError(errors)
 	}
 
 	return nil
 }
 
-// RegisterProxyRequestMultiError is an error wrapping multiple validation
-// errors returned by RegisterProxyRequest.ValidateAll() if the designated
-// constraints aren't met.
-type RegisterProxyRequestMultiError []error
+// CreateProxyRequestMultiError is an error wrapping multiple validation errors
+// returned by CreateProxyRequest.ValidateAll() if the designated constraints
+// aren't met.
+type CreateProxyRequestMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m RegisterProxyRequestMultiError) Error() string {
+func (m CreateProxyRequestMultiError) Error() string {
 	var msgs []string
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -163,11 +163,11 @@ func (m RegisterProxyRequestMultiError) Error() string {
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m RegisterProxyRequestMultiError) AllErrors() []error { return m }
+func (m CreateProxyRequestMultiError) AllErrors() []error { return m }
 
-// RegisterProxyRequestValidationError is the validation error returned by
-// RegisterProxyRequest.Validate if the designated constraints aren't met.
-type RegisterProxyRequestValidationError struct {
+// CreateProxyRequestValidationError is the validation error returned by
+// CreateProxyRequest.Validate if the designated constraints aren't met.
+type CreateProxyRequestValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -175,24 +175,24 @@ type RegisterProxyRequestValidationError struct {
 }
 
 // Field function returns field value.
-func (e RegisterProxyRequestValidationError) Field() string { return e.field }
+func (e CreateProxyRequestValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e RegisterProxyRequestValidationError) Reason() string { return e.reason }
+func (e CreateProxyRequestValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e RegisterProxyRequestValidationError) Cause() error { return e.cause }
+func (e CreateProxyRequestValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e RegisterProxyRequestValidationError) Key() bool { return e.key }
+func (e CreateProxyRequestValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e RegisterProxyRequestValidationError) ErrorName() string {
-	return "RegisterProxyRequestValidationError"
+func (e CreateProxyRequestValidationError) ErrorName() string {
+	return "CreateProxyRequestValidationError"
 }
 
 // Error satisfies the builtin error interface
-func (e RegisterProxyRequestValidationError) Error() string {
+func (e CreateProxyRequestValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -204,14 +204,14 @@ func (e RegisterProxyRequestValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sRegisterProxyRequest.%s: %s%s",
+		"invalid %sCreateProxyRequest.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = RegisterProxyRequestValidationError{}
+var _ error = CreateProxyRequestValidationError{}
 
 var _ interface {
 	Field() string
@@ -219,24 +219,24 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = RegisterProxyRequestValidationError{}
+} = CreateProxyRequestValidationError{}
 
-// Validate checks the field values on RegisterProxyResponse with the rules
+// Validate checks the field values on CreateProxyResponse with the rules
 // defined in the proto definition for this message. If any rules are
 // violated, the first error encountered is returned, or nil if there are no violations.
-func (m *RegisterProxyResponse) Validate() error {
+func (m *CreateProxyResponse) Validate() error {
 	return m.validate(false)
 }
 
-// ValidateAll checks the field values on RegisterProxyResponse with the rules
+// ValidateAll checks the field values on CreateProxyResponse with the rules
 // defined in the proto definition for this message. If any rules are
 // violated, the result is a list of violation errors wrapped in
-// RegisterProxyResponseMultiError, or nil if none found.
-func (m *RegisterProxyResponse) ValidateAll() error {
+// CreateProxyResponseMultiError, or nil if none found.
+func (m *CreateProxyResponse) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *RegisterProxyResponse) validate(all bool) error {
+func (m *CreateProxyResponse) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
@@ -248,9 +248,9 @@ func (m *RegisterProxyResponse) validate(all bool) error {
 	// no validation rules for IntegrationId
 
 	switch v := m.InstanceConfig.(type) {
-	case *RegisterProxyResponse_AwsEcsProxyInstanceConfig:
+	case *CreateProxyResponse_AwsEcsProxyInstanceConfig:
 		if v == nil {
-			err := RegisterProxyResponseValidationError{
+			err := CreateProxyResponseValidationError{
 				field:  "InstanceConfig",
 				reason: "oneof value cannot be a typed-nil",
 			}
@@ -264,7 +264,7 @@ func (m *RegisterProxyResponse) validate(all bool) error {
 			switch v := interface{}(m.GetAwsEcsProxyInstanceConfig()).(type) {
 			case interface{ ValidateAll() error }:
 				if err := v.ValidateAll(); err != nil {
-					errors = append(errors, RegisterProxyResponseValidationError{
+					errors = append(errors, CreateProxyResponseValidationError{
 						field:  "AwsEcsProxyInstanceConfig",
 						reason: "embedded message failed validation",
 						cause:  err,
@@ -272,7 +272,7 @@ func (m *RegisterProxyResponse) validate(all bool) error {
 				}
 			case interface{ Validate() error }:
 				if err := v.Validate(); err != nil {
-					errors = append(errors, RegisterProxyResponseValidationError{
+					errors = append(errors, CreateProxyResponseValidationError{
 						field:  "AwsEcsProxyInstanceConfig",
 						reason: "embedded message failed validation",
 						cause:  err,
@@ -281,7 +281,7 @@ func (m *RegisterProxyResponse) validate(all bool) error {
 			}
 		} else if v, ok := interface{}(m.GetAwsEcsProxyInstanceConfig()).(interface{ Validate() error }); ok {
 			if err := v.Validate(); err != nil {
-				return RegisterProxyResponseValidationError{
+				return CreateProxyResponseValidationError{
 					field:  "AwsEcsProxyInstanceConfig",
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -294,19 +294,19 @@ func (m *RegisterProxyResponse) validate(all bool) error {
 	}
 
 	if len(errors) > 0 {
-		return RegisterProxyResponseMultiError(errors)
+		return CreateProxyResponseMultiError(errors)
 	}
 
 	return nil
 }
 
-// RegisterProxyResponseMultiError is an error wrapping multiple validation
-// errors returned by RegisterProxyResponse.ValidateAll() if the designated
+// CreateProxyResponseMultiError is an error wrapping multiple validation
+// errors returned by CreateProxyResponse.ValidateAll() if the designated
 // constraints aren't met.
-type RegisterProxyResponseMultiError []error
+type CreateProxyResponseMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m RegisterProxyResponseMultiError) Error() string {
+func (m CreateProxyResponseMultiError) Error() string {
 	var msgs []string
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -315,11 +315,11 @@ func (m RegisterProxyResponseMultiError) Error() string {
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m RegisterProxyResponseMultiError) AllErrors() []error { return m }
+func (m CreateProxyResponseMultiError) AllErrors() []error { return m }
 
-// RegisterProxyResponseValidationError is the validation error returned by
-// RegisterProxyResponse.Validate if the designated constraints aren't met.
-type RegisterProxyResponseValidationError struct {
+// CreateProxyResponseValidationError is the validation error returned by
+// CreateProxyResponse.Validate if the designated constraints aren't met.
+type CreateProxyResponseValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -327,24 +327,24 @@ type RegisterProxyResponseValidationError struct {
 }
 
 // Field function returns field value.
-func (e RegisterProxyResponseValidationError) Field() string { return e.field }
+func (e CreateProxyResponseValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e RegisterProxyResponseValidationError) Reason() string { return e.reason }
+func (e CreateProxyResponseValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e RegisterProxyResponseValidationError) Cause() error { return e.cause }
+func (e CreateProxyResponseValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e RegisterProxyResponseValidationError) Key() bool { return e.key }
+func (e CreateProxyResponseValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e RegisterProxyResponseValidationError) ErrorName() string {
-	return "RegisterProxyResponseValidationError"
+func (e CreateProxyResponseValidationError) ErrorName() string {
+	return "CreateProxyResponseValidationError"
 }
 
 // Error satisfies the builtin error interface
-func (e RegisterProxyResponseValidationError) Error() string {
+func (e CreateProxyResponseValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -356,14 +356,14 @@ func (e RegisterProxyResponseValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sRegisterProxyResponse.%s: %s%s",
+		"invalid %sCreateProxyResponse.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = RegisterProxyResponseValidationError{}
+var _ error = CreateProxyResponseValidationError{}
 
 var _ interface {
 	Field() string
@@ -371,7 +371,7 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = RegisterProxyResponseValidationError{}
+} = CreateProxyResponseValidationError{}
 
 // Validate checks the field values on GetProxyRequest with the rules defined
 // in the proto definition for this message. If any rules are violated, the
