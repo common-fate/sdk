@@ -39,18 +39,24 @@ message CreateSecretRequest {
 }
 
 message CreateSecretResponse {
-  string secret_arn = 1;
+  Secret secret = 1;
 }
 message DeleteSecretRequest {
-  string secret_arn = 1;
+  string id = 1;
 }
 
 message DeleteSecretResponse {}
 
 message ListSecretsRequest {}
 
+message Secret {
+  string id = 1;
+  string name = 2;
+  string path = 3;
+}
+
 message ListSecretsResponse {
-  repeated string secret_arns = 1;
+  repeated Secret secrets = 1;
 }
 
 message ListIntegrationsRequest {
