@@ -15,6 +15,8 @@ import "commonfate/control/integration/v1alpha1/pagerduty.proto";
 import "commonfate/control/integration/v1alpha1/s3_log_destination.proto";
 import "commonfate/control/integration/v1alpha1/slack.proto";
 import "commonfate/control/integration/v1alpha1/webhook.proto";
+import "google/protobuf/duration.proto";
+import "google/protobuf/timestamp.proto";
 
 service IntegrationService {
   rpc CreateIntegration(CreateIntegrationRequest) returns (CreateIntegrationResponse) {}
@@ -27,6 +29,11 @@ service IntegrationService {
   // RegisterProxy is used by the proxy integration to self register
   // This operation will create new resources, update existing resources and delete orphaned resources.
   rpc RegisterProxy(RegisterProxyRequest) returns (RegisterProxyResponse) {}
+
+  //integration sync
+  rpc ListSyncsForIntegration(ListSyncsForIntegrationRequest) returns (ListSyncsForIntegrationResponse) {}
+  rpc SyncIntegration(SyncIntegrationRequest) returns (SyncIntegrationResponse) {}
+
 }
 
 message ListIntegrationsRequest {
@@ -121,4 +128,36 @@ message DeleteIntegrationRequest {
 
 message DeleteIntegrationResponse {
   string id = 1;
+}
+
+
+message ListSyncsForIntegrationRequest {
+  string integration_id = 1;
+  // The token for the next page.
+  string page_token = 2;
+}
+
+message ListSyncsForIntegrationResponse {
+  string integration_id = 1;
+  repeated SyncJob sync_job = 2;
+  string next_page_token = 3;
+}
+
+message SyncJob {
+  string id = 1;
+  string state = 2;
+  int32 attempt = 3;
+  int32 max_attempts = 4;
+  google.protobuf.Timestamp attempted_at = 5;
+  string errors = 6;
+  string kind = 7;
+}
+
+message SyncIntegrationRequest {
+  string integration_id = 1;
+
+}
+
+message SyncIntegrationResponse {
+
 }
