@@ -17,6 +17,7 @@ import "commonfate/control/integration/v1alpha1/slack.proto";
 import "commonfate/control/integration/v1alpha1/webhook.proto";
 import "commonfate/control/integration/v1alpha1/proxy_resource.proto";
 import "google/protobuf/duration.proto";
+import "commonfate/access/v1alpha1/diagnostic.proto";
 
 
 message CreateProxyRequest {
@@ -88,7 +89,10 @@ message CreateProxyRequest {
   message PingRequest {
       string proxy_id = 1;
 
-      ECSTaskMetadata ecs_task_metadata = 4;
+      ECSTaskMetadata ecs_task_metadata = 2;
+
+      repeated Diagnostic diagnostics = 3;
+
   }
 
   message ECSTaskMetadata {

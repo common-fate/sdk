@@ -32,19 +32,25 @@ service IntegrationService {
   rpc CreateProxyResource(CreateProxyResourceRequest) returns (CreateProxyResourceResponse) {}
   rpc UpdateProxyResource(UpdateProxyResourceRequest) returns (UpdateProxyResourceResponse) {}
   rpc DeleteProxyResource(DeleteProxyResourceRequest) returns (DeleteProxyResourceResponse) {}
-  rpc GetProxyResource(GetProxyResourceRequest) returns (GetProxyResourceResponse) {}
+  rpc GetProxyResource(GetProxyResourceRequest) returns (GetProxyResourceResponse) {
+   option (commonfate.authz.v1alpha1.read_only) = true;
+  }
 
   //CRUD operations for proxy terraform provider resource
   rpc CreateProxy(CreateProxyRequest) returns (CreateProxyResponse) {}
   rpc UpdateProxy(UpdateProxyRequest) returns (UpdateProxyResponse) {}
   rpc DeleteProxy(DeleteProxyRequest) returns (DeleteProxyResponse) {}
-  rpc GetProxy(GetProxyRequest) returns (GetProxyResponse) {}
+  rpc GetProxy(GetProxyRequest) returns (GetProxyResponse) {
+   option (commonfate.authz.v1alpha1.read_only) = true;
+  }
 
 
 
 
   //Used by the proxy to get resources
-  rpc ListProxyResources(ListProxyResourcesRequest) returns (ListProxyResourcesResponse) {}
+  rpc ListProxyResources(ListProxyResourcesRequest) returns (ListProxyResourcesResponse) {
+   option (commonfate.authz.v1alpha1.read_only) = true;
+  }
 }
 
 message ListIntegrationsRequest {
