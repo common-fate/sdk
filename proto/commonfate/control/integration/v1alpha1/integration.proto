@@ -29,10 +29,10 @@ service IntegrationService {
 
 
   //CRUD operations for proxy resource terraform provider resource
-  rpc CreateProxyResource(CreateProxyResourceRequest) returns (CreateProxyResourceResponse) {}
-  rpc UpdateProxyResource(UpdateProxyResourceRequest) returns (UpdateProxyResourceResponse) {}
-  rpc DeleteProxyResource(DeleteProxyResourceRequest) returns (DeleteProxyResourceResponse) {}
-  rpc GetProxyResource(GetProxyResourceRequest) returns (GetProxyResourceResponse) {
+  rpc CreateProxyRdsResource(CreateProxyRdsResourceRequest) returns (CreateProxyRdsResourceRequest) {}
+  rpc UpdateProxyRdsResource(UpdateProxyRdsResourceRequest) returns (UpdateProxyRdsResourceResponse) {}
+  rpc DeleteProxyRdsResource(DeleteProxyRdsResourceRequest) returns (DeleteProxyRdsResourceResponse) {}
+  rpc GetProxyRdsResource(GetProxyRdsResourceRequest) returns (GetProxyRdsResourceResponse) {
    option (commonfate.authz.v1alpha1.read_only) = true;
   }
 
