@@ -31,7 +31,7 @@ service IntegrationService {
 
 
   //CRUD operations for proxy resource terraform provider resource
-  rpc CreateProxyRdsResource(CreateProxyRdsResourceRequest) returns (CreateProxyRdsResourceRequest) {}
+  rpc CreateProxyRdsResource(CreateProxyRdsResourceRequest) returns (CreateProxyRdsResourceResponse) {}
   rpc UpdateProxyRdsResource(UpdateProxyRdsResourceRequest) returns (UpdateProxyRdsResourceResponse) {}
   rpc DeleteProxyRdsResource(DeleteProxyRdsResourceRequest) returns (DeleteProxyRdsResourceResponse) {}
   rpc GetProxyRdsResource(GetProxyRdsResourceRequest) returns (GetProxyRdsResourceResponse) {
