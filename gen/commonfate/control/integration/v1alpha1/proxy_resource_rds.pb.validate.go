@@ -567,6 +567,8 @@ func (m *UpdateProxyRdsResourceRequest) validate(all bool) error {
 
 	// no validation rules for Id
 
+	// no validation rules for ProxyId
+
 	if all {
 		switch v := interface{}(m.GetRdsDatabase()).(type) {
 		case interface{ ValidateAll() error }:
@@ -700,6 +702,8 @@ func (m *UpdateProxyRdsResourceResponse) validate(all bool) error {
 	var errors []error
 
 	// no validation rules for Id
+
+	// no validation rules for ProxyId
 
 	if all {
 		switch v := interface{}(m.GetRdsDatabase()).(type) {

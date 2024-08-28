@@ -50,13 +50,17 @@ import "commonfate/control/integration/v1alpha1/webhook.proto";
 
   message UpdateProxyRdsResourceRequest {
     string id = 1;
-    AWSRDSDatabase rds_database = 2;
+    string proxy_id = 2;
+
+    AWSRDSDatabase rds_database = 3;
 
   }
 
   message UpdateProxyRdsResourceResponse {
-    string id = 1;
-    AWSRDSDatabase rds_database = 2;
+  string id = 1;
+  string proxy_id = 2;
+
+  AWSRDSDatabase rds_database = 3;
 
   }
 
