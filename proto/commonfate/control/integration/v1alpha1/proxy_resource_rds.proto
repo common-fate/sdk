@@ -29,42 +29,42 @@ import "commonfate/control/integration/v1alpha1/webhook.proto";
 
   }
 
-  message CreateProxyResourceResponse {
+  message CreateProxyRdsResourceResponse {
     string id = 1;
     string proxy_id = 2;
     AWSRDSDatabase rds_database = 3;
   }
 
-  message GetProxyResourceRequest {
+  message GetProxyRdsResourceRequest {
     string id = 1;
 
 
 
   }
 
-  message GetProxyResourceResponse {
-    string id = 1;
-    AWSRDSDatabase rds_database = 2;
-
-  }
-
-  message UpdateProxyResourceRequest {
+  message GetProxyRdsResourceResponse {
     string id = 1;
     AWSRDSDatabase rds_database = 2;
 
   }
 
-  message UpdateProxyResourceResponse {
+  message UpdateProxyRdsResourceRequest {
     string id = 1;
     AWSRDSDatabase rds_database = 2;
 
   }
 
-  message DeleteProxyResourceRequest {
+  message UpdateProxyRdsResourceResponse {
+    string id = 1;
+    AWSRDSDatabase rds_database = 2;
+
+  }
+
+  message DeleteProxyRdsResourceRequest {
     string id = 1;
   }
 
-  message DeleteProxyResourceResponse {
+  message DeleteProxyRdsResourceResponse {
     string id = 1;
 
   }

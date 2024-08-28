@@ -89,462 +89,6 @@ type Resource_AwsRdsDatabase struct {
 
 func (*Resource_AwsRdsDatabase) isResource_Resource() {}
 
-type CreateProxyResourceRequest struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	ProxyId  string    `protobuf:"bytes,1,opt,name=proxy_id,json=proxyId,proto3" json:"proxy_id,omitempty"`
-	Resource *Resource `protobuf:"bytes,2,opt,name=resource,proto3" json:"resource,omitempty"`
-}
-
-func (x *CreateProxyResourceRequest) Reset() {
-	*x = CreateProxyResourceRequest{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_commonfate_control_integration_v1alpha1_proxy_resource_proto_msgTypes[1]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *CreateProxyResourceRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*CreateProxyResourceRequest) ProtoMessage() {}
-
-func (x *CreateProxyResourceRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_commonfate_control_integration_v1alpha1_proxy_resource_proto_msgTypes[1]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use CreateProxyResourceRequest.ProtoReflect.Descriptor instead.
-func (*CreateProxyResourceRequest) Descriptor() ([]byte, []int) {
-	return file_commonfate_control_integration_v1alpha1_proxy_resource_proto_rawDescGZIP(), []int{1}
-}
-
-func (x *CreateProxyResourceRequest) GetProxyId() string {
-	if x != nil {
-		return x.ProxyId
-	}
-	return ""
-}
-
-func (x *CreateProxyResourceRequest) GetResource() *Resource {
-	if x != nil {
-		return x.Resource
-	}
-	return nil
-}
-
-type CreateProxyResourceResponse struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	Id       string    `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	ProxyId  string    `protobuf:"bytes,2,opt,name=proxy_id,json=proxyId,proto3" json:"proxy_id,omitempty"`
-	Resource *Resource `protobuf:"bytes,3,opt,name=resource,proto3" json:"resource,omitempty"`
-}
-
-func (x *CreateProxyResourceResponse) Reset() {
-	*x = CreateProxyResourceResponse{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_commonfate_control_integration_v1alpha1_proxy_resource_proto_msgTypes[2]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *CreateProxyResourceResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*CreateProxyResourceResponse) ProtoMessage() {}
-
-func (x *CreateProxyResourceResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_commonfate_control_integration_v1alpha1_proxy_resource_proto_msgTypes[2]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use CreateProxyResourceResponse.ProtoReflect.Descriptor instead.
-func (*CreateProxyResourceResponse) Descriptor() ([]byte, []int) {
-	return file_commonfate_control_integration_v1alpha1_proxy_resource_proto_rawDescGZIP(), []int{2}
-}
-
-func (x *CreateProxyResourceResponse) GetId() string {
-	if x != nil {
-		return x.Id
-	}
-	return ""
-}
-
-func (x *CreateProxyResourceResponse) GetProxyId() string {
-	if x != nil {
-		return x.ProxyId
-	}
-	return ""
-}
-
-func (x *CreateProxyResourceResponse) GetResource() *Resource {
-	if x != nil {
-		return x.Resource
-	}
-	return nil
-}
-
-type GetProxyResourceRequest struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	Id      string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	ProxyId string `protobuf:"bytes,2,opt,name=proxy_id,json=proxyId,proto3" json:"proxy_id,omitempty"`
-}
-
-func (x *GetProxyResourceRequest) Reset() {
-	*x = GetProxyResourceRequest{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_commonfate_control_integration_v1alpha1_proxy_resource_proto_msgTypes[3]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *GetProxyResourceRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*GetProxyResourceRequest) ProtoMessage() {}
-
-func (x *GetProxyResourceRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_commonfate_control_integration_v1alpha1_proxy_resource_proto_msgTypes[3]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use GetProxyResourceRequest.ProtoReflect.Descriptor instead.
-func (*GetProxyResourceRequest) Descriptor() ([]byte, []int) {
-	return file_commonfate_control_integration_v1alpha1_proxy_resource_proto_rawDescGZIP(), []int{3}
-}
-
-func (x *GetProxyResourceRequest) GetId() string {
-	if x != nil {
-		return x.Id
-	}
-	return ""
-}
-
-func (x *GetProxyResourceRequest) GetProxyId() string {
-	if x != nil {
-		return x.ProxyId
-	}
-	return ""
-}
-
-type GetProxyResourceResponse struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	Id       string    `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	ProxyId  string    `protobuf:"bytes,2,opt,name=proxy_id,json=proxyId,proto3" json:"proxy_id,omitempty"`
-	Resource *Resource `protobuf:"bytes,3,opt,name=resource,proto3" json:"resource,omitempty"`
-}
-
-func (x *GetProxyResourceResponse) Reset() {
-	*x = GetProxyResourceResponse{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_commonfate_control_integration_v1alpha1_proxy_resource_proto_msgTypes[4]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *GetProxyResourceResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*GetProxyResourceResponse) ProtoMessage() {}
-
-func (x *GetProxyResourceResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_commonfate_control_integration_v1alpha1_proxy_resource_proto_msgTypes[4]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use GetProxyResourceResponse.ProtoReflect.Descriptor instead.
-func (*GetProxyResourceResponse) Descriptor() ([]byte, []int) {
-	return file_commonfate_control_integration_v1alpha1_proxy_resource_proto_rawDescGZIP(), []int{4}
-}
-
-func (x *GetProxyResourceResponse) GetId() string {
-	if x != nil {
-		return x.Id
-	}
-	return ""
-}
-
-func (x *GetProxyResourceResponse) GetProxyId() string {
-	if x != nil {
-		return x.ProxyId
-	}
-	return ""
-}
-
-func (x *GetProxyResourceResponse) GetResource() *Resource {
-	if x != nil {
-		return x.Resource
-	}
-	return nil
-}
-
-type UpdateProxyResourceRequest struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	Id       string    `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	ProxyId  string    `protobuf:"bytes,2,opt,name=proxy_id,json=proxyId,proto3" json:"proxy_id,omitempty"`
-	Resource *Resource `protobuf:"bytes,3,opt,name=resource,proto3" json:"resource,omitempty"`
-}
-
-func (x *UpdateProxyResourceRequest) Reset() {
-	*x = UpdateProxyResourceRequest{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_commonfate_control_integration_v1alpha1_proxy_resource_proto_msgTypes[5]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *UpdateProxyResourceRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*UpdateProxyResourceRequest) ProtoMessage() {}
-
-func (x *UpdateProxyResourceRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_commonfate_control_integration_v1alpha1_proxy_resource_proto_msgTypes[5]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use UpdateProxyResourceRequest.ProtoReflect.Descriptor instead.
-func (*UpdateProxyResourceRequest) Descriptor() ([]byte, []int) {
-	return file_commonfate_control_integration_v1alpha1_proxy_resource_proto_rawDescGZIP(), []int{5}
-}
-
-func (x *UpdateProxyResourceRequest) GetId() string {
-	if x != nil {
-		return x.Id
-	}
-	return ""
-}
-
-func (x *UpdateProxyResourceRequest) GetProxyId() string {
-	if x != nil {
-		return x.ProxyId
-	}
-	return ""
-}
-
-func (x *UpdateProxyResourceRequest) GetResource() *Resource {
-	if x != nil {
-		return x.Resource
-	}
-	return nil
-}
-
-type UpdateProxyResourceResponse struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	Id       string    `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	ProxyId  string    `protobuf:"bytes,2,opt,name=proxy_id,json=proxyId,proto3" json:"proxy_id,omitempty"`
-	Resource *Resource `protobuf:"bytes,3,opt,name=resource,proto3" json:"resource,omitempty"`
-}
-
-func (x *UpdateProxyResourceResponse) Reset() {
-	*x = UpdateProxyResourceResponse{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_commonfate_control_integration_v1alpha1_proxy_resource_proto_msgTypes[6]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *UpdateProxyResourceResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*UpdateProxyResourceResponse) ProtoMessage() {}
-
-func (x *UpdateProxyResourceResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_commonfate_control_integration_v1alpha1_proxy_resource_proto_msgTypes[6]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use UpdateProxyResourceResponse.ProtoReflect.Descriptor instead.
-func (*UpdateProxyResourceResponse) Descriptor() ([]byte, []int) {
-	return file_commonfate_control_integration_v1alpha1_proxy_resource_proto_rawDescGZIP(), []int{6}
-}
-
-func (x *UpdateProxyResourceResponse) GetId() string {
-	if x != nil {
-		return x.Id
-	}
-	return ""
-}
-
-func (x *UpdateProxyResourceResponse) GetProxyId() string {
-	if x != nil {
-		return x.ProxyId
-	}
-	return ""
-}
-
-func (x *UpdateProxyResourceResponse) GetResource() *Resource {
-	if x != nil {
-		return x.Resource
-	}
-	return nil
-}
-
-type DeleteProxyResourceRequest struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-}
-
-func (x *DeleteProxyResourceRequest) Reset() {
-	*x = DeleteProxyResourceRequest{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_commonfate_control_integration_v1alpha1_proxy_resource_proto_msgTypes[7]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *DeleteProxyResourceRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*DeleteProxyResourceRequest) ProtoMessage() {}
-
-func (x *DeleteProxyResourceRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_commonfate_control_integration_v1alpha1_proxy_resource_proto_msgTypes[7]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use DeleteProxyResourceRequest.ProtoReflect.Descriptor instead.
-func (*DeleteProxyResourceRequest) Descriptor() ([]byte, []int) {
-	return file_commonfate_control_integration_v1alpha1_proxy_resource_proto_rawDescGZIP(), []int{7}
-}
-
-func (x *DeleteProxyResourceRequest) GetId() string {
-	if x != nil {
-		return x.Id
-	}
-	return ""
-}
-
-type DeleteProxyResourceResponse struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-}
-
-func (x *DeleteProxyResourceResponse) Reset() {
-	*x = DeleteProxyResourceResponse{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_commonfate_control_integration_v1alpha1_proxy_resource_proto_msgTypes[8]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *DeleteProxyResourceResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*DeleteProxyResourceResponse) ProtoMessage() {}
-
-func (x *DeleteProxyResourceResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_commonfate_control_integration_v1alpha1_proxy_resource_proto_msgTypes[8]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use DeleteProxyResourceResponse.ProtoReflect.Descriptor instead.
-func (*DeleteProxyResourceResponse) Descriptor() ([]byte, []int) {
-	return file_commonfate_control_integration_v1alpha1_proxy_resource_proto_rawDescGZIP(), []int{8}
-}
-
-func (x *DeleteProxyResourceResponse) GetId() string {
-	if x != nil {
-		return x.Id
-	}
-	return ""
-}
-
 type ListProxyResourcesRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -556,7 +100,7 @@ type ListProxyResourcesRequest struct {
 func (x *ListProxyResourcesRequest) Reset() {
 	*x = ListProxyResourcesRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_commonfate_control_integration_v1alpha1_proxy_resource_proto_msgTypes[9]
+		mi := &file_commonfate_control_integration_v1alpha1_proxy_resource_proto_msgTypes[1]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -569,7 +113,7 @@ func (x *ListProxyResourcesRequest) String() string {
 func (*ListProxyResourcesRequest) ProtoMessage() {}
 
 func (x *ListProxyResourcesRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_commonfate_control_integration_v1alpha1_proxy_resource_proto_msgTypes[9]
+	mi := &file_commonfate_control_integration_v1alpha1_proxy_resource_proto_msgTypes[1]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -582,7 +126,7 @@ func (x *ListProxyResourcesRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListProxyResourcesRequest.ProtoReflect.Descriptor instead.
 func (*ListProxyResourcesRequest) Descriptor() ([]byte, []int) {
-	return file_commonfate_control_integration_v1alpha1_proxy_resource_proto_rawDescGZIP(), []int{9}
+	return file_commonfate_control_integration_v1alpha1_proxy_resource_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *ListProxyResourcesRequest) GetProxyId() string {
@@ -604,7 +148,7 @@ type ListProxyResourcesResponse struct {
 func (x *ListProxyResourcesResponse) Reset() {
 	*x = ListProxyResourcesResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_commonfate_control_integration_v1alpha1_proxy_resource_proto_msgTypes[10]
+		mi := &file_commonfate_control_integration_v1alpha1_proxy_resource_proto_msgTypes[2]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -617,7 +161,7 @@ func (x *ListProxyResourcesResponse) String() string {
 func (*ListProxyResourcesResponse) ProtoMessage() {}
 
 func (x *ListProxyResourcesResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_commonfate_control_integration_v1alpha1_proxy_resource_proto_msgTypes[10]
+	mi := &file_commonfate_control_integration_v1alpha1_proxy_resource_proto_msgTypes[2]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -630,7 +174,7 @@ func (x *ListProxyResourcesResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListProxyResourcesResponse.ProtoReflect.Descriptor instead.
 func (*ListProxyResourcesResponse) Descriptor() ([]byte, []int) {
-	return file_commonfate_control_integration_v1alpha1_proxy_resource_proto_rawDescGZIP(), []int{10}
+	return file_commonfate_control_integration_v1alpha1_proxy_resource_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *ListProxyResourcesResponse) GetProxyId() string {
@@ -711,64 +255,7 @@ var file_commonfate_control_integration_v1alpha1_proxy_resource_proto_rawDesc = 
 	0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x2e, 0x41, 0x57, 0x53, 0x52, 0x44, 0x53, 0x44, 0x61,
 	0x74, 0x61, 0x62, 0x61, 0x73, 0x65, 0x48, 0x00, 0x52, 0x0e, 0x61, 0x77, 0x73, 0x52, 0x64, 0x73,
 	0x44, 0x61, 0x74, 0x61, 0x62, 0x61, 0x73, 0x65, 0x42, 0x0a, 0x0a, 0x08, 0x72, 0x65, 0x73, 0x6f,
-	0x75, 0x72, 0x63, 0x65, 0x22, 0x86, 0x01, 0x0a, 0x1a, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x50,
-	0x72, 0x6f, 0x78, 0x79, 0x52, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x52, 0x65, 0x71, 0x75,
-	0x65, 0x73, 0x74, 0x12, 0x19, 0x0a, 0x08, 0x70, 0x72, 0x6f, 0x78, 0x79, 0x5f, 0x69, 0x64, 0x18,
-	0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x70, 0x72, 0x6f, 0x78, 0x79, 0x49, 0x64, 0x12, 0x4d,
-	0x0a, 0x08, 0x72, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b,
-	0x32, 0x31, 0x2e, 0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x66, 0x61, 0x74, 0x65, 0x2e, 0x63, 0x6f,
-	0x6e, 0x74, 0x72, 0x6f, 0x6c, 0x2e, 0x69, 0x6e, 0x74, 0x65, 0x67, 0x72, 0x61, 0x74, 0x69, 0x6f,
-	0x6e, 0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x2e, 0x52, 0x65, 0x73, 0x6f, 0x75,
-	0x72, 0x63, 0x65, 0x52, 0x08, 0x72, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x22, 0x97, 0x01,
-	0x0a, 0x1b, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x50, 0x72, 0x6f, 0x78, 0x79, 0x52, 0x65, 0x73,
-	0x6f, 0x75, 0x72, 0x63, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x0e, 0x0a,
-	0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x02, 0x69, 0x64, 0x12, 0x19, 0x0a,
-	0x08, 0x70, 0x72, 0x6f, 0x78, 0x79, 0x5f, 0x69, 0x64, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52,
-	0x07, 0x70, 0x72, 0x6f, 0x78, 0x79, 0x49, 0x64, 0x12, 0x4d, 0x0a, 0x08, 0x72, 0x65, 0x73, 0x6f,
-	0x75, 0x72, 0x63, 0x65, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x31, 0x2e, 0x63, 0x6f, 0x6d,
-	0x6d, 0x6f, 0x6e, 0x66, 0x61, 0x74, 0x65, 0x2e, 0x63, 0x6f, 0x6e, 0x74, 0x72, 0x6f, 0x6c, 0x2e,
-	0x69, 0x6e, 0x74, 0x65, 0x67, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x2e, 0x76, 0x31, 0x61, 0x6c,
-	0x70, 0x68, 0x61, 0x31, 0x2e, 0x52, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x52, 0x08, 0x72,
-	0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x22, 0x44, 0x0a, 0x17, 0x47, 0x65, 0x74, 0x50, 0x72,
-	0x6f, 0x78, 0x79, 0x52, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65,
-	0x73, 0x74, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x02,
-	0x69, 0x64, 0x12, 0x19, 0x0a, 0x08, 0x70, 0x72, 0x6f, 0x78, 0x79, 0x5f, 0x69, 0x64, 0x18, 0x02,
-	0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x70, 0x72, 0x6f, 0x78, 0x79, 0x49, 0x64, 0x22, 0x94, 0x01,
-	0x0a, 0x18, 0x47, 0x65, 0x74, 0x50, 0x72, 0x6f, 0x78, 0x79, 0x52, 0x65, 0x73, 0x6f, 0x75, 0x72,
-	0x63, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64,
-	0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x02, 0x69, 0x64, 0x12, 0x19, 0x0a, 0x08, 0x70, 0x72,
-	0x6f, 0x78, 0x79, 0x5f, 0x69, 0x64, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x70, 0x72,
-	0x6f, 0x78, 0x79, 0x49, 0x64, 0x12, 0x4d, 0x0a, 0x08, 0x72, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63,
-	0x65, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x31, 0x2e, 0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e,
-	0x66, 0x61, 0x74, 0x65, 0x2e, 0x63, 0x6f, 0x6e, 0x74, 0x72, 0x6f, 0x6c, 0x2e, 0x69, 0x6e, 0x74,
-	0x65, 0x67, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61,
-	0x31, 0x2e, 0x52, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x52, 0x08, 0x72, 0x65, 0x73, 0x6f,
-	0x75, 0x72, 0x63, 0x65, 0x22, 0x96, 0x01, 0x0a, 0x1a, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x50,
-	0x72, 0x6f, 0x78, 0x79, 0x52, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x52, 0x65, 0x71, 0x75,
-	0x65, 0x73, 0x74, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52,
-	0x02, 0x69, 0x64, 0x12, 0x19, 0x0a, 0x08, 0x70, 0x72, 0x6f, 0x78, 0x79, 0x5f, 0x69, 0x64, 0x18,
-	0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x70, 0x72, 0x6f, 0x78, 0x79, 0x49, 0x64, 0x12, 0x4d,
-	0x0a, 0x08, 0x72, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0b,
-	0x32, 0x31, 0x2e, 0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x66, 0x61, 0x74, 0x65, 0x2e, 0x63, 0x6f,
-	0x6e, 0x74, 0x72, 0x6f, 0x6c, 0x2e, 0x69, 0x6e, 0x74, 0x65, 0x67, 0x72, 0x61, 0x74, 0x69, 0x6f,
-	0x6e, 0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x2e, 0x52, 0x65, 0x73, 0x6f, 0x75,
-	0x72, 0x63, 0x65, 0x52, 0x08, 0x72, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x22, 0x97, 0x01,
-	0x0a, 0x1b, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x50, 0x72, 0x6f, 0x78, 0x79, 0x52, 0x65, 0x73,
-	0x6f, 0x75, 0x72, 0x63, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x0e, 0x0a,
-	0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x02, 0x69, 0x64, 0x12, 0x19, 0x0a,
-	0x08, 0x70, 0x72, 0x6f, 0x78, 0x79, 0x5f, 0x69, 0x64, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52,
-	0x07, 0x70, 0x72, 0x6f, 0x78, 0x79, 0x49, 0x64, 0x12, 0x4d, 0x0a, 0x08, 0x72, 0x65, 0x73, 0x6f,
-	0x75, 0x72, 0x63, 0x65, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x31, 0x2e, 0x63, 0x6f, 0x6d,
-	0x6d, 0x6f, 0x6e, 0x66, 0x61, 0x74, 0x65, 0x2e, 0x63, 0x6f, 0x6e, 0x74, 0x72, 0x6f, 0x6c, 0x2e,
-	0x69, 0x6e, 0x74, 0x65, 0x67, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x2e, 0x76, 0x31, 0x61, 0x6c,
-	0x70, 0x68, 0x61, 0x31, 0x2e, 0x52, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x52, 0x08, 0x72,
-	0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x22, 0x2c, 0x0a, 0x1a, 0x44, 0x65, 0x6c, 0x65, 0x74,
-	0x65, 0x50, 0x72, 0x6f, 0x78, 0x79, 0x52, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x52, 0x65,
-	0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28,
-	0x09, 0x52, 0x02, 0x69, 0x64, 0x22, 0x2d, 0x0a, 0x1b, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x50,
-	0x72, 0x6f, 0x78, 0x79, 0x52, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x52, 0x65, 0x73, 0x70,
-	0x6f, 0x6e, 0x73, 0x65, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09,
-	0x52, 0x02, 0x69, 0x64, 0x22, 0x36, 0x0a, 0x19, 0x4c, 0x69, 0x73, 0x74, 0x50, 0x72, 0x6f, 0x78,
+	0x75, 0x72, 0x63, 0x65, 0x22, 0x36, 0x0a, 0x19, 0x4c, 0x69, 0x73, 0x74, 0x50, 0x72, 0x6f, 0x78,
 	0x79, 0x52, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73,
 	0x74, 0x12, 0x19, 0x0a, 0x08, 0x70, 0x72, 0x6f, 0x78, 0x79, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20,
 	0x01, 0x28, 0x09, 0x52, 0x07, 0x70, 0x72, 0x6f, 0x78, 0x79, 0x49, 0x64, 0x22, 0x88, 0x01, 0x0a,
@@ -817,34 +304,21 @@ func file_commonfate_control_integration_v1alpha1_proxy_resource_proto_rawDescGZ
 	return file_commonfate_control_integration_v1alpha1_proxy_resource_proto_rawDescData
 }
 
-var file_commonfate_control_integration_v1alpha1_proxy_resource_proto_msgTypes = make([]protoimpl.MessageInfo, 11)
+var file_commonfate_control_integration_v1alpha1_proxy_resource_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
 var file_commonfate_control_integration_v1alpha1_proxy_resource_proto_goTypes = []any{
-	(*Resource)(nil),                    // 0: commonfate.control.integration.v1alpha1.Resource
-	(*CreateProxyResourceRequest)(nil),  // 1: commonfate.control.integration.v1alpha1.CreateProxyResourceRequest
-	(*CreateProxyResourceResponse)(nil), // 2: commonfate.control.integration.v1alpha1.CreateProxyResourceResponse
-	(*GetProxyResourceRequest)(nil),     // 3: commonfate.control.integration.v1alpha1.GetProxyResourceRequest
-	(*GetProxyResourceResponse)(nil),    // 4: commonfate.control.integration.v1alpha1.GetProxyResourceResponse
-	(*UpdateProxyResourceRequest)(nil),  // 5: commonfate.control.integration.v1alpha1.UpdateProxyResourceRequest
-	(*UpdateProxyResourceResponse)(nil), // 6: commonfate.control.integration.v1alpha1.UpdateProxyResourceResponse
-	(*DeleteProxyResourceRequest)(nil),  // 7: commonfate.control.integration.v1alpha1.DeleteProxyResourceRequest
-	(*DeleteProxyResourceResponse)(nil), // 8: commonfate.control.integration.v1alpha1.DeleteProxyResourceResponse
-	(*ListProxyResourcesRequest)(nil),   // 9: commonfate.control.integration.v1alpha1.ListProxyResourcesRequest
-	(*ListProxyResourcesResponse)(nil),  // 10: commonfate.control.integration.v1alpha1.ListProxyResourcesResponse
-	(*AWSRDSDatabase)(nil),              // 11: commonfate.control.integration.v1alpha1.AWSRDSDatabase
+	(*Resource)(nil),                   // 0: commonfate.control.integration.v1alpha1.Resource
+	(*ListProxyResourcesRequest)(nil),  // 1: commonfate.control.integration.v1alpha1.ListProxyResourcesRequest
+	(*ListProxyResourcesResponse)(nil), // 2: commonfate.control.integration.v1alpha1.ListProxyResourcesResponse
+	(*AWSRDSDatabase)(nil),             // 3: commonfate.control.integration.v1alpha1.AWSRDSDatabase
 }
 var file_commonfate_control_integration_v1alpha1_proxy_resource_proto_depIdxs = []int32{
-	11, // 0: commonfate.control.integration.v1alpha1.Resource.aws_rds_database:type_name -> commonfate.control.integration.v1alpha1.AWSRDSDatabase
-	0,  // 1: commonfate.control.integration.v1alpha1.CreateProxyResourceRequest.resource:type_name -> commonfate.control.integration.v1alpha1.Resource
-	0,  // 2: commonfate.control.integration.v1alpha1.CreateProxyResourceResponse.resource:type_name -> commonfate.control.integration.v1alpha1.Resource
-	0,  // 3: commonfate.control.integration.v1alpha1.GetProxyResourceResponse.resource:type_name -> commonfate.control.integration.v1alpha1.Resource
-	0,  // 4: commonfate.control.integration.v1alpha1.UpdateProxyResourceRequest.resource:type_name -> commonfate.control.integration.v1alpha1.Resource
-	0,  // 5: commonfate.control.integration.v1alpha1.UpdateProxyResourceResponse.resource:type_name -> commonfate.control.integration.v1alpha1.Resource
-	0,  // 6: commonfate.control.integration.v1alpha1.ListProxyResourcesResponse.resources:type_name -> commonfate.control.integration.v1alpha1.Resource
-	7,  // [7:7] is the sub-list for method output_type
-	7,  // [7:7] is the sub-list for method input_type
-	7,  // [7:7] is the sub-list for extension type_name
-	7,  // [7:7] is the sub-list for extension extendee
-	0,  // [0:7] is the sub-list for field type_name
+	3, // 0: commonfate.control.integration.v1alpha1.Resource.aws_rds_database:type_name -> commonfate.control.integration.v1alpha1.AWSRDSDatabase
+	0, // 1: commonfate.control.integration.v1alpha1.ListProxyResourcesResponse.resources:type_name -> commonfate.control.integration.v1alpha1.Resource
+	2, // [2:2] is the sub-list for method output_type
+	2, // [2:2] is the sub-list for method input_type
+	2, // [2:2] is the sub-list for extension type_name
+	2, // [2:2] is the sub-list for extension extendee
+	0, // [0:2] is the sub-list for field type_name
 }
 
 func init() { file_commonfate_control_integration_v1alpha1_proxy_resource_proto_init() }
@@ -878,102 +352,6 @@ func file_commonfate_control_integration_v1alpha1_proxy_resource_proto_init() {
 			}
 		}
 		file_commonfate_control_integration_v1alpha1_proxy_resource_proto_msgTypes[1].Exporter = func(v any, i int) any {
-			switch v := v.(*CreateProxyResourceRequest); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_commonfate_control_integration_v1alpha1_proxy_resource_proto_msgTypes[2].Exporter = func(v any, i int) any {
-			switch v := v.(*CreateProxyResourceResponse); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_commonfate_control_integration_v1alpha1_proxy_resource_proto_msgTypes[3].Exporter = func(v any, i int) any {
-			switch v := v.(*GetProxyResourceRequest); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_commonfate_control_integration_v1alpha1_proxy_resource_proto_msgTypes[4].Exporter = func(v any, i int) any {
-			switch v := v.(*GetProxyResourceResponse); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_commonfate_control_integration_v1alpha1_proxy_resource_proto_msgTypes[5].Exporter = func(v any, i int) any {
-			switch v := v.(*UpdateProxyResourceRequest); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_commonfate_control_integration_v1alpha1_proxy_resource_proto_msgTypes[6].Exporter = func(v any, i int) any {
-			switch v := v.(*UpdateProxyResourceResponse); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_commonfate_control_integration_v1alpha1_proxy_resource_proto_msgTypes[7].Exporter = func(v any, i int) any {
-			switch v := v.(*DeleteProxyResourceRequest); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_commonfate_control_integration_v1alpha1_proxy_resource_proto_msgTypes[8].Exporter = func(v any, i int) any {
-			switch v := v.(*DeleteProxyResourceResponse); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_commonfate_control_integration_v1alpha1_proxy_resource_proto_msgTypes[9].Exporter = func(v any, i int) any {
 			switch v := v.(*ListProxyResourcesRequest); i {
 			case 0:
 				return &v.state
@@ -985,7 +363,7 @@ func file_commonfate_control_integration_v1alpha1_proxy_resource_proto_init() {
 				return nil
 			}
 		}
-		file_commonfate_control_integration_v1alpha1_proxy_resource_proto_msgTypes[10].Exporter = func(v any, i int) any {
+		file_commonfate_control_integration_v1alpha1_proxy_resource_proto_msgTypes[2].Exporter = func(v any, i int) any {
 			switch v := v.(*ListProxyResourcesResponse); i {
 			case 0:
 				return &v.state
@@ -1007,7 +385,7 @@ func file_commonfate_control_integration_v1alpha1_proxy_resource_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_commonfate_control_integration_v1alpha1_proxy_resource_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   11,
+			NumMessages:   3,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
