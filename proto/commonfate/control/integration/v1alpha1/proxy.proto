@@ -93,7 +93,6 @@ message CreateProxyRequest {
 
       repeated commonfate.access.v1alpha1.Diagnostic diagnostics = 3;
 
-
   }
 
   message ECSTaskMetadata {
