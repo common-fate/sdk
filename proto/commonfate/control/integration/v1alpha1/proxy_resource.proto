@@ -22,56 +22,6 @@ message Resource {
     }
   }
 
-
-//   message CreateProxyResourceRequest {
-//     string proxy_id = 1;
-//     Resource resource = 2;
-
-//   }
-
-//   message CreateProxyResourceResponse {
-//     string id = 1;
-//     string proxy_id = 2;
-//     Resource resource = 3;
-//   }
-
-//   message GetProxyResourceRequest {
-//     string id = 1;
-//     string proxy_id = 2;
-
-
-//   }
-
-//   message GetProxyResourceResponse {
-//     string id = 1;
-//     string proxy_id = 2;
-//     Resource resource = 3;
-
-//   }
-
-//   message UpdateProxyResourceRequest {
-//     string id = 1;
-//     string proxy_id = 2;
-//     Resource resource = 3;
-
-//   }
-
-//   message UpdateProxyResourceResponse {
-//     string id = 1;
-//     string proxy_id = 2;
-//     Resource resource = 3;
-
-//   }
-
-//   message DeleteProxyResourceRequest {
-//     string id = 1;
-//   }
-
-//   message DeleteProxyResourceResponse {
-//     string id = 1;
-
-//   }
-
   message ListProxyResourcesRequest {
     string proxy_id = 1;
 

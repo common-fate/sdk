@@ -16,11 +16,6 @@ import "commonfate/control/integration/v1alpha1/s3_log_destination.proto";
 import "commonfate/control/integration/v1alpha1/slack.proto";
 import "commonfate/control/integration/v1alpha1/webhook.proto";
 
-// message Resource {
-//     oneof resource {
-//       AWSRDSDatabase aws_rds_database = 1;
-//     }
-//   }
 
 
   message CreateProxyRdsResourceRequest {
