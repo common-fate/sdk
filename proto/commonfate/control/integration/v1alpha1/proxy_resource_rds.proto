@@ -1,0 +1,69 @@
+syntax = "proto3";
+package commonfate.control.integration.v1alpha1;
+
+import "commonfate/access/v1alpha1/diagnostic.proto";
+import "commonfate/authz/v1alpha1/read_only.proto";
+import "commonfate/control/integration/v1alpha1/auth0.proto";
+import "commonfate/control/integration/v1alpha1/aws_idc.proto";
+import "commonfate/control/integration/v1alpha1/aws_proxy.proto";
+import "commonfate/control/integration/v1alpha1/datastax.proto";
+import "commonfate/control/integration/v1alpha1/entra.proto";
+import "commonfate/control/integration/v1alpha1/gcp.proto";
+import "commonfate/control/integration/v1alpha1/okta.proto";
+import "commonfate/control/integration/v1alpha1/opsgenie.proto";
+import "commonfate/control/integration/v1alpha1/pagerduty.proto";
+import "commonfate/control/integration/v1alpha1/s3_log_destination.proto";
+import "commonfate/control/integration/v1alpha1/slack.proto";
+import "commonfate/control/integration/v1alpha1/webhook.proto";
+
+
+
+  message CreateProxyRdsResourceRequest {
+    string proxy_id = 1;
+    AWSRDSDatabase rds_database = 2;
+
+  }
+
+  message CreateProxyRdsResourceResponse {
+    string id = 1;
+    string proxy_id = 2;
+    AWSRDSDatabase rds_database = 3;
+  }
+
+  message GetProxyRdsResourceRequest {
+    string id = 1;
+
+
+
+  }
+
+  message GetProxyRdsResourceResponse {
+    string id = 1;
+    AWSRDSDatabase rds_database = 2;
+
+  }
+
+  message UpdateProxyRdsResourceRequest {
+    string id = 1;
+    string proxy_id = 2;
+
+    AWSRDSDatabase rds_database = 3;
+
+  }
+
+  message UpdateProxyRdsResourceResponse {
+  string id = 1;
+  string proxy_id = 2;
+
+  AWSRDSDatabase rds_database = 3;
+
+  }
+
+  message DeleteProxyRdsResourceRequest {
+    string id = 1;
+  }
+
+  message DeleteProxyRdsResourceResponse {
+    string id = 1;
+
+  }

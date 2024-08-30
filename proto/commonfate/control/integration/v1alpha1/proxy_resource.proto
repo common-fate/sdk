@@ -1,0 +1,36 @@
+syntax = "proto3";
+package commonfate.control.integration.v1alpha1;
+
+import "commonfate/access/v1alpha1/diagnostic.proto";
+import "commonfate/authz/v1alpha1/read_only.proto";
+import "commonfate/control/integration/v1alpha1/auth0.proto";
+import "commonfate/control/integration/v1alpha1/aws_idc.proto";
+import "commonfate/control/integration/v1alpha1/aws_proxy.proto";
+import "commonfate/control/integration/v1alpha1/datastax.proto";
+import "commonfate/control/integration/v1alpha1/entra.proto";
+import "commonfate/control/integration/v1alpha1/gcp.proto";
+import "commonfate/control/integration/v1alpha1/okta.proto";
+import "commonfate/control/integration/v1alpha1/opsgenie.proto";
+import "commonfate/control/integration/v1alpha1/pagerduty.proto";
+import "commonfate/control/integration/v1alpha1/s3_log_destination.proto";
+import "commonfate/control/integration/v1alpha1/slack.proto";
+import "commonfate/control/integration/v1alpha1/webhook.proto";
+
+message Resource {
+    oneof resource {
+      AWSRDSDatabase aws_rds_database = 1;
+    }
+  }
+
+  message ListProxyResourcesRequest {
+    string proxy_id = 1;
+
+  }
+
+
+
+  message ListProxyResourcesResponse {
+    string proxy_id = 1;
+    repeated Resource resources = 2;
+
+  }
