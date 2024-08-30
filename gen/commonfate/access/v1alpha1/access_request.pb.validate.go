@@ -65,8 +65,109 @@ func (m *QueryAccessRequestsRequest) validate(all bool) error {
 
 	// no validation rules for Archived
 
+	// no validation rules for GrantStatus
+
 	if m.Order != nil {
 		// no validation rules for Order
+	}
+
+	if m.RequestedBy != nil {
+
+		if all {
+			switch v := interface{}(m.GetRequestedBy()).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, QueryAccessRequestsRequestValidationError{
+						field:  "RequestedBy",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, QueryAccessRequestsRequestValidationError{
+						field:  "RequestedBy",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(m.GetRequestedBy()).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return QueryAccessRequestsRequestValidationError{
+					field:  "RequestedBy",
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	if m.ClosedBy != nil {
+
+		if all {
+			switch v := interface{}(m.GetClosedBy()).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, QueryAccessRequestsRequestValidationError{
+						field:  "ClosedBy",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, QueryAccessRequestsRequestValidationError{
+						field:  "ClosedBy",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(m.GetClosedBy()).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return QueryAccessRequestsRequestValidationError{
+					field:  "ClosedBy",
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	if m.ApprovedBy != nil {
+
+		if all {
+			switch v := interface{}(m.GetApprovedBy()).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, QueryAccessRequestsRequestValidationError{
+						field:  "ApprovedBy",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, QueryAccessRequestsRequestValidationError{
+						field:  "ApprovedBy",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(m.GetApprovedBy()).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return QueryAccessRequestsRequestValidationError{
+					field:  "ApprovedBy",
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
 	}
 
 	if len(errors) > 0 {
