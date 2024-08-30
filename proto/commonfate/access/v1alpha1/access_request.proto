@@ -7,6 +7,7 @@ import "commonfate/access/v1alpha1/grant.proto";
 import "commonfate/access/v1alpha1/user.proto";
 import "commonfate/authz/v1alpha1/read_only.proto";
 import "commonfate/entity/v1alpha1/entity_service.proto";
+import "commonfate/entity/v1alpha1/eid.proto";
 import "google/protobuf/timestamp.proto";
 import "buf/validate/validate.proto";
 
@@ -44,6 +45,21 @@ message QueryAccessRequestsRequest {
   string page_token = 1;
   bool archived = 2;
   optional commonfate.entity.v1alpha1.Order order = 3;
+  optional commonfate.entity.v1alpha1.EID requested_by = 4;
+  optional commonfate.entity.v1alpha1.EID closed_by = 5;
+  optional commonfate.entity.v1alpha1.EID approved_by = 6;
+  RequestStatus request_status = 7;
+
+}
+
+enum RequestStatus {
+  REQUEST_STATUS_UNSPECIFIED = 0;
+
+  REQUEST_STATUS_PENDING = 1;
+
+  REQUEST_STATUS_ACTIVE = 2;
+
+  REQUEST_STATUS_CLOSED = 3;
 }
 
 message QueryAccessRequestsResponse {
