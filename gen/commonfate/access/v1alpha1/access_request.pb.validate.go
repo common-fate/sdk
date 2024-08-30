@@ -65,7 +65,7 @@ func (m *QueryAccessRequestsRequest) validate(all bool) error {
 
 	// no validation rules for Archived
 
-	// no validation rules for GrantStatus
+	// no validation rules for RequestStatus
 
 	if m.Order != nil {
 		// no validation rules for Order

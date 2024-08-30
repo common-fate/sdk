@@ -48,8 +48,18 @@ message QueryAccessRequestsRequest {
   optional commonfate.entity.v1alpha1.EID requested_by = 4;
   optional commonfate.entity.v1alpha1.EID closed_by = 5;
   optional commonfate.entity.v1alpha1.EID approved_by = 6;
-  GrantStatus grant_status = 7;
+  RequestStatus request_status = 7;
 
+}
+
+enum RequestStatus {
+  REQUEST_STATUS_UNSPECIFIED = 0;
+
+  REQUEST_STATUS_PENDING = 1;
+
+  REQUEST_STATUS_ACTIVE = 2;
+
+  REQUEST_STATUS_CLOSED = 3;
 }
 
 message QueryAccessRequestsResponse {
