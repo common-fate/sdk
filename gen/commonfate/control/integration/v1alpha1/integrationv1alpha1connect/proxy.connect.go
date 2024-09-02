@@ -21,8 +21,8 @@ import (
 const _ = connect.IsAtLeastVersion1_13_0
 
 const (
-	// ProxyHealthCheckServiceName is the fully-qualified name of the ProxyHealthCheckService service.
-	ProxyHealthCheckServiceName = "commonfate.control.integration.v1alpha1.ProxyHealthCheckService"
+	// ProxyServiceName is the fully-qualified name of the ProxyService service.
+	ProxyServiceName = "commonfate.control.integration.v1alpha1.ProxyService"
 )
 
 // These constants are the fully-qualified names of the RPCs defined in this package. They're
@@ -33,86 +33,333 @@ const (
 // reflection-formatted method names, remove the leading slash and convert the remaining slash to a
 // period.
 const (
-	// ProxyHealthCheckServicePingProcedure is the fully-qualified name of the ProxyHealthCheckService's
-	// Ping RPC.
-	ProxyHealthCheckServicePingProcedure = "/commonfate.control.integration.v1alpha1.ProxyHealthCheckService/Ping"
+	// ProxyServiceCreateProxyRdsResourceProcedure is the fully-qualified name of the ProxyService's
+	// CreateProxyRdsResource RPC.
+	ProxyServiceCreateProxyRdsResourceProcedure = "/commonfate.control.integration.v1alpha1.ProxyService/CreateProxyRdsResource"
+	// ProxyServiceUpdateProxyRdsResourceProcedure is the fully-qualified name of the ProxyService's
+	// UpdateProxyRdsResource RPC.
+	ProxyServiceUpdateProxyRdsResourceProcedure = "/commonfate.control.integration.v1alpha1.ProxyService/UpdateProxyRdsResource"
+	// ProxyServiceDeleteProxyRdsResourceProcedure is the fully-qualified name of the ProxyService's
+	// DeleteProxyRdsResource RPC.
+	ProxyServiceDeleteProxyRdsResourceProcedure = "/commonfate.control.integration.v1alpha1.ProxyService/DeleteProxyRdsResource"
+	// ProxyServiceGetProxyRdsResourceProcedure is the fully-qualified name of the ProxyService's
+	// GetProxyRdsResource RPC.
+	ProxyServiceGetProxyRdsResourceProcedure = "/commonfate.control.integration.v1alpha1.ProxyService/GetProxyRdsResource"
+	// ProxyServiceCreateProxyProcedure is the fully-qualified name of the ProxyService's CreateProxy
+	// RPC.
+	ProxyServiceCreateProxyProcedure = "/commonfate.control.integration.v1alpha1.ProxyService/CreateProxy"
+	// ProxyServiceUpdateProxyProcedure is the fully-qualified name of the ProxyService's UpdateProxy
+	// RPC.
+	ProxyServiceUpdateProxyProcedure = "/commonfate.control.integration.v1alpha1.ProxyService/UpdateProxy"
+	// ProxyServiceDeleteProxyProcedure is the fully-qualified name of the ProxyService's DeleteProxy
+	// RPC.
+	ProxyServiceDeleteProxyProcedure = "/commonfate.control.integration.v1alpha1.ProxyService/DeleteProxy"
+	// ProxyServiceGetProxyProcedure is the fully-qualified name of the ProxyService's GetProxy RPC.
+	ProxyServiceGetProxyProcedure = "/commonfate.control.integration.v1alpha1.ProxyService/GetProxy"
+	// ProxyServiceListProxyResourcesProcedure is the fully-qualified name of the ProxyService's
+	// ListProxyResources RPC.
+	ProxyServiceListProxyResourcesProcedure = "/commonfate.control.integration.v1alpha1.ProxyService/ListProxyResources"
 )
 
 // These variables are the protoreflect.Descriptor objects for the RPCs defined in this package.
 var (
-	proxyHealthCheckServiceServiceDescriptor    = v1alpha1.File_commonfate_control_integration_v1alpha1_proxy_proto.Services().ByName("ProxyHealthCheckService")
-	proxyHealthCheckServicePingMethodDescriptor = proxyHealthCheckServiceServiceDescriptor.Methods().ByName("Ping")
+	proxyServiceServiceDescriptor                      = v1alpha1.File_commonfate_control_integration_v1alpha1_proxy_proto.Services().ByName("ProxyService")
+	proxyServiceCreateProxyRdsResourceMethodDescriptor = proxyServiceServiceDescriptor.Methods().ByName("CreateProxyRdsResource")
+	proxyServiceUpdateProxyRdsResourceMethodDescriptor = proxyServiceServiceDescriptor.Methods().ByName("UpdateProxyRdsResource")
+	proxyServiceDeleteProxyRdsResourceMethodDescriptor = proxyServiceServiceDescriptor.Methods().ByName("DeleteProxyRdsResource")
+	proxyServiceGetProxyRdsResourceMethodDescriptor    = proxyServiceServiceDescriptor.Methods().ByName("GetProxyRdsResource")
+	proxyServiceCreateProxyMethodDescriptor            = proxyServiceServiceDescriptor.Methods().ByName("CreateProxy")
+	proxyServiceUpdateProxyMethodDescriptor            = proxyServiceServiceDescriptor.Methods().ByName("UpdateProxy")
+	proxyServiceDeleteProxyMethodDescriptor            = proxyServiceServiceDescriptor.Methods().ByName("DeleteProxy")
+	proxyServiceGetProxyMethodDescriptor               = proxyServiceServiceDescriptor.Methods().ByName("GetProxy")
+	proxyServiceListProxyResourcesMethodDescriptor     = proxyServiceServiceDescriptor.Methods().ByName("ListProxyResources")
 )
 
-// ProxyHealthCheckServiceClient is a client for the
-// commonfate.control.integration.v1alpha1.ProxyHealthCheckService service.
-type ProxyHealthCheckServiceClient interface {
-	// Ping the healthcheck service.
-	Ping(context.Context, *connect.Request[v1alpha1.PingRequest]) (*connect.Response[v1alpha1.PingResponse], error)
+// ProxyServiceClient is a client for the commonfate.control.integration.v1alpha1.ProxyService
+// service.
+type ProxyServiceClient interface {
+	// CRUD operations for proxy resource terraform provider resource
+	CreateProxyRdsResource(context.Context, *connect.Request[v1alpha1.CreateProxyRdsResourceRequest]) (*connect.Response[v1alpha1.CreateProxyRdsResourceResponse], error)
+	UpdateProxyRdsResource(context.Context, *connect.Request[v1alpha1.UpdateProxyRdsResourceRequest]) (*connect.Response[v1alpha1.UpdateProxyRdsResourceResponse], error)
+	DeleteProxyRdsResource(context.Context, *connect.Request[v1alpha1.DeleteProxyRdsResourceRequest]) (*connect.Response[v1alpha1.DeleteProxyRdsResourceResponse], error)
+	GetProxyRdsResource(context.Context, *connect.Request[v1alpha1.GetProxyRdsResourceRequest]) (*connect.Response[v1alpha1.GetProxyRdsResourceResponse], error)
+	// CRUD operations for proxy terraform provider resource
+	CreateProxy(context.Context, *connect.Request[v1alpha1.CreateProxyRequest]) (*connect.Response[v1alpha1.CreateProxyResponse], error)
+	UpdateProxy(context.Context, *connect.Request[v1alpha1.UpdateProxyRequest]) (*connect.Response[v1alpha1.UpdateProxyResponse], error)
+	DeleteProxy(context.Context, *connect.Request[v1alpha1.DeleteProxyRequest]) (*connect.Response[v1alpha1.DeleteProxyResponse], error)
+	GetProxy(context.Context, *connect.Request[v1alpha1.GetProxyRequest]) (*connect.Response[v1alpha1.GetProxyResponse], error)
+	// Used by the proxy to get resources
+	ListProxyResources(context.Context, *connect.Request[v1alpha1.ListProxyResourcesRequest]) (*connect.Response[v1alpha1.ListProxyResourcesResponse], error)
 }
 
-// NewProxyHealthCheckServiceClient constructs a client for the
-// commonfate.control.integration.v1alpha1.ProxyHealthCheckService service. By default, it uses the
-// Connect protocol with the binary Protobuf Codec, asks for gzipped responses, and sends
-// uncompressed requests. To use the gRPC or gRPC-Web protocols, supply the connect.WithGRPC() or
+// NewProxyServiceClient constructs a client for the
+// commonfate.control.integration.v1alpha1.ProxyService service. By default, it uses the Connect
+// protocol with the binary Protobuf Codec, asks for gzipped responses, and sends uncompressed
+// requests. To use the gRPC or gRPC-Web protocols, supply the connect.WithGRPC() or
 // connect.WithGRPCWeb() options.
 //
 // The URL supplied here should be the base URL for the Connect or gRPC server (for example,
 // http://api.acme.com or https://acme.com/grpc).
-func NewProxyHealthCheckServiceClient(httpClient connect.HTTPClient, baseURL string, opts ...connect.ClientOption) ProxyHealthCheckServiceClient {
+func NewProxyServiceClient(httpClient connect.HTTPClient, baseURL string, opts ...connect.ClientOption) ProxyServiceClient {
 	baseURL = strings.TrimRight(baseURL, "/")
-	return &proxyHealthCheckServiceClient{
-		ping: connect.NewClient[v1alpha1.PingRequest, v1alpha1.PingResponse](
+	return &proxyServiceClient{
+		createProxyRdsResource: connect.NewClient[v1alpha1.CreateProxyRdsResourceRequest, v1alpha1.CreateProxyRdsResourceResponse](
 			httpClient,
-			baseURL+ProxyHealthCheckServicePingProcedure,
-			connect.WithSchema(proxyHealthCheckServicePingMethodDescriptor),
+			baseURL+ProxyServiceCreateProxyRdsResourceProcedure,
+			connect.WithSchema(proxyServiceCreateProxyRdsResourceMethodDescriptor),
+			connect.WithClientOptions(opts...),
+		),
+		updateProxyRdsResource: connect.NewClient[v1alpha1.UpdateProxyRdsResourceRequest, v1alpha1.UpdateProxyRdsResourceResponse](
+			httpClient,
+			baseURL+ProxyServiceUpdateProxyRdsResourceProcedure,
+			connect.WithSchema(proxyServiceUpdateProxyRdsResourceMethodDescriptor),
+			connect.WithClientOptions(opts...),
+		),
+		deleteProxyRdsResource: connect.NewClient[v1alpha1.DeleteProxyRdsResourceRequest, v1alpha1.DeleteProxyRdsResourceResponse](
+			httpClient,
+			baseURL+ProxyServiceDeleteProxyRdsResourceProcedure,
+			connect.WithSchema(proxyServiceDeleteProxyRdsResourceMethodDescriptor),
+			connect.WithClientOptions(opts...),
+		),
+		getProxyRdsResource: connect.NewClient[v1alpha1.GetProxyRdsResourceRequest, v1alpha1.GetProxyRdsResourceResponse](
+			httpClient,
+			baseURL+ProxyServiceGetProxyRdsResourceProcedure,
+			connect.WithSchema(proxyServiceGetProxyRdsResourceMethodDescriptor),
+			connect.WithClientOptions(opts...),
+		),
+		createProxy: connect.NewClient[v1alpha1.CreateProxyRequest, v1alpha1.CreateProxyResponse](
+			httpClient,
+			baseURL+ProxyServiceCreateProxyProcedure,
+			connect.WithSchema(proxyServiceCreateProxyMethodDescriptor),
+			connect.WithClientOptions(opts...),
+		),
+		updateProxy: connect.NewClient[v1alpha1.UpdateProxyRequest, v1alpha1.UpdateProxyResponse](
+			httpClient,
+			baseURL+ProxyServiceUpdateProxyProcedure,
+			connect.WithSchema(proxyServiceUpdateProxyMethodDescriptor),
+			connect.WithClientOptions(opts...),
+		),
+		deleteProxy: connect.NewClient[v1alpha1.DeleteProxyRequest, v1alpha1.DeleteProxyResponse](
+			httpClient,
+			baseURL+ProxyServiceDeleteProxyProcedure,
+			connect.WithSchema(proxyServiceDeleteProxyMethodDescriptor),
+			connect.WithClientOptions(opts...),
+		),
+		getProxy: connect.NewClient[v1alpha1.GetProxyRequest, v1alpha1.GetProxyResponse](
+			httpClient,
+			baseURL+ProxyServiceGetProxyProcedure,
+			connect.WithSchema(proxyServiceGetProxyMethodDescriptor),
+			connect.WithClientOptions(opts...),
+		),
+		listProxyResources: connect.NewClient[v1alpha1.ListProxyResourcesRequest, v1alpha1.ListProxyResourcesResponse](
+			httpClient,
+			baseURL+ProxyServiceListProxyResourcesProcedure,
+			connect.WithSchema(proxyServiceListProxyResourcesMethodDescriptor),
 			connect.WithClientOptions(opts...),
 		),
 	}
 }
 
-// proxyHealthCheckServiceClient implements ProxyHealthCheckServiceClient.
-type proxyHealthCheckServiceClient struct {
-	ping *connect.Client[v1alpha1.PingRequest, v1alpha1.PingResponse]
+// proxyServiceClient implements ProxyServiceClient.
+type proxyServiceClient struct {
+	createProxyRdsResource *connect.Client[v1alpha1.CreateProxyRdsResourceRequest, v1alpha1.CreateProxyRdsResourceResponse]
+	updateProxyRdsResource *connect.Client[v1alpha1.UpdateProxyRdsResourceRequest, v1alpha1.UpdateProxyRdsResourceResponse]
+	deleteProxyRdsResource *connect.Client[v1alpha1.DeleteProxyRdsResourceRequest, v1alpha1.DeleteProxyRdsResourceResponse]
+	getProxyRdsResource    *connect.Client[v1alpha1.GetProxyRdsResourceRequest, v1alpha1.GetProxyRdsResourceResponse]
+	createProxy            *connect.Client[v1alpha1.CreateProxyRequest, v1alpha1.CreateProxyResponse]
+	updateProxy            *connect.Client[v1alpha1.UpdateProxyRequest, v1alpha1.UpdateProxyResponse]
+	deleteProxy            *connect.Client[v1alpha1.DeleteProxyRequest, v1alpha1.DeleteProxyResponse]
+	getProxy               *connect.Client[v1alpha1.GetProxyRequest, v1alpha1.GetProxyResponse]
+	listProxyResources     *connect.Client[v1alpha1.ListProxyResourcesRequest, v1alpha1.ListProxyResourcesResponse]
 }
 
-// Ping calls commonfate.control.integration.v1alpha1.ProxyHealthCheckService.Ping.
-func (c *proxyHealthCheckServiceClient) Ping(ctx context.Context, req *connect.Request[v1alpha1.PingRequest]) (*connect.Response[v1alpha1.PingResponse], error) {
-	return c.ping.CallUnary(ctx, req)
+// CreateProxyRdsResource calls
+// commonfate.control.integration.v1alpha1.ProxyService.CreateProxyRdsResource.
+func (c *proxyServiceClient) CreateProxyRdsResource(ctx context.Context, req *connect.Request[v1alpha1.CreateProxyRdsResourceRequest]) (*connect.Response[v1alpha1.CreateProxyRdsResourceResponse], error) {
+	return c.createProxyRdsResource.CallUnary(ctx, req)
 }
 
-// ProxyHealthCheckServiceHandler is an implementation of the
-// commonfate.control.integration.v1alpha1.ProxyHealthCheckService service.
-type ProxyHealthCheckServiceHandler interface {
-	// Ping the healthcheck service.
-	Ping(context.Context, *connect.Request[v1alpha1.PingRequest]) (*connect.Response[v1alpha1.PingResponse], error)
+// UpdateProxyRdsResource calls
+// commonfate.control.integration.v1alpha1.ProxyService.UpdateProxyRdsResource.
+func (c *proxyServiceClient) UpdateProxyRdsResource(ctx context.Context, req *connect.Request[v1alpha1.UpdateProxyRdsResourceRequest]) (*connect.Response[v1alpha1.UpdateProxyRdsResourceResponse], error) {
+	return c.updateProxyRdsResource.CallUnary(ctx, req)
 }
 
-// NewProxyHealthCheckServiceHandler builds an HTTP handler from the service implementation. It
-// returns the path on which to mount the handler and the handler itself.
+// DeleteProxyRdsResource calls
+// commonfate.control.integration.v1alpha1.ProxyService.DeleteProxyRdsResource.
+func (c *proxyServiceClient) DeleteProxyRdsResource(ctx context.Context, req *connect.Request[v1alpha1.DeleteProxyRdsResourceRequest]) (*connect.Response[v1alpha1.DeleteProxyRdsResourceResponse], error) {
+	return c.deleteProxyRdsResource.CallUnary(ctx, req)
+}
+
+// GetProxyRdsResource calls
+// commonfate.control.integration.v1alpha1.ProxyService.GetProxyRdsResource.
+func (c *proxyServiceClient) GetProxyRdsResource(ctx context.Context, req *connect.Request[v1alpha1.GetProxyRdsResourceRequest]) (*connect.Response[v1alpha1.GetProxyRdsResourceResponse], error) {
+	return c.getProxyRdsResource.CallUnary(ctx, req)
+}
+
+// CreateProxy calls commonfate.control.integration.v1alpha1.ProxyService.CreateProxy.
+func (c *proxyServiceClient) CreateProxy(ctx context.Context, req *connect.Request[v1alpha1.CreateProxyRequest]) (*connect.Response[v1alpha1.CreateProxyResponse], error) {
+	return c.createProxy.CallUnary(ctx, req)
+}
+
+// UpdateProxy calls commonfate.control.integration.v1alpha1.ProxyService.UpdateProxy.
+func (c *proxyServiceClient) UpdateProxy(ctx context.Context, req *connect.Request[v1alpha1.UpdateProxyRequest]) (*connect.Response[v1alpha1.UpdateProxyResponse], error) {
+	return c.updateProxy.CallUnary(ctx, req)
+}
+
+// DeleteProxy calls commonfate.control.integration.v1alpha1.ProxyService.DeleteProxy.
+func (c *proxyServiceClient) DeleteProxy(ctx context.Context, req *connect.Request[v1alpha1.DeleteProxyRequest]) (*connect.Response[v1alpha1.DeleteProxyResponse], error) {
+	return c.deleteProxy.CallUnary(ctx, req)
+}
+
+// GetProxy calls commonfate.control.integration.v1alpha1.ProxyService.GetProxy.
+func (c *proxyServiceClient) GetProxy(ctx context.Context, req *connect.Request[v1alpha1.GetProxyRequest]) (*connect.Response[v1alpha1.GetProxyResponse], error) {
+	return c.getProxy.CallUnary(ctx, req)
+}
+
+// ListProxyResources calls commonfate.control.integration.v1alpha1.ProxyService.ListProxyResources.
+func (c *proxyServiceClient) ListProxyResources(ctx context.Context, req *connect.Request[v1alpha1.ListProxyResourcesRequest]) (*connect.Response[v1alpha1.ListProxyResourcesResponse], error) {
+	return c.listProxyResources.CallUnary(ctx, req)
+}
+
+// ProxyServiceHandler is an implementation of the
+// commonfate.control.integration.v1alpha1.ProxyService service.
+type ProxyServiceHandler interface {
+	// CRUD operations for proxy resource terraform provider resource
+	CreateProxyRdsResource(context.Context, *connect.Request[v1alpha1.CreateProxyRdsResourceRequest]) (*connect.Response[v1alpha1.CreateProxyRdsResourceResponse], error)
+	UpdateProxyRdsResource(context.Context, *connect.Request[v1alpha1.UpdateProxyRdsResourceRequest]) (*connect.Response[v1alpha1.UpdateProxyRdsResourceResponse], error)
+	DeleteProxyRdsResource(context.Context, *connect.Request[v1alpha1.DeleteProxyRdsResourceRequest]) (*connect.Response[v1alpha1.DeleteProxyRdsResourceResponse], error)
+	GetProxyRdsResource(context.Context, *connect.Request[v1alpha1.GetProxyRdsResourceRequest]) (*connect.Response[v1alpha1.GetProxyRdsResourceResponse], error)
+	// CRUD operations for proxy terraform provider resource
+	CreateProxy(context.Context, *connect.Request[v1alpha1.CreateProxyRequest]) (*connect.Response[v1alpha1.CreateProxyResponse], error)
+	UpdateProxy(context.Context, *connect.Request[v1alpha1.UpdateProxyRequest]) (*connect.Response[v1alpha1.UpdateProxyResponse], error)
+	DeleteProxy(context.Context, *connect.Request[v1alpha1.DeleteProxyRequest]) (*connect.Response[v1alpha1.DeleteProxyResponse], error)
+	GetProxy(context.Context, *connect.Request[v1alpha1.GetProxyRequest]) (*connect.Response[v1alpha1.GetProxyResponse], error)
+	// Used by the proxy to get resources
+	ListProxyResources(context.Context, *connect.Request[v1alpha1.ListProxyResourcesRequest]) (*connect.Response[v1alpha1.ListProxyResourcesResponse], error)
+}
+
+// NewProxyServiceHandler builds an HTTP handler from the service implementation. It returns the
+// path on which to mount the handler and the handler itself.
 //
 // By default, handlers support the Connect, gRPC, and gRPC-Web protocols with the binary Protobuf
 // and JSON codecs. They also support gzip compression.
-func NewProxyHealthCheckServiceHandler(svc ProxyHealthCheckServiceHandler, opts ...connect.HandlerOption) (string, http.Handler) {
-	proxyHealthCheckServicePingHandler := connect.NewUnaryHandler(
-		ProxyHealthCheckServicePingProcedure,
-		svc.Ping,
-		connect.WithSchema(proxyHealthCheckServicePingMethodDescriptor),
+func NewProxyServiceHandler(svc ProxyServiceHandler, opts ...connect.HandlerOption) (string, http.Handler) {
+	proxyServiceCreateProxyRdsResourceHandler := connect.NewUnaryHandler(
+		ProxyServiceCreateProxyRdsResourceProcedure,
+		svc.CreateProxyRdsResource,
+		connect.WithSchema(proxyServiceCreateProxyRdsResourceMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
-	return "/commonfate.control.integration.v1alpha1.ProxyHealthCheckService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	proxyServiceUpdateProxyRdsResourceHandler := connect.NewUnaryHandler(
+		ProxyServiceUpdateProxyRdsResourceProcedure,
+		svc.UpdateProxyRdsResource,
+		connect.WithSchema(proxyServiceUpdateProxyRdsResourceMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
+	)
+	proxyServiceDeleteProxyRdsResourceHandler := connect.NewUnaryHandler(
+		ProxyServiceDeleteProxyRdsResourceProcedure,
+		svc.DeleteProxyRdsResource,
+		connect.WithSchema(proxyServiceDeleteProxyRdsResourceMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
+	)
+	proxyServiceGetProxyRdsResourceHandler := connect.NewUnaryHandler(
+		ProxyServiceGetProxyRdsResourceProcedure,
+		svc.GetProxyRdsResource,
+		connect.WithSchema(proxyServiceGetProxyRdsResourceMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
+	)
+	proxyServiceCreateProxyHandler := connect.NewUnaryHandler(
+		ProxyServiceCreateProxyProcedure,
+		svc.CreateProxy,
+		connect.WithSchema(proxyServiceCreateProxyMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
+	)
+	proxyServiceUpdateProxyHandler := connect.NewUnaryHandler(
+		ProxyServiceUpdateProxyProcedure,
+		svc.UpdateProxy,
+		connect.WithSchema(proxyServiceUpdateProxyMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
+	)
+	proxyServiceDeleteProxyHandler := connect.NewUnaryHandler(
+		ProxyServiceDeleteProxyProcedure,
+		svc.DeleteProxy,
+		connect.WithSchema(proxyServiceDeleteProxyMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
+	)
+	proxyServiceGetProxyHandler := connect.NewUnaryHandler(
+		ProxyServiceGetProxyProcedure,
+		svc.GetProxy,
+		connect.WithSchema(proxyServiceGetProxyMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
+	)
+	proxyServiceListProxyResourcesHandler := connect.NewUnaryHandler(
+		ProxyServiceListProxyResourcesProcedure,
+		svc.ListProxyResources,
+		connect.WithSchema(proxyServiceListProxyResourcesMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
+	)
+	return "/commonfate.control.integration.v1alpha1.ProxyService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
-		case ProxyHealthCheckServicePingProcedure:
-			proxyHealthCheckServicePingHandler.ServeHTTP(w, r)
+		case ProxyServiceCreateProxyRdsResourceProcedure:
+			proxyServiceCreateProxyRdsResourceHandler.ServeHTTP(w, r)
+		case ProxyServiceUpdateProxyRdsResourceProcedure:
+			proxyServiceUpdateProxyRdsResourceHandler.ServeHTTP(w, r)
+		case ProxyServiceDeleteProxyRdsResourceProcedure:
+			proxyServiceDeleteProxyRdsResourceHandler.ServeHTTP(w, r)
+		case ProxyServiceGetProxyRdsResourceProcedure:
+			proxyServiceGetProxyRdsResourceHandler.ServeHTTP(w, r)
+		case ProxyServiceCreateProxyProcedure:
+			proxyServiceCreateProxyHandler.ServeHTTP(w, r)
+		case ProxyServiceUpdateProxyProcedure:
+			proxyServiceUpdateProxyHandler.ServeHTTP(w, r)
+		case ProxyServiceDeleteProxyProcedure:
+			proxyServiceDeleteProxyHandler.ServeHTTP(w, r)
+		case ProxyServiceGetProxyProcedure:
+			proxyServiceGetProxyHandler.ServeHTTP(w, r)
+		case ProxyServiceListProxyResourcesProcedure:
+			proxyServiceListProxyResourcesHandler.ServeHTTP(w, r)
 		default:
 			http.NotFound(w, r)
 		}
 	})
 }
 
-// UnimplementedProxyHealthCheckServiceHandler returns CodeUnimplemented from all methods.
-type UnimplementedProxyHealthCheckServiceHandler struct{}
+// UnimplementedProxyServiceHandler returns CodeUnimplemented from all methods.
+type UnimplementedProxyServiceHandler struct{}
 
-func (UnimplementedProxyHealthCheckServiceHandler) Ping(context.Context, *connect.Request[v1alpha1.PingRequest]) (*connect.Response[v1alpha1.PingResponse], error) {
-	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.control.integration.v1alpha1.ProxyHealthCheckService.Ping is not implemented"))
+func (UnimplementedProxyServiceHandler) CreateProxyRdsResource(context.Context, *connect.Request[v1alpha1.CreateProxyRdsResourceRequest]) (*connect.Response[v1alpha1.CreateProxyRdsResourceResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.control.integration.v1alpha1.ProxyService.CreateProxyRdsResource is not implemented"))
+}
+
+func (UnimplementedProxyServiceHandler) UpdateProxyRdsResource(context.Context, *connect.Request[v1alpha1.UpdateProxyRdsResourceRequest]) (*connect.Response[v1alpha1.UpdateProxyRdsResourceResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.control.integration.v1alpha1.ProxyService.UpdateProxyRdsResource is not implemented"))
+}
+
+func (UnimplementedProxyServiceHandler) DeleteProxyRdsResource(context.Context, *connect.Request[v1alpha1.DeleteProxyRdsResourceRequest]) (*connect.Response[v1alpha1.DeleteProxyRdsResourceResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.control.integration.v1alpha1.ProxyService.DeleteProxyRdsResource is not implemented"))
+}
+
+func (UnimplementedProxyServiceHandler) GetProxyRdsResource(context.Context, *connect.Request[v1alpha1.GetProxyRdsResourceRequest]) (*connect.Response[v1alpha1.GetProxyRdsResourceResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.control.integration.v1alpha1.ProxyService.GetProxyRdsResource is not implemented"))
+}
+
+func (UnimplementedProxyServiceHandler) CreateProxy(context.Context, *connect.Request[v1alpha1.CreateProxyRequest]) (*connect.Response[v1alpha1.CreateProxyResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.control.integration.v1alpha1.ProxyService.CreateProxy is not implemented"))
+}
+
+func (UnimplementedProxyServiceHandler) UpdateProxy(context.Context, *connect.Request[v1alpha1.UpdateProxyRequest]) (*connect.Response[v1alpha1.UpdateProxyResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.control.integration.v1alpha1.ProxyService.UpdateProxy is not implemented"))
+}
+
+func (UnimplementedProxyServiceHandler) DeleteProxy(context.Context, *connect.Request[v1alpha1.DeleteProxyRequest]) (*connect.Response[v1alpha1.DeleteProxyResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.control.integration.v1alpha1.ProxyService.DeleteProxy is not implemented"))
+}
+
+func (UnimplementedProxyServiceHandler) GetProxy(context.Context, *connect.Request[v1alpha1.GetProxyRequest]) (*connect.Response[v1alpha1.GetProxyResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.control.integration.v1alpha1.ProxyService.GetProxy is not implemented"))
+}
+
+func (UnimplementedProxyServiceHandler) ListProxyResources(context.Context, *connect.Request[v1alpha1.ListProxyResourcesRequest]) (*connect.Response[v1alpha1.ListProxyResourcesResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.control.integration.v1alpha1.ProxyService.ListProxyResources is not implemented"))
 }

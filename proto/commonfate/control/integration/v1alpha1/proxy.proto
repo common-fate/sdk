@@ -1,111 +1,131 @@
 syntax = "proto3";
 package commonfate.control.integration.v1alpha1;
 
-
 import "commonfate/authz/v1alpha1/read_only.proto";
-import "commonfate/control/integration/v1alpha1/auth0.proto";
-import "commonfate/control/integration/v1alpha1/aws_idc.proto";
 import "commonfate/control/integration/v1alpha1/aws_proxy.proto";
-import "commonfate/control/integration/v1alpha1/datastax.proto";
-import "commonfate/control/integration/v1alpha1/entra.proto";
-import "commonfate/control/integration/v1alpha1/gcp.proto";
-import "commonfate/control/integration/v1alpha1/okta.proto";
-import "commonfate/control/integration/v1alpha1/opsgenie.proto";
-import "commonfate/control/integration/v1alpha1/pagerduty.proto";
-import "commonfate/control/integration/v1alpha1/s3_log_destination.proto";
-import "commonfate/control/integration/v1alpha1/slack.proto";
-import "commonfate/control/integration/v1alpha1/webhook.proto";
 import "commonfate/control/integration/v1alpha1/proxy_resource.proto";
-import "google/protobuf/duration.proto";
-import "commonfate/access/v1alpha1/diagnostic.proto";
 
+service ProxyService {
+  //CRUD operations for proxy resource terraform provider resource
+  rpc CreateProxyRdsResource(CreateProxyRdsResourceRequest) returns (CreateProxyRdsResourceResponse) {}
+  rpc UpdateProxyRdsResource(UpdateProxyRdsResourceRequest) returns (UpdateProxyRdsResourceResponse) {}
+  rpc DeleteProxyRdsResource(DeleteProxyRdsResourceRequest) returns (DeleteProxyRdsResourceResponse) {}
+  rpc GetProxyRdsResource(GetProxyRdsResourceRequest) returns (GetProxyRdsResourceResponse) {
+    option (commonfate.authz.v1alpha1.read_only) = true;
+  }
+
+  //CRUD operations for proxy terraform provider resource
+  rpc CreateProxy(CreateProxyRequest) returns (CreateProxyResponse) {}
+  rpc UpdateProxy(UpdateProxyRequest) returns (UpdateProxyResponse) {}
+  rpc DeleteProxy(DeleteProxyRequest) returns (DeleteProxyResponse) {}
+  rpc GetProxy(GetProxyRequest) returns (GetProxyResponse) {
+    option (commonfate.authz.v1alpha1.read_only) = true;
+  }
+
+  //Used by the proxy to get resources
+  rpc ListProxyResources(ListProxyResourcesRequest) returns (ListProxyResourcesResponse) {
+    option (commonfate.authz.v1alpha1.read_only) = true;
+  }
+}
 
 message CreateProxyRequest {
-
-    string integration_id = 1;
-    repeated Resource resources = 2;
-    oneof instance_config {
-      AWSECSProxyInstanceConfig aws_ecs_proxy_instance_config = 3;
-    }
-    string id = 4;
-
+  string integration_id = 1;
+  repeated Resource resources = 2;
+  oneof instance_config {
+    AWSECSProxyInstanceConfig aws_ecs_proxy_instance_config = 3;
   }
+  string id = 4;
+}
 
-  message CreateProxyResponse {
-    string id = 4;
+message CreateProxyResponse {
+  string id = 4;
 
-    string integration_id = 1;
-    oneof instance_config {
-      AWSECSProxyInstanceConfig aws_ecs_proxy_instance_config = 3;
-    }
+  string integration_id = 1;
+  oneof instance_config {
+    AWSECSProxyInstanceConfig aws_ecs_proxy_instance_config = 3;
   }
+}
 
+message GetProxyRequest {
+  string id = 1;
+}
 
-  message GetProxyRequest {
-    string id = 1;
-
+message GetProxyResponse {
+  string id = 1;
+  oneof instance_config {
+    AWSECSProxyInstanceConfig aws_ecs_proxy_instance_config = 4;
   }
+}
 
-  message GetProxyResponse {
-    string id = 1;
-    oneof instance_config {
-      AWSECSProxyInstanceConfig aws_ecs_proxy_instance_config = 4;
-    }
+message UpdateProxyRequest {
+  string id = 1;
+  oneof instance_config {
+    AWSECSProxyInstanceConfig aws_ecs_proxy_instance_config = 4;
   }
+}
 
-  message UpdateProxyRequest {
-    string id = 1;
-    oneof instance_config {
-      AWSECSProxyInstanceConfig aws_ecs_proxy_instance_config = 4;
-    }
-
+message UpdateProxyResponse {
+  string id = 1;
+  oneof instance_config {
+    AWSECSProxyInstanceConfig aws_ecs_proxy_instance_config = 4;
   }
+}
 
-  message UpdateProxyResponse {
-    string id = 1;
-    oneof instance_config {
-      AWSECSProxyInstanceConfig aws_ecs_proxy_instance_config = 4;
-    }
+message DeleteProxyRequest {
+  string id = 1;
+}
 
-  }
+message DeleteProxyResponse {
+  string id = 1;
+}
 
-  message DeleteProxyRequest {
-    string id = 1;
-  }
+message ListProxyResourcesRequest {
+  string proxy_id = 1;
+}
 
-  message DeleteProxyResponse {
-    string id = 1;
+message ListProxyResourcesResponse {
+  string proxy_id = 1;
+  repeated Resource resources = 2;
+}
 
-  }
+message CreateProxyRdsResourceRequest {
+  string proxy_id = 1;
+  AWSRDSDatabase rds_database = 2;
+}
 
+message CreateProxyRdsResourceResponse {
+  string id = 1;
+  string proxy_id = 2;
+  AWSRDSDatabase rds_database = 3;
+}
 
-  // Common Fate tasks call HealthcheckService to indicate that they are healthy.
-  service ProxyHealthCheckService {
-      // Ping the healthcheck service.
-      rpc Ping(PingRequest) returns (PingResponse) {}
-  }
+message GetProxyRdsResourceRequest {
+  string id = 1;
+}
 
+message GetProxyRdsResourceResponse {
+  string id = 1;
+  AWSRDSDatabase rds_database = 2;
+}
 
-  message PingRequest {
-      string proxy_id = 1;
+message UpdateProxyRdsResourceRequest {
+  string id = 1;
+  string proxy_id = 2;
 
-      ECSTaskMetadata ecs_task_metadata = 2;
+  AWSRDSDatabase rds_database = 3;
+}
 
-      repeated commonfate.access.v1alpha1.Diagnostic diagnostics = 3;
+message UpdateProxyRdsResourceResponse {
+  string id = 1;
+  string proxy_id = 2;
 
-  }
+  AWSRDSDatabase rds_database = 3;
+}
 
-  message ECSTaskMetadata {
-      string task_arn = 1;
-      string cluster_arn = 2;
-      string availability_zone = 3;
-      float cpu_limit = 4;
-      uint32 memory_limit = 5;
-      string launch_type = 6;
-  }
+message DeleteProxyRdsResourceRequest {
+  string id = 1;
+}
 
-  message PingResponse {
-      // An indication from the server as to when the
-      // service should next send a ping.
-      google.protobuf.Duration next_ping = 1;
-  }
+message DeleteProxyRdsResourceResponse {
+  string id = 1;
+}

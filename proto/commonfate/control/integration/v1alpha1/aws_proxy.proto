@@ -30,22 +30,4 @@ message AWSECSProxyInstanceConfig {
 
   string ecs_cluster_security_group_id = 7;
   string ecs_cluster_task_role_name = 8;
-
-}
-
-message AWSRDSDatabase {
-  string name = 1;
-  string engine = 2;
-  string region = 3;
-  string account = 4;
-  string instance_id = 5;
-  string database = 6;
-  repeated AWSRDSDatabaseUser users = 7;
-
-}
-message AWSRDSDatabaseUser {
-  string name = 1;
-  string username = 2;
-  string password_secrets_manager_arn = 3;
-
 }
