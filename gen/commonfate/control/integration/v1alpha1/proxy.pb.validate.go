@@ -1131,22 +1131,264 @@ var _ interface {
 	ErrorName() string
 } = DeleteProxyResponseValidationError{}
 
-// Validate checks the field values on PingRequest with the rules defined in
-// the proto definition for this message. If any rules are violated, the first
-// error encountered is returned, or nil if there are no violations.
-func (m *PingRequest) Validate() error {
+// Validate checks the field values on ListProxyResourcesRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *ListProxyResourcesRequest) Validate() error {
 	return m.validate(false)
 }
 
-// ValidateAll checks the field values on PingRequest with the rules defined in
-// the proto definition for this message. If any rules are violated, the
-// result is a list of violation errors wrapped in PingRequestMultiError, or
-// nil if none found.
-func (m *PingRequest) ValidateAll() error {
+// ValidateAll checks the field values on ListProxyResourcesRequest with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// ListProxyResourcesRequestMultiError, or nil if none found.
+func (m *ListProxyResourcesRequest) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *PingRequest) validate(all bool) error {
+func (m *ListProxyResourcesRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for ProxyId
+
+	if len(errors) > 0 {
+		return ListProxyResourcesRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// ListProxyResourcesRequestMultiError is an error wrapping multiple validation
+// errors returned by ListProxyResourcesRequest.ValidateAll() if the
+// designated constraints aren't met.
+type ListProxyResourcesRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m ListProxyResourcesRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m ListProxyResourcesRequestMultiError) AllErrors() []error { return m }
+
+// ListProxyResourcesRequestValidationError is the validation error returned by
+// ListProxyResourcesRequest.Validate if the designated constraints aren't met.
+type ListProxyResourcesRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e ListProxyResourcesRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e ListProxyResourcesRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e ListProxyResourcesRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e ListProxyResourcesRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e ListProxyResourcesRequestValidationError) ErrorName() string {
+	return "ListProxyResourcesRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e ListProxyResourcesRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sListProxyResourcesRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = ListProxyResourcesRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = ListProxyResourcesRequestValidationError{}
+
+// Validate checks the field values on ListProxyResourcesResponse with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *ListProxyResourcesResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on ListProxyResourcesResponse with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// ListProxyResourcesResponseMultiError, or nil if none found.
+func (m *ListProxyResourcesResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *ListProxyResourcesResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for ProxyId
+
+	for idx, item := range m.GetResources() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, ListProxyResourcesResponseValidationError{
+						field:  fmt.Sprintf("Resources[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, ListProxyResourcesResponseValidationError{
+						field:  fmt.Sprintf("Resources[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return ListProxyResourcesResponseValidationError{
+					field:  fmt.Sprintf("Resources[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	if len(errors) > 0 {
+		return ListProxyResourcesResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// ListProxyResourcesResponseMultiError is an error wrapping multiple
+// validation errors returned by ListProxyResourcesResponse.ValidateAll() if
+// the designated constraints aren't met.
+type ListProxyResourcesResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m ListProxyResourcesResponseMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m ListProxyResourcesResponseMultiError) AllErrors() []error { return m }
+
+// ListProxyResourcesResponseValidationError is the validation error returned
+// by ListProxyResourcesResponse.Validate if the designated constraints aren't met.
+type ListProxyResourcesResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e ListProxyResourcesResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e ListProxyResourcesResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e ListProxyResourcesResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e ListProxyResourcesResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e ListProxyResourcesResponseValidationError) ErrorName() string {
+	return "ListProxyResourcesResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e ListProxyResourcesResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sListProxyResourcesResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = ListProxyResourcesResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = ListProxyResourcesResponseValidationError{}
+
+// Validate checks the field values on CreateProxyRdsResourceRequest with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *CreateProxyRdsResourceRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on CreateProxyRdsResourceRequest with
+// the rules defined in the proto definition for this message. If any rules
+// are violated, the result is a list of violation errors wrapped in
+// CreateProxyRdsResourceRequestMultiError, or nil if none found.
+func (m *CreateProxyRdsResourceRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *CreateProxyRdsResourceRequest) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
@@ -1156,81 +1398,48 @@ func (m *PingRequest) validate(all bool) error {
 	// no validation rules for ProxyId
 
 	if all {
-		switch v := interface{}(m.GetEcsTaskMetadata()).(type) {
+		switch v := interface{}(m.GetRdsDatabase()).(type) {
 		case interface{ ValidateAll() error }:
 			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, PingRequestValidationError{
-					field:  "EcsTaskMetadata",
+				errors = append(errors, CreateProxyRdsResourceRequestValidationError{
+					field:  "RdsDatabase",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
 			}
 		case interface{ Validate() error }:
 			if err := v.Validate(); err != nil {
-				errors = append(errors, PingRequestValidationError{
-					field:  "EcsTaskMetadata",
+				errors = append(errors, CreateProxyRdsResourceRequestValidationError{
+					field:  "RdsDatabase",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
 			}
 		}
-	} else if v, ok := interface{}(m.GetEcsTaskMetadata()).(interface{ Validate() error }); ok {
+	} else if v, ok := interface{}(m.GetRdsDatabase()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
-			return PingRequestValidationError{
-				field:  "EcsTaskMetadata",
+			return CreateProxyRdsResourceRequestValidationError{
+				field:  "RdsDatabase",
 				reason: "embedded message failed validation",
 				cause:  err,
 			}
 		}
 	}
 
-	for idx, item := range m.GetDiagnostics() {
-		_, _ = idx, item
-
-		if all {
-			switch v := interface{}(item).(type) {
-			case interface{ ValidateAll() error }:
-				if err := v.ValidateAll(); err != nil {
-					errors = append(errors, PingRequestValidationError{
-						field:  fmt.Sprintf("Diagnostics[%v]", idx),
-						reason: "embedded message failed validation",
-						cause:  err,
-					})
-				}
-			case interface{ Validate() error }:
-				if err := v.Validate(); err != nil {
-					errors = append(errors, PingRequestValidationError{
-						field:  fmt.Sprintf("Diagnostics[%v]", idx),
-						reason: "embedded message failed validation",
-						cause:  err,
-					})
-				}
-			}
-		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
-			if err := v.Validate(); err != nil {
-				return PingRequestValidationError{
-					field:  fmt.Sprintf("Diagnostics[%v]", idx),
-					reason: "embedded message failed validation",
-					cause:  err,
-				}
-			}
-		}
-
-	}
-
 	if len(errors) > 0 {
-		return PingRequestMultiError(errors)
+		return CreateProxyRdsResourceRequestMultiError(errors)
 	}
 
 	return nil
 }
 
-// PingRequestMultiError is an error wrapping multiple validation errors
-// returned by PingRequest.ValidateAll() if the designated constraints aren't met.
-type PingRequestMultiError []error
+// CreateProxyRdsResourceRequestMultiError is an error wrapping multiple
+// validation errors returned by CreateProxyRdsResourceRequest.ValidateAll()
+// if the designated constraints aren't met.
+type CreateProxyRdsResourceRequestMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m PingRequestMultiError) Error() string {
+func (m CreateProxyRdsResourceRequestMultiError) Error() string {
 	var msgs []string
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -1239,11 +1448,12 @@ func (m PingRequestMultiError) Error() string {
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m PingRequestMultiError) AllErrors() []error { return m }
+func (m CreateProxyRdsResourceRequestMultiError) AllErrors() []error { return m }
 
-// PingRequestValidationError is the validation error returned by
-// PingRequest.Validate if the designated constraints aren't met.
-type PingRequestValidationError struct {
+// CreateProxyRdsResourceRequestValidationError is the validation error
+// returned by CreateProxyRdsResourceRequest.Validate if the designated
+// constraints aren't met.
+type CreateProxyRdsResourceRequestValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -1251,22 +1461,24 @@ type PingRequestValidationError struct {
 }
 
 // Field function returns field value.
-func (e PingRequestValidationError) Field() string { return e.field }
+func (e CreateProxyRdsResourceRequestValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e PingRequestValidationError) Reason() string { return e.reason }
+func (e CreateProxyRdsResourceRequestValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e PingRequestValidationError) Cause() error { return e.cause }
+func (e CreateProxyRdsResourceRequestValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e PingRequestValidationError) Key() bool { return e.key }
+func (e CreateProxyRdsResourceRequestValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e PingRequestValidationError) ErrorName() string { return "PingRequestValidationError" }
+func (e CreateProxyRdsResourceRequestValidationError) ErrorName() string {
+	return "CreateProxyRdsResourceRequestValidationError"
+}
 
 // Error satisfies the builtin error interface
-func (e PingRequestValidationError) Error() string {
+func (e CreateProxyRdsResourceRequestValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -1278,14 +1490,14 @@ func (e PingRequestValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sPingRequest.%s: %s%s",
+		"invalid %sCreateProxyRdsResourceRequest.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = PingRequestValidationError{}
+var _ error = CreateProxyRdsResourceRequestValidationError{}
 
 var _ interface {
 	Field() string
@@ -1293,165 +1505,57 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = PingRequestValidationError{}
+} = CreateProxyRdsResourceRequestValidationError{}
 
-// Validate checks the field values on ECSTaskMetadata with the rules defined
-// in the proto definition for this message. If any rules are violated, the
-// first error encountered is returned, or nil if there are no violations.
-func (m *ECSTaskMetadata) Validate() error {
+// Validate checks the field values on CreateProxyRdsResourceResponse with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *CreateProxyRdsResourceResponse) Validate() error {
 	return m.validate(false)
 }
 
-// ValidateAll checks the field values on ECSTaskMetadata with the rules
-// defined in the proto definition for this message. If any rules are
-// violated, the result is a list of violation errors wrapped in
-// ECSTaskMetadataMultiError, or nil if none found.
-func (m *ECSTaskMetadata) ValidateAll() error {
+// ValidateAll checks the field values on CreateProxyRdsResourceResponse with
+// the rules defined in the proto definition for this message. If any rules
+// are violated, the result is a list of violation errors wrapped in
+// CreateProxyRdsResourceResponseMultiError, or nil if none found.
+func (m *CreateProxyRdsResourceResponse) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *ECSTaskMetadata) validate(all bool) error {
+func (m *CreateProxyRdsResourceResponse) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
 
 	var errors []error
 
-	// no validation rules for TaskArn
+	// no validation rules for Id
 
-	// no validation rules for ClusterArn
-
-	// no validation rules for AvailabilityZone
-
-	// no validation rules for CpuLimit
-
-	// no validation rules for MemoryLimit
-
-	// no validation rules for LaunchType
-
-	if len(errors) > 0 {
-		return ECSTaskMetadataMultiError(errors)
-	}
-
-	return nil
-}
-
-// ECSTaskMetadataMultiError is an error wrapping multiple validation errors
-// returned by ECSTaskMetadata.ValidateAll() if the designated constraints
-// aren't met.
-type ECSTaskMetadataMultiError []error
-
-// Error returns a concatenation of all the error messages it wraps.
-func (m ECSTaskMetadataMultiError) Error() string {
-	var msgs []string
-	for _, err := range m {
-		msgs = append(msgs, err.Error())
-	}
-	return strings.Join(msgs, "; ")
-}
-
-// AllErrors returns a list of validation violation errors.
-func (m ECSTaskMetadataMultiError) AllErrors() []error { return m }
-
-// ECSTaskMetadataValidationError is the validation error returned by
-// ECSTaskMetadata.Validate if the designated constraints aren't met.
-type ECSTaskMetadataValidationError struct {
-	field  string
-	reason string
-	cause  error
-	key    bool
-}
-
-// Field function returns field value.
-func (e ECSTaskMetadataValidationError) Field() string { return e.field }
-
-// Reason function returns reason value.
-func (e ECSTaskMetadataValidationError) Reason() string { return e.reason }
-
-// Cause function returns cause value.
-func (e ECSTaskMetadataValidationError) Cause() error { return e.cause }
-
-// Key function returns key value.
-func (e ECSTaskMetadataValidationError) Key() bool { return e.key }
-
-// ErrorName returns error name.
-func (e ECSTaskMetadataValidationError) ErrorName() string { return "ECSTaskMetadataValidationError" }
-
-// Error satisfies the builtin error interface
-func (e ECSTaskMetadataValidationError) Error() string {
-	cause := ""
-	if e.cause != nil {
-		cause = fmt.Sprintf(" | caused by: %v", e.cause)
-	}
-
-	key := ""
-	if e.key {
-		key = "key for "
-	}
-
-	return fmt.Sprintf(
-		"invalid %sECSTaskMetadata.%s: %s%s",
-		key,
-		e.field,
-		e.reason,
-		cause)
-}
-
-var _ error = ECSTaskMetadataValidationError{}
-
-var _ interface {
-	Field() string
-	Reason() string
-	Key() bool
-	Cause() error
-	ErrorName() string
-} = ECSTaskMetadataValidationError{}
-
-// Validate checks the field values on PingResponse with the rules defined in
-// the proto definition for this message. If any rules are violated, the first
-// error encountered is returned, or nil if there are no violations.
-func (m *PingResponse) Validate() error {
-	return m.validate(false)
-}
-
-// ValidateAll checks the field values on PingResponse with the rules defined
-// in the proto definition for this message. If any rules are violated, the
-// result is a list of violation errors wrapped in PingResponseMultiError, or
-// nil if none found.
-func (m *PingResponse) ValidateAll() error {
-	return m.validate(true)
-}
-
-func (m *PingResponse) validate(all bool) error {
-	if m == nil {
-		return nil
-	}
-
-	var errors []error
+	// no validation rules for ProxyId
 
 	if all {
-		switch v := interface{}(m.GetNextPing()).(type) {
+		switch v := interface{}(m.GetRdsDatabase()).(type) {
 		case interface{ ValidateAll() error }:
 			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, PingResponseValidationError{
-					field:  "NextPing",
+				errors = append(errors, CreateProxyRdsResourceResponseValidationError{
+					field:  "RdsDatabase",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
 			}
 		case interface{ Validate() error }:
 			if err := v.Validate(); err != nil {
-				errors = append(errors, PingResponseValidationError{
-					field:  "NextPing",
+				errors = append(errors, CreateProxyRdsResourceResponseValidationError{
+					field:  "RdsDatabase",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
 			}
 		}
-	} else if v, ok := interface{}(m.GetNextPing()).(interface{ Validate() error }); ok {
+	} else if v, ok := interface{}(m.GetRdsDatabase()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
-			return PingResponseValidationError{
-				field:  "NextPing",
+			return CreateProxyRdsResourceResponseValidationError{
+				field:  "RdsDatabase",
 				reason: "embedded message failed validation",
 				cause:  err,
 			}
@@ -1459,18 +1563,19 @@ func (m *PingResponse) validate(all bool) error {
 	}
 
 	if len(errors) > 0 {
-		return PingResponseMultiError(errors)
+		return CreateProxyRdsResourceResponseMultiError(errors)
 	}
 
 	return nil
 }
 
-// PingResponseMultiError is an error wrapping multiple validation errors
-// returned by PingResponse.ValidateAll() if the designated constraints aren't met.
-type PingResponseMultiError []error
+// CreateProxyRdsResourceResponseMultiError is an error wrapping multiple
+// validation errors returned by CreateProxyRdsResourceResponse.ValidateAll()
+// if the designated constraints aren't met.
+type CreateProxyRdsResourceResponseMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m PingResponseMultiError) Error() string {
+func (m CreateProxyRdsResourceResponseMultiError) Error() string {
 	var msgs []string
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -1479,11 +1584,12 @@ func (m PingResponseMultiError) Error() string {
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m PingResponseMultiError) AllErrors() []error { return m }
+func (m CreateProxyRdsResourceResponseMultiError) AllErrors() []error { return m }
 
-// PingResponseValidationError is the validation error returned by
-// PingResponse.Validate if the designated constraints aren't met.
-type PingResponseValidationError struct {
+// CreateProxyRdsResourceResponseValidationError is the validation error
+// returned by CreateProxyRdsResourceResponse.Validate if the designated
+// constraints aren't met.
+type CreateProxyRdsResourceResponseValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -1491,22 +1597,24 @@ type PingResponseValidationError struct {
 }
 
 // Field function returns field value.
-func (e PingResponseValidationError) Field() string { return e.field }
+func (e CreateProxyRdsResourceResponseValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e PingResponseValidationError) Reason() string { return e.reason }
+func (e CreateProxyRdsResourceResponseValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e PingResponseValidationError) Cause() error { return e.cause }
+func (e CreateProxyRdsResourceResponseValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e PingResponseValidationError) Key() bool { return e.key }
+func (e CreateProxyRdsResourceResponseValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e PingResponseValidationError) ErrorName() string { return "PingResponseValidationError" }
+func (e CreateProxyRdsResourceResponseValidationError) ErrorName() string {
+	return "CreateProxyRdsResourceResponseValidationError"
+}
 
 // Error satisfies the builtin error interface
-func (e PingResponseValidationError) Error() string {
+func (e CreateProxyRdsResourceResponseValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -1518,14 +1626,14 @@ func (e PingResponseValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sPingResponse.%s: %s%s",
+		"invalid %sCreateProxyRdsResourceResponse.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = PingResponseValidationError{}
+var _ error = CreateProxyRdsResourceResponseValidationError{}
 
 var _ interface {
 	Field() string
@@ -1533,4 +1641,724 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = PingResponseValidationError{}
+} = CreateProxyRdsResourceResponseValidationError{}
+
+// Validate checks the field values on GetProxyRdsResourceRequest with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *GetProxyRdsResourceRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on GetProxyRdsResourceRequest with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// GetProxyRdsResourceRequestMultiError, or nil if none found.
+func (m *GetProxyRdsResourceRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *GetProxyRdsResourceRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Id
+
+	if len(errors) > 0 {
+		return GetProxyRdsResourceRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// GetProxyRdsResourceRequestMultiError is an error wrapping multiple
+// validation errors returned by GetProxyRdsResourceRequest.ValidateAll() if
+// the designated constraints aren't met.
+type GetProxyRdsResourceRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m GetProxyRdsResourceRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m GetProxyRdsResourceRequestMultiError) AllErrors() []error { return m }
+
+// GetProxyRdsResourceRequestValidationError is the validation error returned
+// by GetProxyRdsResourceRequest.Validate if the designated constraints aren't met.
+type GetProxyRdsResourceRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e GetProxyRdsResourceRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e GetProxyRdsResourceRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e GetProxyRdsResourceRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e GetProxyRdsResourceRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e GetProxyRdsResourceRequestValidationError) ErrorName() string {
+	return "GetProxyRdsResourceRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e GetProxyRdsResourceRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sGetProxyRdsResourceRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = GetProxyRdsResourceRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = GetProxyRdsResourceRequestValidationError{}
+
+// Validate checks the field values on GetProxyRdsResourceResponse with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *GetProxyRdsResourceResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on GetProxyRdsResourceResponse with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// GetProxyRdsResourceResponseMultiError, or nil if none found.
+func (m *GetProxyRdsResourceResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *GetProxyRdsResourceResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Id
+
+	if all {
+		switch v := interface{}(m.GetRdsDatabase()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, GetProxyRdsResourceResponseValidationError{
+					field:  "RdsDatabase",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, GetProxyRdsResourceResponseValidationError{
+					field:  "RdsDatabase",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetRdsDatabase()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return GetProxyRdsResourceResponseValidationError{
+				field:  "RdsDatabase",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if len(errors) > 0 {
+		return GetProxyRdsResourceResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// GetProxyRdsResourceResponseMultiError is an error wrapping multiple
+// validation errors returned by GetProxyRdsResourceResponse.ValidateAll() if
+// the designated constraints aren't met.
+type GetProxyRdsResourceResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m GetProxyRdsResourceResponseMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m GetProxyRdsResourceResponseMultiError) AllErrors() []error { return m }
+
+// GetProxyRdsResourceResponseValidationError is the validation error returned
+// by GetProxyRdsResourceResponse.Validate if the designated constraints
+// aren't met.
+type GetProxyRdsResourceResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e GetProxyRdsResourceResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e GetProxyRdsResourceResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e GetProxyRdsResourceResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e GetProxyRdsResourceResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e GetProxyRdsResourceResponseValidationError) ErrorName() string {
+	return "GetProxyRdsResourceResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e GetProxyRdsResourceResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sGetProxyRdsResourceResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = GetProxyRdsResourceResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = GetProxyRdsResourceResponseValidationError{}
+
+// Validate checks the field values on UpdateProxyRdsResourceRequest with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *UpdateProxyRdsResourceRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on UpdateProxyRdsResourceRequest with
+// the rules defined in the proto definition for this message. If any rules
+// are violated, the result is a list of violation errors wrapped in
+// UpdateProxyRdsResourceRequestMultiError, or nil if none found.
+func (m *UpdateProxyRdsResourceRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *UpdateProxyRdsResourceRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Id
+
+	// no validation rules for ProxyId
+
+	if all {
+		switch v := interface{}(m.GetRdsDatabase()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, UpdateProxyRdsResourceRequestValidationError{
+					field:  "RdsDatabase",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, UpdateProxyRdsResourceRequestValidationError{
+					field:  "RdsDatabase",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetRdsDatabase()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return UpdateProxyRdsResourceRequestValidationError{
+				field:  "RdsDatabase",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if len(errors) > 0 {
+		return UpdateProxyRdsResourceRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// UpdateProxyRdsResourceRequestMultiError is an error wrapping multiple
+// validation errors returned by UpdateProxyRdsResourceRequest.ValidateAll()
+// if the designated constraints aren't met.
+type UpdateProxyRdsResourceRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m UpdateProxyRdsResourceRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m UpdateProxyRdsResourceRequestMultiError) AllErrors() []error { return m }
+
+// UpdateProxyRdsResourceRequestValidationError is the validation error
+// returned by UpdateProxyRdsResourceRequest.Validate if the designated
+// constraints aren't met.
+type UpdateProxyRdsResourceRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e UpdateProxyRdsResourceRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e UpdateProxyRdsResourceRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e UpdateProxyRdsResourceRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e UpdateProxyRdsResourceRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e UpdateProxyRdsResourceRequestValidationError) ErrorName() string {
+	return "UpdateProxyRdsResourceRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e UpdateProxyRdsResourceRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sUpdateProxyRdsResourceRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = UpdateProxyRdsResourceRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = UpdateProxyRdsResourceRequestValidationError{}
+
+// Validate checks the field values on UpdateProxyRdsResourceResponse with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *UpdateProxyRdsResourceResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on UpdateProxyRdsResourceResponse with
+// the rules defined in the proto definition for this message. If any rules
+// are violated, the result is a list of violation errors wrapped in
+// UpdateProxyRdsResourceResponseMultiError, or nil if none found.
+func (m *UpdateProxyRdsResourceResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *UpdateProxyRdsResourceResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Id
+
+	// no validation rules for ProxyId
+
+	if all {
+		switch v := interface{}(m.GetRdsDatabase()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, UpdateProxyRdsResourceResponseValidationError{
+					field:  "RdsDatabase",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, UpdateProxyRdsResourceResponseValidationError{
+					field:  "RdsDatabase",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetRdsDatabase()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return UpdateProxyRdsResourceResponseValidationError{
+				field:  "RdsDatabase",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if len(errors) > 0 {
+		return UpdateProxyRdsResourceResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// UpdateProxyRdsResourceResponseMultiError is an error wrapping multiple
+// validation errors returned by UpdateProxyRdsResourceResponse.ValidateAll()
+// if the designated constraints aren't met.
+type UpdateProxyRdsResourceResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m UpdateProxyRdsResourceResponseMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m UpdateProxyRdsResourceResponseMultiError) AllErrors() []error { return m }
+
+// UpdateProxyRdsResourceResponseValidationError is the validation error
+// returned by UpdateProxyRdsResourceResponse.Validate if the designated
+// constraints aren't met.
+type UpdateProxyRdsResourceResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e UpdateProxyRdsResourceResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e UpdateProxyRdsResourceResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e UpdateProxyRdsResourceResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e UpdateProxyRdsResourceResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e UpdateProxyRdsResourceResponseValidationError) ErrorName() string {
+	return "UpdateProxyRdsResourceResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e UpdateProxyRdsResourceResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sUpdateProxyRdsResourceResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = UpdateProxyRdsResourceResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = UpdateProxyRdsResourceResponseValidationError{}
+
+// Validate checks the field values on DeleteProxyRdsResourceRequest with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *DeleteProxyRdsResourceRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on DeleteProxyRdsResourceRequest with
+// the rules defined in the proto definition for this message. If any rules
+// are violated, the result is a list of violation errors wrapped in
+// DeleteProxyRdsResourceRequestMultiError, or nil if none found.
+func (m *DeleteProxyRdsResourceRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *DeleteProxyRdsResourceRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Id
+
+	if len(errors) > 0 {
+		return DeleteProxyRdsResourceRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// DeleteProxyRdsResourceRequestMultiError is an error wrapping multiple
+// validation errors returned by DeleteProxyRdsResourceRequest.ValidateAll()
+// if the designated constraints aren't met.
+type DeleteProxyRdsResourceRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m DeleteProxyRdsResourceRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m DeleteProxyRdsResourceRequestMultiError) AllErrors() []error { return m }
+
+// DeleteProxyRdsResourceRequestValidationError is the validation error
+// returned by DeleteProxyRdsResourceRequest.Validate if the designated
+// constraints aren't met.
+type DeleteProxyRdsResourceRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e DeleteProxyRdsResourceRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e DeleteProxyRdsResourceRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e DeleteProxyRdsResourceRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e DeleteProxyRdsResourceRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e DeleteProxyRdsResourceRequestValidationError) ErrorName() string {
+	return "DeleteProxyRdsResourceRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e DeleteProxyRdsResourceRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sDeleteProxyRdsResourceRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = DeleteProxyRdsResourceRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = DeleteProxyRdsResourceRequestValidationError{}
+
+// Validate checks the field values on DeleteProxyRdsResourceResponse with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *DeleteProxyRdsResourceResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on DeleteProxyRdsResourceResponse with
+// the rules defined in the proto definition for this message. If any rules
+// are violated, the result is a list of violation errors wrapped in
+// DeleteProxyRdsResourceResponseMultiError, or nil if none found.
+func (m *DeleteProxyRdsResourceResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *DeleteProxyRdsResourceResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Id
+
+	if len(errors) > 0 {
+		return DeleteProxyRdsResourceResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// DeleteProxyRdsResourceResponseMultiError is an error wrapping multiple
+// validation errors returned by DeleteProxyRdsResourceResponse.ValidateAll()
+// if the designated constraints aren't met.
+type DeleteProxyRdsResourceResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m DeleteProxyRdsResourceResponseMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m DeleteProxyRdsResourceResponseMultiError) AllErrors() []error { return m }
+
+// DeleteProxyRdsResourceResponseValidationError is the validation error
+// returned by DeleteProxyRdsResourceResponse.Validate if the designated
+// constraints aren't met.
+type DeleteProxyRdsResourceResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e DeleteProxyRdsResourceResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e DeleteProxyRdsResourceResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e DeleteProxyRdsResourceResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e DeleteProxyRdsResourceResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e DeleteProxyRdsResourceResponseValidationError) ErrorName() string {
+	return "DeleteProxyRdsResourceResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e DeleteProxyRdsResourceResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sDeleteProxyRdsResourceResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = DeleteProxyRdsResourceResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = DeleteProxyRdsResourceResponseValidationError{}

@@ -12,9 +12,6 @@ import "commonfate/control/integration/v1alpha1/gcp.proto";
 import "commonfate/control/integration/v1alpha1/okta.proto";
 import "commonfate/control/integration/v1alpha1/opsgenie.proto";
 import "commonfate/control/integration/v1alpha1/pagerduty.proto";
-import "commonfate/control/integration/v1alpha1/proxy.proto";
-import "commonfate/control/integration/v1alpha1/proxy_resource.proto";
-import "commonfate/control/integration/v1alpha1/proxy_resource_rds.proto";
 import "commonfate/control/integration/v1alpha1/s3_log_destination.proto";
 import "commonfate/control/integration/v1alpha1/slack.proto";
 import "commonfate/control/integration/v1alpha1/webhook.proto";
@@ -27,69 +24,6 @@ service IntegrationService {
   }
   rpc DeleteIntegration(DeleteIntegrationRequest) returns (DeleteIntegrationResponse) {}
   rpc ListIntegrations(ListIntegrationsRequest) returns (ListIntegrationsResponse) {}
-
-  //CRUD operations for proxy resource terraform provider resource
-  rpc CreateProxyRdsResource(CreateProxyRdsResourceRequest) returns (CreateProxyRdsResourceResponse) {}
-  rpc UpdateProxyRdsResource(UpdateProxyRdsResourceRequest) returns (UpdateProxyRdsResourceResponse) {}
-  rpc DeleteProxyRdsResource(DeleteProxyRdsResourceRequest) returns (DeleteProxyRdsResourceResponse) {}
-  rpc GetProxyRdsResource(GetProxyRdsResourceRequest) returns (GetProxyRdsResourceResponse) {
-    option (commonfate.authz.v1alpha1.read_only) = true;
-  }
-
-  //CRUD operations for proxy terraform provider resource
-  rpc CreateProxy(CreateProxyRequest) returns (CreateProxyResponse) {}
-  rpc UpdateProxy(UpdateProxyRequest) returns (UpdateProxyResponse) {}
-  rpc DeleteProxy(DeleteProxyRequest) returns (DeleteProxyResponse) {}
-  rpc GetProxy(GetProxyRequest) returns (GetProxyResponse) {
-    option (commonfate.authz.v1alpha1.read_only) = true;
-  }
-
-  //Used by the proxy to get resources
-  rpc ListProxyResources(ListProxyResourcesRequest) returns (ListProxyResourcesResponse) {
-    option (commonfate.authz.v1alpha1.read_only) = true;
-  }
-
-  rpc CreateSecret(CreateSecretRequest) returns (CreateSecretResponse) {}
-  rpc UpdateSecret(UpdateSecretRequest) returns (UpdateSecretResponse) {}
-  rpc DeleteSecret(DeleteSecretRequest) returns (DeleteSecretResponse) {}
-  rpc ListSecrets(ListSecretsRequest) returns (ListSecretsResponse) {
-    option (commonfate.authz.v1alpha1.read_only) = true;
-  }
-}
-
-message CreateSecretRequest {
-  string name = 1;
-  string secret = 2;
-}
-
-message CreateSecretResponse {
-  Secret secret = 1;
-}
-message UpdateSecretRequest {
-  string id = 1;
-  string secret = 3;
-}
-
-message UpdateSecretResponse {
-  Secret secret = 1;
-}
-
-message DeleteSecretRequest {
-  string id = 1;
-}
-
-message DeleteSecretResponse {}
-
-message ListSecretsRequest {}
-
-message Secret {
-  string id = 1;
-  string name = 2;
-  string path = 3;
-}
-
-message ListSecretsResponse {
-  repeated Secret secrets = 1;
 }
 
 message ListIntegrationsRequest {
