@@ -12,6 +12,9 @@ import "commonfate/control/integration/v1alpha1/gcp.proto";
 import "commonfate/control/integration/v1alpha1/okta.proto";
 import "commonfate/control/integration/v1alpha1/opsgenie.proto";
 import "commonfate/control/integration/v1alpha1/pagerduty.proto";
+import "commonfate/control/integration/v1alpha1/proxy.proto";
+import "commonfate/control/integration/v1alpha1/proxy_resource.proto";
+import "commonfate/control/integration/v1alpha1/proxy_resource_rds.proto";
 import "commonfate/control/integration/v1alpha1/s3_log_destination.proto";
 import "commonfate/control/integration/v1alpha1/slack.proto";
 import "commonfate/control/integration/v1alpha1/webhook.proto";
@@ -24,13 +27,34 @@ service IntegrationService {
   }
   rpc DeleteIntegration(DeleteIntegrationRequest) returns (DeleteIntegrationResponse) {}
   rpc ListIntegrations(ListIntegrationsRequest) returns (ListIntegrationsResponse) {}
-  // RegisterProxy is used by the proxy integration to self register
-  // This operation will create new resources, update existing resources and delete orphaned resources.
-  rpc RegisterProxy(RegisterProxyRequest) returns (RegisterProxyResponse) {}
+
+  //CRUD operations for proxy resource terraform provider resource
+  rpc CreateProxyRdsResource(CreateProxyRdsResourceRequest) returns (CreateProxyRdsResourceResponse) {}
+  rpc UpdateProxyRdsResource(UpdateProxyRdsResourceRequest) returns (UpdateProxyRdsResourceResponse) {}
+  rpc DeleteProxyRdsResource(DeleteProxyRdsResourceRequest) returns (DeleteProxyRdsResourceResponse) {}
+  rpc GetProxyRdsResource(GetProxyRdsResourceRequest) returns (GetProxyRdsResourceResponse) {
+    option (commonfate.authz.v1alpha1.read_only) = true;
+  }
+
+  //CRUD operations for proxy terraform provider resource
+  rpc CreateProxy(CreateProxyRequest) returns (CreateProxyResponse) {}
+  rpc UpdateProxy(UpdateProxyRequest) returns (UpdateProxyResponse) {}
+  rpc DeleteProxy(DeleteProxyRequest) returns (DeleteProxyResponse) {}
+  rpc GetProxy(GetProxyRequest) returns (GetProxyResponse) {
+    option (commonfate.authz.v1alpha1.read_only) = true;
+  }
+
+  //Used by the proxy to get resources
+  rpc ListProxyResources(ListProxyResourcesRequest) returns (ListProxyResourcesResponse) {
+    option (commonfate.authz.v1alpha1.read_only) = true;
+  }
 
   rpc CreateSecret(CreateSecretRequest) returns (CreateSecretResponse) {}
+  rpc UpdateSecret(UpdateSecretRequest) returns (UpdateSecretResponse) {}
   rpc DeleteSecret(DeleteSecretRequest) returns (DeleteSecretResponse) {}
-  rpc ListSecrets(ListSecretsRequest) returns (ListSecretsResponse) {}
+  rpc ListSecrets(ListSecretsRequest) returns (ListSecretsResponse) {
+    option (commonfate.authz.v1alpha1.read_only) = true;
+  }
 }
 
 message CreateSecretRequest {
@@ -41,6 +65,15 @@ message CreateSecretRequest {
 message CreateSecretResponse {
   Secret secret = 1;
 }
+message UpdateSecretRequest {
+  string id = 1;
+  string secret = 3;
+}
+
+message UpdateSecretResponse {
+  Secret secret = 1;
+}
+
 message DeleteSecretRequest {
   string id = 1;
 }
@@ -69,21 +102,6 @@ message ListIntegrationsResponse {
   string next_page_token = 2;
 }
 
-message RegisterProxyRequest {
-  string integration_id = 1;
-  repeated Resource resources = 2;
-  oneof instance_config {
-    AWSECSProxyInstanceConfig aws_ecs_proxy_instance_config = 3;
-  }
-}
-
-message RegisterProxyResponse {}
-
-message Resource {
-  oneof resource {
-    AWSRDSDatabase aws_rds_database = 1;
-  }
-}
 message CreateIntegrationRequest {
   string name = 1;
   Config config = 2;
