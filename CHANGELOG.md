@@ -1,5 +1,13 @@
 # @common-fate/sdk
 
+## 1.55.0
+
+### Minor Changes
+
+- 1f335f7: add apis for registering proxy and rds resource
+- 15f432f: Adds API for managing secrets
+- bc044db: Add filters for requested_by, closed_by, approved_by and request_status on QueryAccessRequest.
+
 ## 1.54.1
 
 ### Patch Changes
