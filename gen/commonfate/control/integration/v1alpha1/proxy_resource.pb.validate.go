@@ -248,6 +248,8 @@ func (m *AWSRDSDatabase) validate(all bool) error {
 
 	}
 
+	// no validation rules for Endpoint
+
 	if len(errors) > 0 {
 		return AWSRDSDatabaseMultiError(errors)
 	}
