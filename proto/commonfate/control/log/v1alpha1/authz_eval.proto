@@ -51,6 +51,14 @@ message TagFilter {
 message EntityFilter {
   // IDs of entities to filter for. Will filter for a principal/action/resource matching any of these entities.
   repeated commonfate.entity.v1alpha1.EID ids = 1;
+  BoolComparison comparison = 2;
+}
+
+// Filters events where the principal/action/resource matches particular entity types.
+message EntityTypeFilter {
+  // types of entities to filter for. Will filter for a principal/action/resource matching any of these entities.
+  repeated string types = 1;
+  BoolComparison comparison = 2;
 }
 
 // Filters events based on when they occurred.
@@ -67,6 +75,9 @@ message Filter {
     EntityFilter action = 4;
     EntityFilter resource = 5;
     DecisionFilter decision = 6;
+    EntityTypeFilter principal_type = 7;
+    EntityTypeFilter action_type = 8;
+    EntityTypeFilter resource_type = 9;
   }
 }
 
@@ -87,7 +98,7 @@ enum BoolComparison {
   BOOL_COMPARISON_EQUAL = 1;
 
   // Not equal to the provided value.
-  TIME_COMPARISON_NOT_EQUAL = 2;
+  BOOL_COMPARISON_NOT_EQUAL = 2;
 }
 
 message QueryEvaluationsResponse {
