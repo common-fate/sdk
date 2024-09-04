@@ -20,6 +20,11 @@ service AccessRequestService {
     option (commonfate.authz.v1alpha1.read_only) = true;
   }
 
+  // Query the access requests where the user is the principal
+  rpc QueryMyAccessRequests(QueryMyAccessRequestsRequest) returns (QueryMyAccessRequestsResponse) {
+    option (commonfate.authz.v1alpha1.read_only) = true;
+  }
+
   rpc GetAccessRequest(GetAccessRequestRequest) returns (GetAccessRequestResponse) {
     option (commonfate.authz.v1alpha1.read_only) = true;
   }
@@ -40,18 +45,6 @@ service AccessRequestService {
   rpc CloseAccessRequest(CloseAccessRequestRequest) returns (CloseAccessRequestResponse) {}
 }
 
-message QueryAccessRequestsRequest {
-  // The token for the next page.
-  string page_token = 1;
-  bool archived = 2;
-  optional commonfate.entity.v1alpha1.Order order = 3;
-  optional commonfate.entity.v1alpha1.EID requested_by = 4;
-  optional commonfate.entity.v1alpha1.EID closed_by = 5;
-  optional commonfate.entity.v1alpha1.EID approved_by = 6;
-  RequestStatus request_status = 7;
-
-}
-
 enum RequestStatus {
   REQUEST_STATUS_UNSPECIFIED = 0;
 
@@ -60,6 +53,31 @@ enum RequestStatus {
   REQUEST_STATUS_ACTIVE = 2;
 
   REQUEST_STATUS_CLOSED = 3;
+}
+
+message QueryAccessRequestsRequest {
+  // The token for the next page.
+  string page_token = 1;
+  bool archived = 2;
+  optional commonfate.entity.v1alpha1.Order order = 3;
+  optional commonfate.entity.v1alpha1.EID closed_by = 5;
+  optional commonfate.entity.v1alpha1.EID approved_by = 6;
+  RequestStatus request_status = 7;
+
+}
+
+message QueryMyAccessRequestsResponse {
+  repeated AccessRequest access_requests = 1;
+  string next_page_token = 2;
+}
+
+message QueryMyAccessRequestsRequest {
+  // The token for the next page.
+  string page_token = 1;
+  bool archived = 2;
+  optional commonfate.entity.v1alpha1.Order order = 3;
+  RequestStatus request_status = 4;
+
 }
 
 message QueryAccessRequestsResponse {

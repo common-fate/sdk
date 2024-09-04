@@ -71,39 +71,6 @@ func (m *QueryAccessRequestsRequest) validate(all bool) error {
 		// no validation rules for Order
 	}
 
-	if m.RequestedBy != nil {
-
-		if all {
-			switch v := interface{}(m.GetRequestedBy()).(type) {
-			case interface{ ValidateAll() error }:
-				if err := v.ValidateAll(); err != nil {
-					errors = append(errors, QueryAccessRequestsRequestValidationError{
-						field:  "RequestedBy",
-						reason: "embedded message failed validation",
-						cause:  err,
-					})
-				}
-			case interface{ Validate() error }:
-				if err := v.Validate(); err != nil {
-					errors = append(errors, QueryAccessRequestsRequestValidationError{
-						field:  "RequestedBy",
-						reason: "embedded message failed validation",
-						cause:  err,
-					})
-				}
-			}
-		} else if v, ok := interface{}(m.GetRequestedBy()).(interface{ Validate() error }); ok {
-			if err := v.Validate(); err != nil {
-				return QueryAccessRequestsRequestValidationError{
-					field:  "RequestedBy",
-					reason: "embedded message failed validation",
-					cause:  err,
-				}
-			}
-		}
-
-	}
-
 	if m.ClosedBy != nil {
 
 		if all {
@@ -249,6 +216,258 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = QueryAccessRequestsRequestValidationError{}
+
+// Validate checks the field values on QueryMyAccessRequestsResponse with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *QueryMyAccessRequestsResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on QueryMyAccessRequestsResponse with
+// the rules defined in the proto definition for this message. If any rules
+// are violated, the result is a list of violation errors wrapped in
+// QueryMyAccessRequestsResponseMultiError, or nil if none found.
+func (m *QueryMyAccessRequestsResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *QueryMyAccessRequestsResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	for idx, item := range m.GetAccessRequests() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, QueryMyAccessRequestsResponseValidationError{
+						field:  fmt.Sprintf("AccessRequests[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, QueryMyAccessRequestsResponseValidationError{
+						field:  fmt.Sprintf("AccessRequests[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return QueryMyAccessRequestsResponseValidationError{
+					field:  fmt.Sprintf("AccessRequests[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	// no validation rules for NextPageToken
+
+	if len(errors) > 0 {
+		return QueryMyAccessRequestsResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// QueryMyAccessRequestsResponseMultiError is an error wrapping multiple
+// validation errors returned by QueryMyAccessRequestsResponse.ValidateAll()
+// if the designated constraints aren't met.
+type QueryMyAccessRequestsResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m QueryMyAccessRequestsResponseMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m QueryMyAccessRequestsResponseMultiError) AllErrors() []error { return m }
+
+// QueryMyAccessRequestsResponseValidationError is the validation error
+// returned by QueryMyAccessRequestsResponse.Validate if the designated
+// constraints aren't met.
+type QueryMyAccessRequestsResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e QueryMyAccessRequestsResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e QueryMyAccessRequestsResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e QueryMyAccessRequestsResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e QueryMyAccessRequestsResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e QueryMyAccessRequestsResponseValidationError) ErrorName() string {
+	return "QueryMyAccessRequestsResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e QueryMyAccessRequestsResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sQueryMyAccessRequestsResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = QueryMyAccessRequestsResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = QueryMyAccessRequestsResponseValidationError{}
+
+// Validate checks the field values on QueryMyAccessRequestsRequest with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *QueryMyAccessRequestsRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on QueryMyAccessRequestsRequest with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// QueryMyAccessRequestsRequestMultiError, or nil if none found.
+func (m *QueryMyAccessRequestsRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *QueryMyAccessRequestsRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for PageToken
+
+	// no validation rules for Archived
+
+	// no validation rules for RequestStatus
+
+	if m.Order != nil {
+		// no validation rules for Order
+	}
+
+	if len(errors) > 0 {
+		return QueryMyAccessRequestsRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// QueryMyAccessRequestsRequestMultiError is an error wrapping multiple
+// validation errors returned by QueryMyAccessRequestsRequest.ValidateAll() if
+// the designated constraints aren't met.
+type QueryMyAccessRequestsRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m QueryMyAccessRequestsRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m QueryMyAccessRequestsRequestMultiError) AllErrors() []error { return m }
+
+// QueryMyAccessRequestsRequestValidationError is the validation error returned
+// by QueryMyAccessRequestsRequest.Validate if the designated constraints
+// aren't met.
+type QueryMyAccessRequestsRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e QueryMyAccessRequestsRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e QueryMyAccessRequestsRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e QueryMyAccessRequestsRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e QueryMyAccessRequestsRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e QueryMyAccessRequestsRequestValidationError) ErrorName() string {
+	return "QueryMyAccessRequestsRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e QueryMyAccessRequestsRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sQueryMyAccessRequestsRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = QueryMyAccessRequestsRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = QueryMyAccessRequestsRequestValidationError{}
 
 // Validate checks the field values on QueryAccessRequestsResponse with the
 // rules defined in the proto definition for this message. If any rules are

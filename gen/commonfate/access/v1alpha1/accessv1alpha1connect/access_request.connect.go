@@ -36,6 +36,9 @@ const (
 	// AccessRequestServiceQueryAccessRequestsProcedure is the fully-qualified name of the
 	// AccessRequestService's QueryAccessRequests RPC.
 	AccessRequestServiceQueryAccessRequestsProcedure = "/commonfate.access.v1alpha1.AccessRequestService/QueryAccessRequests"
+	// AccessRequestServiceQueryMyAccessRequestsProcedure is the fully-qualified name of the
+	// AccessRequestService's QueryMyAccessRequests RPC.
+	AccessRequestServiceQueryMyAccessRequestsProcedure = "/commonfate.access.v1alpha1.AccessRequestService/QueryMyAccessRequests"
 	// AccessRequestServiceGetAccessRequestProcedure is the fully-qualified name of the
 	// AccessRequestService's GetAccessRequest RPC.
 	AccessRequestServiceGetAccessRequestProcedure = "/commonfate.access.v1alpha1.AccessRequestService/GetAccessRequest"
@@ -57,6 +60,7 @@ const (
 var (
 	accessRequestServiceServiceDescriptor                       = v1alpha1.File_commonfate_access_v1alpha1_access_request_proto.Services().ByName("AccessRequestService")
 	accessRequestServiceQueryAccessRequestsMethodDescriptor     = accessRequestServiceServiceDescriptor.Methods().ByName("QueryAccessRequests")
+	accessRequestServiceQueryMyAccessRequestsMethodDescriptor   = accessRequestServiceServiceDescriptor.Methods().ByName("QueryMyAccessRequests")
 	accessRequestServiceGetAccessRequestMethodDescriptor        = accessRequestServiceServiceDescriptor.Methods().ByName("GetAccessRequest")
 	accessRequestServiceGetAccessRequestActionsMethodDescriptor = accessRequestServiceServiceDescriptor.Methods().ByName("GetAccessRequestActions")
 	accessRequestServiceApproveAccessRequestMethodDescriptor    = accessRequestServiceServiceDescriptor.Methods().ByName("ApproveAccessRequest")
@@ -68,6 +72,8 @@ var (
 // service.
 type AccessRequestServiceClient interface {
 	QueryAccessRequests(context.Context, *connect.Request[v1alpha1.QueryAccessRequestsRequest]) (*connect.Response[v1alpha1.QueryAccessRequestsResponse], error)
+	// Query the access requests where the user is the principal
+	QueryMyAccessRequests(context.Context, *connect.Request[v1alpha1.QueryMyAccessRequestsRequest]) (*connect.Response[v1alpha1.QueryMyAccessRequestsResponse], error)
 	GetAccessRequest(context.Context, *connect.Request[v1alpha1.GetAccessRequestRequest]) (*connect.Response[v1alpha1.GetAccessRequestResponse], error)
 	// Returns the actions that the current user is allowed to perform on the request
 	GetAccessRequestActions(context.Context, *connect.Request[v1alpha1.GetAccessRequestActionsRequest]) (*connect.Response[v1alpha1.GetAccessRequestActionsResponse], error)
@@ -95,6 +101,12 @@ func NewAccessRequestServiceClient(httpClient connect.HTTPClient, baseURL string
 			httpClient,
 			baseURL+AccessRequestServiceQueryAccessRequestsProcedure,
 			connect.WithSchema(accessRequestServiceQueryAccessRequestsMethodDescriptor),
+			connect.WithClientOptions(opts...),
+		),
+		queryMyAccessRequests: connect.NewClient[v1alpha1.QueryMyAccessRequestsRequest, v1alpha1.QueryMyAccessRequestsResponse](
+			httpClient,
+			baseURL+AccessRequestServiceQueryMyAccessRequestsProcedure,
+			connect.WithSchema(accessRequestServiceQueryMyAccessRequestsMethodDescriptor),
 			connect.WithClientOptions(opts...),
 		),
 		getAccessRequest: connect.NewClient[v1alpha1.GetAccessRequestRequest, v1alpha1.GetAccessRequestResponse](
@@ -133,6 +145,7 @@ func NewAccessRequestServiceClient(httpClient connect.HTTPClient, baseURL string
 // accessRequestServiceClient implements AccessRequestServiceClient.
 type accessRequestServiceClient struct {
 	queryAccessRequests     *connect.Client[v1alpha1.QueryAccessRequestsRequest, v1alpha1.QueryAccessRequestsResponse]
+	queryMyAccessRequests   *connect.Client[v1alpha1.QueryMyAccessRequestsRequest, v1alpha1.QueryMyAccessRequestsResponse]
 	getAccessRequest        *connect.Client[v1alpha1.GetAccessRequestRequest, v1alpha1.GetAccessRequestResponse]
 	getAccessRequestActions *connect.Client[v1alpha1.GetAccessRequestActionsRequest, v1alpha1.GetAccessRequestActionsResponse]
 	approveAccessRequest    *connect.Client[v1alpha1.ApproveAccessRequestRequest, v1alpha1.ApproveAccessRequestResponse]
@@ -143,6 +156,12 @@ type accessRequestServiceClient struct {
 // QueryAccessRequests calls commonfate.access.v1alpha1.AccessRequestService.QueryAccessRequests.
 func (c *accessRequestServiceClient) QueryAccessRequests(ctx context.Context, req *connect.Request[v1alpha1.QueryAccessRequestsRequest]) (*connect.Response[v1alpha1.QueryAccessRequestsResponse], error) {
 	return c.queryAccessRequests.CallUnary(ctx, req)
+}
+
+// QueryMyAccessRequests calls
+// commonfate.access.v1alpha1.AccessRequestService.QueryMyAccessRequests.
+func (c *accessRequestServiceClient) QueryMyAccessRequests(ctx context.Context, req *connect.Request[v1alpha1.QueryMyAccessRequestsRequest]) (*connect.Response[v1alpha1.QueryMyAccessRequestsResponse], error) {
+	return c.queryMyAccessRequests.CallUnary(ctx, req)
 }
 
 // GetAccessRequest calls commonfate.access.v1alpha1.AccessRequestService.GetAccessRequest.
@@ -176,6 +195,8 @@ func (c *accessRequestServiceClient) CloseAccessRequest(ctx context.Context, req
 // commonfate.access.v1alpha1.AccessRequestService service.
 type AccessRequestServiceHandler interface {
 	QueryAccessRequests(context.Context, *connect.Request[v1alpha1.QueryAccessRequestsRequest]) (*connect.Response[v1alpha1.QueryAccessRequestsResponse], error)
+	// Query the access requests where the user is the principal
+	QueryMyAccessRequests(context.Context, *connect.Request[v1alpha1.QueryMyAccessRequestsRequest]) (*connect.Response[v1alpha1.QueryMyAccessRequestsResponse], error)
 	GetAccessRequest(context.Context, *connect.Request[v1alpha1.GetAccessRequestRequest]) (*connect.Response[v1alpha1.GetAccessRequestResponse], error)
 	// Returns the actions that the current user is allowed to perform on the request
 	GetAccessRequestActions(context.Context, *connect.Request[v1alpha1.GetAccessRequestActionsRequest]) (*connect.Response[v1alpha1.GetAccessRequestActionsResponse], error)
@@ -198,6 +219,12 @@ func NewAccessRequestServiceHandler(svc AccessRequestServiceHandler, opts ...con
 		AccessRequestServiceQueryAccessRequestsProcedure,
 		svc.QueryAccessRequests,
 		connect.WithSchema(accessRequestServiceQueryAccessRequestsMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
+	)
+	accessRequestServiceQueryMyAccessRequestsHandler := connect.NewUnaryHandler(
+		AccessRequestServiceQueryMyAccessRequestsProcedure,
+		svc.QueryMyAccessRequests,
+		connect.WithSchema(accessRequestServiceQueryMyAccessRequestsMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
 	accessRequestServiceGetAccessRequestHandler := connect.NewUnaryHandler(
@@ -234,6 +261,8 @@ func NewAccessRequestServiceHandler(svc AccessRequestServiceHandler, opts ...con
 		switch r.URL.Path {
 		case AccessRequestServiceQueryAccessRequestsProcedure:
 			accessRequestServiceQueryAccessRequestsHandler.ServeHTTP(w, r)
+		case AccessRequestServiceQueryMyAccessRequestsProcedure:
+			accessRequestServiceQueryMyAccessRequestsHandler.ServeHTTP(w, r)
 		case AccessRequestServiceGetAccessRequestProcedure:
 			accessRequestServiceGetAccessRequestHandler.ServeHTTP(w, r)
 		case AccessRequestServiceGetAccessRequestActionsProcedure:
@@ -255,6 +284,10 @@ type UnimplementedAccessRequestServiceHandler struct{}
 
 func (UnimplementedAccessRequestServiceHandler) QueryAccessRequests(context.Context, *connect.Request[v1alpha1.QueryAccessRequestsRequest]) (*connect.Response[v1alpha1.QueryAccessRequestsResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.access.v1alpha1.AccessRequestService.QueryAccessRequests is not implemented"))
+}
+
+func (UnimplementedAccessRequestServiceHandler) QueryMyAccessRequests(context.Context, *connect.Request[v1alpha1.QueryMyAccessRequestsRequest]) (*connect.Response[v1alpha1.QueryMyAccessRequestsResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.access.v1alpha1.AccessRequestService.QueryMyAccessRequests is not implemented"))
 }
 
 func (UnimplementedAccessRequestServiceHandler) GetAccessRequest(context.Context, *connect.Request[v1alpha1.GetAccessRequestRequest]) (*connect.Response[v1alpha1.GetAccessRequestResponse], error) {
