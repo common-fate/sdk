@@ -1,5 +1,13 @@
 # @common-fate/sdk
 
+## 1.56.0
+
+### Minor Changes
+
+- b918ce7: Adds boolean conditions to the existing EntityFilter type for principal resource and actions.
+
+  Adds new EntityTypeFilter with boolean condition
+
 ## 1.55.0
 
 ### Minor Changes
