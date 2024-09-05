@@ -1098,6 +1098,35 @@ func (m *Integration) validate(all bool) error {
 
 	// no validation rules for SetupUrl
 
+	if all {
+		switch v := interface{}(m.GetLastPingAt()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, IntegrationValidationError{
+					field:  "LastPingAt",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, IntegrationValidationError{
+					field:  "LastPingAt",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetLastPingAt()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return IntegrationValidationError{
+				field:  "LastPingAt",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
 	if len(errors) > 0 {
 		return IntegrationMultiError(errors)
 	}

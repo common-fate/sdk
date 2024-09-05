@@ -15,6 +15,7 @@ import "commonfate/control/integration/v1alpha1/pagerduty.proto";
 import "commonfate/control/integration/v1alpha1/s3_log_destination.proto";
 import "commonfate/control/integration/v1alpha1/slack.proto";
 import "commonfate/control/integration/v1alpha1/webhook.proto";
+import "google/protobuf/timestamp.proto";
 
 service IntegrationService {
   rpc CreateIntegration(CreateIntegrationRequest) returns (CreateIntegrationResponse) {}
@@ -68,6 +69,7 @@ message Integration {
   repeated commonfate.access.v1alpha1.Diagnostic diagnostics = 5;
   Config config = 6;
   string setup_url = 7;
+  google.protobuf.Timestamp last_ping_at = 8;
 }
 
 message CreateIntegrationResponse {
