@@ -60,6 +60,7 @@ message QueryAccessRequestsRequest {
   string page_token = 1;
   bool archived = 2;
   optional commonfate.entity.v1alpha1.Order order = 3;
+  optional commonfate.entity.v1alpha1.EID requested_by = 4;
   optional commonfate.entity.v1alpha1.EID closed_by = 5;
   optional commonfate.entity.v1alpha1.EID approved_by = 6;
   RequestStatus request_status = 7;
@@ -74,9 +75,8 @@ message QueryMyAccessRequestsResponse {
 message QueryMyAccessRequestsRequest {
   // The token for the next page.
   string page_token = 1;
-  bool archived = 2;
-  optional commonfate.entity.v1alpha1.Order order = 3;
-  RequestStatus request_status = 4;
+  optional commonfate.entity.v1alpha1.Order order = 2;
+  RequestStatus request_status = 3;
 
 }
 
