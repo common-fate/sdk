@@ -75,7 +75,7 @@ message SelectorValidationErrors {
 message TestSelectorResponse {
   oneof result {
     SelectorMatches selector_matches = 1;
-    SelectorValidationErrors selector_validation_error = 2;
+    SelectorValidationErrors selector_validation_errors = 2;
   }
 }
 

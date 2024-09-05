@@ -1458,7 +1458,7 @@ func (m *TestSelectorResponse) validate(all bool) error {
 			}
 		}
 
-	case *TestSelectorResponse_SelectorValidationError:
+	case *TestSelectorResponse_SelectorValidationErrors:
 		if v == nil {
 			err := TestSelectorResponseValidationError{
 				field:  "Result",
@@ -1471,11 +1471,11 @@ func (m *TestSelectorResponse) validate(all bool) error {
 		}
 
 		if all {
-			switch v := interface{}(m.GetSelectorValidationError()).(type) {
+			switch v := interface{}(m.GetSelectorValidationErrors()).(type) {
 			case interface{ ValidateAll() error }:
 				if err := v.ValidateAll(); err != nil {
 					errors = append(errors, TestSelectorResponseValidationError{
-						field:  "SelectorValidationError",
+						field:  "SelectorValidationErrors",
 						reason: "embedded message failed validation",
 						cause:  err,
 					})
@@ -1483,16 +1483,16 @@ func (m *TestSelectorResponse) validate(all bool) error {
 			case interface{ Validate() error }:
 				if err := v.Validate(); err != nil {
 					errors = append(errors, TestSelectorResponseValidationError{
-						field:  "SelectorValidationError",
+						field:  "SelectorValidationErrors",
 						reason: "embedded message failed validation",
 						cause:  err,
 					})
 				}
 			}
-		} else if v, ok := interface{}(m.GetSelectorValidationError()).(interface{ Validate() error }); ok {
+		} else if v, ok := interface{}(m.GetSelectorValidationErrors()).(interface{ Validate() error }); ok {
 			if err := v.Validate(); err != nil {
 				return TestSelectorResponseValidationError{
-					field:  "SelectorValidationError",
+					field:  "SelectorValidationErrors",
 					reason: "embedded message failed validation",
 					cause:  err,
 				}
