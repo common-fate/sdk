@@ -440,6 +440,8 @@ func (m *EntityFilter) validate(all bool) error {
 
 	}
 
+	// no validation rules for Comparison
+
 	if len(errors) > 0 {
 		return EntityFilterMultiError(errors)
 	}
@@ -516,6 +518,108 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = EntityFilterValidationError{}
+
+// Validate checks the field values on EntityTypeFilter with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// first error encountered is returned, or nil if there are no violations.
+func (m *EntityTypeFilter) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on EntityTypeFilter with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// EntityTypeFilterMultiError, or nil if none found.
+func (m *EntityTypeFilter) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *EntityTypeFilter) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Comparison
+
+	if len(errors) > 0 {
+		return EntityTypeFilterMultiError(errors)
+	}
+
+	return nil
+}
+
+// EntityTypeFilterMultiError is an error wrapping multiple validation errors
+// returned by EntityTypeFilter.ValidateAll() if the designated constraints
+// aren't met.
+type EntityTypeFilterMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m EntityTypeFilterMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m EntityTypeFilterMultiError) AllErrors() []error { return m }
+
+// EntityTypeFilterValidationError is the validation error returned by
+// EntityTypeFilter.Validate if the designated constraints aren't met.
+type EntityTypeFilterValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e EntityTypeFilterValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e EntityTypeFilterValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e EntityTypeFilterValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e EntityTypeFilterValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e EntityTypeFilterValidationError) ErrorName() string { return "EntityTypeFilterValidationError" }
+
+// Error satisfies the builtin error interface
+func (e EntityTypeFilterValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sEntityTypeFilter.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = EntityTypeFilterValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = EntityTypeFilterValidationError{}
 
 // Validate checks the field values on OccurredAtFilter with the rules defined
 // in the proto definition for this message. If any rules are violated, the
@@ -910,6 +1014,129 @@ func (m *Filter) validate(all bool) error {
 			if err := v.Validate(); err != nil {
 				return FilterValidationError{
 					field:  "Decision",
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	case *Filter_PrincipalType:
+		if v == nil {
+			err := FilterValidationError{
+				field:  "Filter",
+				reason: "oneof value cannot be a typed-nil",
+			}
+			if !all {
+				return err
+			}
+			errors = append(errors, err)
+		}
+
+		if all {
+			switch v := interface{}(m.GetPrincipalType()).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, FilterValidationError{
+						field:  "PrincipalType",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, FilterValidationError{
+						field:  "PrincipalType",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(m.GetPrincipalType()).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return FilterValidationError{
+					field:  "PrincipalType",
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	case *Filter_ActionType:
+		if v == nil {
+			err := FilterValidationError{
+				field:  "Filter",
+				reason: "oneof value cannot be a typed-nil",
+			}
+			if !all {
+				return err
+			}
+			errors = append(errors, err)
+		}
+
+		if all {
+			switch v := interface{}(m.GetActionType()).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, FilterValidationError{
+						field:  "ActionType",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, FilterValidationError{
+						field:  "ActionType",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(m.GetActionType()).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return FilterValidationError{
+					field:  "ActionType",
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	case *Filter_ResourceType:
+		if v == nil {
+			err := FilterValidationError{
+				field:  "Filter",
+				reason: "oneof value cannot be a typed-nil",
+			}
+			if !all {
+				return err
+			}
+			errors = append(errors, err)
+		}
+
+		if all {
+			switch v := interface{}(m.GetResourceType()).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, FilterValidationError{
+						field:  "ResourceType",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, FilterValidationError{
+						field:  "ResourceType",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(m.GetResourceType()).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return FilterValidationError{
+					field:  "ResourceType",
 					reason: "embedded message failed validation",
 					cause:  err,
 				}
