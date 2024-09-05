@@ -1,58 +1,97 @@
 syntax = "proto3";
 package commonfate.control.config.v1alpha1;
 
-import "commonfate/entity/v1alpha1/eid.proto";
 import "commonfate/access/v1alpha1/diagnostic.proto";
+import "commonfate/access/v1alpha1/named_eid.proto";
 import "commonfate/authz/v1alpha1/read_only.proto";
-
+import "commonfate/entity/v1alpha1/eid.proto";
 
 service SelectorService {
-    rpc CreateSelector(CreateSelectorRequest) returns (CreateSelectorResponse) {}
-    rpc GetSelector(GetSelectorRequest) returns (GetSelectorResponse)   {
-        option(commonfate.authz.v1alpha1.read_only) = true;
-    }
-    rpc UpdateSelector(UpdateSelectorRequest) returns (UpdateSelectorResponse) {}
-    rpc DeleteSelector(DeleteSelectorRequest) returns (DeleteSelectorResponse) {}
+  rpc CreateSelector(CreateSelectorRequest) returns (CreateSelectorResponse) {}
+  rpc GetSelector(GetSelectorRequest) returns (GetSelectorResponse) {
+    option (commonfate.authz.v1alpha1.read_only) = true;
+  }
+  rpc ListSelectors(ListSelectorsRequest) returns (ListSelectorsResponse) {
+    option (commonfate.authz.v1alpha1.read_only) = true;
+  }
+  rpc TestSelector(TestSelectorRequest) returns (TestSelectorResponse) {
+    option (commonfate.authz.v1alpha1.read_only) = true;
+  }
+  rpc UpdateSelector(UpdateSelectorRequest) returns (UpdateSelectorResponse) {}
+  rpc DeleteSelector(DeleteSelectorRequest) returns (DeleteSelectorResponse) {}
 }
 
 message CreateSelectorRequest {
-    Selector selector = 1;
+  Selector selector = 1;
 }
 
 message Selector {
-    string id = 1;
-    string name = 2;
-    string resource_type = 3;
-    commonfate.entity.v1alpha1.EID belonging_to = 4;
-    string when = 5;
+  string id = 1;
+  string name = 2;
+  string resource_type = 3;
+  commonfate.entity.v1alpha1.EID belonging_to = 4;
+  string when = 5;
 }
 
 message CreateSelectorResponse {
-    Selector selector = 1;
-    repeated commonfate.access.v1alpha1.Diagnostic diagnostics = 2;
+  Selector selector = 1;
+  repeated commonfate.access.v1alpha1.Diagnostic diagnostics = 2;
 }
 
 message GetSelectorRequest {
-    string id = 1;
+  string id = 1;
 }
 
 message GetSelectorResponse {
-    Selector selector = 1;
+  Selector selector = 1;
+  repeated commonfate.access.v1alpha1.NamedEID matches = 2;
+  optional SelectorValidationErrors validation_errors = 3;
+}
+
+message ListSelectorsRequest {
+  string page_token = 1;
+}
+
+message ListSelectorsResponse {
+  repeated Selector selectors = 1;
+  string next_page_token = 2;
+}
+message TestSelectorRequest {
+  string resource_type = 1;
+  commonfate.entity.v1alpha1.EID belonging_to = 2;
+  string when = 3;
+}
+
+message SelectorMatches {
+  repeated commonfate.access.v1alpha1.NamedEID matches = 1;
+}
+
+message SelectorValidationErrors {
+  optional string resource_type_error = 1;
+  optional string belonging_to_error = 2;
+  optional string when_error = 3;
+}
+
+message TestSelectorResponse {
+  oneof result {
+    SelectorMatches selector_matches = 1;
+    SelectorValidationErrors selector_validation_errors = 2;
+  }
 }
 
 message UpdateSelectorRequest {
-    Selector selector = 1;
+  Selector selector = 1;
 }
 
 message UpdateSelectorResponse {
-    Selector selector = 1;
-    repeated commonfate.access.v1alpha1.Diagnostic diagnostics = 2;
+  Selector selector = 1;
+  repeated commonfate.access.v1alpha1.Diagnostic diagnostics = 2;
 }
 
 message DeleteSelectorRequest {
-    string id = 1;
+  string id = 1;
 }
 
 message DeleteSelectorResponse {
-    string id = 1;
+  string id = 1;
 }

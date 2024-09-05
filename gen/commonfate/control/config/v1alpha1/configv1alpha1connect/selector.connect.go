@@ -39,6 +39,12 @@ const (
 	// SelectorServiceGetSelectorProcedure is the fully-qualified name of the SelectorService's
 	// GetSelector RPC.
 	SelectorServiceGetSelectorProcedure = "/commonfate.control.config.v1alpha1.SelectorService/GetSelector"
+	// SelectorServiceListSelectorsProcedure is the fully-qualified name of the SelectorService's
+	// ListSelectors RPC.
+	SelectorServiceListSelectorsProcedure = "/commonfate.control.config.v1alpha1.SelectorService/ListSelectors"
+	// SelectorServiceTestSelectorProcedure is the fully-qualified name of the SelectorService's
+	// TestSelector RPC.
+	SelectorServiceTestSelectorProcedure = "/commonfate.control.config.v1alpha1.SelectorService/TestSelector"
 	// SelectorServiceUpdateSelectorProcedure is the fully-qualified name of the SelectorService's
 	// UpdateSelector RPC.
 	SelectorServiceUpdateSelectorProcedure = "/commonfate.control.config.v1alpha1.SelectorService/UpdateSelector"
@@ -52,6 +58,8 @@ var (
 	selectorServiceServiceDescriptor              = v1alpha1.File_commonfate_control_config_v1alpha1_selector_proto.Services().ByName("SelectorService")
 	selectorServiceCreateSelectorMethodDescriptor = selectorServiceServiceDescriptor.Methods().ByName("CreateSelector")
 	selectorServiceGetSelectorMethodDescriptor    = selectorServiceServiceDescriptor.Methods().ByName("GetSelector")
+	selectorServiceListSelectorsMethodDescriptor  = selectorServiceServiceDescriptor.Methods().ByName("ListSelectors")
+	selectorServiceTestSelectorMethodDescriptor   = selectorServiceServiceDescriptor.Methods().ByName("TestSelector")
 	selectorServiceUpdateSelectorMethodDescriptor = selectorServiceServiceDescriptor.Methods().ByName("UpdateSelector")
 	selectorServiceDeleteSelectorMethodDescriptor = selectorServiceServiceDescriptor.Methods().ByName("DeleteSelector")
 )
@@ -61,6 +69,8 @@ var (
 type SelectorServiceClient interface {
 	CreateSelector(context.Context, *connect.Request[v1alpha1.CreateSelectorRequest]) (*connect.Response[v1alpha1.CreateSelectorResponse], error)
 	GetSelector(context.Context, *connect.Request[v1alpha1.GetSelectorRequest]) (*connect.Response[v1alpha1.GetSelectorResponse], error)
+	ListSelectors(context.Context, *connect.Request[v1alpha1.ListSelectorsRequest]) (*connect.Response[v1alpha1.ListSelectorsResponse], error)
+	TestSelector(context.Context, *connect.Request[v1alpha1.TestSelectorRequest]) (*connect.Response[v1alpha1.TestSelectorResponse], error)
 	UpdateSelector(context.Context, *connect.Request[v1alpha1.UpdateSelectorRequest]) (*connect.Response[v1alpha1.UpdateSelectorResponse], error)
 	DeleteSelector(context.Context, *connect.Request[v1alpha1.DeleteSelectorRequest]) (*connect.Response[v1alpha1.DeleteSelectorResponse], error)
 }
@@ -88,6 +98,18 @@ func NewSelectorServiceClient(httpClient connect.HTTPClient, baseURL string, opt
 			connect.WithSchema(selectorServiceGetSelectorMethodDescriptor),
 			connect.WithClientOptions(opts...),
 		),
+		listSelectors: connect.NewClient[v1alpha1.ListSelectorsRequest, v1alpha1.ListSelectorsResponse](
+			httpClient,
+			baseURL+SelectorServiceListSelectorsProcedure,
+			connect.WithSchema(selectorServiceListSelectorsMethodDescriptor),
+			connect.WithClientOptions(opts...),
+		),
+		testSelector: connect.NewClient[v1alpha1.TestSelectorRequest, v1alpha1.TestSelectorResponse](
+			httpClient,
+			baseURL+SelectorServiceTestSelectorProcedure,
+			connect.WithSchema(selectorServiceTestSelectorMethodDescriptor),
+			connect.WithClientOptions(opts...),
+		),
 		updateSelector: connect.NewClient[v1alpha1.UpdateSelectorRequest, v1alpha1.UpdateSelectorResponse](
 			httpClient,
 			baseURL+SelectorServiceUpdateSelectorProcedure,
@@ -107,6 +129,8 @@ func NewSelectorServiceClient(httpClient connect.HTTPClient, baseURL string, opt
 type selectorServiceClient struct {
 	createSelector *connect.Client[v1alpha1.CreateSelectorRequest, v1alpha1.CreateSelectorResponse]
 	getSelector    *connect.Client[v1alpha1.GetSelectorRequest, v1alpha1.GetSelectorResponse]
+	listSelectors  *connect.Client[v1alpha1.ListSelectorsRequest, v1alpha1.ListSelectorsResponse]
+	testSelector   *connect.Client[v1alpha1.TestSelectorRequest, v1alpha1.TestSelectorResponse]
 	updateSelector *connect.Client[v1alpha1.UpdateSelectorRequest, v1alpha1.UpdateSelectorResponse]
 	deleteSelector *connect.Client[v1alpha1.DeleteSelectorRequest, v1alpha1.DeleteSelectorResponse]
 }
@@ -119,6 +143,16 @@ func (c *selectorServiceClient) CreateSelector(ctx context.Context, req *connect
 // GetSelector calls commonfate.control.config.v1alpha1.SelectorService.GetSelector.
 func (c *selectorServiceClient) GetSelector(ctx context.Context, req *connect.Request[v1alpha1.GetSelectorRequest]) (*connect.Response[v1alpha1.GetSelectorResponse], error) {
 	return c.getSelector.CallUnary(ctx, req)
+}
+
+// ListSelectors calls commonfate.control.config.v1alpha1.SelectorService.ListSelectors.
+func (c *selectorServiceClient) ListSelectors(ctx context.Context, req *connect.Request[v1alpha1.ListSelectorsRequest]) (*connect.Response[v1alpha1.ListSelectorsResponse], error) {
+	return c.listSelectors.CallUnary(ctx, req)
+}
+
+// TestSelector calls commonfate.control.config.v1alpha1.SelectorService.TestSelector.
+func (c *selectorServiceClient) TestSelector(ctx context.Context, req *connect.Request[v1alpha1.TestSelectorRequest]) (*connect.Response[v1alpha1.TestSelectorResponse], error) {
+	return c.testSelector.CallUnary(ctx, req)
 }
 
 // UpdateSelector calls commonfate.control.config.v1alpha1.SelectorService.UpdateSelector.
@@ -136,6 +170,8 @@ func (c *selectorServiceClient) DeleteSelector(ctx context.Context, req *connect
 type SelectorServiceHandler interface {
 	CreateSelector(context.Context, *connect.Request[v1alpha1.CreateSelectorRequest]) (*connect.Response[v1alpha1.CreateSelectorResponse], error)
 	GetSelector(context.Context, *connect.Request[v1alpha1.GetSelectorRequest]) (*connect.Response[v1alpha1.GetSelectorResponse], error)
+	ListSelectors(context.Context, *connect.Request[v1alpha1.ListSelectorsRequest]) (*connect.Response[v1alpha1.ListSelectorsResponse], error)
+	TestSelector(context.Context, *connect.Request[v1alpha1.TestSelectorRequest]) (*connect.Response[v1alpha1.TestSelectorResponse], error)
 	UpdateSelector(context.Context, *connect.Request[v1alpha1.UpdateSelectorRequest]) (*connect.Response[v1alpha1.UpdateSelectorResponse], error)
 	DeleteSelector(context.Context, *connect.Request[v1alpha1.DeleteSelectorRequest]) (*connect.Response[v1alpha1.DeleteSelectorResponse], error)
 }
@@ -158,6 +194,18 @@ func NewSelectorServiceHandler(svc SelectorServiceHandler, opts ...connect.Handl
 		connect.WithSchema(selectorServiceGetSelectorMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
+	selectorServiceListSelectorsHandler := connect.NewUnaryHandler(
+		SelectorServiceListSelectorsProcedure,
+		svc.ListSelectors,
+		connect.WithSchema(selectorServiceListSelectorsMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
+	)
+	selectorServiceTestSelectorHandler := connect.NewUnaryHandler(
+		SelectorServiceTestSelectorProcedure,
+		svc.TestSelector,
+		connect.WithSchema(selectorServiceTestSelectorMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
+	)
 	selectorServiceUpdateSelectorHandler := connect.NewUnaryHandler(
 		SelectorServiceUpdateSelectorProcedure,
 		svc.UpdateSelector,
@@ -176,6 +224,10 @@ func NewSelectorServiceHandler(svc SelectorServiceHandler, opts ...connect.Handl
 			selectorServiceCreateSelectorHandler.ServeHTTP(w, r)
 		case SelectorServiceGetSelectorProcedure:
 			selectorServiceGetSelectorHandler.ServeHTTP(w, r)
+		case SelectorServiceListSelectorsProcedure:
+			selectorServiceListSelectorsHandler.ServeHTTP(w, r)
+		case SelectorServiceTestSelectorProcedure:
+			selectorServiceTestSelectorHandler.ServeHTTP(w, r)
 		case SelectorServiceUpdateSelectorProcedure:
 			selectorServiceUpdateSelectorHandler.ServeHTTP(w, r)
 		case SelectorServiceDeleteSelectorProcedure:
@@ -195,6 +247,14 @@ func (UnimplementedSelectorServiceHandler) CreateSelector(context.Context, *conn
 
 func (UnimplementedSelectorServiceHandler) GetSelector(context.Context, *connect.Request[v1alpha1.GetSelectorRequest]) (*connect.Response[v1alpha1.GetSelectorResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.control.config.v1alpha1.SelectorService.GetSelector is not implemented"))
+}
+
+func (UnimplementedSelectorServiceHandler) ListSelectors(context.Context, *connect.Request[v1alpha1.ListSelectorsRequest]) (*connect.Response[v1alpha1.ListSelectorsResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.control.config.v1alpha1.SelectorService.ListSelectors is not implemented"))
+}
+
+func (UnimplementedSelectorServiceHandler) TestSelector(context.Context, *connect.Request[v1alpha1.TestSelectorRequest]) (*connect.Response[v1alpha1.TestSelectorResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.control.config.v1alpha1.SelectorService.TestSelector is not implemented"))
 }
 
 func (UnimplementedSelectorServiceHandler) UpdateSelector(context.Context, *connect.Request[v1alpha1.UpdateSelectorRequest]) (*connect.Response[v1alpha1.UpdateSelectorResponse], error) {
