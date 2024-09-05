@@ -1,5 +1,15 @@
 # @common-fate/sdk
 
+## 1.57.0
+
+### Minor Changes
+
+- 10dce79: Adds List Selector API and Test Selector API
+
+### Patch Changes
+
+- 9a63227: Create QueryMyAccessRequests to find access requests where the current user is the requestor.
+
 ## 1.56.0
 
 ### Minor Changes
