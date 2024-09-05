@@ -1280,22 +1280,22 @@ var _ interface {
 	ErrorName() string
 } = SelectorMatchesValidationError{}
 
-// Validate checks the field values on SelectorValidationError with the rules
+// Validate checks the field values on SelectorValidationErrors with the rules
 // defined in the proto definition for this message. If any rules are
 // violated, the first error encountered is returned, or nil if there are no violations.
-func (m *SelectorValidationError) Validate() error {
+func (m *SelectorValidationErrors) Validate() error {
 	return m.validate(false)
 }
 
-// ValidateAll checks the field values on SelectorValidationError with the
+// ValidateAll checks the field values on SelectorValidationErrors with the
 // rules defined in the proto definition for this message. If any rules are
 // violated, the result is a list of violation errors wrapped in
-// SelectorValidationErrorMultiError, or nil if none found.
-func (m *SelectorValidationError) ValidateAll() error {
+// SelectorValidationErrorsMultiError, or nil if none found.
+func (m *SelectorValidationErrors) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *SelectorValidationError) validate(all bool) error {
+func (m *SelectorValidationErrors) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
@@ -1315,19 +1315,19 @@ func (m *SelectorValidationError) validate(all bool) error {
 	}
 
 	if len(errors) > 0 {
-		return SelectorValidationErrorMultiError(errors)
+		return SelectorValidationErrorsMultiError(errors)
 	}
 
 	return nil
 }
 
-// SelectorValidationErrorMultiError is an error wrapping multiple validation
-// errors returned by SelectorValidationError.ValidateAll() if the designated
+// SelectorValidationErrorsMultiError is an error wrapping multiple validation
+// errors returned by SelectorValidationErrors.ValidateAll() if the designated
 // constraints aren't met.
-type SelectorValidationErrorMultiError []error
+type SelectorValidationErrorsMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m SelectorValidationErrorMultiError) Error() string {
+func (m SelectorValidationErrorsMultiError) Error() string {
 	var msgs []string
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -1336,11 +1336,11 @@ func (m SelectorValidationErrorMultiError) Error() string {
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m SelectorValidationErrorMultiError) AllErrors() []error { return m }
+func (m SelectorValidationErrorsMultiError) AllErrors() []error { return m }
 
-// SelectorValidationErrorValidationError is the validation error returned by
-// SelectorValidationError.Validate if the designated constraints aren't met.
-type SelectorValidationErrorValidationError struct {
+// SelectorValidationErrorsValidationError is the validation error returned by
+// SelectorValidationErrors.Validate if the designated constraints aren't met.
+type SelectorValidationErrorsValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -1348,24 +1348,24 @@ type SelectorValidationErrorValidationError struct {
 }
 
 // Field function returns field value.
-func (e SelectorValidationErrorValidationError) Field() string { return e.field }
+func (e SelectorValidationErrorsValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e SelectorValidationErrorValidationError) Reason() string { return e.reason }
+func (e SelectorValidationErrorsValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e SelectorValidationErrorValidationError) Cause() error { return e.cause }
+func (e SelectorValidationErrorsValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e SelectorValidationErrorValidationError) Key() bool { return e.key }
+func (e SelectorValidationErrorsValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e SelectorValidationErrorValidationError) ErrorName() string {
-	return "SelectorValidationErrorValidationError"
+func (e SelectorValidationErrorsValidationError) ErrorName() string {
+	return "SelectorValidationErrorsValidationError"
 }
 
 // Error satisfies the builtin error interface
-func (e SelectorValidationErrorValidationError) Error() string {
+func (e SelectorValidationErrorsValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -1377,14 +1377,14 @@ func (e SelectorValidationErrorValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sSelectorValidationError.%s: %s%s",
+		"invalid %sSelectorValidationErrors.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = SelectorValidationErrorValidationError{}
+var _ error = SelectorValidationErrorsValidationError{}
 
 var _ interface {
 	Field() string
@@ -1392,7 +1392,7 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = SelectorValidationErrorValidationError{}
+} = SelectorValidationErrorsValidationError{}
 
 // Validate checks the field values on TestSelectorResponse with the rules
 // defined in the proto definition for this message. If any rules are
