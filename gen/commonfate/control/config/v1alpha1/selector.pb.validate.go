@@ -622,6 +622,40 @@ func (m *GetSelectorResponse) validate(all bool) error {
 		}
 	}
 
+	for idx, item := range m.GetMatches() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, GetSelectorResponseValidationError{
+						field:  fmt.Sprintf("Matches[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, GetSelectorResponseValidationError{
+						field:  fmt.Sprintf("Matches[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return GetSelectorResponseValidationError{
+					field:  fmt.Sprintf("Matches[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
 	if len(errors) > 0 {
 		return GetSelectorResponseMultiError(errors)
 	}
@@ -1079,6 +1113,247 @@ var _ interface {
 	ErrorName() string
 } = TestSelectorRequestValidationError{}
 
+// Validate checks the field values on SelectorMatchResult with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *SelectorMatchResult) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on SelectorMatchResult with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// SelectorMatchResultMultiError, or nil if none found.
+func (m *SelectorMatchResult) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *SelectorMatchResult) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	for idx, item := range m.GetMatches() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, SelectorMatchResultValidationError{
+						field:  fmt.Sprintf("Matches[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, SelectorMatchResultValidationError{
+						field:  fmt.Sprintf("Matches[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return SelectorMatchResultValidationError{
+					field:  fmt.Sprintf("Matches[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	if len(errors) > 0 {
+		return SelectorMatchResultMultiError(errors)
+	}
+
+	return nil
+}
+
+// SelectorMatchResultMultiError is an error wrapping multiple validation
+// errors returned by SelectorMatchResult.ValidateAll() if the designated
+// constraints aren't met.
+type SelectorMatchResultMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m SelectorMatchResultMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m SelectorMatchResultMultiError) AllErrors() []error { return m }
+
+// SelectorMatchResultValidationError is the validation error returned by
+// SelectorMatchResult.Validate if the designated constraints aren't met.
+type SelectorMatchResultValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e SelectorMatchResultValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e SelectorMatchResultValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e SelectorMatchResultValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e SelectorMatchResultValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e SelectorMatchResultValidationError) ErrorName() string {
+	return "SelectorMatchResultValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e SelectorMatchResultValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sSelectorMatchResult.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = SelectorMatchResultValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = SelectorMatchResultValidationError{}
+
+// Validate checks the field values on SelectorValidationErrorResult with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *SelectorValidationErrorResult) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on SelectorValidationErrorResult with
+// the rules defined in the proto definition for this message. If any rules
+// are violated, the result is a list of violation errors wrapped in
+// SelectorValidationErrorResultMultiError, or nil if none found.
+func (m *SelectorValidationErrorResult) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *SelectorValidationErrorResult) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Message
+
+	if len(errors) > 0 {
+		return SelectorValidationErrorResultMultiError(errors)
+	}
+
+	return nil
+}
+
+// SelectorValidationErrorResultMultiError is an error wrapping multiple
+// validation errors returned by SelectorValidationErrorResult.ValidateAll()
+// if the designated constraints aren't met.
+type SelectorValidationErrorResultMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m SelectorValidationErrorResultMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m SelectorValidationErrorResultMultiError) AllErrors() []error { return m }
+
+// SelectorValidationErrorResultValidationError is the validation error
+// returned by SelectorValidationErrorResult.Validate if the designated
+// constraints aren't met.
+type SelectorValidationErrorResultValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e SelectorValidationErrorResultValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e SelectorValidationErrorResultValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e SelectorValidationErrorResultValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e SelectorValidationErrorResultValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e SelectorValidationErrorResultValidationError) ErrorName() string {
+	return "SelectorValidationErrorResultValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e SelectorValidationErrorResultValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sSelectorValidationErrorResult.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = SelectorValidationErrorResultValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = SelectorValidationErrorResultValidationError{}
+
 // Validate checks the field values on TestSelectorResponse with the rules
 // defined in the proto definition for this message. If any rules are
 // violated, the first error encountered is returned, or nil if there are no violations.
@@ -1101,15 +1376,25 @@ func (m *TestSelectorResponse) validate(all bool) error {
 
 	var errors []error
 
-	for idx, item := range m.GetMatches() {
-		_, _ = idx, item
+	switch v := m.Result.(type) {
+	case *TestSelectorResponse_SelectorMatches:
+		if v == nil {
+			err := TestSelectorResponseValidationError{
+				field:  "Result",
+				reason: "oneof value cannot be a typed-nil",
+			}
+			if !all {
+				return err
+			}
+			errors = append(errors, err)
+		}
 
 		if all {
-			switch v := interface{}(item).(type) {
+			switch v := interface{}(m.GetSelectorMatches()).(type) {
 			case interface{ ValidateAll() error }:
 				if err := v.ValidateAll(); err != nil {
 					errors = append(errors, TestSelectorResponseValidationError{
-						field:  fmt.Sprintf("Matches[%v]", idx),
+						field:  "SelectorMatches",
 						reason: "embedded message failed validation",
 						cause:  err,
 					})
@@ -1117,22 +1402,65 @@ func (m *TestSelectorResponse) validate(all bool) error {
 			case interface{ Validate() error }:
 				if err := v.Validate(); err != nil {
 					errors = append(errors, TestSelectorResponseValidationError{
-						field:  fmt.Sprintf("Matches[%v]", idx),
+						field:  "SelectorMatches",
 						reason: "embedded message failed validation",
 						cause:  err,
 					})
 				}
 			}
-		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+		} else if v, ok := interface{}(m.GetSelectorMatches()).(interface{ Validate() error }); ok {
 			if err := v.Validate(); err != nil {
 				return TestSelectorResponseValidationError{
-					field:  fmt.Sprintf("Matches[%v]", idx),
+					field:  "SelectorMatches",
 					reason: "embedded message failed validation",
 					cause:  err,
 				}
 			}
 		}
 
+	case *TestSelectorResponse_SelectorValidationError:
+		if v == nil {
+			err := TestSelectorResponseValidationError{
+				field:  "Result",
+				reason: "oneof value cannot be a typed-nil",
+			}
+			if !all {
+				return err
+			}
+			errors = append(errors, err)
+		}
+
+		if all {
+			switch v := interface{}(m.GetSelectorValidationError()).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, TestSelectorResponseValidationError{
+						field:  "SelectorValidationError",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, TestSelectorResponseValidationError{
+						field:  "SelectorValidationError",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(m.GetSelectorValidationError()).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return TestSelectorResponseValidationError{
+					field:  "SelectorValidationError",
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	default:
+		_ = v // ensures v is used
 	}
 
 	if len(errors) > 0 {

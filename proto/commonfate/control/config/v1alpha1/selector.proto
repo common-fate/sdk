@@ -44,7 +44,9 @@ message GetSelectorRequest {
 
 message GetSelectorResponse {
   Selector selector = 1;
+  repeated commonfate.access.v1alpha1.NamedEID matches = 2;
 }
+
 message ListSelectorsRequest {
   string page_token = 1;
 }
@@ -59,8 +61,18 @@ message TestSelectorRequest {
   string when = 3;
 }
 
-message TestSelectorResponse {
+message SelectorMatchResult {
   repeated commonfate.access.v1alpha1.NamedEID matches = 1;
+}
+message SelectorValidationErrorResult {
+  string message = 1;
+}
+
+message TestSelectorResponse {
+  oneof result {
+    SelectorMatchResult selector_matches = 1;
+    SelectorValidationErrorResult selector_validation_error = 2;
+  }
 }
 
 message UpdateSelectorRequest {
