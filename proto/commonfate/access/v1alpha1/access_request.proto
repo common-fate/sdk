@@ -7,6 +7,7 @@ import "commonfate/access/v1alpha1/grant.proto";
 import "commonfate/access/v1alpha1/user.proto";
 import "commonfate/authz/v1alpha1/read_only.proto";
 import "commonfate/entity/v1alpha1/entity_service.proto";
+import "commonfate/entity/v1alpha1/eid.proto";
 import "google/protobuf/timestamp.proto";
 import "buf/validate/validate.proto";
 
@@ -16,6 +17,11 @@ import "buf/validate/validate.proto";
 // to each Grant associated with the Access Request. Warnings will be returned if the operation fails for any grants.
 service AccessRequestService {
   rpc QueryAccessRequests(QueryAccessRequestsRequest) returns (QueryAccessRequestsResponse) {
+    option (commonfate.authz.v1alpha1.read_only) = true;
+  }
+
+  // Query the access requests where the user is the principal
+  rpc QueryMyAccessRequests(QueryMyAccessRequestsRequest) returns (QueryMyAccessRequestsResponse) {
     option (commonfate.authz.v1alpha1.read_only) = true;
   }
 
@@ -39,11 +45,39 @@ service AccessRequestService {
   rpc CloseAccessRequest(CloseAccessRequestRequest) returns (CloseAccessRequestResponse) {}
 }
 
+enum RequestStatus {
+  REQUEST_STATUS_UNSPECIFIED = 0;
+
+  REQUEST_STATUS_PENDING = 1;
+
+  REQUEST_STATUS_ACTIVE = 2;
+
+  REQUEST_STATUS_CLOSED = 3;
+}
+
 message QueryAccessRequestsRequest {
   // The token for the next page.
   string page_token = 1;
   bool archived = 2;
   optional commonfate.entity.v1alpha1.Order order = 3;
+  optional commonfate.entity.v1alpha1.EID requested_by = 4;
+  optional commonfate.entity.v1alpha1.EID closed_by = 5;
+  optional commonfate.entity.v1alpha1.EID approved_by = 6;
+  RequestStatus request_status = 7;
+
+}
+
+message QueryMyAccessRequestsResponse {
+  repeated AccessRequest access_requests = 1;
+  string next_page_token = 2;
+}
+
+message QueryMyAccessRequestsRequest {
+  // The token for the next page.
+  string page_token = 1;
+  optional commonfate.entity.v1alpha1.Order order = 2;
+  RequestStatus request_status = 3;
+
 }
 
 message QueryAccessRequestsResponse {

@@ -180,151 +180,57 @@ var _ interface {
 	ErrorName() string
 } = ResourceValidationError{}
 
-// Validate checks the field values on ListProxyResourcesRequest with the rules
-// defined in the proto definition for this message. If any rules are
-// violated, the first error encountered is returned, or nil if there are no violations.
-func (m *ListProxyResourcesRequest) Validate() error {
+// Validate checks the field values on AWSRDSDatabase with the rules defined in
+// the proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *AWSRDSDatabase) Validate() error {
 	return m.validate(false)
 }
 
-// ValidateAll checks the field values on ListProxyResourcesRequest with the
-// rules defined in the proto definition for this message. If any rules are
-// violated, the result is a list of violation errors wrapped in
-// ListProxyResourcesRequestMultiError, or nil if none found.
-func (m *ListProxyResourcesRequest) ValidateAll() error {
+// ValidateAll checks the field values on AWSRDSDatabase with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in AWSRDSDatabaseMultiError,
+// or nil if none found.
+func (m *AWSRDSDatabase) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *ListProxyResourcesRequest) validate(all bool) error {
+func (m *AWSRDSDatabase) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
 
 	var errors []error
 
-	// no validation rules for ProxyId
+	// no validation rules for Name
 
-	if len(errors) > 0 {
-		return ListProxyResourcesRequestMultiError(errors)
-	}
+	// no validation rules for Engine
 
-	return nil
-}
+	// no validation rules for Region
 
-// ListProxyResourcesRequestMultiError is an error wrapping multiple validation
-// errors returned by ListProxyResourcesRequest.ValidateAll() if the
-// designated constraints aren't met.
-type ListProxyResourcesRequestMultiError []error
+	// no validation rules for Account
 
-// Error returns a concatenation of all the error messages it wraps.
-func (m ListProxyResourcesRequestMultiError) Error() string {
-	var msgs []string
-	for _, err := range m {
-		msgs = append(msgs, err.Error())
-	}
-	return strings.Join(msgs, "; ")
-}
+	// no validation rules for InstanceId
 
-// AllErrors returns a list of validation violation errors.
-func (m ListProxyResourcesRequestMultiError) AllErrors() []error { return m }
+	// no validation rules for Database
 
-// ListProxyResourcesRequestValidationError is the validation error returned by
-// ListProxyResourcesRequest.Validate if the designated constraints aren't met.
-type ListProxyResourcesRequestValidationError struct {
-	field  string
-	reason string
-	cause  error
-	key    bool
-}
-
-// Field function returns field value.
-func (e ListProxyResourcesRequestValidationError) Field() string { return e.field }
-
-// Reason function returns reason value.
-func (e ListProxyResourcesRequestValidationError) Reason() string { return e.reason }
-
-// Cause function returns cause value.
-func (e ListProxyResourcesRequestValidationError) Cause() error { return e.cause }
-
-// Key function returns key value.
-func (e ListProxyResourcesRequestValidationError) Key() bool { return e.key }
-
-// ErrorName returns error name.
-func (e ListProxyResourcesRequestValidationError) ErrorName() string {
-	return "ListProxyResourcesRequestValidationError"
-}
-
-// Error satisfies the builtin error interface
-func (e ListProxyResourcesRequestValidationError) Error() string {
-	cause := ""
-	if e.cause != nil {
-		cause = fmt.Sprintf(" | caused by: %v", e.cause)
-	}
-
-	key := ""
-	if e.key {
-		key = "key for "
-	}
-
-	return fmt.Sprintf(
-		"invalid %sListProxyResourcesRequest.%s: %s%s",
-		key,
-		e.field,
-		e.reason,
-		cause)
-}
-
-var _ error = ListProxyResourcesRequestValidationError{}
-
-var _ interface {
-	Field() string
-	Reason() string
-	Key() bool
-	Cause() error
-	ErrorName() string
-} = ListProxyResourcesRequestValidationError{}
-
-// Validate checks the field values on ListProxyResourcesResponse with the
-// rules defined in the proto definition for this message. If any rules are
-// violated, the first error encountered is returned, or nil if there are no violations.
-func (m *ListProxyResourcesResponse) Validate() error {
-	return m.validate(false)
-}
-
-// ValidateAll checks the field values on ListProxyResourcesResponse with the
-// rules defined in the proto definition for this message. If any rules are
-// violated, the result is a list of violation errors wrapped in
-// ListProxyResourcesResponseMultiError, or nil if none found.
-func (m *ListProxyResourcesResponse) ValidateAll() error {
-	return m.validate(true)
-}
-
-func (m *ListProxyResourcesResponse) validate(all bool) error {
-	if m == nil {
-		return nil
-	}
-
-	var errors []error
-
-	// no validation rules for ProxyId
-
-	for idx, item := range m.GetResources() {
+	for idx, item := range m.GetUsers() {
 		_, _ = idx, item
 
 		if all {
 			switch v := interface{}(item).(type) {
 			case interface{ ValidateAll() error }:
 				if err := v.ValidateAll(); err != nil {
-					errors = append(errors, ListProxyResourcesResponseValidationError{
-						field:  fmt.Sprintf("Resources[%v]", idx),
+					errors = append(errors, AWSRDSDatabaseValidationError{
+						field:  fmt.Sprintf("Users[%v]", idx),
 						reason: "embedded message failed validation",
 						cause:  err,
 					})
 				}
 			case interface{ Validate() error }:
 				if err := v.Validate(); err != nil {
-					errors = append(errors, ListProxyResourcesResponseValidationError{
-						field:  fmt.Sprintf("Resources[%v]", idx),
+					errors = append(errors, AWSRDSDatabaseValidationError{
+						field:  fmt.Sprintf("Users[%v]", idx),
 						reason: "embedded message failed validation",
 						cause:  err,
 					})
@@ -332,8 +238,8 @@ func (m *ListProxyResourcesResponse) validate(all bool) error {
 			}
 		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
 			if err := v.Validate(); err != nil {
-				return ListProxyResourcesResponseValidationError{
-					field:  fmt.Sprintf("Resources[%v]", idx),
+				return AWSRDSDatabaseValidationError{
+					field:  fmt.Sprintf("Users[%v]", idx),
 					reason: "embedded message failed validation",
 					cause:  err,
 				}
@@ -342,20 +248,22 @@ func (m *ListProxyResourcesResponse) validate(all bool) error {
 
 	}
 
+	// no validation rules for Endpoint
+
 	if len(errors) > 0 {
-		return ListProxyResourcesResponseMultiError(errors)
+		return AWSRDSDatabaseMultiError(errors)
 	}
 
 	return nil
 }
 
-// ListProxyResourcesResponseMultiError is an error wrapping multiple
-// validation errors returned by ListProxyResourcesResponse.ValidateAll() if
-// the designated constraints aren't met.
-type ListProxyResourcesResponseMultiError []error
+// AWSRDSDatabaseMultiError is an error wrapping multiple validation errors
+// returned by AWSRDSDatabase.ValidateAll() if the designated constraints
+// aren't met.
+type AWSRDSDatabaseMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m ListProxyResourcesResponseMultiError) Error() string {
+func (m AWSRDSDatabaseMultiError) Error() string {
 	var msgs []string
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -364,11 +272,11 @@ func (m ListProxyResourcesResponseMultiError) Error() string {
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m ListProxyResourcesResponseMultiError) AllErrors() []error { return m }
+func (m AWSRDSDatabaseMultiError) AllErrors() []error { return m }
 
-// ListProxyResourcesResponseValidationError is the validation error returned
-// by ListProxyResourcesResponse.Validate if the designated constraints aren't met.
-type ListProxyResourcesResponseValidationError struct {
+// AWSRDSDatabaseValidationError is the validation error returned by
+// AWSRDSDatabase.Validate if the designated constraints aren't met.
+type AWSRDSDatabaseValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -376,24 +284,22 @@ type ListProxyResourcesResponseValidationError struct {
 }
 
 // Field function returns field value.
-func (e ListProxyResourcesResponseValidationError) Field() string { return e.field }
+func (e AWSRDSDatabaseValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e ListProxyResourcesResponseValidationError) Reason() string { return e.reason }
+func (e AWSRDSDatabaseValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e ListProxyResourcesResponseValidationError) Cause() error { return e.cause }
+func (e AWSRDSDatabaseValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e ListProxyResourcesResponseValidationError) Key() bool { return e.key }
+func (e AWSRDSDatabaseValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e ListProxyResourcesResponseValidationError) ErrorName() string {
-	return "ListProxyResourcesResponseValidationError"
-}
+func (e AWSRDSDatabaseValidationError) ErrorName() string { return "AWSRDSDatabaseValidationError" }
 
 // Error satisfies the builtin error interface
-func (e ListProxyResourcesResponseValidationError) Error() string {
+func (e AWSRDSDatabaseValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -405,14 +311,14 @@ func (e ListProxyResourcesResponseValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sListProxyResourcesResponse.%s: %s%s",
+		"invalid %sAWSRDSDatabase.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = ListProxyResourcesResponseValidationError{}
+var _ error = AWSRDSDatabaseValidationError{}
 
 var _ interface {
 	Field() string
@@ -420,4 +326,112 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = ListProxyResourcesResponseValidationError{}
+} = AWSRDSDatabaseValidationError{}
+
+// Validate checks the field values on AWSRDSDatabaseUser with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *AWSRDSDatabaseUser) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on AWSRDSDatabaseUser with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// AWSRDSDatabaseUserMultiError, or nil if none found.
+func (m *AWSRDSDatabaseUser) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *AWSRDSDatabaseUser) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Name
+
+	// no validation rules for Username
+
+	// no validation rules for PasswordSecretsManagerArn
+
+	if len(errors) > 0 {
+		return AWSRDSDatabaseUserMultiError(errors)
+	}
+
+	return nil
+}
+
+// AWSRDSDatabaseUserMultiError is an error wrapping multiple validation errors
+// returned by AWSRDSDatabaseUser.ValidateAll() if the designated constraints
+// aren't met.
+type AWSRDSDatabaseUserMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m AWSRDSDatabaseUserMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m AWSRDSDatabaseUserMultiError) AllErrors() []error { return m }
+
+// AWSRDSDatabaseUserValidationError is the validation error returned by
+// AWSRDSDatabaseUser.Validate if the designated constraints aren't met.
+type AWSRDSDatabaseUserValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e AWSRDSDatabaseUserValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e AWSRDSDatabaseUserValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e AWSRDSDatabaseUserValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e AWSRDSDatabaseUserValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e AWSRDSDatabaseUserValidationError) ErrorName() string {
+	return "AWSRDSDatabaseUserValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e AWSRDSDatabaseUserValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sAWSRDSDatabaseUser.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = AWSRDSDatabaseUserValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = AWSRDSDatabaseUserValidationError{}

@@ -1,5 +1,31 @@
 # @common-fate/sdk
 
+## 1.57.0
+
+### Minor Changes
+
+- 10dce79: Adds List Selector API and Test Selector API
+
+### Patch Changes
+
+- 9a63227: Create QueryMyAccessRequests to find access requests where the current user is the requestor.
+
+## 1.56.0
+
+### Minor Changes
+
+- b918ce7: Adds boolean conditions to the existing EntityFilter type for principal resource and actions.
+
+  Adds new EntityTypeFilter with boolean condition
+
+## 1.55.0
+
+### Minor Changes
+
+- 1f335f7: add apis for registering proxy and rds resource
+- 15f432f: Adds API for managing secrets
+- bc044db: Add filters for requested_by, closed_by, approved_by and request_status on QueryAccessRequest.
+
 ## 1.54.1
 
 ### Patch Changes
