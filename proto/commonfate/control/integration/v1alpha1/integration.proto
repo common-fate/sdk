@@ -27,6 +27,10 @@ service IntegrationService {
   }
   rpc DeleteIntegration(DeleteIntegrationRequest) returns (DeleteIntegrationResponse) {}
   rpc ListIntegrations(ListIntegrationsRequest) returns (ListIntegrationsResponse) {}
+
+  //integration sync
+  rpc ListSyncsForIntegration(ListSyncsForIntegrationRequest) returns (ListSyncsForIntegrationResponse) {}
+  rpc SyncIntegration(SyncIntegrationRequest) returns (SyncIntegrationResponse) {}
 }
 
 message ListIntegrationsRequest {

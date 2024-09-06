@@ -48,16 +48,24 @@ const (
 	// IntegrationServiceListIntegrationsProcedure is the fully-qualified name of the
 	// IntegrationService's ListIntegrations RPC.
 	IntegrationServiceListIntegrationsProcedure = "/commonfate.control.integration.v1alpha1.IntegrationService/ListIntegrations"
+	// IntegrationServiceListSyncsForIntegrationProcedure is the fully-qualified name of the
+	// IntegrationService's ListSyncsForIntegration RPC.
+	IntegrationServiceListSyncsForIntegrationProcedure = "/commonfate.control.integration.v1alpha1.IntegrationService/ListSyncsForIntegration"
+	// IntegrationServiceSyncIntegrationProcedure is the fully-qualified name of the
+	// IntegrationService's SyncIntegration RPC.
+	IntegrationServiceSyncIntegrationProcedure = "/commonfate.control.integration.v1alpha1.IntegrationService/SyncIntegration"
 )
 
 // These variables are the protoreflect.Descriptor objects for the RPCs defined in this package.
 var (
-	integrationServiceServiceDescriptor                 = v1alpha1.File_commonfate_control_integration_v1alpha1_integration_proto.Services().ByName("IntegrationService")
-	integrationServiceCreateIntegrationMethodDescriptor = integrationServiceServiceDescriptor.Methods().ByName("CreateIntegration")
-	integrationServiceUpdateIntegrationMethodDescriptor = integrationServiceServiceDescriptor.Methods().ByName("UpdateIntegration")
-	integrationServiceGetIntegrationMethodDescriptor    = integrationServiceServiceDescriptor.Methods().ByName("GetIntegration")
-	integrationServiceDeleteIntegrationMethodDescriptor = integrationServiceServiceDescriptor.Methods().ByName("DeleteIntegration")
-	integrationServiceListIntegrationsMethodDescriptor  = integrationServiceServiceDescriptor.Methods().ByName("ListIntegrations")
+	integrationServiceServiceDescriptor                       = v1alpha1.File_commonfate_control_integration_v1alpha1_integration_proto.Services().ByName("IntegrationService")
+	integrationServiceCreateIntegrationMethodDescriptor       = integrationServiceServiceDescriptor.Methods().ByName("CreateIntegration")
+	integrationServiceUpdateIntegrationMethodDescriptor       = integrationServiceServiceDescriptor.Methods().ByName("UpdateIntegration")
+	integrationServiceGetIntegrationMethodDescriptor          = integrationServiceServiceDescriptor.Methods().ByName("GetIntegration")
+	integrationServiceDeleteIntegrationMethodDescriptor       = integrationServiceServiceDescriptor.Methods().ByName("DeleteIntegration")
+	integrationServiceListIntegrationsMethodDescriptor        = integrationServiceServiceDescriptor.Methods().ByName("ListIntegrations")
+	integrationServiceListSyncsForIntegrationMethodDescriptor = integrationServiceServiceDescriptor.Methods().ByName("ListSyncsForIntegration")
+	integrationServiceSyncIntegrationMethodDescriptor         = integrationServiceServiceDescriptor.Methods().ByName("SyncIntegration")
 )
 
 // IntegrationServiceClient is a client for the
@@ -68,6 +76,9 @@ type IntegrationServiceClient interface {
 	GetIntegration(context.Context, *connect.Request[v1alpha1.GetIntegrationRequest]) (*connect.Response[v1alpha1.GetIntegrationResponse], error)
 	DeleteIntegration(context.Context, *connect.Request[v1alpha1.DeleteIntegrationRequest]) (*connect.Response[v1alpha1.DeleteIntegrationResponse], error)
 	ListIntegrations(context.Context, *connect.Request[v1alpha1.ListIntegrationsRequest]) (*connect.Response[v1alpha1.ListIntegrationsResponse], error)
+	// integration sync
+	ListSyncsForIntegration(context.Context, *connect.Request[v1alpha1.ListSyncsForIntegrationRequest]) (*connect.Response[v1alpha1.ListSyncsForIntegrationResponse], error)
+	SyncIntegration(context.Context, *connect.Request[v1alpha1.SyncIntegrationRequest]) (*connect.Response[v1alpha1.SyncIntegrationResponse], error)
 }
 
 // NewIntegrationServiceClient constructs a client for the
@@ -111,16 +122,30 @@ func NewIntegrationServiceClient(httpClient connect.HTTPClient, baseURL string, 
 			connect.WithSchema(integrationServiceListIntegrationsMethodDescriptor),
 			connect.WithClientOptions(opts...),
 		),
+		listSyncsForIntegration: connect.NewClient[v1alpha1.ListSyncsForIntegrationRequest, v1alpha1.ListSyncsForIntegrationResponse](
+			httpClient,
+			baseURL+IntegrationServiceListSyncsForIntegrationProcedure,
+			connect.WithSchema(integrationServiceListSyncsForIntegrationMethodDescriptor),
+			connect.WithClientOptions(opts...),
+		),
+		syncIntegration: connect.NewClient[v1alpha1.SyncIntegrationRequest, v1alpha1.SyncIntegrationResponse](
+			httpClient,
+			baseURL+IntegrationServiceSyncIntegrationProcedure,
+			connect.WithSchema(integrationServiceSyncIntegrationMethodDescriptor),
+			connect.WithClientOptions(opts...),
+		),
 	}
 }
 
 // integrationServiceClient implements IntegrationServiceClient.
 type integrationServiceClient struct {
-	createIntegration *connect.Client[v1alpha1.CreateIntegrationRequest, v1alpha1.CreateIntegrationResponse]
-	updateIntegration *connect.Client[v1alpha1.UpdateIntegrationRequest, v1alpha1.UpdateIntegrationResponse]
-	getIntegration    *connect.Client[v1alpha1.GetIntegrationRequest, v1alpha1.GetIntegrationResponse]
-	deleteIntegration *connect.Client[v1alpha1.DeleteIntegrationRequest, v1alpha1.DeleteIntegrationResponse]
-	listIntegrations  *connect.Client[v1alpha1.ListIntegrationsRequest, v1alpha1.ListIntegrationsResponse]
+	createIntegration       *connect.Client[v1alpha1.CreateIntegrationRequest, v1alpha1.CreateIntegrationResponse]
+	updateIntegration       *connect.Client[v1alpha1.UpdateIntegrationRequest, v1alpha1.UpdateIntegrationResponse]
+	getIntegration          *connect.Client[v1alpha1.GetIntegrationRequest, v1alpha1.GetIntegrationResponse]
+	deleteIntegration       *connect.Client[v1alpha1.DeleteIntegrationRequest, v1alpha1.DeleteIntegrationResponse]
+	listIntegrations        *connect.Client[v1alpha1.ListIntegrationsRequest, v1alpha1.ListIntegrationsResponse]
+	listSyncsForIntegration *connect.Client[v1alpha1.ListSyncsForIntegrationRequest, v1alpha1.ListSyncsForIntegrationResponse]
+	syncIntegration         *connect.Client[v1alpha1.SyncIntegrationRequest, v1alpha1.SyncIntegrationResponse]
 }
 
 // CreateIntegration calls
@@ -152,6 +177,17 @@ func (c *integrationServiceClient) ListIntegrations(ctx context.Context, req *co
 	return c.listIntegrations.CallUnary(ctx, req)
 }
 
+// ListSyncsForIntegration calls
+// commonfate.control.integration.v1alpha1.IntegrationService.ListSyncsForIntegration.
+func (c *integrationServiceClient) ListSyncsForIntegration(ctx context.Context, req *connect.Request[v1alpha1.ListSyncsForIntegrationRequest]) (*connect.Response[v1alpha1.ListSyncsForIntegrationResponse], error) {
+	return c.listSyncsForIntegration.CallUnary(ctx, req)
+}
+
+// SyncIntegration calls commonfate.control.integration.v1alpha1.IntegrationService.SyncIntegration.
+func (c *integrationServiceClient) SyncIntegration(ctx context.Context, req *connect.Request[v1alpha1.SyncIntegrationRequest]) (*connect.Response[v1alpha1.SyncIntegrationResponse], error) {
+	return c.syncIntegration.CallUnary(ctx, req)
+}
+
 // IntegrationServiceHandler is an implementation of the
 // commonfate.control.integration.v1alpha1.IntegrationService service.
 type IntegrationServiceHandler interface {
@@ -160,6 +196,9 @@ type IntegrationServiceHandler interface {
 	GetIntegration(context.Context, *connect.Request[v1alpha1.GetIntegrationRequest]) (*connect.Response[v1alpha1.GetIntegrationResponse], error)
 	DeleteIntegration(context.Context, *connect.Request[v1alpha1.DeleteIntegrationRequest]) (*connect.Response[v1alpha1.DeleteIntegrationResponse], error)
 	ListIntegrations(context.Context, *connect.Request[v1alpha1.ListIntegrationsRequest]) (*connect.Response[v1alpha1.ListIntegrationsResponse], error)
+	// integration sync
+	ListSyncsForIntegration(context.Context, *connect.Request[v1alpha1.ListSyncsForIntegrationRequest]) (*connect.Response[v1alpha1.ListSyncsForIntegrationResponse], error)
+	SyncIntegration(context.Context, *connect.Request[v1alpha1.SyncIntegrationRequest]) (*connect.Response[v1alpha1.SyncIntegrationResponse], error)
 }
 
 // NewIntegrationServiceHandler builds an HTTP handler from the service implementation. It returns
@@ -198,6 +237,18 @@ func NewIntegrationServiceHandler(svc IntegrationServiceHandler, opts ...connect
 		connect.WithSchema(integrationServiceListIntegrationsMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
+	integrationServiceListSyncsForIntegrationHandler := connect.NewUnaryHandler(
+		IntegrationServiceListSyncsForIntegrationProcedure,
+		svc.ListSyncsForIntegration,
+		connect.WithSchema(integrationServiceListSyncsForIntegrationMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
+	)
+	integrationServiceSyncIntegrationHandler := connect.NewUnaryHandler(
+		IntegrationServiceSyncIntegrationProcedure,
+		svc.SyncIntegration,
+		connect.WithSchema(integrationServiceSyncIntegrationMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
+	)
 	return "/commonfate.control.integration.v1alpha1.IntegrationService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
 		case IntegrationServiceCreateIntegrationProcedure:
@@ -210,6 +261,10 @@ func NewIntegrationServiceHandler(svc IntegrationServiceHandler, opts ...connect
 			integrationServiceDeleteIntegrationHandler.ServeHTTP(w, r)
 		case IntegrationServiceListIntegrationsProcedure:
 			integrationServiceListIntegrationsHandler.ServeHTTP(w, r)
+		case IntegrationServiceListSyncsForIntegrationProcedure:
+			integrationServiceListSyncsForIntegrationHandler.ServeHTTP(w, r)
+		case IntegrationServiceSyncIntegrationProcedure:
+			integrationServiceSyncIntegrationHandler.ServeHTTP(w, r)
 		default:
 			http.NotFound(w, r)
 		}
@@ -237,4 +292,12 @@ func (UnimplementedIntegrationServiceHandler) DeleteIntegration(context.Context,
 
 func (UnimplementedIntegrationServiceHandler) ListIntegrations(context.Context, *connect.Request[v1alpha1.ListIntegrationsRequest]) (*connect.Response[v1alpha1.ListIntegrationsResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.control.integration.v1alpha1.IntegrationService.ListIntegrations is not implemented"))
+}
+
+func (UnimplementedIntegrationServiceHandler) ListSyncsForIntegration(context.Context, *connect.Request[v1alpha1.ListSyncsForIntegrationRequest]) (*connect.Response[v1alpha1.ListSyncsForIntegrationResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.control.integration.v1alpha1.IntegrationService.ListSyncsForIntegration is not implemented"))
+}
+
+func (UnimplementedIntegrationServiceHandler) SyncIntegration(context.Context, *connect.Request[v1alpha1.SyncIntegrationRequest]) (*connect.Response[v1alpha1.SyncIntegrationResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.control.integration.v1alpha1.IntegrationService.SyncIntegration is not implemented"))
 }
