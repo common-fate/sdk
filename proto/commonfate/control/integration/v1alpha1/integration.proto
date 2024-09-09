@@ -142,7 +142,7 @@ message SyncJob {
   int32 attempt = 3;
   int32 max_attempts = 4;
   google.protobuf.Timestamp attempted_at = 5;
-  string errors = 6;
+  repeated string errors = 6;
   string kind = 7;
 }
 

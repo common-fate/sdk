@@ -2495,8 +2495,6 @@ func (m *SyncJob) validate(all bool) error {
 		}
 	}
 
-	// no validation rules for Errors
-
 	// no validation rules for Kind
 
 	if len(errors) > 0 {
