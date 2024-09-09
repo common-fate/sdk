@@ -153,4 +153,7 @@ message SyncIntegrationRequest {
 
 message SyncIntegrationResponse {
 
+  repeated commonfate.access.v1alpha1.Diagnostic diagnostics = 1;
+
+
 }
