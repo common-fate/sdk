@@ -15,6 +15,8 @@ import "commonfate/control/integration/v1alpha1/pagerduty.proto";
 import "commonfate/control/integration/v1alpha1/s3_log_destination.proto";
 import "commonfate/control/integration/v1alpha1/slack.proto";
 import "commonfate/control/integration/v1alpha1/webhook.proto";
+import "commonfate/control/log/v1alpha1/authz_eval.proto";
+
 
 import "google/protobuf/timestamp.proto";
 
@@ -112,6 +114,14 @@ message DeleteIntegrationResponse {
   string id = 1;
 }
 
+
+message Filter {
+  oneof filter {
+    
+    commonfate.control.log.v1alpha1.OccurredAtFilter occurred_at = 1;
+   
+  }
+}
 
 message ListSyncsForIntegrationRequest {
   string integration_id = 1;
