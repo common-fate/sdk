@@ -127,7 +127,7 @@ message ListSyncsForIntegrationRequest {
   string integration_id = 1;
   // The token for the next page.
   string page_token = 2;
-  Filter filder = 3;
+  repeated Filter filders = 3;
 }
 
 message ListSyncsForIntegrationResponse {

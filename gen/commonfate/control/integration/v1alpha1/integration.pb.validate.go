@@ -2181,33 +2181,38 @@ func (m *ListSyncsForIntegrationRequest) validate(all bool) error {
 
 	// no validation rules for PageToken
 
-	if all {
-		switch v := interface{}(m.GetFilder()).(type) {
-		case interface{ ValidateAll() error }:
-			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, ListSyncsForIntegrationRequestValidationError{
-					field:  "Filder",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
+	for idx, item := range m.GetFilders() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, ListSyncsForIntegrationRequestValidationError{
+						field:  fmt.Sprintf("Filders[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, ListSyncsForIntegrationRequestValidationError{
+						field:  fmt.Sprintf("Filders[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
 			}
-		case interface{ Validate() error }:
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
 			if err := v.Validate(); err != nil {
-				errors = append(errors, ListSyncsForIntegrationRequestValidationError{
-					field:  "Filder",
+				return ListSyncsForIntegrationRequestValidationError{
+					field:  fmt.Sprintf("Filders[%v]", idx),
 					reason: "embedded message failed validation",
 					cause:  err,
-				})
+				}
 			}
 		}
-	} else if v, ok := interface{}(m.GetFilder()).(interface{ Validate() error }); ok {
-		if err := v.Validate(); err != nil {
-			return ListSyncsForIntegrationRequestValidationError{
-				field:  "Filder",
-				reason: "embedded message failed validation",
-				cause:  err,
-			}
-		}
+
 	}
 
 	if len(errors) > 0 {
