@@ -4,12 +4,12 @@ package commonfate.access.v1alpha1;
 
 import "commonfate/access/v1alpha1/access_request.proto";
 import "commonfate/access/v1alpha1/diagnostic.proto";
+import "commonfate/access/v1alpha1/extension_conditions.proto";
 import "commonfate/access/v1alpha1/grant.proto";
 import "commonfate/access/v1alpha1/named_eid.proto";
 import "commonfate/access/v1alpha1/user.proto";
 import "commonfate/authz/v1alpha1/policy.proto";
 import "commonfate/authz/v1alpha1/read_only.proto";
-import "commonfate/access/v1alpha1/extension_conditions.proto";
 import "commonfate/entity/v1alpha1/eid.proto";
 import "commonfate/entity/v1alpha1/entity.proto";
 import "google/protobuf/duration.proto";
@@ -103,9 +103,17 @@ message QueryEntitlementsTreeResponse {
   string next_page_token = 2;
 }
 
+message Policy {
+  // whether to extend the existing policySet with this policySet
+  bool extend = 1;
+  string policy_set = 2;
+}
+
 message PreviewUserAccessRequest {
   Specifier principal = 1;
   optional string target_type = 2;
+  // Optional policy to extend or override the existing policies when performing this preview
+  optional Policy policy = 3;
 }
 
 message PreviewUserAccessResponse {
@@ -115,6 +123,8 @@ message PreviewUserAccessResponse {
 message PreviewEntitlementAccessRequest {
   Specifier target = 1;
   Specifier role = 2;
+  // Optional policy to extend or override the existing policies when performing this preview
+  optional Policy policy = 3;
 }
 
 message PreviewEntitlementAccessResponse {
@@ -185,7 +195,7 @@ message Entitlement {
   // The Cedar Policys which contributed to the authorizations decisions
   EntitlementAccessReason reason = 5;
 
-  int64 role_priority = 6; 
+  int64 role_priority = 6;
 }
 
 message Availability {
@@ -215,7 +225,7 @@ message Availability {
   // The default duration of the access.
   google.protobuf.Duration default_duration = 9;
 
-  // Configuration for extending access. 
+  // Configuration for extending access.
   // If empty, extension is not permitted.
   ExtensionConditions extension_conditions = 10;
 }
@@ -340,5 +350,3 @@ message EntitlementNode {
 
   NamedEID suggested_role = 7;
 }
-
-
