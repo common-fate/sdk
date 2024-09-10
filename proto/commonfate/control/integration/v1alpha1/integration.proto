@@ -141,9 +141,12 @@ message SyncJob {
   string state = 2;
   int32 attempt = 3;
   int32 max_attempts = 4;
-  google.protobuf.Timestamp attempted_at = 5;
+  google.protobuf.Timestamp created_at = 5;
   repeated string errors = 6;
-  string kind = 7;
+  string kind = 7;  
+  google.protobuf.Timestamp finished_at = 8;
+
+
 }
 
 message SyncIntegrationRequest {
