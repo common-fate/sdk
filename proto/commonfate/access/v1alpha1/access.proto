@@ -136,7 +136,7 @@ message UserTargetAccess {
 }
 
 message PreviewPolicyResponse {
-  repeated Entitlement entitlements = 1;
+  repeated UserTargetAccess access = 1;
 }
 
 message PreviewUserAccessRequest {
