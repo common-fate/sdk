@@ -55,6 +55,11 @@ service AccessService {
   rpc QueryEntitlementsTree(QueryEntitlementsTreeRequest) returns (QueryEntitlementsTreeResponse) {
     option (commonfate.authz.v1alpha1.read_only) = true;
   }
+
+  // returns all the users
+  rpc PreviewPolicy(PreviewPolicyRequest) returns (PreviewPolicyResponse) {
+    option (commonfate.authz.v1alpha1.read_only) = true;
+  }
 }
 
 message QueryApproversRequest {
@@ -107,6 +112,31 @@ message Policy {
   // whether to extend the existing policySet with this policySet
   bool extend = 1;
   string policy_set = 2;
+}
+
+message PreviewPolicyRequest {
+  optional Policy policy = 1;
+}
+
+message TargetRoleAccess {
+  // Whether or not the principal can request access to this entitlement
+  bool can_request = 1;
+
+  // Whether or not it is auto approved
+  bool auto_approved = 2;
+
+  // The Cedar Policys which contributed to the authorizations decisions
+  EntitlementAccessReason reason = 3;
+}
+
+message UserTargetAccess {
+  NamedEID user = 1;
+  NamedEID target = 2;
+  repeated TargetRoleAccess roles = 3;
+}
+
+message PreviewPolicyResponse {
+  repeated Entitlement entitlements = 1;
 }
 
 message PreviewUserAccessRequest {

@@ -1352,6 +1352,602 @@ var _ interface {
 	ErrorName() string
 } = PolicyValidationError{}
 
+// Validate checks the field values on PreviewPolicyRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *PreviewPolicyRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on PreviewPolicyRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// PreviewPolicyRequestMultiError, or nil if none found.
+func (m *PreviewPolicyRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *PreviewPolicyRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if m.Policy != nil {
+
+		if all {
+			switch v := interface{}(m.GetPolicy()).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, PreviewPolicyRequestValidationError{
+						field:  "Policy",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, PreviewPolicyRequestValidationError{
+						field:  "Policy",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(m.GetPolicy()).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return PreviewPolicyRequestValidationError{
+					field:  "Policy",
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	if len(errors) > 0 {
+		return PreviewPolicyRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// PreviewPolicyRequestMultiError is an error wrapping multiple validation
+// errors returned by PreviewPolicyRequest.ValidateAll() if the designated
+// constraints aren't met.
+type PreviewPolicyRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m PreviewPolicyRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m PreviewPolicyRequestMultiError) AllErrors() []error { return m }
+
+// PreviewPolicyRequestValidationError is the validation error returned by
+// PreviewPolicyRequest.Validate if the designated constraints aren't met.
+type PreviewPolicyRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e PreviewPolicyRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e PreviewPolicyRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e PreviewPolicyRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e PreviewPolicyRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e PreviewPolicyRequestValidationError) ErrorName() string {
+	return "PreviewPolicyRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e PreviewPolicyRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sPreviewPolicyRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = PreviewPolicyRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = PreviewPolicyRequestValidationError{}
+
+// Validate checks the field values on TargetRoleAccess with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// first error encountered is returned, or nil if there are no violations.
+func (m *TargetRoleAccess) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on TargetRoleAccess with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// TargetRoleAccessMultiError, or nil if none found.
+func (m *TargetRoleAccess) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *TargetRoleAccess) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for CanRequest
+
+	// no validation rules for AutoApproved
+
+	if all {
+		switch v := interface{}(m.GetReason()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, TargetRoleAccessValidationError{
+					field:  "Reason",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, TargetRoleAccessValidationError{
+					field:  "Reason",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetReason()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return TargetRoleAccessValidationError{
+				field:  "Reason",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if len(errors) > 0 {
+		return TargetRoleAccessMultiError(errors)
+	}
+
+	return nil
+}
+
+// TargetRoleAccessMultiError is an error wrapping multiple validation errors
+// returned by TargetRoleAccess.ValidateAll() if the designated constraints
+// aren't met.
+type TargetRoleAccessMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m TargetRoleAccessMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m TargetRoleAccessMultiError) AllErrors() []error { return m }
+
+// TargetRoleAccessValidationError is the validation error returned by
+// TargetRoleAccess.Validate if the designated constraints aren't met.
+type TargetRoleAccessValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e TargetRoleAccessValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e TargetRoleAccessValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e TargetRoleAccessValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e TargetRoleAccessValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e TargetRoleAccessValidationError) ErrorName() string { return "TargetRoleAccessValidationError" }
+
+// Error satisfies the builtin error interface
+func (e TargetRoleAccessValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sTargetRoleAccess.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = TargetRoleAccessValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = TargetRoleAccessValidationError{}
+
+// Validate checks the field values on UserTargetAccess with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// first error encountered is returned, or nil if there are no violations.
+func (m *UserTargetAccess) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on UserTargetAccess with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// UserTargetAccessMultiError, or nil if none found.
+func (m *UserTargetAccess) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *UserTargetAccess) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if all {
+		switch v := interface{}(m.GetUser()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, UserTargetAccessValidationError{
+					field:  "User",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, UserTargetAccessValidationError{
+					field:  "User",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetUser()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return UserTargetAccessValidationError{
+				field:  "User",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if all {
+		switch v := interface{}(m.GetTarget()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, UserTargetAccessValidationError{
+					field:  "Target",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, UserTargetAccessValidationError{
+					field:  "Target",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetTarget()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return UserTargetAccessValidationError{
+				field:  "Target",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	for idx, item := range m.GetRoles() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, UserTargetAccessValidationError{
+						field:  fmt.Sprintf("Roles[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, UserTargetAccessValidationError{
+						field:  fmt.Sprintf("Roles[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return UserTargetAccessValidationError{
+					field:  fmt.Sprintf("Roles[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	if len(errors) > 0 {
+		return UserTargetAccessMultiError(errors)
+	}
+
+	return nil
+}
+
+// UserTargetAccessMultiError is an error wrapping multiple validation errors
+// returned by UserTargetAccess.ValidateAll() if the designated constraints
+// aren't met.
+type UserTargetAccessMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m UserTargetAccessMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m UserTargetAccessMultiError) AllErrors() []error { return m }
+
+// UserTargetAccessValidationError is the validation error returned by
+// UserTargetAccess.Validate if the designated constraints aren't met.
+type UserTargetAccessValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e UserTargetAccessValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e UserTargetAccessValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e UserTargetAccessValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e UserTargetAccessValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e UserTargetAccessValidationError) ErrorName() string { return "UserTargetAccessValidationError" }
+
+// Error satisfies the builtin error interface
+func (e UserTargetAccessValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sUserTargetAccess.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = UserTargetAccessValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = UserTargetAccessValidationError{}
+
+// Validate checks the field values on PreviewPolicyResponse with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *PreviewPolicyResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on PreviewPolicyResponse with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// PreviewPolicyResponseMultiError, or nil if none found.
+func (m *PreviewPolicyResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *PreviewPolicyResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	for idx, item := range m.GetEntitlements() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, PreviewPolicyResponseValidationError{
+						field:  fmt.Sprintf("Entitlements[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, PreviewPolicyResponseValidationError{
+						field:  fmt.Sprintf("Entitlements[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return PreviewPolicyResponseValidationError{
+					field:  fmt.Sprintf("Entitlements[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	if len(errors) > 0 {
+		return PreviewPolicyResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// PreviewPolicyResponseMultiError is an error wrapping multiple validation
+// errors returned by PreviewPolicyResponse.ValidateAll() if the designated
+// constraints aren't met.
+type PreviewPolicyResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m PreviewPolicyResponseMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m PreviewPolicyResponseMultiError) AllErrors() []error { return m }
+
+// PreviewPolicyResponseValidationError is the validation error returned by
+// PreviewPolicyResponse.Validate if the designated constraints aren't met.
+type PreviewPolicyResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e PreviewPolicyResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e PreviewPolicyResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e PreviewPolicyResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e PreviewPolicyResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e PreviewPolicyResponseValidationError) ErrorName() string {
+	return "PreviewPolicyResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e PreviewPolicyResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sPreviewPolicyResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = PreviewPolicyResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = PreviewPolicyResponseValidationError{}
+
 // Validate checks the field values on PreviewUserAccessRequest with the rules
 // defined in the proto definition for this message. If any rules are
 // violated, the first error encountered is returned, or nil if there are no violations.
