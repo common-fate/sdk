@@ -38,6 +38,11 @@ service DirectoryService {
   rpc LookupUserAccount(LookupUserAccountRequest) returns (LookupUserAccountResponse) {
     option (commonfate.authz.v1alpha1.read_only) = true;
   }
+
+  rpc DeleteUser(DeleteUserRequest) returns (DeleteUserResponse) {
+   
+  }
+
 }
 
 message QueryUsersRequest {
@@ -53,6 +58,14 @@ message QueryUsersResponse {
   // The total number of users in
   // this Common Fate instance.
   int32 total_user_count = 3;
+}
+
+message DeleteUserRequest {
+  string id = 1;
+}
+
+message DeleteUserResponse {
+
 }
 
 message GetUserRequest {
