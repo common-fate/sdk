@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package commonfate.authz.v1alpha1;
+
+import "google/protobuf/descriptor.proto";
+
+message Action {
+  string type = 1;
+  string id = 2;
+}
+message ActionOptions {
+  // The Action mapping for the RPC e.g CF::Authz::PolicyService::Action::"ListPolicySets"
+  Action action = 1;
+  // Group tags for categorizing RPC operations (e.g., CF::Authz::PolicyService::Action::"Read") can be used to group all read actions for a service.
+  repeated Action action_groups = 2;
+}
+extend google.protobuf.MethodOptions {
+  ActionOptions action_options = 50002;
+}
+
+extend google.protobuf.ServiceOptions {
+  // e.g CF::Authz::PolicyService::Action
+  string service_action_type = 50001;
+}
