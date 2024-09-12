@@ -7,19 +7,16 @@ import "commonfate/authz/v1alpha1/read_only.proto";
 
 service PolicyService {
   // Could also use this to remove some of the boilerplate
-  option (commonfate.authz.v1alpha1.service_action_type) = "CF::Authz::PolicyService::Action";
+  option (commonfate.authz.v1alpha1.namespace) = "CF::Authz::PolicyService";
   rpc CreatePolicySet(CreatePolicySetRequest) returns (CreatePolicySetResponse) {
     option (commonfate.authz.v1alpha1.action_options) = {
-      action: {
-        type: "CF::Authz::PolicyService::Action",
-        id: "CreatePolicySet"
-      },
+      id: "CreatePolicySet",
       action_groups: {
-        type: "CF::Admin::Action",
+        namespace: "CF::Admin",
         id: "Write"
       },
       action_groups: {
-        type: "CF::Authz::PolicyService::Action",
+        namespace: "CF::Authz::PolicyService",
         id: "Write"
       }
     };
@@ -27,16 +24,13 @@ service PolicyService {
 
   rpc UpdatePolicySet(UpdatePolicySetRequest) returns (UpdatePolicySetResponse) {
     option (commonfate.authz.v1alpha1.action_options) = {
-      action: {
-        type: "CF::Authz::PolicyService::Action",
-        id: "UpdatePolicySet"
-      },
+      id: "UpdatePolicySet",
       action_groups: {
-        type: "CF::Admin::Action",
+        namespace: "CF::Admin",
         id: "Write"
       },
       action_groups: {
-        type: "CF::Authz::PolicyService::Action",
+        namespace: "CF::Authz::PolicyService",
         id: "Write"
       }
     };
@@ -45,16 +39,13 @@ service PolicyService {
   rpc ListPolicySets(ListPolicySetsRequest) returns (ListPolicySetsResponse) {
     option (commonfate.authz.v1alpha1.read_only) = true;
     option (commonfate.authz.v1alpha1.action_options) = {
-      action: {
-        type: "CF::Authz::PolicyService::Action",
-        id: "ListPolicySets"
-      },
+      id: "ListPolicySets",
       action_groups: {
-        type: "CF::Admin::Action",
+        namespace: "CF::Admin",
         id: "Read"
       },
       action_groups: {
-        type: "CF::Authz::PolicyService::Action",
+        namespace: "CF::Authz::PolicyService",
         id: "Read"
       }
     };
@@ -63,16 +54,13 @@ service PolicyService {
   rpc GetPolicySet(GetPolicySetRequest) returns (GetPolicySetResponse) {
     option (commonfate.authz.v1alpha1.read_only) = true;
     option (commonfate.authz.v1alpha1.action_options) = {
-      action: {
-        type: "CF::Authz::PolicyService::Action",
-        id: "GetPolicySet"
-      },
+      id: "GetPolicySet",
       action_groups: {
-        type: "CF::Admin::Action",
+        namespace: "CF::Admin",
         id: "Read"
       },
       action_groups: {
-        type: "CF::Authz::PolicyService::Action",
+        namespace: "CF::Authz::PolicyService",
         id: "Read"
       }
     };
@@ -80,16 +68,13 @@ service PolicyService {
 
   rpc DeletePolicySet(DeletePolicySetRequest) returns (DeletePolicySetResponse) {
     option (commonfate.authz.v1alpha1.action_options) = {
-      action: {
-        type: "CF::Authz::PolicyService::Action",
-        id: "DeletePolicySet"
-      },
+      id: "DeletePolicySet",
       action_groups: {
-        type: "CF::Admin::Action",
+        namespace: "CF::Admin",
         id: "Write"
       },
       action_groups: {
-        type: "CF::Authz::PolicyService::Action",
+        namespace: "CF::Authz::PolicyService",
         id: "Write"
       }
     };

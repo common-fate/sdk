@@ -5,12 +5,14 @@ package commonfate.authz.v1alpha1;
 import "google/protobuf/descriptor.proto";
 
 message Action {
-  string type = 1;
+  // excludes the ::Action suffix
+  string namespace = 1;
   string id = 2;
 }
 message ActionOptions {
-  // The Action mapping for the RPC e.g CF::Authz::PolicyService::Action::"ListPolicySets"
-  Action action = 1;
+  // The Action mapping for the RPC e.g "ListPolicySets" the namespace is inferred from the service
+  // By setting an ID here instead of inferring it means we can change the names of services without breaking the authorization
+  string id = 1;
   // Group tags for categorizing RPC operations (e.g., CF::Authz::PolicyService::Action::"Read") can be used to group all read actions for a service.
   repeated Action action_groups = 2;
 }
@@ -19,6 +21,6 @@ extend google.protobuf.MethodOptions {
 }
 
 extend google.protobuf.ServiceOptions {
-  // e.g CF::Authz::PolicyService::Action
-  string service_action_type = 50001;
+  // e.g CF::Authz::PolicyService
+  string namespace = 50001;
 }
