@@ -28,11 +28,13 @@ service IntegrationService {
     option (commonfate.authz.v1alpha1.read_only) = true;
   }
   rpc DeleteIntegration(DeleteIntegrationRequest) returns (DeleteIntegrationResponse) {}
-  rpc ListIntegrations(ListIntegrationsRequest) returns (ListIntegrationsResponse) {}
 
   //integration sync
   rpc ListSyncsForIntegration(ListSyncsForIntegrationRequest) returns (ListSyncsForIntegrationResponse) {}
   rpc SyncIntegration(SyncIntegrationRequest) returns (SyncIntegrationResponse) {}
+  rpc ListIntegrations(ListIntegrationsRequest) returns (ListIntegrationsResponse) {
+    option (commonfate.authz.v1alpha1.read_only) = true;
+  }
 }
 
 message ListIntegrationsRequest {
