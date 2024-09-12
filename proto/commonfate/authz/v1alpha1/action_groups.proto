@@ -7,10 +7,10 @@ message Action {
   string type = 1;
   string id = 2;
 }
-message RpcGroupOptions {
+message ActionGroupOptions {
   repeated Action action_groups = 1;
 }
 extend google.protobuf.MethodOptions {
   // Group tags for categorizing RPC operations (e.g., "Integrations::Action::Read").
-  RpcGroupOptions action_groups = 50002;
+  ActionGroupOptions action_groups = 50002;
 }

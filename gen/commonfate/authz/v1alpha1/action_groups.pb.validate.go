@@ -137,22 +137,22 @@ var _ interface {
 	ErrorName() string
 } = ActionValidationError{}
 
-// Validate checks the field values on RpcGroupOptions with the rules defined
-// in the proto definition for this message. If any rules are violated, the
-// first error encountered is returned, or nil if there are no violations.
-func (m *RpcGroupOptions) Validate() error {
+// Validate checks the field values on ActionGroupOptions with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *ActionGroupOptions) Validate() error {
 	return m.validate(false)
 }
 
-// ValidateAll checks the field values on RpcGroupOptions with the rules
+// ValidateAll checks the field values on ActionGroupOptions with the rules
 // defined in the proto definition for this message. If any rules are
 // violated, the result is a list of violation errors wrapped in
-// RpcGroupOptionsMultiError, or nil if none found.
-func (m *RpcGroupOptions) ValidateAll() error {
+// ActionGroupOptionsMultiError, or nil if none found.
+func (m *ActionGroupOptions) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *RpcGroupOptions) validate(all bool) error {
+func (m *ActionGroupOptions) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
@@ -166,7 +166,7 @@ func (m *RpcGroupOptions) validate(all bool) error {
 			switch v := interface{}(item).(type) {
 			case interface{ ValidateAll() error }:
 				if err := v.ValidateAll(); err != nil {
-					errors = append(errors, RpcGroupOptionsValidationError{
+					errors = append(errors, ActionGroupOptionsValidationError{
 						field:  fmt.Sprintf("ActionGroups[%v]", idx),
 						reason: "embedded message failed validation",
 						cause:  err,
@@ -174,7 +174,7 @@ func (m *RpcGroupOptions) validate(all bool) error {
 				}
 			case interface{ Validate() error }:
 				if err := v.Validate(); err != nil {
-					errors = append(errors, RpcGroupOptionsValidationError{
+					errors = append(errors, ActionGroupOptionsValidationError{
 						field:  fmt.Sprintf("ActionGroups[%v]", idx),
 						reason: "embedded message failed validation",
 						cause:  err,
@@ -183,7 +183,7 @@ func (m *RpcGroupOptions) validate(all bool) error {
 			}
 		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
 			if err := v.Validate(); err != nil {
-				return RpcGroupOptionsValidationError{
+				return ActionGroupOptionsValidationError{
 					field:  fmt.Sprintf("ActionGroups[%v]", idx),
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -194,19 +194,19 @@ func (m *RpcGroupOptions) validate(all bool) error {
 	}
 
 	if len(errors) > 0 {
-		return RpcGroupOptionsMultiError(errors)
+		return ActionGroupOptionsMultiError(errors)
 	}
 
 	return nil
 }
 
-// RpcGroupOptionsMultiError is an error wrapping multiple validation errors
-// returned by RpcGroupOptions.ValidateAll() if the designated constraints
+// ActionGroupOptionsMultiError is an error wrapping multiple validation errors
+// returned by ActionGroupOptions.ValidateAll() if the designated constraints
 // aren't met.
-type RpcGroupOptionsMultiError []error
+type ActionGroupOptionsMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m RpcGroupOptionsMultiError) Error() string {
+func (m ActionGroupOptionsMultiError) Error() string {
 	var msgs []string
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -215,11 +215,11 @@ func (m RpcGroupOptionsMultiError) Error() string {
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m RpcGroupOptionsMultiError) AllErrors() []error { return m }
+func (m ActionGroupOptionsMultiError) AllErrors() []error { return m }
 
-// RpcGroupOptionsValidationError is the validation error returned by
-// RpcGroupOptions.Validate if the designated constraints aren't met.
-type RpcGroupOptionsValidationError struct {
+// ActionGroupOptionsValidationError is the validation error returned by
+// ActionGroupOptions.Validate if the designated constraints aren't met.
+type ActionGroupOptionsValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -227,22 +227,24 @@ type RpcGroupOptionsValidationError struct {
 }
 
 // Field function returns field value.
-func (e RpcGroupOptionsValidationError) Field() string { return e.field }
+func (e ActionGroupOptionsValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e RpcGroupOptionsValidationError) Reason() string { return e.reason }
+func (e ActionGroupOptionsValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e RpcGroupOptionsValidationError) Cause() error { return e.cause }
+func (e ActionGroupOptionsValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e RpcGroupOptionsValidationError) Key() bool { return e.key }
+func (e ActionGroupOptionsValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e RpcGroupOptionsValidationError) ErrorName() string { return "RpcGroupOptionsValidationError" }
+func (e ActionGroupOptionsValidationError) ErrorName() string {
+	return "ActionGroupOptionsValidationError"
+}
 
 // Error satisfies the builtin error interface
-func (e RpcGroupOptionsValidationError) Error() string {
+func (e ActionGroupOptionsValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -254,14 +256,14 @@ func (e RpcGroupOptionsValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sRpcGroupOptions.%s: %s%s",
+		"invalid %sActionGroupOptions.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = RpcGroupOptionsValidationError{}
+var _ error = ActionGroupOptionsValidationError{}
 
 var _ interface {
 	Field() string
@@ -269,4 +271,4 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = RpcGroupOptionsValidationError{}
+} = ActionGroupOptionsValidationError{}
