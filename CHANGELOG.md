@@ -1,5 +1,11 @@
 # @common-fate/sdk
 
+## 1.58.0
+
+### Minor Changes
+
+- ddae8b0: Added a background task api for the integration service
+
 ## 1.57.1
 
 ### Patch Changes
