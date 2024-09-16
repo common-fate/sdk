@@ -30,7 +30,10 @@ service IntegrationService {
   rpc DeleteIntegration(DeleteIntegrationRequest) returns (DeleteIntegrationResponse) {}
 
   //integration sync
-  rpc ListSyncsForIntegration(ListSyncsForIntegrationRequest) returns (ListSyncsForIntegrationResponse) {}
+  rpc ListSyncsForIntegration(ListSyncsForIntegrationRequest) returns (ListSyncsForIntegrationResponse) {
+    option (commonfate.authz.v1alpha1.read_only) = true;
+
+  }
   rpc SyncIntegration(SyncIntegrationRequest) returns (SyncIntegrationResponse) {}
   rpc ListIntegrations(ListIntegrationsRequest) returns (ListIntegrationsResponse) {
     option (commonfate.authz.v1alpha1.read_only) = true;
@@ -134,7 +137,7 @@ message ListSyncsForIntegrationRequest {
 
 message ListSyncsForIntegrationResponse {
   string integration_id = 1;
-  repeated SyncJob sync_job = 2;
+  repeated SyncJob sync_jobs = 2;
   string next_page_token = 3;
 }
 
