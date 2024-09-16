@@ -3,19 +3,22 @@ package commonfate.control.config.v1alpha1;
 
 import "commonfate/access/v1alpha1/diagnostic.proto";
 import "commonfate/access/v1alpha1/named_eid.proto";
-import "commonfate/authz/v1alpha1/read_only.proto";
+import "commonfate/authz/v1alpha1/action.proto";
 import "commonfate/entity/v1alpha1/eid.proto";
 
 service SelectorService {
   rpc CreateSelector(CreateSelectorRequest) returns (CreateSelectorResponse) {}
   rpc GetSelector(GetSelectorRequest) returns (GetSelectorResponse) {
-    option (commonfate.authz.v1alpha1.read_only) = true;
+    option (commonfate.authz.v1alpha1.action_options) = {read_only: true};
   }
   rpc ListSelectors(ListSelectorsRequest) returns (ListSelectorsResponse) {
-    option (commonfate.authz.v1alpha1.read_only) = true;
+    option (commonfate.authz.v1alpha1.action_options) = {
+      read_only: true,
+      id: "GetSelector"
+    };
   }
   rpc TestSelector(TestSelectorRequest) returns (TestSelectorResponse) {
-    option (commonfate.authz.v1alpha1.read_only) = true;
+    option (commonfate.authz.v1alpha1.action_options) = {read_only: true};
   }
   rpc UpdateSelector(UpdateSelectorRequest) returns (UpdateSelectorResponse) {}
   rpc DeleteSelector(DeleteSelectorRequest) returns (DeleteSelectorResponse) {}

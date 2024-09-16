@@ -2,14 +2,16 @@ syntax = "proto3";
 
 package commonfate.authz.v1alpha1;
 
-import "commonfate/authz/v1alpha1/read_only.proto";
+import "commonfate/authz/v1alpha1/action.proto";
 
 
 // ValidationService validates Cedar policies.
 service ValidationService {
     // ValidatePolicySetText validates a provided Cedar policy set text document.
     rpc ValidatePolicySetText(ValidatePolicySetTextRequest) returns (ValidatePolicySetTextResponse) {
-        option(commonfate.authz.v1alpha1.read_only) = true;
+         option (commonfate.authz.v1alpha1.action_options) = {
+      read_only: true
+    };
     }
 }
 

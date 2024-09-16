@@ -80,7 +80,7 @@ type AccessServiceClient interface {
 	// If the entitlement has not been provisioned, an Access Request will be created for the entitlement.
 	// If a pending Access Request exists for the entitlement, this request is returned.
 	//
-	// In future, this method may trigger an extension to any Access Requests which are due to expire.
+	// This API may extend access where the request meets the conditions
 	BatchEnsure(context.Context, *connect.Request[v1alpha1.BatchEnsureRequest]) (*connect.Response[v1alpha1.BatchEnsureResponse], error)
 	// Query for JIT availabilities.
 	QueryAvailabilities(context.Context, *connect.Request[v1alpha1.QueryAvailabilitiesRequest]) (*connect.Response[v1alpha1.QueryAvailabilitiesResponse], error)
@@ -214,7 +214,7 @@ type AccessServiceHandler interface {
 	// If the entitlement has not been provisioned, an Access Request will be created for the entitlement.
 	// If a pending Access Request exists for the entitlement, this request is returned.
 	//
-	// In future, this method may trigger an extension to any Access Requests which are due to expire.
+	// This API may extend access where the request meets the conditions
 	BatchEnsure(context.Context, *connect.Request[v1alpha1.BatchEnsureRequest]) (*connect.Response[v1alpha1.BatchEnsureResponse], error)
 	// Query for JIT availabilities.
 	QueryAvailabilities(context.Context, *connect.Request[v1alpha1.QueryAvailabilitiesRequest]) (*connect.Response[v1alpha1.QueryAvailabilitiesResponse], error)

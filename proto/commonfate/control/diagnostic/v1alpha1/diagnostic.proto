@@ -2,22 +2,24 @@ syntax = "proto3";
 
 package commonfate.control.diagnostic.v1alpha1;
 
-import "google/protobuf/timestamp.proto";
-import "commonfate/authz/v1alpha1/read_only.proto";
+import "commonfate/authz/v1alpha1/action.proto";
 import "google/protobuf/duration.proto";
+import "google/protobuf/timestamp.proto";
 
 // The Diagnostics service contains APIs to query for read-only diagnostic
 // information associated with a Common Fate deployment.
 service DiagnosticService {
+  // Overridden for backwards compatability
+  option (commonfate.authz.v1alpha1.namespace) = "CF::Control::DiagnosticService";
   // Retrieves metadata about the current OAuth2.0 tokens stored by Common Fate.
   rpc GetOAuthTokenMetadata(GetOAuthTokenMetadataRequest) returns (GetOAuthTokenMetadataResponse) {
-    option(commonfate.authz.v1alpha1.read_only) = true;
+    option (commonfate.authz.v1alpha1.action_options) = {read_only: true};
   }
   rpc ListBackgroundJobs(ListBackgroundJobsRequest) returns (ListBackgroundJobsResponse) {
-    option(commonfate.authz.v1alpha1.read_only) = true;
+    option (commonfate.authz.v1alpha1.action_options) = {read_only: true};
   }
   rpc ListBackgroundJobKindSummary(ListBackgroundJobKindSummaryRequest) returns (ListBackgroundJobKindSummaryResponse) {
-    option(commonfate.authz.v1alpha1.read_only) = true;
+    option (commonfate.authz.v1alpha1.action_options) = {read_only: true};
   }
 }
 
@@ -58,9 +60,7 @@ message ListBackgroundJobsResponse {
   repeated Job jobs = 1;
 }
 
-message ListBackgroundJobKindSummaryRequest {
-  
-}
+message ListBackgroundJobKindSummaryRequest {}
 
 message JobSummary {
   string id = 1;
@@ -76,11 +76,7 @@ message RiverError {
   int64 attempt = 2;
   string error = 3;
   string trace = 4;
-  
 }
-
-
-
 
 message ListBackgroundJobKindSummaryResponse {
   repeated JobSummary jobs = 1;

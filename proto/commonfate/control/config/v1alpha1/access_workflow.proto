@@ -4,14 +4,16 @@ package commonfate.control.config.v1alpha1;
 import "google/protobuf/duration.proto";
 import "commonfate/access/v1alpha1/extension_conditions.proto";
 import "commonfate/entity/v1alpha1/eid.proto";
-import "commonfate/authz/v1alpha1/read_only.proto";
+import "commonfate/authz/v1alpha1/action.proto";
 
 
 
 service AccessWorkflowService {
     rpc CreateAccessWorkflow(CreateAccessWorkflowRequest) returns (CreateAccessWorkflowResponse) {}
     rpc GetAccessWorkflow(GetAccessWorkflowRequest) returns (GetAccessWorkflowResponse) {
-        option(commonfate.authz.v1alpha1.read_only) = true;
+         option (commonfate.authz.v1alpha1.action_options) = {
+      read_only: true
+    };
     }
     rpc UpdateAccessWorkflow(UpdateAccessWorkflowRequest) returns (UpdateAccessWorkflowResponse) {}
     rpc DeleteAccessWorkflow(DeleteAccessWorkflowRequest) returns (DeleteAccessWorkflowResponse) {}

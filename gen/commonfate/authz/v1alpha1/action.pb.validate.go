@@ -199,6 +199,10 @@ func (m *ActionOptions) validate(all bool) error {
 		// no validation rules for Id
 	}
 
+	if m.ServiceNamespace != nil {
+		// no validation rules for ServiceNamespace
+	}
+
 	if len(errors) > 0 {
 		return ActionOptionsMultiError(errors)
 	}

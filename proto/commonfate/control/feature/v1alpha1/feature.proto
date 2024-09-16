@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package commonfate.control.feature.v1alpha1;
 
-import "commonfate/authz/v1alpha1/read_only.proto";
+import "commonfate/authz/v1alpha1/action.proto";
 
 // FeatureService is used to inform clients of which features are enabled
 // based on feature flags and user authorization, so that the client
@@ -11,9 +11,11 @@ import "commonfate/authz/v1alpha1/read_only.proto";
 // Used in the Common Fate web console to determine which sidebar items
 // and UI elements are shown to users.
 service FeatureService {
+  // Overridden for backwards compatability
+  option (commonfate.authz.v1alpha1.namespace) = "CF::Control::FeaturesService";
   // Returns a list of enabled features.
   rpc GetFeatures(GetFeaturesRequest) returns (GetFeaturesResponse) {
-    option (commonfate.authz.v1alpha1.read_only) = true;
+    option (commonfate.authz.v1alpha1.action_options) = {read_only: true};
   }
   rpc UpdateFeature(UpdateFeatureRequest) returns (UpdateFeatureResponse) {}
 }

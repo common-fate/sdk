@@ -3,25 +3,33 @@ syntax = "proto3";
 package commonfate.access.v1alpha1;
 
 import "commonfate/access/v1alpha1/grant.proto";
-import "commonfate/authz/v1alpha1/read_only.proto";
+import "commonfate/authz/v1alpha1/action.proto";
 import "commonfate/entity/v1alpha1/eid.proto";
 import "commonfate/entity/v1alpha1/entity.proto";
 
 // The Grant API.
 service GrantsService {
   rpc QueryGrants(QueryGrantsRequest) returns (QueryGrantsResponse) {
-    option (commonfate.authz.v1alpha1.read_only) = true;
+     option (commonfate.authz.v1alpha1.action_options) = {
+      read_only: true
+    };
   }
   rpc GetGrant(GetGrantRequest) returns (GetGrantResponse) {
-    option (commonfate.authz.v1alpha1.read_only) = true;
+     option (commonfate.authz.v1alpha1.action_options) = {
+      read_only: true
+    };
   }
 
   rpc GetGrantOutput(GetGrantOutputRequest) returns (GetGrantOutputResponse) {
-    option (commonfate.authz.v1alpha1.read_only) = true;
+     option (commonfate.authz.v1alpha1.action_options) = {
+      read_only: true
+    };
   }
 
   rpc QueryGrantChildren(QueryGrantChildrenRequest) returns (QueryGrantChildrenResponse) {
-    option (commonfate.authz.v1alpha1.read_only) = true;
+     option (commonfate.authz.v1alpha1.action_options) = {
+      read_only: true
+    };
   }
 }
 

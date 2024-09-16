@@ -1,12 +1,14 @@
 syntax = "proto3";
 package commonfate.control.config.v1alpha1;
-import "commonfate/authz/v1alpha1/read_only.proto";
+import "commonfate/authz/v1alpha1/action.proto";
 import "buf/validate/validate.proto";
 
 service AWSResourceScannerService {
   rpc CreateAWSResourceScanner(CreateAWSResourceScannerRequest) returns (CreateAWSResourceScannerResponse) {}
   rpc GetAWSResourceScanner(GetAWSResourceScannerRequest) returns (GetAWSResourceScannerResponse) {
-    option (commonfate.authz.v1alpha1.read_only) = true;
+     option (commonfate.authz.v1alpha1.action_options) = {
+      read_only: true
+    };
   }
   rpc UpdateAWSResourceScanner(UpdateAWSResourceScannerRequest) returns (UpdateAWSResourceScannerResponse) {}
   rpc DeleteAWSResourceScanner(DeleteAWSResourceScannerRequest) returns (DeleteAWSResourceScannerResponse) {}

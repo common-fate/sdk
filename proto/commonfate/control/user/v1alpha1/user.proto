@@ -3,15 +3,19 @@ syntax = "proto3";
 package commonfate.control.user.v1alpha1;
 
 import "commonfate/access/v1alpha1/user.proto";
-import "commonfate/authz/v1alpha1/read_only.proto";
+import "commonfate/authz/v1alpha1/action.proto";
 
 // UserService
 service UserService {
   rpc QueryUsers(QueryUsersRequest) returns (QueryUsersResponse) {
-    option (commonfate.authz.v1alpha1.read_only) = true;
+     option (commonfate.authz.v1alpha1.action_options) = {
+      read_only: true
+    };
   }
   rpc GetUser(GetUserRequest) returns (GetUserResponse) {
-    option (commonfate.authz.v1alpha1.read_only) = true;
+     option (commonfate.authz.v1alpha1.action_options) = {
+      read_only: true
+    };
   }
 }
 

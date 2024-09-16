@@ -1,11 +1,13 @@
 syntax = "proto3";
 package commonfate.control.config.v1alpha1;
-import "commonfate/authz/v1alpha1/read_only.proto";
+import "commonfate/authz/v1alpha1/action.proto";
 
 service GCPRoleGroupService {
   rpc CreateGCPRoleGroup(CreateGCPRoleGroupRequest) returns (CreateGCPRoleGroupResponse) {}
   rpc GetGCPRoleGroup(GetGCPRoleGroupRequest) returns (GetGCPRoleGroupResponse) {
-    option (commonfate.authz.v1alpha1.read_only) = true;
+     option (commonfate.authz.v1alpha1.action_options) = {
+      read_only: true
+    };
   }
   rpc UpdateGCPRoleGroup(UpdateGCPRoleGroupRequest) returns (UpdateGCPRoleGroupResponse) {}
   rpc DeleteGCPRoleGroup(DeleteGCPRoleGroupRequest) returns (DeleteGCPRoleGroupResponse) {}

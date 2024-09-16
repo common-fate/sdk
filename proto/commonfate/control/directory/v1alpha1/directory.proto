@@ -2,47 +2,73 @@ syntax = "proto3";
 
 package commonfate.control.directory.v1alpha1;
 
-import "commonfate/control/directory/v1alpha1/user.proto";
-import "commonfate/control/directory/v1alpha1/group.proto";
-import "commonfate/authz/v1alpha1/read_only.proto";
 import "buf/validate/validate.proto";
+import "commonfate/authz/v1alpha1/action.proto";
+import "commonfate/control/directory/v1alpha1/group.proto";
+import "commonfate/control/directory/v1alpha1/user.proto";
 
 // DirectoryService
 service DirectoryService {
+  // Overridden for backwards compatability
+  option (commonfate.authz.v1alpha1.namespace) = "CF::Directory";
   rpc QueryUsers(QueryUsersRequest) returns (QueryUsersResponse) {
-    option (commonfate.authz.v1alpha1.read_only) = true;
+    option (commonfate.authz.v1alpha1.action_options) = {
+      read_only: true,
+      id: "GetUser"
+    };
   }
   rpc GetUser(GetUserRequest) returns (GetUserResponse) {
-    option (commonfate.authz.v1alpha1.read_only) = true;
+    option (commonfate.authz.v1alpha1.action_options) = {
+      read_only: true,
+      id: "GetUser"
+    };
   }
   rpc QueryGroups(QueryGroupsRequest) returns (QueryGroupsResponse) {
-    option (commonfate.authz.v1alpha1.read_only) = true;
+    option (commonfate.authz.v1alpha1.action_options) = {
+      read_only: true,
+      id: "GetGroup"
+    };
   }
   rpc GetGroup(GetGroupRequest) returns (GetGroupResponse) {
-    option (commonfate.authz.v1alpha1.read_only) = true;
+    option (commonfate.authz.v1alpha1.action_options) = {
+      read_only: true,
+      id: "GetGroup"
+    };
   }
   rpc QueryGroupMembers(QueryGroupMembersRequest) returns (QueryGroupMembersResponse) {
-    option (commonfate.authz.v1alpha1.read_only) = true;
+    option (commonfate.authz.v1alpha1.action_options) = {
+      read_only: true,
+      id: "GetGroup"
+    };
   }
 
   rpc QueryChildGroups(QueryChildGroupsRequest) returns (QueryChildGroupsResponse) {
-    option (commonfate.authz.v1alpha1.read_only) = true;
+    option (commonfate.authz.v1alpha1.action_options) = {
+      read_only: true,
+      id: "GetGroup"
+    };
   }
 
   // Lists the groups that a user is a member of.
   rpc QueryGroupsForUser(QueryGroupsForUserRequest) returns (QueryGroupsForUserResponse) {
-    option (commonfate.authz.v1alpha1.read_only) = true;
+    option (commonfate.authz.v1alpha1.action_options) = {
+      read_only: true,
+      id: "GetGroup"
+    };
   }
   // Looks up the matching User for a particular
   // connected user account in an integration.
   rpc LookupUserAccount(LookupUserAccountRequest) returns (LookupUserAccountResponse) {
-    option (commonfate.authz.v1alpha1.read_only) = true;
+    option (commonfate.authz.v1alpha1.action_options) = {
+      read_only: true,
+      id: "GetUser"
+    };
   }
 }
 
 message QueryUsersRequest {
-    // The token for the next page.
-    string page_token = 1;
+  // The token for the next page.
+  string page_token = 1;
 }
 
 message QueryUsersResponse {
@@ -64,8 +90,8 @@ message GetUserResponse {
 }
 
 message QueryGroupsRequest {
-    // The token for the next page.
-    string page_token = 1;
+  // The token for the next page.
+  string page_token = 1;
 }
 
 message QueryGroupsResponse {
@@ -80,108 +106,106 @@ message QueryGroupsResponse {
 }
 
 message GetGroupRequest {
-    // The ID of the group.
-    string id = 1 [(buf.validate.field).string.min_len = 1];
+  // The ID of the group.
+  string id = 1 [(buf.validate.field).string.min_len = 1];
 
-    // Optionally, an integration ID may be provided.
-    // This is used to disambiguiate groups in the case
-    // that two integrations provide a group with the same ID.
-    string integration_id = 2;
+  // Optionally, an integration ID may be provided.
+  // This is used to disambiguiate groups in the case
+  // that two integrations provide a group with the same ID.
+  string integration_id = 2;
 }
 
 message GetGroupResponse {
-    Group group = 1;
+  Group group = 1;
 }
 
 message QueryGroupMembersRequest {
-    // The ID of the group.
-    string group_id = 1 [(buf.validate.field).string.min_len = 1];
+  // The ID of the group.
+  string group_id = 1 [(buf.validate.field).string.min_len = 1];
 
-    // Optionally, an integration ID may be provided.
-    // This is used to disambiguiate groups in the case
-    // that two integrations provide a group with the same ID.
-    string integration_id = 2;
+  // Optionally, an integration ID may be provided.
+  // This is used to disambiguiate groups in the case
+  // that two integrations provide a group with the same ID.
+  string integration_id = 2;
 
-    // The token for the next page.
-    string page_token = 3;
+  // The token for the next page.
+  string page_token = 3;
 }
 
 message QueryGroupMembersResponse {
-    // Users that are members of this group.
-    repeated GroupMembership members = 1;
+  // Users that are members of this group.
+  repeated GroupMembership members = 1;
 
-    // The token for the next page.
-    string next_page_token = 2;
+  // The token for the next page.
+  string next_page_token = 2;
 }
 
 message GroupMembership {
-    User user = 1;
+  User user = 1;
 
-    // additional information such as the user account ID the membership
-    // is associated with may be added here in future.
+  // additional information such as the user account ID the membership
+  // is associated with may be added here in future.
 }
 
 message QueryChildGroupsRequest {
-    // The ID of the group.
-    string group_id = 1 [(buf.validate.field).string.min_len = 1];
+  // The ID of the group.
+  string group_id = 1 [(buf.validate.field).string.min_len = 1];
 
-    // Optionally, an integration ID may be provided.
-    // This is used to disambiguiate groups in the case
-    // that two integrations provide a group with the same ID.
-    string integration_id = 2;
+  // Optionally, an integration ID may be provided.
+  // This is used to disambiguiate groups in the case
+  // that two integrations provide a group with the same ID.
+  string integration_id = 2;
 
-    // The token for the next page.
-    string page_token = 3;
+  // The token for the next page.
+  string page_token = 3;
 }
 
 message QueryChildGroupsResponse {
-    // Groups that are children of this group.
-    repeated ChildGroupMembership child_groups = 1;
+  // Groups that are children of this group.
+  repeated ChildGroupMembership child_groups = 1;
 
-    // The token for the next page.
-    string next_page_token = 2;
+  // The token for the next page.
+  string next_page_token = 2;
 }
 
-
 message ChildGroupMembership {
-    Group group = 1;
+  Group group = 1;
 }
 
 message QueryGroupsForUserRequest {
-    // The ID of the user.
-    string user_id = 1 [(buf.validate.field).string.min_len = 1];
+  // The ID of the user.
+  string user_id = 1 [(buf.validate.field).string.min_len = 1];
 
-    // The token for the next page.
-    string page_token = 2;
+  // The token for the next page.
+  string page_token = 2;
 }
 
 message QueryGroupsForUserResponse {
-    // Groups that the user belongs to.
-    repeated UserGroupMembership memberships = 1;
+  // Groups that the user belongs to.
+  repeated UserGroupMembership memberships = 1;
 
-    // The token for the next page.
-    string next_page_token = 2;
+  // The token for the next page.
+  string next_page_token = 2;
 }
 
-
 message UserGroupMembership {
-    Group group = 1;
+  Group group = 1;
 
-    // additional information such as the user account ID the membership
-    // is associated with may be added here in future.
+  // additional information such as the user account ID the membership
+  // is associated with may be added here in future.
 }
 
 message LookupUserAccountRequest {
-    // The ID of the user account.
-    string user_account_id = 1;
+  // The ID of the user account.
+  string user_account_id = 1;
 
-    // Optionally, an integration ID may be provided.
-    // This is used to disambiguiate groups in the case
-    // that two integrations provide a user account with the same ID.
-    string integration_id = 2;
+  // Optionally, an integration ID may be provided.
+  // This is used to disambiguiate groups in the case
+  // that two integrations provide a user account with the same ID.
+  string integration_id = 2;
 }
 
 message LookupUserAccountResponse {
-    // The user associated with the user account.
-    User user = 1;
+  // The user associated with the user account.
+  User user = 1;
 }

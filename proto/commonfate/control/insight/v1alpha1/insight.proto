@@ -3,12 +3,14 @@ syntax = "proto3";
 package commonfate.control.insight.v1alpha1;
 
 import "commonfate/access/v1alpha1/named_eid.proto";
-import "commonfate/authz/v1alpha1/read_only.proto";
+import "commonfate/authz/v1alpha1/action.proto";
 
 service InsightService {
   // retrieves the latest least privilege report.
   rpc GetInsights(GetInsightsRequest) returns (GetInsightsResponse) {
-    option (commonfate.authz.v1alpha1.read_only) = true;
+     option (commonfate.authz.v1alpha1.action_options) = {
+      read_only: true
+    };
   }
 }
 

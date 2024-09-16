@@ -2,7 +2,7 @@ syntax = "proto3";
 package commonfate.control.integration.v1alpha1;
 
 import "commonfate/access/v1alpha1/diagnostic.proto";
-import "commonfate/authz/v1alpha1/read_only.proto";
+import "commonfate/authz/v1alpha1/action.proto";
 import "commonfate/control/integration/v1alpha1/auth0.proto";
 import "commonfate/control/integration/v1alpha1/aws_idc.proto";
 import "commonfate/control/integration/v1alpha1/aws_proxy.proto";
@@ -17,14 +17,19 @@ import "commonfate/control/integration/v1alpha1/slack.proto";
 import "commonfate/control/integration/v1alpha1/webhook.proto";
 
 service IntegrationService {
+  // Overridden for backwards compatability
+  option (commonfate.authz.v1alpha1.namespace) = "CF::Control::IntegrationService";
   rpc CreateIntegration(CreateIntegrationRequest) returns (CreateIntegrationResponse) {}
   rpc UpdateIntegration(UpdateIntegrationRequest) returns (UpdateIntegrationResponse) {}
   rpc GetIntegration(GetIntegrationRequest) returns (GetIntegrationResponse) {
-    option (commonfate.authz.v1alpha1.read_only) = true;
+    option (commonfate.authz.v1alpha1.action_options) = {read_only: true};
   }
   rpc DeleteIntegration(DeleteIntegrationRequest) returns (DeleteIntegrationResponse) {}
   rpc ListIntegrations(ListIntegrationsRequest) returns (ListIntegrationsResponse) {
-    option (commonfate.authz.v1alpha1.read_only) = true;
+    option (commonfate.authz.v1alpha1.action_options) = {
+      read_only: true,
+      id: "GetIntegration"
+    };
   }
 }
 

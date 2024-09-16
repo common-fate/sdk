@@ -1,7 +1,7 @@
 syntax = "proto3";
 package commonfate.control.integration.v1alpha1;
 
-import "commonfate/authz/v1alpha1/read_only.proto";
+import "commonfate/authz/v1alpha1/action.proto";
 import "commonfate/control/integration/v1alpha1/aws_proxy.proto";
 import "commonfate/control/integration/v1alpha1/proxy_resource.proto";
 
@@ -11,7 +11,9 @@ service ProxyService {
   rpc UpdateProxyRdsResource(UpdateProxyRdsResourceRequest) returns (UpdateProxyRdsResourceResponse) {}
   rpc DeleteProxyRdsResource(DeleteProxyRdsResourceRequest) returns (DeleteProxyRdsResourceResponse) {}
   rpc GetProxyRdsResource(GetProxyRdsResourceRequest) returns (GetProxyRdsResourceResponse) {
-    option (commonfate.authz.v1alpha1.read_only) = true;
+     option (commonfate.authz.v1alpha1.action_options) = {
+      read_only: true
+    };
   }
 
   //CRUD operations for proxy terraform provider resource
@@ -19,12 +21,16 @@ service ProxyService {
   rpc UpdateProxy(UpdateProxyRequest) returns (UpdateProxyResponse) {}
   rpc DeleteProxy(DeleteProxyRequest) returns (DeleteProxyResponse) {}
   rpc GetProxy(GetProxyRequest) returns (GetProxyResponse) {
-    option (commonfate.authz.v1alpha1.read_only) = true;
+     option (commonfate.authz.v1alpha1.action_options) = {
+      read_only: true
+    };
   }
 
   //Used by the proxy to get resources
   rpc ListProxyResources(ListProxyResourcesRequest) returns (ListProxyResourcesResponse) {
-    option (commonfate.authz.v1alpha1.read_only) = true;
+     option (commonfate.authz.v1alpha1.action_options) = {
+      read_only: true
+    };
   }
 }
 

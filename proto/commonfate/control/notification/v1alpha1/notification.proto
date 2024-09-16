@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package commonfate.control.notification.v1alpha1;
 
-import "commonfate/authz/v1alpha1/read_only.proto";
+import "commonfate/authz/v1alpha1/action.proto";
 
 // UserNotificationSettingsService is used to inform clients of which user_notification_settings are enabled
 // based on notification flags, so that the client can choose whether or not to send 
@@ -12,7 +12,9 @@ import "commonfate/authz/v1alpha1/read_only.proto";
 service UserNotificationSettingsService {
   // Returns a list of enabled user_notification_settings.
   rpc GetUserNotificationSettings(GetUserNotificationSettingsRequest) returns (GetUserNotificationSettingsResponse) {
-    option (commonfate.authz.v1alpha1.read_only) = true;
+     option (commonfate.authz.v1alpha1.action_options) = {
+      read_only: true
+    };
   }
   rpc UpdateUserNotificationSettings(UpdateUserNotificationSettingsRequest) returns (UpdateUserNotificationSettingsResponse) {}
 }
