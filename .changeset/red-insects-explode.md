@@ -2,4 +2,4 @@
 "@common-fate/sdk": minor
 ---
 
-adds delete user api
+Added RPC for deleting a user.
