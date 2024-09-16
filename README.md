@@ -20,6 +20,12 @@
 6. Create a patch changeset and merge it to the release branch `pnpm changeset`
 7. If you are ready to release this change, Merge the automated changesets PR matching your release branch `Version Packages for release/v1.*` this will tag and release a new version
 
-
 ## Adding protobuf validations
+
 We use protovalidate to add proto level validations to our API. There are examples already in the proto files. But you can also use the [docs](https://github.com/bufbuild/protovalidate/blob/main/docs/cel.md)
+
+## Generating code
+
+We use a combination of buf for proto generation and a post processing step written in go which extracts variables from the generated files into a collection for use later.
+
+Use `make generate` to run the code generation steps
