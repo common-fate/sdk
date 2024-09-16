@@ -2,4 +2,4 @@
 "@common-fate/sdk": minor
 ---
 
-adds background task api for integrations service
+Added a background task api for the integration service
