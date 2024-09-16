@@ -15,6 +15,11 @@ import "commonfate/control/integration/v1alpha1/pagerduty.proto";
 import "commonfate/control/integration/v1alpha1/s3_log_destination.proto";
 import "commonfate/control/integration/v1alpha1/slack.proto";
 import "commonfate/control/integration/v1alpha1/webhook.proto";
+import "commonfate/control/log/v1alpha1/authz_eval.proto";
+
+
+import "google/protobuf/timestamp.proto";
+
 
 service IntegrationService {
   rpc CreateIntegration(CreateIntegrationRequest) returns (CreateIntegrationResponse) {}
@@ -23,6 +28,13 @@ service IntegrationService {
     option (commonfate.authz.v1alpha1.read_only) = true;
   }
   rpc DeleteIntegration(DeleteIntegrationRequest) returns (DeleteIntegrationResponse) {}
+
+  //integration sync
+  rpc ListSyncsForIntegration(ListSyncsForIntegrationRequest) returns (ListSyncsForIntegrationResponse) {
+    option (commonfate.authz.v1alpha1.read_only) = true;
+
+  }
+  rpc SyncIntegration(SyncIntegrationRequest) returns (SyncIntegrationResponse) {}
   rpc ListIntegrations(ListIntegrationsRequest) returns (ListIntegrationsResponse) {
     option (commonfate.authz.v1alpha1.read_only) = true;
   }
@@ -105,4 +117,51 @@ message DeleteIntegrationRequest {
 
 message DeleteIntegrationResponse {
   string id = 1;
+}
+
+
+message Filter {
+  oneof filter {
+    
+    commonfate.control.log.v1alpha1.OccurredAtFilter occurred_at = 1;
+   
+  }
+}
+
+message ListSyncsForIntegrationRequest {
+  string integration_id = 1;
+  // The token for the next page.
+  string page_token = 2;
+  repeated Filter filters = 3;
+}
+
+message ListSyncsForIntegrationResponse {
+  string integration_id = 1;
+  repeated SyncJob sync_jobs = 2;
+  string next_page_token = 3;
+}
+
+message SyncJob {
+  string id = 1;
+  string state = 2;
+  int32 attempt = 3;
+  int32 max_attempts = 4;
+  google.protobuf.Timestamp created_at = 5;
+  repeated string errors = 6;
+  string kind = 7;  
+  google.protobuf.Timestamp finished_at = 8;
+
+
+}
+
+message SyncIntegrationRequest {
+  string integration_id = 1;
+
+}
+
+message SyncIntegrationResponse {
+
+  repeated commonfate.access.v1alpha1.Diagnostic diagnostics = 1;
+
+
 }
