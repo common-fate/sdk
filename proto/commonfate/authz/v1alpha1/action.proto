@@ -12,9 +12,16 @@ message Action {
 message ActionOptions {
   // The Action mapping for the RPC e.g "ListPolicySets" the namespace is inferred from the service
   // By setting an ID here instead of inferring it means we can change the names of services without breaking the authorization
-  string id = 1;
+  // where no id is provided, a default will be inferred from the RPC name
+  optional string id = 1;
+
+  // Denotes the particular RPC as being read-only.
+  // This applies a tag during authorization for our authorization audit log.
+  // read_only RPCs will be automatically grouped into a read action grouping for the service and into a broad admin read action group.
+  bool read_only = 2;
+
   // Group tags for categorizing RPC operations (e.g., CF::Authz::PolicyService::Action::"Read") can be used to group all read actions for a service.
-  repeated Action action_groups = 2;
+  repeated Action action_groups = 3;
 }
 extend google.protobuf.MethodOptions {
   ActionOptions action_options = 50002;

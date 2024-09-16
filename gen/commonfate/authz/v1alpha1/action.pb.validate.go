@@ -159,7 +159,7 @@ func (m *ActionOptions) validate(all bool) error {
 
 	var errors []error
 
-	// no validation rules for Id
+	// no validation rules for ReadOnly
 
 	for idx, item := range m.GetActionGroups() {
 		_, _ = idx, item
@@ -193,6 +193,10 @@ func (m *ActionOptions) validate(all bool) error {
 			}
 		}
 
+	}
+
+	if m.Id != nil {
+		// no validation rules for Id
 	}
 
 	if len(errors) > 0 {

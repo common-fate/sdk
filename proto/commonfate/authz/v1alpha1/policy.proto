@@ -3,82 +3,27 @@ syntax = "proto3";
 package commonfate.authz.v1alpha1;
 
 import "commonfate/authz/v1alpha1/action.proto";
-import "commonfate/authz/v1alpha1/read_only.proto";
 
 service PolicyService {
-  // Could also use this to remove some of the boilerplate
-  option (commonfate.authz.v1alpha1.namespace) = "CF::Authz::PolicyService";
-  rpc CreatePolicySet(CreatePolicySetRequest) returns (CreatePolicySetResponse) {
-    option (commonfate.authz.v1alpha1.action_options) = {
-      id: "CreatePolicySet",
-      action_groups: {
-        namespace: "CF::Admin",
-        id: "Write"
-      },
-      action_groups: {
-        namespace: "CF::Authz::PolicyService",
-        id: "Write"
-      }
-    };
-  }
+  // // Could also use this to remove some of the boilerplate
+  // option (commonfate.authz.v1alpha1.namespace) = "CF::Authz::PolicyService";
 
-  rpc UpdatePolicySet(UpdatePolicySetRequest) returns (UpdatePolicySetResponse) {
-    option (commonfate.authz.v1alpha1.action_options) = {
-      id: "UpdatePolicySet",
-      action_groups: {
-        namespace: "CF::Admin",
-        id: "Write"
-      },
-      action_groups: {
-        namespace: "CF::Authz::PolicyService",
-        id: "Write"
-      }
-    };
-  }
-
+  rpc CreatePolicySet(CreatePolicySetRequest) returns (CreatePolicySetResponse) {}
+  rpc UpdatePolicySet(UpdatePolicySetRequest) returns (UpdatePolicySetResponse) {}
   rpc ListPolicySets(ListPolicySetsRequest) returns (ListPolicySetsResponse) {
-    option (commonfate.authz.v1alpha1.read_only) = true;
-    option (commonfate.authz.v1alpha1.action_options) = {
-      id: "ListPolicySets",
-      action_groups: {
-        namespace: "CF::Admin",
-        id: "Read"
-      },
-      action_groups: {
-        namespace: "CF::Authz::PolicyService",
-        id: "Read"
-      }
-    };
-  }
-
-  rpc GetPolicySet(GetPolicySetRequest) returns (GetPolicySetResponse) {
-    option (commonfate.authz.v1alpha1.read_only) = true;
     option (commonfate.authz.v1alpha1.action_options) = {
       id: "GetPolicySet",
-      action_groups: {
-        namespace: "CF::Admin",
-        id: "Read"
-      },
-      action_groups: {
-        namespace: "CF::Authz::PolicyService",
-        id: "Read"
-      }
+      read_only: true
+    };
+  }
+  rpc GetPolicySet(GetPolicySetRequest) returns (GetPolicySetResponse) {
+    option (commonfate.authz.v1alpha1.action_options) = {
+      id: "GetPolicySet",
+      read_only: true
     };
   }
 
-  rpc DeletePolicySet(DeletePolicySetRequest) returns (DeletePolicySetResponse) {
-    option (commonfate.authz.v1alpha1.action_options) = {
-      id: "DeletePolicySet",
-      action_groups: {
-        namespace: "CF::Admin",
-        id: "Write"
-      },
-      action_groups: {
-        namespace: "CF::Authz::PolicyService",
-        id: "Write"
-      }
-    };
-  }
+  rpc DeletePolicySet(DeletePolicySetRequest) returns (DeletePolicySetResponse) {}
 }
 
 message Policy {
