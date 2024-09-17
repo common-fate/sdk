@@ -10,7 +10,6 @@ import (
 	gen_commonfate_access_v1alpha1_access_request_pb_go "github.com/common-fate/sdk/gen/commonfate/access/v1alpha1"
 	gen_commonfate_access_v1alpha1_audit_logs_pb_go "github.com/common-fate/sdk/gen/commonfate/access/v1alpha1"
 	gen_commonfate_access_v1alpha1_diagnostic_pb_go "github.com/common-fate/sdk/gen/commonfate/access/v1alpha1"
-	gen_commonfate_access_v1alpha1_entities_pb_go "github.com/common-fate/sdk/gen/commonfate/access/v1alpha1"
 	gen_commonfate_access_v1alpha1_extension_conditions_pb_go "github.com/common-fate/sdk/gen/commonfate/access/v1alpha1"
 	gen_commonfate_access_v1alpha1_grant_pb_go "github.com/common-fate/sdk/gen/commonfate/access/v1alpha1"
 	gen_commonfate_access_v1alpha1_grants_pb_go "github.com/common-fate/sdk/gen/commonfate/access/v1alpha1"
@@ -36,7 +35,6 @@ import (
 	gen_commonfate_control_config_v1alpha1_aws_resource_scanner_pb_go "github.com/common-fate/sdk/gen/commonfate/control/config/v1alpha1"
 	gen_commonfate_control_config_v1alpha1_deployment_pb_go "github.com/common-fate/sdk/gen/commonfate/control/config/v1alpha1"
 	gen_commonfate_control_config_v1alpha1_gcp_role_group_pb_go "github.com/common-fate/sdk/gen/commonfate/control/config/v1alpha1"
-	gen_commonfate_control_config_v1alpha1_idp_pb_go "github.com/common-fate/sdk/gen/commonfate/control/config/v1alpha1"
 	gen_commonfate_control_config_v1alpha1_selector_pb_go "github.com/common-fate/sdk/gen/commonfate/control/config/v1alpha1"
 	gen_commonfate_control_config_v1alpha1_slack_alert_pb_go "github.com/common-fate/sdk/gen/commonfate/control/config/v1alpha1"
 	gen_commonfate_control_config_v1alpha1_webhook_provisioner_pb_go "github.com/common-fate/sdk/gen/commonfate/control/config/v1alpha1"
@@ -92,7 +90,6 @@ var ProtoFiles = []protoreflect.FileDescriptor{
 	gen_commonfate_access_v1alpha1_access_request_pb_go.File_commonfate_access_v1alpha1_access_request_proto,
 	gen_commonfate_access_v1alpha1_audit_logs_pb_go.File_commonfate_access_v1alpha1_audit_logs_proto,
 	gen_commonfate_access_v1alpha1_diagnostic_pb_go.File_commonfate_access_v1alpha1_diagnostic_proto,
-	gen_commonfate_access_v1alpha1_entities_pb_go.File_commonfate_access_v1alpha1_entities_proto,
 	gen_commonfate_access_v1alpha1_extension_conditions_pb_go.File_commonfate_access_v1alpha1_extension_conditions_proto,
 	gen_commonfate_access_v1alpha1_grant_pb_go.File_commonfate_access_v1alpha1_grant_proto,
 	gen_commonfate_access_v1alpha1_grants_pb_go.File_commonfate_access_v1alpha1_grants_proto,
@@ -118,7 +115,6 @@ var ProtoFiles = []protoreflect.FileDescriptor{
 	gen_commonfate_control_config_v1alpha1_aws_resource_scanner_pb_go.File_commonfate_control_config_v1alpha1_aws_resource_scanner_proto,
 	gen_commonfate_control_config_v1alpha1_deployment_pb_go.File_commonfate_control_config_v1alpha1_deployment_proto,
 	gen_commonfate_control_config_v1alpha1_gcp_role_group_pb_go.File_commonfate_control_config_v1alpha1_gcp_role_group_proto,
-	gen_commonfate_control_config_v1alpha1_idp_pb_go.File_commonfate_control_config_v1alpha1_idp_proto,
 	gen_commonfate_control_config_v1alpha1_selector_pb_go.File_commonfate_control_config_v1alpha1_selector_proto,
 	gen_commonfate_control_config_v1alpha1_slack_alert_pb_go.File_commonfate_control_config_v1alpha1_slack_alert_proto,
 	gen_commonfate_control_config_v1alpha1_webhook_provisioner_pb_go.File_commonfate_control_config_v1alpha1_webhook_provisioner_proto,
