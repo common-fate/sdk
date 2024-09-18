@@ -9,7 +9,8 @@ package accessv1alpha1
 import (
 	_ "github.com/common-fate/sdk/gen/buf/validate"
 	_ "github.com/common-fate/sdk/gen/commonfate/authz/v1alpha1"
-	v1alpha1 "github.com/common-fate/sdk/gen/commonfate/entity/v1alpha1"
+	v1alpha1 "github.com/common-fate/sdk/gen/commonfate/control/filters/v1alpha1"
+	v1alpha11 "github.com/common-fate/sdk/gen/commonfate/entity/v1alpha1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
@@ -76,25 +77,187 @@ func (RequestStatus) EnumDescriptor() ([]byte, []int) {
 	return file_commonfate_access_v1alpha1_access_request_proto_rawDescGZIP(), []int{0}
 }
 
+type Filter struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// Types that are assignable to Filter:
+	//
+	//	*Filter_OccurredAt
+	//	*Filter_RequestedBy
+	//	*Filter_ClosedBy
+	//	*Filter_ApprovedBy
+	//	*Filter_Target
+	//	*Filter_Role
+	//	*Filter_TargetType
+	//	*Filter_RoleType
+	Filter isFilter_Filter `protobuf_oneof:"filter"`
+}
+
+func (x *Filter) Reset() {
+	*x = Filter{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_commonfate_access_v1alpha1_access_request_proto_msgTypes[0]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *Filter) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Filter) ProtoMessage() {}
+
+func (x *Filter) ProtoReflect() protoreflect.Message {
+	mi := &file_commonfate_access_v1alpha1_access_request_proto_msgTypes[0]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Filter.ProtoReflect.Descriptor instead.
+func (*Filter) Descriptor() ([]byte, []int) {
+	return file_commonfate_access_v1alpha1_access_request_proto_rawDescGZIP(), []int{0}
+}
+
+func (m *Filter) GetFilter() isFilter_Filter {
+	if m != nil {
+		return m.Filter
+	}
+	return nil
+}
+
+func (x *Filter) GetOccurredAt() *v1alpha1.OccurredAtFilter {
+	if x, ok := x.GetFilter().(*Filter_OccurredAt); ok {
+		return x.OccurredAt
+	}
+	return nil
+}
+
+func (x *Filter) GetRequestedBy() *v1alpha1.EntityFilter {
+	if x, ok := x.GetFilter().(*Filter_RequestedBy); ok {
+		return x.RequestedBy
+	}
+	return nil
+}
+
+func (x *Filter) GetClosedBy() *v1alpha1.EntityFilter {
+	if x, ok := x.GetFilter().(*Filter_ClosedBy); ok {
+		return x.ClosedBy
+	}
+	return nil
+}
+
+func (x *Filter) GetApprovedBy() *v1alpha1.EntityFilter {
+	if x, ok := x.GetFilter().(*Filter_ApprovedBy); ok {
+		return x.ApprovedBy
+	}
+	return nil
+}
+
+func (x *Filter) GetTarget() *v1alpha1.EntityFilter {
+	if x, ok := x.GetFilter().(*Filter_Target); ok {
+		return x.Target
+	}
+	return nil
+}
+
+func (x *Filter) GetRole() *v1alpha1.EntityFilter {
+	if x, ok := x.GetFilter().(*Filter_Role); ok {
+		return x.Role
+	}
+	return nil
+}
+
+func (x *Filter) GetTargetType() *v1alpha1.EntityTypeFilter {
+	if x, ok := x.GetFilter().(*Filter_TargetType); ok {
+		return x.TargetType
+	}
+	return nil
+}
+
+func (x *Filter) GetRoleType() *v1alpha1.EntityTypeFilter {
+	if x, ok := x.GetFilter().(*Filter_RoleType); ok {
+		return x.RoleType
+	}
+	return nil
+}
+
+type isFilter_Filter interface {
+	isFilter_Filter()
+}
+
+type Filter_OccurredAt struct {
+	OccurredAt *v1alpha1.OccurredAtFilter `protobuf:"bytes,1,opt,name=occurred_at,json=occurredAt,proto3,oneof"`
+}
+
+type Filter_RequestedBy struct {
+	RequestedBy *v1alpha1.EntityFilter `protobuf:"bytes,2,opt,name=requested_by,json=requestedBy,proto3,oneof"`
+}
+
+type Filter_ClosedBy struct {
+	ClosedBy *v1alpha1.EntityFilter `protobuf:"bytes,3,opt,name=closed_by,json=closedBy,proto3,oneof"`
+}
+
+type Filter_ApprovedBy struct {
+	ApprovedBy *v1alpha1.EntityFilter `protobuf:"bytes,4,opt,name=approved_by,json=approvedBy,proto3,oneof"`
+}
+
+type Filter_Target struct {
+	Target *v1alpha1.EntityFilter `protobuf:"bytes,5,opt,name=target,proto3,oneof"`
+}
+
+type Filter_Role struct {
+	Role *v1alpha1.EntityFilter `protobuf:"bytes,6,opt,name=role,proto3,oneof"`
+}
+
+type Filter_TargetType struct {
+	TargetType *v1alpha1.EntityTypeFilter `protobuf:"bytes,7,opt,name=target_type,json=targetType,proto3,oneof"`
+}
+
+type Filter_RoleType struct {
+	RoleType *v1alpha1.EntityTypeFilter `protobuf:"bytes,8,opt,name=role_type,json=roleType,proto3,oneof"`
+}
+
+func (*Filter_OccurredAt) isFilter_Filter() {}
+
+func (*Filter_RequestedBy) isFilter_Filter() {}
+
+func (*Filter_ClosedBy) isFilter_Filter() {}
+
+func (*Filter_ApprovedBy) isFilter_Filter() {}
+
+func (*Filter_Target) isFilter_Filter() {}
+
+func (*Filter_Role) isFilter_Filter() {}
+
+func (*Filter_TargetType) isFilter_Filter() {}
+
+func (*Filter_RoleType) isFilter_Filter() {}
+
 type QueryAccessRequestsRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
 	// The token for the next page.
-	PageToken     string          `protobuf:"bytes,1,opt,name=page_token,json=pageToken,proto3" json:"page_token,omitempty"`
-	Archived      bool            `protobuf:"varint,2,opt,name=archived,proto3" json:"archived,omitempty"`
-	Order         *v1alpha1.Order `protobuf:"varint,3,opt,name=order,proto3,enum=commonfate.entity.v1alpha1.Order,oneof" json:"order,omitempty"`
-	RequestedBy   []*v1alpha1.EID `protobuf:"bytes,4,rep,name=requested_by,json=requestedBy,proto3" json:"requested_by,omitempty"`
-	ClosedBy      []*v1alpha1.EID `protobuf:"bytes,5,rep,name=closed_by,json=closedBy,proto3" json:"closed_by,omitempty"`
-	ApprovedBy    []*v1alpha1.EID `protobuf:"bytes,6,rep,name=approved_by,json=approvedBy,proto3" json:"approved_by,omitempty"`
-	RequestStatus RequestStatus   `protobuf:"varint,7,opt,name=request_status,json=requestStatus,proto3,enum=commonfate.access.v1alpha1.RequestStatus" json:"request_status,omitempty"`
+	PageToken string           `protobuf:"bytes,1,opt,name=page_token,json=pageToken,proto3" json:"page_token,omitempty"`
+	Archived  bool             `protobuf:"varint,2,opt,name=archived,proto3" json:"archived,omitempty"`
+	Order     *v1alpha11.Order `protobuf:"varint,3,opt,name=order,proto3,enum=commonfate.entity.v1alpha1.Order,oneof" json:"order,omitempty"`
+	Filters   []*Filter        `protobuf:"bytes,4,rep,name=filters,proto3" json:"filters,omitempty"`
 }
 
 func (x *QueryAccessRequestsRequest) Reset() {
 	*x = QueryAccessRequestsRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_commonfate_access_v1alpha1_access_request_proto_msgTypes[0]
+		mi := &file_commonfate_access_v1alpha1_access_request_proto_msgTypes[1]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -107,7 +270,7 @@ func (x *QueryAccessRequestsRequest) String() string {
 func (*QueryAccessRequestsRequest) ProtoMessage() {}
 
 func (x *QueryAccessRequestsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_commonfate_access_v1alpha1_access_request_proto_msgTypes[0]
+	mi := &file_commonfate_access_v1alpha1_access_request_proto_msgTypes[1]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -120,7 +283,7 @@ func (x *QueryAccessRequestsRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use QueryAccessRequestsRequest.ProtoReflect.Descriptor instead.
 func (*QueryAccessRequestsRequest) Descriptor() ([]byte, []int) {
-	return file_commonfate_access_v1alpha1_access_request_proto_rawDescGZIP(), []int{0}
+	return file_commonfate_access_v1alpha1_access_request_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *QueryAccessRequestsRequest) GetPageToken() string {
@@ -137,39 +300,18 @@ func (x *QueryAccessRequestsRequest) GetArchived() bool {
 	return false
 }
 
-func (x *QueryAccessRequestsRequest) GetOrder() v1alpha1.Order {
+func (x *QueryAccessRequestsRequest) GetOrder() v1alpha11.Order {
 	if x != nil && x.Order != nil {
 		return *x.Order
 	}
-	return v1alpha1.Order(0)
+	return v1alpha11.Order(0)
 }
 
-func (x *QueryAccessRequestsRequest) GetRequestedBy() []*v1alpha1.EID {
+func (x *QueryAccessRequestsRequest) GetFilters() []*Filter {
 	if x != nil {
-		return x.RequestedBy
+		return x.Filters
 	}
 	return nil
-}
-
-func (x *QueryAccessRequestsRequest) GetClosedBy() []*v1alpha1.EID {
-	if x != nil {
-		return x.ClosedBy
-	}
-	return nil
-}
-
-func (x *QueryAccessRequestsRequest) GetApprovedBy() []*v1alpha1.EID {
-	if x != nil {
-		return x.ApprovedBy
-	}
-	return nil
-}
-
-func (x *QueryAccessRequestsRequest) GetRequestStatus() RequestStatus {
-	if x != nil {
-		return x.RequestStatus
-	}
-	return RequestStatus_REQUEST_STATUS_UNSPECIFIED
 }
 
 type QueryMyAccessRequestsResponse struct {
@@ -184,7 +326,7 @@ type QueryMyAccessRequestsResponse struct {
 func (x *QueryMyAccessRequestsResponse) Reset() {
 	*x = QueryMyAccessRequestsResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_commonfate_access_v1alpha1_access_request_proto_msgTypes[1]
+		mi := &file_commonfate_access_v1alpha1_access_request_proto_msgTypes[2]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -197,7 +339,7 @@ func (x *QueryMyAccessRequestsResponse) String() string {
 func (*QueryMyAccessRequestsResponse) ProtoMessage() {}
 
 func (x *QueryMyAccessRequestsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_commonfate_access_v1alpha1_access_request_proto_msgTypes[1]
+	mi := &file_commonfate_access_v1alpha1_access_request_proto_msgTypes[2]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -210,7 +352,7 @@ func (x *QueryMyAccessRequestsResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use QueryMyAccessRequestsResponse.ProtoReflect.Descriptor instead.
 func (*QueryMyAccessRequestsResponse) Descriptor() ([]byte, []int) {
-	return file_commonfate_access_v1alpha1_access_request_proto_rawDescGZIP(), []int{1}
+	return file_commonfate_access_v1alpha1_access_request_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *QueryMyAccessRequestsResponse) GetAccessRequests() []*AccessRequest {
@@ -233,15 +375,15 @@ type QueryMyAccessRequestsRequest struct {
 	unknownFields protoimpl.UnknownFields
 
 	// The token for the next page.
-	PageToken     string          `protobuf:"bytes,1,opt,name=page_token,json=pageToken,proto3" json:"page_token,omitempty"`
-	Order         *v1alpha1.Order `protobuf:"varint,2,opt,name=order,proto3,enum=commonfate.entity.v1alpha1.Order,oneof" json:"order,omitempty"`
-	RequestStatus RequestStatus   `protobuf:"varint,3,opt,name=request_status,json=requestStatus,proto3,enum=commonfate.access.v1alpha1.RequestStatus" json:"request_status,omitempty"`
+	PageToken     string           `protobuf:"bytes,1,opt,name=page_token,json=pageToken,proto3" json:"page_token,omitempty"`
+	Order         *v1alpha11.Order `protobuf:"varint,2,opt,name=order,proto3,enum=commonfate.entity.v1alpha1.Order,oneof" json:"order,omitempty"`
+	RequestStatus RequestStatus    `protobuf:"varint,3,opt,name=request_status,json=requestStatus,proto3,enum=commonfate.access.v1alpha1.RequestStatus" json:"request_status,omitempty"`
 }
 
 func (x *QueryMyAccessRequestsRequest) Reset() {
 	*x = QueryMyAccessRequestsRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_commonfate_access_v1alpha1_access_request_proto_msgTypes[2]
+		mi := &file_commonfate_access_v1alpha1_access_request_proto_msgTypes[3]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -254,7 +396,7 @@ func (x *QueryMyAccessRequestsRequest) String() string {
 func (*QueryMyAccessRequestsRequest) ProtoMessage() {}
 
 func (x *QueryMyAccessRequestsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_commonfate_access_v1alpha1_access_request_proto_msgTypes[2]
+	mi := &file_commonfate_access_v1alpha1_access_request_proto_msgTypes[3]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -267,7 +409,7 @@ func (x *QueryMyAccessRequestsRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use QueryMyAccessRequestsRequest.ProtoReflect.Descriptor instead.
 func (*QueryMyAccessRequestsRequest) Descriptor() ([]byte, []int) {
-	return file_commonfate_access_v1alpha1_access_request_proto_rawDescGZIP(), []int{2}
+	return file_commonfate_access_v1alpha1_access_request_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *QueryMyAccessRequestsRequest) GetPageToken() string {
@@ -277,11 +419,11 @@ func (x *QueryMyAccessRequestsRequest) GetPageToken() string {
 	return ""
 }
 
-func (x *QueryMyAccessRequestsRequest) GetOrder() v1alpha1.Order {
+func (x *QueryMyAccessRequestsRequest) GetOrder() v1alpha11.Order {
 	if x != nil && x.Order != nil {
 		return *x.Order
 	}
-	return v1alpha1.Order(0)
+	return v1alpha11.Order(0)
 }
 
 func (x *QueryMyAccessRequestsRequest) GetRequestStatus() RequestStatus {
@@ -303,7 +445,7 @@ type QueryAccessRequestsResponse struct {
 func (x *QueryAccessRequestsResponse) Reset() {
 	*x = QueryAccessRequestsResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_commonfate_access_v1alpha1_access_request_proto_msgTypes[3]
+		mi := &file_commonfate_access_v1alpha1_access_request_proto_msgTypes[4]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -316,7 +458,7 @@ func (x *QueryAccessRequestsResponse) String() string {
 func (*QueryAccessRequestsResponse) ProtoMessage() {}
 
 func (x *QueryAccessRequestsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_commonfate_access_v1alpha1_access_request_proto_msgTypes[3]
+	mi := &file_commonfate_access_v1alpha1_access_request_proto_msgTypes[4]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -329,7 +471,7 @@ func (x *QueryAccessRequestsResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use QueryAccessRequestsResponse.ProtoReflect.Descriptor instead.
 func (*QueryAccessRequestsResponse) Descriptor() ([]byte, []int) {
-	return file_commonfate_access_v1alpha1_access_request_proto_rawDescGZIP(), []int{3}
+	return file_commonfate_access_v1alpha1_access_request_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *QueryAccessRequestsResponse) GetAccessRequests() []*AccessRequest {
@@ -358,7 +500,7 @@ type GetAccessRequestRequest struct {
 func (x *GetAccessRequestRequest) Reset() {
 	*x = GetAccessRequestRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_commonfate_access_v1alpha1_access_request_proto_msgTypes[4]
+		mi := &file_commonfate_access_v1alpha1_access_request_proto_msgTypes[5]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -371,7 +513,7 @@ func (x *GetAccessRequestRequest) String() string {
 func (*GetAccessRequestRequest) ProtoMessage() {}
 
 func (x *GetAccessRequestRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_commonfate_access_v1alpha1_access_request_proto_msgTypes[4]
+	mi := &file_commonfate_access_v1alpha1_access_request_proto_msgTypes[5]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -384,7 +526,7 @@ func (x *GetAccessRequestRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetAccessRequestRequest.ProtoReflect.Descriptor instead.
 func (*GetAccessRequestRequest) Descriptor() ([]byte, []int) {
-	return file_commonfate_access_v1alpha1_access_request_proto_rawDescGZIP(), []int{4}
+	return file_commonfate_access_v1alpha1_access_request_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *GetAccessRequestRequest) GetId() string {
@@ -405,7 +547,7 @@ type GetAccessRequestResponse struct {
 func (x *GetAccessRequestResponse) Reset() {
 	*x = GetAccessRequestResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_commonfate_access_v1alpha1_access_request_proto_msgTypes[5]
+		mi := &file_commonfate_access_v1alpha1_access_request_proto_msgTypes[6]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -418,7 +560,7 @@ func (x *GetAccessRequestResponse) String() string {
 func (*GetAccessRequestResponse) ProtoMessage() {}
 
 func (x *GetAccessRequestResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_commonfate_access_v1alpha1_access_request_proto_msgTypes[5]
+	mi := &file_commonfate_access_v1alpha1_access_request_proto_msgTypes[6]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -431,7 +573,7 @@ func (x *GetAccessRequestResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetAccessRequestResponse.ProtoReflect.Descriptor instead.
 func (*GetAccessRequestResponse) Descriptor() ([]byte, []int) {
-	return file_commonfate_access_v1alpha1_access_request_proto_rawDescGZIP(), []int{5}
+	return file_commonfate_access_v1alpha1_access_request_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *GetAccessRequestResponse) GetAccessRequest() *AccessRequest {
@@ -452,7 +594,7 @@ type GetAccessRequestActionsRequest struct {
 func (x *GetAccessRequestActionsRequest) Reset() {
 	*x = GetAccessRequestActionsRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_commonfate_access_v1alpha1_access_request_proto_msgTypes[6]
+		mi := &file_commonfate_access_v1alpha1_access_request_proto_msgTypes[7]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -465,7 +607,7 @@ func (x *GetAccessRequestActionsRequest) String() string {
 func (*GetAccessRequestActionsRequest) ProtoMessage() {}
 
 func (x *GetAccessRequestActionsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_commonfate_access_v1alpha1_access_request_proto_msgTypes[6]
+	mi := &file_commonfate_access_v1alpha1_access_request_proto_msgTypes[7]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -478,7 +620,7 @@ func (x *GetAccessRequestActionsRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetAccessRequestActionsRequest.ProtoReflect.Descriptor instead.
 func (*GetAccessRequestActionsRequest) Descriptor() ([]byte, []int) {
-	return file_commonfate_access_v1alpha1_access_request_proto_rawDescGZIP(), []int{6}
+	return file_commonfate_access_v1alpha1_access_request_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *GetAccessRequestActionsRequest) GetAccessRequestId() string {
@@ -499,7 +641,7 @@ type GetAccessRequestActionsResponse struct {
 func (x *GetAccessRequestActionsResponse) Reset() {
 	*x = GetAccessRequestActionsResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_commonfate_access_v1alpha1_access_request_proto_msgTypes[7]
+		mi := &file_commonfate_access_v1alpha1_access_request_proto_msgTypes[8]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -512,7 +654,7 @@ func (x *GetAccessRequestActionsResponse) String() string {
 func (*GetAccessRequestActionsResponse) ProtoMessage() {}
 
 func (x *GetAccessRequestActionsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_commonfate_access_v1alpha1_access_request_proto_msgTypes[7]
+	mi := &file_commonfate_access_v1alpha1_access_request_proto_msgTypes[8]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -525,7 +667,7 @@ func (x *GetAccessRequestActionsResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetAccessRequestActionsResponse.ProtoReflect.Descriptor instead.
 func (*GetAccessRequestActionsResponse) Descriptor() ([]byte, []int) {
-	return file_commonfate_access_v1alpha1_access_request_proto_rawDescGZIP(), []int{7}
+	return file_commonfate_access_v1alpha1_access_request_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *GetAccessRequestActionsResponse) GetAccessRequestActions() *AccessRequestActions {
@@ -571,7 +713,7 @@ type AccessRequest struct {
 func (x *AccessRequest) Reset() {
 	*x = AccessRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_commonfate_access_v1alpha1_access_request_proto_msgTypes[8]
+		mi := &file_commonfate_access_v1alpha1_access_request_proto_msgTypes[9]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -584,7 +726,7 @@ func (x *AccessRequest) String() string {
 func (*AccessRequest) ProtoMessage() {}
 
 func (x *AccessRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_commonfate_access_v1alpha1_access_request_proto_msgTypes[8]
+	mi := &file_commonfate_access_v1alpha1_access_request_proto_msgTypes[9]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -597,7 +739,7 @@ func (x *AccessRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AccessRequest.ProtoReflect.Descriptor instead.
 func (*AccessRequest) Descriptor() ([]byte, []int) {
-	return file_commonfate_access_v1alpha1_access_request_proto_rawDescGZIP(), []int{8}
+	return file_commonfate_access_v1alpha1_access_request_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *AccessRequest) GetId() string {
@@ -693,7 +835,7 @@ type AccessRequestActions struct {
 func (x *AccessRequestActions) Reset() {
 	*x = AccessRequestActions{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_commonfate_access_v1alpha1_access_request_proto_msgTypes[9]
+		mi := &file_commonfate_access_v1alpha1_access_request_proto_msgTypes[10]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -706,7 +848,7 @@ func (x *AccessRequestActions) String() string {
 func (*AccessRequestActions) ProtoMessage() {}
 
 func (x *AccessRequestActions) ProtoReflect() protoreflect.Message {
-	mi := &file_commonfate_access_v1alpha1_access_request_proto_msgTypes[9]
+	mi := &file_commonfate_access_v1alpha1_access_request_proto_msgTypes[10]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -719,7 +861,7 @@ func (x *AccessRequestActions) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AccessRequestActions.ProtoReflect.Descriptor instead.
 func (*AccessRequestActions) Descriptor() ([]byte, []int) {
-	return file_commonfate_access_v1alpha1_access_request_proto_rawDescGZIP(), []int{9}
+	return file_commonfate_access_v1alpha1_access_request_proto_rawDescGZIP(), []int{10}
 }
 
 func (x *AccessRequestActions) GetApproveAllowed() bool {
@@ -771,7 +913,7 @@ type ApproveAccessRequestRequest struct {
 func (x *ApproveAccessRequestRequest) Reset() {
 	*x = ApproveAccessRequestRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_commonfate_access_v1alpha1_access_request_proto_msgTypes[10]
+		mi := &file_commonfate_access_v1alpha1_access_request_proto_msgTypes[11]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -784,7 +926,7 @@ func (x *ApproveAccessRequestRequest) String() string {
 func (*ApproveAccessRequestRequest) ProtoMessage() {}
 
 func (x *ApproveAccessRequestRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_commonfate_access_v1alpha1_access_request_proto_msgTypes[10]
+	mi := &file_commonfate_access_v1alpha1_access_request_proto_msgTypes[11]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -797,7 +939,7 @@ func (x *ApproveAccessRequestRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ApproveAccessRequestRequest.ProtoReflect.Descriptor instead.
 func (*ApproveAccessRequestRequest) Descriptor() ([]byte, []int) {
-	return file_commonfate_access_v1alpha1_access_request_proto_rawDescGZIP(), []int{10}
+	return file_commonfate_access_v1alpha1_access_request_proto_rawDescGZIP(), []int{11}
 }
 
 func (x *ApproveAccessRequestRequest) GetId() string {
@@ -825,7 +967,7 @@ type ApproveAccessRequestResponse struct {
 func (x *ApproveAccessRequestResponse) Reset() {
 	*x = ApproveAccessRequestResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_commonfate_access_v1alpha1_access_request_proto_msgTypes[11]
+		mi := &file_commonfate_access_v1alpha1_access_request_proto_msgTypes[12]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -838,7 +980,7 @@ func (x *ApproveAccessRequestResponse) String() string {
 func (*ApproveAccessRequestResponse) ProtoMessage() {}
 
 func (x *ApproveAccessRequestResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_commonfate_access_v1alpha1_access_request_proto_msgTypes[11]
+	mi := &file_commonfate_access_v1alpha1_access_request_proto_msgTypes[12]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -851,7 +993,7 @@ func (x *ApproveAccessRequestResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ApproveAccessRequestResponse.ProtoReflect.Descriptor instead.
 func (*ApproveAccessRequestResponse) Descriptor() ([]byte, []int) {
-	return file_commonfate_access_v1alpha1_access_request_proto_rawDescGZIP(), []int{11}
+	return file_commonfate_access_v1alpha1_access_request_proto_rawDescGZIP(), []int{12}
 }
 
 func (x *ApproveAccessRequestResponse) GetDiagnostics() []*Diagnostic {
@@ -878,7 +1020,7 @@ type CloseAccessRequestRequest struct {
 func (x *CloseAccessRequestRequest) Reset() {
 	*x = CloseAccessRequestRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_commonfate_access_v1alpha1_access_request_proto_msgTypes[12]
+		mi := &file_commonfate_access_v1alpha1_access_request_proto_msgTypes[13]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -891,7 +1033,7 @@ func (x *CloseAccessRequestRequest) String() string {
 func (*CloseAccessRequestRequest) ProtoMessage() {}
 
 func (x *CloseAccessRequestRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_commonfate_access_v1alpha1_access_request_proto_msgTypes[12]
+	mi := &file_commonfate_access_v1alpha1_access_request_proto_msgTypes[13]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -904,7 +1046,7 @@ func (x *CloseAccessRequestRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CloseAccessRequestRequest.ProtoReflect.Descriptor instead.
 func (*CloseAccessRequestRequest) Descriptor() ([]byte, []int) {
-	return file_commonfate_access_v1alpha1_access_request_proto_rawDescGZIP(), []int{12}
+	return file_commonfate_access_v1alpha1_access_request_proto_rawDescGZIP(), []int{13}
 }
 
 func (x *CloseAccessRequestRequest) GetId() string {
@@ -939,7 +1081,7 @@ type CloseAccessRequestResponse struct {
 func (x *CloseAccessRequestResponse) Reset() {
 	*x = CloseAccessRequestResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_commonfate_access_v1alpha1_access_request_proto_msgTypes[13]
+		mi := &file_commonfate_access_v1alpha1_access_request_proto_msgTypes[14]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -952,7 +1094,7 @@ func (x *CloseAccessRequestResponse) String() string {
 func (*CloseAccessRequestResponse) ProtoMessage() {}
 
 func (x *CloseAccessRequestResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_commonfate_access_v1alpha1_access_request_proto_msgTypes[13]
+	mi := &file_commonfate_access_v1alpha1_access_request_proto_msgTypes[14]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -965,7 +1107,7 @@ func (x *CloseAccessRequestResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CloseAccessRequestResponse.ProtoReflect.Descriptor instead.
 func (*CloseAccessRequestResponse) Descriptor() ([]byte, []int) {
-	return file_commonfate_access_v1alpha1_access_request_proto_rawDescGZIP(), []int{13}
+	return file_commonfate_access_v1alpha1_access_request_proto_rawDescGZIP(), []int{14}
 }
 
 func (x *CloseAccessRequestResponse) GetDiagnostics() []*Diagnostic {
@@ -992,7 +1134,7 @@ type ActivateAccessRequestRequest struct {
 func (x *ActivateAccessRequestRequest) Reset() {
 	*x = ActivateAccessRequestRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_commonfate_access_v1alpha1_access_request_proto_msgTypes[14]
+		mi := &file_commonfate_access_v1alpha1_access_request_proto_msgTypes[15]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1005,7 +1147,7 @@ func (x *ActivateAccessRequestRequest) String() string {
 func (*ActivateAccessRequestRequest) ProtoMessage() {}
 
 func (x *ActivateAccessRequestRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_commonfate_access_v1alpha1_access_request_proto_msgTypes[14]
+	mi := &file_commonfate_access_v1alpha1_access_request_proto_msgTypes[15]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1018,7 +1160,7 @@ func (x *ActivateAccessRequestRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ActivateAccessRequestRequest.ProtoReflect.Descriptor instead.
 func (*ActivateAccessRequestRequest) Descriptor() ([]byte, []int) {
-	return file_commonfate_access_v1alpha1_access_request_proto_rawDescGZIP(), []int{14}
+	return file_commonfate_access_v1alpha1_access_request_proto_rawDescGZIP(), []int{15}
 }
 
 func (x *ActivateAccessRequestRequest) GetId() string {
@@ -1053,7 +1195,7 @@ type ActivateAccessRequestResponse struct {
 func (x *ActivateAccessRequestResponse) Reset() {
 	*x = ActivateAccessRequestResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_commonfate_access_v1alpha1_access_request_proto_msgTypes[15]
+		mi := &file_commonfate_access_v1alpha1_access_request_proto_msgTypes[16]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1066,7 +1208,7 @@ func (x *ActivateAccessRequestResponse) String() string {
 func (*ActivateAccessRequestResponse) ProtoMessage() {}
 
 func (x *ActivateAccessRequestResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_commonfate_access_v1alpha1_access_request_proto_msgTypes[15]
+	mi := &file_commonfate_access_v1alpha1_access_request_proto_msgTypes[16]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1079,7 +1221,7 @@ func (x *ActivateAccessRequestResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ActivateAccessRequestResponse.ProtoReflect.Descriptor instead.
 func (*ActivateAccessRequestResponse) Descriptor() ([]byte, []int) {
-	return file_commonfate_access_v1alpha1_access_request_proto_rawDescGZIP(), []int{15}
+	return file_commonfate_access_v1alpha1_access_request_proto_rawDescGZIP(), []int{16}
 }
 
 func (x *ActivateAccessRequestResponse) GetDiagnostics() []*Diagnostic {
@@ -1100,7 +1242,7 @@ type Justification struct {
 func (x *Justification) Reset() {
 	*x = Justification{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_commonfate_access_v1alpha1_access_request_proto_msgTypes[16]
+		mi := &file_commonfate_access_v1alpha1_access_request_proto_msgTypes[17]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1113,7 +1255,7 @@ func (x *Justification) String() string {
 func (*Justification) ProtoMessage() {}
 
 func (x *Justification) ProtoReflect() protoreflect.Message {
-	mi := &file_commonfate_access_v1alpha1_access_request_proto_msgTypes[16]
+	mi := &file_commonfate_access_v1alpha1_access_request_proto_msgTypes[17]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1126,7 +1268,7 @@ func (x *Justification) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Justification.ProtoReflect.Descriptor instead.
 func (*Justification) Descriptor() ([]byte, []int) {
-	return file_commonfate_access_v1alpha1_access_request_proto_rawDescGZIP(), []int{16}
+	return file_commonfate_access_v1alpha1_access_request_proto_rawDescGZIP(), []int{17}
 }
 
 func (x *Justification) GetReason() string {
@@ -1156,41 +1298,74 @@ var file_commonfate_access_v1alpha1_access_request_proto_rawDesc = []byte{
 	0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a, 0x29, 0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x66, 0x61,
 	0x74, 0x65, 0x2f, 0x61, 0x75, 0x74, 0x68, 0x7a, 0x2f, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61,
 	0x31, 0x2f, 0x72, 0x65, 0x61, 0x64, 0x5f, 0x6f, 0x6e, 0x6c, 0x79, 0x2e, 0x70, 0x72, 0x6f, 0x74,
-	0x6f, 0x1a, 0x24, 0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x66, 0x61, 0x74, 0x65, 0x2f, 0x65, 0x6e,
-	0x74, 0x69, 0x74, 0x79, 0x2f, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x2f, 0x65, 0x69,
-	0x64, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a, 0x2f, 0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x66,
-	0x61, 0x74, 0x65, 0x2f, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x2f, 0x76, 0x31, 0x61, 0x6c, 0x70,
-	0x68, 0x61, 0x31, 0x2f, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x5f, 0x73, 0x65, 0x72, 0x76, 0x69,
-	0x63, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a, 0x1f, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65,
-	0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2f, 0x74, 0x69, 0x6d, 0x65, 0x73, 0x74,
-	0x61, 0x6d, 0x70, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0xb5, 0x03, 0x0a, 0x1a, 0x51, 0x75,
-	0x65, 0x72, 0x79, 0x41, 0x63, 0x63, 0x65, 0x73, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
-	0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x1d, 0x0a, 0x0a, 0x70, 0x61, 0x67, 0x65,
-	0x5f, 0x74, 0x6f, 0x6b, 0x65, 0x6e, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x09, 0x70, 0x61,
-	0x67, 0x65, 0x54, 0x6f, 0x6b, 0x65, 0x6e, 0x12, 0x1a, 0x0a, 0x08, 0x61, 0x72, 0x63, 0x68, 0x69,
-	0x76, 0x65, 0x64, 0x18, 0x02, 0x20, 0x01, 0x28, 0x08, 0x52, 0x08, 0x61, 0x72, 0x63, 0x68, 0x69,
-	0x76, 0x65, 0x64, 0x12, 0x3c, 0x0a, 0x05, 0x6f, 0x72, 0x64, 0x65, 0x72, 0x18, 0x03, 0x20, 0x01,
-	0x28, 0x0e, 0x32, 0x21, 0x2e, 0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x66, 0x61, 0x74, 0x65, 0x2e,
-	0x65, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x2e,
-	0x4f, 0x72, 0x64, 0x65, 0x72, 0x48, 0x00, 0x52, 0x05, 0x6f, 0x72, 0x64, 0x65, 0x72, 0x88, 0x01,
-	0x01, 0x12, 0x42, 0x0a, 0x0c, 0x72, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x65, 0x64, 0x5f, 0x62,
-	0x79, 0x18, 0x04, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x1f, 0x2e, 0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e,
-	0x66, 0x61, 0x74, 0x65, 0x2e, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x2e, 0x76, 0x31, 0x61, 0x6c,
-	0x70, 0x68, 0x61, 0x31, 0x2e, 0x45, 0x49, 0x44, 0x52, 0x0b, 0x72, 0x65, 0x71, 0x75, 0x65, 0x73,
-	0x74, 0x65, 0x64, 0x42, 0x79, 0x12, 0x3c, 0x0a, 0x09, 0x63, 0x6c, 0x6f, 0x73, 0x65, 0x64, 0x5f,
-	0x62, 0x79, 0x18, 0x05, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x1f, 0x2e, 0x63, 0x6f, 0x6d, 0x6d, 0x6f,
-	0x6e, 0x66, 0x61, 0x74, 0x65, 0x2e, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x2e, 0x76, 0x31, 0x61,
-	0x6c, 0x70, 0x68, 0x61, 0x31, 0x2e, 0x45, 0x49, 0x44, 0x52, 0x08, 0x63, 0x6c, 0x6f, 0x73, 0x65,
-	0x64, 0x42, 0x79, 0x12, 0x40, 0x0a, 0x0b, 0x61, 0x70, 0x70, 0x72, 0x6f, 0x76, 0x65, 0x64, 0x5f,
-	0x62, 0x79, 0x18, 0x06, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x1f, 0x2e, 0x63, 0x6f, 0x6d, 0x6d, 0x6f,
-	0x6e, 0x66, 0x61, 0x74, 0x65, 0x2e, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x2e, 0x76, 0x31, 0x61,
-	0x6c, 0x70, 0x68, 0x61, 0x31, 0x2e, 0x45, 0x49, 0x44, 0x52, 0x0a, 0x61, 0x70, 0x70, 0x72, 0x6f,
-	0x76, 0x65, 0x64, 0x42, 0x79, 0x12, 0x50, 0x0a, 0x0e, 0x72, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
-	0x5f, 0x73, 0x74, 0x61, 0x74, 0x75, 0x73, 0x18, 0x07, 0x20, 0x01, 0x28, 0x0e, 0x32, 0x29, 0x2e,
-	0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x66, 0x61, 0x74, 0x65, 0x2e, 0x61, 0x63, 0x63, 0x65, 0x73,
-	0x73, 0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x2e, 0x52, 0x65, 0x71, 0x75, 0x65,
-	0x73, 0x74, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x52, 0x0d, 0x72, 0x65, 0x71, 0x75, 0x65, 0x73,
-	0x74, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x42, 0x08, 0x0a, 0x06, 0x5f, 0x6f, 0x72, 0x64, 0x65,
+	0x6f, 0x1a, 0x31, 0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x66, 0x61, 0x74, 0x65, 0x2f, 0x63, 0x6f,
+	0x6e, 0x74, 0x72, 0x6f, 0x6c, 0x2f, 0x66, 0x69, 0x6c, 0x74, 0x65, 0x72, 0x73, 0x2f, 0x76, 0x31,
+	0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x2f, 0x66, 0x69, 0x6c, 0x74, 0x65, 0x72, 0x73, 0x2e, 0x70,
+	0x72, 0x6f, 0x74, 0x6f, 0x1a, 0x24, 0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x66, 0x61, 0x74, 0x65,
+	0x2f, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x2f, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31,
+	0x2f, 0x65, 0x69, 0x64, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a, 0x2f, 0x63, 0x6f, 0x6d, 0x6d,
+	0x6f, 0x6e, 0x66, 0x61, 0x74, 0x65, 0x2f, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x2f, 0x76, 0x31,
+	0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x2f, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x5f, 0x73, 0x65,
+	0x72, 0x76, 0x69, 0x63, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a, 0x1f, 0x67, 0x6f, 0x6f,
+	0x67, 0x6c, 0x65, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2f, 0x74, 0x69, 0x6d,
+	0x65, 0x73, 0x74, 0x61, 0x6d, 0x70, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0xb2, 0x05, 0x0a,
+	0x06, 0x46, 0x69, 0x6c, 0x74, 0x65, 0x72, 0x12, 0x58, 0x0a, 0x0b, 0x6f, 0x63, 0x63, 0x75, 0x72,
+	0x72, 0x65, 0x64, 0x5f, 0x61, 0x74, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x35, 0x2e, 0x63,
+	0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x66, 0x61, 0x74, 0x65, 0x2e, 0x63, 0x6f, 0x6e, 0x74, 0x72, 0x6f,
+	0x6c, 0x2e, 0x66, 0x69, 0x6c, 0x74, 0x65, 0x72, 0x73, 0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68,
+	0x61, 0x31, 0x2e, 0x4f, 0x63, 0x63, 0x75, 0x72, 0x72, 0x65, 0x64, 0x41, 0x74, 0x46, 0x69, 0x6c,
+	0x74, 0x65, 0x72, 0x48, 0x00, 0x52, 0x0a, 0x6f, 0x63, 0x63, 0x75, 0x72, 0x72, 0x65, 0x64, 0x41,
+	0x74, 0x12, 0x56, 0x0a, 0x0c, 0x72, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x65, 0x64, 0x5f, 0x62,
+	0x79, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x31, 0x2e, 0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e,
+	0x66, 0x61, 0x74, 0x65, 0x2e, 0x63, 0x6f, 0x6e, 0x74, 0x72, 0x6f, 0x6c, 0x2e, 0x66, 0x69, 0x6c,
+	0x74, 0x65, 0x72, 0x73, 0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x2e, 0x45, 0x6e,
+	0x74, 0x69, 0x74, 0x79, 0x46, 0x69, 0x6c, 0x74, 0x65, 0x72, 0x48, 0x00, 0x52, 0x0b, 0x72, 0x65,
+	0x71, 0x75, 0x65, 0x73, 0x74, 0x65, 0x64, 0x42, 0x79, 0x12, 0x50, 0x0a, 0x09, 0x63, 0x6c, 0x6f,
+	0x73, 0x65, 0x64, 0x5f, 0x62, 0x79, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x31, 0x2e, 0x63,
+	0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x66, 0x61, 0x74, 0x65, 0x2e, 0x63, 0x6f, 0x6e, 0x74, 0x72, 0x6f,
+	0x6c, 0x2e, 0x66, 0x69, 0x6c, 0x74, 0x65, 0x72, 0x73, 0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68,
+	0x61, 0x31, 0x2e, 0x45, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x46, 0x69, 0x6c, 0x74, 0x65, 0x72, 0x48,
+	0x00, 0x52, 0x08, 0x63, 0x6c, 0x6f, 0x73, 0x65, 0x64, 0x42, 0x79, 0x12, 0x54, 0x0a, 0x0b, 0x61,
+	0x70, 0x70, 0x72, 0x6f, 0x76, 0x65, 0x64, 0x5f, 0x62, 0x79, 0x18, 0x04, 0x20, 0x01, 0x28, 0x0b,
+	0x32, 0x31, 0x2e, 0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x66, 0x61, 0x74, 0x65, 0x2e, 0x63, 0x6f,
+	0x6e, 0x74, 0x72, 0x6f, 0x6c, 0x2e, 0x66, 0x69, 0x6c, 0x74, 0x65, 0x72, 0x73, 0x2e, 0x76, 0x31,
+	0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x2e, 0x45, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x46, 0x69, 0x6c,
+	0x74, 0x65, 0x72, 0x48, 0x00, 0x52, 0x0a, 0x61, 0x70, 0x70, 0x72, 0x6f, 0x76, 0x65, 0x64, 0x42,
+	0x79, 0x12, 0x4b, 0x0a, 0x06, 0x74, 0x61, 0x72, 0x67, 0x65, 0x74, 0x18, 0x05, 0x20, 0x01, 0x28,
+	0x0b, 0x32, 0x31, 0x2e, 0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x66, 0x61, 0x74, 0x65, 0x2e, 0x63,
+	0x6f, 0x6e, 0x74, 0x72, 0x6f, 0x6c, 0x2e, 0x66, 0x69, 0x6c, 0x74, 0x65, 0x72, 0x73, 0x2e, 0x76,
+	0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x2e, 0x45, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x46, 0x69,
+	0x6c, 0x74, 0x65, 0x72, 0x48, 0x00, 0x52, 0x06, 0x74, 0x61, 0x72, 0x67, 0x65, 0x74, 0x12, 0x47,
+	0x0a, 0x04, 0x72, 0x6f, 0x6c, 0x65, 0x18, 0x06, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x31, 0x2e, 0x63,
+	0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x66, 0x61, 0x74, 0x65, 0x2e, 0x63, 0x6f, 0x6e, 0x74, 0x72, 0x6f,
+	0x6c, 0x2e, 0x66, 0x69, 0x6c, 0x74, 0x65, 0x72, 0x73, 0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68,
+	0x61, 0x31, 0x2e, 0x45, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x46, 0x69, 0x6c, 0x74, 0x65, 0x72, 0x48,
+	0x00, 0x52, 0x04, 0x72, 0x6f, 0x6c, 0x65, 0x12, 0x58, 0x0a, 0x0b, 0x74, 0x61, 0x72, 0x67, 0x65,
+	0x74, 0x5f, 0x74, 0x79, 0x70, 0x65, 0x18, 0x07, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x35, 0x2e, 0x63,
+	0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x66, 0x61, 0x74, 0x65, 0x2e, 0x63, 0x6f, 0x6e, 0x74, 0x72, 0x6f,
+	0x6c, 0x2e, 0x66, 0x69, 0x6c, 0x74, 0x65, 0x72, 0x73, 0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68,
+	0x61, 0x31, 0x2e, 0x45, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x54, 0x79, 0x70, 0x65, 0x46, 0x69, 0x6c,
+	0x74, 0x65, 0x72, 0x48, 0x00, 0x52, 0x0a, 0x74, 0x61, 0x72, 0x67, 0x65, 0x74, 0x54, 0x79, 0x70,
+	0x65, 0x12, 0x54, 0x0a, 0x09, 0x72, 0x6f, 0x6c, 0x65, 0x5f, 0x74, 0x79, 0x70, 0x65, 0x18, 0x08,
+	0x20, 0x01, 0x28, 0x0b, 0x32, 0x35, 0x2e, 0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x66, 0x61, 0x74,
+	0x65, 0x2e, 0x63, 0x6f, 0x6e, 0x74, 0x72, 0x6f, 0x6c, 0x2e, 0x66, 0x69, 0x6c, 0x74, 0x65, 0x72,
+	0x73, 0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x2e, 0x45, 0x6e, 0x74, 0x69, 0x74,
+	0x79, 0x54, 0x79, 0x70, 0x65, 0x46, 0x69, 0x6c, 0x74, 0x65, 0x72, 0x48, 0x00, 0x52, 0x08, 0x72,
+	0x6f, 0x6c, 0x65, 0x54, 0x79, 0x70, 0x65, 0x42, 0x08, 0x0a, 0x06, 0x66, 0x69, 0x6c, 0x74, 0x65,
+	0x72, 0x22, 0xdd, 0x01, 0x0a, 0x1a, 0x51, 0x75, 0x65, 0x72, 0x79, 0x41, 0x63, 0x63, 0x65, 0x73,
+	0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
+	0x12, 0x1d, 0x0a, 0x0a, 0x70, 0x61, 0x67, 0x65, 0x5f, 0x74, 0x6f, 0x6b, 0x65, 0x6e, 0x18, 0x01,
+	0x20, 0x01, 0x28, 0x09, 0x52, 0x09, 0x70, 0x61, 0x67, 0x65, 0x54, 0x6f, 0x6b, 0x65, 0x6e, 0x12,
+	0x1a, 0x0a, 0x08, 0x61, 0x72, 0x63, 0x68, 0x69, 0x76, 0x65, 0x64, 0x18, 0x02, 0x20, 0x01, 0x28,
+	0x08, 0x52, 0x08, 0x61, 0x72, 0x63, 0x68, 0x69, 0x76, 0x65, 0x64, 0x12, 0x3c, 0x0a, 0x05, 0x6f,
+	0x72, 0x64, 0x65, 0x72, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0e, 0x32, 0x21, 0x2e, 0x63, 0x6f, 0x6d,
+	0x6d, 0x6f, 0x6e, 0x66, 0x61, 0x74, 0x65, 0x2e, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x2e, 0x76,
+	0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x2e, 0x4f, 0x72, 0x64, 0x65, 0x72, 0x48, 0x00, 0x52,
+	0x05, 0x6f, 0x72, 0x64, 0x65, 0x72, 0x88, 0x01, 0x01, 0x12, 0x3c, 0x0a, 0x07, 0x66, 0x69, 0x6c,
+	0x74, 0x65, 0x72, 0x73, 0x18, 0x04, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x22, 0x2e, 0x63, 0x6f, 0x6d,
+	0x6d, 0x6f, 0x6e, 0x66, 0x61, 0x74, 0x65, 0x2e, 0x61, 0x63, 0x63, 0x65, 0x73, 0x73, 0x2e, 0x76,
+	0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x2e, 0x46, 0x69, 0x6c, 0x74, 0x65, 0x72, 0x52, 0x07,
+	0x66, 0x69, 0x6c, 0x74, 0x65, 0x72, 0x73, 0x42, 0x08, 0x0a, 0x06, 0x5f, 0x6f, 0x72, 0x64, 0x65,
 	0x72, 0x22, 0x9b, 0x01, 0x0a, 0x1d, 0x51, 0x75, 0x65, 0x72, 0x79, 0x4d, 0x79, 0x41, 0x63, 0x63,
 	0x65, 0x73, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f,
 	0x6e, 0x73, 0x65, 0x12, 0x52, 0x0a, 0x0f, 0x61, 0x63, 0x63, 0x65, 0x73, 0x73, 0x5f, 0x72, 0x65,
@@ -1441,71 +1616,79 @@ func file_commonfate_access_v1alpha1_access_request_proto_rawDescGZIP() []byte {
 }
 
 var file_commonfate_access_v1alpha1_access_request_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_commonfate_access_v1alpha1_access_request_proto_msgTypes = make([]protoimpl.MessageInfo, 17)
+var file_commonfate_access_v1alpha1_access_request_proto_msgTypes = make([]protoimpl.MessageInfo, 18)
 var file_commonfate_access_v1alpha1_access_request_proto_goTypes = []any{
 	(RequestStatus)(0),                      // 0: commonfate.access.v1alpha1.RequestStatus
-	(*QueryAccessRequestsRequest)(nil),      // 1: commonfate.access.v1alpha1.QueryAccessRequestsRequest
-	(*QueryMyAccessRequestsResponse)(nil),   // 2: commonfate.access.v1alpha1.QueryMyAccessRequestsResponse
-	(*QueryMyAccessRequestsRequest)(nil),    // 3: commonfate.access.v1alpha1.QueryMyAccessRequestsRequest
-	(*QueryAccessRequestsResponse)(nil),     // 4: commonfate.access.v1alpha1.QueryAccessRequestsResponse
-	(*GetAccessRequestRequest)(nil),         // 5: commonfate.access.v1alpha1.GetAccessRequestRequest
-	(*GetAccessRequestResponse)(nil),        // 6: commonfate.access.v1alpha1.GetAccessRequestResponse
-	(*GetAccessRequestActionsRequest)(nil),  // 7: commonfate.access.v1alpha1.GetAccessRequestActionsRequest
-	(*GetAccessRequestActionsResponse)(nil), // 8: commonfate.access.v1alpha1.GetAccessRequestActionsResponse
-	(*AccessRequest)(nil),                   // 9: commonfate.access.v1alpha1.AccessRequest
-	(*AccessRequestActions)(nil),            // 10: commonfate.access.v1alpha1.AccessRequestActions
-	(*ApproveAccessRequestRequest)(nil),     // 11: commonfate.access.v1alpha1.ApproveAccessRequestRequest
-	(*ApproveAccessRequestResponse)(nil),    // 12: commonfate.access.v1alpha1.ApproveAccessRequestResponse
-	(*CloseAccessRequestRequest)(nil),       // 13: commonfate.access.v1alpha1.CloseAccessRequestRequest
-	(*CloseAccessRequestResponse)(nil),      // 14: commonfate.access.v1alpha1.CloseAccessRequestResponse
-	(*ActivateAccessRequestRequest)(nil),    // 15: commonfate.access.v1alpha1.ActivateAccessRequestRequest
-	(*ActivateAccessRequestResponse)(nil),   // 16: commonfate.access.v1alpha1.ActivateAccessRequestResponse
-	(*Justification)(nil),                   // 17: commonfate.access.v1alpha1.Justification
-	(v1alpha1.Order)(0),                     // 18: commonfate.entity.v1alpha1.Order
-	(*v1alpha1.EID)(nil),                    // 19: commonfate.entity.v1alpha1.EID
-	(*Grant)(nil),                           // 20: commonfate.access.v1alpha1.Grant
-	(*timestamppb.Timestamp)(nil),           // 21: google.protobuf.Timestamp
-	(*User)(nil),                            // 22: commonfate.access.v1alpha1.User
-	(*Diagnostic)(nil),                      // 23: commonfate.access.v1alpha1.Diagnostic
+	(*Filter)(nil),                          // 1: commonfate.access.v1alpha1.Filter
+	(*QueryAccessRequestsRequest)(nil),      // 2: commonfate.access.v1alpha1.QueryAccessRequestsRequest
+	(*QueryMyAccessRequestsResponse)(nil),   // 3: commonfate.access.v1alpha1.QueryMyAccessRequestsResponse
+	(*QueryMyAccessRequestsRequest)(nil),    // 4: commonfate.access.v1alpha1.QueryMyAccessRequestsRequest
+	(*QueryAccessRequestsResponse)(nil),     // 5: commonfate.access.v1alpha1.QueryAccessRequestsResponse
+	(*GetAccessRequestRequest)(nil),         // 6: commonfate.access.v1alpha1.GetAccessRequestRequest
+	(*GetAccessRequestResponse)(nil),        // 7: commonfate.access.v1alpha1.GetAccessRequestResponse
+	(*GetAccessRequestActionsRequest)(nil),  // 8: commonfate.access.v1alpha1.GetAccessRequestActionsRequest
+	(*GetAccessRequestActionsResponse)(nil), // 9: commonfate.access.v1alpha1.GetAccessRequestActionsResponse
+	(*AccessRequest)(nil),                   // 10: commonfate.access.v1alpha1.AccessRequest
+	(*AccessRequestActions)(nil),            // 11: commonfate.access.v1alpha1.AccessRequestActions
+	(*ApproveAccessRequestRequest)(nil),     // 12: commonfate.access.v1alpha1.ApproveAccessRequestRequest
+	(*ApproveAccessRequestResponse)(nil),    // 13: commonfate.access.v1alpha1.ApproveAccessRequestResponse
+	(*CloseAccessRequestRequest)(nil),       // 14: commonfate.access.v1alpha1.CloseAccessRequestRequest
+	(*CloseAccessRequestResponse)(nil),      // 15: commonfate.access.v1alpha1.CloseAccessRequestResponse
+	(*ActivateAccessRequestRequest)(nil),    // 16: commonfate.access.v1alpha1.ActivateAccessRequestRequest
+	(*ActivateAccessRequestResponse)(nil),   // 17: commonfate.access.v1alpha1.ActivateAccessRequestResponse
+	(*Justification)(nil),                   // 18: commonfate.access.v1alpha1.Justification
+	(*v1alpha1.OccurredAtFilter)(nil),       // 19: commonfate.control.filters.v1alpha1.OccurredAtFilter
+	(*v1alpha1.EntityFilter)(nil),           // 20: commonfate.control.filters.v1alpha1.EntityFilter
+	(*v1alpha1.EntityTypeFilter)(nil),       // 21: commonfate.control.filters.v1alpha1.EntityTypeFilter
+	(v1alpha11.Order)(0),                    // 22: commonfate.entity.v1alpha1.Order
+	(*Grant)(nil),                           // 23: commonfate.access.v1alpha1.Grant
+	(*timestamppb.Timestamp)(nil),           // 24: google.protobuf.Timestamp
+	(*User)(nil),                            // 25: commonfate.access.v1alpha1.User
+	(*Diagnostic)(nil),                      // 26: commonfate.access.v1alpha1.Diagnostic
 }
 var file_commonfate_access_v1alpha1_access_request_proto_depIdxs = []int32{
-	18, // 0: commonfate.access.v1alpha1.QueryAccessRequestsRequest.order:type_name -> commonfate.entity.v1alpha1.Order
-	19, // 1: commonfate.access.v1alpha1.QueryAccessRequestsRequest.requested_by:type_name -> commonfate.entity.v1alpha1.EID
-	19, // 2: commonfate.access.v1alpha1.QueryAccessRequestsRequest.closed_by:type_name -> commonfate.entity.v1alpha1.EID
-	19, // 3: commonfate.access.v1alpha1.QueryAccessRequestsRequest.approved_by:type_name -> commonfate.entity.v1alpha1.EID
-	0,  // 4: commonfate.access.v1alpha1.QueryAccessRequestsRequest.request_status:type_name -> commonfate.access.v1alpha1.RequestStatus
-	9,  // 5: commonfate.access.v1alpha1.QueryMyAccessRequestsResponse.access_requests:type_name -> commonfate.access.v1alpha1.AccessRequest
-	18, // 6: commonfate.access.v1alpha1.QueryMyAccessRequestsRequest.order:type_name -> commonfate.entity.v1alpha1.Order
-	0,  // 7: commonfate.access.v1alpha1.QueryMyAccessRequestsRequest.request_status:type_name -> commonfate.access.v1alpha1.RequestStatus
-	9,  // 8: commonfate.access.v1alpha1.QueryAccessRequestsResponse.access_requests:type_name -> commonfate.access.v1alpha1.AccessRequest
-	9,  // 9: commonfate.access.v1alpha1.GetAccessRequestResponse.access_request:type_name -> commonfate.access.v1alpha1.AccessRequest
-	10, // 10: commonfate.access.v1alpha1.GetAccessRequestActionsResponse.access_request_actions:type_name -> commonfate.access.v1alpha1.AccessRequestActions
-	20, // 11: commonfate.access.v1alpha1.AccessRequest.grants:type_name -> commonfate.access.v1alpha1.Grant
-	21, // 12: commonfate.access.v1alpha1.AccessRequest.created_at:type_name -> google.protobuf.Timestamp
-	17, // 13: commonfate.access.v1alpha1.AccessRequest.justification:type_name -> commonfate.access.v1alpha1.Justification
-	22, // 14: commonfate.access.v1alpha1.AccessRequest.principal:type_name -> commonfate.access.v1alpha1.User
-	23, // 15: commonfate.access.v1alpha1.ApproveAccessRequestResponse.diagnostics:type_name -> commonfate.access.v1alpha1.Diagnostic
-	23, // 16: commonfate.access.v1alpha1.CloseAccessRequestResponse.diagnostics:type_name -> commonfate.access.v1alpha1.Diagnostic
-	23, // 17: commonfate.access.v1alpha1.ActivateAccessRequestResponse.diagnostics:type_name -> commonfate.access.v1alpha1.Diagnostic
-	1,  // 18: commonfate.access.v1alpha1.AccessRequestService.QueryAccessRequests:input_type -> commonfate.access.v1alpha1.QueryAccessRequestsRequest
-	3,  // 19: commonfate.access.v1alpha1.AccessRequestService.QueryMyAccessRequests:input_type -> commonfate.access.v1alpha1.QueryMyAccessRequestsRequest
-	5,  // 20: commonfate.access.v1alpha1.AccessRequestService.GetAccessRequest:input_type -> commonfate.access.v1alpha1.GetAccessRequestRequest
-	7,  // 21: commonfate.access.v1alpha1.AccessRequestService.GetAccessRequestActions:input_type -> commonfate.access.v1alpha1.GetAccessRequestActionsRequest
-	11, // 22: commonfate.access.v1alpha1.AccessRequestService.ApproveAccessRequest:input_type -> commonfate.access.v1alpha1.ApproveAccessRequestRequest
-	15, // 23: commonfate.access.v1alpha1.AccessRequestService.ActivateAccessRequest:input_type -> commonfate.access.v1alpha1.ActivateAccessRequestRequest
-	13, // 24: commonfate.access.v1alpha1.AccessRequestService.CloseAccessRequest:input_type -> commonfate.access.v1alpha1.CloseAccessRequestRequest
-	4,  // 25: commonfate.access.v1alpha1.AccessRequestService.QueryAccessRequests:output_type -> commonfate.access.v1alpha1.QueryAccessRequestsResponse
-	2,  // 26: commonfate.access.v1alpha1.AccessRequestService.QueryMyAccessRequests:output_type -> commonfate.access.v1alpha1.QueryMyAccessRequestsResponse
-	6,  // 27: commonfate.access.v1alpha1.AccessRequestService.GetAccessRequest:output_type -> commonfate.access.v1alpha1.GetAccessRequestResponse
-	8,  // 28: commonfate.access.v1alpha1.AccessRequestService.GetAccessRequestActions:output_type -> commonfate.access.v1alpha1.GetAccessRequestActionsResponse
-	12, // 29: commonfate.access.v1alpha1.AccessRequestService.ApproveAccessRequest:output_type -> commonfate.access.v1alpha1.ApproveAccessRequestResponse
-	16, // 30: commonfate.access.v1alpha1.AccessRequestService.ActivateAccessRequest:output_type -> commonfate.access.v1alpha1.ActivateAccessRequestResponse
-	14, // 31: commonfate.access.v1alpha1.AccessRequestService.CloseAccessRequest:output_type -> commonfate.access.v1alpha1.CloseAccessRequestResponse
-	25, // [25:32] is the sub-list for method output_type
-	18, // [18:25] is the sub-list for method input_type
-	18, // [18:18] is the sub-list for extension type_name
-	18, // [18:18] is the sub-list for extension extendee
-	0,  // [0:18] is the sub-list for field type_name
+	19, // 0: commonfate.access.v1alpha1.Filter.occurred_at:type_name -> commonfate.control.filters.v1alpha1.OccurredAtFilter
+	20, // 1: commonfate.access.v1alpha1.Filter.requested_by:type_name -> commonfate.control.filters.v1alpha1.EntityFilter
+	20, // 2: commonfate.access.v1alpha1.Filter.closed_by:type_name -> commonfate.control.filters.v1alpha1.EntityFilter
+	20, // 3: commonfate.access.v1alpha1.Filter.approved_by:type_name -> commonfate.control.filters.v1alpha1.EntityFilter
+	20, // 4: commonfate.access.v1alpha1.Filter.target:type_name -> commonfate.control.filters.v1alpha1.EntityFilter
+	20, // 5: commonfate.access.v1alpha1.Filter.role:type_name -> commonfate.control.filters.v1alpha1.EntityFilter
+	21, // 6: commonfate.access.v1alpha1.Filter.target_type:type_name -> commonfate.control.filters.v1alpha1.EntityTypeFilter
+	21, // 7: commonfate.access.v1alpha1.Filter.role_type:type_name -> commonfate.control.filters.v1alpha1.EntityTypeFilter
+	22, // 8: commonfate.access.v1alpha1.QueryAccessRequestsRequest.order:type_name -> commonfate.entity.v1alpha1.Order
+	1,  // 9: commonfate.access.v1alpha1.QueryAccessRequestsRequest.filters:type_name -> commonfate.access.v1alpha1.Filter
+	10, // 10: commonfate.access.v1alpha1.QueryMyAccessRequestsResponse.access_requests:type_name -> commonfate.access.v1alpha1.AccessRequest
+	22, // 11: commonfate.access.v1alpha1.QueryMyAccessRequestsRequest.order:type_name -> commonfate.entity.v1alpha1.Order
+	0,  // 12: commonfate.access.v1alpha1.QueryMyAccessRequestsRequest.request_status:type_name -> commonfate.access.v1alpha1.RequestStatus
+	10, // 13: commonfate.access.v1alpha1.QueryAccessRequestsResponse.access_requests:type_name -> commonfate.access.v1alpha1.AccessRequest
+	10, // 14: commonfate.access.v1alpha1.GetAccessRequestResponse.access_request:type_name -> commonfate.access.v1alpha1.AccessRequest
+	11, // 15: commonfate.access.v1alpha1.GetAccessRequestActionsResponse.access_request_actions:type_name -> commonfate.access.v1alpha1.AccessRequestActions
+	23, // 16: commonfate.access.v1alpha1.AccessRequest.grants:type_name -> commonfate.access.v1alpha1.Grant
+	24, // 17: commonfate.access.v1alpha1.AccessRequest.created_at:type_name -> google.protobuf.Timestamp
+	18, // 18: commonfate.access.v1alpha1.AccessRequest.justification:type_name -> commonfate.access.v1alpha1.Justification
+	25, // 19: commonfate.access.v1alpha1.AccessRequest.principal:type_name -> commonfate.access.v1alpha1.User
+	26, // 20: commonfate.access.v1alpha1.ApproveAccessRequestResponse.diagnostics:type_name -> commonfate.access.v1alpha1.Diagnostic
+	26, // 21: commonfate.access.v1alpha1.CloseAccessRequestResponse.diagnostics:type_name -> commonfate.access.v1alpha1.Diagnostic
+	26, // 22: commonfate.access.v1alpha1.ActivateAccessRequestResponse.diagnostics:type_name -> commonfate.access.v1alpha1.Diagnostic
+	2,  // 23: commonfate.access.v1alpha1.AccessRequestService.QueryAccessRequests:input_type -> commonfate.access.v1alpha1.QueryAccessRequestsRequest
+	4,  // 24: commonfate.access.v1alpha1.AccessRequestService.QueryMyAccessRequests:input_type -> commonfate.access.v1alpha1.QueryMyAccessRequestsRequest
+	6,  // 25: commonfate.access.v1alpha1.AccessRequestService.GetAccessRequest:input_type -> commonfate.access.v1alpha1.GetAccessRequestRequest
+	8,  // 26: commonfate.access.v1alpha1.AccessRequestService.GetAccessRequestActions:input_type -> commonfate.access.v1alpha1.GetAccessRequestActionsRequest
+	12, // 27: commonfate.access.v1alpha1.AccessRequestService.ApproveAccessRequest:input_type -> commonfate.access.v1alpha1.ApproveAccessRequestRequest
+	16, // 28: commonfate.access.v1alpha1.AccessRequestService.ActivateAccessRequest:input_type -> commonfate.access.v1alpha1.ActivateAccessRequestRequest
+	14, // 29: commonfate.access.v1alpha1.AccessRequestService.CloseAccessRequest:input_type -> commonfate.access.v1alpha1.CloseAccessRequestRequest
+	5,  // 30: commonfate.access.v1alpha1.AccessRequestService.QueryAccessRequests:output_type -> commonfate.access.v1alpha1.QueryAccessRequestsResponse
+	3,  // 31: commonfate.access.v1alpha1.AccessRequestService.QueryMyAccessRequests:output_type -> commonfate.access.v1alpha1.QueryMyAccessRequestsResponse
+	7,  // 32: commonfate.access.v1alpha1.AccessRequestService.GetAccessRequest:output_type -> commonfate.access.v1alpha1.GetAccessRequestResponse
+	9,  // 33: commonfate.access.v1alpha1.AccessRequestService.GetAccessRequestActions:output_type -> commonfate.access.v1alpha1.GetAccessRequestActionsResponse
+	13, // 34: commonfate.access.v1alpha1.AccessRequestService.ApproveAccessRequest:output_type -> commonfate.access.v1alpha1.ApproveAccessRequestResponse
+	17, // 35: commonfate.access.v1alpha1.AccessRequestService.ActivateAccessRequest:output_type -> commonfate.access.v1alpha1.ActivateAccessRequestResponse
+	15, // 36: commonfate.access.v1alpha1.AccessRequestService.CloseAccessRequest:output_type -> commonfate.access.v1alpha1.CloseAccessRequestResponse
+	30, // [30:37] is the sub-list for method output_type
+	23, // [23:30] is the sub-list for method input_type
+	23, // [23:23] is the sub-list for extension type_name
+	23, // [23:23] is the sub-list for extension extendee
+	0,  // [0:23] is the sub-list for field type_name
 }
 
 func init() { file_commonfate_access_v1alpha1_access_request_proto_init() }
@@ -1518,7 +1701,7 @@ func file_commonfate_access_v1alpha1_access_request_proto_init() {
 	file_commonfate_access_v1alpha1_user_proto_init()
 	if !protoimpl.UnsafeEnabled {
 		file_commonfate_access_v1alpha1_access_request_proto_msgTypes[0].Exporter = func(v any, i int) any {
-			switch v := v.(*QueryAccessRequestsRequest); i {
+			switch v := v.(*Filter); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1530,7 +1713,7 @@ func file_commonfate_access_v1alpha1_access_request_proto_init() {
 			}
 		}
 		file_commonfate_access_v1alpha1_access_request_proto_msgTypes[1].Exporter = func(v any, i int) any {
-			switch v := v.(*QueryMyAccessRequestsResponse); i {
+			switch v := v.(*QueryAccessRequestsRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1542,7 +1725,7 @@ func file_commonfate_access_v1alpha1_access_request_proto_init() {
 			}
 		}
 		file_commonfate_access_v1alpha1_access_request_proto_msgTypes[2].Exporter = func(v any, i int) any {
-			switch v := v.(*QueryMyAccessRequestsRequest); i {
+			switch v := v.(*QueryMyAccessRequestsResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1554,7 +1737,7 @@ func file_commonfate_access_v1alpha1_access_request_proto_init() {
 			}
 		}
 		file_commonfate_access_v1alpha1_access_request_proto_msgTypes[3].Exporter = func(v any, i int) any {
-			switch v := v.(*QueryAccessRequestsResponse); i {
+			switch v := v.(*QueryMyAccessRequestsRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1566,7 +1749,7 @@ func file_commonfate_access_v1alpha1_access_request_proto_init() {
 			}
 		}
 		file_commonfate_access_v1alpha1_access_request_proto_msgTypes[4].Exporter = func(v any, i int) any {
-			switch v := v.(*GetAccessRequestRequest); i {
+			switch v := v.(*QueryAccessRequestsResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1578,7 +1761,7 @@ func file_commonfate_access_v1alpha1_access_request_proto_init() {
 			}
 		}
 		file_commonfate_access_v1alpha1_access_request_proto_msgTypes[5].Exporter = func(v any, i int) any {
-			switch v := v.(*GetAccessRequestResponse); i {
+			switch v := v.(*GetAccessRequestRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1590,7 +1773,7 @@ func file_commonfate_access_v1alpha1_access_request_proto_init() {
 			}
 		}
 		file_commonfate_access_v1alpha1_access_request_proto_msgTypes[6].Exporter = func(v any, i int) any {
-			switch v := v.(*GetAccessRequestActionsRequest); i {
+			switch v := v.(*GetAccessRequestResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1602,7 +1785,7 @@ func file_commonfate_access_v1alpha1_access_request_proto_init() {
 			}
 		}
 		file_commonfate_access_v1alpha1_access_request_proto_msgTypes[7].Exporter = func(v any, i int) any {
-			switch v := v.(*GetAccessRequestActionsResponse); i {
+			switch v := v.(*GetAccessRequestActionsRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1614,7 +1797,7 @@ func file_commonfate_access_v1alpha1_access_request_proto_init() {
 			}
 		}
 		file_commonfate_access_v1alpha1_access_request_proto_msgTypes[8].Exporter = func(v any, i int) any {
-			switch v := v.(*AccessRequest); i {
+			switch v := v.(*GetAccessRequestActionsResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1626,7 +1809,7 @@ func file_commonfate_access_v1alpha1_access_request_proto_init() {
 			}
 		}
 		file_commonfate_access_v1alpha1_access_request_proto_msgTypes[9].Exporter = func(v any, i int) any {
-			switch v := v.(*AccessRequestActions); i {
+			switch v := v.(*AccessRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1638,7 +1821,7 @@ func file_commonfate_access_v1alpha1_access_request_proto_init() {
 			}
 		}
 		file_commonfate_access_v1alpha1_access_request_proto_msgTypes[10].Exporter = func(v any, i int) any {
-			switch v := v.(*ApproveAccessRequestRequest); i {
+			switch v := v.(*AccessRequestActions); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1650,7 +1833,7 @@ func file_commonfate_access_v1alpha1_access_request_proto_init() {
 			}
 		}
 		file_commonfate_access_v1alpha1_access_request_proto_msgTypes[11].Exporter = func(v any, i int) any {
-			switch v := v.(*ApproveAccessRequestResponse); i {
+			switch v := v.(*ApproveAccessRequestRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1662,7 +1845,7 @@ func file_commonfate_access_v1alpha1_access_request_proto_init() {
 			}
 		}
 		file_commonfate_access_v1alpha1_access_request_proto_msgTypes[12].Exporter = func(v any, i int) any {
-			switch v := v.(*CloseAccessRequestRequest); i {
+			switch v := v.(*ApproveAccessRequestResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1674,7 +1857,7 @@ func file_commonfate_access_v1alpha1_access_request_proto_init() {
 			}
 		}
 		file_commonfate_access_v1alpha1_access_request_proto_msgTypes[13].Exporter = func(v any, i int) any {
-			switch v := v.(*CloseAccessRequestResponse); i {
+			switch v := v.(*CloseAccessRequestRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1686,7 +1869,7 @@ func file_commonfate_access_v1alpha1_access_request_proto_init() {
 			}
 		}
 		file_commonfate_access_v1alpha1_access_request_proto_msgTypes[14].Exporter = func(v any, i int) any {
-			switch v := v.(*ActivateAccessRequestRequest); i {
+			switch v := v.(*CloseAccessRequestResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1698,7 +1881,7 @@ func file_commonfate_access_v1alpha1_access_request_proto_init() {
 			}
 		}
 		file_commonfate_access_v1alpha1_access_request_proto_msgTypes[15].Exporter = func(v any, i int) any {
-			switch v := v.(*ActivateAccessRequestResponse); i {
+			switch v := v.(*ActivateAccessRequestRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1710,6 +1893,18 @@ func file_commonfate_access_v1alpha1_access_request_proto_init() {
 			}
 		}
 		file_commonfate_access_v1alpha1_access_request_proto_msgTypes[16].Exporter = func(v any, i int) any {
+			switch v := v.(*ActivateAccessRequestResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_commonfate_access_v1alpha1_access_request_proto_msgTypes[17].Exporter = func(v any, i int) any {
 			switch v := v.(*Justification); i {
 			case 0:
 				return &v.state
@@ -1722,16 +1917,26 @@ func file_commonfate_access_v1alpha1_access_request_proto_init() {
 			}
 		}
 	}
-	file_commonfate_access_v1alpha1_access_request_proto_msgTypes[0].OneofWrappers = []any{}
-	file_commonfate_access_v1alpha1_access_request_proto_msgTypes[2].OneofWrappers = []any{}
-	file_commonfate_access_v1alpha1_access_request_proto_msgTypes[16].OneofWrappers = []any{}
+	file_commonfate_access_v1alpha1_access_request_proto_msgTypes[0].OneofWrappers = []any{
+		(*Filter_OccurredAt)(nil),
+		(*Filter_RequestedBy)(nil),
+		(*Filter_ClosedBy)(nil),
+		(*Filter_ApprovedBy)(nil),
+		(*Filter_Target)(nil),
+		(*Filter_Role)(nil),
+		(*Filter_TargetType)(nil),
+		(*Filter_RoleType)(nil),
+	}
+	file_commonfate_access_v1alpha1_access_request_proto_msgTypes[1].OneofWrappers = []any{}
+	file_commonfate_access_v1alpha1_access_request_proto_msgTypes[3].OneofWrappers = []any{}
+	file_commonfate_access_v1alpha1_access_request_proto_msgTypes[17].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_commonfate_access_v1alpha1_access_request_proto_rawDesc,
 			NumEnums:      1,
-			NumMessages:   17,
+			NumMessages:   18,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

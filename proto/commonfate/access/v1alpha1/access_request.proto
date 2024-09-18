@@ -7,6 +7,7 @@ import "commonfate/access/v1alpha1/diagnostic.proto";
 import "commonfate/access/v1alpha1/grant.proto";
 import "commonfate/access/v1alpha1/user.proto";
 import "commonfate/authz/v1alpha1/read_only.proto";
+import "commonfate/control/filters/v1alpha1/filters.proto";
 import "commonfate/entity/v1alpha1/eid.proto";
 import "commonfate/entity/v1alpha1/entity_service.proto";
 import "google/protobuf/timestamp.proto";
@@ -55,15 +56,25 @@ enum RequestStatus {
   REQUEST_STATUS_CLOSED = 3;
 }
 
+message Filter {
+  oneof filter {
+    commonfate.control.filters.v1alpha1.OccurredAtFilter occurred_at = 1;
+    commonfate.control.filters.v1alpha1.EntityFilter requested_by = 2;
+    commonfate.control.filters.v1alpha1.EntityFilter closed_by = 3;
+    commonfate.control.filters.v1alpha1.EntityFilter approved_by = 4;
+    commonfate.control.filters.v1alpha1.EntityFilter target = 5;
+    commonfate.control.filters.v1alpha1.EntityFilter role = 6;
+    commonfate.control.filters.v1alpha1.EntityTypeFilter target_type = 7;
+    commonfate.control.filters.v1alpha1.EntityTypeFilter role_type = 8;
+  }
+}
+
 message QueryAccessRequestsRequest {
   // The token for the next page.
   string page_token = 1;
   bool archived = 2;
   optional commonfate.entity.v1alpha1.Order order = 3;
-  repeated commonfate.entity.v1alpha1.EID requested_by = 4;
-  repeated commonfate.entity.v1alpha1.EID closed_by = 5;
-  repeated commonfate.entity.v1alpha1.EID approved_by = 6;
-  RequestStatus request_status = 7;
+  repeated Filter filters = 4;
 }
 
 message QueryMyAccessRequestsResponse {
