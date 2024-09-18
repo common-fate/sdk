@@ -1,7 +1,7 @@
 syntax = "proto3";
 
 package commonfate.control.directory.v1alpha1;
-
+import "commonfate/access/v1alpha1/diagnostic.proto";
 import "commonfate/control/directory/v1alpha1/user.proto";
 import "commonfate/control/directory/v1alpha1/group.proto";
 import "commonfate/authz/v1alpha1/read_only.proto";
@@ -38,6 +38,11 @@ service DirectoryService {
   rpc LookupUserAccount(LookupUserAccountRequest) returns (LookupUserAccountResponse) {
     option (commonfate.authz.v1alpha1.read_only) = true;
   }
+
+  rpc DeleteUser(DeleteUserRequest) returns (DeleteUserResponse) {
+   
+  }
+
 }
 
 message QueryUsersRequest {
@@ -53,6 +58,15 @@ message QueryUsersResponse {
   // The total number of users in
   // this Common Fate instance.
   int32 total_user_count = 3;
+}
+
+message DeleteUserRequest {
+  string id = 1;
+}
+
+message DeleteUserResponse {
+
+
 }
 
 message GetUserRequest {
