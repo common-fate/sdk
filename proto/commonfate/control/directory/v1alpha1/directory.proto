@@ -4,6 +4,7 @@ package commonfate.control.directory.v1alpha1;
 
 import "buf/validate/validate.proto";
 import "commonfate/authz/v1alpha1/action.proto";
+import "commonfate/authz/v1alpha1/read_only.proto";
 import "commonfate/control/directory/v1alpha1/group.proto";
 import "commonfate/control/directory/v1alpha1/user.proto";
 
@@ -64,6 +65,8 @@ service DirectoryService {
       id: "GetUser"
     };
   }
+
+  rpc DeleteUser(DeleteUserRequest) returns (DeleteUserResponse) {}
 }
 
 message QueryUsersRequest {
@@ -80,6 +83,12 @@ message QueryUsersResponse {
   // this Common Fate instance.
   int32 total_user_count = 3;
 }
+
+message DeleteUserRequest {
+  string id = 1;
+}
+
+message DeleteUserResponse {}
 
 message GetUserRequest {
   string id = 1 [(buf.validate.field).string.min_len = 1];

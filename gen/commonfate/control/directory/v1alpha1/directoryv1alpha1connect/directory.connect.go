@@ -57,6 +57,9 @@ const (
 	// DirectoryServiceLookupUserAccountProcedure is the fully-qualified name of the DirectoryService's
 	// LookupUserAccount RPC.
 	DirectoryServiceLookupUserAccountProcedure = "/commonfate.control.directory.v1alpha1.DirectoryService/LookupUserAccount"
+	// DirectoryServiceDeleteUserProcedure is the fully-qualified name of the DirectoryService's
+	// DeleteUser RPC.
+	DirectoryServiceDeleteUserProcedure = "/commonfate.control.directory.v1alpha1.DirectoryService/DeleteUser"
 )
 
 // These variables are the protoreflect.Descriptor objects for the RPCs defined in this package.
@@ -70,6 +73,7 @@ var (
 	directoryServiceQueryChildGroupsMethodDescriptor   = directoryServiceServiceDescriptor.Methods().ByName("QueryChildGroups")
 	directoryServiceQueryGroupsForUserMethodDescriptor = directoryServiceServiceDescriptor.Methods().ByName("QueryGroupsForUser")
 	directoryServiceLookupUserAccountMethodDescriptor  = directoryServiceServiceDescriptor.Methods().ByName("LookupUserAccount")
+	directoryServiceDeleteUserMethodDescriptor         = directoryServiceServiceDescriptor.Methods().ByName("DeleteUser")
 )
 
 // DirectoryServiceClient is a client for the commonfate.control.directory.v1alpha1.DirectoryService
@@ -86,6 +90,7 @@ type DirectoryServiceClient interface {
 	// Looks up the matching User for a particular
 	// connected user account in an integration.
 	LookupUserAccount(context.Context, *connect.Request[v1alpha1.LookupUserAccountRequest]) (*connect.Response[v1alpha1.LookupUserAccountResponse], error)
+	DeleteUser(context.Context, *connect.Request[v1alpha1.DeleteUserRequest]) (*connect.Response[v1alpha1.DeleteUserResponse], error)
 }
 
 // NewDirectoryServiceClient constructs a client for the
@@ -147,6 +152,12 @@ func NewDirectoryServiceClient(httpClient connect.HTTPClient, baseURL string, op
 			connect.WithSchema(directoryServiceLookupUserAccountMethodDescriptor),
 			connect.WithClientOptions(opts...),
 		),
+		deleteUser: connect.NewClient[v1alpha1.DeleteUserRequest, v1alpha1.DeleteUserResponse](
+			httpClient,
+			baseURL+DirectoryServiceDeleteUserProcedure,
+			connect.WithSchema(directoryServiceDeleteUserMethodDescriptor),
+			connect.WithClientOptions(opts...),
+		),
 	}
 }
 
@@ -160,6 +171,7 @@ type directoryServiceClient struct {
 	queryChildGroups   *connect.Client[v1alpha1.QueryChildGroupsRequest, v1alpha1.QueryChildGroupsResponse]
 	queryGroupsForUser *connect.Client[v1alpha1.QueryGroupsForUserRequest, v1alpha1.QueryGroupsForUserResponse]
 	lookupUserAccount  *connect.Client[v1alpha1.LookupUserAccountRequest, v1alpha1.LookupUserAccountResponse]
+	deleteUser         *connect.Client[v1alpha1.DeleteUserRequest, v1alpha1.DeleteUserResponse]
 }
 
 // QueryUsers calls commonfate.control.directory.v1alpha1.DirectoryService.QueryUsers.
@@ -203,6 +215,11 @@ func (c *directoryServiceClient) LookupUserAccount(ctx context.Context, req *con
 	return c.lookupUserAccount.CallUnary(ctx, req)
 }
 
+// DeleteUser calls commonfate.control.directory.v1alpha1.DirectoryService.DeleteUser.
+func (c *directoryServiceClient) DeleteUser(ctx context.Context, req *connect.Request[v1alpha1.DeleteUserRequest]) (*connect.Response[v1alpha1.DeleteUserResponse], error) {
+	return c.deleteUser.CallUnary(ctx, req)
+}
+
 // DirectoryServiceHandler is an implementation of the
 // commonfate.control.directory.v1alpha1.DirectoryService service.
 type DirectoryServiceHandler interface {
@@ -217,6 +234,7 @@ type DirectoryServiceHandler interface {
 	// Looks up the matching User for a particular
 	// connected user account in an integration.
 	LookupUserAccount(context.Context, *connect.Request[v1alpha1.LookupUserAccountRequest]) (*connect.Response[v1alpha1.LookupUserAccountResponse], error)
+	DeleteUser(context.Context, *connect.Request[v1alpha1.DeleteUserRequest]) (*connect.Response[v1alpha1.DeleteUserResponse], error)
 }
 
 // NewDirectoryServiceHandler builds an HTTP handler from the service implementation. It returns the
@@ -273,6 +291,12 @@ func NewDirectoryServiceHandler(svc DirectoryServiceHandler, opts ...connect.Han
 		connect.WithSchema(directoryServiceLookupUserAccountMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
+	directoryServiceDeleteUserHandler := connect.NewUnaryHandler(
+		DirectoryServiceDeleteUserProcedure,
+		svc.DeleteUser,
+		connect.WithSchema(directoryServiceDeleteUserMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
+	)
 	return "/commonfate.control.directory.v1alpha1.DirectoryService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
 		case DirectoryServiceQueryUsersProcedure:
@@ -291,6 +315,8 @@ func NewDirectoryServiceHandler(svc DirectoryServiceHandler, opts ...connect.Han
 			directoryServiceQueryGroupsForUserHandler.ServeHTTP(w, r)
 		case DirectoryServiceLookupUserAccountProcedure:
 			directoryServiceLookupUserAccountHandler.ServeHTTP(w, r)
+		case DirectoryServiceDeleteUserProcedure:
+			directoryServiceDeleteUserHandler.ServeHTTP(w, r)
 		default:
 			http.NotFound(w, r)
 		}
@@ -330,4 +356,8 @@ func (UnimplementedDirectoryServiceHandler) QueryGroupsForUser(context.Context, 
 
 func (UnimplementedDirectoryServiceHandler) LookupUserAccount(context.Context, *connect.Request[v1alpha1.LookupUserAccountRequest]) (*connect.Response[v1alpha1.LookupUserAccountResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.control.directory.v1alpha1.DirectoryService.LookupUserAccount is not implemented"))
+}
+
+func (UnimplementedDirectoryServiceHandler) DeleteUser(context.Context, *connect.Request[v1alpha1.DeleteUserRequest]) (*connect.Response[v1alpha1.DeleteUserResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.control.directory.v1alpha1.DirectoryService.DeleteUser is not implemented"))
 }

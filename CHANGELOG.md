@@ -1,5 +1,17 @@
 # @common-fate/sdk
 
+## 1.59.0
+
+### Minor Changes
+
+- f65aa28: Added RPC for deleting a user.
+
+## 1.58.0
+
+### Minor Changes
+
+- ddae8b0: Added a background task api for the integration service
+
 ## 1.57.1
 
 ### Patch Changes
