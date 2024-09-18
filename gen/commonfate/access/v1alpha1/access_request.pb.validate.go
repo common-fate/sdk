@@ -530,6 +530,8 @@ func (m *QueryAccessRequestsRequest) validate(all bool) error {
 
 	}
 
+	// no validation rules for RequestStatus
+
 	if m.Order != nil {
 		// no validation rules for Order
 	}
