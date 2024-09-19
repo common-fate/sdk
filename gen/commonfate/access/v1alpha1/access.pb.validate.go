@@ -3475,6 +3475,8 @@ func (m *BatchEnsureRequest) validate(all bool) error {
 
 	// no validation rules for Breakglass
 
+	// no validation rules for BreakglassReason
+
 	if len(errors) > 0 {
 		return BatchEnsureRequestMultiError(errors)
 	}
