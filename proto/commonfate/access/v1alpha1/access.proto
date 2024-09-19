@@ -14,6 +14,7 @@ import "commonfate/entity/v1alpha1/eid.proto";
 import "commonfate/entity/v1alpha1/entity.proto";
 import "google/protobuf/duration.proto";
 import "google/protobuf/timestamp.proto";
+import "buf/validate/validate.proto";
 
 // AccessService is the Access Handler's user-facing API.
 // Users call this API to ensure that they have access to entitlements.
@@ -270,6 +271,12 @@ message BatchEnsureRequest {
   bool breakglass = 4;
 
   string breakglass_reason = 5;
+
+  option (buf.validate.message).cel = {
+      id: "breakglass_requires_reason",
+      message: "Breakglass access requires a reason",
+      expression: "this.breakglass == true && this.breakglass_reason",
+    };
 }
 
 message BatchEnsureResponse {
