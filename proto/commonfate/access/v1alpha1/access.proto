@@ -275,7 +275,7 @@ message BatchEnsureRequest {
   option (buf.validate.message).cel = {
       id: "breakglass_requires_reason",
       message: "Breakglass access requires a reason",
-      expression: "this.breakglass && has(this.breakglass_reason) && !this.dry_run",
+      expression: "this.breakglass  && !this.dry_run",
     };
 }
 
