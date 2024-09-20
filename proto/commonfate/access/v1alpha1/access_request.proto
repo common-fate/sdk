@@ -193,6 +193,14 @@ message ActivateAccessRequestRequest {
   // If true, will attempt to activate if Access::Action::"BreakglassActivate" action is permitted for the user.
   // When configured, using this action will trigger notifications.
   bool breakglass = 3;
+
+  string breakglass_reason = 4;
+
+  option (buf.validate.message).cel = {
+      id: "breakglass_requires_reason",
+      message: "Breakglass access requires a reason",
+      expression: "!(this.breakglass) || (this.breakglass && this.breakglass_reason != '')",
+    };
 }
 
 message ActivateAccessRequestResponse {
