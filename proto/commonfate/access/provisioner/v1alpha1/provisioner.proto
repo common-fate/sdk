@@ -31,6 +31,10 @@ message ProvisionRequest {
 
   // The ID of the request.
   commonfate.entity.v1alpha1.EID access_request_id = 7;
+
+  optional string sso_start_url = 8;
+
+
 }
 
 message ProvisionResponse {
