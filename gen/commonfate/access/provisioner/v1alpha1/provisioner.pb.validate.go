@@ -260,8 +260,8 @@ func (m *ProvisionRequest) validate(all bool) error {
 		}
 	}
 
-	if m.SsoStartUrl != nil {
-		// no validation rules for SsoStartUrl
+	if m.CustomSsoStartUrl != nil {
+		// no validation rules for CustomSsoStartUrl
 	}
 
 	if len(errors) > 0 {
