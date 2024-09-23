@@ -260,8 +260,38 @@ func (m *ProvisionRequest) validate(all bool) error {
 		}
 	}
 
-	if m.CustomSsoStartUrl != nil {
-		// no validation rules for CustomSsoStartUrl
+	for idx, item := range m.GetAdditionalIntegrations() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, ProvisionRequestValidationError{
+						field:  fmt.Sprintf("AdditionalIntegrations[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, ProvisionRequestValidationError{
+						field:  fmt.Sprintf("AdditionalIntegrations[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return ProvisionRequestValidationError{
+					field:  fmt.Sprintf("AdditionalIntegrations[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
 	}
 
 	if len(errors) > 0 {
