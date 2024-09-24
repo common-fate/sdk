@@ -62,10 +62,6 @@ message Filter {
     commonfate.filters.v1alpha1.EntityFilter requested_by = 2;
     commonfate.filters.v1alpha1.EntityFilter closed_by = 3;
     commonfate.filters.v1alpha1.EntityFilter approved_by = 4;
-    commonfate.filters.v1alpha1.EntityFilter target = 5;
-    commonfate.filters.v1alpha1.EntityFilter role = 6;
-    commonfate.filters.v1alpha1.EntityTypeFilter target_type = 7;
-    commonfate.filters.v1alpha1.EntityTypeFilter role_type = 8;
   }
 }
 
@@ -207,10 +203,10 @@ message ActivateAccessRequestRequest {
   string breakglass_reason = 4;
 
   option (buf.validate.message).cel = {
-      id: "breakglass_requires_reason",
-      message: "Breakglass access requires a reason",
-      expression: "!(this.breakglass) || (this.breakglass && this.breakglass_reason != '')",
-    };
+    id: "breakglass_requires_reason",
+    message: "Breakglass access requires a reason",
+    expression: "!(this.breakglass) || (this.breakglass && this.breakglass_reason != '')",
+  };
 }
 
 message ActivateAccessRequestResponse {
