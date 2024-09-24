@@ -4234,7 +4234,7 @@ func (m *RegexValidation) validate(all bool) error {
 
 	var errors []error
 
-	// no validation rules for Pattern
+	// no validation rules for RegexPattern
 
 	// no validation rules for ErrorMessage
 
