@@ -1801,7 +1801,7 @@ type RegexValidation struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	// The regex pattern to that the reason should match on
+	// The regex pattern to that the reason should match on. It should be in a regex format similar to  "/CF-\d+/".
 	Pattern string `protobuf:"bytes,1,opt,name=pattern,proto3" json:"pattern,omitempty"`
 	// The custom error message to show if the reason doesn't match the regex pattern
 	ErrorMessage string `protobuf:"bytes,2,opt,name=error_message,json=errorMessage,proto3" json:"error_message,omitempty"`
