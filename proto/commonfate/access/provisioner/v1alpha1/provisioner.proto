@@ -32,7 +32,7 @@ message ProvisionRequest {
   // The ID of the request.
   commonfate.entity.v1alpha1.EID access_request_id = 7;
 
-  commonfate.control.integration.v1alpha1.Config additional_integration = 8;
+  repeated commonfate.control.integration.v1alpha1.Config additional_integration = 8;
 
 
 }
