@@ -1,5 +1,11 @@
 # @common-fate/sdk
 
+## 1.59.1
+
+### Patch Changes
+
+- f5b6096: Added a field for breakglass reason to batchEnsure and activate requests and enforce that it is provided when breakglass is used.
+
 ## 1.59.0
 
 ### Minor Changes
