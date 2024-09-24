@@ -14,6 +14,7 @@ import "commonfate/entity/v1alpha1/eid.proto";
 import "commonfate/entity/v1alpha1/entity.proto";
 import "google/protobuf/duration.proto";
 import "google/protobuf/timestamp.proto";
+import "buf/validate/validate.proto";
 
 // AccessService is the Access Handler's user-facing API.
 // Users call this API to ensure that they have access to entitlements.
@@ -185,7 +186,7 @@ message Entitlement {
   // The Cedar Policys which contributed to the authorizations decisions
   EntitlementAccessReason reason = 5;
 
-  int64 role_priority = 6; 
+  int64 role_priority = 6;
 }
 
 message Availability {
@@ -215,7 +216,7 @@ message Availability {
   // The default duration of the access.
   google.protobuf.Duration default_duration = 9;
 
-  // Configuration for extending access. 
+  // Configuration for extending access.
   // If empty, extension is not permitted.
   ExtensionConditions extension_conditions = 10;
 }
@@ -268,6 +269,14 @@ message BatchEnsureRequest {
   // If true, will attempt to activate if Access::Action::"BreakglassActivate" action is permitted for the user.
   // When configured, using this action will trigger notifications.
   bool breakglass = 4;
+
+  string breakglass_reason = 5;
+
+  option (buf.validate.message).cel = {
+      id: "breakglass_requires_reason",
+      message: "Breakglass access requires a reason",
+      expression: "!(this.breakglass) || (this.breakglass && this.breakglass_reason != '')",
+    };
 }
 
 message BatchEnsureResponse {
@@ -340,5 +349,3 @@ message EntitlementNode {
 
   NamedEID suggested_role = 7;
 }
-
-
