@@ -1,74 +1,75 @@
 syntax = "proto3";
 package commonfate.control.config.v1alpha1;
 
-import "google/protobuf/duration.proto";
 import "commonfate/access/v1alpha1/extension_conditions.proto";
-import "commonfate/entity/v1alpha1/eid.proto";
+import "commonfate/access/v1alpha1/regex_validation.proto";
 import "commonfate/authz/v1alpha1/read_only.proto";
-
-
+import "commonfate/entity/v1alpha1/eid.proto";
+import "google/protobuf/duration.proto";
 
 service AccessWorkflowService {
-    rpc CreateAccessWorkflow(CreateAccessWorkflowRequest) returns (CreateAccessWorkflowResponse) {}
-    rpc GetAccessWorkflow(GetAccessWorkflowRequest) returns (GetAccessWorkflowResponse) {
-        option(commonfate.authz.v1alpha1.read_only) = true;
-    }
-    rpc UpdateAccessWorkflow(UpdateAccessWorkflowRequest) returns (UpdateAccessWorkflowResponse) {}
-    rpc DeleteAccessWorkflow(DeleteAccessWorkflowRequest) returns (DeleteAccessWorkflowResponse) {}
+  rpc CreateAccessWorkflow(CreateAccessWorkflowRequest) returns (CreateAccessWorkflowResponse) {}
+  rpc GetAccessWorkflow(GetAccessWorkflowRequest) returns (GetAccessWorkflowResponse) {
+    option (commonfate.authz.v1alpha1.read_only) = true;
+  }
+  rpc UpdateAccessWorkflow(UpdateAccessWorkflowRequest) returns (UpdateAccessWorkflowResponse) {}
+  rpc DeleteAccessWorkflow(DeleteAccessWorkflowRequest) returns (DeleteAccessWorkflowResponse) {}
 }
 
 message AccessWorkflow {
-    string id = 1;
-    string name = 2;
-    google.protobuf.Duration access_duration = 3;
-    google.protobuf.Duration try_extend_after = 4;
-    int32 priority = 5;
-    google.protobuf.Duration activation_expiry = 6;
-    google.protobuf.Duration default_duration = 7;
-    ValidationConfig validation = 8;
-    commonfate.access.v1alpha1.ExtensionConditions extension_conditions = 9;
+  string id = 1;
+  string name = 2;
+  google.protobuf.Duration access_duration = 3;
+  google.protobuf.Duration try_extend_after = 4;
+  int32 priority = 5;
+  google.protobuf.Duration activation_expiry = 6;
+  google.protobuf.Duration default_duration = 7;
+  ValidationConfig validation = 8;
+  commonfate.access.v1alpha1.ExtensionConditions extension_conditions = 9;
 }
 
 message ValidationConfig {
-    // If true, a reason is required for access.
-    bool has_reason = 1;
+  // If true, a reason is required for access.
+  bool has_reason = 1;
+  // List of regex patterns that the reason must conform with
+  repeated commonfate.access.v1alpha1.RegexValidation regex = 2;
 }
 
 message CreateAccessWorkflowRequest {
-    string name = 2;
-    google.protobuf.Duration access_duration = 3;
-    google.protobuf.Duration try_extend_after = 4;
-    int32 priority = 5;
-    google.protobuf.Duration activation_expiry= 6;
-    google.protobuf.Duration default_duration = 7;
-    ValidationConfig validation = 8;
-    commonfate.access.v1alpha1.ExtensionConditions extension_conditions = 9;
+  string name = 2;
+  google.protobuf.Duration access_duration = 3;
+  google.protobuf.Duration try_extend_after = 4;
+  int32 priority = 5;
+  google.protobuf.Duration activation_expiry = 6;
+  google.protobuf.Duration default_duration = 7;
+  ValidationConfig validation = 8;
+  commonfate.access.v1alpha1.ExtensionConditions extension_conditions = 9;
 }
 
 message CreateAccessWorkflowResponse {
-    AccessWorkflow workflow = 1;
+  AccessWorkflow workflow = 1;
 }
 
 message GetAccessWorkflowRequest {
-    string id = 1;
+  string id = 1;
 }
 
 message GetAccessWorkflowResponse {
-    AccessWorkflow workflow = 1;
+  AccessWorkflow workflow = 1;
 }
 
 message UpdateAccessWorkflowRequest {
-    AccessWorkflow workflow = 1;
+  AccessWorkflow workflow = 1;
 }
 
 message UpdateAccessWorkflowResponse {
-    AccessWorkflow workflow = 1;
+  AccessWorkflow workflow = 1;
 }
 
 message DeleteAccessWorkflowRequest {
-    string id = 1;
+  string id = 1;
 }
 
 message DeleteAccessWorkflowResponse {
-    string id = 1;
+  string id = 1;
 }

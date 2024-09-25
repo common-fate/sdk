@@ -8,6 +8,7 @@ import "commonfate/access/v1alpha1/diagnostic.proto";
 import "commonfate/access/v1alpha1/extension_conditions.proto";
 import "commonfate/access/v1alpha1/grant.proto";
 import "commonfate/access/v1alpha1/named_eid.proto";
+import "commonfate/access/v1alpha1/regex_validation.proto";
 import "commonfate/access/v1alpha1/user.proto";
 import "commonfate/authz/v1alpha1/policy.proto";
 import "commonfate/authz/v1alpha1/read_only.proto";
@@ -318,13 +319,6 @@ message Validation {
   bool has_reason = 1;
   // List of regex patterns that the reason must conform with
   repeated RegexValidation regex = 2;
-}
-
-message RegexValidation {
-  // The regex pattern to that the reason should match on. It should be in a regex format similar to  "/CF-\d+/".
-  string regex_pattern = 1;
-  // The custom error message to show if the reason doesn't match the regex pattern
-  string error_message = 2;
 }
 
 enum GrantChange {
