@@ -70,8 +70,8 @@ message QueryAccessRequestsRequest {
   string page_token = 1;
   bool archived = 2;
   optional commonfate.entity.v1alpha1.Order order = 3;
-  repeated Filter filters = 4;
-  RequestStatus request_status = 5;
+  RequestStatus request_status = 7;
+  repeated Filter filters = 8;
 }
 
 message QueryMyAccessRequestsResponse {
