@@ -2,14 +2,15 @@ syntax = "proto3";
 
 package commonfate.access.v1alpha1;
 
+import "buf/validate/validate.proto";
 import "commonfate/access/v1alpha1/diagnostic.proto";
 import "commonfate/access/v1alpha1/grant.proto";
 import "commonfate/access/v1alpha1/user.proto";
 import "commonfate/authz/v1alpha1/read_only.proto";
-import "commonfate/entity/v1alpha1/entity_service.proto";
 import "commonfate/entity/v1alpha1/eid.proto";
+import "commonfate/entity/v1alpha1/entity_service.proto";
+import "commonfate/filters/v1alpha1/filters.proto";
 import "google/protobuf/timestamp.proto";
-import "buf/validate/validate.proto";
 
 // The Access Request API.
 //
@@ -55,16 +56,22 @@ enum RequestStatus {
   REQUEST_STATUS_CLOSED = 3;
 }
 
+message Filter {
+  oneof filter {
+    commonfate.filters.v1alpha1.OccurredAtFilter occurred_at = 1;
+    commonfate.filters.v1alpha1.EntityFilter requested_by = 2;
+    commonfate.filters.v1alpha1.EntityFilter closed_by = 3;
+    commonfate.filters.v1alpha1.EntityFilter approved_by = 4;
+  }
+}
+
 message QueryAccessRequestsRequest {
   // The token for the next page.
   string page_token = 1;
   bool archived = 2;
   optional commonfate.entity.v1alpha1.Order order = 3;
-  optional commonfate.entity.v1alpha1.EID requested_by = 4;
-  optional commonfate.entity.v1alpha1.EID closed_by = 5;
-  optional commonfate.entity.v1alpha1.EID approved_by = 6;
   RequestStatus request_status = 7;
-
+  repeated Filter filters = 8;
 }
 
 message QueryMyAccessRequestsResponse {
@@ -77,7 +84,6 @@ message QueryMyAccessRequestsRequest {
   string page_token = 1;
   optional commonfate.entity.v1alpha1.Order order = 2;
   RequestStatus request_status = 3;
-
 }
 
 message QueryAccessRequestsResponse {
@@ -197,10 +203,10 @@ message ActivateAccessRequestRequest {
   string breakglass_reason = 4;
 
   option (buf.validate.message).cel = {
-      id: "breakglass_requires_reason",
-      message: "Breakglass access requires a reason",
-      expression: "!(this.breakglass) || (this.breakglass && this.breakglass_reason != '')",
-    };
+    id: "breakglass_requires_reason",
+    message: "Breakglass access requires a reason",
+    expression: "!(this.breakglass) || (this.breakglass && this.breakglass_reason != '')",
+  };
 }
 
 message ActivateAccessRequestResponse {
