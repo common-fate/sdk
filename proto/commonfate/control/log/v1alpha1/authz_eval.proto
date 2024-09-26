@@ -4,9 +4,7 @@ package commonfate.control.log.v1alpha1;
 
 import "commonfate/authz/v1alpha1/evaluation.proto";
 import "commonfate/authz/v1alpha1/read_only.proto";
-import "commonfate/entity/v1alpha1/eid.proto";
 import "commonfate/filters/v1alpha1/filters.proto";
-import "google/protobuf/timestamp.proto";
 
 // EvalService is the API for auditing authorization evaluations made by authz.
 service EvaluationService {
@@ -46,26 +44,6 @@ message QueryEvaluationsRequest {
 
   // Filters for the query. Events matching *all* filters will be returned.
   repeated Filter filters = 3;
-}
-
-enum TimeComparison {
-  TIME_COMPARISON_UNSPECIFIED = 0;
-
-  // Events which occurred before the specified time.
-  TIME_COMPARISON_BEFORE = 1;
-
-  // Events which occurred after the specified time.
-  TIME_COMPARISON_AFTER = 2;
-}
-
-enum BoolComparison {
-  BOOL_COMPARISON_UNSPECIFIED = 0;
-
-  // Equal to the provided value.
-  BOOL_COMPARISON_EQUAL = 1;
-
-  // Not equal to the provided value.
-  BOOL_COMPARISON_NOT_EQUAL = 2;
 }
 
 message QueryEvaluationsResponse {
