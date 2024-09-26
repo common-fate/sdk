@@ -7,7 +7,6 @@ import "commonfate/access/v1alpha1/diagnostic.proto";
 import "commonfate/access/v1alpha1/grant.proto";
 import "commonfate/access/v1alpha1/user.proto";
 import "commonfate/authz/v1alpha1/read_only.proto";
-import "commonfate/entity/v1alpha1/eid.proto";
 import "commonfate/entity/v1alpha1/entity_service.proto";
 import "commonfate/filters/v1alpha1/filters.proto";
 import "google/protobuf/timestamp.proto";
@@ -62,6 +61,11 @@ message Filter {
     commonfate.filters.v1alpha1.EntityFilter requested_by = 2;
     commonfate.filters.v1alpha1.EntityFilter closed_by = 3;
     commonfate.filters.v1alpha1.EntityFilter approved_by = 4;
+    // Whether or not the request received an approval
+    commonfate.filters.v1alpha1.BoolFilter approved = 5;
+    // Whether or not this request was extended
+    commonfate.filters.v1alpha1.BoolFilter extended = 6;
+    commonfate.filters.v1alpha1.IntegerFilter grant_count = 7;
   }
 }
 
@@ -72,6 +76,7 @@ message QueryAccessRequestsRequest {
   optional commonfate.entity.v1alpha1.Order order = 3;
   RequestStatus request_status = 7;
   repeated Filter filters = 8;
+  int32 limit = 9;
 }
 
 message QueryMyAccessRequestsResponse {
@@ -84,6 +89,8 @@ message QueryMyAccessRequestsRequest {
   string page_token = 1;
   optional commonfate.entity.v1alpha1.Order order = 2;
   RequestStatus request_status = 3;
+  repeated Filter filters = 4;
+  int32 limit = 5;
 }
 
 message QueryAccessRequestsResponse {

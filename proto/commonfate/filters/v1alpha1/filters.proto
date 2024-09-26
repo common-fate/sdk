@@ -40,6 +40,17 @@ message OccurredAtFilter {
   TimeComparison comparison = 2;
 }
 
+// Filters based on an integer equality.
+message IntegerFilter {
+  int64 value = 1;
+  EqualityComparison comparison = 2;
+}
+
+// Filters based on a condition being true or false.
+message BoolFilter {
+  BoolComparison comparison = 2;
+}
+
 enum TimeComparison {
   TIME_COMPARISON_UNSPECIFIED = 0;
 
@@ -58,4 +69,26 @@ enum BoolComparison {
 
   // Not equal to the provided value.
   BOOL_COMPARISON_NOT_EQUAL = 2;
+}
+
+enum EqualityComparison {
+  EQUALITY_COMPARISON_UNSPECIFIED = 0;
+
+  // Equal to the provided value.
+  EQUALITY_COMPARISON_EQUAL = 1;
+
+  // Not equal to the provided value.
+  EQUALITY_COMPARISON_NOT_EQUAL = 2;
+
+  // Less than the provided value.
+  EQUALITY_COMPARISON_LESS_THAN = 3;
+
+  // Greater than the provided value.
+  EQUALITY_COMPARISON_GREATER_THAN = 4;
+
+  // Less than or equal to the provided value.
+  EQUALITY_COMPARISON_LESS_THAN_EQUAL = 5;
+
+  // Greater than or equal to the provided value.
+  EQUALITY_COMPARISON_GREATER_THAN_EQUAL = 6;
 }

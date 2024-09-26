@@ -5,6 +5,7 @@ package commonfate.control.log.v1alpha1;
 import "commonfate/authz/v1alpha1/evaluation.proto";
 import "commonfate/authz/v1alpha1/read_only.proto";
 import "commonfate/entity/v1alpha1/eid.proto";
+import "commonfate/filters/v1alpha1/filters.proto";
 import "google/protobuf/timestamp.proto";
 
 // EvalService is the API for auditing authorization evaluations made by authz.
@@ -25,60 +26,26 @@ service EvaluationService {
   }
 }
 
+message Filter {
+  oneof filter {
+    commonfate.filters.v1alpha1.TagFilter tag = 1;
+    commonfate.filters.v1alpha1.OccurredAtFilter occurred_at = 2;
+    commonfate.filters.v1alpha1.EntityFilter principal = 3;
+    commonfate.filters.v1alpha1.EntityFilter action = 4;
+    commonfate.filters.v1alpha1.EntityFilter resource = 5;
+    commonfate.filters.v1alpha1.DecisionFilter decision = 6;
+    commonfate.filters.v1alpha1.EntityTypeFilter principal_type = 7;
+    commonfate.filters.v1alpha1.EntityTypeFilter action_type = 8;
+    commonfate.filters.v1alpha1.EntityTypeFilter resource_type = 9;
+  }
+}
+
 message QueryEvaluationsRequest {
   // The token for the next page.
   string page_token = 1;
 
   // Filters for the query. Events matching *all* filters will be returned.
-  repeated Filter filters = 2;
-}
-
-// Filters events with a particular authorization decision
-message DecisionFilter {
-  commonfate.authz.v1alpha1.Decision decision = 1;
-}
-
-// Filters event by a particular key/value tag associated when them.
-// Will filter for either events which match the tag, or do not match the tag,
-// based on the 'comparison' value.
-message TagFilter {
-  string key = 1;
-  string value = 2;
-  BoolComparison comparison = 3;
-}
-
-// Filters events where the principal/action/resource matches particular entities.
-message EntityFilter {
-  // IDs of entities to filter for. Will filter for a principal/action/resource matching any of these entities.
-  repeated commonfate.entity.v1alpha1.EID ids = 1;
-  BoolComparison comparison = 2;
-}
-
-// Filters events where the principal/action/resource matches particular entity types.
-message EntityTypeFilter {
-  // types of entities to filter for. Will filter for a principal/action/resource matching any of these entities.
-  repeated string types = 1;
-  BoolComparison comparison = 2;
-}
-
-// Filters events based on when they occurred.
-message OccurredAtFilter {
-  google.protobuf.Timestamp time = 1;
-  TimeComparison comparison = 2;
-}
-
-message Filter {
-  oneof filter {
-    TagFilter tag = 1;
-    OccurredAtFilter occurred_at = 2;
-    EntityFilter principal = 3;
-    EntityFilter action = 4;
-    EntityFilter resource = 5;
-    DecisionFilter decision = 6;
-    EntityTypeFilter principal_type = 7;
-    EntityTypeFilter action_type = 8;
-    EntityTypeFilter resource_type = 9;
-  }
+  repeated Filter filters = 3;
 }
 
 enum TimeComparison {
