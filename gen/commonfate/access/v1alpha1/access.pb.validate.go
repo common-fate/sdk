@@ -4101,7 +4101,7 @@ func (m *Validation) validate(all bool) error {
 
 	// no validation rules for HasReason
 
-	for idx, item := range m.GetRegex() {
+	for idx, item := range m.GetReasonRegex() {
 		_, _ = idx, item
 
 		if all {
@@ -4109,7 +4109,7 @@ func (m *Validation) validate(all bool) error {
 			case interface{ ValidateAll() error }:
 				if err := v.ValidateAll(); err != nil {
 					errors = append(errors, ValidationValidationError{
-						field:  fmt.Sprintf("Regex[%v]", idx),
+						field:  fmt.Sprintf("ReasonRegex[%v]", idx),
 						reason: "embedded message failed validation",
 						cause:  err,
 					})
@@ -4117,7 +4117,7 @@ func (m *Validation) validate(all bool) error {
 			case interface{ Validate() error }:
 				if err := v.Validate(); err != nil {
 					errors = append(errors, ValidationValidationError{
-						field:  fmt.Sprintf("Regex[%v]", idx),
+						field:  fmt.Sprintf("ReasonRegex[%v]", idx),
 						reason: "embedded message failed validation",
 						cause:  err,
 					})
@@ -4126,7 +4126,7 @@ func (m *Validation) validate(all bool) error {
 		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
 			if err := v.Validate(); err != nil {
 				return ValidationValidationError{
-					field:  fmt.Sprintf("Regex[%v]", idx),
+					field:  fmt.Sprintf("ReasonRegex[%v]", idx),
 					reason: "embedded message failed validation",
 					cause:  err,
 				}

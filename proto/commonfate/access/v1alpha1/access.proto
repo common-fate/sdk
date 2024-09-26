@@ -318,7 +318,7 @@ message Validation {
   // If true, a reason is required for access.
   bool has_reason = 1;
   // List of regex patterns that the reason must conform with
-  repeated RegexValidation regex = 2;
+  repeated RegexValidation reason_regex = 2;
 }
 
 enum GrantChange {

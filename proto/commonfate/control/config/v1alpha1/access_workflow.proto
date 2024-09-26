@@ -32,7 +32,7 @@ message ValidationConfig {
   // If true, a reason is required for access.
   bool has_reason = 1;
   // List of regex patterns that the reason must conform with
-  repeated commonfate.access.v1alpha1.RegexValidation regex = 2;
+  repeated commonfate.access.v1alpha1.RegexValidation reason_regex = 2;
 }
 
 message CreateAccessWorkflowRequest {
