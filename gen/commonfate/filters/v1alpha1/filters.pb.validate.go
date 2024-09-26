@@ -613,3 +613,208 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = OccurredAtFilterValidationError{}
+
+// Validate checks the field values on IntegerFilter with the rules defined in
+// the proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *IntegerFilter) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on IntegerFilter with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in IntegerFilterMultiError, or
+// nil if none found.
+func (m *IntegerFilter) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *IntegerFilter) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Value
+
+	// no validation rules for Comparison
+
+	if len(errors) > 0 {
+		return IntegerFilterMultiError(errors)
+	}
+
+	return nil
+}
+
+// IntegerFilterMultiError is an error wrapping multiple validation errors
+// returned by IntegerFilter.ValidateAll() if the designated constraints
+// aren't met.
+type IntegerFilterMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m IntegerFilterMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m IntegerFilterMultiError) AllErrors() []error { return m }
+
+// IntegerFilterValidationError is the validation error returned by
+// IntegerFilter.Validate if the designated constraints aren't met.
+type IntegerFilterValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e IntegerFilterValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e IntegerFilterValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e IntegerFilterValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e IntegerFilterValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e IntegerFilterValidationError) ErrorName() string { return "IntegerFilterValidationError" }
+
+// Error satisfies the builtin error interface
+func (e IntegerFilterValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sIntegerFilter.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = IntegerFilterValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = IntegerFilterValidationError{}
+
+// Validate checks the field values on BoolFilter with the rules defined in the
+// proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *BoolFilter) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on BoolFilter with the rules defined in
+// the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in BoolFilterMultiError, or
+// nil if none found.
+func (m *BoolFilter) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *BoolFilter) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Comparison
+
+	if len(errors) > 0 {
+		return BoolFilterMultiError(errors)
+	}
+
+	return nil
+}
+
+// BoolFilterMultiError is an error wrapping multiple validation errors
+// returned by BoolFilter.ValidateAll() if the designated constraints aren't met.
+type BoolFilterMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m BoolFilterMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m BoolFilterMultiError) AllErrors() []error { return m }
+
+// BoolFilterValidationError is the validation error returned by
+// BoolFilter.Validate if the designated constraints aren't met.
+type BoolFilterValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e BoolFilterValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e BoolFilterValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e BoolFilterValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e BoolFilterValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e BoolFilterValidationError) ErrorName() string { return "BoolFilterValidationError" }
+
+// Error satisfies the builtin error interface
+func (e BoolFilterValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sBoolFilter.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = BoolFilterValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = BoolFilterValidationError{}

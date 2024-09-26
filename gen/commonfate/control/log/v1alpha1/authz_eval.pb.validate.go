@@ -17,8 +17,6 @@ import (
 	"unicode/utf8"
 
 	"google.golang.org/protobuf/types/known/anypb"
-
-	authzv1alpha1 "github.com/common-fate/sdk/gen/commonfate/authz/v1alpha1"
 )
 
 // ensure the imports are used
@@ -35,722 +33,7 @@ var (
 	_ = (*mail.Address)(nil)
 	_ = anypb.Any{}
 	_ = sort.Sort
-
-	_ = authzv1alpha1.Decision(0)
 )
-
-// Validate checks the field values on QueryEvaluationsRequest with the rules
-// defined in the proto definition for this message. If any rules are
-// violated, the first error encountered is returned, or nil if there are no violations.
-func (m *QueryEvaluationsRequest) Validate() error {
-	return m.validate(false)
-}
-
-// ValidateAll checks the field values on QueryEvaluationsRequest with the
-// rules defined in the proto definition for this message. If any rules are
-// violated, the result is a list of violation errors wrapped in
-// QueryEvaluationsRequestMultiError, or nil if none found.
-func (m *QueryEvaluationsRequest) ValidateAll() error {
-	return m.validate(true)
-}
-
-func (m *QueryEvaluationsRequest) validate(all bool) error {
-	if m == nil {
-		return nil
-	}
-
-	var errors []error
-
-	// no validation rules for PageToken
-
-	for idx, item := range m.GetFilters() {
-		_, _ = idx, item
-
-		if all {
-			switch v := interface{}(item).(type) {
-			case interface{ ValidateAll() error }:
-				if err := v.ValidateAll(); err != nil {
-					errors = append(errors, QueryEvaluationsRequestValidationError{
-						field:  fmt.Sprintf("Filters[%v]", idx),
-						reason: "embedded message failed validation",
-						cause:  err,
-					})
-				}
-			case interface{ Validate() error }:
-				if err := v.Validate(); err != nil {
-					errors = append(errors, QueryEvaluationsRequestValidationError{
-						field:  fmt.Sprintf("Filters[%v]", idx),
-						reason: "embedded message failed validation",
-						cause:  err,
-					})
-				}
-			}
-		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
-			if err := v.Validate(); err != nil {
-				return QueryEvaluationsRequestValidationError{
-					field:  fmt.Sprintf("Filters[%v]", idx),
-					reason: "embedded message failed validation",
-					cause:  err,
-				}
-			}
-		}
-
-	}
-
-	if len(errors) > 0 {
-		return QueryEvaluationsRequestMultiError(errors)
-	}
-
-	return nil
-}
-
-// QueryEvaluationsRequestMultiError is an error wrapping multiple validation
-// errors returned by QueryEvaluationsRequest.ValidateAll() if the designated
-// constraints aren't met.
-type QueryEvaluationsRequestMultiError []error
-
-// Error returns a concatenation of all the error messages it wraps.
-func (m QueryEvaluationsRequestMultiError) Error() string {
-	var msgs []string
-	for _, err := range m {
-		msgs = append(msgs, err.Error())
-	}
-	return strings.Join(msgs, "; ")
-}
-
-// AllErrors returns a list of validation violation errors.
-func (m QueryEvaluationsRequestMultiError) AllErrors() []error { return m }
-
-// QueryEvaluationsRequestValidationError is the validation error returned by
-// QueryEvaluationsRequest.Validate if the designated constraints aren't met.
-type QueryEvaluationsRequestValidationError struct {
-	field  string
-	reason string
-	cause  error
-	key    bool
-}
-
-// Field function returns field value.
-func (e QueryEvaluationsRequestValidationError) Field() string { return e.field }
-
-// Reason function returns reason value.
-func (e QueryEvaluationsRequestValidationError) Reason() string { return e.reason }
-
-// Cause function returns cause value.
-func (e QueryEvaluationsRequestValidationError) Cause() error { return e.cause }
-
-// Key function returns key value.
-func (e QueryEvaluationsRequestValidationError) Key() bool { return e.key }
-
-// ErrorName returns error name.
-func (e QueryEvaluationsRequestValidationError) ErrorName() string {
-	return "QueryEvaluationsRequestValidationError"
-}
-
-// Error satisfies the builtin error interface
-func (e QueryEvaluationsRequestValidationError) Error() string {
-	cause := ""
-	if e.cause != nil {
-		cause = fmt.Sprintf(" | caused by: %v", e.cause)
-	}
-
-	key := ""
-	if e.key {
-		key = "key for "
-	}
-
-	return fmt.Sprintf(
-		"invalid %sQueryEvaluationsRequest.%s: %s%s",
-		key,
-		e.field,
-		e.reason,
-		cause)
-}
-
-var _ error = QueryEvaluationsRequestValidationError{}
-
-var _ interface {
-	Field() string
-	Reason() string
-	Key() bool
-	Cause() error
-	ErrorName() string
-} = QueryEvaluationsRequestValidationError{}
-
-// Validate checks the field values on DecisionFilter with the rules defined in
-// the proto definition for this message. If any rules are violated, the first
-// error encountered is returned, or nil if there are no violations.
-func (m *DecisionFilter) Validate() error {
-	return m.validate(false)
-}
-
-// ValidateAll checks the field values on DecisionFilter with the rules defined
-// in the proto definition for this message. If any rules are violated, the
-// result is a list of violation errors wrapped in DecisionFilterMultiError,
-// or nil if none found.
-func (m *DecisionFilter) ValidateAll() error {
-	return m.validate(true)
-}
-
-func (m *DecisionFilter) validate(all bool) error {
-	if m == nil {
-		return nil
-	}
-
-	var errors []error
-
-	// no validation rules for Decision
-
-	if len(errors) > 0 {
-		return DecisionFilterMultiError(errors)
-	}
-
-	return nil
-}
-
-// DecisionFilterMultiError is an error wrapping multiple validation errors
-// returned by DecisionFilter.ValidateAll() if the designated constraints
-// aren't met.
-type DecisionFilterMultiError []error
-
-// Error returns a concatenation of all the error messages it wraps.
-func (m DecisionFilterMultiError) Error() string {
-	var msgs []string
-	for _, err := range m {
-		msgs = append(msgs, err.Error())
-	}
-	return strings.Join(msgs, "; ")
-}
-
-// AllErrors returns a list of validation violation errors.
-func (m DecisionFilterMultiError) AllErrors() []error { return m }
-
-// DecisionFilterValidationError is the validation error returned by
-// DecisionFilter.Validate if the designated constraints aren't met.
-type DecisionFilterValidationError struct {
-	field  string
-	reason string
-	cause  error
-	key    bool
-}
-
-// Field function returns field value.
-func (e DecisionFilterValidationError) Field() string { return e.field }
-
-// Reason function returns reason value.
-func (e DecisionFilterValidationError) Reason() string { return e.reason }
-
-// Cause function returns cause value.
-func (e DecisionFilterValidationError) Cause() error { return e.cause }
-
-// Key function returns key value.
-func (e DecisionFilterValidationError) Key() bool { return e.key }
-
-// ErrorName returns error name.
-func (e DecisionFilterValidationError) ErrorName() string { return "DecisionFilterValidationError" }
-
-// Error satisfies the builtin error interface
-func (e DecisionFilterValidationError) Error() string {
-	cause := ""
-	if e.cause != nil {
-		cause = fmt.Sprintf(" | caused by: %v", e.cause)
-	}
-
-	key := ""
-	if e.key {
-		key = "key for "
-	}
-
-	return fmt.Sprintf(
-		"invalid %sDecisionFilter.%s: %s%s",
-		key,
-		e.field,
-		e.reason,
-		cause)
-}
-
-var _ error = DecisionFilterValidationError{}
-
-var _ interface {
-	Field() string
-	Reason() string
-	Key() bool
-	Cause() error
-	ErrorName() string
-} = DecisionFilterValidationError{}
-
-// Validate checks the field values on TagFilter with the rules defined in the
-// proto definition for this message. If any rules are violated, the first
-// error encountered is returned, or nil if there are no violations.
-func (m *TagFilter) Validate() error {
-	return m.validate(false)
-}
-
-// ValidateAll checks the field values on TagFilter with the rules defined in
-// the proto definition for this message. If any rules are violated, the
-// result is a list of violation errors wrapped in TagFilterMultiError, or nil
-// if none found.
-func (m *TagFilter) ValidateAll() error {
-	return m.validate(true)
-}
-
-func (m *TagFilter) validate(all bool) error {
-	if m == nil {
-		return nil
-	}
-
-	var errors []error
-
-	// no validation rules for Key
-
-	// no validation rules for Value
-
-	// no validation rules for Comparison
-
-	if len(errors) > 0 {
-		return TagFilterMultiError(errors)
-	}
-
-	return nil
-}
-
-// TagFilterMultiError is an error wrapping multiple validation errors returned
-// by TagFilter.ValidateAll() if the designated constraints aren't met.
-type TagFilterMultiError []error
-
-// Error returns a concatenation of all the error messages it wraps.
-func (m TagFilterMultiError) Error() string {
-	var msgs []string
-	for _, err := range m {
-		msgs = append(msgs, err.Error())
-	}
-	return strings.Join(msgs, "; ")
-}
-
-// AllErrors returns a list of validation violation errors.
-func (m TagFilterMultiError) AllErrors() []error { return m }
-
-// TagFilterValidationError is the validation error returned by
-// TagFilter.Validate if the designated constraints aren't met.
-type TagFilterValidationError struct {
-	field  string
-	reason string
-	cause  error
-	key    bool
-}
-
-// Field function returns field value.
-func (e TagFilterValidationError) Field() string { return e.field }
-
-// Reason function returns reason value.
-func (e TagFilterValidationError) Reason() string { return e.reason }
-
-// Cause function returns cause value.
-func (e TagFilterValidationError) Cause() error { return e.cause }
-
-// Key function returns key value.
-func (e TagFilterValidationError) Key() bool { return e.key }
-
-// ErrorName returns error name.
-func (e TagFilterValidationError) ErrorName() string { return "TagFilterValidationError" }
-
-// Error satisfies the builtin error interface
-func (e TagFilterValidationError) Error() string {
-	cause := ""
-	if e.cause != nil {
-		cause = fmt.Sprintf(" | caused by: %v", e.cause)
-	}
-
-	key := ""
-	if e.key {
-		key = "key for "
-	}
-
-	return fmt.Sprintf(
-		"invalid %sTagFilter.%s: %s%s",
-		key,
-		e.field,
-		e.reason,
-		cause)
-}
-
-var _ error = TagFilterValidationError{}
-
-var _ interface {
-	Field() string
-	Reason() string
-	Key() bool
-	Cause() error
-	ErrorName() string
-} = TagFilterValidationError{}
-
-// Validate checks the field values on EntityFilter with the rules defined in
-// the proto definition for this message. If any rules are violated, the first
-// error encountered is returned, or nil if there are no violations.
-func (m *EntityFilter) Validate() error {
-	return m.validate(false)
-}
-
-// ValidateAll checks the field values on EntityFilter with the rules defined
-// in the proto definition for this message. If any rules are violated, the
-// result is a list of violation errors wrapped in EntityFilterMultiError, or
-// nil if none found.
-func (m *EntityFilter) ValidateAll() error {
-	return m.validate(true)
-}
-
-func (m *EntityFilter) validate(all bool) error {
-	if m == nil {
-		return nil
-	}
-
-	var errors []error
-
-	for idx, item := range m.GetIds() {
-		_, _ = idx, item
-
-		if all {
-			switch v := interface{}(item).(type) {
-			case interface{ ValidateAll() error }:
-				if err := v.ValidateAll(); err != nil {
-					errors = append(errors, EntityFilterValidationError{
-						field:  fmt.Sprintf("Ids[%v]", idx),
-						reason: "embedded message failed validation",
-						cause:  err,
-					})
-				}
-			case interface{ Validate() error }:
-				if err := v.Validate(); err != nil {
-					errors = append(errors, EntityFilterValidationError{
-						field:  fmt.Sprintf("Ids[%v]", idx),
-						reason: "embedded message failed validation",
-						cause:  err,
-					})
-				}
-			}
-		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
-			if err := v.Validate(); err != nil {
-				return EntityFilterValidationError{
-					field:  fmt.Sprintf("Ids[%v]", idx),
-					reason: "embedded message failed validation",
-					cause:  err,
-				}
-			}
-		}
-
-	}
-
-	// no validation rules for Comparison
-
-	if len(errors) > 0 {
-		return EntityFilterMultiError(errors)
-	}
-
-	return nil
-}
-
-// EntityFilterMultiError is an error wrapping multiple validation errors
-// returned by EntityFilter.ValidateAll() if the designated constraints aren't met.
-type EntityFilterMultiError []error
-
-// Error returns a concatenation of all the error messages it wraps.
-func (m EntityFilterMultiError) Error() string {
-	var msgs []string
-	for _, err := range m {
-		msgs = append(msgs, err.Error())
-	}
-	return strings.Join(msgs, "; ")
-}
-
-// AllErrors returns a list of validation violation errors.
-func (m EntityFilterMultiError) AllErrors() []error { return m }
-
-// EntityFilterValidationError is the validation error returned by
-// EntityFilter.Validate if the designated constraints aren't met.
-type EntityFilterValidationError struct {
-	field  string
-	reason string
-	cause  error
-	key    bool
-}
-
-// Field function returns field value.
-func (e EntityFilterValidationError) Field() string { return e.field }
-
-// Reason function returns reason value.
-func (e EntityFilterValidationError) Reason() string { return e.reason }
-
-// Cause function returns cause value.
-func (e EntityFilterValidationError) Cause() error { return e.cause }
-
-// Key function returns key value.
-func (e EntityFilterValidationError) Key() bool { return e.key }
-
-// ErrorName returns error name.
-func (e EntityFilterValidationError) ErrorName() string { return "EntityFilterValidationError" }
-
-// Error satisfies the builtin error interface
-func (e EntityFilterValidationError) Error() string {
-	cause := ""
-	if e.cause != nil {
-		cause = fmt.Sprintf(" | caused by: %v", e.cause)
-	}
-
-	key := ""
-	if e.key {
-		key = "key for "
-	}
-
-	return fmt.Sprintf(
-		"invalid %sEntityFilter.%s: %s%s",
-		key,
-		e.field,
-		e.reason,
-		cause)
-}
-
-var _ error = EntityFilterValidationError{}
-
-var _ interface {
-	Field() string
-	Reason() string
-	Key() bool
-	Cause() error
-	ErrorName() string
-} = EntityFilterValidationError{}
-
-// Validate checks the field values on EntityTypeFilter with the rules defined
-// in the proto definition for this message. If any rules are violated, the
-// first error encountered is returned, or nil if there are no violations.
-func (m *EntityTypeFilter) Validate() error {
-	return m.validate(false)
-}
-
-// ValidateAll checks the field values on EntityTypeFilter with the rules
-// defined in the proto definition for this message. If any rules are
-// violated, the result is a list of violation errors wrapped in
-// EntityTypeFilterMultiError, or nil if none found.
-func (m *EntityTypeFilter) ValidateAll() error {
-	return m.validate(true)
-}
-
-func (m *EntityTypeFilter) validate(all bool) error {
-	if m == nil {
-		return nil
-	}
-
-	var errors []error
-
-	// no validation rules for Comparison
-
-	if len(errors) > 0 {
-		return EntityTypeFilterMultiError(errors)
-	}
-
-	return nil
-}
-
-// EntityTypeFilterMultiError is an error wrapping multiple validation errors
-// returned by EntityTypeFilter.ValidateAll() if the designated constraints
-// aren't met.
-type EntityTypeFilterMultiError []error
-
-// Error returns a concatenation of all the error messages it wraps.
-func (m EntityTypeFilterMultiError) Error() string {
-	var msgs []string
-	for _, err := range m {
-		msgs = append(msgs, err.Error())
-	}
-	return strings.Join(msgs, "; ")
-}
-
-// AllErrors returns a list of validation violation errors.
-func (m EntityTypeFilterMultiError) AllErrors() []error { return m }
-
-// EntityTypeFilterValidationError is the validation error returned by
-// EntityTypeFilter.Validate if the designated constraints aren't met.
-type EntityTypeFilterValidationError struct {
-	field  string
-	reason string
-	cause  error
-	key    bool
-}
-
-// Field function returns field value.
-func (e EntityTypeFilterValidationError) Field() string { return e.field }
-
-// Reason function returns reason value.
-func (e EntityTypeFilterValidationError) Reason() string { return e.reason }
-
-// Cause function returns cause value.
-func (e EntityTypeFilterValidationError) Cause() error { return e.cause }
-
-// Key function returns key value.
-func (e EntityTypeFilterValidationError) Key() bool { return e.key }
-
-// ErrorName returns error name.
-func (e EntityTypeFilterValidationError) ErrorName() string { return "EntityTypeFilterValidationError" }
-
-// Error satisfies the builtin error interface
-func (e EntityTypeFilterValidationError) Error() string {
-	cause := ""
-	if e.cause != nil {
-		cause = fmt.Sprintf(" | caused by: %v", e.cause)
-	}
-
-	key := ""
-	if e.key {
-		key = "key for "
-	}
-
-	return fmt.Sprintf(
-		"invalid %sEntityTypeFilter.%s: %s%s",
-		key,
-		e.field,
-		e.reason,
-		cause)
-}
-
-var _ error = EntityTypeFilterValidationError{}
-
-var _ interface {
-	Field() string
-	Reason() string
-	Key() bool
-	Cause() error
-	ErrorName() string
-} = EntityTypeFilterValidationError{}
-
-// Validate checks the field values on OccurredAtFilter with the rules defined
-// in the proto definition for this message. If any rules are violated, the
-// first error encountered is returned, or nil if there are no violations.
-func (m *OccurredAtFilter) Validate() error {
-	return m.validate(false)
-}
-
-// ValidateAll checks the field values on OccurredAtFilter with the rules
-// defined in the proto definition for this message. If any rules are
-// violated, the result is a list of violation errors wrapped in
-// OccurredAtFilterMultiError, or nil if none found.
-func (m *OccurredAtFilter) ValidateAll() error {
-	return m.validate(true)
-}
-
-func (m *OccurredAtFilter) validate(all bool) error {
-	if m == nil {
-		return nil
-	}
-
-	var errors []error
-
-	if all {
-		switch v := interface{}(m.GetTime()).(type) {
-		case interface{ ValidateAll() error }:
-			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, OccurredAtFilterValidationError{
-					field:  "Time",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		case interface{ Validate() error }:
-			if err := v.Validate(); err != nil {
-				errors = append(errors, OccurredAtFilterValidationError{
-					field:  "Time",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		}
-	} else if v, ok := interface{}(m.GetTime()).(interface{ Validate() error }); ok {
-		if err := v.Validate(); err != nil {
-			return OccurredAtFilterValidationError{
-				field:  "Time",
-				reason: "embedded message failed validation",
-				cause:  err,
-			}
-		}
-	}
-
-	// no validation rules for Comparison
-
-	if len(errors) > 0 {
-		return OccurredAtFilterMultiError(errors)
-	}
-
-	return nil
-}
-
-// OccurredAtFilterMultiError is an error wrapping multiple validation errors
-// returned by OccurredAtFilter.ValidateAll() if the designated constraints
-// aren't met.
-type OccurredAtFilterMultiError []error
-
-// Error returns a concatenation of all the error messages it wraps.
-func (m OccurredAtFilterMultiError) Error() string {
-	var msgs []string
-	for _, err := range m {
-		msgs = append(msgs, err.Error())
-	}
-	return strings.Join(msgs, "; ")
-}
-
-// AllErrors returns a list of validation violation errors.
-func (m OccurredAtFilterMultiError) AllErrors() []error { return m }
-
-// OccurredAtFilterValidationError is the validation error returned by
-// OccurredAtFilter.Validate if the designated constraints aren't met.
-type OccurredAtFilterValidationError struct {
-	field  string
-	reason string
-	cause  error
-	key    bool
-}
-
-// Field function returns field value.
-func (e OccurredAtFilterValidationError) Field() string { return e.field }
-
-// Reason function returns reason value.
-func (e OccurredAtFilterValidationError) Reason() string { return e.reason }
-
-// Cause function returns cause value.
-func (e OccurredAtFilterValidationError) Cause() error { return e.cause }
-
-// Key function returns key value.
-func (e OccurredAtFilterValidationError) Key() bool { return e.key }
-
-// ErrorName returns error name.
-func (e OccurredAtFilterValidationError) ErrorName() string { return "OccurredAtFilterValidationError" }
-
-// Error satisfies the builtin error interface
-func (e OccurredAtFilterValidationError) Error() string {
-	cause := ""
-	if e.cause != nil {
-		cause = fmt.Sprintf(" | caused by: %v", e.cause)
-	}
-
-	key := ""
-	if e.key {
-		key = "key for "
-	}
-
-	return fmt.Sprintf(
-		"invalid %sOccurredAtFilter.%s: %s%s",
-		key,
-		e.field,
-		e.reason,
-		cause)
-}
-
-var _ error = OccurredAtFilterValidationError{}
-
-var _ interface {
-	Field() string
-	Reason() string
-	Key() bool
-	Cause() error
-	ErrorName() string
-} = OccurredAtFilterValidationError{}
 
 // Validate checks the field values on Filter with the rules defined in the
 // proto definition for this message. If any rules are violated, the first
@@ -1223,6 +506,144 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = FilterValidationError{}
+
+// Validate checks the field values on QueryEvaluationsRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *QueryEvaluationsRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on QueryEvaluationsRequest with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// QueryEvaluationsRequestMultiError, or nil if none found.
+func (m *QueryEvaluationsRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *QueryEvaluationsRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for PageToken
+
+	for idx, item := range m.GetFilters() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, QueryEvaluationsRequestValidationError{
+						field:  fmt.Sprintf("Filters[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, QueryEvaluationsRequestValidationError{
+						field:  fmt.Sprintf("Filters[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return QueryEvaluationsRequestValidationError{
+					field:  fmt.Sprintf("Filters[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	if len(errors) > 0 {
+		return QueryEvaluationsRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// QueryEvaluationsRequestMultiError is an error wrapping multiple validation
+// errors returned by QueryEvaluationsRequest.ValidateAll() if the designated
+// constraints aren't met.
+type QueryEvaluationsRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m QueryEvaluationsRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m QueryEvaluationsRequestMultiError) AllErrors() []error { return m }
+
+// QueryEvaluationsRequestValidationError is the validation error returned by
+// QueryEvaluationsRequest.Validate if the designated constraints aren't met.
+type QueryEvaluationsRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e QueryEvaluationsRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e QueryEvaluationsRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e QueryEvaluationsRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e QueryEvaluationsRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e QueryEvaluationsRequestValidationError) ErrorName() string {
+	return "QueryEvaluationsRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e QueryEvaluationsRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sQueryEvaluationsRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = QueryEvaluationsRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = QueryEvaluationsRequestValidationError{}
 
 // Validate checks the field values on QueryEvaluationsResponse with the rules
 // defined in the proto definition for this message. If any rules are
