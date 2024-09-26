@@ -48,8 +48,12 @@ type templateData struct {
 	Vars    map[string][]string // Aliases to variables
 }
 
+// List of folders to skip
+var skipFolders = []string{"factory"}
+
 // findPublicVariablesWithPrefix walks through all Go files in a directory and finds public variables with a specific prefix.
 func findPublicVariablesWithPrefix(dir, prefix string) (templateData, error) {
+
 	data := templateData{
 		Imports: make(map[string]string),
 		Vars:    make(map[string][]string),
@@ -58,6 +62,13 @@ func findPublicVariablesWithPrefix(dir, prefix string) (templateData, error) {
 	err := filepath.Walk(dir, func(path string, info fs.FileInfo, err error) error {
 		if err != nil {
 			return err
+		}
+
+		// Check if the folder is in the skip list
+		for _, skipFolder := range skipFolders {
+			if info.IsDir() && info.Name() == skipFolder {
+				return filepath.SkipDir // Skip this folder and its children
+			}
 		}
 
 		if strings.HasSuffix(info.Name(), ".go") {
