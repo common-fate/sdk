@@ -818,3 +818,169 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = BoolFilterValidationError{}
+
+// Validate checks the field values on TimeRangeFilter with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// first error encountered is returned, or nil if there are no violations.
+func (m *TimeRangeFilter) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on TimeRangeFilter with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// TimeRangeFilterMultiError, or nil if none found.
+func (m *TimeRangeFilter) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *TimeRangeFilter) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if m.Start != nil {
+
+		if all {
+			switch v := interface{}(m.GetStart()).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, TimeRangeFilterValidationError{
+						field:  "Start",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, TimeRangeFilterValidationError{
+						field:  "Start",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(m.GetStart()).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return TimeRangeFilterValidationError{
+					field:  "Start",
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	if m.End != nil {
+
+		if all {
+			switch v := interface{}(m.GetEnd()).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, TimeRangeFilterValidationError{
+						field:  "End",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, TimeRangeFilterValidationError{
+						field:  "End",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(m.GetEnd()).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return TimeRangeFilterValidationError{
+					field:  "End",
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	if len(errors) > 0 {
+		return TimeRangeFilterMultiError(errors)
+	}
+
+	return nil
+}
+
+// TimeRangeFilterMultiError is an error wrapping multiple validation errors
+// returned by TimeRangeFilter.ValidateAll() if the designated constraints
+// aren't met.
+type TimeRangeFilterMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m TimeRangeFilterMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m TimeRangeFilterMultiError) AllErrors() []error { return m }
+
+// TimeRangeFilterValidationError is the validation error returned by
+// TimeRangeFilter.Validate if the designated constraints aren't met.
+type TimeRangeFilterValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e TimeRangeFilterValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e TimeRangeFilterValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e TimeRangeFilterValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e TimeRangeFilterValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e TimeRangeFilterValidationError) ErrorName() string { return "TimeRangeFilterValidationError" }
+
+// Error satisfies the builtin error interface
+func (e TimeRangeFilterValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sTimeRangeFilter.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = TimeRangeFilterValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = TimeRangeFilterValidationError{}

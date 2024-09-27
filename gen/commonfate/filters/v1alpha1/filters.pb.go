@@ -580,6 +580,63 @@ func (x *BoolFilter) GetComparison() BoolComparison {
 	return BoolComparison_BOOL_COMPARISON_UNSPECIFIED
 }
 
+// Filters based on a time range, where start or end is not provided a relative time is used
+// e.g everything before an end time or everything after a start time
+type TimeRangeFilter struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Start *timestamppb.Timestamp `protobuf:"bytes,1,opt,name=start,proto3,oneof" json:"start,omitempty"`
+	End   *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=end,proto3,oneof" json:"end,omitempty"`
+}
+
+func (x *TimeRangeFilter) Reset() {
+	*x = TimeRangeFilter{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_commonfate_filters_v1alpha1_filters_proto_msgTypes[7]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *TimeRangeFilter) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*TimeRangeFilter) ProtoMessage() {}
+
+func (x *TimeRangeFilter) ProtoReflect() protoreflect.Message {
+	mi := &file_commonfate_filters_v1alpha1_filters_proto_msgTypes[7]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use TimeRangeFilter.ProtoReflect.Descriptor instead.
+func (*TimeRangeFilter) Descriptor() ([]byte, []int) {
+	return file_commonfate_filters_v1alpha1_filters_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *TimeRangeFilter) GetStart() *timestamppb.Timestamp {
+	if x != nil {
+		return x.Start
+	}
+	return nil
+}
+
+func (x *TimeRangeFilter) GetEnd() *timestamppb.Timestamp {
+	if x != nil {
+		return x.End
+	}
+	return nil
+}
+
 var File_commonfate_filters_v1alpha1_filters_proto protoreflect.FileDescriptor
 
 var file_commonfate_filters_v1alpha1_filters_proto_rawDesc = []byte{
@@ -646,7 +703,16 @@ var file_commonfate_filters_v1alpha1_filters_proto_rawDesc = []byte{
 	0x02, 0x20, 0x01, 0x28, 0x0e, 0x32, 0x2b, 0x2e, 0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x66, 0x61,
 	0x74, 0x65, 0x2e, 0x66, 0x69, 0x6c, 0x74, 0x65, 0x72, 0x73, 0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70,
 	0x68, 0x61, 0x31, 0x2e, 0x42, 0x6f, 0x6f, 0x6c, 0x43, 0x6f, 0x6d, 0x70, 0x61, 0x72, 0x69, 0x73,
-	0x6f, 0x6e, 0x52, 0x0a, 0x63, 0x6f, 0x6d, 0x70, 0x61, 0x72, 0x69, 0x73, 0x6f, 0x6e, 0x2a, 0x68,
+	0x6f, 0x6e, 0x52, 0x0a, 0x63, 0x6f, 0x6d, 0x70, 0x61, 0x72, 0x69, 0x73, 0x6f, 0x6e, 0x22, 0x8d,
+	0x01, 0x0a, 0x0f, 0x54, 0x69, 0x6d, 0x65, 0x52, 0x61, 0x6e, 0x67, 0x65, 0x46, 0x69, 0x6c, 0x74,
+	0x65, 0x72, 0x12, 0x35, 0x0a, 0x05, 0x73, 0x74, 0x61, 0x72, 0x74, 0x18, 0x01, 0x20, 0x01, 0x28,
+	0x0b, 0x32, 0x1a, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f,
+	0x62, 0x75, 0x66, 0x2e, 0x54, 0x69, 0x6d, 0x65, 0x73, 0x74, 0x61, 0x6d, 0x70, 0x48, 0x00, 0x52,
+	0x05, 0x73, 0x74, 0x61, 0x72, 0x74, 0x88, 0x01, 0x01, 0x12, 0x31, 0x0a, 0x03, 0x65, 0x6e, 0x64,
+	0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e,
+	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x54, 0x69, 0x6d, 0x65, 0x73, 0x74, 0x61,
+	0x6d, 0x70, 0x48, 0x01, 0x52, 0x03, 0x65, 0x6e, 0x64, 0x88, 0x01, 0x01, 0x42, 0x08, 0x0a, 0x06,
+	0x5f, 0x73, 0x74, 0x61, 0x72, 0x74, 0x42, 0x06, 0x0a, 0x04, 0x5f, 0x65, 0x6e, 0x64, 0x2a, 0x68,
 	0x0a, 0x0e, 0x54, 0x69, 0x6d, 0x65, 0x43, 0x6f, 0x6d, 0x70, 0x61, 0x72, 0x69, 0x73, 0x6f, 0x6e,
 	0x12, 0x1f, 0x0a, 0x1b, 0x54, 0x49, 0x4d, 0x45, 0x5f, 0x43, 0x4f, 0x4d, 0x50, 0x41, 0x52, 0x49,
 	0x53, 0x4f, 0x4e, 0x5f, 0x55, 0x4e, 0x53, 0x50, 0x45, 0x43, 0x49, 0x46, 0x49, 0x45, 0x44, 0x10,
@@ -711,7 +777,7 @@ func file_commonfate_filters_v1alpha1_filters_proto_rawDescGZIP() []byte {
 }
 
 var file_commonfate_filters_v1alpha1_filters_proto_enumTypes = make([]protoimpl.EnumInfo, 3)
-var file_commonfate_filters_v1alpha1_filters_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
+var file_commonfate_filters_v1alpha1_filters_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
 var file_commonfate_filters_v1alpha1_filters_proto_goTypes = []any{
 	(TimeComparison)(0),           // 0: commonfate.filters.v1alpha1.TimeComparison
 	(BoolComparison)(0),           // 1: commonfate.filters.v1alpha1.BoolComparison
@@ -723,25 +789,28 @@ var file_commonfate_filters_v1alpha1_filters_proto_goTypes = []any{
 	(*OccurredAtFilter)(nil),      // 7: commonfate.filters.v1alpha1.OccurredAtFilter
 	(*IntegerFilter)(nil),         // 8: commonfate.filters.v1alpha1.IntegerFilter
 	(*BoolFilter)(nil),            // 9: commonfate.filters.v1alpha1.BoolFilter
-	(v1alpha1.Decision)(0),        // 10: commonfate.authz.v1alpha1.Decision
-	(*v1alpha11.EID)(nil),         // 11: commonfate.entity.v1alpha1.EID
-	(*timestamppb.Timestamp)(nil), // 12: google.protobuf.Timestamp
+	(*TimeRangeFilter)(nil),       // 10: commonfate.filters.v1alpha1.TimeRangeFilter
+	(v1alpha1.Decision)(0),        // 11: commonfate.authz.v1alpha1.Decision
+	(*v1alpha11.EID)(nil),         // 12: commonfate.entity.v1alpha1.EID
+	(*timestamppb.Timestamp)(nil), // 13: google.protobuf.Timestamp
 }
 var file_commonfate_filters_v1alpha1_filters_proto_depIdxs = []int32{
-	10, // 0: commonfate.filters.v1alpha1.DecisionFilter.decision:type_name -> commonfate.authz.v1alpha1.Decision
+	11, // 0: commonfate.filters.v1alpha1.DecisionFilter.decision:type_name -> commonfate.authz.v1alpha1.Decision
 	1,  // 1: commonfate.filters.v1alpha1.TagFilter.comparison:type_name -> commonfate.filters.v1alpha1.BoolComparison
-	11, // 2: commonfate.filters.v1alpha1.EntityFilter.ids:type_name -> commonfate.entity.v1alpha1.EID
+	12, // 2: commonfate.filters.v1alpha1.EntityFilter.ids:type_name -> commonfate.entity.v1alpha1.EID
 	1,  // 3: commonfate.filters.v1alpha1.EntityFilter.comparison:type_name -> commonfate.filters.v1alpha1.BoolComparison
 	1,  // 4: commonfate.filters.v1alpha1.EntityTypeFilter.comparison:type_name -> commonfate.filters.v1alpha1.BoolComparison
-	12, // 5: commonfate.filters.v1alpha1.OccurredAtFilter.time:type_name -> google.protobuf.Timestamp
+	13, // 5: commonfate.filters.v1alpha1.OccurredAtFilter.time:type_name -> google.protobuf.Timestamp
 	0,  // 6: commonfate.filters.v1alpha1.OccurredAtFilter.comparison:type_name -> commonfate.filters.v1alpha1.TimeComparison
 	2,  // 7: commonfate.filters.v1alpha1.IntegerFilter.comparison:type_name -> commonfate.filters.v1alpha1.EqualityComparison
 	1,  // 8: commonfate.filters.v1alpha1.BoolFilter.comparison:type_name -> commonfate.filters.v1alpha1.BoolComparison
-	9,  // [9:9] is the sub-list for method output_type
-	9,  // [9:9] is the sub-list for method input_type
-	9,  // [9:9] is the sub-list for extension type_name
-	9,  // [9:9] is the sub-list for extension extendee
-	0,  // [0:9] is the sub-list for field type_name
+	13, // 9: commonfate.filters.v1alpha1.TimeRangeFilter.start:type_name -> google.protobuf.Timestamp
+	13, // 10: commonfate.filters.v1alpha1.TimeRangeFilter.end:type_name -> google.protobuf.Timestamp
+	11, // [11:11] is the sub-list for method output_type
+	11, // [11:11] is the sub-list for method input_type
+	11, // [11:11] is the sub-list for extension type_name
+	11, // [11:11] is the sub-list for extension extendee
+	0,  // [0:11] is the sub-list for field type_name
 }
 
 func init() { file_commonfate_filters_v1alpha1_filters_proto_init() }
@@ -834,14 +903,27 @@ func file_commonfate_filters_v1alpha1_filters_proto_init() {
 				return nil
 			}
 		}
+		file_commonfate_filters_v1alpha1_filters_proto_msgTypes[7].Exporter = func(v any, i int) any {
+			switch v := v.(*TimeRangeFilter); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
+	file_commonfate_filters_v1alpha1_filters_proto_msgTypes[7].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_commonfate_filters_v1alpha1_filters_proto_rawDesc,
 			NumEnums:      3,
-			NumMessages:   7,
+			NumMessages:   8,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

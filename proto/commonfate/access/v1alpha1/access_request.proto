@@ -66,6 +66,10 @@ message Filter {
     // Whether or not this request was extended
     commonfate.filters.v1alpha1.BoolFilter extended = 6;
     commonfate.filters.v1alpha1.IntegerFilter grant_count = 7;
+    commonfate.filters.v1alpha1.TimeRangeFilter requested_at = 8;
+    commonfate.filters.v1alpha1.TimeRangeFilter approved_at = 9;
+    commonfate.filters.v1alpha1.TimeRangeFilter closed_at = 10;
+    commonfate.filters.v1alpha1.TimeRangeFilter activated_at = 11;
   }
 }
 

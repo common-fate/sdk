@@ -51,6 +51,13 @@ message BoolFilter {
   BoolComparison comparison = 2;
 }
 
+// Filters based on a time range, where start or end is not provided a relative time is used
+// e.g everything before an end time or everything after a start time
+message TimeRangeFilter {
+  optional google.protobuf.Timestamp start = 1;
+  optional google.protobuf.Timestamp end = 2;
+}
+
 enum TimeComparison {
   TIME_COMPARISON_UNSPECIFIED = 0;
 
