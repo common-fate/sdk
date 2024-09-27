@@ -819,6 +819,450 @@ var _ interface {
 	ErrorName() string
 } = BoolFilterValidationError{}
 
+// Validate checks the field values on RelativeRange with the rules defined in
+// the proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *RelativeRange) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on RelativeRange with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in RelativeRangeMultiError, or
+// nil if none found.
+func (m *RelativeRange) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *RelativeRange) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if all {
+		switch v := interface{}(m.GetDuration()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, RelativeRangeValidationError{
+					field:  "Duration",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, RelativeRangeValidationError{
+					field:  "Duration",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetDuration()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return RelativeRangeValidationError{
+				field:  "Duration",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if len(errors) > 0 {
+		return RelativeRangeMultiError(errors)
+	}
+
+	return nil
+}
+
+// RelativeRangeMultiError is an error wrapping multiple validation errors
+// returned by RelativeRange.ValidateAll() if the designated constraints
+// aren't met.
+type RelativeRangeMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m RelativeRangeMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m RelativeRangeMultiError) AllErrors() []error { return m }
+
+// RelativeRangeValidationError is the validation error returned by
+// RelativeRange.Validate if the designated constraints aren't met.
+type RelativeRangeValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e RelativeRangeValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e RelativeRangeValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e RelativeRangeValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e RelativeRangeValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e RelativeRangeValidationError) ErrorName() string { return "RelativeRangeValidationError" }
+
+// Error satisfies the builtin error interface
+func (e RelativeRangeValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sRelativeRange.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = RelativeRangeValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = RelativeRangeValidationError{}
+
+// Validate checks the field values on AbsoluteRange with the rules defined in
+// the proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *AbsoluteRange) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on AbsoluteRange with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in AbsoluteRangeMultiError, or
+// nil if none found.
+func (m *AbsoluteRange) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *AbsoluteRange) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if all {
+		switch v := interface{}(m.GetTime()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, AbsoluteRangeValidationError{
+					field:  "Time",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, AbsoluteRangeValidationError{
+					field:  "Time",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetTime()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return AbsoluteRangeValidationError{
+				field:  "Time",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if len(errors) > 0 {
+		return AbsoluteRangeMultiError(errors)
+	}
+
+	return nil
+}
+
+// AbsoluteRangeMultiError is an error wrapping multiple validation errors
+// returned by AbsoluteRange.ValidateAll() if the designated constraints
+// aren't met.
+type AbsoluteRangeMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m AbsoluteRangeMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m AbsoluteRangeMultiError) AllErrors() []error { return m }
+
+// AbsoluteRangeValidationError is the validation error returned by
+// AbsoluteRange.Validate if the designated constraints aren't met.
+type AbsoluteRangeValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e AbsoluteRangeValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e AbsoluteRangeValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e AbsoluteRangeValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e AbsoluteRangeValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e AbsoluteRangeValidationError) ErrorName() string { return "AbsoluteRangeValidationError" }
+
+// Error satisfies the builtin error interface
+func (e AbsoluteRangeValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sAbsoluteRange.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = AbsoluteRangeValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = AbsoluteRangeValidationError{}
+
+// Validate checks the field values on TimeRange with the rules defined in the
+// proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *TimeRange) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on TimeRange with the rules defined in
+// the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in TimeRangeMultiError, or nil
+// if none found.
+func (m *TimeRange) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *TimeRange) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	switch v := m.Range.(type) {
+	case *TimeRange_Relative:
+		if v == nil {
+			err := TimeRangeValidationError{
+				field:  "Range",
+				reason: "oneof value cannot be a typed-nil",
+			}
+			if !all {
+				return err
+			}
+			errors = append(errors, err)
+		}
+
+		if all {
+			switch v := interface{}(m.GetRelative()).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, TimeRangeValidationError{
+						field:  "Relative",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, TimeRangeValidationError{
+						field:  "Relative",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(m.GetRelative()).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return TimeRangeValidationError{
+					field:  "Relative",
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	case *TimeRange_Absolute:
+		if v == nil {
+			err := TimeRangeValidationError{
+				field:  "Range",
+				reason: "oneof value cannot be a typed-nil",
+			}
+			if !all {
+				return err
+			}
+			errors = append(errors, err)
+		}
+
+		if all {
+			switch v := interface{}(m.GetAbsolute()).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, TimeRangeValidationError{
+						field:  "Absolute",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, TimeRangeValidationError{
+						field:  "Absolute",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(m.GetAbsolute()).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return TimeRangeValidationError{
+					field:  "Absolute",
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	default:
+		_ = v // ensures v is used
+	}
+
+	if len(errors) > 0 {
+		return TimeRangeMultiError(errors)
+	}
+
+	return nil
+}
+
+// TimeRangeMultiError is an error wrapping multiple validation errors returned
+// by TimeRange.ValidateAll() if the designated constraints aren't met.
+type TimeRangeMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m TimeRangeMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m TimeRangeMultiError) AllErrors() []error { return m }
+
+// TimeRangeValidationError is the validation error returned by
+// TimeRange.Validate if the designated constraints aren't met.
+type TimeRangeValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e TimeRangeValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e TimeRangeValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e TimeRangeValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e TimeRangeValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e TimeRangeValidationError) ErrorName() string { return "TimeRangeValidationError" }
+
+// Error satisfies the builtin error interface
+func (e TimeRangeValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sTimeRange.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = TimeRangeValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = TimeRangeValidationError{}
+
 // Validate checks the field values on TimeRangeFilter with the rules defined
 // in the proto definition for this message. If any rules are violated, the
 // first error encountered is returned, or nil if there are no violations.

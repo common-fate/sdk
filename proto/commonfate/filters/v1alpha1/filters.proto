@@ -4,6 +4,7 @@ package commonfate.filters.v1alpha1;
 
 import "commonfate/authz/v1alpha1/evaluation.proto";
 import "commonfate/entity/v1alpha1/eid.proto";
+import "google/protobuf/duration.proto";
 import "google/protobuf/timestamp.proto";
 
 // Filters items with a particular authorization decision
@@ -51,11 +52,24 @@ message BoolFilter {
   BoolComparison comparison = 2;
 }
 
+message RelativeRange {
+  google.protobuf.Duration duration = 1;
+}
+message AbsoluteRange {
+  google.protobuf.Timestamp time = 1;
+}
+message TimeRange {
+  oneof range {
+    RelativeRange relative = 1;
+    AbsoluteRange absolute = 2;
+  }
+}
+
 // Filters based on a time range, where start or end is not provided a relative time is used
 // e.g everything before an end time or everything after a start time
 message TimeRangeFilter {
-  optional google.protobuf.Timestamp start = 1;
-  optional google.protobuf.Timestamp end = 2;
+  optional TimeRange start = 1;
+  optional TimeRange end = 2;
 }
 
 enum TimeComparison {
