@@ -409,7 +409,7 @@ func (m *GetEKSClusterRequest) validate(all bool) error {
 
 	var errors []error
 
-	// no validation rules for Arn
+	// no validation rules for Id
 
 	if len(errors) > 0 {
 		return GetEKSClusterRequestMultiError(errors)
@@ -906,7 +906,7 @@ func (m *DeleteEKSClusterRequest) validate(all bool) error {
 
 	var errors []error
 
-	// no validation rules for Arn
+	// no validation rules for Id
 
 	if len(errors) > 0 {
 		return DeleteEKSClusterRequestMultiError(errors)
@@ -1010,7 +1010,7 @@ func (m *DeleteEKSClusterResponse) validate(all bool) error {
 
 	var errors []error
 
-	// no validation rules for Arn
+	// no validation rules for Id
 
 	if len(errors) > 0 {
 		return DeleteEKSClusterResponseMultiError(errors)

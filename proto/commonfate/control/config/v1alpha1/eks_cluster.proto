@@ -35,7 +35,7 @@ message CreateEKSClusterResponse {
 }
 
 message GetEKSClusterRequest {
-  string arn = 1;
+  string id = 1;
 }
 
 message GetEKSClusterResponse {
@@ -51,9 +51,9 @@ message UpdateEKSClusterResponse {
 }
 
 message DeleteEKSClusterRequest {
-  string arn = 1;
+  string id = 1;
 }
 
 message DeleteEKSClusterResponse {
-  string arn = 1;
+  string id = 1;
 }
