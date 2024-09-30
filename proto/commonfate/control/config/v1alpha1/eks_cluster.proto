@@ -16,6 +16,8 @@ message CreateEKSClusterRequest {
   string name = 1;
   string region = 2;
   string aws_account_id = 3;
+  // The EKS integration ID used to provision access to the cluster.
+  string integration_id = 4;
 }
 
 message EKSCluster {
@@ -24,6 +26,8 @@ message EKSCluster {
   string name = 3;
   string region = 4;
   string aws_account_id = 5;
+  // The EKS integration ID used to provision access to the cluster.
+  string integration_id = 6;
 }
 
 message CreateEKSClusterResponse {

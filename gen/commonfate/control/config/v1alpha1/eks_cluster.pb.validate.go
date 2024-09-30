@@ -63,6 +63,8 @@ func (m *CreateEKSClusterRequest) validate(all bool) error {
 
 	// no validation rules for AwsAccountId
 
+	// no validation rules for IntegrationId
+
 	if len(errors) > 0 {
 		return CreateEKSClusterRequestMultiError(errors)
 	}
@@ -174,6 +176,8 @@ func (m *EKSCluster) validate(all bool) error {
 	// no validation rules for Region
 
 	// no validation rules for AwsAccountId
+
+	// no validation rules for IntegrationId
 
 	if len(errors) > 0 {
 		return EKSClusterMultiError(errors)
