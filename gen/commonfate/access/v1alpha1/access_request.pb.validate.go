@@ -184,7 +184,7 @@ func (m *Filter) validate(all bool) error {
 			}
 		}
 
-	case *Filter_Approved:
+	case *Filter_ManuallyApproved:
 		if v == nil {
 			err := FilterValidationError{
 				field:  "Filter",
@@ -197,11 +197,11 @@ func (m *Filter) validate(all bool) error {
 		}
 
 		if all {
-			switch v := interface{}(m.GetApproved()).(type) {
+			switch v := interface{}(m.GetManuallyApproved()).(type) {
 			case interface{ ValidateAll() error }:
 				if err := v.ValidateAll(); err != nil {
 					errors = append(errors, FilterValidationError{
-						field:  "Approved",
+						field:  "ManuallyApproved",
 						reason: "embedded message failed validation",
 						cause:  err,
 					})
@@ -209,23 +209,23 @@ func (m *Filter) validate(all bool) error {
 			case interface{ Validate() error }:
 				if err := v.Validate(); err != nil {
 					errors = append(errors, FilterValidationError{
-						field:  "Approved",
+						field:  "ManuallyApproved",
 						reason: "embedded message failed validation",
 						cause:  err,
 					})
 				}
 			}
-		} else if v, ok := interface{}(m.GetApproved()).(interface{ Validate() error }); ok {
+		} else if v, ok := interface{}(m.GetManuallyApproved()).(interface{ Validate() error }); ok {
 			if err := v.Validate(); err != nil {
 				return FilterValidationError{
-					field:  "Approved",
+					field:  "ManuallyApproved",
 					reason: "embedded message failed validation",
 					cause:  err,
 				}
 			}
 		}
 
-	case *Filter_Extended:
+	case *Filter_AutoApproved:
 		if v == nil {
 			err := FilterValidationError{
 				field:  "Filter",
@@ -238,11 +238,11 @@ func (m *Filter) validate(all bool) error {
 		}
 
 		if all {
-			switch v := interface{}(m.GetExtended()).(type) {
+			switch v := interface{}(m.GetAutoApproved()).(type) {
 			case interface{ ValidateAll() error }:
 				if err := v.ValidateAll(); err != nil {
 					errors = append(errors, FilterValidationError{
-						field:  "Extended",
+						field:  "AutoApproved",
 						reason: "embedded message failed validation",
 						cause:  err,
 					})
@@ -250,16 +250,16 @@ func (m *Filter) validate(all bool) error {
 			case interface{ Validate() error }:
 				if err := v.Validate(); err != nil {
 					errors = append(errors, FilterValidationError{
-						field:  "Extended",
+						field:  "AutoApproved",
 						reason: "embedded message failed validation",
 						cause:  err,
 					})
 				}
 			}
-		} else if v, ok := interface{}(m.GetExtended()).(interface{ Validate() error }); ok {
+		} else if v, ok := interface{}(m.GetAutoApproved()).(interface{ Validate() error }); ok {
 			if err := v.Validate(); err != nil {
 				return FilterValidationError{
-					field:  "Extended",
+					field:  "AutoApproved",
 					reason: "embedded message failed validation",
 					cause:  err,
 				}

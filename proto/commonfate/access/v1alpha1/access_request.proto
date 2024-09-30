@@ -61,9 +61,9 @@ message Filter {
     commonfate.filters.v1alpha1.EntityFilter closed_by = 3;
     commonfate.filters.v1alpha1.EntityFilter approved_by = 4;
     // Whether or not the request received an approval
-    commonfate.filters.v1alpha1.BoolFilter approved = 5;
-    // Whether or not this request was extended
-    commonfate.filters.v1alpha1.BoolFilter extended = 6;
+    commonfate.filters.v1alpha1.BoolFilter manually_approved = 5;
+    // Whether or not the request was automatically approved
+    commonfate.filters.v1alpha1.BoolFilter auto_approved = 6;
     commonfate.filters.v1alpha1.IntegerFilter grant_count = 7;
     commonfate.filters.v1alpha1.TimeRangeFilter requested_at = 8;
     commonfate.filters.v1alpha1.TimeRangeFilter approved_at = 9;
