@@ -25,9 +25,9 @@ message EKSClusterAccessPolicy {
   string policy_arn = 1 [(buf.validate.field).string = {
     in: [
       "arn:aws:eks::aws:cluster-access-policy/AmazonEKSAdminPolicy",
-      "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"
-      "arn:aws:eks::aws:cluster-access-policy/AmazonEKSAdminViewPolicy"
-      "arn:aws:eks::aws:cluster-access-policy/AmazonEKSEditPolicy"
+      "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy",
+      "arn:aws:eks::aws:cluster-access-policy/AmazonEKSAdminViewPolicy",
+      "arn:aws:eks::aws:cluster-access-policy/AmazonEKSEditPolicy",
       "arn:aws:eks::aws:cluster-access-policy/AmazonEKSViewPolicy"
     ]
   }];
@@ -38,9 +38,9 @@ message EKSNamespaceAccessPolicy {
   string policy_arn = 2 [(buf.validate.field).string = {
     in: [
       "arn:aws:eks::aws:cluster-access-policy/AmazonEKSAdminPolicy",
-      "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"
-      "arn:aws:eks::aws:cluster-access-policy/AmazonEKSAdminViewPolicy"
-      "arn:aws:eks::aws:cluster-access-policy/AmazonEKSEditPolicy"
+      "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy",
+      "arn:aws:eks::aws:cluster-access-policy/AmazonEKSAdminViewPolicy",
+      "arn:aws:eks::aws:cluster-access-policy/AmazonEKSEditPolicy",
       "arn:aws:eks::aws:cluster-access-policy/AmazonEKSViewPolicy"
     ]
   }];
