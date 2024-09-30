@@ -21,13 +21,12 @@ message CreateEKSClusterRequest {
 }
 
 message EKSCluster {
-  string id = 1;
-  string arn = 2;
-  string name = 3;
-  string region = 4;
-  string aws_account_id = 5;
+  string arn = 1;
+  string name = 2;
+  string region = 3;
+  string aws_account_id = 4;
   // The EKS integration ID used to provision access to the cluster.
-  string integration_id = 6;
+  string integration_id = 5;
 }
 
 message CreateEKSClusterResponse {
@@ -35,7 +34,7 @@ message CreateEKSClusterResponse {
 }
 
 message GetEKSClusterRequest {
-  string id = 1;
+  string arn = 1;
 }
 
 message GetEKSClusterResponse {
@@ -43,7 +42,9 @@ message GetEKSClusterResponse {
 }
 
 message UpdateEKSClusterRequest {
-  EKSCluster cluster = 1;
+  string arn = 1;
+  // The EKS integration ID used to provision access to the cluster.
+  string integration_id = 2;
 }
 
 message UpdateEKSClusterResponse {
@@ -51,9 +52,9 @@ message UpdateEKSClusterResponse {
 }
 
 message DeleteEKSClusterRequest {
-  string id = 1;
+  string arn = 1;
 }
 
 message DeleteEKSClusterResponse {
-  string id = 1;
+  string arn = 1;
 }

@@ -167,8 +167,6 @@ func (m *EKSCluster) validate(all bool) error {
 
 	var errors []error
 
-	// no validation rules for Id
-
 	// no validation rules for Arn
 
 	// no validation rules for Name
@@ -409,7 +407,7 @@ func (m *GetEKSClusterRequest) validate(all bool) error {
 
 	var errors []error
 
-	// no validation rules for Id
+	// no validation rules for Arn
 
 	if len(errors) > 0 {
 		return GetEKSClusterRequestMultiError(errors)
@@ -644,34 +642,9 @@ func (m *UpdateEKSClusterRequest) validate(all bool) error {
 
 	var errors []error
 
-	if all {
-		switch v := interface{}(m.GetCluster()).(type) {
-		case interface{ ValidateAll() error }:
-			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, UpdateEKSClusterRequestValidationError{
-					field:  "Cluster",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		case interface{ Validate() error }:
-			if err := v.Validate(); err != nil {
-				errors = append(errors, UpdateEKSClusterRequestValidationError{
-					field:  "Cluster",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		}
-	} else if v, ok := interface{}(m.GetCluster()).(interface{ Validate() error }); ok {
-		if err := v.Validate(); err != nil {
-			return UpdateEKSClusterRequestValidationError{
-				field:  "Cluster",
-				reason: "embedded message failed validation",
-				cause:  err,
-			}
-		}
-	}
+	// no validation rules for Arn
+
+	// no validation rules for IntegrationId
 
 	if len(errors) > 0 {
 		return UpdateEKSClusterRequestMultiError(errors)
@@ -906,7 +879,7 @@ func (m *DeleteEKSClusterRequest) validate(all bool) error {
 
 	var errors []error
 
-	// no validation rules for Id
+	// no validation rules for Arn
 
 	if len(errors) > 0 {
 		return DeleteEKSClusterRequestMultiError(errors)
@@ -1010,7 +983,7 @@ func (m *DeleteEKSClusterResponse) validate(all bool) error {
 
 	var errors []error
 
-	// no validation rules for Id
+	// no validation rules for Arn
 
 	if len(errors) > 0 {
 		return DeleteEKSClusterResponseMultiError(errors)
