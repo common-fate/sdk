@@ -37,6 +37,6 @@ func (c Client) AWSEKSCluster() configv1alpha1connect.EKSClusterServiceClient {
 	return configv1alpha1connect.NewEKSClusterServiceClient(c.cfg.HTTPClient, c.cfg.APIURL)
 }
 
-func (c Client) AWSEKSAccessTemplate() configv1alpha1connect.EKSAccessEntryTemplateServiceClient {
+func (c Client) AWSEKSAccessEntryTemplate() configv1alpha1connect.EKSAccessEntryTemplateServiceClient {
 	return configv1alpha1connect.NewEKSAccessEntryTemplateServiceClient(c.cfg.HTTPClient, c.cfg.APIURL)
 }
