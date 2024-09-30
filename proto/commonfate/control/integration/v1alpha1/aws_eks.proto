@@ -8,5 +8,5 @@ message AWSEKS {
 
   // The name of the role to assume in the EKS cluster account
   // when provisioning the EKS access policy
-  string eks_access_policy_provisioner_role_name = 2;
+  string eks_provisioner_role_name = 2;
 }

@@ -58,7 +58,7 @@ func (m *AWSEKS) validate(all bool) error {
 
 	// no validation rules for AwsIntegrationId
 
-	// no validation rules for EksAccessPolicyProvisionerRoleName
+	// no validation rules for EksProvisionerRoleName
 
 	if len(errors) > 0 {
 		return AWSEKSMultiError(errors)
