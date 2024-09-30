@@ -19,10 +19,11 @@ message CreateEKSClusterRequest {
 }
 
 message EKSCluster {
-  string arn = 1;
-  string name = 2;
-  string region = 3;
-  string aws_account_id = 4;
+  string id = 1;
+  string arn = 2;
+  string name = 3;
+  string region = 4;
+  string aws_account_id = 5;
 }
 
 message CreateEKSClusterResponse {

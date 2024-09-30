@@ -14,6 +14,7 @@ import "commonfate/control/integration/v1alpha1/opsgenie.proto";
 import "commonfate/control/integration/v1alpha1/pagerduty.proto";
 import "commonfate/control/integration/v1alpha1/s3_log_destination.proto";
 import "commonfate/control/integration/v1alpha1/slack.proto";
+import "commonfate/control/integration/v1alpha1/aws_eks.proto";
 import "commonfate/control/integration/v1alpha1/webhook.proto";
 import "commonfate/control/log/v1alpha1/authz_eval.proto";
 
@@ -29,7 +30,7 @@ service IntegrationService {
   }
   rpc DeleteIntegration(DeleteIntegrationRequest) returns (DeleteIntegrationResponse) {}
 
-  //integration sync
+  // integration sync
   rpc ListSyncsForIntegration(ListSyncsForIntegrationRequest) returns (ListSyncsForIntegrationResponse) {
     option (commonfate.authz.v1alpha1.read_only) = true;
 
@@ -69,6 +70,7 @@ message Config {
     Auth0 auth0 = 11;
     S3LogDestination s3_log_destination = 12;
     AWSProxy aws_proxy = 13;
+    AWSEKS aws_eks = 14;
   }
 }
 
@@ -82,6 +84,10 @@ message Integration {
   repeated commonfate.access.v1alpha1.Diagnostic diagnostics = 5;
   Config config = 6;
   string setup_url = 7;
+
+  // A randomly generated external ID used for assuming cross-account roles.
+  // Used in integrations such as the AWS EKS integration.
+  string assume_role_external_id = 8;
 }
 
 message CreateIntegrationResponse {
@@ -122,9 +128,9 @@ message DeleteIntegrationResponse {
 
 message Filter {
   oneof filter {
-    
+
     commonfate.control.log.v1alpha1.OccurredAtFilter occurred_at = 1;
-   
+
   }
 }
 
@@ -148,7 +154,7 @@ message SyncJob {
   int32 max_attempts = 4;
   google.protobuf.Timestamp created_at = 5;
   repeated string errors = 6;
-  string kind = 7;  
+  string kind = 7;
   google.protobuf.Timestamp finished_at = 8;
 
 

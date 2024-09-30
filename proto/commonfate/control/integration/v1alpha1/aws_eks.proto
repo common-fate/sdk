@@ -1,0 +1,12 @@
+syntax = "proto3";
+package commonfate.control.integration.v1alpha1;
+
+message AWSEKS {
+  // The name of the AWS integration ID to use for provisioning
+  // a IAM Identity Center Permission Set, allowing EKS access.
+  string aws_integration_id = 1;
+
+  // The name of the role to assume in the EKS cluster account
+  // when provisioning the EKS access policy
+  string eks_access_policy_provisioner_role_name = 2;
+}

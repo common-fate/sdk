@@ -31,6 +31,10 @@ message ProvisionRequest {
 
   // The ID of the request.
   commonfate.entity.v1alpha1.EID access_request_id = 7;
+
+  // Additional integration configurations. This is used for AWS resource-based access
+  // such as our EKS integration, which requires an AWS IAM Identity Center integration.
+  repeated commonfate.control.integration.v1alpha1.Config additional_integrations = 8;
 }
 
 message ProvisionResponse {
