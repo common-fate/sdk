@@ -118,7 +118,7 @@ message DeleteIntegrationResponse {
 
 message Filter {
   oneof filter {
-    commonfate.filters.v1alpha1.OccurredAtFilter occurred_at = 1;
+    commonfate.filters.v1alpha1.TimeRangeFilter occurred_at = 1;
   }
 }
 

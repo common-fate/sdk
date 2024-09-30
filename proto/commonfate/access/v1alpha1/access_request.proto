@@ -57,7 +57,6 @@ enum RequestStatus {
 
 message Filter {
   oneof filter {
-    commonfate.filters.v1alpha1.OccurredAtFilter occurred_at = 1;
     commonfate.filters.v1alpha1.EntityFilter requested_by = 2;
     commonfate.filters.v1alpha1.EntityFilter closed_by = 3;
     commonfate.filters.v1alpha1.EntityFilter approved_by = 4;

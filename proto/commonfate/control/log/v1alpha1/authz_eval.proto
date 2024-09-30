@@ -27,7 +27,7 @@ service EvaluationService {
 message Filter {
   oneof filter {
     commonfate.filters.v1alpha1.TagFilter tag = 1;
-    commonfate.filters.v1alpha1.OccurredAtFilter occurred_at = 2;
+    commonfate.filters.v1alpha1.TimeRangeFilter occurred_at = 2;
     commonfate.filters.v1alpha1.EntityFilter principal = 3;
     commonfate.filters.v1alpha1.EntityFilter action = 4;
     commonfate.filters.v1alpha1.EntityFilter resource = 5;
