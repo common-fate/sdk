@@ -1,0 +1,89 @@
+syntax = "proto3";
+package commonfate.control.config.v1alpha1;
+
+import "commonfate/authz/v1alpha1/read_only.proto";
+import "buf/validate/validate.proto";
+
+service EKSAccessEntryTemplateService {
+  rpc CreateEKSAccessEntryTemplate(CreateEKSAccessEntryTemplateRequest) returns (CreateEKSAccessEntryTemplateResponse) {}
+  rpc GetEKSAccessEntryTemplate(GetEKSAccessEntryTemplateRequest) returns (GetEKSAccessEntryTemplateResponse) {
+    option (commonfate.authz.v1alpha1.read_only) = true;
+  }
+  rpc UpdateEKSAccessEntryTemplate(UpdateEKSAccessEntryTemplateRequest) returns (UpdateEKSAccessEntryTemplateResponse) {}
+  rpc DeleteEKSAccessEntryTemplate(DeleteEKSAccessEntryTemplateRequest) returns (DeleteEKSAccessEntryTemplateResponse) {}
+}
+
+message CreateEKSAccessEntryTemplateRequest {
+  string name = 1;
+  repeated string kubernetes_groups = 2;
+  repeated EKSAccessEntryTag tags = 3;
+  repeated EKSClusterAccessPolicy cluster_access_policies = 4;
+  repeated EKSNamespaceAccessPolicy namespace_access_policies = 5;
+}
+
+message EKSClusterAccessPolicy {
+  string policy_arn = 1 [(buf.validate.field).string = {
+    in: [
+      "arn:aws:eks::aws:cluster-access-policy/AmazonEKSAdminPolicy",
+      "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"
+      "arn:aws:eks::aws:cluster-access-policy/AmazonEKSAdminViewPolicy"
+      "arn:aws:eks::aws:cluster-access-policy/AmazonEKSEditPolicy"
+      "arn:aws:eks::aws:cluster-access-policy/AmazonEKSViewPolicy"
+    ]
+  }];
+}
+
+message EKSNamespaceAccessPolicy {
+  repeated string namespaces = 1;
+  string policy_arn = 2 [(buf.validate.field).string = {
+    in: [
+      "arn:aws:eks::aws:cluster-access-policy/AmazonEKSAdminPolicy",
+      "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"
+      "arn:aws:eks::aws:cluster-access-policy/AmazonEKSAdminViewPolicy"
+      "arn:aws:eks::aws:cluster-access-policy/AmazonEKSEditPolicy"
+      "arn:aws:eks::aws:cluster-access-policy/AmazonEKSViewPolicy"
+    ]
+  }];
+}
+
+message EKSAccessEntryTag {
+  string key = 1;
+  string value = 2;
+}
+
+message EKSAccessEntryTemplate {
+  string id = 1;
+  string name = 2;
+  repeated string kubernetes_groups = 3;
+  repeated EKSAccessEntryTag tags = 4;
+  repeated EKSClusterAccessPolicy cluster_access_policies = 5;
+  repeated EKSNamespaceAccessPolicy namespace_access_policies = 6;
+}
+
+message CreateEKSAccessEntryTemplateResponse {
+  EKSAccessEntryTemplate access_entry_template = 1;
+}
+
+message GetEKSAccessEntryTemplateRequest {
+  string id = 1;
+}
+
+message GetEKSAccessEntryTemplateResponse {
+  EKSAccessEntryTemplate access_entry_template = 1;
+}
+
+message UpdateEKSAccessEntryTemplateRequest {
+  EKSAccessEntryTemplate access_entry_template = 1;
+}
+
+message UpdateEKSAccessEntryTemplateResponse {
+  EKSAccessEntryTemplate access_entry_template = 1;
+}
+
+message DeleteEKSAccessEntryTemplateRequest {
+  string id = 1;
+}
+
+message DeleteEKSAccessEntryTemplateResponse {
+  string id = 1;
+}
