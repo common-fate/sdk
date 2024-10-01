@@ -393,6 +393,10 @@ func (m *ProvisionResponse) validate(all bool) error {
 
 	}
 
+	if m.HasAccess != nil {
+		// no validation rules for HasAccess
+	}
+
 	if len(errors) > 0 {
 		return ProvisionResponseMultiError(errors)
 	}

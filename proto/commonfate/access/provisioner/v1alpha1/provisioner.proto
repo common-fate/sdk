@@ -35,4 +35,6 @@ message ProvisionRequest {
 
 message ProvisionResponse {
   optional commonfate.entity.v1alpha1.Entity output = 3;
+
+  optional bool has_access = 4;
 }
