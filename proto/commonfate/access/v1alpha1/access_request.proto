@@ -183,6 +183,14 @@ message CloseAccessRequestRequest {
   // Forcibly close the Access Request. When a request is force closed,
   // the request is closed regardless if a deprovisioning error occurs.
   bool force_close = 3;
+
+  optional ClosingReason closing_reason = 4;
+}
+
+enum ClosingReason {
+  ACCESS_REQUEST_CLOSING_REASON_EXPIRED = 0;
+  ACCESS_REQUEST_CLOSING_REASON_ACTIVATION_EXPIRED = 1;
+  ACCESS_REQUEST_CLOSING_REASON_MANUAL = 2;
 }
 
 message CloseAccessRequestResponse {

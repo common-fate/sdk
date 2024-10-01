@@ -74,6 +74,8 @@ message Grant {
     // Instructions in Markdown format for accessing the entitlement
     // using a CLI.
     string cli_access_instructions = 20;
+
+    optional string closing_reason = 21;
 }
 
 message Extension {
