@@ -1,7 +1,7 @@
 syntax = "proto3";
 package commonfate.access.v1alpha1;
 
-import "commonfate/authz/v1alpha1/action.proto";
+import "commonfate/authz/v1alpha1/read_only.proto";
 import "google/protobuf/timestamp.proto";
 
 service ProxySessionService {
@@ -9,14 +9,10 @@ service ProxySessionService {
   rpc EndSession(EndSessionRequest) returns (EndSessionResponse) {}
   rpc PutSessionLog(PutSessionLogRequest) returns (PutSessionLogResponse) {}
   rpc QuerySessionLogs(QuerySessionLogsRequest) returns (QuerySessionLogsResponse) {
-     option (commonfate.authz.v1alpha1.action_options) = {
-      read_only: true
-    };
+    option (commonfate.authz.v1alpha1.read_only) = true;
   }
   rpc GetSession(GetSessionRequest) returns (GetSessionResponse) {
-     option (commonfate.authz.v1alpha1.action_options) = {
-      read_only: true
-    };
+    option (commonfate.authz.v1alpha1.read_only) = true;
   }
 }
 

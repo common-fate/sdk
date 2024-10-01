@@ -3,44 +3,27 @@ syntax = "proto3";
 package commonfate.control.resource.v1alpha1;
 
 import "commonfate/access/v1alpha1/named_eid.proto";
-import "commonfate/authz/v1alpha1/action.proto";
+import "commonfate/authz/v1alpha1/read_only.proto";
 import "commonfate/entity/v1alpha1/eid.proto";
 import "commonfate/entity/v1alpha1/entity.proto";
 
 // ResourceService is used to explore resources
 service ResourceService {
-  // Overridden for backwards compatability
-  option (commonfate.authz.v1alpha1.namespace) = "CF::Directory";
   // Returns a list of resource types.
   rpc ListTypes(ListTypesRequest) returns (ListTypesResponse) {
-    option (commonfate.authz.v1alpha1.action_options) = {
-      read_only: true,
-      id: "GetResource"
-    };
+    option (commonfate.authz.v1alpha1.read_only) = true;
   }
   rpc QueryResources(QueryResourcesRequest) returns (QueryResourcesResponse) {
-    option (commonfate.authz.v1alpha1.action_options) = {
-      read_only: true,
-      id: "GetResource"
-    };
+    option (commonfate.authz.v1alpha1.read_only) = true;
   }
   rpc GetResource(GetResourceRequest) returns (GetResourceResponse) {
-    option (commonfate.authz.v1alpha1.action_options) = {
-      read_only: true,
-      id: "GetResource"
-    };
+    option (commonfate.authz.v1alpha1.read_only) = true;
   }
   rpc ListChildren(ListChildrenRequest) returns (ListChildrenResponse) {
-    option (commonfate.authz.v1alpha1.action_options) = {
-      read_only: true,
-      id: "GetResource"
-    };
+    option (commonfate.authz.v1alpha1.read_only) = true;
   }
   rpc ListParents(ListParentsRequest) returns (ListParentsResponse) {
-    option (commonfate.authz.v1alpha1.action_options) = {
-      read_only: true,
-      id: "GetResource"
-    };
+    option (commonfate.authz.v1alpha1.read_only) = true;
   }
 }
 

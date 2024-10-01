@@ -6,7 +6,7 @@ import "buf/validate/validate.proto";
 import "commonfate/access/v1alpha1/diagnostic.proto";
 import "commonfate/access/v1alpha1/grant.proto";
 import "commonfate/access/v1alpha1/user.proto";
-import "commonfate/authz/v1alpha1/action.proto";
+import "commonfate/authz/v1alpha1/read_only.proto";
 import "commonfate/entity/v1alpha1/entity_service.proto";
 import "commonfate/filters/v1alpha1/filters.proto";
 import "google/protobuf/timestamp.proto";
@@ -17,21 +17,21 @@ import "google/protobuf/timestamp.proto";
 // to each Grant associated with the Access Request. Warnings will be returned if the operation fails for any grants.
 service AccessRequestService {
   rpc QueryAccessRequests(QueryAccessRequestsRequest) returns (QueryAccessRequestsResponse) {
-    option (commonfate.authz.v1alpha1.action_options) = {read_only: true};
+    option (commonfate.authz.v1alpha1.read_only) = true;
   }
 
   // Query the access requests where the user is the principal
   rpc QueryMyAccessRequests(QueryMyAccessRequestsRequest) returns (QueryMyAccessRequestsResponse) {
-    option (commonfate.authz.v1alpha1.action_options) = {read_only: true};
+    option (commonfate.authz.v1alpha1.read_only) = true;
   }
 
   rpc GetAccessRequest(GetAccessRequestRequest) returns (GetAccessRequestResponse) {
-    option (commonfate.authz.v1alpha1.action_options) = {read_only: true};
+    option (commonfate.authz.v1alpha1.read_only) = true;
   }
 
   // Returns the actions that the current user is allowed to perform on the request
   rpc GetAccessRequestActions(GetAccessRequestActionsRequest) returns (GetAccessRequestActionsResponse) {
-    option (commonfate.authz.v1alpha1.action_options) = {read_only: true};
+    option (commonfate.authz.v1alpha1.read_only) = true;
   }
 
   // Approving an Access Request will attempt to approve all of the Grants associated with the request.
@@ -57,10 +57,18 @@ enum RequestStatus {
 
 message Filter {
   oneof filter {
-    commonfate.filters.v1alpha1.OccurredAtFilter occurred_at = 1;
     commonfate.filters.v1alpha1.EntityFilter requested_by = 2;
     commonfate.filters.v1alpha1.EntityFilter closed_by = 3;
     commonfate.filters.v1alpha1.EntityFilter approved_by = 4;
+    // Whether or not the request received an approval
+    commonfate.filters.v1alpha1.BoolFilter manually_approved = 5;
+    // Whether or not the request was automatically approved
+    commonfate.filters.v1alpha1.BoolFilter auto_approved = 6;
+    commonfate.filters.v1alpha1.IntegerFilter grant_count = 7;
+    commonfate.filters.v1alpha1.TimeRangeFilter requested_at = 8;
+    commonfate.filters.v1alpha1.TimeRangeFilter approved_at = 9;
+    commonfate.filters.v1alpha1.TimeRangeFilter closed_at = 10;
+    commonfate.filters.v1alpha1.TimeRangeFilter activated_at = 11;
   }
 }
 
@@ -71,6 +79,7 @@ message QueryAccessRequestsRequest {
   optional commonfate.entity.v1alpha1.Order order = 3;
   RequestStatus request_status = 7;
   repeated Filter filters = 8;
+  int32 limit = 9;
 }
 
 message QueryMyAccessRequestsResponse {
@@ -83,6 +92,8 @@ message QueryMyAccessRequestsRequest {
   string page_token = 1;
   optional commonfate.entity.v1alpha1.Order order = 2;
   RequestStatus request_status = 3;
+  repeated Filter filters = 4;
+  int32 limit = 5;
 }
 
 message QueryAccessRequestsResponse {
@@ -182,6 +193,14 @@ message CloseAccessRequestRequest {
   // Forcibly close the Access Request. When a request is force closed,
   // the request is closed regardless if a deprovisioning error occurs.
   bool force_close = 3;
+
+  optional ClosingReason closing_reason = 4;
+}
+
+enum ClosingReason {
+  ACCESS_REQUEST_CLOSING_REASON_EXPIRED = 0;
+  ACCESS_REQUEST_CLOSING_REASON_ACTIVATION_EXPIRED = 1;
+  ACCESS_REQUEST_CLOSING_REASON_MANUAL = 2;
 }
 
 message CloseAccessRequestResponse {

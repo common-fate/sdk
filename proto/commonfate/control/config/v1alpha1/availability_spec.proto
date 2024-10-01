@@ -3,14 +3,12 @@ package commonfate.control.config.v1alpha1;
 
 import "google/protobuf/duration.proto";
 import "commonfate/entity/v1alpha1/eid.proto";
-import "commonfate/authz/v1alpha1/action.proto";
+import "commonfate/authz/v1alpha1/read_only.proto";
 
 service AvailabilitySpecService {
     rpc CreateAvailabilitySpec(CreateAvailabilitySpecRequest) returns (CreateAvailabilitySpecResponse) {}
     rpc GetAvailabilitySpec(GetAvailabilitySpecRequest) returns (GetAvailabilitySpecResponse) {
-         option (commonfate.authz.v1alpha1.action_options) = {
-      read_only: true
-    };
+        option(commonfate.authz.v1alpha1.read_only) = true;
     }
     rpc UpdateAvailabilitySpec(UpdateAvailabilitySpecRequest) returns (UpdateAvailabilitySpecResponse) {}
     rpc DeleteAvailabilitySpec(DeleteAvailabilitySpecRequest) returns (DeleteAvailabilitySpecResponse) {}

@@ -4,6 +4,7 @@ package commonfate.filters.v1alpha1;
 
 import "commonfate/authz/v1alpha1/evaluation.proto";
 import "commonfate/entity/v1alpha1/eid.proto";
+import "google/protobuf/duration.proto";
 import "google/protobuf/timestamp.proto";
 
 // Filters items with a particular authorization decision
@@ -34,20 +35,37 @@ message EntityTypeFilter {
   BoolComparison comparison = 2;
 }
 
-// Filters based on when items occurred or were created.
-message OccurredAtFilter {
-  google.protobuf.Timestamp time = 1;
-  TimeComparison comparison = 2;
+// Filters based on an integer equality.
+message IntegerFilter {
+  int64 value = 1;
+  EqualityComparison comparison = 2;
 }
 
-enum TimeComparison {
-  TIME_COMPARISON_UNSPECIFIED = 0;
+// Filters based on a condition being true or false.
+message BoolFilter {
+  BoolComparison comparison = 2;
+}
 
-  // Items which occurred or were created before the specified time.
-  TIME_COMPARISON_BEFORE = 1;
+message RelativeTimeBound {
+  google.protobuf.Duration duration = 1;
+}
+message AbsoluteTimeBound {
+  google.protobuf.Timestamp time = 1;
+}
+message TimeBound {
+  oneof bound {
+    RelativeTimeBound relative = 1;
+    AbsoluteTimeBound absolute = 2;
+  }
+}
 
-  // Items which occurred or were created after the specified time.
-  TIME_COMPARISON_AFTER = 2;
+// Filters based on a time range, where start or end is not provided a relative time is used
+// e.g everything before an end time or everything after a start time
+message TimeRangeFilter {
+  // Optionaly provide a starting bound for the date range
+  optional TimeBound start = 1;
+  // Optionaly provide an ending bound for the date range
+  optional TimeBound end = 2;
 }
 
 enum BoolComparison {
@@ -58,4 +76,26 @@ enum BoolComparison {
 
   // Not equal to the provided value.
   BOOL_COMPARISON_NOT_EQUAL = 2;
+}
+
+enum EqualityComparison {
+  EQUALITY_COMPARISON_UNSPECIFIED = 0;
+
+  // Equal to the provided value.
+  EQUALITY_COMPARISON_EQUAL = 1;
+
+  // Not equal to the provided value.
+  EQUALITY_COMPARISON_NOT_EQUAL = 2;
+
+  // Less than the provided value.
+  EQUALITY_COMPARISON_LESS_THAN = 3;
+
+  // Greater than the provided value.
+  EQUALITY_COMPARISON_GREATER_THAN = 4;
+
+  // Less than or equal to the provided value.
+  EQUALITY_COMPARISON_LESS_THAN_EQUAL = 5;
+
+  // Greater than or equal to the provided value.
+  EQUALITY_COMPARISON_GREATER_THAN_EQUAL = 6;
 }

@@ -2,19 +2,20 @@ syntax = "proto3";
 
 package commonfate.access.v1alpha1;
 
+import "buf/validate/validate.proto";
 import "commonfate/access/v1alpha1/access_request.proto";
 import "commonfate/access/v1alpha1/diagnostic.proto";
 import "commonfate/access/v1alpha1/extension_conditions.proto";
 import "commonfate/access/v1alpha1/grant.proto";
 import "commonfate/access/v1alpha1/named_eid.proto";
+import "commonfate/access/v1alpha1/regex_validation.proto";
 import "commonfate/access/v1alpha1/user.proto";
-import "commonfate/authz/v1alpha1/action.proto";
 import "commonfate/authz/v1alpha1/policy.proto";
+import "commonfate/authz/v1alpha1/read_only.proto";
 import "commonfate/entity/v1alpha1/eid.proto";
 import "commonfate/entity/v1alpha1/entity.proto";
 import "google/protobuf/duration.proto";
 import "google/protobuf/timestamp.proto";
-import "buf/validate/validate.proto";
 
 // AccessService is the Access Handler's user-facing API.
 // Users call this API to ensure that they have access to entitlements.
@@ -25,44 +26,36 @@ service AccessService {
   // If the entitlement has not been provisioned, an Access Request will be created for the entitlement.
   // If a pending Access Request exists for the entitlement, this request is returned.
   //
-  // This API may extend access where the request meets the conditions
+  // In future, this method may trigger an extension to any Access Requests which are due to expire.
   rpc BatchEnsure(BatchEnsureRequest) returns (BatchEnsureResponse) {}
 
   // Query for JIT availabilities.
   rpc QueryAvailabilities(QueryAvailabilitiesRequest) returns (QueryAvailabilitiesResponse) {
-    option (commonfate.authz.v1alpha1.action_options) = {read_only: true};
+    option (commonfate.authz.v1alpha1.read_only) = true;
   }
 
   rpc QueryEntitlements(QueryEntitlementsRequest) returns (QueryEntitlementsResponse) {
-    option (commonfate.authz.v1alpha1.action_options) = {read_only: true};
+    option (commonfate.authz.v1alpha1.read_only) = true;
   }
 
   rpc QueryApprovers(QueryApproversRequest) returns (QueryApproversResponse) {
-    option (commonfate.authz.v1alpha1.action_options) = {read_only: true};
+    option (commonfate.authz.v1alpha1.read_only) = true;
   }
 
   rpc PreviewUserAccess(PreviewUserAccessRequest) returns (PreviewUserAccessResponse) {
-    option (commonfate.authz.v1alpha1.action_options) = {
-      read_only: true,
-      // overridden for backwards compatability
-      service_namespace: "CF::Authz"
-    };
+    option (commonfate.authz.v1alpha1.read_only) = true;
   }
 
   rpc PreviewEntitlementAccess(PreviewEntitlementAccessRequest) returns (PreviewEntitlementAccessResponse) {
-    option (commonfate.authz.v1alpha1.action_options) = {
-      read_only: true,
-      // overridden for backwards compatability
-      service_namespace: "CF::Authz"
-    };
+    option (commonfate.authz.v1alpha1.read_only) = true;
   }
 
   rpc DebugEntitlementAccess(DebugEntitlementAccessRequest) returns (DebugEntitlementAccessResponse) {
-    option (commonfate.authz.v1alpha1.action_options) = {read_only: true};
+    option (commonfate.authz.v1alpha1.read_only) = true;
   }
 
   rpc QueryEntitlementsTree(QueryEntitlementsTreeRequest) returns (QueryEntitlementsTreeResponse) {
-    option (commonfate.authz.v1alpha1.action_options) = {read_only: true};
+    option (commonfate.authz.v1alpha1.read_only) = true;
   }
 }
 
@@ -281,10 +274,10 @@ message BatchEnsureRequest {
   string breakglass_reason = 5;
 
   option (buf.validate.message).cel = {
-      id: "breakglass_requires_reason",
-      message: "Breakglass access requires a reason",
-      expression: "!(this.breakglass) || (this.breakglass && this.breakglass_reason != '')",
-    };
+    id: "breakglass_requires_reason",
+    message: "Breakglass access requires a reason",
+    expression: "!(this.breakglass) || (this.breakglass && this.breakglass_reason != '')",
+  };
 }
 
 message BatchEnsureResponse {
@@ -324,6 +317,8 @@ message GrantState {
 message Validation {
   // If true, a reason is required for access.
   bool has_reason = 1;
+  // List of regex patterns that the reason must conform with
+  repeated RegexValidation reason_regex = 2;
 }
 
 enum GrantChange {

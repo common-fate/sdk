@@ -4,13 +4,11 @@ package commonfate.access.v1alpha1;
 
 import "commonfate/entity/v1alpha1/eid.proto";
 import "commonfate/access/v1alpha1/user.proto";
-import "commonfate/authz/v1alpha1/action.proto";
+import "commonfate/authz/v1alpha1/read_only.proto";
 
 service IdentityService {
     rpc GetCallerIdentity(GetCallerIdentityRequest) returns (GetCallerIdentityResponse)  {
-       option (commonfate.authz.v1alpha1.action_options) = {
-      read_only: true
-    };
+      option(commonfate.authz.v1alpha1.read_only) = true;
     }
 }
 

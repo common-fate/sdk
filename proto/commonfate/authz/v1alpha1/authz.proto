@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+package commonfate.authz.v1alpha1;
+
+import "google/protobuf/struct.proto";
+import "google/protobuf/timestamp.proto";
+import "commonfate/entity/v1alpha1/entity.proto";
+import "commonfate/entity/v1alpha1/eid.proto";
+import "commonfate/authz/v1alpha1/request.proto";
+import "commonfate/authz/v1alpha1/policy.proto";
+import "commonfate/authz/v1alpha1/evaluation.proto";
+
+// The API for the authz service.
+//
+// authz is a globally-distributed, highly available entity store and authorization API.
+// Entity data and policies are written to authz, and the service indexes permissions to determine
+// what resources each principal can access.
+//
+// Reads and writes to authz are eventually consistent.
+service AuthzService {
+    // run multiple authorization evaluations and returns allow + deny for each.
+    rpc BatchAuthorize(BatchAuthorizeRequest) returns (BatchAuthorizeResponse) {}
+}
+
+message BatchAuthorizeRequest {
+    repeated Request requests = 3;
+}
+
+message BatchAuthorizeResponse {
+    repeated Evaluation evaluations = 1;
+}

@@ -4,16 +4,14 @@ package commonfate.access.v1alpha1;
 
 import "commonfate/access/v1alpha1/identity.proto";
 import "commonfate/access/v1alpha1/user.proto";
-import "commonfate/authz/v1alpha1/action.proto";
+import "commonfate/authz/v1alpha1/read_only.proto";
 import "commonfate/entity/v1alpha1/eid.proto";
 import "google/protobuf/struct.proto";
 import "google/protobuf/timestamp.proto";
 
 service AuditLogService {
   rpc QueryAuditLogs(QueryAuditLogsRequest) returns (QueryAuditLogsResponse) {
-     option (commonfate.authz.v1alpha1.action_options) = {
-      read_only: true
-    };
+    option (commonfate.authz.v1alpha1.read_only) = true;
   }
 }
 

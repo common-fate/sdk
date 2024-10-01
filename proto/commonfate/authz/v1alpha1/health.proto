@@ -1,0 +1,16 @@
+
+syntax = "proto3";
+
+package commonfate.authz.v1alpha1;
+import "commonfate/authz/v1alpha1/read_only.proto";
+
+
+service HealthService {
+    rpc HealthCheck(HealthCheckRequest) returns (HealthCheckResponse) {
+        option(commonfate.authz.v1alpha1.read_only) = true;
+    }
+}
+
+message HealthCheckRequest {}
+
+message HealthCheckResponse {}

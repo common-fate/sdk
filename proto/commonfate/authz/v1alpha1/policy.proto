@@ -2,96 +2,93 @@ syntax = "proto3";
 
 package commonfate.authz.v1alpha1;
 
-import "commonfate/authz/v1alpha1/action.proto";
+import "commonfate/entity/v1alpha1/entity.proto";
+import "commonfate/authz/v1alpha1/read_only.proto";
+
 
 service PolicyService {
-  // The Service can be optionally namespaced, defaults to the package path excluding the versions e.g commonfate.authz.v1alpha1/PolicyService -> CF::Authz::PolicyService
-  // option (commonfate.authz.v1alpha1.namespace) = "CF::Authz::PolicyService";
+    rpc CreatePolicySet(CreatePolicySetRequest) returns (CreatePolicySetResponse) {}
 
-  rpc CreatePolicySet(CreatePolicySetRequest) returns (CreatePolicySetResponse) {}
-  rpc UpdatePolicySet(UpdatePolicySetRequest) returns (UpdatePolicySetResponse) {}
-  rpc ListPolicySets(ListPolicySetsRequest) returns (ListPolicySetsResponse) {
-    option (commonfate.authz.v1alpha1.action_options) = {
-      // ID can be provided optionally, defaults to the method name, e.g ListPolicySets
-      id: "GetPolicySet",
-      // read_only has been shifted inside the action_options
-      read_only: true
-    };
-  }
-  rpc GetPolicySet(GetPolicySetRequest) returns (GetPolicySetResponse) {
-    option (commonfate.authz.v1alpha1.action_options) = {
-      id: "GetPolicySet",
-      read_only: true
-    };
-  }
-  rpc DeletePolicySet(DeletePolicySetRequest) returns (DeletePolicySetResponse) {}
+    rpc UpdatePolicySet(UpdatePolicySetRequest) returns (UpdatePolicySetResponse) {}
+
+    rpc ListPolicySets(ListPolicySetsRequest) returns (ListPolicySetsResponse) {
+        option(commonfate.authz.v1alpha1.read_only) = true;
+    }
+
+    rpc GetPolicySet(GetPolicySetRequest) returns (GetPolicySetResponse) {
+        option(commonfate.authz.v1alpha1.read_only) = true;
+    }
+
+    rpc DeletePolicySet(DeletePolicySetRequest) returns (DeletePolicySetResponse) {}
 }
 
-message Policy {
-  // ID of the policy.
-  string id = 1;
 
-  // Cedar code for the policy set.
-  string text = 2;
+message Policy {
+    // ID of the policy.
+    string id = 1;
+
+    // Cedar code for the policy set.
+    string text = 2;
 }
 
 message PolicySet {
-  // ID of the policy set.
-  string id = 1;
+    // ID of the policy set.
+    string id = 1;
+    
+    // The policies contained in the policy set.
+    repeated Policy policies = 2;
 
-  // The policies contained in the policy set.
-  repeated Policy policies = 2;
-
-  // The source code for the policy set.
-  string text = 3;
+    // The source code for the policy set.
+    string text = 3;
 }
 
 message PolicySetInput {
-  // ID of the policy.
-  string id = 1;
-  // Cedar code for the policy set.
-  string text = 2;
+    // ID of the policy.
+    string id = 1;
+    // Cedar code for the policy set.
+    string text = 2;
 }
 
+
 message ListPolicySetsRequest {
-  // The token for the next page.
-  string page_token = 4;
+    // The token for the next page.
+    string page_token = 4;
 }
 
 message ListPolicySetsResponse {
-  repeated PolicySet policy_sets = 1;
-  string next_page_token = 2;
+    repeated PolicySet policy_sets = 1;
+    string next_page_token = 2;
 }
 
 message CreatePolicySetRequest {
-  PolicySetInput policy_set = 1;
+    PolicySetInput policy_set = 1;
 }
 
 message CreatePolicySetResponse {
-  PolicySet policy_set = 1;
+    PolicySet policy_set = 1;
 }
 
 message UpdatePolicySetRequest {
-  PolicySetInput policy_set = 1;
+    PolicySetInput policy_set = 1;
 }
 
 message UpdatePolicySetResponse {
-  PolicySet policy_set = 1;
+    PolicySet policy_set = 1;
 }
 
 message DeletePolicySetRequest {
-  string id = 1;
+     string id = 1;
 }
 
 message DeletePolicySetResponse {
-  string id = 1;
+    string id = 1;
 }
 
 message GetPolicySetRequest {
-  // The token for the next page.
-  string id = 1;
+    // The token for the next page.
+    string id = 1;
 }
 
 message GetPolicySetResponse {
-  PolicySet policy_set = 1;
+    PolicySet policy_set = 1;
 }

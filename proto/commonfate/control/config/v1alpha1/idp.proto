@@ -1,0 +1,53 @@
+syntax = "proto3";
+package commonfate.control.config.v1alpha1;
+import "commonfate/authz/v1alpha1/read_only.proto";
+
+
+
+service IDPService {
+    rpc CreateIDP(CreateIDPRequest) returns (CreateIDPResponse) {}
+    rpc ReadIDP(ReadIDPRequest) returns (ReadIDPResponse) {
+        option(commonfate.authz.v1alpha1.read_only) = true;
+    }
+    rpc UpdateIDP(UpdateIDPRequest) returns (UpdateIDPResponse) {}
+    rpc DeleteIDP(DeleteIDPRequest) returns (DeleteIDPResponse) {}
+}
+
+message CreateIDPRequest {
+    string namespace = 2;
+}
+
+message CreateIDPResponse {
+    string id = 1;
+    string namespace = 2;
+}
+
+
+message ReadIDPRequest {
+    string id = 1;
+    string namespace = 2;
+}
+
+message ReadIDPResponse {
+    string id = 1;
+    string namespace = 2;
+}
+
+
+message UpdateIDPRequest {
+    string id = 1;
+    string namespace = 2;
+}
+
+message UpdateIDPResponse {
+    string id = 1;
+    string namespace = 2;
+}
+
+message DeleteIDPRequest {
+    string id = 1;
+}
+
+message DeleteIDPResponse {
+    string id = 1;
+}
