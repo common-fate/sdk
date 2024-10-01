@@ -2210,6 +2210,10 @@ func (m *CloseAccessRequestRequest) validate(all bool) error {
 
 	// no validation rules for ForceClose
 
+	if m.ClosingReason != nil {
+		// no validation rules for ClosingReason
+	}
+
 	if len(errors) > 0 {
 		return CloseAccessRequestRequestMultiError(errors)
 	}

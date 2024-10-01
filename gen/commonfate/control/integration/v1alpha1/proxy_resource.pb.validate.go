@@ -356,6 +356,10 @@ func (m *AWSRDSDatabaseUser) validate(all bool) error {
 
 	// no validation rules for PasswordSecretsManagerArn
 
+	if m.Endpoint != nil {
+		// no validation rules for Endpoint
+	}
+
 	if len(errors) > 0 {
 		return AWSRDSDatabaseUserMultiError(errors)
 	}
