@@ -391,6 +391,10 @@ func (m *Grant) validate(all bool) error {
 
 	// no validation rules for CliAccessInstructions
 
+	if m.ClosingReason != nil {
+		// no validation rules for ClosingReason
+	}
+
 	if len(errors) > 0 {
 		return GrantMultiError(errors)
 	}

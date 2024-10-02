@@ -1,5 +1,17 @@
 # @common-fate/sdk
 
+## 1.60.0
+
+### Minor Changes
+
+- 37f6906: Add reason pattern matching to validation.
+- b49280d: Use standard filters for authz logs and my access requests.
+
+### Patch Changes
+
+- b8a17c9: add closing reason to close access request
+- e5a8aa3: add optional rds endpoint to rds user
+
 ## 1.59.2
 
 ### Patch Changes

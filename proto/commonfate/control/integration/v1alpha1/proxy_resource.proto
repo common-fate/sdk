@@ -21,4 +21,5 @@ message AWSRDSDatabaseUser {
   string name = 1;
   string username = 2;
   string password_secrets_manager_arn = 3;
+  optional string endpoint = 4;
 }

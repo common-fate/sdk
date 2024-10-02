@@ -4,6 +4,7 @@ package commonfate.control.integration.v1alpha1;
 import "commonfate/access/v1alpha1/diagnostic.proto";
 import "commonfate/authz/v1alpha1/read_only.proto";
 import "commonfate/control/integration/v1alpha1/auth0.proto";
+import "commonfate/control/integration/v1alpha1/aws_eks.proto";
 import "commonfate/control/integration/v1alpha1/aws_idc.proto";
 import "commonfate/control/integration/v1alpha1/aws_proxy.proto";
 import "commonfate/control/integration/v1alpha1/datastax.proto";
@@ -14,13 +15,10 @@ import "commonfate/control/integration/v1alpha1/opsgenie.proto";
 import "commonfate/control/integration/v1alpha1/pagerduty.proto";
 import "commonfate/control/integration/v1alpha1/s3_log_destination.proto";
 import "commonfate/control/integration/v1alpha1/slack.proto";
-import "commonfate/control/integration/v1alpha1/aws_eks.proto";
 import "commonfate/control/integration/v1alpha1/webhook.proto";
 import "commonfate/control/log/v1alpha1/authz_eval.proto";
-
-
+import "commonfate/filters/v1alpha1/filters.proto";
 import "google/protobuf/timestamp.proto";
-
 
 service IntegrationService {
   rpc CreateIntegration(CreateIntegrationRequest) returns (CreateIntegrationResponse) {}
@@ -33,7 +31,6 @@ service IntegrationService {
   // integration sync
   rpc ListSyncsForIntegration(ListSyncsForIntegrationRequest) returns (ListSyncsForIntegrationResponse) {
     option (commonfate.authz.v1alpha1.read_only) = true;
-
   }
   rpc SyncIntegration(SyncIntegrationRequest) returns (SyncIntegrationResponse) {}
   rpc ListIntegrations(ListIntegrationsRequest) returns (ListIntegrationsResponse) {
@@ -125,12 +122,9 @@ message DeleteIntegrationResponse {
   string id = 1;
 }
 
-
 message Filter {
   oneof filter {
-
-    commonfate.control.log.v1alpha1.OccurredAtFilter occurred_at = 1;
-
+    commonfate.filters.v1alpha1.TimeRangeFilter occurred_at = 1;
   }
 }
 
@@ -156,18 +150,12 @@ message SyncJob {
   repeated string errors = 6;
   string kind = 7;
   google.protobuf.Timestamp finished_at = 8;
-
-
 }
 
 message SyncIntegrationRequest {
   string integration_id = 1;
-
 }
 
 message SyncIntegrationResponse {
-
   repeated commonfate.access.v1alpha1.Diagnostic diagnostics = 1;
-
-
 }
