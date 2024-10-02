@@ -63,6 +63,8 @@ func (m *AWSProxy) validate(all bool) error {
 
 	// no validation rules for IdcRegion
 
+	// no validation rules for AwsIntegrationId
+
 	switch v := m.InstanceConfig.(type) {
 	case *AWSProxy_AwsEcsProxyInstanceConfig:
 		if v == nil {
