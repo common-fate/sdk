@@ -1,5 +1,11 @@
 # @common-fate/sdk
 
+## 1.61.0
+
+### Minor Changes
+
+- 945a9a9: Adds EKS access integration.
+
 ## 1.60.0
 
 ### Minor Changes
