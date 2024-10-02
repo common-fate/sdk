@@ -27,10 +27,19 @@ message ProvisionRequest {
 
   commonfate.entity.v1alpha1.Entity role = 5;
 
+  // The integration config for provisioning access. This will be removed in future,
+  // and will be replaced with the 'integration' field.
   commonfate.control.integration.v1alpha1.Config integration_config = 6;
 
   // The ID of the request.
   commonfate.entity.v1alpha1.EID access_request_id = 7;
+
+  // The integration to use for provisioning access.
+  commonfate.control.integration.v1alpha1.Integration integration = 8;
+
+  // Additional integration configurations. This is used for AWS resource-based access
+  // such as our EKS integration, which requires an AWS IAM Identity Center integration.
+  repeated commonfate.control.integration.v1alpha1.Integration additional_integrations = 9;
 }
 
 message ProvisionResponse {
