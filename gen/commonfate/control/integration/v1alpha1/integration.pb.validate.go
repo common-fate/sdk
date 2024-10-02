@@ -924,6 +924,47 @@ func (m *Config) validate(all bool) error {
 			}
 		}
 
+	case *Config_AwsEks:
+		if v == nil {
+			err := ConfigValidationError{
+				field:  "Config",
+				reason: "oneof value cannot be a typed-nil",
+			}
+			if !all {
+				return err
+			}
+			errors = append(errors, err)
+		}
+
+		if all {
+			switch v := interface{}(m.GetAwsEks()).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, ConfigValidationError{
+						field:  "AwsEks",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, ConfigValidationError{
+						field:  "AwsEks",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(m.GetAwsEks()).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return ConfigValidationError{
+					field:  "AwsEks",
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
 	default:
 		_ = v // ensures v is used
 	}
@@ -1097,6 +1138,8 @@ func (m *Integration) validate(all bool) error {
 	}
 
 	// no validation rules for SetupUrl
+
+	// no validation rules for AssumeRoleExternalId
 
 	if len(errors) > 0 {
 		return IntegrationMultiError(errors)
