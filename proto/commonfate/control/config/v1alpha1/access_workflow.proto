@@ -16,6 +16,11 @@ service AccessWorkflowService {
   rpc DeleteAccessWorkflow(DeleteAccessWorkflowRequest) returns (DeleteAccessWorkflowResponse) {}
 }
 
+message ApprovalStep {
+  string name = 1;
+  string when = 2;
+}
+
 message AccessWorkflow {
   string id = 1;
   string name = 2;
@@ -26,6 +31,7 @@ message AccessWorkflow {
   google.protobuf.Duration default_duration = 7;
   ValidationConfig validation = 8;
   commonfate.access.v1alpha1.ExtensionConditions extension_conditions = 9;
+  repeated ApprovalStep approval_steps = 10;
 }
 
 message ValidationConfig {
@@ -44,6 +50,7 @@ message CreateAccessWorkflowRequest {
   google.protobuf.Duration default_duration = 7;
   ValidationConfig validation = 8;
   commonfate.access.v1alpha1.ExtensionConditions extension_conditions = 9;
+  repeated ApprovalStep approval_steps = 10;
 }
 
 message CreateAccessWorkflowResponse {
