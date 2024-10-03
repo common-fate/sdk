@@ -26,6 +26,10 @@ message AccessWorkflow {
   google.protobuf.Duration default_duration = 7;
   ValidationConfig validation = 8;
   commonfate.access.v1alpha1.ExtensionConditions extension_conditions = 9;
+  google.protobuf.Duration request_to_approve_expiry = 10;
+  google.protobuf.Duration request_to_active_expiry = 11;
+
+
 }
 
 message ValidationConfig {
