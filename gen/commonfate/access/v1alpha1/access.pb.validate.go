@@ -35,6 +35,139 @@ var (
 	_ = sort.Sort
 )
 
+// Validate checks the field values on GrantApprovalStep with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// first error encountered is returned, or nil if there are no violations.
+func (m *GrantApprovalStep) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on GrantApprovalStep with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// GrantApprovalStepMultiError, or nil if none found.
+func (m *GrantApprovalStep) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *GrantApprovalStep) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if all {
+		switch v := interface{}(m.GetGrant()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, GrantApprovalStepValidationError{
+					field:  "Grant",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, GrantApprovalStepValidationError{
+					field:  "Grant",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetGrant()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return GrantApprovalStepValidationError{
+				field:  "Grant",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	// no validation rules for Step
+
+	if len(errors) > 0 {
+		return GrantApprovalStepMultiError(errors)
+	}
+
+	return nil
+}
+
+// GrantApprovalStepMultiError is an error wrapping multiple validation errors
+// returned by GrantApprovalStep.ValidateAll() if the designated constraints
+// aren't met.
+type GrantApprovalStepMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m GrantApprovalStepMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m GrantApprovalStepMultiError) AllErrors() []error { return m }
+
+// GrantApprovalStepValidationError is the validation error returned by
+// GrantApprovalStep.Validate if the designated constraints aren't met.
+type GrantApprovalStepValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e GrantApprovalStepValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e GrantApprovalStepValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e GrantApprovalStepValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e GrantApprovalStepValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e GrantApprovalStepValidationError) ErrorName() string {
+	return "GrantApprovalStepValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e GrantApprovalStepValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sGrantApprovalStep.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = GrantApprovalStepValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = GrantApprovalStepValidationError{}
+
 // Validate checks the field values on QueryApproversRequest with the rules
 // defined in the proto definition for this message. If any rules are
 // violated, the first error encountered is returned, or nil if there are no violations.
@@ -134,6 +267,47 @@ func (m *QueryApproversRequest) validate(all bool) error {
 			if err := v.Validate(); err != nil {
 				return QueryApproversRequestValidationError{
 					field:  "Grant",
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	case *QueryApproversRequest_GrantApprovalStep:
+		if v == nil {
+			err := QueryApproversRequestValidationError{
+				field:  "Query",
+				reason: "oneof value cannot be a typed-nil",
+			}
+			if !all {
+				return err
+			}
+			errors = append(errors, err)
+		}
+
+		if all {
+			switch v := interface{}(m.GetGrantApprovalStep()).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, QueryApproversRequestValidationError{
+						field:  "GrantApprovalStep",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, QueryApproversRequestValidationError{
+						field:  "GrantApprovalStep",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(m.GetGrantApprovalStep()).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return QueryApproversRequestValidationError{
+					field:  "GrantApprovalStep",
 					reason: "embedded message failed validation",
 					cause:  err,
 				}
