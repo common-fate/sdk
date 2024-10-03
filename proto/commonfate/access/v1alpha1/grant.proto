@@ -2,118 +2,119 @@ syntax = "proto3";
 
 package commonfate.access.v1alpha1;
 
-import "commonfate/control/attest/v1alpha1/attestation.proto";
-import "commonfate/access/v1alpha1/user.proto";
-import "commonfate/entity/v1alpha1/entity.proto";
 import "commonfate/access/v1alpha1/named_eid.proto";
-import "commonfate/access/v1alpha1/audit_logs.proto";
+import "commonfate/access/v1alpha1/user.proto";
 import "google/protobuf/duration.proto";
 import "google/protobuf/timestamp.proto";
 
-
-
+message ActionableApprovalStep {
+  string name = 1;
+  optional NamedEID completed_by = 2;
+}
 
 message Grant {
-    // The ID of the Grant.
-    string id = 1;
+  // The ID of the Grant.
+  string id = 1;
 
-    // A user-friendly name describing the access, such as "AdministratorAccess to tax-api-prod"
-    string name = 2;
+  // A user-friendly name describing the access, such as "AdministratorAccess to tax-api-prod"
+  string name = 2;
 
-    // The resource being requested.
-    NamedEID target = 3;
+  // The resource being requested.
+  NamedEID target = 3;
 
-    // The role being requested, such as "View" or "Admin".
-    NamedEID role = 4;
+  // The role being requested, such as "View" or "Admin".
+  NamedEID role = 4;
 
-    // The user or service account that requested the access.
-    //
-    // If a service account requested access, the 'name' and 'email' may be empty.
-    User principal = 5;
+  // The user or service account that requested the access.
+  //
+  // If a service account requested access, the 'name' and 'email' may be empty.
+  User principal = 5;
 
-    // The status of the Grant.
-    GrantStatus status = 6;
+  // The status of the Grant.
+  GrantStatus status = 6;
 
-    // For active grants, the time that the access is due to expire.
-    google.protobuf.Timestamp expires_at = 8;
+  // For active grants, the time that the access is due to expire.
+  google.protobuf.Timestamp expires_at = 8;
 
-    // For active grants, the time that the user may attempt to extend the grant.
-    // If empty, extension is not permitted.
-    google.protobuf.Timestamp try_extend_after = 9;
+  // For active grants, the time that the user may attempt to extend the grant.
+  // If empty, extension is not permitted.
+  google.protobuf.Timestamp try_extend_after = 9;
 
-    // The ID of the Access Request associated with the Grant.
-    string access_request_id = 10;
+  // The ID of the Access Request associated with the Grant.
+  string access_request_id = 10;
 
-    // Approved is true if there are any approving reviews on the Grant.
-    bool approved = 11;
+  // Approved is true if there are any approving reviews on the Grant.
+  bool approved = 11;
 
-    // The time that the grant was closed.
-    google.protobuf.Timestamp closed_at = 12;
+  // The time that the grant was closed.
+  google.protobuf.Timestamp closed_at = 12;
 
-    // For grants which were activated, the time that the access was activated.
-    google.protobuf.Timestamp activated_at = 13;
+  // For grants which were activated, the time that the access was activated.
+  google.protobuf.Timestamp activated_at = 13;
 
-    // For grants which were activated, the time that the access was deprovisioned.
-    google.protobuf.Timestamp deprovisioned_at = 14;
+  // For grants which were activated, the time that the access was deprovisioned.
+  google.protobuf.Timestamp deprovisioned_at = 14;
 
-    // The provisioning status of the Grant. This status tracks whether the entitlements have been successfully provisioned in the integration that Common Fate is provisioning access to, such as AWS or GCP.
-    ProvisioningStatus provisioning_status = 15;
+  // The provisioning status of the Grant. This status tracks whether the entitlements have been successfully provisioned in the integration that Common Fate is provisioning access to, such as AWS or GCP.
+  ProvisioningStatus provisioning_status = 15;
 
-    google.protobuf.Duration duration = 16;
+  google.protobuf.Duration duration = 16;
 
-    // The default duration shown for the grant.
-    google.protobuf.Duration default_duration = 17;
+  // The default duration shown for the grant.
+  google.protobuf.Duration default_duration = 17;
 
-    // A URL which can be used to access the requested entitlement.
-    string external_url = 18;
+  // A URL which can be used to access the requested entitlement.
+  string external_url = 18;
 
-    // Conditions for extending access.
-    // If empty, extensions are not permitted.
-    Extension extension = 19;
+  // Conditions for extending access.
+  // If empty, extensions are not permitted.
+  Extension extension = 19;
 
-    // Instructions in Markdown format for accessing the entitlement
-    // using a CLI.
-    string cli_access_instructions = 20;
+  // Instructions in Markdown format for accessing the entitlement
+  // using a CLI.
+  string cli_access_instructions = 20;
 
-    optional string closing_reason = 21;
+  optional string closing_reason = 21;
+
+  repeated ActionableApprovalStep approval_steps = 22;
 }
 
 message Extension {
-    // the number of allowed extensions remaining
-    int32 remaining = 1;
-    // the duration to extend by on each extension
-    google.protobuf.Duration extension_duration_seconds = 2;
-    // whether or not an extension has been used
-    bool extension_used = 3;
-    // ExtendableAfter is the time after which the grant is allowed to be extended.
-    optional google.protobuf.Timestamp extendable_after = 4;
+  // the number of allowed extensions remaining
+  int32 remaining = 1;
+  // the duration to extend by on each extension
+  google.protobuf.Duration extension_duration_seconds = 2;
+  // whether or not an extension has been used
+  bool extension_used = 3;
+  // ExtendableAfter is the time after which the grant is allowed to be extended.
+  optional google.protobuf.Timestamp extendable_after = 4;
 }
 
 enum GrantStatus {
-    GRANT_STATUS_UNSPECIFIED = 0;
+  GRANT_STATUS_UNSPECIFIED = 0;
 
-    // Awaiting a manual review.
-    GRANT_STATUS_PENDING = 1;
+  // Awaiting a manual review.
+  GRANT_STATUS_PENDING = 1;
 
-    // The grant to the entitlement is currently active.
-    GRANT_STATUS_ACTIVE = 3;
+  // The grant to the entitlement is currently active.
+  GRANT_STATUS_ACTIVE = 3;
 
-    // No longer active. Grants may be closed due to several reasons, such as:
-    // - the grant was cancelled by the user
-    // - the grant was revoked by an administrator
-    // - the grant has expired
-    GRANT_STATUS_CLOSED = 4;
+  // No longer active. Grants may be closed due to several reasons, such as:
+  // - the grant was cancelled by the user
+  // - the grant was revoked by an administrator
+  // - the grant has expired
+  GRANT_STATUS_CLOSED = 4;
 }
 
 enum ProvisioningStatus {
-    PROVISIONING_STATUS_UNSPECIFIED = 0;
+  PROVISIONING_STATUS_UNSPECIFIED = 0;
 
-    // Provisioning has not been attempted. This is the value before the Grant is activated.
-    PROVISIONING_STATUS_NOT_ATTEMPTED = 1;
+  // Provisioning has not been attempted. This is the value before the Grant is activated.
+  PROVISIONING_STATUS_NOT_ATTEMPTED = 1;
 
-    // The Grant is currently being provisioned.
-    PROVISIONING_STATUS_ATTEMPTING = 2;
+  // The Grant is currently being provisioned.
+  PROVISIONING_STATUS_ATTEMPTING = 2;
 
-    // Provisioning has completed successfully.
-    PROVISIONING_STATUS_SUCCESSFUL = 3;
+  // Provisioning has completed successfully.
+  PROVISIONING_STATUS_SUCCESSFUL = 3;
 }

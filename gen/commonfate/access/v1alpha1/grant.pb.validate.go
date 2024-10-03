@@ -35,6 +35,143 @@ var (
 	_ = sort.Sort
 )
 
+// Validate checks the field values on ActionableApprovalStep with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *ActionableApprovalStep) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on ActionableApprovalStep with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// ActionableApprovalStepMultiError, or nil if none found.
+func (m *ActionableApprovalStep) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *ActionableApprovalStep) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Name
+
+	if m.CompletedBy != nil {
+
+		if all {
+			switch v := interface{}(m.GetCompletedBy()).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, ActionableApprovalStepValidationError{
+						field:  "CompletedBy",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, ActionableApprovalStepValidationError{
+						field:  "CompletedBy",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(m.GetCompletedBy()).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return ActionableApprovalStepValidationError{
+					field:  "CompletedBy",
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	if len(errors) > 0 {
+		return ActionableApprovalStepMultiError(errors)
+	}
+
+	return nil
+}
+
+// ActionableApprovalStepMultiError is an error wrapping multiple validation
+// errors returned by ActionableApprovalStep.ValidateAll() if the designated
+// constraints aren't met.
+type ActionableApprovalStepMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m ActionableApprovalStepMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m ActionableApprovalStepMultiError) AllErrors() []error { return m }
+
+// ActionableApprovalStepValidationError is the validation error returned by
+// ActionableApprovalStep.Validate if the designated constraints aren't met.
+type ActionableApprovalStepValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e ActionableApprovalStepValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e ActionableApprovalStepValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e ActionableApprovalStepValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e ActionableApprovalStepValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e ActionableApprovalStepValidationError) ErrorName() string {
+	return "ActionableApprovalStepValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e ActionableApprovalStepValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sActionableApprovalStep.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = ActionableApprovalStepValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = ActionableApprovalStepValidationError{}
+
 // Validate checks the field values on Grant with the rules defined in the
 // proto definition for this message. If any rules are violated, the first
 // error encountered is returned, or nil if there are no violations.
@@ -390,6 +527,40 @@ func (m *Grant) validate(all bool) error {
 	}
 
 	// no validation rules for CliAccessInstructions
+
+	for idx, item := range m.GetApprovalSteps() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, GrantValidationError{
+						field:  fmt.Sprintf("ApprovalSteps[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, GrantValidationError{
+						field:  fmt.Sprintf("ApprovalSteps[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return GrantValidationError{
+					field:  fmt.Sprintf("ApprovalSteps[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
 
 	if m.ClosingReason != nil {
 		// no validation rules for ClosingReason
