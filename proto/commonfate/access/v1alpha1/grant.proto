@@ -9,7 +9,7 @@ import "google/protobuf/timestamp.proto";
 
 message ActionableApprovalStep {
   string name = 1;
-  optional NamedEID completed_by = 2;
+  optional User completed_by = 2;
 }
 
 message Grant {
