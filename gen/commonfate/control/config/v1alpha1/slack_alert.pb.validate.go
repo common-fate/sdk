@@ -249,7 +249,7 @@ func (m *SlackAlert) validate(all bool) error {
 		}
 	}
 
-	// no validation rules for SendForAutoApprovedRequests
+	// no validation rules for DiableForAutoApprovedRequests
 
 	if m.IntegrationId != nil {
 		// no validation rules for IntegrationId
