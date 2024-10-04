@@ -1,5 +1,15 @@
 # @common-fate/sdk
 
+## 1.62.0
+
+### Minor Changes
+
+- 7c399c1: add expiry options for closing requests onto workflow
+
+### Patch Changes
+
+- 82f9601: Update AWSProxy integration to store the AWS IDC integration as a reference.
+
 ## 1.61.0
 
 ### Minor Changes
