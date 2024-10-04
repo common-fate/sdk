@@ -1,5 +1,11 @@
 # @common-fate/sdk
 
+## 1.63.0
+
+### Minor Changes
+
+- 831c704: Adds approval steps to access workflows.
+
 ## 1.62.0
 
 ### Minor Changes
