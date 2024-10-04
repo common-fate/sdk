@@ -7,7 +7,7 @@ import "commonfate/access/v1alpha1/user.proto";
 import "google/protobuf/duration.proto";
 import "google/protobuf/timestamp.proto";
 
-message ActionableApprovalStep {
+message ApprovalStep {
   string name = 1;
   optional User completed_by = 2;
 }
@@ -76,7 +76,7 @@ message Grant {
 
   optional string closing_reason = 21;
 
-  repeated ActionableApprovalStep approval_steps = 22;
+  repeated ApprovalStep approval_steps = 22;
 }
 
 message Extension {
