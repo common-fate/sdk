@@ -340,38 +340,62 @@ func (m *AccessWorkflow) validate(all bool) error {
 		}
 	}
 
-	for idx, item := range m.GetApprovalSteps() {
-		_, _ = idx, item
-
-		if all {
-			switch v := interface{}(item).(type) {
-			case interface{ ValidateAll() error }:
-				if err := v.ValidateAll(); err != nil {
-					errors = append(errors, AccessWorkflowValidationError{
-						field:  fmt.Sprintf("ApprovalSteps[%v]", idx),
-						reason: "embedded message failed validation",
-						cause:  err,
-					})
-				}
-			case interface{ Validate() error }:
-				if err := v.Validate(); err != nil {
-					errors = append(errors, AccessWorkflowValidationError{
-						field:  fmt.Sprintf("ApprovalSteps[%v]", idx),
-						reason: "embedded message failed validation",
-						cause:  err,
-					})
-				}
-			}
-		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
-			if err := v.Validate(); err != nil {
-				return AccessWorkflowValidationError{
-					field:  fmt.Sprintf("ApprovalSteps[%v]", idx),
+	if all {
+		switch v := interface{}(m.GetRequestToApproveExpiry()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, AccessWorkflowValidationError{
+					field:  "RequestToApproveExpiry",
 					reason: "embedded message failed validation",
 					cause:  err,
-				}
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, AccessWorkflowValidationError{
+					field:  "RequestToApproveExpiry",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
 			}
 		}
+	} else if v, ok := interface{}(m.GetRequestToApproveExpiry()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return AccessWorkflowValidationError{
+				field:  "RequestToApproveExpiry",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
 
+	if all {
+		switch v := interface{}(m.GetRequestToActiveExpiry()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, AccessWorkflowValidationError{
+					field:  "RequestToActiveExpiry",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, AccessWorkflowValidationError{
+					field:  "RequestToActiveExpiry",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetRequestToActiveExpiry()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return AccessWorkflowValidationError{
+				field:  "RequestToActiveExpiry",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
 	}
 
 	if len(errors) > 0 {
@@ -788,38 +812,62 @@ func (m *CreateAccessWorkflowRequest) validate(all bool) error {
 		}
 	}
 
-	for idx, item := range m.GetApprovalSteps() {
-		_, _ = idx, item
-
-		if all {
-			switch v := interface{}(item).(type) {
-			case interface{ ValidateAll() error }:
-				if err := v.ValidateAll(); err != nil {
-					errors = append(errors, CreateAccessWorkflowRequestValidationError{
-						field:  fmt.Sprintf("ApprovalSteps[%v]", idx),
-						reason: "embedded message failed validation",
-						cause:  err,
-					})
-				}
-			case interface{ Validate() error }:
-				if err := v.Validate(); err != nil {
-					errors = append(errors, CreateAccessWorkflowRequestValidationError{
-						field:  fmt.Sprintf("ApprovalSteps[%v]", idx),
-						reason: "embedded message failed validation",
-						cause:  err,
-					})
-				}
-			}
-		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
-			if err := v.Validate(); err != nil {
-				return CreateAccessWorkflowRequestValidationError{
-					field:  fmt.Sprintf("ApprovalSteps[%v]", idx),
+	if all {
+		switch v := interface{}(m.GetRequestToApproveExpiry()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, CreateAccessWorkflowRequestValidationError{
+					field:  "RequestToApproveExpiry",
 					reason: "embedded message failed validation",
 					cause:  err,
-				}
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, CreateAccessWorkflowRequestValidationError{
+					field:  "RequestToApproveExpiry",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
 			}
 		}
+	} else if v, ok := interface{}(m.GetRequestToApproveExpiry()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return CreateAccessWorkflowRequestValidationError{
+				field:  "RequestToApproveExpiry",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
 
+	if all {
+		switch v := interface{}(m.GetRequestToActiveExpiry()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, CreateAccessWorkflowRequestValidationError{
+					field:  "RequestToActiveExpiry",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, CreateAccessWorkflowRequestValidationError{
+					field:  "RequestToActiveExpiry",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetRequestToActiveExpiry()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return CreateAccessWorkflowRequestValidationError{
+				field:  "RequestToActiveExpiry",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
 	}
 
 	if len(errors) > 0 {

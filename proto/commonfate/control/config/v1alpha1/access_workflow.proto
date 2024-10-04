@@ -4,7 +4,6 @@ package commonfate.control.config.v1alpha1;
 import "commonfate/access/v1alpha1/extension_conditions.proto";
 import "commonfate/access/v1alpha1/regex_validation.proto";
 import "commonfate/authz/v1alpha1/read_only.proto";
-import "commonfate/entity/v1alpha1/eid.proto";
 import "google/protobuf/duration.proto";
 
 service AccessWorkflowService {
@@ -31,7 +30,9 @@ message AccessWorkflow {
   google.protobuf.Duration default_duration = 7;
   ValidationConfig validation = 8;
   commonfate.access.v1alpha1.ExtensionConditions extension_conditions = 9;
-  repeated ApprovalStep approval_steps = 10;
+  google.protobuf.Duration request_to_approve_expiry = 10;
+  google.protobuf.Duration request_to_active_expiry = 11;
+  repeated ApprovalStep approval_steps = 12;
 }
 
 message ValidationConfig {
@@ -50,7 +51,10 @@ message CreateAccessWorkflowRequest {
   google.protobuf.Duration default_duration = 7;
   ValidationConfig validation = 8;
   commonfate.access.v1alpha1.ExtensionConditions extension_conditions = 9;
-  repeated ApprovalStep approval_steps = 10;
+
+  google.protobuf.Duration request_to_approve_expiry = 10;
+  google.protobuf.Duration request_to_active_expiry = 11;
+  repeated ApprovalStep approval_steps = 12;
 }
 
 message CreateAccessWorkflowResponse {
