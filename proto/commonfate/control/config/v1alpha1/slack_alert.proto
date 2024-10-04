@@ -22,7 +22,7 @@ message CreateSlackAlertRequest {
   bool send_direct_messages_to_approvers = 7;
   bool disable_interactivity_handlers = 8;
   google.protobuf.Duration notify_expiry_in_seconds = 9;
-  bool diable_for_auto_approved_requests = 10;
+  bool disable_for_auto_approved_requests = 10;
 }
 
 message SlackAlert {
@@ -44,7 +44,7 @@ message SlackAlert {
   // if specified, it will notify the user the set time before the access expires
   google.protobuf.Duration notify_expiry_in_seconds = 9;
 
-  bool diable_for_auto_approved_requests = 10;
+  bool disable_for_auto_approved_requests = 10;
 
 }
 
