@@ -1,5 +1,15 @@
 # @common-fate/sdk
 
+## 1.64.0
+
+### Minor Changes
+
+- fd56dc4: Add Integration type for Jira
+
+### Patch Changes
+
+- 629ab5a: added field for slack alerts to disable alerts for auto approved requests
+
 ## 1.63.0
 
 ### Minor Changes
