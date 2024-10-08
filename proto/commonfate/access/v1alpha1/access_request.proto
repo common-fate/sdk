@@ -203,8 +203,6 @@ enum ClosingReason {
   ACCESS_REQUEST_CLOSING_REASON_MANUAL = 2;
   ACCESS_REQUEST_CLOSING_REASON_REQUESTED_TO_APPROVED_EXPIRED = 3;
   ACCESS_REQUEST_CLOSING_REASON_REQUESTED_TO_ACTIVATION_EXPIRED = 4;
-
-
 }
 
 message CloseAccessRequestResponse {
@@ -237,4 +235,18 @@ message ActivateAccessRequestResponse {
 
 message Justification {
   optional string reason = 1;
+  repeated AttachmentInput attachments = 2;
+}
+
+message AttachmentInput {
+  AttachmentType type = 1;
+  // ID of the integration the attachment is associated with.
+  string integration_id = 2;
+  // ID of the attachment, such as the Jira ticket ID.
+  string id = 3;
+}
+
+enum AttachmentType {
+  ATTACHMENT_TYPE_UNSPECIFIED = 0;
+  ATTACHMENT_TYPE_JIRA_TICKET = 1;
 }
