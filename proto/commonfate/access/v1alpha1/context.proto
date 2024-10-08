@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package commonfate.access.v1alpha1;
+
+import "commonfate/authz/v1alpha1/read_only.proto";
+
+// The Context API provides contextual information which can be added to access requests.
+service ContextService {
+  rpc QueryJiraIssues(QueryJiraIssuesRequest) returns (QueryJiraIssuesResponse) {
+    option (commonfate.authz.v1alpha1.read_only) = true;
+  }
+}
+message JiraIssue {
+  string key = 1;
+  string summary = 2;
+  string url = 3;
+}
+message QueryJiraIssuesRequest {
+  optional string summary_filter = 1;
+}
+
+message QueryJiraIssuesResponse {
+  repeated JiraIssue issues = 1;
+}
