@@ -1,5 +1,21 @@
 # @common-fate/sdk
 
+## 1.64.1
+
+### Patch Changes
+
+- 82914f8: add cloud_id and filter to jira integration
+
+## 1.64.0
+
+### Minor Changes
+
+- fd56dc4: Add Integration type for Jira
+
+### Patch Changes
+
+- 629ab5a: added field for slack alerts to disable alerts for auto approved requests
+
 ## 1.63.0
 
 ### Minor Changes
