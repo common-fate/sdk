@@ -59,6 +59,40 @@ func (m *RequestReviewRequest) validate(all bool) error {
 
 	// no validation rules for RequestId
 
+	for idx, item := range m.GetReviewers() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, RequestReviewRequestValidationError{
+						field:  fmt.Sprintf("Reviewers[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, RequestReviewRequestValidationError{
+						field:  fmt.Sprintf("Reviewers[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return RequestReviewRequestValidationError{
+					field:  fmt.Sprintf("Reviewers[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
 	if len(errors) > 0 {
 		return RequestReviewRequestMultiError(errors)
 	}

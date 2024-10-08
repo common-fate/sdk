@@ -65,7 +65,7 @@ service AccessService {
 
 message RequestReviewRequest {
     string request_id = 1;
-    repeated string reviewers = 2;
+    repeated commonfate.entity.v1alpha1.EID reviewers = 2;
 
 }
 
