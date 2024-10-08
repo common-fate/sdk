@@ -35,6 +35,212 @@ var (
 	_ = sort.Sort
 )
 
+// Validate checks the field values on RequestReviewRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *RequestReviewRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on RequestReviewRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// RequestReviewRequestMultiError, or nil if none found.
+func (m *RequestReviewRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *RequestReviewRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for RequestId
+
+	if len(errors) > 0 {
+		return RequestReviewRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// RequestReviewRequestMultiError is an error wrapping multiple validation
+// errors returned by RequestReviewRequest.ValidateAll() if the designated
+// constraints aren't met.
+type RequestReviewRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m RequestReviewRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m RequestReviewRequestMultiError) AllErrors() []error { return m }
+
+// RequestReviewRequestValidationError is the validation error returned by
+// RequestReviewRequest.Validate if the designated constraints aren't met.
+type RequestReviewRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e RequestReviewRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e RequestReviewRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e RequestReviewRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e RequestReviewRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e RequestReviewRequestValidationError) ErrorName() string {
+	return "RequestReviewRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e RequestReviewRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sRequestReviewRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = RequestReviewRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = RequestReviewRequestValidationError{}
+
+// Validate checks the field values on RequestReviewResponse with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *RequestReviewResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on RequestReviewResponse with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// RequestReviewResponseMultiError, or nil if none found.
+func (m *RequestReviewResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *RequestReviewResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if len(errors) > 0 {
+		return RequestReviewResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// RequestReviewResponseMultiError is an error wrapping multiple validation
+// errors returned by RequestReviewResponse.ValidateAll() if the designated
+// constraints aren't met.
+type RequestReviewResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m RequestReviewResponseMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m RequestReviewResponseMultiError) AllErrors() []error { return m }
+
+// RequestReviewResponseValidationError is the validation error returned by
+// RequestReviewResponse.Validate if the designated constraints aren't met.
+type RequestReviewResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e RequestReviewResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e RequestReviewResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e RequestReviewResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e RequestReviewResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e RequestReviewResponseValidationError) ErrorName() string {
+	return "RequestReviewResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e RequestReviewResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sRequestReviewResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = RequestReviewResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = RequestReviewResponseValidationError{}
+
 // Validate checks the field values on GrantApprovalStep with the rules defined
 // in the proto definition for this message. If any rules are violated, the
 // first error encountered is returned, or nil if there are no violations.
