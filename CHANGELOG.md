@@ -1,5 +1,11 @@
 # @common-fate/sdk
 
+## 1.64.1
+
+### Patch Changes
+
+- 82914f8: add cloud_id and filter to jira integration
+
 ## 1.64.0
 
 ### Minor Changes
