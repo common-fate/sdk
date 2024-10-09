@@ -1,5 +1,12 @@
 # @common-fate/sdk
 
+## 1.65.0
+
+### Minor Changes
+
+- e4fa9a6: Add attachments to Justification to allow admins to query access requests matching certain JIRA tickets.
+- d70e318: Add attachment service which provides contextual information which can be added to access requests
+
 ## 1.64.1
 
 ### Patch Changes
