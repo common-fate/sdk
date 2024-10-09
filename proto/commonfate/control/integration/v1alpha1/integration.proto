@@ -10,13 +10,13 @@ import "commonfate/control/integration/v1alpha1/aws_proxy.proto";
 import "commonfate/control/integration/v1alpha1/datastax.proto";
 import "commonfate/control/integration/v1alpha1/entra.proto";
 import "commonfate/control/integration/v1alpha1/gcp.proto";
+import "commonfate/control/integration/v1alpha1/jira.proto";
 import "commonfate/control/integration/v1alpha1/okta.proto";
 import "commonfate/control/integration/v1alpha1/opsgenie.proto";
 import "commonfate/control/integration/v1alpha1/pagerduty.proto";
 import "commonfate/control/integration/v1alpha1/s3_log_destination.proto";
 import "commonfate/control/integration/v1alpha1/slack.proto";
 import "commonfate/control/integration/v1alpha1/webhook.proto";
-import "commonfate/control/log/v1alpha1/authz_eval.proto";
 import "commonfate/filters/v1alpha1/filters.proto";
 import "google/protobuf/timestamp.proto";
 
@@ -68,6 +68,7 @@ message Config {
     S3LogDestination s3_log_destination = 12;
     AWSProxy aws_proxy = 13;
     AWSEKS aws_eks = 14;
+    Jira jira = 15;
   }
 }
 
