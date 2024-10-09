@@ -89,6 +89,8 @@ func (m *User) validate(all bool) error {
 
 	// no validation rules for Email
 
+	// no validation rules for RequestedReview
+
 	if len(errors) > 0 {
 		return UserMultiError(errors)
 	}
