@@ -10,7 +10,6 @@ import (
 	gen_commonfate_access_v1alpha1_access_request_pb_go "github.com/common-fate/sdk/gen/commonfate/access/v1alpha1"
 	gen_commonfate_access_v1alpha1_attachments_pb_go "github.com/common-fate/sdk/gen/commonfate/access/v1alpha1"
 	gen_commonfate_access_v1alpha1_audit_logs_pb_go "github.com/common-fate/sdk/gen/commonfate/access/v1alpha1"
-	gen_commonfate_access_v1alpha1_context_pb_go "github.com/common-fate/sdk/gen/commonfate/access/v1alpha1"
 	gen_commonfate_access_v1alpha1_diagnostic_pb_go "github.com/common-fate/sdk/gen/commonfate/access/v1alpha1"
 	gen_commonfate_access_v1alpha1_entities_pb_go "github.com/common-fate/sdk/gen/commonfate/access/v1alpha1"
 	gen_commonfate_access_v1alpha1_extension_conditions_pb_go "github.com/common-fate/sdk/gen/commonfate/access/v1alpha1"
@@ -94,7 +93,6 @@ var ProtoFiles = []protoreflect.FileDescriptor{
 	gen_commonfate_access_v1alpha1_access_request_pb_go.File_commonfate_access_v1alpha1_access_request_proto,
 	gen_commonfate_access_v1alpha1_attachments_pb_go.File_commonfate_access_v1alpha1_attachments_proto,
 	gen_commonfate_access_v1alpha1_audit_logs_pb_go.File_commonfate_access_v1alpha1_audit_logs_proto,
-	gen_commonfate_access_v1alpha1_context_pb_go.File_commonfate_access_v1alpha1_context_proto,
 	gen_commonfate_access_v1alpha1_diagnostic_pb_go.File_commonfate_access_v1alpha1_diagnostic_proto,
 	gen_commonfate_access_v1alpha1_entities_pb_go.File_commonfate_access_v1alpha1_entities_proto,
 	gen_commonfate_access_v1alpha1_extension_conditions_pb_go.File_commonfate_access_v1alpha1_extension_conditions_proto,
