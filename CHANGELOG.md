@@ -1,5 +1,11 @@
 # @common-fate/sdk
 
+## 1.65.1
+
+### Patch Changes
+
+- 69dba8f: Rename ATTESTATION_TYPES to ATTACHMENT_TYPES.
+
 ## 1.65.0
 
 ### Minor Changes
