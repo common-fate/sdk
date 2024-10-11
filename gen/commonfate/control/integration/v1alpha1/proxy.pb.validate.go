@@ -2362,3 +2362,1010 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = DeleteProxyRdsResourceResponseValidationError{}
+
+// Validate checks the field values on CreateProxyEksClusterResourceRequest
+// with the rules defined in the proto definition for this message. If any
+// rules are violated, the first error encountered is returned, or nil if
+// there are no violations.
+func (m *CreateProxyEksClusterResourceRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on CreateProxyEksClusterResourceRequest
+// with the rules defined in the proto definition for this message. If any
+// rules are violated, the result is a list of violation errors wrapped in
+// CreateProxyEksClusterResourceRequestMultiError, or nil if none found.
+func (m *CreateProxyEksClusterResourceRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *CreateProxyEksClusterResourceRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for ProxyId
+
+	if all {
+		switch v := interface{}(m.GetEksCluster()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, CreateProxyEksClusterResourceRequestValidationError{
+					field:  "EksCluster",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, CreateProxyEksClusterResourceRequestValidationError{
+					field:  "EksCluster",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetEksCluster()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return CreateProxyEksClusterResourceRequestValidationError{
+				field:  "EksCluster",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if len(errors) > 0 {
+		return CreateProxyEksClusterResourceRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// CreateProxyEksClusterResourceRequestMultiError is an error wrapping multiple
+// validation errors returned by
+// CreateProxyEksClusterResourceRequest.ValidateAll() if the designated
+// constraints aren't met.
+type CreateProxyEksClusterResourceRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m CreateProxyEksClusterResourceRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m CreateProxyEksClusterResourceRequestMultiError) AllErrors() []error { return m }
+
+// CreateProxyEksClusterResourceRequestValidationError is the validation error
+// returned by CreateProxyEksClusterResourceRequest.Validate if the designated
+// constraints aren't met.
+type CreateProxyEksClusterResourceRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e CreateProxyEksClusterResourceRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e CreateProxyEksClusterResourceRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e CreateProxyEksClusterResourceRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e CreateProxyEksClusterResourceRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e CreateProxyEksClusterResourceRequestValidationError) ErrorName() string {
+	return "CreateProxyEksClusterResourceRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e CreateProxyEksClusterResourceRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sCreateProxyEksClusterResourceRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = CreateProxyEksClusterResourceRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = CreateProxyEksClusterResourceRequestValidationError{}
+
+// Validate checks the field values on CreateProxyEksClusterResourceResponse
+// with the rules defined in the proto definition for this message. If any
+// rules are violated, the first error encountered is returned, or nil if
+// there are no violations.
+func (m *CreateProxyEksClusterResourceResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on CreateProxyEksClusterResourceResponse
+// with the rules defined in the proto definition for this message. If any
+// rules are violated, the result is a list of violation errors wrapped in
+// CreateProxyEksClusterResourceResponseMultiError, or nil if none found.
+func (m *CreateProxyEksClusterResourceResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *CreateProxyEksClusterResourceResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Id
+
+	// no validation rules for ProxyId
+
+	if all {
+		switch v := interface{}(m.GetEksCluster()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, CreateProxyEksClusterResourceResponseValidationError{
+					field:  "EksCluster",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, CreateProxyEksClusterResourceResponseValidationError{
+					field:  "EksCluster",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetEksCluster()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return CreateProxyEksClusterResourceResponseValidationError{
+				field:  "EksCluster",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if len(errors) > 0 {
+		return CreateProxyEksClusterResourceResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// CreateProxyEksClusterResourceResponseMultiError is an error wrapping
+// multiple validation errors returned by
+// CreateProxyEksClusterResourceResponse.ValidateAll() if the designated
+// constraints aren't met.
+type CreateProxyEksClusterResourceResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m CreateProxyEksClusterResourceResponseMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m CreateProxyEksClusterResourceResponseMultiError) AllErrors() []error { return m }
+
+// CreateProxyEksClusterResourceResponseValidationError is the validation error
+// returned by CreateProxyEksClusterResourceResponse.Validate if the
+// designated constraints aren't met.
+type CreateProxyEksClusterResourceResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e CreateProxyEksClusterResourceResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e CreateProxyEksClusterResourceResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e CreateProxyEksClusterResourceResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e CreateProxyEksClusterResourceResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e CreateProxyEksClusterResourceResponseValidationError) ErrorName() string {
+	return "CreateProxyEksClusterResourceResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e CreateProxyEksClusterResourceResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sCreateProxyEksClusterResourceResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = CreateProxyEksClusterResourceResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = CreateProxyEksClusterResourceResponseValidationError{}
+
+// Validate checks the field values on GetProxyEksClusterResourceRequest with
+// the rules defined in the proto definition for this message. If any rules
+// are violated, the first error encountered is returned, or nil if there are
+// no violations.
+func (m *GetProxyEksClusterResourceRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on GetProxyEksClusterResourceRequest
+// with the rules defined in the proto definition for this message. If any
+// rules are violated, the result is a list of violation errors wrapped in
+// GetProxyEksClusterResourceRequestMultiError, or nil if none found.
+func (m *GetProxyEksClusterResourceRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *GetProxyEksClusterResourceRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Id
+
+	if len(errors) > 0 {
+		return GetProxyEksClusterResourceRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// GetProxyEksClusterResourceRequestMultiError is an error wrapping multiple
+// validation errors returned by
+// GetProxyEksClusterResourceRequest.ValidateAll() if the designated
+// constraints aren't met.
+type GetProxyEksClusterResourceRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m GetProxyEksClusterResourceRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m GetProxyEksClusterResourceRequestMultiError) AllErrors() []error { return m }
+
+// GetProxyEksClusterResourceRequestValidationError is the validation error
+// returned by GetProxyEksClusterResourceRequest.Validate if the designated
+// constraints aren't met.
+type GetProxyEksClusterResourceRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e GetProxyEksClusterResourceRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e GetProxyEksClusterResourceRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e GetProxyEksClusterResourceRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e GetProxyEksClusterResourceRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e GetProxyEksClusterResourceRequestValidationError) ErrorName() string {
+	return "GetProxyEksClusterResourceRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e GetProxyEksClusterResourceRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sGetProxyEksClusterResourceRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = GetProxyEksClusterResourceRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = GetProxyEksClusterResourceRequestValidationError{}
+
+// Validate checks the field values on GetProxyEksClusterResourceResponse with
+// the rules defined in the proto definition for this message. If any rules
+// are violated, the first error encountered is returned, or nil if there are
+// no violations.
+func (m *GetProxyEksClusterResourceResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on GetProxyEksClusterResourceResponse
+// with the rules defined in the proto definition for this message. If any
+// rules are violated, the result is a list of violation errors wrapped in
+// GetProxyEksClusterResourceResponseMultiError, or nil if none found.
+func (m *GetProxyEksClusterResourceResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *GetProxyEksClusterResourceResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Id
+
+	if all {
+		switch v := interface{}(m.GetEksCluster()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, GetProxyEksClusterResourceResponseValidationError{
+					field:  "EksCluster",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, GetProxyEksClusterResourceResponseValidationError{
+					field:  "EksCluster",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetEksCluster()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return GetProxyEksClusterResourceResponseValidationError{
+				field:  "EksCluster",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if len(errors) > 0 {
+		return GetProxyEksClusterResourceResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// GetProxyEksClusterResourceResponseMultiError is an error wrapping multiple
+// validation errors returned by
+// GetProxyEksClusterResourceResponse.ValidateAll() if the designated
+// constraints aren't met.
+type GetProxyEksClusterResourceResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m GetProxyEksClusterResourceResponseMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m GetProxyEksClusterResourceResponseMultiError) AllErrors() []error { return m }
+
+// GetProxyEksClusterResourceResponseValidationError is the validation error
+// returned by GetProxyEksClusterResourceResponse.Validate if the designated
+// constraints aren't met.
+type GetProxyEksClusterResourceResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e GetProxyEksClusterResourceResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e GetProxyEksClusterResourceResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e GetProxyEksClusterResourceResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e GetProxyEksClusterResourceResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e GetProxyEksClusterResourceResponseValidationError) ErrorName() string {
+	return "GetProxyEksClusterResourceResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e GetProxyEksClusterResourceResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sGetProxyEksClusterResourceResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = GetProxyEksClusterResourceResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = GetProxyEksClusterResourceResponseValidationError{}
+
+// Validate checks the field values on UpdateProxyEksClusterResourceRequest
+// with the rules defined in the proto definition for this message. If any
+// rules are violated, the first error encountered is returned, or nil if
+// there are no violations.
+func (m *UpdateProxyEksClusterResourceRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on UpdateProxyEksClusterResourceRequest
+// with the rules defined in the proto definition for this message. If any
+// rules are violated, the result is a list of violation errors wrapped in
+// UpdateProxyEksClusterResourceRequestMultiError, or nil if none found.
+func (m *UpdateProxyEksClusterResourceRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *UpdateProxyEksClusterResourceRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Id
+
+	// no validation rules for ProxyId
+
+	if all {
+		switch v := interface{}(m.GetEksCluster()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, UpdateProxyEksClusterResourceRequestValidationError{
+					field:  "EksCluster",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, UpdateProxyEksClusterResourceRequestValidationError{
+					field:  "EksCluster",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetEksCluster()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return UpdateProxyEksClusterResourceRequestValidationError{
+				field:  "EksCluster",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if len(errors) > 0 {
+		return UpdateProxyEksClusterResourceRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// UpdateProxyEksClusterResourceRequestMultiError is an error wrapping multiple
+// validation errors returned by
+// UpdateProxyEksClusterResourceRequest.ValidateAll() if the designated
+// constraints aren't met.
+type UpdateProxyEksClusterResourceRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m UpdateProxyEksClusterResourceRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m UpdateProxyEksClusterResourceRequestMultiError) AllErrors() []error { return m }
+
+// UpdateProxyEksClusterResourceRequestValidationError is the validation error
+// returned by UpdateProxyEksClusterResourceRequest.Validate if the designated
+// constraints aren't met.
+type UpdateProxyEksClusterResourceRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e UpdateProxyEksClusterResourceRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e UpdateProxyEksClusterResourceRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e UpdateProxyEksClusterResourceRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e UpdateProxyEksClusterResourceRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e UpdateProxyEksClusterResourceRequestValidationError) ErrorName() string {
+	return "UpdateProxyEksClusterResourceRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e UpdateProxyEksClusterResourceRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sUpdateProxyEksClusterResourceRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = UpdateProxyEksClusterResourceRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = UpdateProxyEksClusterResourceRequestValidationError{}
+
+// Validate checks the field values on UpdateProxyEksClusterResourceResponse
+// with the rules defined in the proto definition for this message. If any
+// rules are violated, the first error encountered is returned, or nil if
+// there are no violations.
+func (m *UpdateProxyEksClusterResourceResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on UpdateProxyEksClusterResourceResponse
+// with the rules defined in the proto definition for this message. If any
+// rules are violated, the result is a list of violation errors wrapped in
+// UpdateProxyEksClusterResourceResponseMultiError, or nil if none found.
+func (m *UpdateProxyEksClusterResourceResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *UpdateProxyEksClusterResourceResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Id
+
+	// no validation rules for ProxyId
+
+	if all {
+		switch v := interface{}(m.GetEksCluster()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, UpdateProxyEksClusterResourceResponseValidationError{
+					field:  "EksCluster",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, UpdateProxyEksClusterResourceResponseValidationError{
+					field:  "EksCluster",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetEksCluster()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return UpdateProxyEksClusterResourceResponseValidationError{
+				field:  "EksCluster",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if len(errors) > 0 {
+		return UpdateProxyEksClusterResourceResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// UpdateProxyEksClusterResourceResponseMultiError is an error wrapping
+// multiple validation errors returned by
+// UpdateProxyEksClusterResourceResponse.ValidateAll() if the designated
+// constraints aren't met.
+type UpdateProxyEksClusterResourceResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m UpdateProxyEksClusterResourceResponseMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m UpdateProxyEksClusterResourceResponseMultiError) AllErrors() []error { return m }
+
+// UpdateProxyEksClusterResourceResponseValidationError is the validation error
+// returned by UpdateProxyEksClusterResourceResponse.Validate if the
+// designated constraints aren't met.
+type UpdateProxyEksClusterResourceResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e UpdateProxyEksClusterResourceResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e UpdateProxyEksClusterResourceResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e UpdateProxyEksClusterResourceResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e UpdateProxyEksClusterResourceResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e UpdateProxyEksClusterResourceResponseValidationError) ErrorName() string {
+	return "UpdateProxyEksClusterResourceResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e UpdateProxyEksClusterResourceResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sUpdateProxyEksClusterResourceResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = UpdateProxyEksClusterResourceResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = UpdateProxyEksClusterResourceResponseValidationError{}
+
+// Validate checks the field values on DeleteProxyEksClusterResourceRequest
+// with the rules defined in the proto definition for this message. If any
+// rules are violated, the first error encountered is returned, or nil if
+// there are no violations.
+func (m *DeleteProxyEksClusterResourceRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on DeleteProxyEksClusterResourceRequest
+// with the rules defined in the proto definition for this message. If any
+// rules are violated, the result is a list of violation errors wrapped in
+// DeleteProxyEksClusterResourceRequestMultiError, or nil if none found.
+func (m *DeleteProxyEksClusterResourceRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *DeleteProxyEksClusterResourceRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Id
+
+	if len(errors) > 0 {
+		return DeleteProxyEksClusterResourceRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// DeleteProxyEksClusterResourceRequestMultiError is an error wrapping multiple
+// validation errors returned by
+// DeleteProxyEksClusterResourceRequest.ValidateAll() if the designated
+// constraints aren't met.
+type DeleteProxyEksClusterResourceRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m DeleteProxyEksClusterResourceRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m DeleteProxyEksClusterResourceRequestMultiError) AllErrors() []error { return m }
+
+// DeleteProxyEksClusterResourceRequestValidationError is the validation error
+// returned by DeleteProxyEksClusterResourceRequest.Validate if the designated
+// constraints aren't met.
+type DeleteProxyEksClusterResourceRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e DeleteProxyEksClusterResourceRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e DeleteProxyEksClusterResourceRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e DeleteProxyEksClusterResourceRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e DeleteProxyEksClusterResourceRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e DeleteProxyEksClusterResourceRequestValidationError) ErrorName() string {
+	return "DeleteProxyEksClusterResourceRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e DeleteProxyEksClusterResourceRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sDeleteProxyEksClusterResourceRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = DeleteProxyEksClusterResourceRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = DeleteProxyEksClusterResourceRequestValidationError{}
+
+// Validate checks the field values on DeleteProxyEksClusterResourceResponse
+// with the rules defined in the proto definition for this message. If any
+// rules are violated, the first error encountered is returned, or nil if
+// there are no violations.
+func (m *DeleteProxyEksClusterResourceResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on DeleteProxyEksClusterResourceResponse
+// with the rules defined in the proto definition for this message. If any
+// rules are violated, the result is a list of violation errors wrapped in
+// DeleteProxyEksClusterResourceResponseMultiError, or nil if none found.
+func (m *DeleteProxyEksClusterResourceResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *DeleteProxyEksClusterResourceResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Id
+
+	if len(errors) > 0 {
+		return DeleteProxyEksClusterResourceResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// DeleteProxyEksClusterResourceResponseMultiError is an error wrapping
+// multiple validation errors returned by
+// DeleteProxyEksClusterResourceResponse.ValidateAll() if the designated
+// constraints aren't met.
+type DeleteProxyEksClusterResourceResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m DeleteProxyEksClusterResourceResponseMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m DeleteProxyEksClusterResourceResponseMultiError) AllErrors() []error { return m }
+
+// DeleteProxyEksClusterResourceResponseValidationError is the validation error
+// returned by DeleteProxyEksClusterResourceResponse.Validate if the
+// designated constraints aren't met.
+type DeleteProxyEksClusterResourceResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e DeleteProxyEksClusterResourceResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e DeleteProxyEksClusterResourceResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e DeleteProxyEksClusterResourceResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e DeleteProxyEksClusterResourceResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e DeleteProxyEksClusterResourceResponseValidationError) ErrorName() string {
+	return "DeleteProxyEksClusterResourceResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e DeleteProxyEksClusterResourceResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sDeleteProxyEksClusterResourceResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = DeleteProxyEksClusterResourceResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = DeleteProxyEksClusterResourceResponseValidationError{}
