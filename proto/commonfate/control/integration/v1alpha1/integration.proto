@@ -17,7 +17,6 @@ import "commonfate/control/integration/v1alpha1/pagerduty.proto";
 import "commonfate/control/integration/v1alpha1/s3_log_destination.proto";
 import "commonfate/control/integration/v1alpha1/slack.proto";
 import "commonfate/control/integration/v1alpha1/webhook.proto";
-import "commonfate/control/log/v1alpha1/authz_eval.proto";
 import "commonfate/filters/v1alpha1/filters.proto";
 import "google/protobuf/timestamp.proto";
 

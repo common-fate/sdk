@@ -60,9 +60,11 @@ func (m *Jira) validate(all bool) error {
 
 	// no validation rules for ClientSecretSecretPath
 
+	// no validation rules for IssueFilterJql
+
 	// no validation rules for CloudId
 
-	// no validation rules for IssueFilterJql
+	// no validation rules for JiraUrl
 
 	if len(errors) > 0 {
 		return JiraMultiError(errors)
