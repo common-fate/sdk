@@ -154,7 +154,18 @@ message AccessRequest {
   string workflow_id = 11;
   string workflow_name = 12;
 
-  repeated User reviewers = 13;
+  repeated Reviewer reviewers = 13;
+}
+
+enum ReviewDecision {
+    REVIEW_DESCISION_UNSPECIFIED = 0;
+    REVIEW_DESCISION_ALLOW = 1;
+    REVIEW_DESCISION_DENY = 2;
+}
+
+message Reviewer {
+    User user = 1;
+    ReviewDecision review_decision = 2;
 }
 
 message AccessRequestActions {
