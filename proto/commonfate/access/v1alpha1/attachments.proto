@@ -2,7 +2,6 @@ syntax = "proto3";
 
 package commonfate.access.v1alpha1;
 
-import "commonfate/access/v1alpha1/access_request.proto";
 import "commonfate/authz/v1alpha1/read_only.proto";
 
 // The Attachments API provides contextual information which can be added to access requests.
@@ -29,7 +28,7 @@ message QueryJiraIssuesResponse {
 }
 
 message AttachRequestCommentToJiraIssuesRequest {
-  AccessRequest access_request = 1;
+  string access_request_id = 1;
 }
 
 message AttachRequestCommentToJiraIssuesResponse {}
