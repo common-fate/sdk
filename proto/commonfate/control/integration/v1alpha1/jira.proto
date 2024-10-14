@@ -4,7 +4,6 @@ package commonfate.control.integration.v1alpha1;
 message Jira {
   string client_id = 1;
   string client_secret_secret_path = 2;
-  string issue_filter_jql = 3;
   // cloud_id is a calculated field which is fetched automatically on creation of the integration
   string cloud_id = 4;
   // jira_url is a calculated field which is fetched automatically on creation of the integration
