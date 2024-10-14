@@ -1,5 +1,11 @@
 # @common-fate/sdk
 
+## 1.65.2
+
+### Patch Changes
+
+- 1aacec1: Remove requirement to specify JQL on the JIRA integration.
+
 ## 1.65.1
 
 ### Patch Changes
