@@ -2,11 +2,16 @@ syntax = "proto3";
 
 package commonfate.access.v1alpha1;
 
+import "commonfate/access/v1alpha1/diagnostic.proto";
 import "commonfate/authz/v1alpha1/read_only.proto";
 
 // The Attachments API provides contextual information which can be added to access requests.
 service AttachmentsService {
   rpc QueryJiraIssues(QueryJiraIssuesRequest) returns (QueryJiraIssuesResponse) {
+    option (commonfate.authz.v1alpha1.read_only) = true;
+  }
+
+  rpc AttachRequestCommentToJiraIssues(AttachRequestCommentToJiraIssuesRequest) returns (AttachRequestCommentToJiraIssuesResponse) {
     option (commonfate.authz.v1alpha1.read_only) = true;
   }
 }
@@ -21,4 +26,12 @@ message QueryJiraIssuesRequest {
 
 message QueryJiraIssuesResponse {
   repeated JiraIssue issues = 1;
+}
+
+message AttachRequestCommentToJiraIssuesRequest {
+  string access_request_reason = 1;
+}
+
+message AttachRequestCommentToJiraIssuesResponse {
+  repeated Diagnostic diagnostics = 1;
 }

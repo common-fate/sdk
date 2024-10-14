@@ -381,3 +381,251 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = QueryJiraIssuesResponseValidationError{}
+
+// Validate checks the field values on AttachRequestCommentToJiraIssuesRequest
+// with the rules defined in the proto definition for this message. If any
+// rules are violated, the first error encountered is returned, or nil if
+// there are no violations.
+func (m *AttachRequestCommentToJiraIssuesRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on
+// AttachRequestCommentToJiraIssuesRequest with the rules defined in the proto
+// definition for this message. If any rules are violated, the result is a
+// list of violation errors wrapped in
+// AttachRequestCommentToJiraIssuesRequestMultiError, or nil if none found.
+func (m *AttachRequestCommentToJiraIssuesRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *AttachRequestCommentToJiraIssuesRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for AccessRequestReason
+
+	if len(errors) > 0 {
+		return AttachRequestCommentToJiraIssuesRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// AttachRequestCommentToJiraIssuesRequestMultiError is an error wrapping
+// multiple validation errors returned by
+// AttachRequestCommentToJiraIssuesRequest.ValidateAll() if the designated
+// constraints aren't met.
+type AttachRequestCommentToJiraIssuesRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m AttachRequestCommentToJiraIssuesRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m AttachRequestCommentToJiraIssuesRequestMultiError) AllErrors() []error { return m }
+
+// AttachRequestCommentToJiraIssuesRequestValidationError is the validation
+// error returned by AttachRequestCommentToJiraIssuesRequest.Validate if the
+// designated constraints aren't met.
+type AttachRequestCommentToJiraIssuesRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e AttachRequestCommentToJiraIssuesRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e AttachRequestCommentToJiraIssuesRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e AttachRequestCommentToJiraIssuesRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e AttachRequestCommentToJiraIssuesRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e AttachRequestCommentToJiraIssuesRequestValidationError) ErrorName() string {
+	return "AttachRequestCommentToJiraIssuesRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e AttachRequestCommentToJiraIssuesRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sAttachRequestCommentToJiraIssuesRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = AttachRequestCommentToJiraIssuesRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = AttachRequestCommentToJiraIssuesRequestValidationError{}
+
+// Validate checks the field values on AttachRequestCommentToJiraIssuesResponse
+// with the rules defined in the proto definition for this message. If any
+// rules are violated, the first error encountered is returned, or nil if
+// there are no violations.
+func (m *AttachRequestCommentToJiraIssuesResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on
+// AttachRequestCommentToJiraIssuesResponse with the rules defined in the
+// proto definition for this message. If any rules are violated, the result is
+// a list of violation errors wrapped in
+// AttachRequestCommentToJiraIssuesResponseMultiError, or nil if none found.
+func (m *AttachRequestCommentToJiraIssuesResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *AttachRequestCommentToJiraIssuesResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	for idx, item := range m.GetDiagnostics() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, AttachRequestCommentToJiraIssuesResponseValidationError{
+						field:  fmt.Sprintf("Diagnostics[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, AttachRequestCommentToJiraIssuesResponseValidationError{
+						field:  fmt.Sprintf("Diagnostics[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return AttachRequestCommentToJiraIssuesResponseValidationError{
+					field:  fmt.Sprintf("Diagnostics[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	if len(errors) > 0 {
+		return AttachRequestCommentToJiraIssuesResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// AttachRequestCommentToJiraIssuesResponseMultiError is an error wrapping
+// multiple validation errors returned by
+// AttachRequestCommentToJiraIssuesResponse.ValidateAll() if the designated
+// constraints aren't met.
+type AttachRequestCommentToJiraIssuesResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m AttachRequestCommentToJiraIssuesResponseMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m AttachRequestCommentToJiraIssuesResponseMultiError) AllErrors() []error { return m }
+
+// AttachRequestCommentToJiraIssuesResponseValidationError is the validation
+// error returned by AttachRequestCommentToJiraIssuesResponse.Validate if the
+// designated constraints aren't met.
+type AttachRequestCommentToJiraIssuesResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e AttachRequestCommentToJiraIssuesResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e AttachRequestCommentToJiraIssuesResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e AttachRequestCommentToJiraIssuesResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e AttachRequestCommentToJiraIssuesResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e AttachRequestCommentToJiraIssuesResponseValidationError) ErrorName() string {
+	return "AttachRequestCommentToJiraIssuesResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e AttachRequestCommentToJiraIssuesResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sAttachRequestCommentToJiraIssuesResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = AttachRequestCommentToJiraIssuesResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = AttachRequestCommentToJiraIssuesResponseValidationError{}

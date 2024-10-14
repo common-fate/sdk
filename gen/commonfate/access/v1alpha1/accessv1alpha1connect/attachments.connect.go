@@ -36,18 +36,23 @@ const (
 	// AttachmentsServiceQueryJiraIssuesProcedure is the fully-qualified name of the
 	// AttachmentsService's QueryJiraIssues RPC.
 	AttachmentsServiceQueryJiraIssuesProcedure = "/commonfate.access.v1alpha1.AttachmentsService/QueryJiraIssues"
+	// AttachmentsServiceAttachRequestCommentToJiraIssuesProcedure is the fully-qualified name of the
+	// AttachmentsService's AttachRequestCommentToJiraIssues RPC.
+	AttachmentsServiceAttachRequestCommentToJiraIssuesProcedure = "/commonfate.access.v1alpha1.AttachmentsService/AttachRequestCommentToJiraIssues"
 )
 
 // These variables are the protoreflect.Descriptor objects for the RPCs defined in this package.
 var (
-	attachmentsServiceServiceDescriptor               = v1alpha1.File_commonfate_access_v1alpha1_attachments_proto.Services().ByName("AttachmentsService")
-	attachmentsServiceQueryJiraIssuesMethodDescriptor = attachmentsServiceServiceDescriptor.Methods().ByName("QueryJiraIssues")
+	attachmentsServiceServiceDescriptor                                = v1alpha1.File_commonfate_access_v1alpha1_attachments_proto.Services().ByName("AttachmentsService")
+	attachmentsServiceQueryJiraIssuesMethodDescriptor                  = attachmentsServiceServiceDescriptor.Methods().ByName("QueryJiraIssues")
+	attachmentsServiceAttachRequestCommentToJiraIssuesMethodDescriptor = attachmentsServiceServiceDescriptor.Methods().ByName("AttachRequestCommentToJiraIssues")
 )
 
 // AttachmentsServiceClient is a client for the commonfate.access.v1alpha1.AttachmentsService
 // service.
 type AttachmentsServiceClient interface {
 	QueryJiraIssues(context.Context, *connect.Request[v1alpha1.QueryJiraIssuesRequest]) (*connect.Response[v1alpha1.QueryJiraIssuesResponse], error)
+	AttachRequestCommentToJiraIssues(context.Context, *connect.Request[v1alpha1.AttachRequestCommentToJiraIssuesRequest]) (*connect.Response[v1alpha1.AttachRequestCommentToJiraIssuesResponse], error)
 }
 
 // NewAttachmentsServiceClient constructs a client for the
@@ -67,12 +72,19 @@ func NewAttachmentsServiceClient(httpClient connect.HTTPClient, baseURL string, 
 			connect.WithSchema(attachmentsServiceQueryJiraIssuesMethodDescriptor),
 			connect.WithClientOptions(opts...),
 		),
+		attachRequestCommentToJiraIssues: connect.NewClient[v1alpha1.AttachRequestCommentToJiraIssuesRequest, v1alpha1.AttachRequestCommentToJiraIssuesResponse](
+			httpClient,
+			baseURL+AttachmentsServiceAttachRequestCommentToJiraIssuesProcedure,
+			connect.WithSchema(attachmentsServiceAttachRequestCommentToJiraIssuesMethodDescriptor),
+			connect.WithClientOptions(opts...),
+		),
 	}
 }
 
 // attachmentsServiceClient implements AttachmentsServiceClient.
 type attachmentsServiceClient struct {
-	queryJiraIssues *connect.Client[v1alpha1.QueryJiraIssuesRequest, v1alpha1.QueryJiraIssuesResponse]
+	queryJiraIssues                  *connect.Client[v1alpha1.QueryJiraIssuesRequest, v1alpha1.QueryJiraIssuesResponse]
+	attachRequestCommentToJiraIssues *connect.Client[v1alpha1.AttachRequestCommentToJiraIssuesRequest, v1alpha1.AttachRequestCommentToJiraIssuesResponse]
 }
 
 // QueryJiraIssues calls commonfate.access.v1alpha1.AttachmentsService.QueryJiraIssues.
@@ -80,10 +92,17 @@ func (c *attachmentsServiceClient) QueryJiraIssues(ctx context.Context, req *con
 	return c.queryJiraIssues.CallUnary(ctx, req)
 }
 
+// AttachRequestCommentToJiraIssues calls
+// commonfate.access.v1alpha1.AttachmentsService.AttachRequestCommentToJiraIssues.
+func (c *attachmentsServiceClient) AttachRequestCommentToJiraIssues(ctx context.Context, req *connect.Request[v1alpha1.AttachRequestCommentToJiraIssuesRequest]) (*connect.Response[v1alpha1.AttachRequestCommentToJiraIssuesResponse], error) {
+	return c.attachRequestCommentToJiraIssues.CallUnary(ctx, req)
+}
+
 // AttachmentsServiceHandler is an implementation of the
 // commonfate.access.v1alpha1.AttachmentsService service.
 type AttachmentsServiceHandler interface {
 	QueryJiraIssues(context.Context, *connect.Request[v1alpha1.QueryJiraIssuesRequest]) (*connect.Response[v1alpha1.QueryJiraIssuesResponse], error)
+	AttachRequestCommentToJiraIssues(context.Context, *connect.Request[v1alpha1.AttachRequestCommentToJiraIssuesRequest]) (*connect.Response[v1alpha1.AttachRequestCommentToJiraIssuesResponse], error)
 }
 
 // NewAttachmentsServiceHandler builds an HTTP handler from the service implementation. It returns
@@ -98,10 +117,18 @@ func NewAttachmentsServiceHandler(svc AttachmentsServiceHandler, opts ...connect
 		connect.WithSchema(attachmentsServiceQueryJiraIssuesMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
+	attachmentsServiceAttachRequestCommentToJiraIssuesHandler := connect.NewUnaryHandler(
+		AttachmentsServiceAttachRequestCommentToJiraIssuesProcedure,
+		svc.AttachRequestCommentToJiraIssues,
+		connect.WithSchema(attachmentsServiceAttachRequestCommentToJiraIssuesMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
+	)
 	return "/commonfate.access.v1alpha1.AttachmentsService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
 		case AttachmentsServiceQueryJiraIssuesProcedure:
 			attachmentsServiceQueryJiraIssuesHandler.ServeHTTP(w, r)
+		case AttachmentsServiceAttachRequestCommentToJiraIssuesProcedure:
+			attachmentsServiceAttachRequestCommentToJiraIssuesHandler.ServeHTTP(w, r)
 		default:
 			http.NotFound(w, r)
 		}
@@ -113,4 +140,8 @@ type UnimplementedAttachmentsServiceHandler struct{}
 
 func (UnimplementedAttachmentsServiceHandler) QueryJiraIssues(context.Context, *connect.Request[v1alpha1.QueryJiraIssuesRequest]) (*connect.Response[v1alpha1.QueryJiraIssuesResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.access.v1alpha1.AttachmentsService.QueryJiraIssues is not implemented"))
+}
+
+func (UnimplementedAttachmentsServiceHandler) AttachRequestCommentToJiraIssues(context.Context, *connect.Request[v1alpha1.AttachRequestCommentToJiraIssuesRequest]) (*connect.Response[v1alpha1.AttachRequestCommentToJiraIssuesResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.access.v1alpha1.AttachmentsService.AttachRequestCommentToJiraIssues is not implemented"))
 }
