@@ -158,9 +158,9 @@ message AccessRequest {
 }
 
 enum ReviewDecision {
-    REVIEW_DESCISION_UNSPECIFIED = 0;
-    REVIEW_DESCISION_ALLOW = 1;
-    REVIEW_DESCISION_DENY = 2;
+    REVIEW_DECISION_UNSPECIFIED = 0;
+    REVIEW_DECISION_ALLOW = 1;
+    REVIEW_DECISION_DENY = 2;
 }
 
 message Reviewer {
