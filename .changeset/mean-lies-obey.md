@@ -2,4 +2,4 @@
 "@common-fate/sdk": minor
 ---
 
-Attach Access Request Comment to JIRA issues.
+Attach Access Request to JIRA issues.

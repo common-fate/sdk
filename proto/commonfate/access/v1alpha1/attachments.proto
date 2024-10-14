@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package commonfate.access.v1alpha1;
 
+import "commonfate/access/v1alpha1/access_request.proto";
 import "commonfate/access/v1alpha1/diagnostic.proto";
 import "commonfate/authz/v1alpha1/read_only.proto";
 
@@ -29,7 +30,7 @@ message QueryJiraIssuesResponse {
 }
 
 message AttachRequestCommentToJiraIssuesRequest {
-  string access_request_reason = 1;
+  AccessRequest access_request = 1;
 }
 
 message AttachRequestCommentToJiraIssuesResponse {
