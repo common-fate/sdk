@@ -98,8 +98,6 @@ func (m *CreateSlackAlertRequest) validate(all bool) error {
 		}
 	}
 
-	// no validation rules for DisableChannelMessageForAutoapprovedRequests
-
 	if m.IntegrationId != nil {
 		// no validation rules for IntegrationId
 	}
@@ -248,8 +246,6 @@ func (m *SlackAlert) validate(all bool) error {
 			}
 		}
 	}
-
-	// no validation rules for DisableChannelMessageForAutoapprovedRequests
 
 	if m.IntegrationId != nil {
 		// no validation rules for IntegrationId
