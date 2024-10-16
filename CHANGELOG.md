@@ -1,5 +1,17 @@
 # @common-fate/sdk
 
+## 1.66.0
+
+### Minor Changes
+
+- 34fe6a7: Adds new request review api for requesting an extra review from one or more principals
+
+## 1.65.2
+
+### Patch Changes
+
+- 1aacec1: Remove requirement to specify JQL on the JIRA integration.
+
 ## 1.65.1
 
 ### Patch Changes

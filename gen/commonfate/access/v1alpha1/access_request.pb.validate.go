@@ -1752,6 +1752,40 @@ func (m *AccessRequest) validate(all bool) error {
 
 	// no validation rules for WorkflowName
 
+	for idx, item := range m.GetReviewers() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, AccessRequestValidationError{
+						field:  fmt.Sprintf("Reviewers[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, AccessRequestValidationError{
+						field:  fmt.Sprintf("Reviewers[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return AccessRequestValidationError{
+					field:  fmt.Sprintf("Reviewers[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
 	if len(errors) > 0 {
 		return AccessRequestMultiError(errors)
 	}
@@ -1829,6 +1863,136 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = AccessRequestValidationError{}
+
+// Validate checks the field values on Reviewer with the rules defined in the
+// proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *Reviewer) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on Reviewer with the rules defined in
+// the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in ReviewerMultiError, or nil
+// if none found.
+func (m *Reviewer) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *Reviewer) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if all {
+		switch v := interface{}(m.GetUser()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, ReviewerValidationError{
+					field:  "User",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, ReviewerValidationError{
+					field:  "User",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetUser()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return ReviewerValidationError{
+				field:  "User",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	// no validation rules for ReviewDecision
+
+	if len(errors) > 0 {
+		return ReviewerMultiError(errors)
+	}
+
+	return nil
+}
+
+// ReviewerMultiError is an error wrapping multiple validation errors returned
+// by Reviewer.ValidateAll() if the designated constraints aren't met.
+type ReviewerMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m ReviewerMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m ReviewerMultiError) AllErrors() []error { return m }
+
+// ReviewerValidationError is the validation error returned by
+// Reviewer.Validate if the designated constraints aren't met.
+type ReviewerValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e ReviewerValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e ReviewerValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e ReviewerValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e ReviewerValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e ReviewerValidationError) ErrorName() string { return "ReviewerValidationError" }
+
+// Error satisfies the builtin error interface
+func (e ReviewerValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sReviewer.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = ReviewerValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = ReviewerValidationError{}
 
 // Validate checks the field values on AccessRequestActions with the rules
 // defined in the proto definition for this message. If any rules are
