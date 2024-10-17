@@ -57,12 +57,6 @@ func (m *AWSProxy) validate(all bool) error {
 
 	var errors []error
 
-	// no validation rules for IdcProvisionerRoleArn
-
-	// no validation rules for IdcInstanceArn
-
-	// no validation rules for IdcRegion
-
 	// no validation rules for AwsIntegrationId
 
 	switch v := m.InstanceConfig.(type) {

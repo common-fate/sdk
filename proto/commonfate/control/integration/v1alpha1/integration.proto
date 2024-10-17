@@ -4,7 +4,6 @@ package commonfate.control.integration.v1alpha1;
 import "commonfate/access/v1alpha1/diagnostic.proto";
 import "commonfate/authz/v1alpha1/read_only.proto";
 import "commonfate/control/integration/v1alpha1/auth0.proto";
-import "commonfate/control/integration/v1alpha1/aws_eks.proto";
 import "commonfate/control/integration/v1alpha1/aws_idc.proto";
 import "commonfate/control/integration/v1alpha1/aws_proxy.proto";
 import "commonfate/control/integration/v1alpha1/datastax.proto";
@@ -67,7 +66,6 @@ message Config {
     Auth0 auth0 = 11;
     S3LogDestination s3_log_destination = 12;
     AWSProxy aws_proxy = 13;
-    AWSEKS aws_eks = 14;
     Jira jira = 15;
   }
 }

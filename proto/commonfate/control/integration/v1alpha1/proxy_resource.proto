@@ -4,6 +4,7 @@ package commonfate.control.integration.v1alpha1;
 message Resource {
   oneof resource {
     AWSRDSDatabase aws_rds_database = 1;
+    AWSEKSCluster aws_eks_cluster = 2;
   }
 }
 message AWSRDSDatabase {
@@ -15,11 +16,24 @@ message AWSRDSDatabase {
   string database = 6;
   repeated AWSRDSDatabaseUser users = 7;
   string endpoint = 8;
-
 }
 message AWSRDSDatabaseUser {
   string name = 1;
   string username = 2;
   string password_secrets_manager_arn = 3;
   optional string endpoint = 4;
+}
+
+message AWSEKSCluster {
+  string name = 1;
+  string region = 3;
+  string account = 4;
+  string cluster_name = 5;
+  // The name of the IAM role which is used to access the cluster when the proxy is running outside of the cluster itself, for example on ECS.
+  optional string cluster_access_role_name = 6;
+}
+
+message AWSEKSServiceAccount {
+  string name = 1;
+  string service_account_name = 2;
 }

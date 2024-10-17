@@ -99,6 +99,47 @@ func (m *Resource) validate(all bool) error {
 			}
 		}
 
+	case *Resource_AwsEksCluster:
+		if v == nil {
+			err := ResourceValidationError{
+				field:  "Resource",
+				reason: "oneof value cannot be a typed-nil",
+			}
+			if !all {
+				return err
+			}
+			errors = append(errors, err)
+		}
+
+		if all {
+			switch v := interface{}(m.GetAwsEksCluster()).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, ResourceValidationError{
+						field:  "AwsEksCluster",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, ResourceValidationError{
+						field:  "AwsEksCluster",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(m.GetAwsEksCluster()).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return ResourceValidationError{
+					field:  "AwsEksCluster",
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
 	default:
 		_ = v // ensures v is used
 	}
@@ -439,3 +480,221 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = AWSRDSDatabaseUserValidationError{}
+
+// Validate checks the field values on AWSEKSCluster with the rules defined in
+// the proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *AWSEKSCluster) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on AWSEKSCluster with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in AWSEKSClusterMultiError, or
+// nil if none found.
+func (m *AWSEKSCluster) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *AWSEKSCluster) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Name
+
+	// no validation rules for Region
+
+	// no validation rules for Account
+
+	// no validation rules for ClusterName
+
+	if m.ClusterAccessRoleName != nil {
+		// no validation rules for ClusterAccessRoleName
+	}
+
+	if len(errors) > 0 {
+		return AWSEKSClusterMultiError(errors)
+	}
+
+	return nil
+}
+
+// AWSEKSClusterMultiError is an error wrapping multiple validation errors
+// returned by AWSEKSCluster.ValidateAll() if the designated constraints
+// aren't met.
+type AWSEKSClusterMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m AWSEKSClusterMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m AWSEKSClusterMultiError) AllErrors() []error { return m }
+
+// AWSEKSClusterValidationError is the validation error returned by
+// AWSEKSCluster.Validate if the designated constraints aren't met.
+type AWSEKSClusterValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e AWSEKSClusterValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e AWSEKSClusterValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e AWSEKSClusterValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e AWSEKSClusterValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e AWSEKSClusterValidationError) ErrorName() string { return "AWSEKSClusterValidationError" }
+
+// Error satisfies the builtin error interface
+func (e AWSEKSClusterValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sAWSEKSCluster.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = AWSEKSClusterValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = AWSEKSClusterValidationError{}
+
+// Validate checks the field values on AWSEKSServiceAccount with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *AWSEKSServiceAccount) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on AWSEKSServiceAccount with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// AWSEKSServiceAccountMultiError, or nil if none found.
+func (m *AWSEKSServiceAccount) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *AWSEKSServiceAccount) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Name
+
+	// no validation rules for ServiceAccountName
+
+	if len(errors) > 0 {
+		return AWSEKSServiceAccountMultiError(errors)
+	}
+
+	return nil
+}
+
+// AWSEKSServiceAccountMultiError is an error wrapping multiple validation
+// errors returned by AWSEKSServiceAccount.ValidateAll() if the designated
+// constraints aren't met.
+type AWSEKSServiceAccountMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m AWSEKSServiceAccountMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m AWSEKSServiceAccountMultiError) AllErrors() []error { return m }
+
+// AWSEKSServiceAccountValidationError is the validation error returned by
+// AWSEKSServiceAccount.Validate if the designated constraints aren't met.
+type AWSEKSServiceAccountValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e AWSEKSServiceAccountValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e AWSEKSServiceAccountValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e AWSEKSServiceAccountValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e AWSEKSServiceAccountValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e AWSEKSServiceAccountValidationError) ErrorName() string {
+	return "AWSEKSServiceAccountValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e AWSEKSServiceAccountValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sAWSEKSServiceAccount.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = AWSEKSServiceAccountValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = AWSEKSServiceAccountValidationError{}
