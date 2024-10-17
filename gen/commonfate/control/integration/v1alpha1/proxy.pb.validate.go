@@ -3369,3 +3369,1010 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = DeleteProxyEksClusterResourceResponseValidationError{}
+
+// Validate checks the field values on CreateProxyEksServiceAccountRequest with
+// the rules defined in the proto definition for this message. If any rules
+// are violated, the first error encountered is returned, or nil if there are
+// no violations.
+func (m *CreateProxyEksServiceAccountRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on CreateProxyEksServiceAccountRequest
+// with the rules defined in the proto definition for this message. If any
+// rules are violated, the result is a list of violation errors wrapped in
+// CreateProxyEksServiceAccountRequestMultiError, or nil if none found.
+func (m *CreateProxyEksServiceAccountRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *CreateProxyEksServiceAccountRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for ProxyId
+
+	if all {
+		switch v := interface{}(m.GetServiceAccount()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, CreateProxyEksServiceAccountRequestValidationError{
+					field:  "ServiceAccount",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, CreateProxyEksServiceAccountRequestValidationError{
+					field:  "ServiceAccount",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetServiceAccount()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return CreateProxyEksServiceAccountRequestValidationError{
+				field:  "ServiceAccount",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if len(errors) > 0 {
+		return CreateProxyEksServiceAccountRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// CreateProxyEksServiceAccountRequestMultiError is an error wrapping multiple
+// validation errors returned by
+// CreateProxyEksServiceAccountRequest.ValidateAll() if the designated
+// constraints aren't met.
+type CreateProxyEksServiceAccountRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m CreateProxyEksServiceAccountRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m CreateProxyEksServiceAccountRequestMultiError) AllErrors() []error { return m }
+
+// CreateProxyEksServiceAccountRequestValidationError is the validation error
+// returned by CreateProxyEksServiceAccountRequest.Validate if the designated
+// constraints aren't met.
+type CreateProxyEksServiceAccountRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e CreateProxyEksServiceAccountRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e CreateProxyEksServiceAccountRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e CreateProxyEksServiceAccountRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e CreateProxyEksServiceAccountRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e CreateProxyEksServiceAccountRequestValidationError) ErrorName() string {
+	return "CreateProxyEksServiceAccountRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e CreateProxyEksServiceAccountRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sCreateProxyEksServiceAccountRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = CreateProxyEksServiceAccountRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = CreateProxyEksServiceAccountRequestValidationError{}
+
+// Validate checks the field values on CreateProxyEksServiceAccountResponse
+// with the rules defined in the proto definition for this message. If any
+// rules are violated, the first error encountered is returned, or nil if
+// there are no violations.
+func (m *CreateProxyEksServiceAccountResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on CreateProxyEksServiceAccountResponse
+// with the rules defined in the proto definition for this message. If any
+// rules are violated, the result is a list of violation errors wrapped in
+// CreateProxyEksServiceAccountResponseMultiError, or nil if none found.
+func (m *CreateProxyEksServiceAccountResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *CreateProxyEksServiceAccountResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Id
+
+	// no validation rules for ProxyId
+
+	if all {
+		switch v := interface{}(m.GetServiceAccount()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, CreateProxyEksServiceAccountResponseValidationError{
+					field:  "ServiceAccount",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, CreateProxyEksServiceAccountResponseValidationError{
+					field:  "ServiceAccount",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetServiceAccount()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return CreateProxyEksServiceAccountResponseValidationError{
+				field:  "ServiceAccount",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if len(errors) > 0 {
+		return CreateProxyEksServiceAccountResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// CreateProxyEksServiceAccountResponseMultiError is an error wrapping multiple
+// validation errors returned by
+// CreateProxyEksServiceAccountResponse.ValidateAll() if the designated
+// constraints aren't met.
+type CreateProxyEksServiceAccountResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m CreateProxyEksServiceAccountResponseMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m CreateProxyEksServiceAccountResponseMultiError) AllErrors() []error { return m }
+
+// CreateProxyEksServiceAccountResponseValidationError is the validation error
+// returned by CreateProxyEksServiceAccountResponse.Validate if the designated
+// constraints aren't met.
+type CreateProxyEksServiceAccountResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e CreateProxyEksServiceAccountResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e CreateProxyEksServiceAccountResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e CreateProxyEksServiceAccountResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e CreateProxyEksServiceAccountResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e CreateProxyEksServiceAccountResponseValidationError) ErrorName() string {
+	return "CreateProxyEksServiceAccountResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e CreateProxyEksServiceAccountResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sCreateProxyEksServiceAccountResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = CreateProxyEksServiceAccountResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = CreateProxyEksServiceAccountResponseValidationError{}
+
+// Validate checks the field values on GetProxyEksServiceAccountRequest with
+// the rules defined in the proto definition for this message. If any rules
+// are violated, the first error encountered is returned, or nil if there are
+// no violations.
+func (m *GetProxyEksServiceAccountRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on GetProxyEksServiceAccountRequest with
+// the rules defined in the proto definition for this message. If any rules
+// are violated, the result is a list of violation errors wrapped in
+// GetProxyEksServiceAccountRequestMultiError, or nil if none found.
+func (m *GetProxyEksServiceAccountRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *GetProxyEksServiceAccountRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Id
+
+	if len(errors) > 0 {
+		return GetProxyEksServiceAccountRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// GetProxyEksServiceAccountRequestMultiError is an error wrapping multiple
+// validation errors returned by
+// GetProxyEksServiceAccountRequest.ValidateAll() if the designated
+// constraints aren't met.
+type GetProxyEksServiceAccountRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m GetProxyEksServiceAccountRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m GetProxyEksServiceAccountRequestMultiError) AllErrors() []error { return m }
+
+// GetProxyEksServiceAccountRequestValidationError is the validation error
+// returned by GetProxyEksServiceAccountRequest.Validate if the designated
+// constraints aren't met.
+type GetProxyEksServiceAccountRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e GetProxyEksServiceAccountRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e GetProxyEksServiceAccountRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e GetProxyEksServiceAccountRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e GetProxyEksServiceAccountRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e GetProxyEksServiceAccountRequestValidationError) ErrorName() string {
+	return "GetProxyEksServiceAccountRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e GetProxyEksServiceAccountRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sGetProxyEksServiceAccountRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = GetProxyEksServiceAccountRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = GetProxyEksServiceAccountRequestValidationError{}
+
+// Validate checks the field values on GetProxyEksServiceAccountResponse with
+// the rules defined in the proto definition for this message. If any rules
+// are violated, the first error encountered is returned, or nil if there are
+// no violations.
+func (m *GetProxyEksServiceAccountResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on GetProxyEksServiceAccountResponse
+// with the rules defined in the proto definition for this message. If any
+// rules are violated, the result is a list of violation errors wrapped in
+// GetProxyEksServiceAccountResponseMultiError, or nil if none found.
+func (m *GetProxyEksServiceAccountResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *GetProxyEksServiceAccountResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Id
+
+	if all {
+		switch v := interface{}(m.GetServiceAccount()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, GetProxyEksServiceAccountResponseValidationError{
+					field:  "ServiceAccount",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, GetProxyEksServiceAccountResponseValidationError{
+					field:  "ServiceAccount",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetServiceAccount()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return GetProxyEksServiceAccountResponseValidationError{
+				field:  "ServiceAccount",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if len(errors) > 0 {
+		return GetProxyEksServiceAccountResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// GetProxyEksServiceAccountResponseMultiError is an error wrapping multiple
+// validation errors returned by
+// GetProxyEksServiceAccountResponse.ValidateAll() if the designated
+// constraints aren't met.
+type GetProxyEksServiceAccountResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m GetProxyEksServiceAccountResponseMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m GetProxyEksServiceAccountResponseMultiError) AllErrors() []error { return m }
+
+// GetProxyEksServiceAccountResponseValidationError is the validation error
+// returned by GetProxyEksServiceAccountResponse.Validate if the designated
+// constraints aren't met.
+type GetProxyEksServiceAccountResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e GetProxyEksServiceAccountResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e GetProxyEksServiceAccountResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e GetProxyEksServiceAccountResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e GetProxyEksServiceAccountResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e GetProxyEksServiceAccountResponseValidationError) ErrorName() string {
+	return "GetProxyEksServiceAccountResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e GetProxyEksServiceAccountResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sGetProxyEksServiceAccountResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = GetProxyEksServiceAccountResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = GetProxyEksServiceAccountResponseValidationError{}
+
+// Validate checks the field values on UpdateProxyEksServiceAccountRequest with
+// the rules defined in the proto definition for this message. If any rules
+// are violated, the first error encountered is returned, or nil if there are
+// no violations.
+func (m *UpdateProxyEksServiceAccountRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on UpdateProxyEksServiceAccountRequest
+// with the rules defined in the proto definition for this message. If any
+// rules are violated, the result is a list of violation errors wrapped in
+// UpdateProxyEksServiceAccountRequestMultiError, or nil if none found.
+func (m *UpdateProxyEksServiceAccountRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *UpdateProxyEksServiceAccountRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Id
+
+	// no validation rules for ProxyId
+
+	if all {
+		switch v := interface{}(m.GetServiceAccount()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, UpdateProxyEksServiceAccountRequestValidationError{
+					field:  "ServiceAccount",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, UpdateProxyEksServiceAccountRequestValidationError{
+					field:  "ServiceAccount",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetServiceAccount()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return UpdateProxyEksServiceAccountRequestValidationError{
+				field:  "ServiceAccount",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if len(errors) > 0 {
+		return UpdateProxyEksServiceAccountRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// UpdateProxyEksServiceAccountRequestMultiError is an error wrapping multiple
+// validation errors returned by
+// UpdateProxyEksServiceAccountRequest.ValidateAll() if the designated
+// constraints aren't met.
+type UpdateProxyEksServiceAccountRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m UpdateProxyEksServiceAccountRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m UpdateProxyEksServiceAccountRequestMultiError) AllErrors() []error { return m }
+
+// UpdateProxyEksServiceAccountRequestValidationError is the validation error
+// returned by UpdateProxyEksServiceAccountRequest.Validate if the designated
+// constraints aren't met.
+type UpdateProxyEksServiceAccountRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e UpdateProxyEksServiceAccountRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e UpdateProxyEksServiceAccountRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e UpdateProxyEksServiceAccountRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e UpdateProxyEksServiceAccountRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e UpdateProxyEksServiceAccountRequestValidationError) ErrorName() string {
+	return "UpdateProxyEksServiceAccountRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e UpdateProxyEksServiceAccountRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sUpdateProxyEksServiceAccountRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = UpdateProxyEksServiceAccountRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = UpdateProxyEksServiceAccountRequestValidationError{}
+
+// Validate checks the field values on UpdateProxyEksServiceAccountResponse
+// with the rules defined in the proto definition for this message. If any
+// rules are violated, the first error encountered is returned, or nil if
+// there are no violations.
+func (m *UpdateProxyEksServiceAccountResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on UpdateProxyEksServiceAccountResponse
+// with the rules defined in the proto definition for this message. If any
+// rules are violated, the result is a list of violation errors wrapped in
+// UpdateProxyEksServiceAccountResponseMultiError, or nil if none found.
+func (m *UpdateProxyEksServiceAccountResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *UpdateProxyEksServiceAccountResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Id
+
+	// no validation rules for ProxyId
+
+	if all {
+		switch v := interface{}(m.GetServiceAccount()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, UpdateProxyEksServiceAccountResponseValidationError{
+					field:  "ServiceAccount",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, UpdateProxyEksServiceAccountResponseValidationError{
+					field:  "ServiceAccount",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetServiceAccount()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return UpdateProxyEksServiceAccountResponseValidationError{
+				field:  "ServiceAccount",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if len(errors) > 0 {
+		return UpdateProxyEksServiceAccountResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// UpdateProxyEksServiceAccountResponseMultiError is an error wrapping multiple
+// validation errors returned by
+// UpdateProxyEksServiceAccountResponse.ValidateAll() if the designated
+// constraints aren't met.
+type UpdateProxyEksServiceAccountResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m UpdateProxyEksServiceAccountResponseMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m UpdateProxyEksServiceAccountResponseMultiError) AllErrors() []error { return m }
+
+// UpdateProxyEksServiceAccountResponseValidationError is the validation error
+// returned by UpdateProxyEksServiceAccountResponse.Validate if the designated
+// constraints aren't met.
+type UpdateProxyEksServiceAccountResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e UpdateProxyEksServiceAccountResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e UpdateProxyEksServiceAccountResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e UpdateProxyEksServiceAccountResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e UpdateProxyEksServiceAccountResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e UpdateProxyEksServiceAccountResponseValidationError) ErrorName() string {
+	return "UpdateProxyEksServiceAccountResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e UpdateProxyEksServiceAccountResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sUpdateProxyEksServiceAccountResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = UpdateProxyEksServiceAccountResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = UpdateProxyEksServiceAccountResponseValidationError{}
+
+// Validate checks the field values on DeleteProxyEksServiceAccountRequest with
+// the rules defined in the proto definition for this message. If any rules
+// are violated, the first error encountered is returned, or nil if there are
+// no violations.
+func (m *DeleteProxyEksServiceAccountRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on DeleteProxyEksServiceAccountRequest
+// with the rules defined in the proto definition for this message. If any
+// rules are violated, the result is a list of violation errors wrapped in
+// DeleteProxyEksServiceAccountRequestMultiError, or nil if none found.
+func (m *DeleteProxyEksServiceAccountRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *DeleteProxyEksServiceAccountRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Id
+
+	if len(errors) > 0 {
+		return DeleteProxyEksServiceAccountRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// DeleteProxyEksServiceAccountRequestMultiError is an error wrapping multiple
+// validation errors returned by
+// DeleteProxyEksServiceAccountRequest.ValidateAll() if the designated
+// constraints aren't met.
+type DeleteProxyEksServiceAccountRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m DeleteProxyEksServiceAccountRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m DeleteProxyEksServiceAccountRequestMultiError) AllErrors() []error { return m }
+
+// DeleteProxyEksServiceAccountRequestValidationError is the validation error
+// returned by DeleteProxyEksServiceAccountRequest.Validate if the designated
+// constraints aren't met.
+type DeleteProxyEksServiceAccountRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e DeleteProxyEksServiceAccountRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e DeleteProxyEksServiceAccountRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e DeleteProxyEksServiceAccountRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e DeleteProxyEksServiceAccountRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e DeleteProxyEksServiceAccountRequestValidationError) ErrorName() string {
+	return "DeleteProxyEksServiceAccountRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e DeleteProxyEksServiceAccountRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sDeleteProxyEksServiceAccountRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = DeleteProxyEksServiceAccountRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = DeleteProxyEksServiceAccountRequestValidationError{}
+
+// Validate checks the field values on DeleteProxyEksServiceAccountResponse
+// with the rules defined in the proto definition for this message. If any
+// rules are violated, the first error encountered is returned, or nil if
+// there are no violations.
+func (m *DeleteProxyEksServiceAccountResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on DeleteProxyEksServiceAccountResponse
+// with the rules defined in the proto definition for this message. If any
+// rules are violated, the result is a list of violation errors wrapped in
+// DeleteProxyEksServiceAccountResponseMultiError, or nil if none found.
+func (m *DeleteProxyEksServiceAccountResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *DeleteProxyEksServiceAccountResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Id
+
+	if len(errors) > 0 {
+		return DeleteProxyEksServiceAccountResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// DeleteProxyEksServiceAccountResponseMultiError is an error wrapping multiple
+// validation errors returned by
+// DeleteProxyEksServiceAccountResponse.ValidateAll() if the designated
+// constraints aren't met.
+type DeleteProxyEksServiceAccountResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m DeleteProxyEksServiceAccountResponseMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m DeleteProxyEksServiceAccountResponseMultiError) AllErrors() []error { return m }
+
+// DeleteProxyEksServiceAccountResponseValidationError is the validation error
+// returned by DeleteProxyEksServiceAccountResponse.Validate if the designated
+// constraints aren't met.
+type DeleteProxyEksServiceAccountResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e DeleteProxyEksServiceAccountResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e DeleteProxyEksServiceAccountResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e DeleteProxyEksServiceAccountResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e DeleteProxyEksServiceAccountResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e DeleteProxyEksServiceAccountResponseValidationError) ErrorName() string {
+	return "DeleteProxyEksServiceAccountResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e DeleteProxyEksServiceAccountResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sDeleteProxyEksServiceAccountResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = DeleteProxyEksServiceAccountResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = DeleteProxyEksServiceAccountResponseValidationError{}

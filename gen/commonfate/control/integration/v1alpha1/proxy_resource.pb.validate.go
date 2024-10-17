@@ -511,40 +511,6 @@ func (m *AWSEKSCluster) validate(all bool) error {
 
 	// no validation rules for ClusterName
 
-	for idx, item := range m.GetUsers() {
-		_, _ = idx, item
-
-		if all {
-			switch v := interface{}(item).(type) {
-			case interface{ ValidateAll() error }:
-				if err := v.ValidateAll(); err != nil {
-					errors = append(errors, AWSEKSClusterValidationError{
-						field:  fmt.Sprintf("Users[%v]", idx),
-						reason: "embedded message failed validation",
-						cause:  err,
-					})
-				}
-			case interface{ Validate() error }:
-				if err := v.Validate(); err != nil {
-					errors = append(errors, AWSEKSClusterValidationError{
-						field:  fmt.Sprintf("Users[%v]", idx),
-						reason: "embedded message failed validation",
-						cause:  err,
-					})
-				}
-			}
-		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
-			if err := v.Validate(); err != nil {
-				return AWSEKSClusterValidationError{
-					field:  fmt.Sprintf("Users[%v]", idx),
-					reason: "embedded message failed validation",
-					cause:  err,
-				}
-			}
-		}
-
-	}
-
 	if m.ClusterAccessRoleName != nil {
 		// no validation rules for ClusterAccessRoleName
 	}
@@ -627,22 +593,22 @@ var _ interface {
 	ErrorName() string
 } = AWSEKSClusterValidationError{}
 
-// Validate checks the field values on AWSEKSClusterUser with the rules defined
-// in the proto definition for this message. If any rules are violated, the
-// first error encountered is returned, or nil if there are no violations.
-func (m *AWSEKSClusterUser) Validate() error {
+// Validate checks the field values on AWSEKSServiceAccount with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *AWSEKSServiceAccount) Validate() error {
 	return m.validate(false)
 }
 
-// ValidateAll checks the field values on AWSEKSClusterUser with the rules
+// ValidateAll checks the field values on AWSEKSServiceAccount with the rules
 // defined in the proto definition for this message. If any rules are
 // violated, the result is a list of violation errors wrapped in
-// AWSEKSClusterUserMultiError, or nil if none found.
-func (m *AWSEKSClusterUser) ValidateAll() error {
+// AWSEKSServiceAccountMultiError, or nil if none found.
+func (m *AWSEKSServiceAccount) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *AWSEKSClusterUser) validate(all bool) error {
+func (m *AWSEKSServiceAccount) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
@@ -654,19 +620,19 @@ func (m *AWSEKSClusterUser) validate(all bool) error {
 	// no validation rules for ServiceAccountName
 
 	if len(errors) > 0 {
-		return AWSEKSClusterUserMultiError(errors)
+		return AWSEKSServiceAccountMultiError(errors)
 	}
 
 	return nil
 }
 
-// AWSEKSClusterUserMultiError is an error wrapping multiple validation errors
-// returned by AWSEKSClusterUser.ValidateAll() if the designated constraints
-// aren't met.
-type AWSEKSClusterUserMultiError []error
+// AWSEKSServiceAccountMultiError is an error wrapping multiple validation
+// errors returned by AWSEKSServiceAccount.ValidateAll() if the designated
+// constraints aren't met.
+type AWSEKSServiceAccountMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m AWSEKSClusterUserMultiError) Error() string {
+func (m AWSEKSServiceAccountMultiError) Error() string {
 	var msgs []string
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -675,11 +641,11 @@ func (m AWSEKSClusterUserMultiError) Error() string {
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m AWSEKSClusterUserMultiError) AllErrors() []error { return m }
+func (m AWSEKSServiceAccountMultiError) AllErrors() []error { return m }
 
-// AWSEKSClusterUserValidationError is the validation error returned by
-// AWSEKSClusterUser.Validate if the designated constraints aren't met.
-type AWSEKSClusterUserValidationError struct {
+// AWSEKSServiceAccountValidationError is the validation error returned by
+// AWSEKSServiceAccount.Validate if the designated constraints aren't met.
+type AWSEKSServiceAccountValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -687,24 +653,24 @@ type AWSEKSClusterUserValidationError struct {
 }
 
 // Field function returns field value.
-func (e AWSEKSClusterUserValidationError) Field() string { return e.field }
+func (e AWSEKSServiceAccountValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e AWSEKSClusterUserValidationError) Reason() string { return e.reason }
+func (e AWSEKSServiceAccountValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e AWSEKSClusterUserValidationError) Cause() error { return e.cause }
+func (e AWSEKSServiceAccountValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e AWSEKSClusterUserValidationError) Key() bool { return e.key }
+func (e AWSEKSServiceAccountValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e AWSEKSClusterUserValidationError) ErrorName() string {
-	return "AWSEKSClusterUserValidationError"
+func (e AWSEKSServiceAccountValidationError) ErrorName() string {
+	return "AWSEKSServiceAccountValidationError"
 }
 
 // Error satisfies the builtin error interface
-func (e AWSEKSClusterUserValidationError) Error() string {
+func (e AWSEKSServiceAccountValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -716,14 +682,14 @@ func (e AWSEKSClusterUserValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sAWSEKSClusterUser.%s: %s%s",
+		"invalid %sAWSEKSServiceAccount.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = AWSEKSClusterUserValidationError{}
+var _ error = AWSEKSServiceAccountValidationError{}
 
 var _ interface {
 	Field() string
@@ -731,4 +697,4 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = AWSEKSClusterUserValidationError{}
+} = AWSEKSServiceAccountValidationError{}

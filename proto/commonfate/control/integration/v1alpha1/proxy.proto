@@ -21,6 +21,13 @@ service ProxyService {
     option (commonfate.authz.v1alpha1.read_only) = true;
   }
 
+  rpc CreateProxyEksServiceAccount(CreateProxyEksServiceAccountRequest) returns (CreateProxyEksServiceAccountResponse) {}
+  rpc UpdateProxyEksServiceAccount(UpdateProxyEksServiceAccountRequest) returns (UpdateProxyEksServiceAccountResponse) {}
+  rpc DeleteProxyEksServiceAccount(DeleteProxyEksServiceAccountRequest) returns (DeleteProxyEksServiceAccountResponse) {}
+  rpc GetProxyEksServiceAccount(GetProxyEksServiceAccountRequest) returns (GetProxyEksServiceAccountResponse) {
+    option (commonfate.authz.v1alpha1.read_only) = true;
+  }
+
   //CRUD operations for proxy terraform provider resource
   rpc CreateProxy(CreateProxyRequest) returns (CreateProxyResponse) {}
   rpc UpdateProxy(UpdateProxyRequest) returns (UpdateProxyResponse) {}
@@ -176,5 +183,47 @@ message DeleteProxyEksClusterResourceRequest {
 }
 
 message DeleteProxyEksClusterResourceResponse {
+  string id = 1;
+}
+
+message CreateProxyEksServiceAccountRequest {
+  string proxy_id = 1;
+  AWSEKSServiceAccount service_account = 2;
+}
+
+message CreateProxyEksServiceAccountResponse {
+  string id = 1;
+  string proxy_id = 2;
+  AWSEKSServiceAccount service_account = 3;
+}
+
+message GetProxyEksServiceAccountRequest {
+  string id = 1;
+}
+
+message GetProxyEksServiceAccountResponse {
+  string id = 1;
+  AWSEKSServiceAccount service_account = 2;
+}
+
+message UpdateProxyEksServiceAccountRequest {
+  string id = 1;
+  string proxy_id = 2;
+
+  AWSEKSServiceAccount service_account = 3;
+}
+
+message UpdateProxyEksServiceAccountResponse {
+  string id = 1;
+  string proxy_id = 2;
+
+  AWSEKSServiceAccount service_account = 3;
+}
+
+message DeleteProxyEksServiceAccountRequest {
+  string id = 1;
+}
+
+message DeleteProxyEksServiceAccountResponse {
   string id = 1;
 }
