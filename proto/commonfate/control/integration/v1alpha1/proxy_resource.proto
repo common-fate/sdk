@@ -28,5 +28,13 @@ message AWSEKSCluster {
   string name = 1;
   string region = 3;
   string account = 4;
-  // TODO
+  string cluster_name = 5;
+  // The name of the IAM role which is used to access the cluster when the proxy is running outside of the cluster itself, for example on ECS.
+  optional string cluster_access_role_name = 6;
+  repeated AWSEKSClusterUser users = 7;
+}
+
+message AWSEKSClusterUser {
+  string name = 1;
+  string service_account_name = 2;
 }
