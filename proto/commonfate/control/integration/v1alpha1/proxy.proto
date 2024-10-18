@@ -21,10 +21,10 @@ service ProxyService {
     option (commonfate.authz.v1alpha1.read_only) = true;
   }
 
-  rpc CreateProxyEksServiceAccount(CreateProxyEksServiceAccountRequest) returns (CreateProxyEksServiceAccountResponse) {}
-  rpc UpdateProxyEksServiceAccount(UpdateProxyEksServiceAccountRequest) returns (UpdateProxyEksServiceAccountResponse) {}
-  rpc DeleteProxyEksServiceAccount(DeleteProxyEksServiceAccountRequest) returns (DeleteProxyEksServiceAccountResponse) {}
-  rpc GetProxyEksServiceAccount(GetProxyEksServiceAccountRequest) returns (GetProxyEksServiceAccountResponse) {
+  rpc CreateProxyEksServiceAccountResource(CreateProxyEksServiceAccountResourceRequest) returns (CreateProxyEksServiceAccountResourceResponse) {}
+  rpc UpdateProxyEksServiceAccountResource(UpdateProxyEksServiceAccountResourceRequest) returns (UpdateProxyEksServiceAccountResourceResponse) {}
+  rpc DeleteProxyEksServiceAccountResource(DeleteProxyEksServiceAccountResourceRequest) returns (DeleteProxyEksServiceAccountResourceResponse) {}
+  rpc GetProxyEksServiceAccountResource(GetProxyEksServiceAccountResourceRequest) returns (GetProxyEksServiceAccountResourceResponse) {
     option (commonfate.authz.v1alpha1.read_only) = true;
   }
 
@@ -186,44 +186,44 @@ message DeleteProxyEksClusterResourceResponse {
   string id = 1;
 }
 
-message CreateProxyEksServiceAccountRequest {
+message CreateProxyEksServiceAccountResourceRequest {
   string proxy_id = 1;
   AWSEKSServiceAccount service_account = 2;
 }
 
-message CreateProxyEksServiceAccountResponse {
+message CreateProxyEksServiceAccountResourceResponse {
   string id = 1;
   string proxy_id = 2;
   AWSEKSServiceAccount service_account = 3;
 }
 
-message GetProxyEksServiceAccountRequest {
+message GetProxyEksServiceAccountResourceRequest {
   string id = 1;
 }
 
-message GetProxyEksServiceAccountResponse {
+message GetProxyEksServiceAccountResourceResponse {
   string id = 1;
   AWSEKSServiceAccount service_account = 2;
 }
 
-message UpdateProxyEksServiceAccountRequest {
+message UpdateProxyEksServiceAccountResourceRequest {
   string id = 1;
   string proxy_id = 2;
 
   AWSEKSServiceAccount service_account = 3;
 }
 
-message UpdateProxyEksServiceAccountResponse {
+message UpdateProxyEksServiceAccountResourceResponse {
   string id = 1;
   string proxy_id = 2;
 
   AWSEKSServiceAccount service_account = 3;
 }
 
-message DeleteProxyEksServiceAccountRequest {
+message DeleteProxyEksServiceAccountResourceRequest {
   string id = 1;
 }
 
-message DeleteProxyEksServiceAccountResponse {
+message DeleteProxyEksServiceAccountResourceResponse {
   string id = 1;
 }

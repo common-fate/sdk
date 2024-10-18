@@ -57,18 +57,18 @@ const (
 	// ProxyServiceGetProxyEksClusterResourceProcedure is the fully-qualified name of the ProxyService's
 	// GetProxyEksClusterResource RPC.
 	ProxyServiceGetProxyEksClusterResourceProcedure = "/commonfate.control.integration.v1alpha1.ProxyService/GetProxyEksClusterResource"
-	// ProxyServiceCreateProxyEksServiceAccountProcedure is the fully-qualified name of the
-	// ProxyService's CreateProxyEksServiceAccount RPC.
-	ProxyServiceCreateProxyEksServiceAccountProcedure = "/commonfate.control.integration.v1alpha1.ProxyService/CreateProxyEksServiceAccount"
-	// ProxyServiceUpdateProxyEksServiceAccountProcedure is the fully-qualified name of the
-	// ProxyService's UpdateProxyEksServiceAccount RPC.
-	ProxyServiceUpdateProxyEksServiceAccountProcedure = "/commonfate.control.integration.v1alpha1.ProxyService/UpdateProxyEksServiceAccount"
-	// ProxyServiceDeleteProxyEksServiceAccountProcedure is the fully-qualified name of the
-	// ProxyService's DeleteProxyEksServiceAccount RPC.
-	ProxyServiceDeleteProxyEksServiceAccountProcedure = "/commonfate.control.integration.v1alpha1.ProxyService/DeleteProxyEksServiceAccount"
-	// ProxyServiceGetProxyEksServiceAccountProcedure is the fully-qualified name of the ProxyService's
-	// GetProxyEksServiceAccount RPC.
-	ProxyServiceGetProxyEksServiceAccountProcedure = "/commonfate.control.integration.v1alpha1.ProxyService/GetProxyEksServiceAccount"
+	// ProxyServiceCreateProxyEksServiceAccountResourceProcedure is the fully-qualified name of the
+	// ProxyService's CreateProxyEksServiceAccountResource RPC.
+	ProxyServiceCreateProxyEksServiceAccountResourceProcedure = "/commonfate.control.integration.v1alpha1.ProxyService/CreateProxyEksServiceAccountResource"
+	// ProxyServiceUpdateProxyEksServiceAccountResourceProcedure is the fully-qualified name of the
+	// ProxyService's UpdateProxyEksServiceAccountResource RPC.
+	ProxyServiceUpdateProxyEksServiceAccountResourceProcedure = "/commonfate.control.integration.v1alpha1.ProxyService/UpdateProxyEksServiceAccountResource"
+	// ProxyServiceDeleteProxyEksServiceAccountResourceProcedure is the fully-qualified name of the
+	// ProxyService's DeleteProxyEksServiceAccountResource RPC.
+	ProxyServiceDeleteProxyEksServiceAccountResourceProcedure = "/commonfate.control.integration.v1alpha1.ProxyService/DeleteProxyEksServiceAccountResource"
+	// ProxyServiceGetProxyEksServiceAccountResourceProcedure is the fully-qualified name of the
+	// ProxyService's GetProxyEksServiceAccountResource RPC.
+	ProxyServiceGetProxyEksServiceAccountResourceProcedure = "/commonfate.control.integration.v1alpha1.ProxyService/GetProxyEksServiceAccountResource"
 	// ProxyServiceCreateProxyProcedure is the fully-qualified name of the ProxyService's CreateProxy
 	// RPC.
 	ProxyServiceCreateProxyProcedure = "/commonfate.control.integration.v1alpha1.ProxyService/CreateProxy"
@@ -87,24 +87,24 @@ const (
 
 // These variables are the protoreflect.Descriptor objects for the RPCs defined in this package.
 var (
-	proxyServiceServiceDescriptor                             = v1alpha1.File_commonfate_control_integration_v1alpha1_proxy_proto.Services().ByName("ProxyService")
-	proxyServiceCreateProxyRdsResourceMethodDescriptor        = proxyServiceServiceDescriptor.Methods().ByName("CreateProxyRdsResource")
-	proxyServiceUpdateProxyRdsResourceMethodDescriptor        = proxyServiceServiceDescriptor.Methods().ByName("UpdateProxyRdsResource")
-	proxyServiceDeleteProxyRdsResourceMethodDescriptor        = proxyServiceServiceDescriptor.Methods().ByName("DeleteProxyRdsResource")
-	proxyServiceGetProxyRdsResourceMethodDescriptor           = proxyServiceServiceDescriptor.Methods().ByName("GetProxyRdsResource")
-	proxyServiceCreateProxyEksClusterResourceMethodDescriptor = proxyServiceServiceDescriptor.Methods().ByName("CreateProxyEksClusterResource")
-	proxyServiceUpdateProxyEksClusterResourceMethodDescriptor = proxyServiceServiceDescriptor.Methods().ByName("UpdateProxyEksClusterResource")
-	proxyServiceDeleteProxyEksClusterResourceMethodDescriptor = proxyServiceServiceDescriptor.Methods().ByName("DeleteProxyEksClusterResource")
-	proxyServiceGetProxyEksClusterResourceMethodDescriptor    = proxyServiceServiceDescriptor.Methods().ByName("GetProxyEksClusterResource")
-	proxyServiceCreateProxyEksServiceAccountMethodDescriptor  = proxyServiceServiceDescriptor.Methods().ByName("CreateProxyEksServiceAccount")
-	proxyServiceUpdateProxyEksServiceAccountMethodDescriptor  = proxyServiceServiceDescriptor.Methods().ByName("UpdateProxyEksServiceAccount")
-	proxyServiceDeleteProxyEksServiceAccountMethodDescriptor  = proxyServiceServiceDescriptor.Methods().ByName("DeleteProxyEksServiceAccount")
-	proxyServiceGetProxyEksServiceAccountMethodDescriptor     = proxyServiceServiceDescriptor.Methods().ByName("GetProxyEksServiceAccount")
-	proxyServiceCreateProxyMethodDescriptor                   = proxyServiceServiceDescriptor.Methods().ByName("CreateProxy")
-	proxyServiceUpdateProxyMethodDescriptor                   = proxyServiceServiceDescriptor.Methods().ByName("UpdateProxy")
-	proxyServiceDeleteProxyMethodDescriptor                   = proxyServiceServiceDescriptor.Methods().ByName("DeleteProxy")
-	proxyServiceGetProxyMethodDescriptor                      = proxyServiceServiceDescriptor.Methods().ByName("GetProxy")
-	proxyServiceListProxyResourcesMethodDescriptor            = proxyServiceServiceDescriptor.Methods().ByName("ListProxyResources")
+	proxyServiceServiceDescriptor                                    = v1alpha1.File_commonfate_control_integration_v1alpha1_proxy_proto.Services().ByName("ProxyService")
+	proxyServiceCreateProxyRdsResourceMethodDescriptor               = proxyServiceServiceDescriptor.Methods().ByName("CreateProxyRdsResource")
+	proxyServiceUpdateProxyRdsResourceMethodDescriptor               = proxyServiceServiceDescriptor.Methods().ByName("UpdateProxyRdsResource")
+	proxyServiceDeleteProxyRdsResourceMethodDescriptor               = proxyServiceServiceDescriptor.Methods().ByName("DeleteProxyRdsResource")
+	proxyServiceGetProxyRdsResourceMethodDescriptor                  = proxyServiceServiceDescriptor.Methods().ByName("GetProxyRdsResource")
+	proxyServiceCreateProxyEksClusterResourceMethodDescriptor        = proxyServiceServiceDescriptor.Methods().ByName("CreateProxyEksClusterResource")
+	proxyServiceUpdateProxyEksClusterResourceMethodDescriptor        = proxyServiceServiceDescriptor.Methods().ByName("UpdateProxyEksClusterResource")
+	proxyServiceDeleteProxyEksClusterResourceMethodDescriptor        = proxyServiceServiceDescriptor.Methods().ByName("DeleteProxyEksClusterResource")
+	proxyServiceGetProxyEksClusterResourceMethodDescriptor           = proxyServiceServiceDescriptor.Methods().ByName("GetProxyEksClusterResource")
+	proxyServiceCreateProxyEksServiceAccountResourceMethodDescriptor = proxyServiceServiceDescriptor.Methods().ByName("CreateProxyEksServiceAccountResource")
+	proxyServiceUpdateProxyEksServiceAccountResourceMethodDescriptor = proxyServiceServiceDescriptor.Methods().ByName("UpdateProxyEksServiceAccountResource")
+	proxyServiceDeleteProxyEksServiceAccountResourceMethodDescriptor = proxyServiceServiceDescriptor.Methods().ByName("DeleteProxyEksServiceAccountResource")
+	proxyServiceGetProxyEksServiceAccountResourceMethodDescriptor    = proxyServiceServiceDescriptor.Methods().ByName("GetProxyEksServiceAccountResource")
+	proxyServiceCreateProxyMethodDescriptor                          = proxyServiceServiceDescriptor.Methods().ByName("CreateProxy")
+	proxyServiceUpdateProxyMethodDescriptor                          = proxyServiceServiceDescriptor.Methods().ByName("UpdateProxy")
+	proxyServiceDeleteProxyMethodDescriptor                          = proxyServiceServiceDescriptor.Methods().ByName("DeleteProxy")
+	proxyServiceGetProxyMethodDescriptor                             = proxyServiceServiceDescriptor.Methods().ByName("GetProxy")
+	proxyServiceListProxyResourcesMethodDescriptor                   = proxyServiceServiceDescriptor.Methods().ByName("ListProxyResources")
 )
 
 // ProxyServiceClient is a client for the commonfate.control.integration.v1alpha1.ProxyService
@@ -119,10 +119,10 @@ type ProxyServiceClient interface {
 	UpdateProxyEksClusterResource(context.Context, *connect.Request[v1alpha1.UpdateProxyEksClusterResourceRequest]) (*connect.Response[v1alpha1.UpdateProxyEksClusterResourceResponse], error)
 	DeleteProxyEksClusterResource(context.Context, *connect.Request[v1alpha1.DeleteProxyEksClusterResourceRequest]) (*connect.Response[v1alpha1.DeleteProxyEksClusterResourceResponse], error)
 	GetProxyEksClusterResource(context.Context, *connect.Request[v1alpha1.GetProxyEksClusterResourceRequest]) (*connect.Response[v1alpha1.GetProxyEksClusterResourceResponse], error)
-	CreateProxyEksServiceAccount(context.Context, *connect.Request[v1alpha1.CreateProxyEksServiceAccountRequest]) (*connect.Response[v1alpha1.CreateProxyEksServiceAccountResponse], error)
-	UpdateProxyEksServiceAccount(context.Context, *connect.Request[v1alpha1.UpdateProxyEksServiceAccountRequest]) (*connect.Response[v1alpha1.UpdateProxyEksServiceAccountResponse], error)
-	DeleteProxyEksServiceAccount(context.Context, *connect.Request[v1alpha1.DeleteProxyEksServiceAccountRequest]) (*connect.Response[v1alpha1.DeleteProxyEksServiceAccountResponse], error)
-	GetProxyEksServiceAccount(context.Context, *connect.Request[v1alpha1.GetProxyEksServiceAccountRequest]) (*connect.Response[v1alpha1.GetProxyEksServiceAccountResponse], error)
+	CreateProxyEksServiceAccountResource(context.Context, *connect.Request[v1alpha1.CreateProxyEksServiceAccountResourceRequest]) (*connect.Response[v1alpha1.CreateProxyEksServiceAccountResourceResponse], error)
+	UpdateProxyEksServiceAccountResource(context.Context, *connect.Request[v1alpha1.UpdateProxyEksServiceAccountResourceRequest]) (*connect.Response[v1alpha1.UpdateProxyEksServiceAccountResourceResponse], error)
+	DeleteProxyEksServiceAccountResource(context.Context, *connect.Request[v1alpha1.DeleteProxyEksServiceAccountResourceRequest]) (*connect.Response[v1alpha1.DeleteProxyEksServiceAccountResourceResponse], error)
+	GetProxyEksServiceAccountResource(context.Context, *connect.Request[v1alpha1.GetProxyEksServiceAccountResourceRequest]) (*connect.Response[v1alpha1.GetProxyEksServiceAccountResourceResponse], error)
 	// CRUD operations for proxy terraform provider resource
 	CreateProxy(context.Context, *connect.Request[v1alpha1.CreateProxyRequest]) (*connect.Response[v1alpha1.CreateProxyResponse], error)
 	UpdateProxy(context.Context, *connect.Request[v1alpha1.UpdateProxyRequest]) (*connect.Response[v1alpha1.UpdateProxyResponse], error)
@@ -191,28 +191,28 @@ func NewProxyServiceClient(httpClient connect.HTTPClient, baseURL string, opts .
 			connect.WithSchema(proxyServiceGetProxyEksClusterResourceMethodDescriptor),
 			connect.WithClientOptions(opts...),
 		),
-		createProxyEksServiceAccount: connect.NewClient[v1alpha1.CreateProxyEksServiceAccountRequest, v1alpha1.CreateProxyEksServiceAccountResponse](
+		createProxyEksServiceAccountResource: connect.NewClient[v1alpha1.CreateProxyEksServiceAccountResourceRequest, v1alpha1.CreateProxyEksServiceAccountResourceResponse](
 			httpClient,
-			baseURL+ProxyServiceCreateProxyEksServiceAccountProcedure,
-			connect.WithSchema(proxyServiceCreateProxyEksServiceAccountMethodDescriptor),
+			baseURL+ProxyServiceCreateProxyEksServiceAccountResourceProcedure,
+			connect.WithSchema(proxyServiceCreateProxyEksServiceAccountResourceMethodDescriptor),
 			connect.WithClientOptions(opts...),
 		),
-		updateProxyEksServiceAccount: connect.NewClient[v1alpha1.UpdateProxyEksServiceAccountRequest, v1alpha1.UpdateProxyEksServiceAccountResponse](
+		updateProxyEksServiceAccountResource: connect.NewClient[v1alpha1.UpdateProxyEksServiceAccountResourceRequest, v1alpha1.UpdateProxyEksServiceAccountResourceResponse](
 			httpClient,
-			baseURL+ProxyServiceUpdateProxyEksServiceAccountProcedure,
-			connect.WithSchema(proxyServiceUpdateProxyEksServiceAccountMethodDescriptor),
+			baseURL+ProxyServiceUpdateProxyEksServiceAccountResourceProcedure,
+			connect.WithSchema(proxyServiceUpdateProxyEksServiceAccountResourceMethodDescriptor),
 			connect.WithClientOptions(opts...),
 		),
-		deleteProxyEksServiceAccount: connect.NewClient[v1alpha1.DeleteProxyEksServiceAccountRequest, v1alpha1.DeleteProxyEksServiceAccountResponse](
+		deleteProxyEksServiceAccountResource: connect.NewClient[v1alpha1.DeleteProxyEksServiceAccountResourceRequest, v1alpha1.DeleteProxyEksServiceAccountResourceResponse](
 			httpClient,
-			baseURL+ProxyServiceDeleteProxyEksServiceAccountProcedure,
-			connect.WithSchema(proxyServiceDeleteProxyEksServiceAccountMethodDescriptor),
+			baseURL+ProxyServiceDeleteProxyEksServiceAccountResourceProcedure,
+			connect.WithSchema(proxyServiceDeleteProxyEksServiceAccountResourceMethodDescriptor),
 			connect.WithClientOptions(opts...),
 		),
-		getProxyEksServiceAccount: connect.NewClient[v1alpha1.GetProxyEksServiceAccountRequest, v1alpha1.GetProxyEksServiceAccountResponse](
+		getProxyEksServiceAccountResource: connect.NewClient[v1alpha1.GetProxyEksServiceAccountResourceRequest, v1alpha1.GetProxyEksServiceAccountResourceResponse](
 			httpClient,
-			baseURL+ProxyServiceGetProxyEksServiceAccountProcedure,
-			connect.WithSchema(proxyServiceGetProxyEksServiceAccountMethodDescriptor),
+			baseURL+ProxyServiceGetProxyEksServiceAccountResourceProcedure,
+			connect.WithSchema(proxyServiceGetProxyEksServiceAccountResourceMethodDescriptor),
 			connect.WithClientOptions(opts...),
 		),
 		createProxy: connect.NewClient[v1alpha1.CreateProxyRequest, v1alpha1.CreateProxyResponse](
@@ -250,23 +250,23 @@ func NewProxyServiceClient(httpClient connect.HTTPClient, baseURL string, opts .
 
 // proxyServiceClient implements ProxyServiceClient.
 type proxyServiceClient struct {
-	createProxyRdsResource        *connect.Client[v1alpha1.CreateProxyRdsResourceRequest, v1alpha1.CreateProxyRdsResourceResponse]
-	updateProxyRdsResource        *connect.Client[v1alpha1.UpdateProxyRdsResourceRequest, v1alpha1.UpdateProxyRdsResourceResponse]
-	deleteProxyRdsResource        *connect.Client[v1alpha1.DeleteProxyRdsResourceRequest, v1alpha1.DeleteProxyRdsResourceResponse]
-	getProxyRdsResource           *connect.Client[v1alpha1.GetProxyRdsResourceRequest, v1alpha1.GetProxyRdsResourceResponse]
-	createProxyEksClusterResource *connect.Client[v1alpha1.CreateProxyEksClusterResourceRequest, v1alpha1.CreateProxyEksClusterResourceResponse]
-	updateProxyEksClusterResource *connect.Client[v1alpha1.UpdateProxyEksClusterResourceRequest, v1alpha1.UpdateProxyEksClusterResourceResponse]
-	deleteProxyEksClusterResource *connect.Client[v1alpha1.DeleteProxyEksClusterResourceRequest, v1alpha1.DeleteProxyEksClusterResourceResponse]
-	getProxyEksClusterResource    *connect.Client[v1alpha1.GetProxyEksClusterResourceRequest, v1alpha1.GetProxyEksClusterResourceResponse]
-	createProxyEksServiceAccount  *connect.Client[v1alpha1.CreateProxyEksServiceAccountRequest, v1alpha1.CreateProxyEksServiceAccountResponse]
-	updateProxyEksServiceAccount  *connect.Client[v1alpha1.UpdateProxyEksServiceAccountRequest, v1alpha1.UpdateProxyEksServiceAccountResponse]
-	deleteProxyEksServiceAccount  *connect.Client[v1alpha1.DeleteProxyEksServiceAccountRequest, v1alpha1.DeleteProxyEksServiceAccountResponse]
-	getProxyEksServiceAccount     *connect.Client[v1alpha1.GetProxyEksServiceAccountRequest, v1alpha1.GetProxyEksServiceAccountResponse]
-	createProxy                   *connect.Client[v1alpha1.CreateProxyRequest, v1alpha1.CreateProxyResponse]
-	updateProxy                   *connect.Client[v1alpha1.UpdateProxyRequest, v1alpha1.UpdateProxyResponse]
-	deleteProxy                   *connect.Client[v1alpha1.DeleteProxyRequest, v1alpha1.DeleteProxyResponse]
-	getProxy                      *connect.Client[v1alpha1.GetProxyRequest, v1alpha1.GetProxyResponse]
-	listProxyResources            *connect.Client[v1alpha1.ListProxyResourcesRequest, v1alpha1.ListProxyResourcesResponse]
+	createProxyRdsResource               *connect.Client[v1alpha1.CreateProxyRdsResourceRequest, v1alpha1.CreateProxyRdsResourceResponse]
+	updateProxyRdsResource               *connect.Client[v1alpha1.UpdateProxyRdsResourceRequest, v1alpha1.UpdateProxyRdsResourceResponse]
+	deleteProxyRdsResource               *connect.Client[v1alpha1.DeleteProxyRdsResourceRequest, v1alpha1.DeleteProxyRdsResourceResponse]
+	getProxyRdsResource                  *connect.Client[v1alpha1.GetProxyRdsResourceRequest, v1alpha1.GetProxyRdsResourceResponse]
+	createProxyEksClusterResource        *connect.Client[v1alpha1.CreateProxyEksClusterResourceRequest, v1alpha1.CreateProxyEksClusterResourceResponse]
+	updateProxyEksClusterResource        *connect.Client[v1alpha1.UpdateProxyEksClusterResourceRequest, v1alpha1.UpdateProxyEksClusterResourceResponse]
+	deleteProxyEksClusterResource        *connect.Client[v1alpha1.DeleteProxyEksClusterResourceRequest, v1alpha1.DeleteProxyEksClusterResourceResponse]
+	getProxyEksClusterResource           *connect.Client[v1alpha1.GetProxyEksClusterResourceRequest, v1alpha1.GetProxyEksClusterResourceResponse]
+	createProxyEksServiceAccountResource *connect.Client[v1alpha1.CreateProxyEksServiceAccountResourceRequest, v1alpha1.CreateProxyEksServiceAccountResourceResponse]
+	updateProxyEksServiceAccountResource *connect.Client[v1alpha1.UpdateProxyEksServiceAccountResourceRequest, v1alpha1.UpdateProxyEksServiceAccountResourceResponse]
+	deleteProxyEksServiceAccountResource *connect.Client[v1alpha1.DeleteProxyEksServiceAccountResourceRequest, v1alpha1.DeleteProxyEksServiceAccountResourceResponse]
+	getProxyEksServiceAccountResource    *connect.Client[v1alpha1.GetProxyEksServiceAccountResourceRequest, v1alpha1.GetProxyEksServiceAccountResourceResponse]
+	createProxy                          *connect.Client[v1alpha1.CreateProxyRequest, v1alpha1.CreateProxyResponse]
+	updateProxy                          *connect.Client[v1alpha1.UpdateProxyRequest, v1alpha1.UpdateProxyResponse]
+	deleteProxy                          *connect.Client[v1alpha1.DeleteProxyRequest, v1alpha1.DeleteProxyResponse]
+	getProxy                             *connect.Client[v1alpha1.GetProxyRequest, v1alpha1.GetProxyResponse]
+	listProxyResources                   *connect.Client[v1alpha1.ListProxyResourcesRequest, v1alpha1.ListProxyResourcesResponse]
 }
 
 // CreateProxyRdsResource calls
@@ -317,28 +317,28 @@ func (c *proxyServiceClient) GetProxyEksClusterResource(ctx context.Context, req
 	return c.getProxyEksClusterResource.CallUnary(ctx, req)
 }
 
-// CreateProxyEksServiceAccount calls
-// commonfate.control.integration.v1alpha1.ProxyService.CreateProxyEksServiceAccount.
-func (c *proxyServiceClient) CreateProxyEksServiceAccount(ctx context.Context, req *connect.Request[v1alpha1.CreateProxyEksServiceAccountRequest]) (*connect.Response[v1alpha1.CreateProxyEksServiceAccountResponse], error) {
-	return c.createProxyEksServiceAccount.CallUnary(ctx, req)
+// CreateProxyEksServiceAccountResource calls
+// commonfate.control.integration.v1alpha1.ProxyService.CreateProxyEksServiceAccountResource.
+func (c *proxyServiceClient) CreateProxyEksServiceAccountResource(ctx context.Context, req *connect.Request[v1alpha1.CreateProxyEksServiceAccountResourceRequest]) (*connect.Response[v1alpha1.CreateProxyEksServiceAccountResourceResponse], error) {
+	return c.createProxyEksServiceAccountResource.CallUnary(ctx, req)
 }
 
-// UpdateProxyEksServiceAccount calls
-// commonfate.control.integration.v1alpha1.ProxyService.UpdateProxyEksServiceAccount.
-func (c *proxyServiceClient) UpdateProxyEksServiceAccount(ctx context.Context, req *connect.Request[v1alpha1.UpdateProxyEksServiceAccountRequest]) (*connect.Response[v1alpha1.UpdateProxyEksServiceAccountResponse], error) {
-	return c.updateProxyEksServiceAccount.CallUnary(ctx, req)
+// UpdateProxyEksServiceAccountResource calls
+// commonfate.control.integration.v1alpha1.ProxyService.UpdateProxyEksServiceAccountResource.
+func (c *proxyServiceClient) UpdateProxyEksServiceAccountResource(ctx context.Context, req *connect.Request[v1alpha1.UpdateProxyEksServiceAccountResourceRequest]) (*connect.Response[v1alpha1.UpdateProxyEksServiceAccountResourceResponse], error) {
+	return c.updateProxyEksServiceAccountResource.CallUnary(ctx, req)
 }
 
-// DeleteProxyEksServiceAccount calls
-// commonfate.control.integration.v1alpha1.ProxyService.DeleteProxyEksServiceAccount.
-func (c *proxyServiceClient) DeleteProxyEksServiceAccount(ctx context.Context, req *connect.Request[v1alpha1.DeleteProxyEksServiceAccountRequest]) (*connect.Response[v1alpha1.DeleteProxyEksServiceAccountResponse], error) {
-	return c.deleteProxyEksServiceAccount.CallUnary(ctx, req)
+// DeleteProxyEksServiceAccountResource calls
+// commonfate.control.integration.v1alpha1.ProxyService.DeleteProxyEksServiceAccountResource.
+func (c *proxyServiceClient) DeleteProxyEksServiceAccountResource(ctx context.Context, req *connect.Request[v1alpha1.DeleteProxyEksServiceAccountResourceRequest]) (*connect.Response[v1alpha1.DeleteProxyEksServiceAccountResourceResponse], error) {
+	return c.deleteProxyEksServiceAccountResource.CallUnary(ctx, req)
 }
 
-// GetProxyEksServiceAccount calls
-// commonfate.control.integration.v1alpha1.ProxyService.GetProxyEksServiceAccount.
-func (c *proxyServiceClient) GetProxyEksServiceAccount(ctx context.Context, req *connect.Request[v1alpha1.GetProxyEksServiceAccountRequest]) (*connect.Response[v1alpha1.GetProxyEksServiceAccountResponse], error) {
-	return c.getProxyEksServiceAccount.CallUnary(ctx, req)
+// GetProxyEksServiceAccountResource calls
+// commonfate.control.integration.v1alpha1.ProxyService.GetProxyEksServiceAccountResource.
+func (c *proxyServiceClient) GetProxyEksServiceAccountResource(ctx context.Context, req *connect.Request[v1alpha1.GetProxyEksServiceAccountResourceRequest]) (*connect.Response[v1alpha1.GetProxyEksServiceAccountResourceResponse], error) {
+	return c.getProxyEksServiceAccountResource.CallUnary(ctx, req)
 }
 
 // CreateProxy calls commonfate.control.integration.v1alpha1.ProxyService.CreateProxy.
@@ -378,10 +378,10 @@ type ProxyServiceHandler interface {
 	UpdateProxyEksClusterResource(context.Context, *connect.Request[v1alpha1.UpdateProxyEksClusterResourceRequest]) (*connect.Response[v1alpha1.UpdateProxyEksClusterResourceResponse], error)
 	DeleteProxyEksClusterResource(context.Context, *connect.Request[v1alpha1.DeleteProxyEksClusterResourceRequest]) (*connect.Response[v1alpha1.DeleteProxyEksClusterResourceResponse], error)
 	GetProxyEksClusterResource(context.Context, *connect.Request[v1alpha1.GetProxyEksClusterResourceRequest]) (*connect.Response[v1alpha1.GetProxyEksClusterResourceResponse], error)
-	CreateProxyEksServiceAccount(context.Context, *connect.Request[v1alpha1.CreateProxyEksServiceAccountRequest]) (*connect.Response[v1alpha1.CreateProxyEksServiceAccountResponse], error)
-	UpdateProxyEksServiceAccount(context.Context, *connect.Request[v1alpha1.UpdateProxyEksServiceAccountRequest]) (*connect.Response[v1alpha1.UpdateProxyEksServiceAccountResponse], error)
-	DeleteProxyEksServiceAccount(context.Context, *connect.Request[v1alpha1.DeleteProxyEksServiceAccountRequest]) (*connect.Response[v1alpha1.DeleteProxyEksServiceAccountResponse], error)
-	GetProxyEksServiceAccount(context.Context, *connect.Request[v1alpha1.GetProxyEksServiceAccountRequest]) (*connect.Response[v1alpha1.GetProxyEksServiceAccountResponse], error)
+	CreateProxyEksServiceAccountResource(context.Context, *connect.Request[v1alpha1.CreateProxyEksServiceAccountResourceRequest]) (*connect.Response[v1alpha1.CreateProxyEksServiceAccountResourceResponse], error)
+	UpdateProxyEksServiceAccountResource(context.Context, *connect.Request[v1alpha1.UpdateProxyEksServiceAccountResourceRequest]) (*connect.Response[v1alpha1.UpdateProxyEksServiceAccountResourceResponse], error)
+	DeleteProxyEksServiceAccountResource(context.Context, *connect.Request[v1alpha1.DeleteProxyEksServiceAccountResourceRequest]) (*connect.Response[v1alpha1.DeleteProxyEksServiceAccountResourceResponse], error)
+	GetProxyEksServiceAccountResource(context.Context, *connect.Request[v1alpha1.GetProxyEksServiceAccountResourceRequest]) (*connect.Response[v1alpha1.GetProxyEksServiceAccountResourceResponse], error)
 	// CRUD operations for proxy terraform provider resource
 	CreateProxy(context.Context, *connect.Request[v1alpha1.CreateProxyRequest]) (*connect.Response[v1alpha1.CreateProxyResponse], error)
 	UpdateProxy(context.Context, *connect.Request[v1alpha1.UpdateProxyRequest]) (*connect.Response[v1alpha1.UpdateProxyResponse], error)
@@ -445,28 +445,28 @@ func NewProxyServiceHandler(svc ProxyServiceHandler, opts ...connect.HandlerOpti
 		connect.WithSchema(proxyServiceGetProxyEksClusterResourceMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
-	proxyServiceCreateProxyEksServiceAccountHandler := connect.NewUnaryHandler(
-		ProxyServiceCreateProxyEksServiceAccountProcedure,
-		svc.CreateProxyEksServiceAccount,
-		connect.WithSchema(proxyServiceCreateProxyEksServiceAccountMethodDescriptor),
+	proxyServiceCreateProxyEksServiceAccountResourceHandler := connect.NewUnaryHandler(
+		ProxyServiceCreateProxyEksServiceAccountResourceProcedure,
+		svc.CreateProxyEksServiceAccountResource,
+		connect.WithSchema(proxyServiceCreateProxyEksServiceAccountResourceMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
-	proxyServiceUpdateProxyEksServiceAccountHandler := connect.NewUnaryHandler(
-		ProxyServiceUpdateProxyEksServiceAccountProcedure,
-		svc.UpdateProxyEksServiceAccount,
-		connect.WithSchema(proxyServiceUpdateProxyEksServiceAccountMethodDescriptor),
+	proxyServiceUpdateProxyEksServiceAccountResourceHandler := connect.NewUnaryHandler(
+		ProxyServiceUpdateProxyEksServiceAccountResourceProcedure,
+		svc.UpdateProxyEksServiceAccountResource,
+		connect.WithSchema(proxyServiceUpdateProxyEksServiceAccountResourceMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
-	proxyServiceDeleteProxyEksServiceAccountHandler := connect.NewUnaryHandler(
-		ProxyServiceDeleteProxyEksServiceAccountProcedure,
-		svc.DeleteProxyEksServiceAccount,
-		connect.WithSchema(proxyServiceDeleteProxyEksServiceAccountMethodDescriptor),
+	proxyServiceDeleteProxyEksServiceAccountResourceHandler := connect.NewUnaryHandler(
+		ProxyServiceDeleteProxyEksServiceAccountResourceProcedure,
+		svc.DeleteProxyEksServiceAccountResource,
+		connect.WithSchema(proxyServiceDeleteProxyEksServiceAccountResourceMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
-	proxyServiceGetProxyEksServiceAccountHandler := connect.NewUnaryHandler(
-		ProxyServiceGetProxyEksServiceAccountProcedure,
-		svc.GetProxyEksServiceAccount,
-		connect.WithSchema(proxyServiceGetProxyEksServiceAccountMethodDescriptor),
+	proxyServiceGetProxyEksServiceAccountResourceHandler := connect.NewUnaryHandler(
+		ProxyServiceGetProxyEksServiceAccountResourceProcedure,
+		svc.GetProxyEksServiceAccountResource,
+		connect.WithSchema(proxyServiceGetProxyEksServiceAccountResourceMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
 	proxyServiceCreateProxyHandler := connect.NewUnaryHandler(
@@ -517,14 +517,14 @@ func NewProxyServiceHandler(svc ProxyServiceHandler, opts ...connect.HandlerOpti
 			proxyServiceDeleteProxyEksClusterResourceHandler.ServeHTTP(w, r)
 		case ProxyServiceGetProxyEksClusterResourceProcedure:
 			proxyServiceGetProxyEksClusterResourceHandler.ServeHTTP(w, r)
-		case ProxyServiceCreateProxyEksServiceAccountProcedure:
-			proxyServiceCreateProxyEksServiceAccountHandler.ServeHTTP(w, r)
-		case ProxyServiceUpdateProxyEksServiceAccountProcedure:
-			proxyServiceUpdateProxyEksServiceAccountHandler.ServeHTTP(w, r)
-		case ProxyServiceDeleteProxyEksServiceAccountProcedure:
-			proxyServiceDeleteProxyEksServiceAccountHandler.ServeHTTP(w, r)
-		case ProxyServiceGetProxyEksServiceAccountProcedure:
-			proxyServiceGetProxyEksServiceAccountHandler.ServeHTTP(w, r)
+		case ProxyServiceCreateProxyEksServiceAccountResourceProcedure:
+			proxyServiceCreateProxyEksServiceAccountResourceHandler.ServeHTTP(w, r)
+		case ProxyServiceUpdateProxyEksServiceAccountResourceProcedure:
+			proxyServiceUpdateProxyEksServiceAccountResourceHandler.ServeHTTP(w, r)
+		case ProxyServiceDeleteProxyEksServiceAccountResourceProcedure:
+			proxyServiceDeleteProxyEksServiceAccountResourceHandler.ServeHTTP(w, r)
+		case ProxyServiceGetProxyEksServiceAccountResourceProcedure:
+			proxyServiceGetProxyEksServiceAccountResourceHandler.ServeHTTP(w, r)
 		case ProxyServiceCreateProxyProcedure:
 			proxyServiceCreateProxyHandler.ServeHTTP(w, r)
 		case ProxyServiceUpdateProxyProcedure:
@@ -576,20 +576,20 @@ func (UnimplementedProxyServiceHandler) GetProxyEksClusterResource(context.Conte
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.control.integration.v1alpha1.ProxyService.GetProxyEksClusterResource is not implemented"))
 }
 
-func (UnimplementedProxyServiceHandler) CreateProxyEksServiceAccount(context.Context, *connect.Request[v1alpha1.CreateProxyEksServiceAccountRequest]) (*connect.Response[v1alpha1.CreateProxyEksServiceAccountResponse], error) {
-	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.control.integration.v1alpha1.ProxyService.CreateProxyEksServiceAccount is not implemented"))
+func (UnimplementedProxyServiceHandler) CreateProxyEksServiceAccountResource(context.Context, *connect.Request[v1alpha1.CreateProxyEksServiceAccountResourceRequest]) (*connect.Response[v1alpha1.CreateProxyEksServiceAccountResourceResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.control.integration.v1alpha1.ProxyService.CreateProxyEksServiceAccountResource is not implemented"))
 }
 
-func (UnimplementedProxyServiceHandler) UpdateProxyEksServiceAccount(context.Context, *connect.Request[v1alpha1.UpdateProxyEksServiceAccountRequest]) (*connect.Response[v1alpha1.UpdateProxyEksServiceAccountResponse], error) {
-	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.control.integration.v1alpha1.ProxyService.UpdateProxyEksServiceAccount is not implemented"))
+func (UnimplementedProxyServiceHandler) UpdateProxyEksServiceAccountResource(context.Context, *connect.Request[v1alpha1.UpdateProxyEksServiceAccountResourceRequest]) (*connect.Response[v1alpha1.UpdateProxyEksServiceAccountResourceResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.control.integration.v1alpha1.ProxyService.UpdateProxyEksServiceAccountResource is not implemented"))
 }
 
-func (UnimplementedProxyServiceHandler) DeleteProxyEksServiceAccount(context.Context, *connect.Request[v1alpha1.DeleteProxyEksServiceAccountRequest]) (*connect.Response[v1alpha1.DeleteProxyEksServiceAccountResponse], error) {
-	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.control.integration.v1alpha1.ProxyService.DeleteProxyEksServiceAccount is not implemented"))
+func (UnimplementedProxyServiceHandler) DeleteProxyEksServiceAccountResource(context.Context, *connect.Request[v1alpha1.DeleteProxyEksServiceAccountResourceRequest]) (*connect.Response[v1alpha1.DeleteProxyEksServiceAccountResourceResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.control.integration.v1alpha1.ProxyService.DeleteProxyEksServiceAccountResource is not implemented"))
 }
 
-func (UnimplementedProxyServiceHandler) GetProxyEksServiceAccount(context.Context, *connect.Request[v1alpha1.GetProxyEksServiceAccountRequest]) (*connect.Response[v1alpha1.GetProxyEksServiceAccountResponse], error) {
-	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.control.integration.v1alpha1.ProxyService.GetProxyEksServiceAccount is not implemented"))
+func (UnimplementedProxyServiceHandler) GetProxyEksServiceAccountResource(context.Context, *connect.Request[v1alpha1.GetProxyEksServiceAccountResourceRequest]) (*connect.Response[v1alpha1.GetProxyEksServiceAccountResourceResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.control.integration.v1alpha1.ProxyService.GetProxyEksServiceAccountResource is not implemented"))
 }
 
 func (UnimplementedProxyServiceHandler) CreateProxy(context.Context, *connect.Request[v1alpha1.CreateProxyRequest]) (*connect.Response[v1alpha1.CreateProxyResponse], error) {
