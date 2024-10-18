@@ -744,6 +744,47 @@ func (m *GetGrantOutputResponse) validate(all bool) error {
 			}
 		}
 
+	case *GetGrantOutputResponse_OutputAwsEksProxy:
+		if v == nil {
+			err := GetGrantOutputResponseValidationError{
+				field:  "Output",
+				reason: "oneof value cannot be a typed-nil",
+			}
+			if !all {
+				return err
+			}
+			errors = append(errors, err)
+		}
+
+		if all {
+			switch v := interface{}(m.GetOutputAwsEksProxy()).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, GetGrantOutputResponseValidationError{
+						field:  "OutputAwsEksProxy",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, GetGrantOutputResponseValidationError{
+						field:  "OutputAwsEksProxy",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(m.GetOutputAwsEksProxy()).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return GetGrantOutputResponseValidationError{
+					field:  "OutputAwsEksProxy",
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
 	default:
 		_ = v // ensures v is used
 	}
@@ -827,6 +868,286 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = GetGrantOutputResponseValidationError{}
+
+// Validate checks the field values on AWSEKSProxyOutput with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// first error encountered is returned, or nil if there are no violations.
+func (m *AWSEKSProxyOutput) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on AWSEKSProxyOutput with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// AWSEKSProxyOutputMultiError, or nil if none found.
+func (m *AWSEKSProxyOutput) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *AWSEKSProxyOutput) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if all {
+		switch v := interface{}(m.GetGrant()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, AWSEKSProxyOutputValidationError{
+					field:  "Grant",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, AWSEKSProxyOutputValidationError{
+					field:  "Grant",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetGrant()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return AWSEKSProxyOutputValidationError{
+				field:  "Grant",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	// no validation rules for SsoStartUrl
+
+	// no validation rules for SsoRoleName
+
+	// no validation rules for SsoRegion
+
+	if all {
+		switch v := interface{}(m.GetEksCluster()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, AWSEKSProxyOutputValidationError{
+					field:  "EksCluster",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, AWSEKSProxyOutputValidationError{
+					field:  "EksCluster",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetEksCluster()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return AWSEKSProxyOutputValidationError{
+				field:  "EksCluster",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	// no validation rules for SsmSessionTarget
+
+	// no validation rules for PermissionSetArn
+
+	// no validation rules for ServiceAccountName
+
+	if len(errors) > 0 {
+		return AWSEKSProxyOutputMultiError(errors)
+	}
+
+	return nil
+}
+
+// AWSEKSProxyOutputMultiError is an error wrapping multiple validation errors
+// returned by AWSEKSProxyOutput.ValidateAll() if the designated constraints
+// aren't met.
+type AWSEKSProxyOutputMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m AWSEKSProxyOutputMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m AWSEKSProxyOutputMultiError) AllErrors() []error { return m }
+
+// AWSEKSProxyOutputValidationError is the validation error returned by
+// AWSEKSProxyOutput.Validate if the designated constraints aren't met.
+type AWSEKSProxyOutputValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e AWSEKSProxyOutputValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e AWSEKSProxyOutputValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e AWSEKSProxyOutputValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e AWSEKSProxyOutputValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e AWSEKSProxyOutputValidationError) ErrorName() string {
+	return "AWSEKSProxyOutputValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e AWSEKSProxyOutputValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sAWSEKSProxyOutput.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = AWSEKSProxyOutputValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = AWSEKSProxyOutputValidationError{}
+
+// Validate checks the field values on AWSEKSCluster with the rules defined in
+// the proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *AWSEKSCluster) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on AWSEKSCluster with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in AWSEKSClusterMultiError, or
+// nil if none found.
+func (m *AWSEKSCluster) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *AWSEKSCluster) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Id
+
+	// no validation rules for Name
+
+	// no validation rules for Region
+
+	// no validation rules for AccountId
+
+	if len(errors) > 0 {
+		return AWSEKSClusterMultiError(errors)
+	}
+
+	return nil
+}
+
+// AWSEKSClusterMultiError is an error wrapping multiple validation errors
+// returned by AWSEKSCluster.ValidateAll() if the designated constraints
+// aren't met.
+type AWSEKSClusterMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m AWSEKSClusterMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m AWSEKSClusterMultiError) AllErrors() []error { return m }
+
+// AWSEKSClusterValidationError is the validation error returned by
+// AWSEKSCluster.Validate if the designated constraints aren't met.
+type AWSEKSClusterValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e AWSEKSClusterValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e AWSEKSClusterValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e AWSEKSClusterValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e AWSEKSClusterValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e AWSEKSClusterValidationError) ErrorName() string { return "AWSEKSClusterValidationError" }
+
+// Error satisfies the builtin error interface
+func (e AWSEKSClusterValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sAWSEKSCluster.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = AWSEKSClusterValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = AWSEKSClusterValidationError{}
 
 // Validate checks the field values on AWSRDSOutput with the rules defined in
 // the proto definition for this message. If any rules are violated, the first

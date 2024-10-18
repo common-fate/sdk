@@ -2,13 +2,6 @@ syntax = "proto3";
 package commonfate.control.integration.v1alpha1;
 
 message AWSProxy {
-  // Deprecated, aws_integration_id is used instead
-  string idc_provisioner_role_arn = 1;
-  // Deprecated, aws_integration_id is used instead
-  string idc_instance_arn = 2;
-  // Deprecated, aws_integration_id is used instead
-  string idc_region = 3;
-
   oneof instance_config {
     AWSECSProxyInstanceConfig aws_ecs_proxy_instance_config = 4;
     // @TODO consider adding support for running the proxy on ec2 here

@@ -14,6 +14,20 @@ service ProxyService {
     option (commonfate.authz.v1alpha1.read_only) = true;
   }
 
+  rpc CreateProxyEksClusterResource(CreateProxyEksClusterResourceRequest) returns (CreateProxyEksClusterResourceResponse) {}
+  rpc UpdateProxyEksClusterResource(UpdateProxyEksClusterResourceRequest) returns (UpdateProxyEksClusterResourceResponse) {}
+  rpc DeleteProxyEksClusterResource(DeleteProxyEksClusterResourceRequest) returns (DeleteProxyEksClusterResourceResponse) {}
+  rpc GetProxyEksClusterResource(GetProxyEksClusterResourceRequest) returns (GetProxyEksClusterResourceResponse) {
+    option (commonfate.authz.v1alpha1.read_only) = true;
+  }
+
+  rpc CreateProxyEksServiceAccountResource(CreateProxyEksServiceAccountResourceRequest) returns (CreateProxyEksServiceAccountResourceResponse) {}
+  rpc UpdateProxyEksServiceAccountResource(UpdateProxyEksServiceAccountResourceRequest) returns (UpdateProxyEksServiceAccountResourceResponse) {}
+  rpc DeleteProxyEksServiceAccountResource(DeleteProxyEksServiceAccountResourceRequest) returns (DeleteProxyEksServiceAccountResourceResponse) {}
+  rpc GetProxyEksServiceAccountResource(GetProxyEksServiceAccountResourceRequest) returns (GetProxyEksServiceAccountResourceResponse) {
+    option (commonfate.authz.v1alpha1.read_only) = true;
+  }
+
   //CRUD operations for proxy terraform provider resource
   rpc CreateProxy(CreateProxyRequest) returns (CreateProxyResponse) {}
   rpc UpdateProxy(UpdateProxyRequest) returns (UpdateProxyResponse) {}
@@ -127,5 +141,83 @@ message DeleteProxyRdsResourceRequest {
 }
 
 message DeleteProxyRdsResourceResponse {
+  string id = 1;
+}
+
+message CreateProxyEksClusterResourceRequest {
+  string proxy_id = 1;
+  AWSEKSCluster eks_cluster = 2;
+}
+
+message CreateProxyEksClusterResourceResponse {
+  string id = 1;
+  string proxy_id = 2;
+  AWSEKSCluster eks_cluster = 3;
+}
+
+message GetProxyEksClusterResourceRequest {
+  string id = 1;
+}
+
+message GetProxyEksClusterResourceResponse {
+  string id = 1;
+  AWSEKSCluster eks_cluster = 2;
+}
+
+message UpdateProxyEksClusterResourceRequest {
+  string id = 1;
+  string proxy_id = 2;
+
+  AWSEKSCluster eks_cluster = 3;
+}
+
+message UpdateProxyEksClusterResourceResponse {
+  string id = 1;
+  string proxy_id = 2;
+
+  AWSEKSCluster eks_cluster = 3;
+}
+
+message DeleteProxyEksClusterResourceRequest {
+  string id = 1;
+}
+
+message DeleteProxyEksClusterResourceResponse {
+  string id = 1;
+}
+
+message CreateProxyEksServiceAccountResourceRequest {
+  AWSEKSServiceAccount service_account = 1;
+}
+
+message CreateProxyEksServiceAccountResourceResponse {
+  string id = 1;
+  AWSEKSServiceAccount service_account = 2;
+}
+
+message GetProxyEksServiceAccountResourceRequest {
+  string id = 1;
+}
+
+message GetProxyEksServiceAccountResourceResponse {
+  string id = 1;
+  AWSEKSServiceAccount service_account = 2;
+}
+
+message UpdateProxyEksServiceAccountResourceRequest {
+  string id = 1;
+  AWSEKSServiceAccount service_account = 2;
+}
+
+message UpdateProxyEksServiceAccountResourceResponse {
+  string id = 1;
+  AWSEKSServiceAccount service_account = 2;
+}
+
+message DeleteProxyEksServiceAccountResourceRequest {
+  string id = 1;
+}
+
+message DeleteProxyEksServiceAccountResourceResponse {
   string id = 1;
 }

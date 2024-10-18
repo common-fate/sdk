@@ -57,7 +57,25 @@ message GetGrantOutputResponse {
     commonfate.entity.v1alpha1.Entity output_entity = 1;
     AWSRDSOutput output_aws_rds = 2;
     AWSDynamicRoleOutput output_aws_dynamic_role = 3;
+    AWSEKSProxyOutput output_aws_eks_proxy = 4;
   }
+}
+
+message AWSEKSProxyOutput {
+  commonfate.entity.v1alpha1.EID grant = 1;
+  string sso_start_url = 2;
+  string sso_role_name = 3;
+  string sso_region = 4;
+  AWSEKSCluster eks_cluster = 5;
+  string ssm_session_target = 6;
+  string permission_set_arn = 7;
+  string service_account_name = 8;
+}
+message AWSEKSCluster {
+  string id = 1;
+  string name = 2;
+  string region = 3;
+  string account_id = 4;
 }
 
 message AWSRDSOutput {
