@@ -3394,8 +3394,6 @@ func (m *CreateProxyEksServiceAccountResourceRequest) validate(all bool) error {
 
 	var errors []error
 
-	// no validation rules for ProxyId
-
 	if all {
 		switch v := interface{}(m.GetServiceAccount()).(type) {
 		case interface{ ValidateAll() error }:
@@ -3532,8 +3530,6 @@ func (m *CreateProxyEksServiceAccountResourceResponse) validate(all bool) error 
 	var errors []error
 
 	// no validation rules for Id
-
-	// no validation rules for ProxyId
 
 	if all {
 		switch v := interface{}(m.GetServiceAccount()).(type) {
@@ -3918,8 +3914,6 @@ func (m *UpdateProxyEksServiceAccountResourceRequest) validate(all bool) error {
 
 	// no validation rules for Id
 
-	// no validation rules for ProxyId
-
 	if all {
 		switch v := interface{}(m.GetServiceAccount()).(type) {
 		case interface{ ValidateAll() error }:
@@ -4056,8 +4050,6 @@ func (m *UpdateProxyEksServiceAccountResourceResponse) validate(all bool) error 
 	var errors []error
 
 	// no validation rules for Id
-
-	// no validation rules for ProxyId
 
 	if all {
 		switch v := interface{}(m.GetServiceAccount()).(type) {

@@ -187,14 +187,12 @@ message DeleteProxyEksClusterResourceResponse {
 }
 
 message CreateProxyEksServiceAccountResourceRequest {
-  string proxy_id = 1;
-  AWSEKSServiceAccount service_account = 2;
+  AWSEKSServiceAccount service_account = 1;
 }
 
 message CreateProxyEksServiceAccountResourceResponse {
   string id = 1;
-  string proxy_id = 2;
-  AWSEKSServiceAccount service_account = 3;
+  AWSEKSServiceAccount service_account = 2;
 }
 
 message GetProxyEksServiceAccountResourceRequest {
@@ -208,16 +206,12 @@ message GetProxyEksServiceAccountResourceResponse {
 
 message UpdateProxyEksServiceAccountResourceRequest {
   string id = 1;
-  string proxy_id = 2;
-
-  AWSEKSServiceAccount service_account = 3;
+  AWSEKSServiceAccount service_account = 2;
 }
 
 message UpdateProxyEksServiceAccountResourceResponse {
   string id = 1;
-  string proxy_id = 2;
-
-  AWSEKSServiceAccount service_account = 3;
+  AWSEKSServiceAccount service_account = 2;
 }
 
 message DeleteProxyEksServiceAccountResourceRequest {
