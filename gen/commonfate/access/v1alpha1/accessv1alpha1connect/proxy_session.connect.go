@@ -48,16 +48,32 @@ const (
 	// ProxySessionServiceGetSessionProcedure is the fully-qualified name of the ProxySessionService's
 	// GetSession RPC.
 	ProxySessionServiceGetSessionProcedure = "/commonfate.access.v1alpha1.ProxySessionService/GetSession"
+	// ProxySessionServiceStartShellSessionProcedure is the fully-qualified name of the
+	// ProxySessionService's StartShellSession RPC.
+	ProxySessionServiceStartShellSessionProcedure = "/commonfate.access.v1alpha1.ProxySessionService/StartShellSession"
+	// ProxySessionServiceEndShellSessionProcedure is the fully-qualified name of the
+	// ProxySessionService's EndShellSession RPC.
+	ProxySessionServiceEndShellSessionProcedure = "/commonfate.access.v1alpha1.ProxySessionService/EndShellSession"
+	// ProxySessionServicePutShellSessionChunkProcedure is the fully-qualified name of the
+	// ProxySessionService's PutShellSessionChunk RPC.
+	ProxySessionServicePutShellSessionChunkProcedure = "/commonfate.access.v1alpha1.ProxySessionService/PutShellSessionChunk"
+	// ProxySessionServiceGetShellSessionProcedure is the fully-qualified name of the
+	// ProxySessionService's GetShellSession RPC.
+	ProxySessionServiceGetShellSessionProcedure = "/commonfate.access.v1alpha1.ProxySessionService/GetShellSession"
 )
 
 // These variables are the protoreflect.Descriptor objects for the RPCs defined in this package.
 var (
-	proxySessionServiceServiceDescriptor                = v1alpha1.File_commonfate_access_v1alpha1_proxy_session_proto.Services().ByName("ProxySessionService")
-	proxySessionServiceStartSessionMethodDescriptor     = proxySessionServiceServiceDescriptor.Methods().ByName("StartSession")
-	proxySessionServiceEndSessionMethodDescriptor       = proxySessionServiceServiceDescriptor.Methods().ByName("EndSession")
-	proxySessionServicePutSessionLogMethodDescriptor    = proxySessionServiceServiceDescriptor.Methods().ByName("PutSessionLog")
-	proxySessionServiceQuerySessionLogsMethodDescriptor = proxySessionServiceServiceDescriptor.Methods().ByName("QuerySessionLogs")
-	proxySessionServiceGetSessionMethodDescriptor       = proxySessionServiceServiceDescriptor.Methods().ByName("GetSession")
+	proxySessionServiceServiceDescriptor                    = v1alpha1.File_commonfate_access_v1alpha1_proxy_session_proto.Services().ByName("ProxySessionService")
+	proxySessionServiceStartSessionMethodDescriptor         = proxySessionServiceServiceDescriptor.Methods().ByName("StartSession")
+	proxySessionServiceEndSessionMethodDescriptor           = proxySessionServiceServiceDescriptor.Methods().ByName("EndSession")
+	proxySessionServicePutSessionLogMethodDescriptor        = proxySessionServiceServiceDescriptor.Methods().ByName("PutSessionLog")
+	proxySessionServiceQuerySessionLogsMethodDescriptor     = proxySessionServiceServiceDescriptor.Methods().ByName("QuerySessionLogs")
+	proxySessionServiceGetSessionMethodDescriptor           = proxySessionServiceServiceDescriptor.Methods().ByName("GetSession")
+	proxySessionServiceStartShellSessionMethodDescriptor    = proxySessionServiceServiceDescriptor.Methods().ByName("StartShellSession")
+	proxySessionServiceEndShellSessionMethodDescriptor      = proxySessionServiceServiceDescriptor.Methods().ByName("EndShellSession")
+	proxySessionServicePutShellSessionChunkMethodDescriptor = proxySessionServiceServiceDescriptor.Methods().ByName("PutShellSessionChunk")
+	proxySessionServiceGetShellSessionMethodDescriptor      = proxySessionServiceServiceDescriptor.Methods().ByName("GetShellSession")
 )
 
 // ProxySessionServiceClient is a client for the commonfate.access.v1alpha1.ProxySessionService
@@ -68,6 +84,10 @@ type ProxySessionServiceClient interface {
 	PutSessionLog(context.Context, *connect.Request[v1alpha1.PutSessionLogRequest]) (*connect.Response[v1alpha1.PutSessionLogResponse], error)
 	QuerySessionLogs(context.Context, *connect.Request[v1alpha1.QuerySessionLogsRequest]) (*connect.Response[v1alpha1.QuerySessionLogsResponse], error)
 	GetSession(context.Context, *connect.Request[v1alpha1.GetSessionRequest]) (*connect.Response[v1alpha1.GetSessionResponse], error)
+	StartShellSession(context.Context, *connect.Request[v1alpha1.StartShellSessionRequest]) (*connect.Response[v1alpha1.StartShellSessionResponse], error)
+	EndShellSession(context.Context, *connect.Request[v1alpha1.EndShellSessionRequest]) (*connect.Response[v1alpha1.EndShellSessionResponse], error)
+	PutShellSessionChunk(context.Context, *connect.Request[v1alpha1.PutShellSessionChunkRequest]) (*connect.Response[v1alpha1.PutShellSessionChunkResponse], error)
+	GetShellSession(context.Context, *connect.Request[v1alpha1.GetShellSessionRequest]) (*connect.Response[v1alpha1.GetShellSessionResponse], error)
 }
 
 // NewProxySessionServiceClient constructs a client for the
@@ -111,16 +131,44 @@ func NewProxySessionServiceClient(httpClient connect.HTTPClient, baseURL string,
 			connect.WithSchema(proxySessionServiceGetSessionMethodDescriptor),
 			connect.WithClientOptions(opts...),
 		),
+		startShellSession: connect.NewClient[v1alpha1.StartShellSessionRequest, v1alpha1.StartShellSessionResponse](
+			httpClient,
+			baseURL+ProxySessionServiceStartShellSessionProcedure,
+			connect.WithSchema(proxySessionServiceStartShellSessionMethodDescriptor),
+			connect.WithClientOptions(opts...),
+		),
+		endShellSession: connect.NewClient[v1alpha1.EndShellSessionRequest, v1alpha1.EndShellSessionResponse](
+			httpClient,
+			baseURL+ProxySessionServiceEndShellSessionProcedure,
+			connect.WithSchema(proxySessionServiceEndShellSessionMethodDescriptor),
+			connect.WithClientOptions(opts...),
+		),
+		putShellSessionChunk: connect.NewClient[v1alpha1.PutShellSessionChunkRequest, v1alpha1.PutShellSessionChunkResponse](
+			httpClient,
+			baseURL+ProxySessionServicePutShellSessionChunkProcedure,
+			connect.WithSchema(proxySessionServicePutShellSessionChunkMethodDescriptor),
+			connect.WithClientOptions(opts...),
+		),
+		getShellSession: connect.NewClient[v1alpha1.GetShellSessionRequest, v1alpha1.GetShellSessionResponse](
+			httpClient,
+			baseURL+ProxySessionServiceGetShellSessionProcedure,
+			connect.WithSchema(proxySessionServiceGetShellSessionMethodDescriptor),
+			connect.WithClientOptions(opts...),
+		),
 	}
 }
 
 // proxySessionServiceClient implements ProxySessionServiceClient.
 type proxySessionServiceClient struct {
-	startSession     *connect.Client[v1alpha1.StartSessionRequest, v1alpha1.StartSessionResponse]
-	endSession       *connect.Client[v1alpha1.EndSessionRequest, v1alpha1.EndSessionResponse]
-	putSessionLog    *connect.Client[v1alpha1.PutSessionLogRequest, v1alpha1.PutSessionLogResponse]
-	querySessionLogs *connect.Client[v1alpha1.QuerySessionLogsRequest, v1alpha1.QuerySessionLogsResponse]
-	getSession       *connect.Client[v1alpha1.GetSessionRequest, v1alpha1.GetSessionResponse]
+	startSession         *connect.Client[v1alpha1.StartSessionRequest, v1alpha1.StartSessionResponse]
+	endSession           *connect.Client[v1alpha1.EndSessionRequest, v1alpha1.EndSessionResponse]
+	putSessionLog        *connect.Client[v1alpha1.PutSessionLogRequest, v1alpha1.PutSessionLogResponse]
+	querySessionLogs     *connect.Client[v1alpha1.QuerySessionLogsRequest, v1alpha1.QuerySessionLogsResponse]
+	getSession           *connect.Client[v1alpha1.GetSessionRequest, v1alpha1.GetSessionResponse]
+	startShellSession    *connect.Client[v1alpha1.StartShellSessionRequest, v1alpha1.StartShellSessionResponse]
+	endShellSession      *connect.Client[v1alpha1.EndShellSessionRequest, v1alpha1.EndShellSessionResponse]
+	putShellSessionChunk *connect.Client[v1alpha1.PutShellSessionChunkRequest, v1alpha1.PutShellSessionChunkResponse]
+	getShellSession      *connect.Client[v1alpha1.GetShellSessionRequest, v1alpha1.GetShellSessionResponse]
 }
 
 // StartSession calls commonfate.access.v1alpha1.ProxySessionService.StartSession.
@@ -148,6 +196,26 @@ func (c *proxySessionServiceClient) GetSession(ctx context.Context, req *connect
 	return c.getSession.CallUnary(ctx, req)
 }
 
+// StartShellSession calls commonfate.access.v1alpha1.ProxySessionService.StartShellSession.
+func (c *proxySessionServiceClient) StartShellSession(ctx context.Context, req *connect.Request[v1alpha1.StartShellSessionRequest]) (*connect.Response[v1alpha1.StartShellSessionResponse], error) {
+	return c.startShellSession.CallUnary(ctx, req)
+}
+
+// EndShellSession calls commonfate.access.v1alpha1.ProxySessionService.EndShellSession.
+func (c *proxySessionServiceClient) EndShellSession(ctx context.Context, req *connect.Request[v1alpha1.EndShellSessionRequest]) (*connect.Response[v1alpha1.EndShellSessionResponse], error) {
+	return c.endShellSession.CallUnary(ctx, req)
+}
+
+// PutShellSessionChunk calls commonfate.access.v1alpha1.ProxySessionService.PutShellSessionChunk.
+func (c *proxySessionServiceClient) PutShellSessionChunk(ctx context.Context, req *connect.Request[v1alpha1.PutShellSessionChunkRequest]) (*connect.Response[v1alpha1.PutShellSessionChunkResponse], error) {
+	return c.putShellSessionChunk.CallUnary(ctx, req)
+}
+
+// GetShellSession calls commonfate.access.v1alpha1.ProxySessionService.GetShellSession.
+func (c *proxySessionServiceClient) GetShellSession(ctx context.Context, req *connect.Request[v1alpha1.GetShellSessionRequest]) (*connect.Response[v1alpha1.GetShellSessionResponse], error) {
+	return c.getShellSession.CallUnary(ctx, req)
+}
+
 // ProxySessionServiceHandler is an implementation of the
 // commonfate.access.v1alpha1.ProxySessionService service.
 type ProxySessionServiceHandler interface {
@@ -156,6 +224,10 @@ type ProxySessionServiceHandler interface {
 	PutSessionLog(context.Context, *connect.Request[v1alpha1.PutSessionLogRequest]) (*connect.Response[v1alpha1.PutSessionLogResponse], error)
 	QuerySessionLogs(context.Context, *connect.Request[v1alpha1.QuerySessionLogsRequest]) (*connect.Response[v1alpha1.QuerySessionLogsResponse], error)
 	GetSession(context.Context, *connect.Request[v1alpha1.GetSessionRequest]) (*connect.Response[v1alpha1.GetSessionResponse], error)
+	StartShellSession(context.Context, *connect.Request[v1alpha1.StartShellSessionRequest]) (*connect.Response[v1alpha1.StartShellSessionResponse], error)
+	EndShellSession(context.Context, *connect.Request[v1alpha1.EndShellSessionRequest]) (*connect.Response[v1alpha1.EndShellSessionResponse], error)
+	PutShellSessionChunk(context.Context, *connect.Request[v1alpha1.PutShellSessionChunkRequest]) (*connect.Response[v1alpha1.PutShellSessionChunkResponse], error)
+	GetShellSession(context.Context, *connect.Request[v1alpha1.GetShellSessionRequest]) (*connect.Response[v1alpha1.GetShellSessionResponse], error)
 }
 
 // NewProxySessionServiceHandler builds an HTTP handler from the service implementation. It returns
@@ -194,6 +266,30 @@ func NewProxySessionServiceHandler(svc ProxySessionServiceHandler, opts ...conne
 		connect.WithSchema(proxySessionServiceGetSessionMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
+	proxySessionServiceStartShellSessionHandler := connect.NewUnaryHandler(
+		ProxySessionServiceStartShellSessionProcedure,
+		svc.StartShellSession,
+		connect.WithSchema(proxySessionServiceStartShellSessionMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
+	)
+	proxySessionServiceEndShellSessionHandler := connect.NewUnaryHandler(
+		ProxySessionServiceEndShellSessionProcedure,
+		svc.EndShellSession,
+		connect.WithSchema(proxySessionServiceEndShellSessionMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
+	)
+	proxySessionServicePutShellSessionChunkHandler := connect.NewUnaryHandler(
+		ProxySessionServicePutShellSessionChunkProcedure,
+		svc.PutShellSessionChunk,
+		connect.WithSchema(proxySessionServicePutShellSessionChunkMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
+	)
+	proxySessionServiceGetShellSessionHandler := connect.NewUnaryHandler(
+		ProxySessionServiceGetShellSessionProcedure,
+		svc.GetShellSession,
+		connect.WithSchema(proxySessionServiceGetShellSessionMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
+	)
 	return "/commonfate.access.v1alpha1.ProxySessionService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
 		case ProxySessionServiceStartSessionProcedure:
@@ -206,6 +302,14 @@ func NewProxySessionServiceHandler(svc ProxySessionServiceHandler, opts ...conne
 			proxySessionServiceQuerySessionLogsHandler.ServeHTTP(w, r)
 		case ProxySessionServiceGetSessionProcedure:
 			proxySessionServiceGetSessionHandler.ServeHTTP(w, r)
+		case ProxySessionServiceStartShellSessionProcedure:
+			proxySessionServiceStartShellSessionHandler.ServeHTTP(w, r)
+		case ProxySessionServiceEndShellSessionProcedure:
+			proxySessionServiceEndShellSessionHandler.ServeHTTP(w, r)
+		case ProxySessionServicePutShellSessionChunkProcedure:
+			proxySessionServicePutShellSessionChunkHandler.ServeHTTP(w, r)
+		case ProxySessionServiceGetShellSessionProcedure:
+			proxySessionServiceGetShellSessionHandler.ServeHTTP(w, r)
 		default:
 			http.NotFound(w, r)
 		}
@@ -233,4 +337,20 @@ func (UnimplementedProxySessionServiceHandler) QuerySessionLogs(context.Context,
 
 func (UnimplementedProxySessionServiceHandler) GetSession(context.Context, *connect.Request[v1alpha1.GetSessionRequest]) (*connect.Response[v1alpha1.GetSessionResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.access.v1alpha1.ProxySessionService.GetSession is not implemented"))
+}
+
+func (UnimplementedProxySessionServiceHandler) StartShellSession(context.Context, *connect.Request[v1alpha1.StartShellSessionRequest]) (*connect.Response[v1alpha1.StartShellSessionResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.access.v1alpha1.ProxySessionService.StartShellSession is not implemented"))
+}
+
+func (UnimplementedProxySessionServiceHandler) EndShellSession(context.Context, *connect.Request[v1alpha1.EndShellSessionRequest]) (*connect.Response[v1alpha1.EndShellSessionResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.access.v1alpha1.ProxySessionService.EndShellSession is not implemented"))
+}
+
+func (UnimplementedProxySessionServiceHandler) PutShellSessionChunk(context.Context, *connect.Request[v1alpha1.PutShellSessionChunkRequest]) (*connect.Response[v1alpha1.PutShellSessionChunkResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.access.v1alpha1.ProxySessionService.PutShellSessionChunk is not implemented"))
+}
+
+func (UnimplementedProxySessionServiceHandler) GetShellSession(context.Context, *connect.Request[v1alpha1.GetShellSessionRequest]) (*connect.Response[v1alpha1.GetShellSessionResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("commonfate.access.v1alpha1.ProxySessionService.GetShellSession is not implemented"))
 }

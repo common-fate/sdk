@@ -1462,3 +1462,1037 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = SessionValidationError{}
+
+// Validate checks the field values on StartShellSessionRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *StartShellSessionRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on StartShellSessionRequest with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// StartShellSessionRequestMultiError, or nil if none found.
+func (m *StartShellSessionRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *StartShellSessionRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for GrantId
+
+	// no validation rules for SessionId
+
+	if len(errors) > 0 {
+		return StartShellSessionRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// StartShellSessionRequestMultiError is an error wrapping multiple validation
+// errors returned by StartShellSessionRequest.ValidateAll() if the designated
+// constraints aren't met.
+type StartShellSessionRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m StartShellSessionRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m StartShellSessionRequestMultiError) AllErrors() []error { return m }
+
+// StartShellSessionRequestValidationError is the validation error returned by
+// StartShellSessionRequest.Validate if the designated constraints aren't met.
+type StartShellSessionRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e StartShellSessionRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e StartShellSessionRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e StartShellSessionRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e StartShellSessionRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e StartShellSessionRequestValidationError) ErrorName() string {
+	return "StartShellSessionRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e StartShellSessionRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sStartShellSessionRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = StartShellSessionRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = StartShellSessionRequestValidationError{}
+
+// Validate checks the field values on StartShellSessionResponse with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *StartShellSessionResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on StartShellSessionResponse with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// StartShellSessionResponseMultiError, or nil if none found.
+func (m *StartShellSessionResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *StartShellSessionResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for ShellSessionId
+
+	if len(errors) > 0 {
+		return StartShellSessionResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// StartShellSessionResponseMultiError is an error wrapping multiple validation
+// errors returned by StartShellSessionResponse.ValidateAll() if the
+// designated constraints aren't met.
+type StartShellSessionResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m StartShellSessionResponseMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m StartShellSessionResponseMultiError) AllErrors() []error { return m }
+
+// StartShellSessionResponseValidationError is the validation error returned by
+// StartShellSessionResponse.Validate if the designated constraints aren't met.
+type StartShellSessionResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e StartShellSessionResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e StartShellSessionResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e StartShellSessionResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e StartShellSessionResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e StartShellSessionResponseValidationError) ErrorName() string {
+	return "StartShellSessionResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e StartShellSessionResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sStartShellSessionResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = StartShellSessionResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = StartShellSessionResponseValidationError{}
+
+// Validate checks the field values on EndShellSessionRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *EndShellSessionRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on EndShellSessionRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// EndShellSessionRequestMultiError, or nil if none found.
+func (m *EndShellSessionRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *EndShellSessionRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for ShellSessionId
+
+	if len(errors) > 0 {
+		return EndShellSessionRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// EndShellSessionRequestMultiError is an error wrapping multiple validation
+// errors returned by EndShellSessionRequest.ValidateAll() if the designated
+// constraints aren't met.
+type EndShellSessionRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m EndShellSessionRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m EndShellSessionRequestMultiError) AllErrors() []error { return m }
+
+// EndShellSessionRequestValidationError is the validation error returned by
+// EndShellSessionRequest.Validate if the designated constraints aren't met.
+type EndShellSessionRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e EndShellSessionRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e EndShellSessionRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e EndShellSessionRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e EndShellSessionRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e EndShellSessionRequestValidationError) ErrorName() string {
+	return "EndShellSessionRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e EndShellSessionRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sEndShellSessionRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = EndShellSessionRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = EndShellSessionRequestValidationError{}
+
+// Validate checks the field values on EndShellSessionResponse with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *EndShellSessionResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on EndShellSessionResponse with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// EndShellSessionResponseMultiError, or nil if none found.
+func (m *EndShellSessionResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *EndShellSessionResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if len(errors) > 0 {
+		return EndShellSessionResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// EndShellSessionResponseMultiError is an error wrapping multiple validation
+// errors returned by EndShellSessionResponse.ValidateAll() if the designated
+// constraints aren't met.
+type EndShellSessionResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m EndShellSessionResponseMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m EndShellSessionResponseMultiError) AllErrors() []error { return m }
+
+// EndShellSessionResponseValidationError is the validation error returned by
+// EndShellSessionResponse.Validate if the designated constraints aren't met.
+type EndShellSessionResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e EndShellSessionResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e EndShellSessionResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e EndShellSessionResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e EndShellSessionResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e EndShellSessionResponseValidationError) ErrorName() string {
+	return "EndShellSessionResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e EndShellSessionResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sEndShellSessionResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = EndShellSessionResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = EndShellSessionResponseValidationError{}
+
+// Validate checks the field values on PutShellSessionChunkRequest with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *PutShellSessionChunkRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on PutShellSessionChunkRequest with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// PutShellSessionChunkRequestMultiError, or nil if none found.
+func (m *PutShellSessionChunkRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *PutShellSessionChunkRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for GrantId
+
+	// no validation rules for ShellSessionId
+
+	// no validation rules for Index
+
+	// no validation rules for Chunk
+
+	if len(errors) > 0 {
+		return PutShellSessionChunkRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// PutShellSessionChunkRequestMultiError is an error wrapping multiple
+// validation errors returned by PutShellSessionChunkRequest.ValidateAll() if
+// the designated constraints aren't met.
+type PutShellSessionChunkRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m PutShellSessionChunkRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m PutShellSessionChunkRequestMultiError) AllErrors() []error { return m }
+
+// PutShellSessionChunkRequestValidationError is the validation error returned
+// by PutShellSessionChunkRequest.Validate if the designated constraints
+// aren't met.
+type PutShellSessionChunkRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e PutShellSessionChunkRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e PutShellSessionChunkRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e PutShellSessionChunkRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e PutShellSessionChunkRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e PutShellSessionChunkRequestValidationError) ErrorName() string {
+	return "PutShellSessionChunkRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e PutShellSessionChunkRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sPutShellSessionChunkRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = PutShellSessionChunkRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = PutShellSessionChunkRequestValidationError{}
+
+// Validate checks the field values on PutShellSessionChunkResponse with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *PutShellSessionChunkResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on PutShellSessionChunkResponse with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// PutShellSessionChunkResponseMultiError, or nil if none found.
+func (m *PutShellSessionChunkResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *PutShellSessionChunkResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if len(errors) > 0 {
+		return PutShellSessionChunkResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// PutShellSessionChunkResponseMultiError is an error wrapping multiple
+// validation errors returned by PutShellSessionChunkResponse.ValidateAll() if
+// the designated constraints aren't met.
+type PutShellSessionChunkResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m PutShellSessionChunkResponseMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m PutShellSessionChunkResponseMultiError) AllErrors() []error { return m }
+
+// PutShellSessionChunkResponseValidationError is the validation error returned
+// by PutShellSessionChunkResponse.Validate if the designated constraints
+// aren't met.
+type PutShellSessionChunkResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e PutShellSessionChunkResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e PutShellSessionChunkResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e PutShellSessionChunkResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e PutShellSessionChunkResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e PutShellSessionChunkResponseValidationError) ErrorName() string {
+	return "PutShellSessionChunkResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e PutShellSessionChunkResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sPutShellSessionChunkResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = PutShellSessionChunkResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = PutShellSessionChunkResponseValidationError{}
+
+// Validate checks the field values on GetShellSessionRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *GetShellSessionRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on GetShellSessionRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// GetShellSessionRequestMultiError, or nil if none found.
+func (m *GetShellSessionRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *GetShellSessionRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for ShellSessionId
+
+	if len(errors) > 0 {
+		return GetShellSessionRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// GetShellSessionRequestMultiError is an error wrapping multiple validation
+// errors returned by GetShellSessionRequest.ValidateAll() if the designated
+// constraints aren't met.
+type GetShellSessionRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m GetShellSessionRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m GetShellSessionRequestMultiError) AllErrors() []error { return m }
+
+// GetShellSessionRequestValidationError is the validation error returned by
+// GetShellSessionRequest.Validate if the designated constraints aren't met.
+type GetShellSessionRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e GetShellSessionRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e GetShellSessionRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e GetShellSessionRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e GetShellSessionRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e GetShellSessionRequestValidationError) ErrorName() string {
+	return "GetShellSessionRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e GetShellSessionRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sGetShellSessionRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = GetShellSessionRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = GetShellSessionRequestValidationError{}
+
+// Validate checks the field values on GetShellSessionResponse with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *GetShellSessionResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on GetShellSessionResponse with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// GetShellSessionResponseMultiError, or nil if none found.
+func (m *GetShellSessionResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *GetShellSessionResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if all {
+		switch v := interface{}(m.GetShellSession()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, GetShellSessionResponseValidationError{
+					field:  "ShellSession",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, GetShellSessionResponseValidationError{
+					field:  "ShellSession",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetShellSession()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return GetShellSessionResponseValidationError{
+				field:  "ShellSession",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if len(errors) > 0 {
+		return GetShellSessionResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// GetShellSessionResponseMultiError is an error wrapping multiple validation
+// errors returned by GetShellSessionResponse.ValidateAll() if the designated
+// constraints aren't met.
+type GetShellSessionResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m GetShellSessionResponseMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m GetShellSessionResponseMultiError) AllErrors() []error { return m }
+
+// GetShellSessionResponseValidationError is the validation error returned by
+// GetShellSessionResponse.Validate if the designated constraints aren't met.
+type GetShellSessionResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e GetShellSessionResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e GetShellSessionResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e GetShellSessionResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e GetShellSessionResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e GetShellSessionResponseValidationError) ErrorName() string {
+	return "GetShellSessionResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e GetShellSessionResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sGetShellSessionResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = GetShellSessionResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = GetShellSessionResponseValidationError{}
+
+// Validate checks the field values on ShellSession with the rules defined in
+// the proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *ShellSession) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on ShellSession with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in ShellSessionMultiError, or
+// nil if none found.
+func (m *ShellSession) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *ShellSession) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Id
+
+	// no validation rules for GrantId
+
+	// no validation rules for RequestId
+
+	if all {
+		switch v := interface{}(m.GetStartedAt()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, ShellSessionValidationError{
+					field:  "StartedAt",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, ShellSessionValidationError{
+					field:  "StartedAt",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetStartedAt()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return ShellSessionValidationError{
+				field:  "StartedAt",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	// no validation rules for SessionLogDataUrl
+
+	if m.EndedAt != nil {
+
+		if all {
+			switch v := interface{}(m.GetEndedAt()).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, ShellSessionValidationError{
+						field:  "EndedAt",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, ShellSessionValidationError{
+						field:  "EndedAt",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(m.GetEndedAt()).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return ShellSessionValidationError{
+					field:  "EndedAt",
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	if len(errors) > 0 {
+		return ShellSessionMultiError(errors)
+	}
+
+	return nil
+}
+
+// ShellSessionMultiError is an error wrapping multiple validation errors
+// returned by ShellSession.ValidateAll() if the designated constraints aren't met.
+type ShellSessionMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m ShellSessionMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m ShellSessionMultiError) AllErrors() []error { return m }
+
+// ShellSessionValidationError is the validation error returned by
+// ShellSession.Validate if the designated constraints aren't met.
+type ShellSessionValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e ShellSessionValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e ShellSessionValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e ShellSessionValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e ShellSessionValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e ShellSessionValidationError) ErrorName() string { return "ShellSessionValidationError" }
+
+// Error satisfies the builtin error interface
+func (e ShellSessionValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sShellSession.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = ShellSessionValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = ShellSessionValidationError{}
