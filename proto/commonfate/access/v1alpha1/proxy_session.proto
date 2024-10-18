@@ -43,6 +43,22 @@ message PutSessionLogRequest {
   string message = 3;
   // the timestamp the action occurred at.
   google.protobuf.Timestamp occurred_at = 4;
+  oneof detail {
+    KubernetesAction kubernetes_action = 5;
+  }
+}
+
+message KubernetesAction {
+  string action_name = 1;
+  string cluster = 2;
+  optional string error = 3;
+  string http_method = 4;
+  string impersonate_user_header = 5;
+  optional string namespace = 6;
+  optional string pod = 7;
+  string request_uri = 8;
+  string role = 9;
+  int32 status_code = 10;
 }
 
 message PutSessionLogResponse {}
