@@ -69,6 +69,7 @@ message AWSEKSProxyOutput {
   AWSEKSCluster eks_cluster = 5;
   string ssm_session_target = 6;
   string permission_set_arn = 7;
+  string service_account_name = 8;
 }
 message AWSEKSCluster {
   string id = 1;

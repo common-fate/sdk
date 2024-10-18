@@ -959,6 +959,8 @@ func (m *AWSEKSProxyOutput) validate(all bool) error {
 
 	// no validation rules for PermissionSetArn
 
+	// no validation rules for ServiceAccountName
+
 	if len(errors) > 0 {
 		return AWSEKSProxyOutputMultiError(errors)
 	}
