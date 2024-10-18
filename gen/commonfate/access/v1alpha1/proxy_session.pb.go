@@ -203,6 +203,10 @@ type PutSessionLogRequest struct {
 	Message   string `protobuf:"bytes,3,opt,name=message,proto3" json:"message,omitempty"`
 	// the timestamp the action occurred at.
 	OccurredAt *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=occurred_at,json=occurredAt,proto3" json:"occurred_at,omitempty"`
+	// Types that are assignable to Detail:
+	//
+	//	*PutSessionLogRequest_KubernetesAction
+	Detail isPutSessionLogRequest_Detail `protobuf_oneof:"detail"`
 }
 
 func (x *PutSessionLogRequest) Reset() {
@@ -263,6 +267,232 @@ func (x *PutSessionLogRequest) GetOccurredAt() *timestamppb.Timestamp {
 	return nil
 }
 
+func (m *PutSessionLogRequest) GetDetail() isPutSessionLogRequest_Detail {
+	if m != nil {
+		return m.Detail
+	}
+	return nil
+}
+
+func (x *PutSessionLogRequest) GetKubernetesAction() *KubernetesAction {
+	if x, ok := x.GetDetail().(*PutSessionLogRequest_KubernetesAction); ok {
+		return x.KubernetesAction
+	}
+	return nil
+}
+
+type isPutSessionLogRequest_Detail interface {
+	isPutSessionLogRequest_Detail()
+}
+
+type PutSessionLogRequest_KubernetesAction struct {
+	KubernetesAction *KubernetesAction `protobuf:"bytes,5,opt,name=kubernetes_action,json=kubernetesAction,proto3,oneof"`
+}
+
+func (*PutSessionLogRequest_KubernetesAction) isPutSessionLogRequest_Detail() {}
+
+type KubernetesAction struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	ActionName            string                  `protobuf:"bytes,1,opt,name=action_name,json=actionName,proto3" json:"action_name,omitempty"`
+	Cluster               string                  `protobuf:"bytes,2,opt,name=cluster,proto3" json:"cluster,omitempty"`
+	Error                 *string                 `protobuf:"bytes,3,opt,name=error,proto3,oneof" json:"error,omitempty"`
+	ExecMetadata          *KubernetesExecMetadata `protobuf:"bytes,4,opt,name=exec_metadata,json=execMetadata,proto3,oneof" json:"exec_metadata,omitempty"`
+	HttpMethod            string                  `protobuf:"bytes,5,opt,name=http_method,json=httpMethod,proto3" json:"http_method,omitempty"`
+	ImpersonateUserHeader string                  `protobuf:"bytes,6,opt,name=impersonate_user_header,json=impersonateUserHeader,proto3" json:"impersonate_user_header,omitempty"`
+	Namespace             *string                 `protobuf:"bytes,7,opt,name=namespace,proto3,oneof" json:"namespace,omitempty"`
+	Pod                   *string                 `protobuf:"bytes,8,opt,name=pod,proto3,oneof" json:"pod,omitempty"`
+	RequestUri            string                  `protobuf:"bytes,9,opt,name=request_uri,json=requestUri,proto3" json:"request_uri,omitempty"`
+	Role                  string                  `protobuf:"bytes,10,opt,name=role,proto3" json:"role,omitempty"`
+	StatusCode            int32                   `protobuf:"varint,11,opt,name=status_code,json=statusCode,proto3" json:"status_code,omitempty"`
+}
+
+func (x *KubernetesAction) Reset() {
+	*x = KubernetesAction{}
+	mi := &file_commonfate_access_v1alpha1_proxy_session_proto_msgTypes[5]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *KubernetesAction) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*KubernetesAction) ProtoMessage() {}
+
+func (x *KubernetesAction) ProtoReflect() protoreflect.Message {
+	mi := &file_commonfate_access_v1alpha1_proxy_session_proto_msgTypes[5]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use KubernetesAction.ProtoReflect.Descriptor instead.
+func (*KubernetesAction) Descriptor() ([]byte, []int) {
+	return file_commonfate_access_v1alpha1_proxy_session_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *KubernetesAction) GetActionName() string {
+	if x != nil {
+		return x.ActionName
+	}
+	return ""
+}
+
+func (x *KubernetesAction) GetCluster() string {
+	if x != nil {
+		return x.Cluster
+	}
+	return ""
+}
+
+func (x *KubernetesAction) GetError() string {
+	if x != nil && x.Error != nil {
+		return *x.Error
+	}
+	return ""
+}
+
+func (x *KubernetesAction) GetExecMetadata() *KubernetesExecMetadata {
+	if x != nil {
+		return x.ExecMetadata
+	}
+	return nil
+}
+
+func (x *KubernetesAction) GetHttpMethod() string {
+	if x != nil {
+		return x.HttpMethod
+	}
+	return ""
+}
+
+func (x *KubernetesAction) GetImpersonateUserHeader() string {
+	if x != nil {
+		return x.ImpersonateUserHeader
+	}
+	return ""
+}
+
+func (x *KubernetesAction) GetNamespace() string {
+	if x != nil && x.Namespace != nil {
+		return *x.Namespace
+	}
+	return ""
+}
+
+func (x *KubernetesAction) GetPod() string {
+	if x != nil && x.Pod != nil {
+		return *x.Pod
+	}
+	return ""
+}
+
+func (x *KubernetesAction) GetRequestUri() string {
+	if x != nil {
+		return x.RequestUri
+	}
+	return ""
+}
+
+func (x *KubernetesAction) GetRole() string {
+	if x != nil {
+		return x.Role
+	}
+	return ""
+}
+
+func (x *KubernetesAction) GetStatusCode() int32 {
+	if x != nil {
+		return x.StatusCode
+	}
+	return 0
+}
+
+type KubernetesExecMetadata struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Command   string `protobuf:"bytes,1,opt,name=command,proto3" json:"command,omitempty"`
+	Container string `protobuf:"bytes,2,opt,name=container,proto3" json:"container,omitempty"`
+	Pod       string `protobuf:"bytes,3,opt,name=pod,proto3" json:"pod,omitempty"`
+	Stderr    string `protobuf:"bytes,4,opt,name=stderr,proto3" json:"stderr,omitempty"`
+	Stdout    string `protobuf:"bytes,5,opt,name=stdout,proto3" json:"stdout,omitempty"`
+}
+
+func (x *KubernetesExecMetadata) Reset() {
+	*x = KubernetesExecMetadata{}
+	mi := &file_commonfate_access_v1alpha1_proxy_session_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *KubernetesExecMetadata) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*KubernetesExecMetadata) ProtoMessage() {}
+
+func (x *KubernetesExecMetadata) ProtoReflect() protoreflect.Message {
+	mi := &file_commonfate_access_v1alpha1_proxy_session_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use KubernetesExecMetadata.ProtoReflect.Descriptor instead.
+func (*KubernetesExecMetadata) Descriptor() ([]byte, []int) {
+	return file_commonfate_access_v1alpha1_proxy_session_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *KubernetesExecMetadata) GetCommand() string {
+	if x != nil {
+		return x.Command
+	}
+	return ""
+}
+
+func (x *KubernetesExecMetadata) GetContainer() string {
+	if x != nil {
+		return x.Container
+	}
+	return ""
+}
+
+func (x *KubernetesExecMetadata) GetPod() string {
+	if x != nil {
+		return x.Pod
+	}
+	return ""
+}
+
+func (x *KubernetesExecMetadata) GetStderr() string {
+	if x != nil {
+		return x.Stderr
+	}
+	return ""
+}
+
+func (x *KubernetesExecMetadata) GetStdout() string {
+	if x != nil {
+		return x.Stdout
+	}
+	return ""
+}
+
 type PutSessionLogResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -271,7 +501,7 @@ type PutSessionLogResponse struct {
 
 func (x *PutSessionLogResponse) Reset() {
 	*x = PutSessionLogResponse{}
-	mi := &file_commonfate_access_v1alpha1_proxy_session_proto_msgTypes[5]
+	mi := &file_commonfate_access_v1alpha1_proxy_session_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -283,7 +513,7 @@ func (x *PutSessionLogResponse) String() string {
 func (*PutSessionLogResponse) ProtoMessage() {}
 
 func (x *PutSessionLogResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_commonfate_access_v1alpha1_proxy_session_proto_msgTypes[5]
+	mi := &file_commonfate_access_v1alpha1_proxy_session_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -296,7 +526,7 @@ func (x *PutSessionLogResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use PutSessionLogResponse.ProtoReflect.Descriptor instead.
 func (*PutSessionLogResponse) Descriptor() ([]byte, []int) {
-	return file_commonfate_access_v1alpha1_proxy_session_proto_rawDescGZIP(), []int{5}
+	return file_commonfate_access_v1alpha1_proxy_session_proto_rawDescGZIP(), []int{7}
 }
 
 type QuerySessionLogsRequest struct {
@@ -310,7 +540,7 @@ type QuerySessionLogsRequest struct {
 
 func (x *QuerySessionLogsRequest) Reset() {
 	*x = QuerySessionLogsRequest{}
-	mi := &file_commonfate_access_v1alpha1_proxy_session_proto_msgTypes[6]
+	mi := &file_commonfate_access_v1alpha1_proxy_session_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -322,7 +552,7 @@ func (x *QuerySessionLogsRequest) String() string {
 func (*QuerySessionLogsRequest) ProtoMessage() {}
 
 func (x *QuerySessionLogsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_commonfate_access_v1alpha1_proxy_session_proto_msgTypes[6]
+	mi := &file_commonfate_access_v1alpha1_proxy_session_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -335,7 +565,7 @@ func (x *QuerySessionLogsRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use QuerySessionLogsRequest.ProtoReflect.Descriptor instead.
 func (*QuerySessionLogsRequest) Descriptor() ([]byte, []int) {
-	return file_commonfate_access_v1alpha1_proxy_session_proto_rawDescGZIP(), []int{6}
+	return file_commonfate_access_v1alpha1_proxy_session_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *QuerySessionLogsRequest) GetSessionId() string {
@@ -363,7 +593,7 @@ type QuerySessionLogsResponse struct {
 
 func (x *QuerySessionLogsResponse) Reset() {
 	*x = QuerySessionLogsResponse{}
-	mi := &file_commonfate_access_v1alpha1_proxy_session_proto_msgTypes[7]
+	mi := &file_commonfate_access_v1alpha1_proxy_session_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -375,7 +605,7 @@ func (x *QuerySessionLogsResponse) String() string {
 func (*QuerySessionLogsResponse) ProtoMessage() {}
 
 func (x *QuerySessionLogsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_commonfate_access_v1alpha1_proxy_session_proto_msgTypes[7]
+	mi := &file_commonfate_access_v1alpha1_proxy_session_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -388,7 +618,7 @@ func (x *QuerySessionLogsResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use QuerySessionLogsResponse.ProtoReflect.Descriptor instead.
 func (*QuerySessionLogsResponse) Descriptor() ([]byte, []int) {
-	return file_commonfate_access_v1alpha1_proxy_session_proto_rawDescGZIP(), []int{7}
+	return file_commonfate_access_v1alpha1_proxy_session_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *QuerySessionLogsResponse) GetSessionLogs() []*SessionLog {
@@ -417,7 +647,7 @@ type SessionLog struct {
 
 func (x *SessionLog) Reset() {
 	*x = SessionLog{}
-	mi := &file_commonfate_access_v1alpha1_proxy_session_proto_msgTypes[8]
+	mi := &file_commonfate_access_v1alpha1_proxy_session_proto_msgTypes[10]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -429,7 +659,7 @@ func (x *SessionLog) String() string {
 func (*SessionLog) ProtoMessage() {}
 
 func (x *SessionLog) ProtoReflect() protoreflect.Message {
-	mi := &file_commonfate_access_v1alpha1_proxy_session_proto_msgTypes[8]
+	mi := &file_commonfate_access_v1alpha1_proxy_session_proto_msgTypes[10]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -442,7 +672,7 @@ func (x *SessionLog) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SessionLog.ProtoReflect.Descriptor instead.
 func (*SessionLog) Descriptor() ([]byte, []int) {
-	return file_commonfate_access_v1alpha1_proxy_session_proto_rawDescGZIP(), []int{8}
+	return file_commonfate_access_v1alpha1_proxy_session_proto_rawDescGZIP(), []int{10}
 }
 
 func (x *SessionLog) GetMessage() string {
@@ -469,7 +699,7 @@ type GetSessionRequest struct {
 
 func (x *GetSessionRequest) Reset() {
 	*x = GetSessionRequest{}
-	mi := &file_commonfate_access_v1alpha1_proxy_session_proto_msgTypes[9]
+	mi := &file_commonfate_access_v1alpha1_proxy_session_proto_msgTypes[11]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -481,7 +711,7 @@ func (x *GetSessionRequest) String() string {
 func (*GetSessionRequest) ProtoMessage() {}
 
 func (x *GetSessionRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_commonfate_access_v1alpha1_proxy_session_proto_msgTypes[9]
+	mi := &file_commonfate_access_v1alpha1_proxy_session_proto_msgTypes[11]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -494,7 +724,7 @@ func (x *GetSessionRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetSessionRequest.ProtoReflect.Descriptor instead.
 func (*GetSessionRequest) Descriptor() ([]byte, []int) {
-	return file_commonfate_access_v1alpha1_proxy_session_proto_rawDescGZIP(), []int{9}
+	return file_commonfate_access_v1alpha1_proxy_session_proto_rawDescGZIP(), []int{11}
 }
 
 func (x *GetSessionRequest) GetSessionId() string {
@@ -514,7 +744,7 @@ type GetSessionResponse struct {
 
 func (x *GetSessionResponse) Reset() {
 	*x = GetSessionResponse{}
-	mi := &file_commonfate_access_v1alpha1_proxy_session_proto_msgTypes[10]
+	mi := &file_commonfate_access_v1alpha1_proxy_session_proto_msgTypes[12]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -526,7 +756,7 @@ func (x *GetSessionResponse) String() string {
 func (*GetSessionResponse) ProtoMessage() {}
 
 func (x *GetSessionResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_commonfate_access_v1alpha1_proxy_session_proto_msgTypes[10]
+	mi := &file_commonfate_access_v1alpha1_proxy_session_proto_msgTypes[12]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -539,7 +769,7 @@ func (x *GetSessionResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetSessionResponse.ProtoReflect.Descriptor instead.
 func (*GetSessionResponse) Descriptor() ([]byte, []int) {
-	return file_commonfate_access_v1alpha1_proxy_session_proto_rawDescGZIP(), []int{10}
+	return file_commonfate_access_v1alpha1_proxy_session_proto_rawDescGZIP(), []int{12}
 }
 
 func (x *GetSessionResponse) GetSession() *Session {
@@ -563,7 +793,7 @@ type Session struct {
 
 func (x *Session) Reset() {
 	*x = Session{}
-	mi := &file_commonfate_access_v1alpha1_proxy_session_proto_msgTypes[11]
+	mi := &file_commonfate_access_v1alpha1_proxy_session_proto_msgTypes[13]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -575,7 +805,7 @@ func (x *Session) String() string {
 func (*Session) ProtoMessage() {}
 
 func (x *Session) ProtoReflect() protoreflect.Message {
-	mi := &file_commonfate_access_v1alpha1_proxy_session_proto_msgTypes[11]
+	mi := &file_commonfate_access_v1alpha1_proxy_session_proto_msgTypes[13]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -588,7 +818,7 @@ func (x *Session) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Session.ProtoReflect.Descriptor instead.
 func (*Session) Descriptor() ([]byte, []int) {
-	return file_commonfate_access_v1alpha1_proxy_session_proto_rawDescGZIP(), []int{11}
+	return file_commonfate_access_v1alpha1_proxy_session_proto_rawDescGZIP(), []int{13}
 }
 
 func (x *Session) GetId() string {
@@ -637,7 +867,7 @@ type StartShellSessionRequest struct {
 
 func (x *StartShellSessionRequest) Reset() {
 	*x = StartShellSessionRequest{}
-	mi := &file_commonfate_access_v1alpha1_proxy_session_proto_msgTypes[12]
+	mi := &file_commonfate_access_v1alpha1_proxy_session_proto_msgTypes[14]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -649,7 +879,7 @@ func (x *StartShellSessionRequest) String() string {
 func (*StartShellSessionRequest) ProtoMessage() {}
 
 func (x *StartShellSessionRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_commonfate_access_v1alpha1_proxy_session_proto_msgTypes[12]
+	mi := &file_commonfate_access_v1alpha1_proxy_session_proto_msgTypes[14]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -662,7 +892,7 @@ func (x *StartShellSessionRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use StartShellSessionRequest.ProtoReflect.Descriptor instead.
 func (*StartShellSessionRequest) Descriptor() ([]byte, []int) {
-	return file_commonfate_access_v1alpha1_proxy_session_proto_rawDescGZIP(), []int{12}
+	return file_commonfate_access_v1alpha1_proxy_session_proto_rawDescGZIP(), []int{14}
 }
 
 func (x *StartShellSessionRequest) GetGrantId() string {
@@ -689,7 +919,7 @@ type StartShellSessionResponse struct {
 
 func (x *StartShellSessionResponse) Reset() {
 	*x = StartShellSessionResponse{}
-	mi := &file_commonfate_access_v1alpha1_proxy_session_proto_msgTypes[13]
+	mi := &file_commonfate_access_v1alpha1_proxy_session_proto_msgTypes[15]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -701,7 +931,7 @@ func (x *StartShellSessionResponse) String() string {
 func (*StartShellSessionResponse) ProtoMessage() {}
 
 func (x *StartShellSessionResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_commonfate_access_v1alpha1_proxy_session_proto_msgTypes[13]
+	mi := &file_commonfate_access_v1alpha1_proxy_session_proto_msgTypes[15]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -714,7 +944,7 @@ func (x *StartShellSessionResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use StartShellSessionResponse.ProtoReflect.Descriptor instead.
 func (*StartShellSessionResponse) Descriptor() ([]byte, []int) {
-	return file_commonfate_access_v1alpha1_proxy_session_proto_rawDescGZIP(), []int{13}
+	return file_commonfate_access_v1alpha1_proxy_session_proto_rawDescGZIP(), []int{15}
 }
 
 func (x *StartShellSessionResponse) GetShellSessionId() string {
@@ -734,7 +964,7 @@ type EndShellSessionRequest struct {
 
 func (x *EndShellSessionRequest) Reset() {
 	*x = EndShellSessionRequest{}
-	mi := &file_commonfate_access_v1alpha1_proxy_session_proto_msgTypes[14]
+	mi := &file_commonfate_access_v1alpha1_proxy_session_proto_msgTypes[16]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -746,7 +976,7 @@ func (x *EndShellSessionRequest) String() string {
 func (*EndShellSessionRequest) ProtoMessage() {}
 
 func (x *EndShellSessionRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_commonfate_access_v1alpha1_proxy_session_proto_msgTypes[14]
+	mi := &file_commonfate_access_v1alpha1_proxy_session_proto_msgTypes[16]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -759,7 +989,7 @@ func (x *EndShellSessionRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use EndShellSessionRequest.ProtoReflect.Descriptor instead.
 func (*EndShellSessionRequest) Descriptor() ([]byte, []int) {
-	return file_commonfate_access_v1alpha1_proxy_session_proto_rawDescGZIP(), []int{14}
+	return file_commonfate_access_v1alpha1_proxy_session_proto_rawDescGZIP(), []int{16}
 }
 
 func (x *EndShellSessionRequest) GetShellSessionId() string {
@@ -777,7 +1007,7 @@ type EndShellSessionResponse struct {
 
 func (x *EndShellSessionResponse) Reset() {
 	*x = EndShellSessionResponse{}
-	mi := &file_commonfate_access_v1alpha1_proxy_session_proto_msgTypes[15]
+	mi := &file_commonfate_access_v1alpha1_proxy_session_proto_msgTypes[17]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -789,7 +1019,7 @@ func (x *EndShellSessionResponse) String() string {
 func (*EndShellSessionResponse) ProtoMessage() {}
 
 func (x *EndShellSessionResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_commonfate_access_v1alpha1_proxy_session_proto_msgTypes[15]
+	mi := &file_commonfate_access_v1alpha1_proxy_session_proto_msgTypes[17]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -802,7 +1032,7 @@ func (x *EndShellSessionResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use EndShellSessionResponse.ProtoReflect.Descriptor instead.
 func (*EndShellSessionResponse) Descriptor() ([]byte, []int) {
-	return file_commonfate_access_v1alpha1_proxy_session_proto_rawDescGZIP(), []int{15}
+	return file_commonfate_access_v1alpha1_proxy_session_proto_rawDescGZIP(), []int{17}
 }
 
 type PutShellSessionChunkRequest struct {
@@ -819,7 +1049,7 @@ type PutShellSessionChunkRequest struct {
 
 func (x *PutShellSessionChunkRequest) Reset() {
 	*x = PutShellSessionChunkRequest{}
-	mi := &file_commonfate_access_v1alpha1_proxy_session_proto_msgTypes[16]
+	mi := &file_commonfate_access_v1alpha1_proxy_session_proto_msgTypes[18]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -831,7 +1061,7 @@ func (x *PutShellSessionChunkRequest) String() string {
 func (*PutShellSessionChunkRequest) ProtoMessage() {}
 
 func (x *PutShellSessionChunkRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_commonfate_access_v1alpha1_proxy_session_proto_msgTypes[16]
+	mi := &file_commonfate_access_v1alpha1_proxy_session_proto_msgTypes[18]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -844,7 +1074,7 @@ func (x *PutShellSessionChunkRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use PutShellSessionChunkRequest.ProtoReflect.Descriptor instead.
 func (*PutShellSessionChunkRequest) Descriptor() ([]byte, []int) {
-	return file_commonfate_access_v1alpha1_proxy_session_proto_rawDescGZIP(), []int{16}
+	return file_commonfate_access_v1alpha1_proxy_session_proto_rawDescGZIP(), []int{18}
 }
 
 func (x *PutShellSessionChunkRequest) GetGrantId() string {
@@ -883,7 +1113,7 @@ type PutShellSessionChunkResponse struct {
 
 func (x *PutShellSessionChunkResponse) Reset() {
 	*x = PutShellSessionChunkResponse{}
-	mi := &file_commonfate_access_v1alpha1_proxy_session_proto_msgTypes[17]
+	mi := &file_commonfate_access_v1alpha1_proxy_session_proto_msgTypes[19]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -895,7 +1125,7 @@ func (x *PutShellSessionChunkResponse) String() string {
 func (*PutShellSessionChunkResponse) ProtoMessage() {}
 
 func (x *PutShellSessionChunkResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_commonfate_access_v1alpha1_proxy_session_proto_msgTypes[17]
+	mi := &file_commonfate_access_v1alpha1_proxy_session_proto_msgTypes[19]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -908,7 +1138,7 @@ func (x *PutShellSessionChunkResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use PutShellSessionChunkResponse.ProtoReflect.Descriptor instead.
 func (*PutShellSessionChunkResponse) Descriptor() ([]byte, []int) {
-	return file_commonfate_access_v1alpha1_proxy_session_proto_rawDescGZIP(), []int{17}
+	return file_commonfate_access_v1alpha1_proxy_session_proto_rawDescGZIP(), []int{19}
 }
 
 type GetShellSessionRequest struct {
@@ -921,7 +1151,7 @@ type GetShellSessionRequest struct {
 
 func (x *GetShellSessionRequest) Reset() {
 	*x = GetShellSessionRequest{}
-	mi := &file_commonfate_access_v1alpha1_proxy_session_proto_msgTypes[18]
+	mi := &file_commonfate_access_v1alpha1_proxy_session_proto_msgTypes[20]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -933,7 +1163,7 @@ func (x *GetShellSessionRequest) String() string {
 func (*GetShellSessionRequest) ProtoMessage() {}
 
 func (x *GetShellSessionRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_commonfate_access_v1alpha1_proxy_session_proto_msgTypes[18]
+	mi := &file_commonfate_access_v1alpha1_proxy_session_proto_msgTypes[20]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -946,7 +1176,7 @@ func (x *GetShellSessionRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetShellSessionRequest.ProtoReflect.Descriptor instead.
 func (*GetShellSessionRequest) Descriptor() ([]byte, []int) {
-	return file_commonfate_access_v1alpha1_proxy_session_proto_rawDescGZIP(), []int{18}
+	return file_commonfate_access_v1alpha1_proxy_session_proto_rawDescGZIP(), []int{20}
 }
 
 func (x *GetShellSessionRequest) GetShellSessionId() string {
@@ -966,7 +1196,7 @@ type GetShellSessionResponse struct {
 
 func (x *GetShellSessionResponse) Reset() {
 	*x = GetShellSessionResponse{}
-	mi := &file_commonfate_access_v1alpha1_proxy_session_proto_msgTypes[19]
+	mi := &file_commonfate_access_v1alpha1_proxy_session_proto_msgTypes[21]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -978,7 +1208,7 @@ func (x *GetShellSessionResponse) String() string {
 func (*GetShellSessionResponse) ProtoMessage() {}
 
 func (x *GetShellSessionResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_commonfate_access_v1alpha1_proxy_session_proto_msgTypes[19]
+	mi := &file_commonfate_access_v1alpha1_proxy_session_proto_msgTypes[21]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -991,7 +1221,7 @@ func (x *GetShellSessionResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetShellSessionResponse.ProtoReflect.Descriptor instead.
 func (*GetShellSessionResponse) Descriptor() ([]byte, []int) {
-	return file_commonfate_access_v1alpha1_proxy_session_proto_rawDescGZIP(), []int{19}
+	return file_commonfate_access_v1alpha1_proxy_session_proto_rawDescGZIP(), []int{21}
 }
 
 func (x *GetShellSessionResponse) GetShellSession() *ShellSession {
@@ -1016,7 +1246,7 @@ type ShellSession struct {
 
 func (x *ShellSession) Reset() {
 	*x = ShellSession{}
-	mi := &file_commonfate_access_v1alpha1_proxy_session_proto_msgTypes[20]
+	mi := &file_commonfate_access_v1alpha1_proxy_session_proto_msgTypes[22]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1028,7 +1258,7 @@ func (x *ShellSession) String() string {
 func (*ShellSession) ProtoMessage() {}
 
 func (x *ShellSession) ProtoReflect() protoreflect.Message {
-	mi := &file_commonfate_access_v1alpha1_proxy_session_proto_msgTypes[20]
+	mi := &file_commonfate_access_v1alpha1_proxy_session_proto_msgTypes[22]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1041,7 +1271,7 @@ func (x *ShellSession) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ShellSession.ProtoReflect.Descriptor instead.
 func (*ShellSession) Descriptor() ([]byte, []int) {
-	return file_commonfate_access_v1alpha1_proxy_session_proto_rawDescGZIP(), []int{20}
+	return file_commonfate_access_v1alpha1_proxy_session_proto_rawDescGZIP(), []int{22}
 }
 
 func (x *ShellSession) GetId() string {
@@ -1109,7 +1339,7 @@ var file_commonfate_access_v1alpha1_proxy_session_proto_rawDesc = []byte{
 	0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x1d, 0x0a, 0x0a, 0x73, 0x65, 0x73, 0x73, 0x69, 0x6f,
 	0x6e, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x09, 0x73, 0x65, 0x73, 0x73,
 	0x69, 0x6f, 0x6e, 0x49, 0x64, 0x22, 0x14, 0x0a, 0x12, 0x45, 0x6e, 0x64, 0x53, 0x65, 0x73, 0x73,
-	0x69, 0x6f, 0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0xa7, 0x01, 0x0a, 0x14,
+	0x69, 0x6f, 0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x8e, 0x02, 0x0a, 0x14,
 	0x50, 0x75, 0x74, 0x53, 0x65, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x4c, 0x6f, 0x67, 0x52, 0x65, 0x71,
 	0x75, 0x65, 0x73, 0x74, 0x12, 0x19, 0x0a, 0x08, 0x67, 0x72, 0x61, 0x6e, 0x74, 0x5f, 0x69, 0x64,
 	0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x67, 0x72, 0x61, 0x6e, 0x74, 0x49, 0x64, 0x12,
@@ -1120,7 +1350,53 @@ var file_commonfate_access_v1alpha1_proxy_session_proto_rawDesc = []byte{
 	0x72, 0x72, 0x65, 0x64, 0x5f, 0x61, 0x74, 0x18, 0x04, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e,
 	0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e,
 	0x54, 0x69, 0x6d, 0x65, 0x73, 0x74, 0x61, 0x6d, 0x70, 0x52, 0x0a, 0x6f, 0x63, 0x63, 0x75, 0x72,
-	0x72, 0x65, 0x64, 0x41, 0x74, 0x22, 0x17, 0x0a, 0x15, 0x50, 0x75, 0x74, 0x53, 0x65, 0x73, 0x73,
+	0x72, 0x65, 0x64, 0x41, 0x74, 0x12, 0x5b, 0x0a, 0x11, 0x6b, 0x75, 0x62, 0x65, 0x72, 0x6e, 0x65,
+	0x74, 0x65, 0x73, 0x5f, 0x61, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x05, 0x20, 0x01, 0x28, 0x0b,
+	0x32, 0x2c, 0x2e, 0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x66, 0x61, 0x74, 0x65, 0x2e, 0x61, 0x63,
+	0x63, 0x65, 0x73, 0x73, 0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x2e, 0x4b, 0x75,
+	0x62, 0x65, 0x72, 0x6e, 0x65, 0x74, 0x65, 0x73, 0x41, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x48, 0x00,
+	0x52, 0x10, 0x6b, 0x75, 0x62, 0x65, 0x72, 0x6e, 0x65, 0x74, 0x65, 0x73, 0x41, 0x63, 0x74, 0x69,
+	0x6f, 0x6e, 0x42, 0x08, 0x0a, 0x06, 0x64, 0x65, 0x74, 0x61, 0x69, 0x6c, 0x22, 0xe1, 0x03, 0x0a,
+	0x10, 0x4b, 0x75, 0x62, 0x65, 0x72, 0x6e, 0x65, 0x74, 0x65, 0x73, 0x41, 0x63, 0x74, 0x69, 0x6f,
+	0x6e, 0x12, 0x1f, 0x0a, 0x0b, 0x61, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x6e, 0x61, 0x6d, 0x65,
+	0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0a, 0x61, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x4e, 0x61,
+	0x6d, 0x65, 0x12, 0x18, 0x0a, 0x07, 0x63, 0x6c, 0x75, 0x73, 0x74, 0x65, 0x72, 0x18, 0x02, 0x20,
+	0x01, 0x28, 0x09, 0x52, 0x07, 0x63, 0x6c, 0x75, 0x73, 0x74, 0x65, 0x72, 0x12, 0x19, 0x0a, 0x05,
+	0x65, 0x72, 0x72, 0x6f, 0x72, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x48, 0x00, 0x52, 0x05, 0x65,
+	0x72, 0x72, 0x6f, 0x72, 0x88, 0x01, 0x01, 0x12, 0x5c, 0x0a, 0x0d, 0x65, 0x78, 0x65, 0x63, 0x5f,
+	0x6d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0x18, 0x04, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x32,
+	0x2e, 0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x66, 0x61, 0x74, 0x65, 0x2e, 0x61, 0x63, 0x63, 0x65,
+	0x73, 0x73, 0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x2e, 0x4b, 0x75, 0x62, 0x65,
+	0x72, 0x6e, 0x65, 0x74, 0x65, 0x73, 0x45, 0x78, 0x65, 0x63, 0x4d, 0x65, 0x74, 0x61, 0x64, 0x61,
+	0x74, 0x61, 0x48, 0x01, 0x52, 0x0c, 0x65, 0x78, 0x65, 0x63, 0x4d, 0x65, 0x74, 0x61, 0x64, 0x61,
+	0x74, 0x61, 0x88, 0x01, 0x01, 0x12, 0x1f, 0x0a, 0x0b, 0x68, 0x74, 0x74, 0x70, 0x5f, 0x6d, 0x65,
+	0x74, 0x68, 0x6f, 0x64, 0x18, 0x05, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0a, 0x68, 0x74, 0x74, 0x70,
+	0x4d, 0x65, 0x74, 0x68, 0x6f, 0x64, 0x12, 0x36, 0x0a, 0x17, 0x69, 0x6d, 0x70, 0x65, 0x72, 0x73,
+	0x6f, 0x6e, 0x61, 0x74, 0x65, 0x5f, 0x75, 0x73, 0x65, 0x72, 0x5f, 0x68, 0x65, 0x61, 0x64, 0x65,
+	0x72, 0x18, 0x06, 0x20, 0x01, 0x28, 0x09, 0x52, 0x15, 0x69, 0x6d, 0x70, 0x65, 0x72, 0x73, 0x6f,
+	0x6e, 0x61, 0x74, 0x65, 0x55, 0x73, 0x65, 0x72, 0x48, 0x65, 0x61, 0x64, 0x65, 0x72, 0x12, 0x21,
+	0x0a, 0x09, 0x6e, 0x61, 0x6d, 0x65, 0x73, 0x70, 0x61, 0x63, 0x65, 0x18, 0x07, 0x20, 0x01, 0x28,
+	0x09, 0x48, 0x02, 0x52, 0x09, 0x6e, 0x61, 0x6d, 0x65, 0x73, 0x70, 0x61, 0x63, 0x65, 0x88, 0x01,
+	0x01, 0x12, 0x15, 0x0a, 0x03, 0x70, 0x6f, 0x64, 0x18, 0x08, 0x20, 0x01, 0x28, 0x09, 0x48, 0x03,
+	0x52, 0x03, 0x70, 0x6f, 0x64, 0x88, 0x01, 0x01, 0x12, 0x1f, 0x0a, 0x0b, 0x72, 0x65, 0x71, 0x75,
+	0x65, 0x73, 0x74, 0x5f, 0x75, 0x72, 0x69, 0x18, 0x09, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0a, 0x72,
+	0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x55, 0x72, 0x69, 0x12, 0x12, 0x0a, 0x04, 0x72, 0x6f, 0x6c,
+	0x65, 0x18, 0x0a, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x72, 0x6f, 0x6c, 0x65, 0x12, 0x1f, 0x0a,
+	0x0b, 0x73, 0x74, 0x61, 0x74, 0x75, 0x73, 0x5f, 0x63, 0x6f, 0x64, 0x65, 0x18, 0x0b, 0x20, 0x01,
+	0x28, 0x05, 0x52, 0x0a, 0x73, 0x74, 0x61, 0x74, 0x75, 0x73, 0x43, 0x6f, 0x64, 0x65, 0x42, 0x08,
+	0x0a, 0x06, 0x5f, 0x65, 0x72, 0x72, 0x6f, 0x72, 0x42, 0x10, 0x0a, 0x0e, 0x5f, 0x65, 0x78, 0x65,
+	0x63, 0x5f, 0x6d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0x42, 0x0c, 0x0a, 0x0a, 0x5f, 0x6e,
+	0x61, 0x6d, 0x65, 0x73, 0x70, 0x61, 0x63, 0x65, 0x42, 0x06, 0x0a, 0x04, 0x5f, 0x70, 0x6f, 0x64,
+	0x22, 0x92, 0x01, 0x0a, 0x16, 0x4b, 0x75, 0x62, 0x65, 0x72, 0x6e, 0x65, 0x74, 0x65, 0x73, 0x45,
+	0x78, 0x65, 0x63, 0x4d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0x12, 0x18, 0x0a, 0x07, 0x63,
+	0x6f, 0x6d, 0x6d, 0x61, 0x6e, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x63, 0x6f,
+	0x6d, 0x6d, 0x61, 0x6e, 0x64, 0x12, 0x1c, 0x0a, 0x09, 0x63, 0x6f, 0x6e, 0x74, 0x61, 0x69, 0x6e,
+	0x65, 0x72, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x09, 0x63, 0x6f, 0x6e, 0x74, 0x61, 0x69,
+	0x6e, 0x65, 0x72, 0x12, 0x10, 0x0a, 0x03, 0x70, 0x6f, 0x64, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09,
+	0x52, 0x03, 0x70, 0x6f, 0x64, 0x12, 0x16, 0x0a, 0x06, 0x73, 0x74, 0x64, 0x65, 0x72, 0x72, 0x18,
+	0x04, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x73, 0x74, 0x64, 0x65, 0x72, 0x72, 0x12, 0x16, 0x0a,
+	0x06, 0x73, 0x74, 0x64, 0x6f, 0x75, 0x74, 0x18, 0x05, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x73,
+	0x74, 0x64, 0x6f, 0x75, 0x74, 0x22, 0x17, 0x0a, 0x15, 0x50, 0x75, 0x74, 0x53, 0x65, 0x73, 0x73,
 	0x69, 0x6f, 0x6e, 0x4c, 0x6f, 0x67, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x57,
 	0x0a, 0x17, 0x51, 0x75, 0x65, 0x72, 0x79, 0x53, 0x65, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x4c, 0x6f,
 	0x67, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x1d, 0x0a, 0x0a, 0x73, 0x65, 0x73,
@@ -1323,64 +1599,68 @@ func file_commonfate_access_v1alpha1_proxy_session_proto_rawDescGZIP() []byte {
 	return file_commonfate_access_v1alpha1_proxy_session_proto_rawDescData
 }
 
-var file_commonfate_access_v1alpha1_proxy_session_proto_msgTypes = make([]protoimpl.MessageInfo, 21)
+var file_commonfate_access_v1alpha1_proxy_session_proto_msgTypes = make([]protoimpl.MessageInfo, 23)
 var file_commonfate_access_v1alpha1_proxy_session_proto_goTypes = []any{
 	(*StartSessionRequest)(nil),          // 0: commonfate.access.v1alpha1.StartSessionRequest
 	(*StartSessionResponse)(nil),         // 1: commonfate.access.v1alpha1.StartSessionResponse
 	(*EndSessionRequest)(nil),            // 2: commonfate.access.v1alpha1.EndSessionRequest
 	(*EndSessionResponse)(nil),           // 3: commonfate.access.v1alpha1.EndSessionResponse
 	(*PutSessionLogRequest)(nil),         // 4: commonfate.access.v1alpha1.PutSessionLogRequest
-	(*PutSessionLogResponse)(nil),        // 5: commonfate.access.v1alpha1.PutSessionLogResponse
-	(*QuerySessionLogsRequest)(nil),      // 6: commonfate.access.v1alpha1.QuerySessionLogsRequest
-	(*QuerySessionLogsResponse)(nil),     // 7: commonfate.access.v1alpha1.QuerySessionLogsResponse
-	(*SessionLog)(nil),                   // 8: commonfate.access.v1alpha1.SessionLog
-	(*GetSessionRequest)(nil),            // 9: commonfate.access.v1alpha1.GetSessionRequest
-	(*GetSessionResponse)(nil),           // 10: commonfate.access.v1alpha1.GetSessionResponse
-	(*Session)(nil),                      // 11: commonfate.access.v1alpha1.Session
-	(*StartShellSessionRequest)(nil),     // 12: commonfate.access.v1alpha1.StartShellSessionRequest
-	(*StartShellSessionResponse)(nil),    // 13: commonfate.access.v1alpha1.StartShellSessionResponse
-	(*EndShellSessionRequest)(nil),       // 14: commonfate.access.v1alpha1.EndShellSessionRequest
-	(*EndShellSessionResponse)(nil),      // 15: commonfate.access.v1alpha1.EndShellSessionResponse
-	(*PutShellSessionChunkRequest)(nil),  // 16: commonfate.access.v1alpha1.PutShellSessionChunkRequest
-	(*PutShellSessionChunkResponse)(nil), // 17: commonfate.access.v1alpha1.PutShellSessionChunkResponse
-	(*GetShellSessionRequest)(nil),       // 18: commonfate.access.v1alpha1.GetShellSessionRequest
-	(*GetShellSessionResponse)(nil),      // 19: commonfate.access.v1alpha1.GetShellSessionResponse
-	(*ShellSession)(nil),                 // 20: commonfate.access.v1alpha1.ShellSession
-	(*timestamppb.Timestamp)(nil),        // 21: google.protobuf.Timestamp
+	(*KubernetesAction)(nil),             // 5: commonfate.access.v1alpha1.KubernetesAction
+	(*KubernetesExecMetadata)(nil),       // 6: commonfate.access.v1alpha1.KubernetesExecMetadata
+	(*PutSessionLogResponse)(nil),        // 7: commonfate.access.v1alpha1.PutSessionLogResponse
+	(*QuerySessionLogsRequest)(nil),      // 8: commonfate.access.v1alpha1.QuerySessionLogsRequest
+	(*QuerySessionLogsResponse)(nil),     // 9: commonfate.access.v1alpha1.QuerySessionLogsResponse
+	(*SessionLog)(nil),                   // 10: commonfate.access.v1alpha1.SessionLog
+	(*GetSessionRequest)(nil),            // 11: commonfate.access.v1alpha1.GetSessionRequest
+	(*GetSessionResponse)(nil),           // 12: commonfate.access.v1alpha1.GetSessionResponse
+	(*Session)(nil),                      // 13: commonfate.access.v1alpha1.Session
+	(*StartShellSessionRequest)(nil),     // 14: commonfate.access.v1alpha1.StartShellSessionRequest
+	(*StartShellSessionResponse)(nil),    // 15: commonfate.access.v1alpha1.StartShellSessionResponse
+	(*EndShellSessionRequest)(nil),       // 16: commonfate.access.v1alpha1.EndShellSessionRequest
+	(*EndShellSessionResponse)(nil),      // 17: commonfate.access.v1alpha1.EndShellSessionResponse
+	(*PutShellSessionChunkRequest)(nil),  // 18: commonfate.access.v1alpha1.PutShellSessionChunkRequest
+	(*PutShellSessionChunkResponse)(nil), // 19: commonfate.access.v1alpha1.PutShellSessionChunkResponse
+	(*GetShellSessionRequest)(nil),       // 20: commonfate.access.v1alpha1.GetShellSessionRequest
+	(*GetShellSessionResponse)(nil),      // 21: commonfate.access.v1alpha1.GetShellSessionResponse
+	(*ShellSession)(nil),                 // 22: commonfate.access.v1alpha1.ShellSession
+	(*timestamppb.Timestamp)(nil),        // 23: google.protobuf.Timestamp
 }
 var file_commonfate_access_v1alpha1_proxy_session_proto_depIdxs = []int32{
-	21, // 0: commonfate.access.v1alpha1.PutSessionLogRequest.occurred_at:type_name -> google.protobuf.Timestamp
-	8,  // 1: commonfate.access.v1alpha1.QuerySessionLogsResponse.session_logs:type_name -> commonfate.access.v1alpha1.SessionLog
-	21, // 2: commonfate.access.v1alpha1.SessionLog.occurred_at:type_name -> google.protobuf.Timestamp
-	11, // 3: commonfate.access.v1alpha1.GetSessionResponse.session:type_name -> commonfate.access.v1alpha1.Session
-	21, // 4: commonfate.access.v1alpha1.Session.started_at:type_name -> google.protobuf.Timestamp
-	21, // 5: commonfate.access.v1alpha1.Session.ended_at:type_name -> google.protobuf.Timestamp
-	20, // 6: commonfate.access.v1alpha1.GetShellSessionResponse.shell_session:type_name -> commonfate.access.v1alpha1.ShellSession
-	21, // 7: commonfate.access.v1alpha1.ShellSession.started_at:type_name -> google.protobuf.Timestamp
-	21, // 8: commonfate.access.v1alpha1.ShellSession.ended_at:type_name -> google.protobuf.Timestamp
-	0,  // 9: commonfate.access.v1alpha1.ProxySessionService.StartSession:input_type -> commonfate.access.v1alpha1.StartSessionRequest
-	2,  // 10: commonfate.access.v1alpha1.ProxySessionService.EndSession:input_type -> commonfate.access.v1alpha1.EndSessionRequest
-	4,  // 11: commonfate.access.v1alpha1.ProxySessionService.PutSessionLog:input_type -> commonfate.access.v1alpha1.PutSessionLogRequest
-	6,  // 12: commonfate.access.v1alpha1.ProxySessionService.QuerySessionLogs:input_type -> commonfate.access.v1alpha1.QuerySessionLogsRequest
-	9,  // 13: commonfate.access.v1alpha1.ProxySessionService.GetSession:input_type -> commonfate.access.v1alpha1.GetSessionRequest
-	12, // 14: commonfate.access.v1alpha1.ProxySessionService.StartShellSession:input_type -> commonfate.access.v1alpha1.StartShellSessionRequest
-	14, // 15: commonfate.access.v1alpha1.ProxySessionService.EndShellSession:input_type -> commonfate.access.v1alpha1.EndShellSessionRequest
-	16, // 16: commonfate.access.v1alpha1.ProxySessionService.PutShellSessionChunk:input_type -> commonfate.access.v1alpha1.PutShellSessionChunkRequest
-	18, // 17: commonfate.access.v1alpha1.ProxySessionService.GetShellSession:input_type -> commonfate.access.v1alpha1.GetShellSessionRequest
-	1,  // 18: commonfate.access.v1alpha1.ProxySessionService.StartSession:output_type -> commonfate.access.v1alpha1.StartSessionResponse
-	3,  // 19: commonfate.access.v1alpha1.ProxySessionService.EndSession:output_type -> commonfate.access.v1alpha1.EndSessionResponse
-	5,  // 20: commonfate.access.v1alpha1.ProxySessionService.PutSessionLog:output_type -> commonfate.access.v1alpha1.PutSessionLogResponse
-	7,  // 21: commonfate.access.v1alpha1.ProxySessionService.QuerySessionLogs:output_type -> commonfate.access.v1alpha1.QuerySessionLogsResponse
-	10, // 22: commonfate.access.v1alpha1.ProxySessionService.GetSession:output_type -> commonfate.access.v1alpha1.GetSessionResponse
-	13, // 23: commonfate.access.v1alpha1.ProxySessionService.StartShellSession:output_type -> commonfate.access.v1alpha1.StartShellSessionResponse
-	15, // 24: commonfate.access.v1alpha1.ProxySessionService.EndShellSession:output_type -> commonfate.access.v1alpha1.EndShellSessionResponse
-	17, // 25: commonfate.access.v1alpha1.ProxySessionService.PutShellSessionChunk:output_type -> commonfate.access.v1alpha1.PutShellSessionChunkResponse
-	19, // 26: commonfate.access.v1alpha1.ProxySessionService.GetShellSession:output_type -> commonfate.access.v1alpha1.GetShellSessionResponse
-	18, // [18:27] is the sub-list for method output_type
-	9,  // [9:18] is the sub-list for method input_type
-	9,  // [9:9] is the sub-list for extension type_name
-	9,  // [9:9] is the sub-list for extension extendee
-	0,  // [0:9] is the sub-list for field type_name
+	23, // 0: commonfate.access.v1alpha1.PutSessionLogRequest.occurred_at:type_name -> google.protobuf.Timestamp
+	5,  // 1: commonfate.access.v1alpha1.PutSessionLogRequest.kubernetes_action:type_name -> commonfate.access.v1alpha1.KubernetesAction
+	6,  // 2: commonfate.access.v1alpha1.KubernetesAction.exec_metadata:type_name -> commonfate.access.v1alpha1.KubernetesExecMetadata
+	10, // 3: commonfate.access.v1alpha1.QuerySessionLogsResponse.session_logs:type_name -> commonfate.access.v1alpha1.SessionLog
+	23, // 4: commonfate.access.v1alpha1.SessionLog.occurred_at:type_name -> google.protobuf.Timestamp
+	13, // 5: commonfate.access.v1alpha1.GetSessionResponse.session:type_name -> commonfate.access.v1alpha1.Session
+	23, // 6: commonfate.access.v1alpha1.Session.started_at:type_name -> google.protobuf.Timestamp
+	23, // 7: commonfate.access.v1alpha1.Session.ended_at:type_name -> google.protobuf.Timestamp
+	22, // 8: commonfate.access.v1alpha1.GetShellSessionResponse.shell_session:type_name -> commonfate.access.v1alpha1.ShellSession
+	23, // 9: commonfate.access.v1alpha1.ShellSession.started_at:type_name -> google.protobuf.Timestamp
+	23, // 10: commonfate.access.v1alpha1.ShellSession.ended_at:type_name -> google.protobuf.Timestamp
+	0,  // 11: commonfate.access.v1alpha1.ProxySessionService.StartSession:input_type -> commonfate.access.v1alpha1.StartSessionRequest
+	2,  // 12: commonfate.access.v1alpha1.ProxySessionService.EndSession:input_type -> commonfate.access.v1alpha1.EndSessionRequest
+	4,  // 13: commonfate.access.v1alpha1.ProxySessionService.PutSessionLog:input_type -> commonfate.access.v1alpha1.PutSessionLogRequest
+	8,  // 14: commonfate.access.v1alpha1.ProxySessionService.QuerySessionLogs:input_type -> commonfate.access.v1alpha1.QuerySessionLogsRequest
+	11, // 15: commonfate.access.v1alpha1.ProxySessionService.GetSession:input_type -> commonfate.access.v1alpha1.GetSessionRequest
+	14, // 16: commonfate.access.v1alpha1.ProxySessionService.StartShellSession:input_type -> commonfate.access.v1alpha1.StartShellSessionRequest
+	16, // 17: commonfate.access.v1alpha1.ProxySessionService.EndShellSession:input_type -> commonfate.access.v1alpha1.EndShellSessionRequest
+	18, // 18: commonfate.access.v1alpha1.ProxySessionService.PutShellSessionChunk:input_type -> commonfate.access.v1alpha1.PutShellSessionChunkRequest
+	20, // 19: commonfate.access.v1alpha1.ProxySessionService.GetShellSession:input_type -> commonfate.access.v1alpha1.GetShellSessionRequest
+	1,  // 20: commonfate.access.v1alpha1.ProxySessionService.StartSession:output_type -> commonfate.access.v1alpha1.StartSessionResponse
+	3,  // 21: commonfate.access.v1alpha1.ProxySessionService.EndSession:output_type -> commonfate.access.v1alpha1.EndSessionResponse
+	7,  // 22: commonfate.access.v1alpha1.ProxySessionService.PutSessionLog:output_type -> commonfate.access.v1alpha1.PutSessionLogResponse
+	9,  // 23: commonfate.access.v1alpha1.ProxySessionService.QuerySessionLogs:output_type -> commonfate.access.v1alpha1.QuerySessionLogsResponse
+	12, // 24: commonfate.access.v1alpha1.ProxySessionService.GetSession:output_type -> commonfate.access.v1alpha1.GetSessionResponse
+	15, // 25: commonfate.access.v1alpha1.ProxySessionService.StartShellSession:output_type -> commonfate.access.v1alpha1.StartShellSessionResponse
+	17, // 26: commonfate.access.v1alpha1.ProxySessionService.EndShellSession:output_type -> commonfate.access.v1alpha1.EndShellSessionResponse
+	19, // 27: commonfate.access.v1alpha1.ProxySessionService.PutShellSessionChunk:output_type -> commonfate.access.v1alpha1.PutShellSessionChunkResponse
+	21, // 28: commonfate.access.v1alpha1.ProxySessionService.GetShellSession:output_type -> commonfate.access.v1alpha1.GetShellSessionResponse
+	20, // [20:29] is the sub-list for method output_type
+	11, // [11:20] is the sub-list for method input_type
+	11, // [11:11] is the sub-list for extension type_name
+	11, // [11:11] is the sub-list for extension extendee
+	0,  // [0:11] is the sub-list for field type_name
 }
 
 func init() { file_commonfate_access_v1alpha1_proxy_session_proto_init() }
@@ -1388,15 +1668,19 @@ func file_commonfate_access_v1alpha1_proxy_session_proto_init() {
 	if File_commonfate_access_v1alpha1_proxy_session_proto != nil {
 		return
 	}
-	file_commonfate_access_v1alpha1_proxy_session_proto_msgTypes[11].OneofWrappers = []any{}
-	file_commonfate_access_v1alpha1_proxy_session_proto_msgTypes[20].OneofWrappers = []any{}
+	file_commonfate_access_v1alpha1_proxy_session_proto_msgTypes[4].OneofWrappers = []any{
+		(*PutSessionLogRequest_KubernetesAction)(nil),
+	}
+	file_commonfate_access_v1alpha1_proxy_session_proto_msgTypes[5].OneofWrappers = []any{}
+	file_commonfate_access_v1alpha1_proxy_session_proto_msgTypes[13].OneofWrappers = []any{}
+	file_commonfate_access_v1alpha1_proxy_session_proto_msgTypes[22].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_commonfate_access_v1alpha1_proxy_session_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   21,
+			NumMessages:   23,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
