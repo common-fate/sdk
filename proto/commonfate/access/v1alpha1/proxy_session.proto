@@ -77,6 +77,9 @@ message SessionLog {
   string message = 1;
   // the timestamp the action occurred at.
   google.protobuf.Timestamp occurred_at = 2;
+  oneof detail {
+    KubernetesAction kubernetes_action = 3;
+  }
 }
 
 message GetSessionRequest {
