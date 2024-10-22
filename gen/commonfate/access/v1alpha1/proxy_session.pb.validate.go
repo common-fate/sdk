@@ -656,7 +656,7 @@ func (m *KubernetesAction) validate(all bool) error {
 
 	// no validation rules for ActionName
 
-	// no validation rules for Cluster
+	// no validation rules for ClusterName
 
 	// no validation rules for HttpMethod
 
