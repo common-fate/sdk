@@ -31,6 +31,8 @@ message AWSEKSCluster {
   string cluster_name = 5;
   // The name of the IAM role which is used to access the cluster when the proxy is running outside of the cluster itself, for example on ECS.
   optional string cluster_access_role_name = 6;
+  // The endpoint of the cluster will be looked up by the proxy using the cluster name.
+  optional string cluster_endpoint = 7;
 }
 
 message AWSEKSServiceAccount {
