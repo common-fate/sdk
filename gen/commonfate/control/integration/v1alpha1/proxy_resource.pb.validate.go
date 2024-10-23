@@ -519,6 +519,10 @@ func (m *AWSEKSCluster) validate(all bool) error {
 		// no validation rules for ClusterEndpoint
 	}
 
+	if m.ClusterAuthority != nil {
+		// no validation rules for ClusterAuthority
+	}
+
 	if len(errors) > 0 {
 		return AWSEKSClusterMultiError(errors)
 	}

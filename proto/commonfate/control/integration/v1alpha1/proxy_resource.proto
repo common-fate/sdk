@@ -33,6 +33,7 @@ message AWSEKSCluster {
   optional string cluster_access_role_name = 6;
   // The endpoint of the cluster will be looked up by the proxy using the cluster name.
   optional string cluster_endpoint = 7;
+  optional string cluster_authority = 8;
 }
 
 message AWSEKSServiceAccount {
