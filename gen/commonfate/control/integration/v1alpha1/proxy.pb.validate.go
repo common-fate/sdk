@@ -1800,6 +1800,8 @@ func (m *GetProxyRdsResourceResponse) validate(all bool) error {
 		}
 	}
 
+	// no validation rules for ProxyId
+
 	if len(errors) > 0 {
 		return GetProxyRdsResourceResponseMultiError(errors)
 	}
