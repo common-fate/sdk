@@ -22,6 +22,7 @@ message AWSRDSDatabaseUser {
   string username = 2;
   string password_secrets_manager_arn = 3;
   optional string endpoint = 4;
+  uint32 default_local_port = 5;
 }
 
 message AWSEKSCluster {
