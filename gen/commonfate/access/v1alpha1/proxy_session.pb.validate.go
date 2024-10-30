@@ -664,10 +664,6 @@ func (m *KubernetesAction) validate(all bool) error {
 
 	// no validation rules for RequestUri
 
-	// no validation rules for Role
-
-	// no validation rules for StatusCode
-
 	if m.Error != nil {
 		// no validation rules for Error
 	}
