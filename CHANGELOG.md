@@ -1,5 +1,11 @@
 # @common-fate/sdk
 
+## 1.67.0
+
+### Minor Changes
+
+- f7c133d: Add Kubernetes protocol support to the Common Fate proxy.
+
 ## 1.66.0
 
 ### Minor Changes
