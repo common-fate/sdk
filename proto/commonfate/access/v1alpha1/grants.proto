@@ -87,6 +87,7 @@ message AWSRDSOutput {
   AWSRDSUser user = 6;
   string ssm_session_target = 7;
   string permission_set_arn = 8;
+  uint32 default_local_port = 9;
 }
 
 message AWSRDSDatabase {

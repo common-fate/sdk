@@ -1268,6 +1268,8 @@ func (m *AWSRDSOutput) validate(all bool) error {
 
 	// no validation rules for PermissionSetArn
 
+	// no validation rules for DefaultLocalPort
+
 	if len(errors) > 0 {
 		return AWSRDSOutputMultiError(errors)
 	}
