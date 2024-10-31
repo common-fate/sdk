@@ -1,5 +1,11 @@
 # @common-fate/sdk
 
+## 1.68.0
+
+### Minor Changes
+
+- 7ea0a0e: Added default_local_port option for AWS RDS Users
+
 ## 1.67.0
 
 ### Minor Changes
