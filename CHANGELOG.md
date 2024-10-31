@@ -1,5 +1,11 @@
 # @common-fate/sdk
 
+## 1.69.0
+
+### Minor Changes
+
+- 2742cb0: Added default_local_port to AWSRDS output
+
 ## 1.68.0
 
 ### Minor Changes
