@@ -120,6 +120,7 @@ message GetProxyRdsResourceRequest {
 message GetProxyRdsResourceResponse {
   string id = 1;
   AWSRDSDatabase rds_database = 2;
+  string proxy_id = 3;
 }
 
 message UpdateProxyRdsResourceRequest {

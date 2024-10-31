@@ -397,6 +397,8 @@ func (m *AWSRDSDatabaseUser) validate(all bool) error {
 
 	// no validation rules for PasswordSecretsManagerArn
 
+	// no validation rules for DefaultLocalPort
+
 	if m.Endpoint != nil {
 		// no validation rules for Endpoint
 	}
