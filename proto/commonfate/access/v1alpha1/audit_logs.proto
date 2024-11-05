@@ -8,6 +8,8 @@ import "commonfate/authz/v1alpha1/read_only.proto";
 import "commonfate/entity/v1alpha1/eid.proto";
 import "google/protobuf/struct.proto";
 import "google/protobuf/timestamp.proto";
+import "commonfate/access/v1alpha1/access_request.proto";
+
 
 service AuditLogService {
   rpc QueryAuditLogs(QueryAuditLogsRequest) returns (QueryAuditLogsResponse) {
@@ -21,6 +23,9 @@ message QueryAuditLogsRequest {
 
   // Query for audit logs performed by a particular actor
   // commonfate.entity.v1alpha1.EID actor = 2;
+
+
+  repeated Filter filters = 3;
 
   // The token for the next page.
   string page_token = 10;
