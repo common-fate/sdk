@@ -3,7 +3,7 @@ package commonfate.access.v1alpha1;
 
 import "commonfate/authz/v1alpha1/read_only.proto";
 import "google/protobuf/timestamp.proto";
-import "commonfate/entity/v1alpha1/eid.proto";
+import "commonfate/access/v1alpha1/named_eid.proto";
 
 
 service ProxySessionService {
@@ -107,8 +107,8 @@ message Session {
   string request_id = 3;
   google.protobuf.Timestamp started_at = 4;
   optional google.protobuf.Timestamp ended_at = 5;
-  commonfate.entity.v1alpha1.EID target = 6;
-  commonfate.entity.v1alpha1.EID role = 7;
+  NamedEID target = 6;
+  NamedEID role = 7;
 }
 
 message StartShellSessionRequest {
