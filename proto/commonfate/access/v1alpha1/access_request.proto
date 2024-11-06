@@ -70,6 +70,10 @@ message Filter {
     commonfate.filters.v1alpha1.TimeRangeFilter closed_at = 10;
     commonfate.filters.v1alpha1.TimeRangeFilter activated_at = 11;
     commonfate.filters.v1alpha1.TimeRangeFilter occurred_at = 12;
+    commonfate.filters.v1alpha1.EntityFilter actor = 13;
+    commonfate.filters.v1alpha1.EntityTypeFilter action_type = 14;
+    commonfate.filters.v1alpha1.EntityTypeFilter resource_type = 15;
+
 
   }
 }
