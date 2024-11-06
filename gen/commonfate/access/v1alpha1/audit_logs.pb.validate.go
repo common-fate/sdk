@@ -35,6 +35,275 @@ var (
 	_ = sort.Sort
 )
 
+// Validate checks the field values on AuditLogFilter with the rules defined in
+// the proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *AuditLogFilter) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on AuditLogFilter with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in AuditLogFilterMultiError,
+// or nil if none found.
+func (m *AuditLogFilter) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *AuditLogFilter) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	switch v := m.Filter.(type) {
+	case *AuditLogFilter_OccurredAt:
+		if v == nil {
+			err := AuditLogFilterValidationError{
+				field:  "Filter",
+				reason: "oneof value cannot be a typed-nil",
+			}
+			if !all {
+				return err
+			}
+			errors = append(errors, err)
+		}
+
+		if all {
+			switch v := interface{}(m.GetOccurredAt()).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, AuditLogFilterValidationError{
+						field:  "OccurredAt",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, AuditLogFilterValidationError{
+						field:  "OccurredAt",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(m.GetOccurredAt()).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return AuditLogFilterValidationError{
+					field:  "OccurredAt",
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	case *AuditLogFilter_Actor:
+		if v == nil {
+			err := AuditLogFilterValidationError{
+				field:  "Filter",
+				reason: "oneof value cannot be a typed-nil",
+			}
+			if !all {
+				return err
+			}
+			errors = append(errors, err)
+		}
+
+		if all {
+			switch v := interface{}(m.GetActor()).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, AuditLogFilterValidationError{
+						field:  "Actor",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, AuditLogFilterValidationError{
+						field:  "Actor",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(m.GetActor()).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return AuditLogFilterValidationError{
+					field:  "Actor",
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	case *AuditLogFilter_ActionType:
+		if v == nil {
+			err := AuditLogFilterValidationError{
+				field:  "Filter",
+				reason: "oneof value cannot be a typed-nil",
+			}
+			if !all {
+				return err
+			}
+			errors = append(errors, err)
+		}
+
+		if all {
+			switch v := interface{}(m.GetActionType()).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, AuditLogFilterValidationError{
+						field:  "ActionType",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, AuditLogFilterValidationError{
+						field:  "ActionType",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(m.GetActionType()).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return AuditLogFilterValidationError{
+					field:  "ActionType",
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	case *AuditLogFilter_ResourceType:
+		if v == nil {
+			err := AuditLogFilterValidationError{
+				field:  "Filter",
+				reason: "oneof value cannot be a typed-nil",
+			}
+			if !all {
+				return err
+			}
+			errors = append(errors, err)
+		}
+
+		if all {
+			switch v := interface{}(m.GetResourceType()).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, AuditLogFilterValidationError{
+						field:  "ResourceType",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, AuditLogFilterValidationError{
+						field:  "ResourceType",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(m.GetResourceType()).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return AuditLogFilterValidationError{
+					field:  "ResourceType",
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	default:
+		_ = v // ensures v is used
+	}
+
+	if len(errors) > 0 {
+		return AuditLogFilterMultiError(errors)
+	}
+
+	return nil
+}
+
+// AuditLogFilterMultiError is an error wrapping multiple validation errors
+// returned by AuditLogFilter.ValidateAll() if the designated constraints
+// aren't met.
+type AuditLogFilterMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m AuditLogFilterMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m AuditLogFilterMultiError) AllErrors() []error { return m }
+
+// AuditLogFilterValidationError is the validation error returned by
+// AuditLogFilter.Validate if the designated constraints aren't met.
+type AuditLogFilterValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e AuditLogFilterValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e AuditLogFilterValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e AuditLogFilterValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e AuditLogFilterValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e AuditLogFilterValidationError) ErrorName() string { return "AuditLogFilterValidationError" }
+
+// Error satisfies the builtin error interface
+func (e AuditLogFilterValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sAuditLogFilter.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = AuditLogFilterValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = AuditLogFilterValidationError{}
+
 // Validate checks the field values on QueryAuditLogsRequest with the rules
 // defined in the proto definition for this message. If any rules are
 // violated, the first error encountered is returned, or nil if there are no violations.

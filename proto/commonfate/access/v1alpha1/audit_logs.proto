@@ -8,12 +8,25 @@ import "commonfate/authz/v1alpha1/read_only.proto";
 import "commonfate/entity/v1alpha1/eid.proto";
 import "google/protobuf/struct.proto";
 import "google/protobuf/timestamp.proto";
-import "commonfate/access/v1alpha1/access_request.proto";
+import "commonfate/filters/v1alpha1/filters.proto";
+
 
 
 service AuditLogService {
   rpc QueryAuditLogs(QueryAuditLogsRequest) returns (QueryAuditLogsResponse) {
     option (commonfate.authz.v1alpha1.read_only) = true;
+  }
+}
+
+message AuditLogFilter {
+  oneof filter {
+
+    commonfate.filters.v1alpha1.TimeRangeFilter occurred_at = 1;
+    commonfate.filters.v1alpha1.EntityFilter actor = 2;
+    commonfate.filters.v1alpha1.EntityTypeFilter action_type = 3;
+    commonfate.filters.v1alpha1.EntityTypeFilter resource_type = 4;
+
+
   }
 }
 
@@ -25,7 +38,7 @@ message QueryAuditLogsRequest {
   // commonfate.entity.v1alpha1.EID actor = 2;
 
 
-  repeated Filter filters = 3;
+  repeated AuditLogFilter filters = 3;
 
   // The token for the next page.
   string page_token = 10;
