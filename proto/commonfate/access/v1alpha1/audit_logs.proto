@@ -24,7 +24,7 @@ message AuditLogFilter {
     commonfate.filters.v1alpha1.TimeRangeFilter occurred_at = 1;
     commonfate.filters.v1alpha1.EntityFilter actor = 2;
     commonfate.filters.v1alpha1.EntityTypeFilter action_type = 3;
-    commonfate.filters.v1alpha1.EntityTypeFilter resource_type = 4;
+    commonfate.filters.v1alpha1.EntityFilter resource = 4;
 
 
   }

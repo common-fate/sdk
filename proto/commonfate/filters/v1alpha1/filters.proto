@@ -28,6 +28,13 @@ message EntityFilter {
   BoolComparison comparison = 2;
 }
 
+//
+message EntityOfTypeFilter {
+  string type = 1;
+  repeated string id = 2;
+  BoolComparison comparison = 3;
+}
+
 // Filters where the principal/action/resource matches particular entity types.
 message EntityTypeFilter {
   // Types of entities to filter for. Will filter for a principal/action/resource matching any of these entities.

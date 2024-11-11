@@ -181,7 +181,7 @@ func (m *AuditLogFilter) validate(all bool) error {
 			}
 		}
 
-	case *AuditLogFilter_ResourceType:
+	case *AuditLogFilter_Resource:
 		if v == nil {
 			err := AuditLogFilterValidationError{
 				field:  "Filter",
@@ -194,11 +194,11 @@ func (m *AuditLogFilter) validate(all bool) error {
 		}
 
 		if all {
-			switch v := interface{}(m.GetResourceType()).(type) {
+			switch v := interface{}(m.GetResource()).(type) {
 			case interface{ ValidateAll() error }:
 				if err := v.ValidateAll(); err != nil {
 					errors = append(errors, AuditLogFilterValidationError{
-						field:  "ResourceType",
+						field:  "Resource",
 						reason: "embedded message failed validation",
 						cause:  err,
 					})
@@ -206,16 +206,16 @@ func (m *AuditLogFilter) validate(all bool) error {
 			case interface{ Validate() error }:
 				if err := v.Validate(); err != nil {
 					errors = append(errors, AuditLogFilterValidationError{
-						field:  "ResourceType",
+						field:  "Resource",
 						reason: "embedded message failed validation",
 						cause:  err,
 					})
 				}
 			}
-		} else if v, ok := interface{}(m.GetResourceType()).(interface{ Validate() error }); ok {
+		} else if v, ok := interface{}(m.GetResource()).(interface{ Validate() error }); ok {
 			if err := v.Validate(); err != nil {
 				return AuditLogFilterValidationError{
-					field:  "ResourceType",
+					field:  "Resource",
 					reason: "embedded message failed validation",
 					cause:  err,
 				}
