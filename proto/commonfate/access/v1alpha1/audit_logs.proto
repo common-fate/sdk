@@ -30,6 +30,12 @@ message AuditLogFilter {
   }
 }
 
+enum AuditLogOrdering {
+    AUDIT_LOG_ORDER_ASC = 0;
+    AUDIT_LOG_ORDER_DESC = 1;
+    AUDIT_LOG_ORDER_CHRON = 3; //chronologically
+}
+
 message QueryAuditLogsRequest {
   // Query for audit logs relating to a particular target
   commonfate.entity.v1alpha1.EID target = 1;
@@ -39,6 +45,9 @@ message QueryAuditLogsRequest {
 
 
   repeated AuditLogFilter filters = 3;
+
+  AuditLogOrdering order = 4;
+
 
   // The token for the next page.
   string page_token = 10;
