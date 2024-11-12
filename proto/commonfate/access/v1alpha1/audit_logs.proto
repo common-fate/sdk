@@ -82,4 +82,9 @@ message AuditLog {
   // such as the particular authentication token ID used
   // to perform the action.
   repeated IdentityLink caller_identity_chain = 8;
+
+  //the request id relating to the audit log
+  string request_id = 9;
+
+
 }

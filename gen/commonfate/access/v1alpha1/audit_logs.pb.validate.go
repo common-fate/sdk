@@ -928,6 +928,8 @@ func (m *AuditLog) validate(all bool) error {
 
 	}
 
+	// no validation rules for RequestId
+
 	if len(errors) > 0 {
 		return AuditLogMultiError(errors)
 	}
