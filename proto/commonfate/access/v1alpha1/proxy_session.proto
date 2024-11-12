@@ -3,6 +3,8 @@ package commonfate.access.v1alpha1;
 
 import "commonfate/authz/v1alpha1/read_only.proto";
 import "google/protobuf/timestamp.proto";
+import "commonfate/access/v1alpha1/named_eid.proto";
+
 
 service ProxySessionService {
   rpc StartSession(StartSessionRequest) returns (StartSessionResponse) {}
@@ -105,6 +107,8 @@ message Session {
   string request_id = 3;
   google.protobuf.Timestamp started_at = 4;
   optional google.protobuf.Timestamp ended_at = 5;
+  NamedEID target = 6;
+  NamedEID role = 7;
 }
 
 message StartShellSessionRequest {

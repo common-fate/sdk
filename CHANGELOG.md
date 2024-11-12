@@ -1,5 +1,11 @@
 # @common-fate/sdk
 
+## 1.69.1
+
+### Patch Changes
+
+- 3937b8e: add role and target to session detail
+
 ## 1.69.0
 
 ### Minor Changes
