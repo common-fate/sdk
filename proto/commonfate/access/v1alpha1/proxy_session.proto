@@ -4,6 +4,7 @@ package commonfate.access.v1alpha1;
 import "commonfate/authz/v1alpha1/read_only.proto";
 import "google/protobuf/timestamp.proto";
 import "commonfate/access/v1alpha1/named_eid.proto";
+import "commonfate/filters/v1alpha1/filters.proto";
 
 
 service ProxySessionService {
@@ -70,9 +71,22 @@ message KubernetesAction {
 
 message PutSessionLogResponse {}
 
+message SessionLogFilter {
+  oneof filter {
+
+    commonfate.filters.v1alpha1.TimeRangeFilter started_at = 1;
+    commonfate.filters.v1alpha1.EntityFilter principal = 2;
+    commonfate.filters.v1alpha1.EntityFilter resource = 3;
+
+
+  }
+}
+
 message QuerySessionLogsRequest {
   string session_id = 1;
   string page_token = 2;
+  repeated SessionLogFilter filters = 3;
+
 }
 
 message QuerySessionLogsResponse {

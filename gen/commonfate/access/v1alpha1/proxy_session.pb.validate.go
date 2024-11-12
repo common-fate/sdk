@@ -856,6 +856,234 @@ var _ interface {
 	ErrorName() string
 } = PutSessionLogResponseValidationError{}
 
+// Validate checks the field values on SessionLogFilter with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// first error encountered is returned, or nil if there are no violations.
+func (m *SessionLogFilter) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on SessionLogFilter with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// SessionLogFilterMultiError, or nil if none found.
+func (m *SessionLogFilter) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *SessionLogFilter) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	switch v := m.Filter.(type) {
+	case *SessionLogFilter_StartedAt:
+		if v == nil {
+			err := SessionLogFilterValidationError{
+				field:  "Filter",
+				reason: "oneof value cannot be a typed-nil",
+			}
+			if !all {
+				return err
+			}
+			errors = append(errors, err)
+		}
+
+		if all {
+			switch v := interface{}(m.GetStartedAt()).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, SessionLogFilterValidationError{
+						field:  "StartedAt",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, SessionLogFilterValidationError{
+						field:  "StartedAt",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(m.GetStartedAt()).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return SessionLogFilterValidationError{
+					field:  "StartedAt",
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	case *SessionLogFilter_Principal:
+		if v == nil {
+			err := SessionLogFilterValidationError{
+				field:  "Filter",
+				reason: "oneof value cannot be a typed-nil",
+			}
+			if !all {
+				return err
+			}
+			errors = append(errors, err)
+		}
+
+		if all {
+			switch v := interface{}(m.GetPrincipal()).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, SessionLogFilterValidationError{
+						field:  "Principal",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, SessionLogFilterValidationError{
+						field:  "Principal",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(m.GetPrincipal()).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return SessionLogFilterValidationError{
+					field:  "Principal",
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	case *SessionLogFilter_Resource:
+		if v == nil {
+			err := SessionLogFilterValidationError{
+				field:  "Filter",
+				reason: "oneof value cannot be a typed-nil",
+			}
+			if !all {
+				return err
+			}
+			errors = append(errors, err)
+		}
+
+		if all {
+			switch v := interface{}(m.GetResource()).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, SessionLogFilterValidationError{
+						field:  "Resource",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, SessionLogFilterValidationError{
+						field:  "Resource",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(m.GetResource()).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return SessionLogFilterValidationError{
+					field:  "Resource",
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	default:
+		_ = v // ensures v is used
+	}
+
+	if len(errors) > 0 {
+		return SessionLogFilterMultiError(errors)
+	}
+
+	return nil
+}
+
+// SessionLogFilterMultiError is an error wrapping multiple validation errors
+// returned by SessionLogFilter.ValidateAll() if the designated constraints
+// aren't met.
+type SessionLogFilterMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m SessionLogFilterMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m SessionLogFilterMultiError) AllErrors() []error { return m }
+
+// SessionLogFilterValidationError is the validation error returned by
+// SessionLogFilter.Validate if the designated constraints aren't met.
+type SessionLogFilterValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e SessionLogFilterValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e SessionLogFilterValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e SessionLogFilterValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e SessionLogFilterValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e SessionLogFilterValidationError) ErrorName() string { return "SessionLogFilterValidationError" }
+
+// Error satisfies the builtin error interface
+func (e SessionLogFilterValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sSessionLogFilter.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = SessionLogFilterValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = SessionLogFilterValidationError{}
+
 // Validate checks the field values on QuerySessionLogsRequest with the rules
 // defined in the proto definition for this message. If any rules are
 // violated, the first error encountered is returned, or nil if there are no violations.
@@ -881,6 +1109,40 @@ func (m *QuerySessionLogsRequest) validate(all bool) error {
 	// no validation rules for SessionId
 
 	// no validation rules for PageToken
+
+	for idx, item := range m.GetFilters() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, QuerySessionLogsRequestValidationError{
+						field:  fmt.Sprintf("Filters[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, QuerySessionLogsRequestValidationError{
+						field:  fmt.Sprintf("Filters[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return QuerySessionLogsRequestValidationError{
+					field:  fmt.Sprintf("Filters[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
 
 	if len(errors) > 0 {
 		return QuerySessionLogsRequestMultiError(errors)
