@@ -95,7 +95,7 @@ message QuerySessionLogsRequest {
 }
 
 message QuerySessionLogsResponse {
-  repeated SessionLog session_logs = 1;
+  repeated SessionLogDetailed session_logs = 1;
   string next_page_token = 2;
 }
 
