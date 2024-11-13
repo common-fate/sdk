@@ -879,7 +879,7 @@ func (m *SessionLogFilter) validate(all bool) error {
 	var errors []error
 
 	switch v := m.Filter.(type) {
-	case *SessionLogFilter_OccuredAt:
+	case *SessionLogFilter_OccurredAt:
 		if v == nil {
 			err := SessionLogFilterValidationError{
 				field:  "Filter",
@@ -892,11 +892,11 @@ func (m *SessionLogFilter) validate(all bool) error {
 		}
 
 		if all {
-			switch v := interface{}(m.GetOccuredAt()).(type) {
+			switch v := interface{}(m.GetOccurredAt()).(type) {
 			case interface{ ValidateAll() error }:
 				if err := v.ValidateAll(); err != nil {
 					errors = append(errors, SessionLogFilterValidationError{
-						field:  "OccuredAt",
+						field:  "OccurredAt",
 						reason: "embedded message failed validation",
 						cause:  err,
 					})
@@ -904,16 +904,16 @@ func (m *SessionLogFilter) validate(all bool) error {
 			case interface{ Validate() error }:
 				if err := v.Validate(); err != nil {
 					errors = append(errors, SessionLogFilterValidationError{
-						field:  "OccuredAt",
+						field:  "OccurredAt",
 						reason: "embedded message failed validation",
 						cause:  err,
 					})
 				}
 			}
-		} else if v, ok := interface{}(m.GetOccuredAt()).(interface{ Validate() error }); ok {
+		} else if v, ok := interface{}(m.GetOccurredAt()).(interface{ Validate() error }); ok {
 			if err := v.Validate(); err != nil {
 				return SessionLogFilterValidationError{
-					field:  "OccuredAt",
+					field:  "OccurredAt",
 					reason: "embedded message failed validation",
 					cause:  err,
 				}
@@ -961,7 +961,7 @@ func (m *SessionLogFilter) validate(all bool) error {
 			}
 		}
 
-	case *SessionLogFilter_Resource:
+	case *SessionLogFilter_Target:
 		if v == nil {
 			err := SessionLogFilterValidationError{
 				field:  "Filter",
@@ -974,11 +974,11 @@ func (m *SessionLogFilter) validate(all bool) error {
 		}
 
 		if all {
-			switch v := interface{}(m.GetResource()).(type) {
+			switch v := interface{}(m.GetTarget()).(type) {
 			case interface{ ValidateAll() error }:
 				if err := v.ValidateAll(); err != nil {
 					errors = append(errors, SessionLogFilterValidationError{
-						field:  "Resource",
+						field:  "Target",
 						reason: "embedded message failed validation",
 						cause:  err,
 					})
@@ -986,16 +986,139 @@ func (m *SessionLogFilter) validate(all bool) error {
 			case interface{ Validate() error }:
 				if err := v.Validate(); err != nil {
 					errors = append(errors, SessionLogFilterValidationError{
-						field:  "Resource",
+						field:  "Target",
 						reason: "embedded message failed validation",
 						cause:  err,
 					})
 				}
 			}
-		} else if v, ok := interface{}(m.GetResource()).(interface{ Validate() error }); ok {
+		} else if v, ok := interface{}(m.GetTarget()).(interface{ Validate() error }); ok {
 			if err := v.Validate(); err != nil {
 				return SessionLogFilterValidationError{
-					field:  "Resource",
+					field:  "Target",
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	case *SessionLogFilter_Role:
+		if v == nil {
+			err := SessionLogFilterValidationError{
+				field:  "Filter",
+				reason: "oneof value cannot be a typed-nil",
+			}
+			if !all {
+				return err
+			}
+			errors = append(errors, err)
+		}
+
+		if all {
+			switch v := interface{}(m.GetRole()).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, SessionLogFilterValidationError{
+						field:  "Role",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, SessionLogFilterValidationError{
+						field:  "Role",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(m.GetRole()).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return SessionLogFilterValidationError{
+					field:  "Role",
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	case *SessionLogFilter_TargetType:
+		if v == nil {
+			err := SessionLogFilterValidationError{
+				field:  "Filter",
+				reason: "oneof value cannot be a typed-nil",
+			}
+			if !all {
+				return err
+			}
+			errors = append(errors, err)
+		}
+
+		if all {
+			switch v := interface{}(m.GetTargetType()).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, SessionLogFilterValidationError{
+						field:  "TargetType",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, SessionLogFilterValidationError{
+						field:  "TargetType",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(m.GetTargetType()).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return SessionLogFilterValidationError{
+					field:  "TargetType",
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	case *SessionLogFilter_RoleType:
+		if v == nil {
+			err := SessionLogFilterValidationError{
+				field:  "Filter",
+				reason: "oneof value cannot be a typed-nil",
+			}
+			if !all {
+				return err
+			}
+			errors = append(errors, err)
+		}
+
+		if all {
+			switch v := interface{}(m.GetRoleType()).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, SessionLogFilterValidationError{
+						field:  "RoleType",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, SessionLogFilterValidationError{
+						field:  "RoleType",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(m.GetRoleType()).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return SessionLogFilterValidationError{
+					field:  "RoleType",
 					reason: "embedded message failed validation",
 					cause:  err,
 				}
