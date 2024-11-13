@@ -74,10 +74,10 @@ message PutSessionLogResponse {}
 message SessionLogFilter {
   oneof filter {
 
-    commonfate.filters.v1alpha1.TimeRangeFilter started_at = 1;
+    commonfate.filters.v1alpha1.TimeRangeFilter occured_at = 1;
     commonfate.filters.v1alpha1.EntityFilter principal = 2;
     commonfate.filters.v1alpha1.EntityFilter resource = 3;
-    commonfate.filters.v1alpha1.TimeRangeFilter ended_at = 4;
+
 
 
 

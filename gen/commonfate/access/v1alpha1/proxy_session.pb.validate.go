@@ -879,7 +879,7 @@ func (m *SessionLogFilter) validate(all bool) error {
 	var errors []error
 
 	switch v := m.Filter.(type) {
-	case *SessionLogFilter_StartedAt:
+	case *SessionLogFilter_OccuredAt:
 		if v == nil {
 			err := SessionLogFilterValidationError{
 				field:  "Filter",
@@ -892,11 +892,11 @@ func (m *SessionLogFilter) validate(all bool) error {
 		}
 
 		if all {
-			switch v := interface{}(m.GetStartedAt()).(type) {
+			switch v := interface{}(m.GetOccuredAt()).(type) {
 			case interface{ ValidateAll() error }:
 				if err := v.ValidateAll(); err != nil {
 					errors = append(errors, SessionLogFilterValidationError{
-						field:  "StartedAt",
+						field:  "OccuredAt",
 						reason: "embedded message failed validation",
 						cause:  err,
 					})
@@ -904,16 +904,16 @@ func (m *SessionLogFilter) validate(all bool) error {
 			case interface{ Validate() error }:
 				if err := v.Validate(); err != nil {
 					errors = append(errors, SessionLogFilterValidationError{
-						field:  "StartedAt",
+						field:  "OccuredAt",
 						reason: "embedded message failed validation",
 						cause:  err,
 					})
 				}
 			}
-		} else if v, ok := interface{}(m.GetStartedAt()).(interface{ Validate() error }); ok {
+		} else if v, ok := interface{}(m.GetOccuredAt()).(interface{ Validate() error }); ok {
 			if err := v.Validate(); err != nil {
 				return SessionLogFilterValidationError{
-					field:  "StartedAt",
+					field:  "OccuredAt",
 					reason: "embedded message failed validation",
 					cause:  err,
 				}
@@ -996,47 +996,6 @@ func (m *SessionLogFilter) validate(all bool) error {
 			if err := v.Validate(); err != nil {
 				return SessionLogFilterValidationError{
 					field:  "Resource",
-					reason: "embedded message failed validation",
-					cause:  err,
-				}
-			}
-		}
-
-	case *SessionLogFilter_EndedAt:
-		if v == nil {
-			err := SessionLogFilterValidationError{
-				field:  "Filter",
-				reason: "oneof value cannot be a typed-nil",
-			}
-			if !all {
-				return err
-			}
-			errors = append(errors, err)
-		}
-
-		if all {
-			switch v := interface{}(m.GetEndedAt()).(type) {
-			case interface{ ValidateAll() error }:
-				if err := v.ValidateAll(); err != nil {
-					errors = append(errors, SessionLogFilterValidationError{
-						field:  "EndedAt",
-						reason: "embedded message failed validation",
-						cause:  err,
-					})
-				}
-			case interface{ Validate() error }:
-				if err := v.Validate(); err != nil {
-					errors = append(errors, SessionLogFilterValidationError{
-						field:  "EndedAt",
-						reason: "embedded message failed validation",
-						cause:  err,
-					})
-				}
-			}
-		} else if v, ok := interface{}(m.GetEndedAt()).(interface{ Validate() error }); ok {
-			if err := v.Validate(); err != nil {
-				return SessionLogFilterValidationError{
-					field:  "EndedAt",
 					reason: "embedded message failed validation",
 					cause:  err,
 				}
