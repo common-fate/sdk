@@ -9,6 +9,8 @@ import "commonfate/entity/v1alpha1/eid.proto";
 import "google/protobuf/struct.proto";
 import "google/protobuf/timestamp.proto";
 import "commonfate/filters/v1alpha1/filters.proto";
+import "commonfate/access/v1alpha1/named_eid.proto";
+
 
 
 
@@ -78,7 +80,7 @@ message AuditLog {
   google.protobuf.Timestamp occurred_at = 4;
 
   // all related resources affected by the action.
-  repeated commonfate.entity.v1alpha1.EID targets = 5;
+  repeated NamedEID targets = 5;
 
   // a human-friendly message describing the action.
   string message = 6;

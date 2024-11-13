@@ -14,6 +14,9 @@ service ProxySessionService {
   rpc QuerySessionLogs(QuerySessionLogsRequest) returns (QuerySessionLogsResponse) {
     option (commonfate.authz.v1alpha1.read_only) = true;
   }
+  rpc QuerySessionLogsForSession(QuerySessionLogsForSessionRequest) returns (QuerySessionLogsForSessionResponse) {
+    option (commonfate.authz.v1alpha1.read_only) = true;
+  }
   rpc GetSession(GetSessionRequest) returns (GetSessionResponse) {
     option (commonfate.authz.v1alpha1.read_only) = true;
   }
@@ -94,6 +97,30 @@ message QuerySessionLogsRequest {
 message QuerySessionLogsResponse {
   repeated SessionLog session_logs = 1;
   string next_page_token = 2;
+}
+
+message QuerySessionLogsForSessionRequest {
+  string session_id = 1;
+  string page_token = 2;
+
+
+}
+
+message QuerySessionLogsForSessionResponse {
+  repeated SessionLog session_logs = 1;
+  string next_page_token = 2;
+}
+
+message SessionLogDetailed {
+  string message = 1;
+  // the timestamp the action occurred at.
+  google.protobuf.Timestamp occurred_at = 2;
+  SessionLogDetail session_log_detail = 3;
+  string request_id = 4;
+  string grant_id = 5;
+  NamedEID target = 6;
+  NamedEID role = 7;
+  NamedEID principal = 8;
 }
 
 message SessionLog {
