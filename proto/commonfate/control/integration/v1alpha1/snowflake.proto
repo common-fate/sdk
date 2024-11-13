@@ -3,6 +3,7 @@ package commonfate.control.integration.v1alpha1;
 
 message Snowflake {
   string account_id = 1;
-  string client_id = 2;
-  string client_secret_secret_path = 3;
+  string region = 2;
+  string username = 3;
+  string password_secret_path = 4;
 }

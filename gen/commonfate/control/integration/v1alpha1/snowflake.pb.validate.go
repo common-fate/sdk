@@ -59,9 +59,11 @@ func (m *Snowflake) validate(all bool) error {
 
 	// no validation rules for AccountId
 
-	// no validation rules for ClientId
+	// no validation rules for Region
 
-	// no validation rules for ClientSecretSecretPath
+	// no validation rules for Username
+
+	// no validation rules for PasswordSecretPath
 
 	if len(errors) > 0 {
 		return SnowflakeMultiError(errors)
