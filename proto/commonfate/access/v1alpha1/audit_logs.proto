@@ -97,5 +97,12 @@ message AuditLog {
   //the request id relating to the audit log
   string request_id = 9;
 
+  AuditRoleEntitlement entitlement = 10;
 
+
+}
+
+message AuditRoleEntitlement {
+ NamedEID target = 1;
+ NamedEID role = 2;
 }
