@@ -1908,6 +1908,8 @@ func (m *SessionLogDetailed) validate(all bool) error {
 		}
 	}
 
+	// no validation rules for SessionId
+
 	if len(errors) > 0 {
 		return SessionLogDetailedMultiError(errors)
 	}
