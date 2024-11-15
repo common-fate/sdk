@@ -63,6 +63,8 @@ func (m *JiraIssue) validate(all bool) error {
 
 	// no validation rules for Url
 
+	// no validation rules for IntegrationId
+
 	if len(errors) > 0 {
 		return JiraIssueMultiError(errors)
 	}
