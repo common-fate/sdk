@@ -58,20 +58,15 @@ service AccessService {
     option (commonfate.authz.v1alpha1.read_only) = true;
   }
 
-  rpc RequestReview(RequestReviewRequest) returns (RequestReviewResponse) {
-
-  }
+  rpc RequestReview(RequestReviewRequest) returns (RequestReviewResponse) {}
 }
 
 message RequestReviewRequest {
-    string request_id = 1;
-    repeated commonfate.entity.v1alpha1.EID reviewers = 2;
-
+  string request_id = 1;
+  repeated commonfate.entity.v1alpha1.EID reviewers = 2;
 }
 
-message RequestReviewResponse {
-
-}
+message RequestReviewResponse {}
 
 message GrantApprovalStep {
   commonfate.entity.v1alpha1.EID grant = 1;
@@ -339,6 +334,8 @@ message Validation {
   bool has_reason = 1;
   // List of regex patterns that the reason must conform with
   repeated RegexValidation reason_regex = 2;
+  // If true, a jira ticket attachment is required for access.
+  bool has_jira_ticket = 3;
 }
 
 enum GrantChange {
