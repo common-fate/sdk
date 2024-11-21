@@ -42,7 +42,7 @@ message QueryAuditLogsRequest {
 
   repeated AuditLogFilter filters = 3;
 
-  AuditLogOrdering order = 4;
+  optional AuditLogOrdering order = 4;
 
   // The token for the next page.
   string page_token = 10;

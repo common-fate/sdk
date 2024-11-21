@@ -389,9 +389,11 @@ func (m *QueryAuditLogsRequest) validate(all bool) error {
 
 	}
 
-	// no validation rules for Order
-
 	// no validation rules for PageToken
+
+	if m.Order != nil {
+		// no validation rules for Order
+	}
 
 	if len(errors) > 0 {
 		return QueryAuditLogsRequestMultiError(errors)
