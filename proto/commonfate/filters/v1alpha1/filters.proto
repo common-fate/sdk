@@ -46,6 +46,13 @@ message BoolFilter {
   BoolComparison comparison = 2;
 }
 
+// Filters where the principal/action/resource matches particular entities.
+message StringFilter {
+  // The string value to compare
+  string value = 1;
+  StringComparison comparison = 2;
+}
+
 message RelativeTimeBound {
   google.protobuf.Duration duration = 1;
 }
@@ -98,4 +105,18 @@ enum EqualityComparison {
 
   // Greater than or equal to the provided value.
   EQUALITY_COMPARISON_GREATER_THAN_EQUAL = 6;
+}
+
+enum StringComparison {
+  STRING_COMPARISON_UNSPECIFIED = 0;
+  // Equal to the provided value.
+  STRING_COMPARISON_EQUAL = 1;
+  // Not equal to the provided value.
+  STRING_COMPARISON_NOT_EQUAL = 2;
+  // Contains the substring
+  STRING_COMPARISON_CONTAINS = 3;
+  // Has the prefix
+  STRING_COMPARISON_HAS_PREFIX = 4;
+  // Has the suffix
+  STRING_COMPARISON_HAS_SUFFIX = 5;
 }

@@ -3,9 +3,11 @@ syntax = "proto3";
 package commonfate.access.v1alpha1;
 
 import "commonfate/access/v1alpha1/identity.proto";
+import "commonfate/access/v1alpha1/named_eid.proto";
 import "commonfate/access/v1alpha1/user.proto";
 import "commonfate/authz/v1alpha1/read_only.proto";
 import "commonfate/entity/v1alpha1/eid.proto";
+import "commonfate/filters/v1alpha1/filters.proto";
 import "google/protobuf/struct.proto";
 import "google/protobuf/timestamp.proto";
 
@@ -15,12 +17,32 @@ service AuditLogService {
   }
 }
 
+message AuditLogFilter {
+  oneof filter {
+    commonfate.filters.v1alpha1.TimeRangeFilter occurred_at = 1;
+    commonfate.filters.v1alpha1.EntityFilter actor = 2;
+    commonfate.filters.v1alpha1.EntityTypeFilter action_type = 3;
+    commonfate.filters.v1alpha1.EntityFilter target = 4;
+  }
+}
+
+enum AuditLogOrdering {
+  // defaults to AUDIT_LOG_ORDERING_DESC newest to oldest
+  AUDIT_LOG_ORDERING_UNSPECIFIED = 0;
+  AUDIT_LOG_ORDERING_ASC = 1;
+  AUDIT_LOG_ORDERING_DESC = 2;
+}
+
 message QueryAuditLogsRequest {
   // Query for audit logs relating to a particular target
   commonfate.entity.v1alpha1.EID target = 1;
 
   // Query for audit logs performed by a particular actor
   // commonfate.entity.v1alpha1.EID actor = 2;
+
+  repeated AuditLogFilter filters = 3;
+
+  optional AuditLogOrdering order = 4;
 
   // The token for the next page.
   string page_token = 10;
@@ -51,7 +73,7 @@ message AuditLog {
   google.protobuf.Timestamp occurred_at = 4;
 
   // all related resources affected by the action.
-  repeated commonfate.entity.v1alpha1.EID targets = 5;
+  repeated NamedEID targets = 5;
 
   // a human-friendly message describing the action.
   string message = 6;
@@ -64,4 +86,18 @@ message AuditLog {
   // such as the particular authentication token ID used
   // to perform the action.
   repeated IdentityLink caller_identity_chain = 8;
+
+  //the request id relating to the audit log
+  optional string request_id = 9;
+
+  //the grant id relating to the audit log
+  optional string grant_id = 10;
+
+  //the entitlement of the audit log
+  optional AuditLogEntitlement entitlement = 11;
+}
+
+message AuditLogEntitlement {
+  NamedEID target = 1;
+  NamedEID role = 2;
 }
