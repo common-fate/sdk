@@ -930,35 +930,45 @@ func (m *AuditLog) validate(all bool) error {
 
 	}
 
-	// no validation rules for RequestId
+	if m.RequestId != nil {
+		// no validation rules for RequestId
+	}
 
-	if all {
-		switch v := interface{}(m.GetEntitlement()).(type) {
-		case interface{ ValidateAll() error }:
-			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, AuditLogValidationError{
-					field:  "Entitlement",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
+	if m.GrantId != nil {
+		// no validation rules for GrantId
+	}
+
+	if m.Entitlement != nil {
+
+		if all {
+			switch v := interface{}(m.GetEntitlement()).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, AuditLogValidationError{
+						field:  "Entitlement",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, AuditLogValidationError{
+						field:  "Entitlement",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
 			}
-		case interface{ Validate() error }:
+		} else if v, ok := interface{}(m.GetEntitlement()).(interface{ Validate() error }); ok {
 			if err := v.Validate(); err != nil {
-				errors = append(errors, AuditLogValidationError{
+				return AuditLogValidationError{
 					field:  "Entitlement",
 					reason: "embedded message failed validation",
 					cause:  err,
-				})
+				}
 			}
 		}
-	} else if v, ok := interface{}(m.GetEntitlement()).(interface{ Validate() error }); ok {
-		if err := v.Validate(); err != nil {
-			return AuditLogValidationError{
-				field:  "Entitlement",
-				reason: "embedded message failed validation",
-				cause:  err,
-			}
-		}
+
 	}
 
 	if len(errors) > 0 {
@@ -1038,22 +1048,22 @@ var _ interface {
 	ErrorName() string
 } = AuditLogValidationError{}
 
-// Validate checks the field values on AuditRoleEntitlement with the rules
+// Validate checks the field values on AuditLogEntitlement with the rules
 // defined in the proto definition for this message. If any rules are
 // violated, the first error encountered is returned, or nil if there are no violations.
-func (m *AuditRoleEntitlement) Validate() error {
+func (m *AuditLogEntitlement) Validate() error {
 	return m.validate(false)
 }
 
-// ValidateAll checks the field values on AuditRoleEntitlement with the rules
+// ValidateAll checks the field values on AuditLogEntitlement with the rules
 // defined in the proto definition for this message. If any rules are
 // violated, the result is a list of violation errors wrapped in
-// AuditRoleEntitlementMultiError, or nil if none found.
-func (m *AuditRoleEntitlement) ValidateAll() error {
+// AuditLogEntitlementMultiError, or nil if none found.
+func (m *AuditLogEntitlement) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *AuditRoleEntitlement) validate(all bool) error {
+func (m *AuditLogEntitlement) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
@@ -1064,7 +1074,7 @@ func (m *AuditRoleEntitlement) validate(all bool) error {
 		switch v := interface{}(m.GetTarget()).(type) {
 		case interface{ ValidateAll() error }:
 			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, AuditRoleEntitlementValidationError{
+				errors = append(errors, AuditLogEntitlementValidationError{
 					field:  "Target",
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -1072,7 +1082,7 @@ func (m *AuditRoleEntitlement) validate(all bool) error {
 			}
 		case interface{ Validate() error }:
 			if err := v.Validate(); err != nil {
-				errors = append(errors, AuditRoleEntitlementValidationError{
+				errors = append(errors, AuditLogEntitlementValidationError{
 					field:  "Target",
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -1081,7 +1091,7 @@ func (m *AuditRoleEntitlement) validate(all bool) error {
 		}
 	} else if v, ok := interface{}(m.GetTarget()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
-			return AuditRoleEntitlementValidationError{
+			return AuditLogEntitlementValidationError{
 				field:  "Target",
 				reason: "embedded message failed validation",
 				cause:  err,
@@ -1093,7 +1103,7 @@ func (m *AuditRoleEntitlement) validate(all bool) error {
 		switch v := interface{}(m.GetRole()).(type) {
 		case interface{ ValidateAll() error }:
 			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, AuditRoleEntitlementValidationError{
+				errors = append(errors, AuditLogEntitlementValidationError{
 					field:  "Role",
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -1101,7 +1111,7 @@ func (m *AuditRoleEntitlement) validate(all bool) error {
 			}
 		case interface{ Validate() error }:
 			if err := v.Validate(); err != nil {
-				errors = append(errors, AuditRoleEntitlementValidationError{
+				errors = append(errors, AuditLogEntitlementValidationError{
 					field:  "Role",
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -1110,7 +1120,7 @@ func (m *AuditRoleEntitlement) validate(all bool) error {
 		}
 	} else if v, ok := interface{}(m.GetRole()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
-			return AuditRoleEntitlementValidationError{
+			return AuditLogEntitlementValidationError{
 				field:  "Role",
 				reason: "embedded message failed validation",
 				cause:  err,
@@ -1119,19 +1129,19 @@ func (m *AuditRoleEntitlement) validate(all bool) error {
 	}
 
 	if len(errors) > 0 {
-		return AuditRoleEntitlementMultiError(errors)
+		return AuditLogEntitlementMultiError(errors)
 	}
 
 	return nil
 }
 
-// AuditRoleEntitlementMultiError is an error wrapping multiple validation
-// errors returned by AuditRoleEntitlement.ValidateAll() if the designated
+// AuditLogEntitlementMultiError is an error wrapping multiple validation
+// errors returned by AuditLogEntitlement.ValidateAll() if the designated
 // constraints aren't met.
-type AuditRoleEntitlementMultiError []error
+type AuditLogEntitlementMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m AuditRoleEntitlementMultiError) Error() string {
+func (m AuditLogEntitlementMultiError) Error() string {
 	var msgs []string
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -1140,11 +1150,11 @@ func (m AuditRoleEntitlementMultiError) Error() string {
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m AuditRoleEntitlementMultiError) AllErrors() []error { return m }
+func (m AuditLogEntitlementMultiError) AllErrors() []error { return m }
 
-// AuditRoleEntitlementValidationError is the validation error returned by
-// AuditRoleEntitlement.Validate if the designated constraints aren't met.
-type AuditRoleEntitlementValidationError struct {
+// AuditLogEntitlementValidationError is the validation error returned by
+// AuditLogEntitlement.Validate if the designated constraints aren't met.
+type AuditLogEntitlementValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -1152,24 +1162,24 @@ type AuditRoleEntitlementValidationError struct {
 }
 
 // Field function returns field value.
-func (e AuditRoleEntitlementValidationError) Field() string { return e.field }
+func (e AuditLogEntitlementValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e AuditRoleEntitlementValidationError) Reason() string { return e.reason }
+func (e AuditLogEntitlementValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e AuditRoleEntitlementValidationError) Cause() error { return e.cause }
+func (e AuditLogEntitlementValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e AuditRoleEntitlementValidationError) Key() bool { return e.key }
+func (e AuditLogEntitlementValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e AuditRoleEntitlementValidationError) ErrorName() string {
-	return "AuditRoleEntitlementValidationError"
+func (e AuditLogEntitlementValidationError) ErrorName() string {
+	return "AuditLogEntitlementValidationError"
 }
 
 // Error satisfies the builtin error interface
-func (e AuditRoleEntitlementValidationError) Error() string {
+func (e AuditLogEntitlementValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -1181,14 +1191,14 @@ func (e AuditRoleEntitlementValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sAuditRoleEntitlement.%s: %s%s",
+		"invalid %sAuditLogEntitlement.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = AuditRoleEntitlementValidationError{}
+var _ error = AuditLogEntitlementValidationError{}
 
 var _ interface {
 	Field() string
@@ -1196,4 +1206,4 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = AuditRoleEntitlementValidationError{}
+} = AuditLogEntitlementValidationError{}

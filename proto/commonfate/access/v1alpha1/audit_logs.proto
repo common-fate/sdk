@@ -88,12 +88,16 @@ message AuditLog {
   repeated IdentityLink caller_identity_chain = 8;
 
   //the request id relating to the audit log
-  string request_id = 9;
+  optional string request_id = 9;
 
-  AuditRoleEntitlement entitlement = 10;
+  //the grant id relating to the audit log
+  optional string grant_id = 10;
+
+  //the entitlement of the audit log
+  optional AuditLogEntitlement entitlement = 11;
 }
 
-message AuditRoleEntitlement {
+message AuditLogEntitlement {
   NamedEID target = 1;
   NamedEID role = 2;
 }
