@@ -28,13 +28,6 @@ message EntityFilter {
   BoolComparison comparison = 2;
 }
 
-//
-message EntityOfTypeFilter {
-  string type = 1;
-  repeated string id = 2;
-  BoolComparison comparison = 3;
-}
-
 // Filters where the principal/action/resource matches particular entity types.
 message EntityTypeFilter {
   // Types of entities to filter for. Will filter for a principal/action/resource matching any of these entities.
@@ -51,6 +44,13 @@ message IntegerFilter {
 // Filters based on a condition being true or false.
 message BoolFilter {
   BoolComparison comparison = 2;
+}
+
+// Filters where the principal/action/resource matches particular entities.
+message StringFilter {
+  // The string value to compare
+  string value = 1;
+  StringComparison comparison = 2;
 }
 
 message RelativeTimeBound {
@@ -105,4 +105,18 @@ enum EqualityComparison {
 
   // Greater than or equal to the provided value.
   EQUALITY_COMPARISON_GREATER_THAN_EQUAL = 6;
+}
+
+enum StringComparison {
+  STRING_COMPARISON_UNSPECIFIED = 0;
+  // Equal to the provided value.
+  STRING_COMPARISON_EQUAL = 1;
+  // Not equal to the provided value.
+  STRING_COMPARISON_NOT_EQUAL = 2;
+  // Contains the substring
+  STRING_COMPARISON_CONTAINS = 3;
+  // Has the prefix
+  STRING_COMPARISON_HAS_PREFIX = 4;
+  // Has the suffix
+  STRING_COMPARISON_HAS_SUFFIX = 5;
 }
