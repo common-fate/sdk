@@ -3,16 +3,13 @@ syntax = "proto3";
 package commonfate.access.v1alpha1;
 
 import "commonfate/access/v1alpha1/identity.proto";
+import "commonfate/access/v1alpha1/named_eid.proto";
 import "commonfate/access/v1alpha1/user.proto";
 import "commonfate/authz/v1alpha1/read_only.proto";
 import "commonfate/entity/v1alpha1/eid.proto";
+import "commonfate/filters/v1alpha1/filters.proto";
 import "google/protobuf/struct.proto";
 import "google/protobuf/timestamp.proto";
-import "commonfate/filters/v1alpha1/filters.proto";
-import "commonfate/access/v1alpha1/named_eid.proto";
-
-
-
 
 service AuditLogService {
   rpc QueryAuditLogs(QueryAuditLogsRequest) returns (QueryAuditLogsResponse) {
@@ -22,20 +19,18 @@ service AuditLogService {
 
 message AuditLogFilter {
   oneof filter {
-
     commonfate.filters.v1alpha1.TimeRangeFilter occurred_at = 1;
     commonfate.filters.v1alpha1.EntityFilter actor = 2;
     commonfate.filters.v1alpha1.EntityTypeFilter action_type = 3;
     commonfate.filters.v1alpha1.EntityFilter target = 4;
-
-
   }
 }
 
 enum AuditLogOrdering {
-    AUDIT_LOG_ORDER_ASC = 0;
-    AUDIT_LOG_ORDER_DESC = 1;
-    AUDIT_LOG_ORDER_CHRON = 3; //chronologically
+  // defaults to AUDIT_LOG_ORDERING_DESC newest to oldest
+  AUDIT_LOG_ORDERING_UNSPECIFIED = 0;
+  AUDIT_LOG_ORDERING_ASC = 1;
+  AUDIT_LOG_ORDERING_DESC = 2;
 }
 
 message QueryAuditLogsRequest {
@@ -45,11 +40,9 @@ message QueryAuditLogsRequest {
   // Query for audit logs performed by a particular actor
   // commonfate.entity.v1alpha1.EID actor = 2;
 
-
   repeated AuditLogFilter filters = 3;
 
   AuditLogOrdering order = 4;
-
 
   // The token for the next page.
   string page_token = 10;
@@ -98,11 +91,9 @@ message AuditLog {
   string request_id = 9;
 
   AuditRoleEntitlement entitlement = 10;
-
-
 }
 
 message AuditRoleEntitlement {
- NamedEID target = 1;
- NamedEID role = 2;
+  NamedEID target = 1;
+  NamedEID role = 2;
 }
