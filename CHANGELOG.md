@@ -1,5 +1,17 @@
 # @common-fate/sdk
 
+## 1.70.1
+
+### Patch Changes
+
+- dac031a: add filters for query audit logs and query session logs
+
+## 1.70.0
+
+### Minor Changes
+
+- c329c27: Add Snowflake integration.
+
 ## 1.69.1
 
 ### Patch Changes
