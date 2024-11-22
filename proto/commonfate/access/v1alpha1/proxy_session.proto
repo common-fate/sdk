@@ -134,6 +134,8 @@ message SessionLog {
   // the timestamp the action occurred at.
   google.protobuf.Timestamp occurred_at = 2;
   SessionLogDetail session_log_detail = 3;
+  NamedEID principal = 4;
+
 }
 
 message SessionLogDetail {
