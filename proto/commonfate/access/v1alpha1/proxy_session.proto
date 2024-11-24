@@ -5,6 +5,8 @@ import "commonfate/access/v1alpha1/named_eid.proto";
 import "commonfate/authz/v1alpha1/read_only.proto";
 import "commonfate/filters/v1alpha1/filters.proto";
 import "google/protobuf/timestamp.proto";
+import "commonfate/access/v1alpha1/user.proto";
+
 
 service ProxySessionService {
   rpc StartSession(StartSessionRequest) returns (StartSessionResponse) {}
@@ -114,7 +116,7 @@ message SessionLogDetailed {
   string grant_id = 5;
   NamedEID target = 6;
   NamedEID role = 7;
-  NamedEID principal = 8;
+  User principal = 8;
   string session_id = 9;
 }
 
@@ -123,7 +125,7 @@ message SessionLog {
   // the timestamp the action occurred at.
   google.protobuf.Timestamp occurred_at = 2;
   SessionLogDetail session_log_detail = 3;
-  NamedEID principal = 4;
+  User principal = 4;
 
 }
 
