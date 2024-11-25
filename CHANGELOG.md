@@ -1,5 +1,17 @@
 # @common-fate/sdk
 
+## 1.70.2
+
+### Patch Changes
+
+- bb9bb2c: add user details to session log details
+
+## 1.70.1
+
+### Patch Changes
+
+- dac031a: add filters for query audit logs and query session logs
+
 ## 1.70.0
 
 ### Minor Changes
