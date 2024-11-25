@@ -1,5 +1,15 @@
 # @common-fate/sdk
 
+## 1.71.0
+
+### Minor Changes
+
+- b0a703d: Add Jira ticket attachment support
+
+### Patch Changes
+
+- b0a703d: Add url and summary to justification attachment type
+
 ## 1.70.2
 
 ### Patch Changes
