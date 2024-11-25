@@ -2978,22 +2978,22 @@ var _ interface {
 	ErrorName() string
 } = JustificationValidationError{}
 
-// Validate checks the field values on AttachmentInput with the rules defined
-// in the proto definition for this message. If any rules are violated, the
-// first error encountered is returned, or nil if there are no violations.
-func (m *AttachmentInput) Validate() error {
+// Validate checks the field values on Attachment with the rules defined in the
+// proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *Attachment) Validate() error {
 	return m.validate(false)
 }
 
-// ValidateAll checks the field values on AttachmentInput with the rules
-// defined in the proto definition for this message. If any rules are
-// violated, the result is a list of violation errors wrapped in
-// AttachmentInputMultiError, or nil if none found.
-func (m *AttachmentInput) ValidateAll() error {
+// ValidateAll checks the field values on Attachment with the rules defined in
+// the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in AttachmentMultiError, or
+// nil if none found.
+func (m *Attachment) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *AttachmentInput) validate(all bool) error {
+func (m *Attachment) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
@@ -3007,19 +3007,18 @@ func (m *AttachmentInput) validate(all bool) error {
 	// no validation rules for Id
 
 	if len(errors) > 0 {
-		return AttachmentInputMultiError(errors)
+		return AttachmentMultiError(errors)
 	}
 
 	return nil
 }
 
-// AttachmentInputMultiError is an error wrapping multiple validation errors
-// returned by AttachmentInput.ValidateAll() if the designated constraints
-// aren't met.
-type AttachmentInputMultiError []error
+// AttachmentMultiError is an error wrapping multiple validation errors
+// returned by Attachment.ValidateAll() if the designated constraints aren't met.
+type AttachmentMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m AttachmentInputMultiError) Error() string {
+func (m AttachmentMultiError) Error() string {
 	var msgs []string
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -3028,11 +3027,11 @@ func (m AttachmentInputMultiError) Error() string {
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m AttachmentInputMultiError) AllErrors() []error { return m }
+func (m AttachmentMultiError) AllErrors() []error { return m }
 
-// AttachmentInputValidationError is the validation error returned by
-// AttachmentInput.Validate if the designated constraints aren't met.
-type AttachmentInputValidationError struct {
+// AttachmentValidationError is the validation error returned by
+// Attachment.Validate if the designated constraints aren't met.
+type AttachmentValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -3040,22 +3039,22 @@ type AttachmentInputValidationError struct {
 }
 
 // Field function returns field value.
-func (e AttachmentInputValidationError) Field() string { return e.field }
+func (e AttachmentValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e AttachmentInputValidationError) Reason() string { return e.reason }
+func (e AttachmentValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e AttachmentInputValidationError) Cause() error { return e.cause }
+func (e AttachmentValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e AttachmentInputValidationError) Key() bool { return e.key }
+func (e AttachmentValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e AttachmentInputValidationError) ErrorName() string { return "AttachmentInputValidationError" }
+func (e AttachmentValidationError) ErrorName() string { return "AttachmentValidationError" }
 
 // Error satisfies the builtin error interface
-func (e AttachmentInputValidationError) Error() string {
+func (e AttachmentValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -3067,14 +3066,14 @@ func (e AttachmentInputValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sAttachmentInput.%s: %s%s",
+		"invalid %sAttachment.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = AttachmentInputValidationError{}
+var _ error = AttachmentValidationError{}
 
 var _ interface {
 	Field() string
@@ -3082,4 +3081,414 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = AttachmentInputValidationError{}
+} = AttachmentValidationError{}
+
+// Validate checks the field values on AttachmentSpecifier with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *AttachmentSpecifier) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on AttachmentSpecifier with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// AttachmentSpecifierMultiError, or nil if none found.
+func (m *AttachmentSpecifier) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *AttachmentSpecifier) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	switch v := m.Specify.(type) {
+	case *AttachmentSpecifier_Attachment:
+		if v == nil {
+			err := AttachmentSpecifierValidationError{
+				field:  "Specify",
+				reason: "oneof value cannot be a typed-nil",
+			}
+			if !all {
+				return err
+			}
+			errors = append(errors, err)
+		}
+
+		if all {
+			switch v := interface{}(m.GetAttachment()).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, AttachmentSpecifierValidationError{
+						field:  "Attachment",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, AttachmentSpecifierValidationError{
+						field:  "Attachment",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(m.GetAttachment()).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return AttachmentSpecifierValidationError{
+					field:  "Attachment",
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	case *AttachmentSpecifier_Lookup:
+		if v == nil {
+			err := AttachmentSpecifierValidationError{
+				field:  "Specify",
+				reason: "oneof value cannot be a typed-nil",
+			}
+			if !all {
+				return err
+			}
+			errors = append(errors, err)
+		}
+		// no validation rules for Lookup
+	default:
+		_ = v // ensures v is used
+	}
+
+	if len(errors) > 0 {
+		return AttachmentSpecifierMultiError(errors)
+	}
+
+	return nil
+}
+
+// AttachmentSpecifierMultiError is an error wrapping multiple validation
+// errors returned by AttachmentSpecifier.ValidateAll() if the designated
+// constraints aren't met.
+type AttachmentSpecifierMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m AttachmentSpecifierMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m AttachmentSpecifierMultiError) AllErrors() []error { return m }
+
+// AttachmentSpecifierValidationError is the validation error returned by
+// AttachmentSpecifier.Validate if the designated constraints aren't met.
+type AttachmentSpecifierValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e AttachmentSpecifierValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e AttachmentSpecifierValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e AttachmentSpecifierValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e AttachmentSpecifierValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e AttachmentSpecifierValidationError) ErrorName() string {
+	return "AttachmentSpecifierValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e AttachmentSpecifierValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sAttachmentSpecifier.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = AttachmentSpecifierValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = AttachmentSpecifierValidationError{}
+
+// Validate checks the field values on JustificationDetail with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *JustificationDetail) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on JustificationDetail with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// JustificationDetailMultiError, or nil if none found.
+func (m *JustificationDetail) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *JustificationDetail) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	for idx, item := range m.GetAttachments() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, JustificationDetailValidationError{
+						field:  fmt.Sprintf("Attachments[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, JustificationDetailValidationError{
+						field:  fmt.Sprintf("Attachments[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return JustificationDetailValidationError{
+					field:  fmt.Sprintf("Attachments[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	if m.Reason != nil {
+		// no validation rules for Reason
+	}
+
+	if len(errors) > 0 {
+		return JustificationDetailMultiError(errors)
+	}
+
+	return nil
+}
+
+// JustificationDetailMultiError is an error wrapping multiple validation
+// errors returned by JustificationDetail.ValidateAll() if the designated
+// constraints aren't met.
+type JustificationDetailMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m JustificationDetailMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m JustificationDetailMultiError) AllErrors() []error { return m }
+
+// JustificationDetailValidationError is the validation error returned by
+// JustificationDetail.Validate if the designated constraints aren't met.
+type JustificationDetailValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e JustificationDetailValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e JustificationDetailValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e JustificationDetailValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e JustificationDetailValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e JustificationDetailValidationError) ErrorName() string {
+	return "JustificationDetailValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e JustificationDetailValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sJustificationDetail.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = JustificationDetailValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = JustificationDetailValidationError{}
+
+// Validate checks the field values on AttachmentDetail with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// first error encountered is returned, or nil if there are no violations.
+func (m *AttachmentDetail) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on AttachmentDetail with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// AttachmentDetailMultiError, or nil if none found.
+func (m *AttachmentDetail) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *AttachmentDetail) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Type
+
+	// no validation rules for IntegrationId
+
+	// no validation rules for Id
+
+	// no validation rules for Url
+
+	// no validation rules for Summary
+
+	if len(errors) > 0 {
+		return AttachmentDetailMultiError(errors)
+	}
+
+	return nil
+}
+
+// AttachmentDetailMultiError is an error wrapping multiple validation errors
+// returned by AttachmentDetail.ValidateAll() if the designated constraints
+// aren't met.
+type AttachmentDetailMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m AttachmentDetailMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m AttachmentDetailMultiError) AllErrors() []error { return m }
+
+// AttachmentDetailValidationError is the validation error returned by
+// AttachmentDetail.Validate if the designated constraints aren't met.
+type AttachmentDetailValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e AttachmentDetailValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e AttachmentDetailValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e AttachmentDetailValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e AttachmentDetailValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e AttachmentDetailValidationError) ErrorName() string { return "AttachmentDetailValidationError" }
+
+// Error satisfies the builtin error interface
+func (e AttachmentDetailValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sAttachmentDetail.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = AttachmentDetailValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = AttachmentDetailValidationError{}

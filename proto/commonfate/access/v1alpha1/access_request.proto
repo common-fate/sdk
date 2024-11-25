@@ -144,7 +144,7 @@ message AccessRequest {
   google.protobuf.Timestamp created_at = 8;
 
   // The justification supplied when the request was created
-  Justification justification = 9;
+  JustificationDetail justification = 9;
 
   // The user or service account that requested the access.
   //
@@ -158,14 +158,14 @@ message AccessRequest {
 }
 
 enum ReviewDecision {
-    REVIEW_DECISION_UNSPECIFIED = 0;
-    REVIEW_DECISION_ALLOW = 1;
-    REVIEW_DECISION_DENY = 2;
+  REVIEW_DECISION_UNSPECIFIED = 0;
+  REVIEW_DECISION_ALLOW = 1;
+  REVIEW_DECISION_DENY = 2;
 }
 
 message Reviewer {
-    User user = 1;
-    ReviewDecision review_decision = 2;
+  User user = 1;
+  ReviewDecision review_decision = 2;
 }
 
 message AccessRequestActions {
@@ -248,15 +248,47 @@ message ActivateAccessRequestResponse {
 
 message Justification {
   optional string reason = 1;
-  repeated AttachmentInput attachments = 2;
+  repeated AttachmentSpecifier attachments = 2;
 }
 
-message AttachmentInput {
+// used when requesting access
+message Attachment {
   AttachmentType type = 1;
   // ID of the integration the attachment is associated with.
   string integration_id = 2;
   // ID of the attachment, such as the Jira ticket ID.
   string id = 3;
+}
+
+message AttachmentSpecifier {
+  oneof specify {
+    // Specify an attachment by ID, if you know the exact attachment you should use this.
+    Attachment attachment = 1;
+
+    // Specify an attachment using a lookup by id across all attachment integrations. This is used in our CLI
+    // to allow end users to look up an attachment for any integration by ID or URL.
+    //
+    // If the lookup fails to match in any attachment integration, the API will return a Not Found error.
+    // The API will return an Invalid Arguments error if the lookup is ambiguous and could match
+    // multiple attachments.
+    string lookup = 2;
+  }
+}
+
+// detailed justification for an existing request
+message JustificationDetail {
+  optional string reason = 1;
+  repeated AttachmentDetail attachments = 2;
+}
+
+message AttachmentDetail {
+  AttachmentType type = 1;
+  // ID of the integration the attachment is associated with.
+  string integration_id = 2;
+  // ID of the attachment, such as the Jira ticket ID.
+  string id = 3;
+  string url = 4;
+  string summary = 5;
 }
 
 enum AttachmentType {

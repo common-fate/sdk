@@ -4549,6 +4549,8 @@ func (m *Validation) validate(all bool) error {
 
 	}
 
+	// no validation rules for HasJiraTicket
+
 	if len(errors) > 0 {
 		return ValidationMultiError(errors)
 	}
