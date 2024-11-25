@@ -15,9 +15,7 @@ service ProxySessionService {
   rpc QuerySessionLogs(QuerySessionLogsRequest) returns (QuerySessionLogsResponse) {
     option (commonfate.authz.v1alpha1.read_only) = true;
   }
-  rpc QuerySessionLogsForSession(QuerySessionLogsForSessionRequest) returns (QuerySessionLogsForSessionResponse) {
-    option (commonfate.authz.v1alpha1.read_only) = true;
-  }
+
   rpc GetSession(GetSessionRequest) returns (GetSessionResponse) {
     option (commonfate.authz.v1alpha1.read_only) = true;
   }
@@ -83,6 +81,7 @@ message SessionLogFilter {
     commonfate.filters.v1alpha1.EntityFilter role = 4;
     commonfate.filters.v1alpha1.EntityTypeFilter target_type = 5;
     commonfate.filters.v1alpha1.EntityTypeFilter role_type = 6;
+    commonfate.filters.v1alpha1.StringFilter session_id = 7;
   }
 }
 
@@ -93,21 +92,13 @@ message QuerySessionLogsRequest {
 }
 
 message QuerySessionLogsResponse {
-  repeated SessionLogDetailed session_logs = 1;
-  string next_page_token = 2;
-}
-
-message QuerySessionLogsForSessionRequest {
-  string session_id = 1;
-  string page_token = 2;
-}
-
-message QuerySessionLogsForSessionResponse {
   repeated SessionLog session_logs = 1;
   string next_page_token = 2;
 }
 
-message SessionLogDetailed {
+
+
+message SessionLog {
   string message = 1;
   // the timestamp the action occurred at.
   google.protobuf.Timestamp occurred_at = 2;
@@ -120,14 +111,6 @@ message SessionLogDetailed {
   string session_id = 9;
 }
 
-message SessionLog {
-  string message = 1;
-  // the timestamp the action occurred at.
-  google.protobuf.Timestamp occurred_at = 2;
-  SessionLogDetail session_log_detail = 3;
-  User principal = 4;
-
-}
 
 message SessionLogDetail {
   oneof session_log_detail {
