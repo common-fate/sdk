@@ -248,16 +248,31 @@ message ActivateAccessRequestResponse {
 
 message Justification {
   optional string reason = 1;
-  repeated AttachmentInput attachments = 2;
+  repeated AttachmentSpecifier attachments = 2;
 }
 
 // used when requesting access
-message AttachmentInput {
+message Attachment {
   AttachmentType type = 1;
   // ID of the integration the attachment is associated with.
   string integration_id = 2;
   // ID of the attachment, such as the Jira ticket ID.
   string id = 3;
+}
+
+message AttachmentSpecifier {
+  oneof specify {
+    // Specify an attachment by ID, if you know the exact attachment you should use this.
+    Attachment attachment = 1;
+
+    // Specify an attachment using a lookup by id across all attachment integrations. This is used in our CLI
+    // to allow end users to look up an attachment for any integration by ID or URL.
+    //
+    // If the lookup fails to match in any attachment integration, the API will return a Not Found error.
+    // The API will return an Invalid Arguments error if the lookup is ambiguous and could match
+    // multiple attachments.
+    string lookup = 2;
+  }
 }
 
 // detailed justification for an existing request
